@@ -4,7 +4,8 @@
   "description": "Tiny helper toolkit for static paperlesspaper OpenIntegration pages.",
   "type": "module",
   "sideEffects": [
-    "dist/paperless.css"
+    "dist/paperless.css",
+    "dist/preview.css"
   ],
   "exports": {
     ".": {
@@ -16,6 +17,7 @@
       "import": "./dist/browser.js"
     },
     "./paperless.css": "./dist/paperless.css",
+    "./preview.css": "./dist/preview.css",
     "./paperless.js": {
       "types": "./dist/browser.d.ts",
       "import": "./dist/paperless.js"

@@ -5,3 +5,4 @@ npm-debug.log
 *.code-workspace
 output
 applications/*/screenshots
+public/runner.css
