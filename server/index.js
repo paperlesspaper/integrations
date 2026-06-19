@@ -43,6 +43,7 @@ await loadEnv(path.join(rootDir, '.env'));
 const port = Number(process.env.PORT || 3000);
 
 const app = express();
+const corsAllowedMethods = 'GET,HEAD,OPTIONS';
 
 function isSafeSlug(slug) {
   return /^[a-z0-9-]+$/.test(slug);
@@ -95,6 +96,26 @@ async function sendIntegrationFile(response, slug, fileName) {
 }
 
 app.disable('x-powered-by');
+
+app.use((request, response, next) => {
+  const requestedHeaders = request.get('Access-Control-Request-Headers');
+
+  response.set('Access-Control-Allow-Origin', '*');
+  response.set('Access-Control-Allow-Methods', corsAllowedMethods);
+  response.set('Access-Control-Allow-Headers', requestedHeaders || '*');
+  response.set('Access-Control-Max-Age', '86400');
+
+  if (requestedHeaders) {
+    response.vary('Access-Control-Request-Headers');
+  }
+
+  if (request.method === 'OPTIONS') {
+    response.sendStatus(204);
+    return;
+  }
+
+  next();
+});
 
 app.use(
   '/assets',
