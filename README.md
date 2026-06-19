@@ -52,29 +52,29 @@ The production base URL is:
 https://integrations.paperlesspaper.de
 ```
 
-For example, the Quote manifest is available at `https://integrations.paperlesspaper.de/quote/config.json`.
+For example, the Quote manifest is available at `https://integrations.paperlesspaper.de/quote/config.json`, and its interactive demo is available at `https://integrations.paperlesspaper.de/quote/run`.
 
 For local development, use `http://localhost:3000/<slug>/config.json`.
 
-| Integration | Slug | Manifest URL | Description |
-| --- | --- | --- | --- |
-| [Apple Photos Gallery](applications/apple-photos-gallery/README.md) | `apple-photos-gallery` | [config.json](https://integrations.paperlesspaper.de/apple-photos-gallery/config.json) | Shows a random or numbered image from a public Apple Photos shared album. |
-| [Astronauts](applications/astronauts/README.md) | `astronauts` | [config.json](https://integrations.paperlesspaper.de/astronauts/config.json) | Shows the current people in space, grouped by spacecraft or station. |
-| [Day Calendar](applications/day-calendar/README.md) | `day-calendar` | [config.json](https://integrations.paperlesspaper.de/day-calendar/config.json) | Shows the current day with optional demotivational quotes or funny facts from the paperlesspaper DayCalendar app. |
-| [Deutsche Bahn Abfahrten](applications/deutsche-bahn-abfahrten/README.md) | `deutsche-bahn-abfahrten` | [config.json](https://integrations.paperlesspaper.de/deutsche-bahn-abfahrten/config.json) | Shows upcoming realtime departures for a Deutsche Bahn station. |
-| [Duden Wort des Tages](applications/duden-wort-des-tages/README.md) | `duden-wort-des-tages` | [config.json](https://integrations.paperlesspaper.de/duden-wort-des-tages/config.json) | Shows Duden's German word of the day with meaning, usage, origin, type, and frequency. |
-| [Formula 1 Races](applications/formula-1-races/README.md) | `formula-1-races` | [config.json](https://integrations.paperlesspaper.de/formula-1-races/config.json) | Shows the upcoming Formula 1 Grand Prix with circuit details, date, session times, and a track image. |
-| [Immich Photos](applications/immich-photos/README.md) | `immich-photos` | [config.json](https://integrations.paperlesspaper.de/immich-photos/config.json) | Shows a random, newest, or oldest photo from an Immich server. |
-| [Mastodon](applications/mastodon/README.md) | `mastodon` | [config.json](https://integrations.paperlesspaper.de/mastodon/config.json) | Shows a Mastodon home timeline, hashtag stream, or profile feed. |
-| [Newsstand](applications/newsstand/README.md) | `newsstand` | [config.json](https://integrations.paperlesspaper.de/newsstand/config.json) | Shows a fresh newspaper front page from Riley Walz's Papers archive. |
-| [Opening Hours](applications/opening-hours/README.md) | `opening-hours` | [config.json](https://integrations.paperlesspaper.de/opening-hours/config.json) | Shows current opening status, today's hours, and the weekly schedule for a place. |
-| [Quote](applications/quote/README.md) | `quote` | [config.json](https://integrations.paperlesspaper.de/quote/config.json) | Shows a deterministic daily quote. |
-| [Simple Calendar](applications/simple-calendar/README.md) | `simple-calendar` | [config.json](https://integrations.paperlesspaper.de/simple-calendar/config.json) | Shows a configurable monthly calendar inspired by the TRMNL Simple Calendar recipe. |
-| [The Onion - Editorial Cartoon](applications/the-onion-editorial-cartoon/README.md) | `the-onion-editorial-cartoon` | [config.json](https://integrations.paperlesspaper.de/the-onion-editorial-cartoon/config.json) | Shows a recent editorial cartoon from The Onion's Cartoons section. |
-| [Uptime Kuma Monitor](applications/uptime-kuma-monitor/README.md) | `uptime-kuma-monitor` | [config.json](https://integrations.paperlesspaper.de/uptime-kuma-monitor/config.json) | Shows a public Uptime Kuma status page with monitor states, 24-hour uptime, heartbeat history, incidents, and maintenance. |
-| [Weather](applications/weather/README.md) | `weather` | [config.json](https://integrations.paperlesspaper.de/weather/config.json) | Shows current weather and a three-day forecast from Open-Meteo. |
-| [World Cup 2026](applications/world-cup-2026/README.md) | `world-cup-2026` | [config.json](https://integrations.paperlesspaper.de/world-cup-2026/config.json) | Shows World Cup 2026 results, fixtures, and the group table for a favorite team. |
-| [XKCD](applications/xkcd/README.md) | `xkcd` | [config.json](https://integrations.paperlesspaper.de/xkcd/config.json) | Shows the latest, random, or offset XKCD comic. |
+| Integration | Slug | Demo | Manifest URL | Description |
+| --- | --- | --- | --- | --- |
+| [Apple Photos Gallery](applications/apple-photos-gallery/README.md) | `apple-photos-gallery` | [run](https://integrations.paperlesspaper.de/apple-photos-gallery/run) | [config.json](https://integrations.paperlesspaper.de/apple-photos-gallery/config.json) | Shows a random or numbered image from a public Apple Photos shared album. |
+| [Astronauts](applications/astronauts/README.md) | `astronauts` | [run](https://integrations.paperlesspaper.de/astronauts/run) | [config.json](https://integrations.paperlesspaper.de/astronauts/config.json) | Shows the current people in space, grouped by spacecraft or station. |
+| [Day Calendar](applications/day-calendar/README.md) | `day-calendar` | [run](https://integrations.paperlesspaper.de/day-calendar/run) | [config.json](https://integrations.paperlesspaper.de/day-calendar/config.json) | Shows the current day with optional demotivational quotes or funny facts from the paperlesspaper DayCalendar app. |
+| [Deutsche Bahn Abfahrten](applications/deutsche-bahn-abfahrten/README.md) | `deutsche-bahn-abfahrten` | [run](https://integrations.paperlesspaper.de/deutsche-bahn-abfahrten/run) | [config.json](https://integrations.paperlesspaper.de/deutsche-bahn-abfahrten/config.json) | Shows upcoming realtime departures for a Deutsche Bahn station. |
+| [Duden Wort des Tages](applications/duden-wort-des-tages/README.md) | `duden-wort-des-tages` | [run](https://integrations.paperlesspaper.de/duden-wort-des-tages/run) | [config.json](https://integrations.paperlesspaper.de/duden-wort-des-tages/config.json) | Shows Duden's German word of the day with meaning, usage, origin, type, and frequency. |
+| [Formula 1 Races](applications/formula-1-races/README.md) | `formula-1-races` | [run](https://integrations.paperlesspaper.de/formula-1-races/run) | [config.json](https://integrations.paperlesspaper.de/formula-1-races/config.json) | Shows the upcoming Formula 1 Grand Prix with circuit details, date, session times, and a track image. |
+| [Immich Photos](applications/immich-photos/README.md) | `immich-photos` | [run](https://integrations.paperlesspaper.de/immich-photos/run) | [config.json](https://integrations.paperlesspaper.de/immich-photos/config.json) | Shows a random, newest, or oldest photo from an Immich server. |
+| [Mastodon](applications/mastodon/README.md) | `mastodon` | [run](https://integrations.paperlesspaper.de/mastodon/run) | [config.json](https://integrations.paperlesspaper.de/mastodon/config.json) | Shows a Mastodon home timeline, hashtag stream, or profile feed. |
+| [Newsstand](applications/newsstand/README.md) | `newsstand` | [run](https://integrations.paperlesspaper.de/newsstand/run) | [config.json](https://integrations.paperlesspaper.de/newsstand/config.json) | Shows a fresh newspaper front page from Riley Walz's Papers archive. |
+| [Opening Hours](applications/opening-hours/README.md) | `opening-hours` | [run](https://integrations.paperlesspaper.de/opening-hours/run) | [config.json](https://integrations.paperlesspaper.de/opening-hours/config.json) | Shows current opening status, today's hours, and the weekly schedule for a place. |
+| [Quote](applications/quote/README.md) | `quote` | [run](https://integrations.paperlesspaper.de/quote/run) | [config.json](https://integrations.paperlesspaper.de/quote/config.json) | Shows a deterministic daily quote. |
+| [Simple Calendar](applications/simple-calendar/README.md) | `simple-calendar` | [run](https://integrations.paperlesspaper.de/simple-calendar/run) | [config.json](https://integrations.paperlesspaper.de/simple-calendar/config.json) | Shows a configurable monthly calendar inspired by the TRMNL Simple Calendar recipe. |
+| [The Onion - Editorial Cartoon](applications/the-onion-editorial-cartoon/README.md) | `the-onion-editorial-cartoon` | [run](https://integrations.paperlesspaper.de/the-onion-editorial-cartoon/run) | [config.json](https://integrations.paperlesspaper.de/the-onion-editorial-cartoon/config.json) | Shows a recent editorial cartoon from The Onion's Cartoons section. |
+| [Uptime Kuma Monitor](applications/uptime-kuma-monitor/README.md) | `uptime-kuma-monitor` | [run](https://integrations.paperlesspaper.de/uptime-kuma-monitor/run) | [config.json](https://integrations.paperlesspaper.de/uptime-kuma-monitor/config.json) | Shows a public Uptime Kuma status page with monitor states, 24-hour uptime, heartbeat history, incidents, and maintenance. |
+| [Weather](applications/weather/README.md) | `weather` | [run](https://integrations.paperlesspaper.de/weather/run) | [config.json](https://integrations.paperlesspaper.de/weather/config.json) | Shows current weather and a three-day forecast from Open-Meteo. |
+| [World Cup 2026](applications/world-cup-2026/README.md) | `world-cup-2026` | [run](https://integrations.paperlesspaper.de/world-cup-2026/run) | [config.json](https://integrations.paperlesspaper.de/world-cup-2026/config.json) | Shows World Cup 2026 results, fixtures, and the group table for a favorite team. |
+| [XKCD](applications/xkcd/README.md) | `xkcd` | [run](https://integrations.paperlesspaper.de/xkcd/run) | [config.json](https://integrations.paperlesspaper.de/xkcd/config.json) | Shows the latest, random, or offset XKCD comic. |
 
 ## Development
 

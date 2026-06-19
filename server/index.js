@@ -2,6 +2,7 @@ import express from 'express';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
+import { createRunPage } from './runPage.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const rootDir = path.resolve(__dirname, '..');
@@ -44,6 +45,7 @@ const port = Number(process.env.PORT || 3000);
 
 const app = express();
 const corsAllowedMethods = 'GET,HEAD,OPTIONS';
+const allowedApiNamePattern = /^[a-z0-9-]+$/;
 const allowedAssetExtensions = new Set(['.jpg', '.jpeg', '.png', '.svg', '.webp']);
 const allowedLanguageExtensions = new Set(['.json']);
 
@@ -104,6 +106,71 @@ async function sendIntegrationFile(response, slug, fileName) {
   response.sendFile(filePath);
 }
 
+async function readIntegrationConfig(slug) {
+  const filePath = integrationPath(slug, 'config.json');
+  if (!filePath) {
+    return null;
+  }
+
+  return JSON.parse(await fs.readFile(filePath, 'utf8'));
+}
+
+async function sendIntegrationApi(request, response, slug, apiName) {
+  if (!allowedApiNamePattern.test(apiName)) {
+    response.status(400).json({ error: 'Invalid API name' });
+    return;
+  }
+
+  if (!(await hasIntegration(slug))) {
+    response.status(404).json({ error: 'Unknown integration' });
+    return;
+  }
+
+  const apiPath = integrationPath(slug, 'api', `${apiName}.js`);
+  if (!apiPath) {
+    response.status(400).json({ error: 'Invalid path' });
+    return;
+  }
+
+  try {
+    await fs.access(apiPath);
+  } catch (error) {
+    if (error?.code === 'ENOENT') {
+      response.status(404).json({ error: 'Unknown API' });
+      return;
+    }
+
+    throw error;
+  }
+
+  try {
+    response.set('Cache-Control', 'no-store');
+    const moduleUrl = `${pathToFileURL(apiPath).href}?updated=${Date.now()}`;
+    const module = await import(moduleUrl);
+
+    if (typeof module.default !== 'function') {
+      response.status(500).json({ error: 'API handler missing default export' });
+      return;
+    }
+
+    const data = await module.default({
+      query: request.query,
+      request,
+    });
+
+    response.json(data);
+  } catch (error) {
+    console.error(error);
+    response.status(500).json({
+      error: error instanceof Error ? error.message : 'API request failed',
+    });
+  }
+}
+
+function integrationWebPath(slug, filePath) {
+  return `/${slug}/${filePath.replace(/^\.?\//, '')}`;
+}
+
 app.disable('x-powered-by');
 
 app.use((request, response, next) => {
@@ -150,6 +217,32 @@ app.get('/:slug/config.json', async (request, response) => {
   await sendIntegrationFile(response, request.params.slug, 'config.json');
 });
 
+app.get('/:slug/run', async (request, response) => {
+  const { slug } = request.params;
+  if (!(await hasIntegration(slug))) {
+    response.status(404).json({ error: 'Unknown integration' });
+    return;
+  }
+
+  try {
+    const config = await readIntegrationConfig(slug);
+    response.set('Cache-Control', 'no-cache');
+    response.type('html').send(
+      createRunPage({
+        config,
+        renderPath: integrationWebPath(slug, config.renderPage || './render.html'),
+        settingsPath: config.settingsPage ? integrationWebPath(slug, config.settingsPage) : '',
+        slug,
+      }),
+    );
+  } catch (error) {
+    console.error(error);
+    response.status(500).json({
+      error: error instanceof Error ? error.message : 'Runner failed',
+    });
+  }
+});
+
 app.get('/:slug/settings.html', async (request, response) => {
   await sendIntegrationFile(response, request.params.slug, 'settings.html');
 });
@@ -174,41 +267,8 @@ app.get('/:slug/assets/:fileName', async (request, response) => {
   await sendIntegrationFile(response, slug, path.join('assets', fileName));
 });
 
-app.get('/:slug/api/data', async (request, response) => {
-  const { slug } = request.params;
-  if (!(await hasIntegration(slug))) {
-    response.status(404).json({ error: 'Unknown integration' });
-    return;
-  }
-
-  const apiPath = integrationPath(slug, 'api', 'data.js');
-  if (!apiPath) {
-    response.status(400).json({ error: 'Invalid path' });
-    return;
-  }
-
-  try {
-    response.set('Cache-Control', 'no-store');
-    const moduleUrl = `${pathToFileURL(apiPath).href}?updated=${Date.now()}`;
-    const module = await import(moduleUrl);
-
-    if (typeof module.default !== 'function') {
-      response.status(500).json({ error: 'API handler missing default export' });
-      return;
-    }
-
-    const data = await module.default({
-      query: request.query,
-      request,
-    });
-
-    response.json(data);
-  } catch (error) {
-    console.error(error);
-    response.status(500).json({
-      error: error instanceof Error ? error.message : 'API request failed',
-    });
-  }
+app.get('/:slug/api/:apiName', async (request, response) => {
+  await sendIntegrationApi(request, response, request.params.slug, request.params.apiName);
 });
 
 app.use((_request, response) => {
