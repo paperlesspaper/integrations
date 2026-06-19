@@ -267,6 +267,16 @@ app.get('/:slug/assets/:fileName', async (request, response) => {
   await sendIntegrationFile(response, slug, path.join('assets', fileName));
 });
 
+app.get('/:slug/screenshots/:fileName', async (request, response) => {
+  const { fileName, slug } = request.params;
+  if (!isSafeFileName(fileName, allowedAssetExtensions)) {
+    response.status(400).json({ error: 'Invalid screenshot file' });
+    return;
+  }
+
+  await sendIntegrationFile(response, slug, path.join('screenshots', fileName));
+});
+
 app.get('/:slug/api/:apiName', async (request, response) => {
   await sendIntegrationApi(request, response, request.params.slug, request.params.apiName);
 });
