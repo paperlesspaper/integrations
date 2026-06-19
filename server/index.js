@@ -44,9 +44,18 @@ const port = Number(process.env.PORT || 3000);
 
 const app = express();
 const corsAllowedMethods = 'GET,HEAD,OPTIONS';
+const allowedAssetExtensions = new Set(['.jpg', '.jpeg', '.png', '.svg', '.webp']);
+const allowedLanguageExtensions = new Set(['.json']);
 
 function isSafeSlug(slug) {
   return /^[a-z0-9-]+$/.test(slug);
+}
+
+function isSafeFileName(fileName, allowedExtensions) {
+  return (
+    /^[a-z0-9][a-z0-9._-]*$/i.test(fileName) &&
+    allowedExtensions.has(path.extname(fileName).toLowerCase())
+  );
 }
 
 async function getIntegrationSlugs() {
@@ -139,6 +148,30 @@ app.get('/:slug/render.html', async (request, response) => {
 
 app.get('/:slug/config.json', async (request, response) => {
   await sendIntegrationFile(response, request.params.slug, 'config.json');
+});
+
+app.get('/:slug/settings.html', async (request, response) => {
+  await sendIntegrationFile(response, request.params.slug, 'settings.html');
+});
+
+app.get('/:slug/languages/:fileName', async (request, response) => {
+  const { fileName, slug } = request.params;
+  if (!isSafeFileName(fileName, allowedLanguageExtensions)) {
+    response.status(400).json({ error: 'Invalid language file' });
+    return;
+  }
+
+  await sendIntegrationFile(response, slug, path.join('languages', fileName));
+});
+
+app.get('/:slug/assets/:fileName', async (request, response) => {
+  const { fileName, slug } = request.params;
+  if (!isSafeFileName(fileName, allowedAssetExtensions)) {
+    response.status(400).json({ error: 'Invalid asset file' });
+    return;
+  }
+
+  await sendIntegrationFile(response, slug, path.join('assets', fileName));
 });
 
 app.get('/:slug/api/data', async (request, response) => {
