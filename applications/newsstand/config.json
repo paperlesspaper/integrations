@@ -1,0 +1,66 @@
+{
+  "name": "Newsstand",
+  "version": "0.1.0",
+  "description": "Shows a fresh newspaper front page from Riley Walz's Papers archive.",
+  "renderPage": "./render.html",
+  "settingsPage": "./settings.html",
+  "icon": "./assets/icon.png",
+  "nativeSettings": {
+    "newspaper": "top3",
+    "fit": "cover",
+    "showTitleBar": true
+  },
+  "configVariants": [
+    {
+      "newspaper": "top3",
+      "fit": "cover",
+      "showTitleBar": true,
+      "screenshots": {
+        "800x480": "./screenshots/newsstand-top3-cover-800x480-landscape.png",
+        "480x800": "./screenshots/newsstand-top3-cover-480x800-portrait.png"
+      }
+    },
+    {
+      "newspaper": "guardian",
+      "fit": "contain",
+      "showTitleBar": false,
+      "screenshots": {
+        "800x480": "./screenshots/newsstand-guardian-contain-800x480-landscape.png",
+        "480x800": "./screenshots/newsstand-guardian-contain-480x800-portrait.png"
+      }
+    }
+  ],
+  "formSchema": {
+    "type": "object",
+    "properties": {
+      "newspaper": {
+        "type": "string",
+        "title": "Newspaper",
+        "description": "Use random, top3, or a walzr.com paper slug such as nyt, wsj, guardian, wapo, latimes, or sfchronicle.",
+        "default": "top3",
+        "inStettingsPage": true
+      },
+      "fit": {
+        "type": "string",
+        "title": "Image fit",
+        "enum": [
+          "cover",
+          "contain"
+        ],
+        "default": "cover"
+      },
+      "showTitleBar": {
+        "type": "boolean",
+        "title": "Show title bar",
+        "default": true
+      }
+    }
+  },
+  "language": [
+    "en",
+    "de",
+    "fr",
+    "es",
+    "it"
+  ]
+}

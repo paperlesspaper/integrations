@@ -1,0 +1,11 @@
+{
+  "loading": "Cargando...",
+  "updated": "Actualizado",
+  "from": "desde",
+  "errorTitle": "Apple Photos no se pudo cargar",
+  "apiFailed": "La API de Apple Photos fallo con {status}",
+  "title": "Apple Photos",
+  "imageFailed": "No se pudo cargar la URL de imagen resuelta.",
+  "imageAlt": "Imagen de Apple Photos {index} de {total}",
+  "photoCount": "Foto {index} / {total}"
+}

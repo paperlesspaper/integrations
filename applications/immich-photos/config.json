@@ -1,0 +1,188 @@
+{
+  "name": "Immich Photos",
+  "version": "0.1.0",
+  "description": "Shows a random, newest, or oldest photo from an Immich server.",
+  "renderPage": "./render.html",
+  "icon": "./assets/icon.png",
+  "nativeSettings": {
+    "serverUrl": "",
+    "apiKey": "",
+    "selection": "random",
+    "albumId": "",
+    "onlyFavorites": false,
+    "visibility": "timeline",
+    "takenAfter": "",
+    "takenBefore": "",
+    "imageSize": "preview",
+    "fit": "cover",
+    "preferEdited": true,
+    "showMetadata": false,
+    "showDate": true,
+    "showLocation": true,
+    "showAlbumName": true,
+    "locale": "en-US"
+  },
+  "configVariants": [
+    {
+      "serverUrl": "",
+      "apiKey": "",
+      "selection": "newest",
+      "albumId": "",
+      "onlyFavorites": false,
+      "visibility": "timeline",
+      "takenAfter": "",
+      "takenBefore": "",
+      "imageSize": "preview",
+      "fit": "cover",
+      "preferEdited": true,
+      "showMetadata": false,
+      "showDate": true,
+      "showLocation": true,
+      "showAlbumName": true,
+      "locale": "en-US",
+      "screenshots": {
+        "800x480": "./screenshots/immich-photos-newest-cover-800x480-landscape.png",
+        "480x800": "./screenshots/immich-photos-newest-cover-480x800-portrait.png"
+      }
+    },
+    {
+      "serverUrl": "",
+      "apiKey": "",
+      "selection": "oldest",
+      "albumId": "",
+      "onlyFavorites": false,
+      "visibility": "timeline",
+      "takenAfter": "",
+      "takenBefore": "",
+      "imageSize": "thumbnail",
+      "fit": "contain",
+      "preferEdited": true,
+      "showMetadata": true,
+      "showDate": true,
+      "showLocation": true,
+      "showAlbumName": true,
+      "locale": "en-US",
+      "screenshots": {
+        "800x480": "./screenshots/immich-photos-oldest-metadata-800x480-landscape.png",
+        "480x800": "./screenshots/immich-photos-oldest-metadata-480x800-portrait.png"
+      }
+    }
+  ],
+  "formSchema": {
+    "type": "object",
+    "properties": {
+      "serverUrl": {
+        "type": "string",
+        "title": "Immich server URL",
+        "description": "Base URL of your Immich server, with or without /api. Leave blank to use IMMICH_SERVER_URL from .env."
+      },
+      "apiKey": {
+        "type": "string",
+        "title": "Immich API key",
+        "description": "Personal API key with permission to read and view assets. Leave blank to use IMMICH_API_KEY from .env."
+      },
+      "selection": {
+        "type": "string",
+        "title": "Photo selection",
+        "enum": [
+          "random",
+          "newest",
+          "oldest"
+        ],
+        "default": "random"
+      },
+      "albumId": {
+        "type": "string",
+        "title": "Album ID",
+        "description": "Optional Immich album UUID to limit the photo pool.",
+        "default": ""
+      },
+      "onlyFavorites": {
+        "type": "boolean",
+        "title": "Favorites only",
+        "default": false
+      },
+      "visibility": {
+        "type": "string",
+        "title": "Asset visibility",
+        "enum": [
+          "timeline",
+          "archive",
+          "hidden",
+          "all"
+        ],
+        "default": "timeline"
+      },
+      "takenAfter": {
+        "type": "string",
+        "title": "Taken after",
+        "description": "Optional date filter such as 2024-01-01.",
+        "default": ""
+      },
+      "takenBefore": {
+        "type": "string",
+        "title": "Taken before",
+        "description": "Optional date filter such as 2024-12-31.",
+        "default": ""
+      },
+      "imageSize": {
+        "type": "string",
+        "title": "Image size",
+        "enum": [
+          "preview",
+          "thumbnail",
+          "fullsize",
+          "original"
+        ],
+        "default": "preview"
+      },
+      "fit": {
+        "type": "string",
+        "title": "Image fit",
+        "enum": [
+          "cover",
+          "contain"
+        ],
+        "default": "cover"
+      },
+      "preferEdited": {
+        "type": "boolean",
+        "title": "Prefer edited image",
+        "default": true
+      },
+      "showMetadata": {
+        "type": "boolean",
+        "title": "Show metadata",
+        "default": false
+      },
+      "showDate": {
+        "type": "boolean",
+        "title": "Show capture date",
+        "default": true
+      },
+      "showLocation": {
+        "type": "boolean",
+        "title": "Show location",
+        "default": true
+      },
+      "showAlbumName": {
+        "type": "boolean",
+        "title": "Show album name",
+        "default": true
+      },
+      "locale": {
+        "type": "string",
+        "title": "Locale",
+        "default": "en-US",
+        "description": "BCP 47 locale for date formatting, such as en-US or de-DE."
+      }
+    }
+  },
+  "language": [
+    "en",
+    "de",
+    "fr",
+    "es",
+    "it"
+  ]
+}

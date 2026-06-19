@@ -1,0 +1,18 @@
+{
+  "loading": "Chargement de la Coupe du monde 2026...",
+  "updated": "Mis a jour",
+  "from": "depuis",
+  "errorTitle": "Impossible de charger World Cup 2026",
+  "apiFailed": "Echec de l'API avec {status}",
+  "brand": "World Cup 26",
+  "latestResults": "Derniers resultats",
+  "upNext": "A suivre",
+  "groupTable": "Tableau du groupe",
+  "recent": "Recent",
+  "fixtures": "Calendrier",
+  "noMatches": "Aucun match pour l'instant.",
+  "team": "Equipe",
+  "played": "J",
+  "goalDifference": "DB",
+  "points": "Pts"
+}

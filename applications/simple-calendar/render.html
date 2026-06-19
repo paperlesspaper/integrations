@@ -1,0 +1,506 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="paperless:epd-optimize" content='{"intent":"readable"}' />
+    <title>Simple Calendar</title>
+    <link rel="stylesheet" href="/assets/paperless.css" />
+    <script src="/assets/paperless.iife.js"></script>
+    <style>
+      :root {
+        --calendar-soft: #f0f0f0;
+        --calendar-day-size: clamp(2.2rem, 8vh, 6.2rem);
+      }
+
+      body.dark {
+        --calendar-soft: #171717;
+      }
+
+      .calendar-screen {
+        gap: 12px;
+        padding: 20px;
+      }
+
+      .calendar-screen.font-serif {
+        font-family: Georgia, "Times New Roman", serif;
+      }
+
+      .calendar-screen.font-mono {
+        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      }
+
+      .calendar-header {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        align-items: end;
+        gap: 14px;
+        min-height: 0;
+        padding-bottom: 10px;
+        border-bottom: 4px solid var(--pp-border);
+      }
+
+      .calendar-header.is-hidden {
+        display: none;
+      }
+
+      .calendar-title {
+        margin: 0;
+        font-size: clamp(2.5rem, 10vh, 6.8rem);
+        line-height: 0.86;
+        font-weight: 900;
+        letter-spacing: 0;
+        overflow-wrap: anywhere;
+      }
+
+      .calendar-meta {
+        margin: 0;
+        max-width: 18ch;
+        font-size: 0.95rem;
+        line-height: 1.08;
+        font-weight: 800;
+        text-align: right;
+        text-transform: uppercase;
+      }
+
+      .calendar-board {
+        flex: 1;
+        min-height: 0;
+        display: flex;
+        flex-direction: column;
+        border: 3px solid var(--pp-border);
+      }
+
+      .weekday-row,
+      .day-grid {
+        display: grid;
+        grid-template-columns: repeat(7, minmax(0, 1fr));
+      }
+
+      .weekday-row {
+        border-bottom: 3px solid var(--pp-border);
+        background: var(--calendar-soft);
+      }
+
+      .weekday-row.is-hidden {
+        display: none;
+      }
+
+      .weekday {
+        min-width: 0;
+        padding: 8px 6px;
+        border-right: 2px solid var(--pp-border);
+        font-size: 1.02rem;
+        line-height: 1;
+        font-weight: 900;
+        text-align: center;
+        text-transform: uppercase;
+        white-space: nowrap;
+        overflow: hidden;
+      }
+
+      .weekday:last-child,
+      .day:nth-child(7n) {
+        border-right: 0;
+      }
+
+      .weekday.is-weekly-holiday {
+        color: var(--pp-accent);
+      }
+
+      .day-grid {
+        flex: 1;
+        height: 100%;
+        min-height: 0;
+        grid-template-rows: repeat(6, minmax(0, 1fr));
+      }
+
+      .day {
+        position: relative;
+        min-width: 0;
+        min-height: 0;
+        display: grid;
+        grid-template-rows: minmax(0, 1fr) auto;
+        gap: 3px;
+        padding: 8px;
+        border-right: 2px solid var(--pp-border);
+        border-bottom: 2px solid var(--pp-border);
+        overflow: hidden;
+      }
+
+      .day:nth-last-child(-n + 7) {
+        border-bottom: 0;
+      }
+
+      .day.outside-month {
+        color: var(--pp-muted);
+        opacity: 0.42;
+      }
+
+      .day.is-weekly-holiday {
+        background: linear-gradient(135deg, var(--calendar-soft), var(--pp-bg));
+      }
+
+      .day.has-holiday {
+        box-shadow: inset 0 -8px 0 var(--pp-accent);
+      }
+
+      .day.is-today {
+        background: var(--pp-accent);
+        color: var(--pp-bg);
+      }
+
+      .day-number {
+        align-self: start;
+        margin: 0;
+        font-size: var(--calendar-day-size);
+        line-height: 0.82;
+        font-weight: 900;
+        letter-spacing: 0;
+      }
+
+      .alt-day {
+        position: absolute;
+        top: 6px;
+        right: 7px;
+        margin: 0;
+        max-width: 6ch;
+        font-size: 0.78rem;
+        line-height: 1;
+        font-weight: 850;
+        text-align: right;
+      }
+
+      .holiday-name {
+        margin: 0;
+        min-height: 1em;
+        font-size: 0.73rem;
+        line-height: 1;
+        font-weight: 850;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .density-compact {
+        --calendar-day-size: clamp(1.9rem, 7vh, 5.3rem);
+      }
+
+      .density-large {
+        --calendar-day-size: clamp(2.7rem, 10vh, 7.5rem);
+      }
+
+      .weekday-label-narrow {
+        display: none;
+      }
+
+      @media (orientation: portrait) {
+        .calendar-screen {
+          --calendar-day-size: clamp(2rem, 9vw, 3rem);
+          padding: 22px 18px;
+          gap: 14px;
+        }
+
+        .calendar-screen.density-compact {
+          --calendar-day-size: clamp(1.65rem, 7.4vw, 2.55rem);
+        }
+
+        .calendar-screen.density-large {
+          --calendar-day-size: clamp(2.15rem, 9.4vw, 3.25rem);
+        }
+
+        .calendar-header {
+          grid-template-columns: 1fr;
+          align-items: start;
+          gap: 6px;
+        }
+
+        .calendar-title {
+          font-size: clamp(2.7rem, 8vh, 5.8rem);
+        }
+
+        .calendar-meta {
+          max-width: 100%;
+          text-align: left;
+          font-size: 0.86rem;
+        }
+
+        .day {
+          padding: 7px 6px;
+        }
+
+        .holiday-name {
+          font-size: 0.62rem;
+        }
+      }
+
+      @media (max-width: 700px), (max-height: 560px) {
+        .calendar-screen {
+          padding: 12px;
+          gap: 8px;
+        }
+
+        .calendar-header {
+          padding-bottom: 6px;
+          border-bottom-width: 3px;
+        }
+
+        .calendar-title {
+          font-size: clamp(2rem, 11vh, 4.6rem);
+        }
+
+        .calendar-meta {
+          font-size: 0.68rem;
+        }
+
+        .calendar-board {
+          border-width: 2px;
+        }
+
+        .weekday-row {
+          border-bottom-width: 2px;
+        }
+
+        .weekday {
+          padding: 6px 2px;
+          border-right-width: 1px;
+          font-size: 0.68rem;
+        }
+
+        .weekday-label-short {
+          display: none;
+        }
+
+        .weekday-label-narrow {
+          display: inline;
+        }
+
+        .day {
+          padding: 5px 4px;
+          border-right-width: 1px;
+          border-bottom-width: 1px;
+          gap: 2px;
+        }
+
+        .day-number {
+          font-size: var(--calendar-day-size);
+        }
+
+        .alt-day {
+          top: 4px;
+          right: 4px;
+          font-size: 0.52rem;
+        }
+
+        .holiday-name {
+          font-size: 0.48rem;
+        }
+
+        .day.has-holiday {
+          box-shadow: inset 0 -5px 0 var(--pp-accent);
+        }
+
+        .weekday-row.auto-hidden {
+          display: none;
+        }
+      }
+
+      @media (max-height: 430px) {
+        .calendar-header {
+          display: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="website-has-loading-element"></div>
+    <main class="pp-screen calendar-screen" id="app">
+      <header class="calendar-header" id="calendar-header">
+        <h1 class="calendar-title pp-fit" id="calendar-title" data-i18n="title">Calendar</h1>
+        <p class="calendar-meta" id="calendar-meta"></p>
+      </header>
+
+      <section class="calendar-board">
+        <div class="weekday-row" id="weekday-row"></div>
+        <div class="day-grid" id="day-grid"></div>
+      </section>
+    </main>
+
+    <script>
+      (async function render() {
+        const {
+          waitForPayload,
+          getSettings,
+          getQuerySettings,
+          mergeSettings,
+          applyColorTheme,
+          escapeHtml,
+          fitText,
+          fitToScreen,
+          markReady,
+          markError,
+        } = window.PaperlessOpenIntegration;
+
+        const defaultMessages = {
+          "loading": "Loading...",
+          "updated": "Updated",
+          "from": "from",
+          "errorTitle": "Calendar could not load",
+          "apiFailed": "API failed with {status}",
+          "title": "Calendar"
+};
+        let messages = defaultMessages;
+        let currentLanguage = "en";
+
+        function t(key, values = {}) {
+          const template =
+            typeof messages[key] === "string"
+              ? messages[key]
+              : defaultMessages[key] || key;
+          return template.replace(/\{(\w+)\}/g, (_match, name) =>
+            values[name] ?? "",
+          );
+        }
+
+        function applyStaticMessages(root = document) {
+          root.querySelectorAll("[data-i18n]").forEach((element) => {
+            element.textContent = t(element.dataset.i18n);
+          });
+        }
+
+        async function loadMessages(payload) {
+          const loader = window.PaperlessOpenIntegration.loadLanguageJson;
+          let result;
+
+          if (typeof loader === "function") {
+            result = await loader(payload);
+          } else {
+            const requested = String(payload?.meta?.language || "en").trim();
+            const requestedBase = requested.split("-")[0].toLowerCase();
+            const supported = ["en", "de", "fr", "es", "it"];
+            const language = supported.includes(requested)
+              ? requested
+              : supported.includes(requestedBase)
+                ? requestedBase
+                : "en";
+            const response = await fetch(`./languages/${language}.json`, {
+              cache: "no-store",
+            });
+
+            if (!response.ok) {
+              throw new Error(
+                `Could not load language JSON for ${language}: ${response.status}`,
+              );
+            }
+
+            result = {
+              language,
+              messages: await response.json(),
+            };
+          }
+
+          messages = { ...defaultMessages, ...result.messages };
+          currentLanguage = result.language || "en";
+          document.documentElement.lang = currentLanguage;
+          applyStaticMessages();
+          return result;
+        }
+
+        const defaults = {
+          color: "light",
+          locale: "en-US",
+          weekStart: "monday",
+          weeklyHoliday: "sunday",
+          holidayRegion: "off",
+          alternateCalendar: "off",
+          fontFamily: "system",
+          density: "regular",
+          weekdayLabels: "auto",
+          hideTitleBar: false,
+          shortMonthLabel: false,
+        };
+
+        function isEnabled(value) {
+          return value === true || value === "true" || value === "1";
+        }
+
+        function classNameForDay(day) {
+          const classes = ["day"];
+          if (!day.inMonth) classes.push("outside-month");
+          if (day.isToday) classes.push("is-today");
+          if (day.isWeeklyHoliday) classes.push("is-weekly-holiday");
+          if (day.holiday) classes.push("has-holiday");
+          return classes.join(" ");
+        }
+
+        try {
+          const payload = await waitForPayload({ timeout: 300 });
+          await loadMessages(payload);
+          const settings = mergeSettings(defaults, getSettings(payload), getQuerySettings());
+          applyColorTheme(settings.color, { defaultTheme: defaults.color });
+
+          const app = document.getElementById("app");
+          app.classList.add(`font-${settings.fontFamily || defaults.fontFamily}`);
+          app.classList.add(`density-${settings.density || defaults.density}`);
+
+          const params = new URLSearchParams(settings);
+          const response = await fetch(`./api/data?${params.toString()}`, { cache: "no-store" });
+          if (!response.ok) {
+            throw new Error(`Calendar API failed with ${response.status}`);
+          }
+
+          const data = await response.json();
+          const header = document.getElementById("calendar-header");
+          header.classList.toggle("is-hidden", isEnabled(settings.hideTitleBar));
+          document.getElementById("calendar-title").textContent =
+            isEnabled(settings.shortMonthLabel) ? data.compactTitle : data.title;
+
+          const meta = [];
+          if (data.settings.holidayRegion !== "off") {
+            meta.push(data.settings.holidayRegionName);
+          }
+          if (data.settings.alternateCalendar !== "off") {
+            meta.push(data.settings.alternateCalendar);
+          }
+          document.getElementById("calendar-meta").textContent = meta.join(" / ");
+
+          const weekdayRow = document.getElementById("weekday-row");
+          weekdayRow.classList.toggle("is-hidden", settings.weekdayLabels === "hide");
+          weekdayRow.classList.toggle("auto-hidden", settings.weekdayLabels === "auto");
+          weekdayRow.innerHTML = data.weekdays
+            .map((weekday) => `
+              <div class="weekday ${weekday.isWeeklyHoliday ? "is-weekly-holiday" : ""}">
+                <span class="weekday-label-short">${escapeHtml(weekday.short)}</span>
+                <span class="weekday-label-narrow">${escapeHtml(weekday.narrow)}</span>
+              </div>
+            `)
+            .join("");
+
+          document.getElementById("day-grid").innerHTML = data.days
+            .map((day) => `
+              <article class="${classNameForDay(day)}">
+                <p class="day-number">${escapeHtml(day.day)}</p>
+                ${day.alternateDay ? `<p class="alt-day">${escapeHtml(day.alternateDay)}</p>` : ""}
+                <p class="holiday-name">${escapeHtml(day.holiday)}</p>
+              </article>
+            `)
+            .join("");
+
+          await document.fonts?.ready;
+          fitText(document.getElementById("calendar-title"), {
+            min: 28,
+            max: 120,
+            step: 2,
+            tolerance: 10,
+            lineBreak: "balance",
+          });
+          fitToScreen();
+          markReady({ month: data.title });
+        } catch (error) {
+          markError(error);
+          document.body.innerHTML = `<main class="pp-screen"><h1 class="pp-title pp-error">${escapeHtml(t("errorTitle"))}</h1><p>${escapeHtml(error.message)}</p></main>`;
+        }
+      })();
+    </script>
+  </body>
+</html>

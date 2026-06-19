@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="Uptime Kuma Monitor">
+  <rect width="128" height="128" rx="18" fill="#fff"/>
+  <rect x="11" y="11" width="106" height="106" rx="12" fill="none" stroke="#000" stroke-width="8"/>
+  <path d="M24 70h16l10-30 18 56 13-42h23" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="9"/>
+  <circle cx="101" cy="54" r="8" fill="#000"/>
+</svg>

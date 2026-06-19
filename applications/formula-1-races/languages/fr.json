@@ -1,0 +1,15 @@
+{
+  "loading": "Chargement...",
+  "updated": "Mis a jour",
+  "from": "depuis",
+  "errorTitle": "Impossible de charger la course de Formule 1",
+  "apiFailed": "Echec de l'API avec {status}",
+  "brand": "Courses de Formule 1",
+  "grandPrix": "Grand Prix",
+  "circuitMap": "Carte du circuit",
+  "weekendSchedule": "Programme du week-end",
+  "nextUp": "A suivre",
+  "circuit": "Circuit",
+  "round": "Manche {round}",
+  "seasonRound": "Saison {season} / manche {round} sur {total}"
+}

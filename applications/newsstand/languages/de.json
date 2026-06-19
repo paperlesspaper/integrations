@@ -1,0 +1,11 @@
+{
+  "loading": "Wird geladen...",
+  "updated": "Aktualisiert",
+  "from": "von",
+  "errorTitle": "Newsstand konnte nicht geladen werden",
+  "apiFailed": "API fehlgeschlagen mit {status}",
+  "title": "Zeitungskiosk",
+  "papers": "{count} Zeitungen",
+  "imageAlt": "Titelseite von {name} fuer {date}",
+  "imageFailed": "Titelseitenbild konnte nicht geladen werden."
+}

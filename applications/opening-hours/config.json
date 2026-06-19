@@ -1,0 +1,215 @@
+{
+  "name": "Opening Hours",
+  "version": "0.1.0",
+  "description": "Shows current opening status, today's hours, and the weekly schedule for a place.",
+  "renderPage": "./render.html",
+  "icon": "./assets/icon.png",
+  "nativeSettings": {
+    "color": "light",
+    "businessName": "Paperless Coffee",
+    "subtitle": "Cafe and workspace",
+    "placeId": "",
+    "googleMapsApiKey": "",
+    "languageCode": "en",
+    "regionCode": "",
+    "timezone": "Europe/Berlin",
+    "monday": "08:00-18:00",
+    "tuesday": "08:00-18:00",
+    "wednesday": "08:00-18:00",
+    "thursday": "08:00-18:00",
+    "friday": "08:00-18:00",
+    "saturday": "10:00-16:00",
+    "sunday": "closed",
+    "notes": "Special holiday hours may vary.",
+    "address": "Sample Street 12, Berlin",
+    "phone": "",
+    "website": "",
+    "showWeeklyHours": true,
+    "showContact": true,
+    "clockMode": "24h"
+  },
+  "configVariants": [
+    {
+      "color": "light",
+      "businessName": "Paperless Coffee",
+      "subtitle": "Cafe and workspace",
+      "placeId": "",
+      "googleMapsApiKey": "",
+      "languageCode": "en",
+      "regionCode": "",
+      "timezone": "Europe/Berlin",
+      "monday": "08:00-18:00",
+      "tuesday": "08:00-18:00",
+      "wednesday": "08:00-18:00",
+      "thursday": "08:00-18:00",
+      "friday": "08:00-18:00",
+      "saturday": "10:00-16:00",
+      "sunday": "closed",
+      "notes": "Special holiday hours may vary.",
+      "address": "Sample Street 12, Berlin",
+      "phone": "",
+      "website": "",
+      "showWeeklyHours": true,
+      "showContact": true,
+      "clockMode": "24h",
+      "screenshots": {
+        "800x480": "./screenshots/opening-hours-coffee-week-800x480-landscape.png",
+        "480x800": "./screenshots/opening-hours-coffee-week-480x800-portrait.png"
+      }
+    },
+    {
+      "color": "dark",
+      "businessName": "Night Studio",
+      "subtitle": "Always-on print lab",
+      "placeId": "",
+      "googleMapsApiKey": "",
+      "languageCode": "en",
+      "regionCode": "",
+      "timezone": "Europe/Berlin",
+      "monday": "24h",
+      "tuesday": "24h",
+      "wednesday": "24h",
+      "thursday": "24h",
+      "friday": "24h",
+      "saturday": "24h",
+      "sunday": "24h",
+      "notes": "Members can enter with their access card.",
+      "address": "Mitte, Berlin",
+      "phone": "+49 30 000000",
+      "website": "https://paperlesspaper.de",
+      "showWeeklyHours": false,
+      "showContact": true,
+      "clockMode": "24h",
+      "screenshots": {
+        "800x480": "./screenshots/opening-hours-studio-open-now-800x480-landscape.png",
+        "480x800": "./screenshots/opening-hours-studio-open-now-480x800-portrait.png"
+      }
+    }
+  ],
+  "formSchema": {
+    "type": "object",
+    "properties": {
+      "businessName": {
+        "type": "string",
+        "title": "Business name",
+        "default": "Paperless Coffee"
+      },
+      "subtitle": {
+        "type": "string",
+        "title": "Subtitle",
+        "default": "Cafe and workspace"
+      },
+      "placeId": {
+        "type": "string",
+        "title": "Google Place ID",
+        "description": "Optional. When set with an API key, hours and contact details come from Google Places.",
+        "default": ""
+      },
+      "googleMapsApiKey": {
+        "type": "string",
+        "title": "Google Maps API key",
+        "description": "Optional. You can also set GOOGLE_MAPS_API_KEY on the server.",
+        "default": ""
+      },
+      "languageCode": {
+        "type": "string",
+        "title": "Language code",
+        "default": "en"
+      },
+      "regionCode": {
+        "type": "string",
+        "title": "Region code",
+        "description": "Optional two-letter CLDR region code such as DE, US, or GB.",
+        "default": ""
+      },
+      "timezone": {
+        "type": "string",
+        "title": "Timezone",
+        "description": "IANA timezone used for manual hours, such as Europe/Berlin.",
+        "default": "Europe/Berlin"
+      },
+      "monday": {
+        "type": "string",
+        "title": "Monday",
+        "default": "08:00-18:00"
+      },
+      "tuesday": {
+        "type": "string",
+        "title": "Tuesday",
+        "default": "08:00-18:00"
+      },
+      "wednesday": {
+        "type": "string",
+        "title": "Wednesday",
+        "default": "08:00-18:00"
+      },
+      "thursday": {
+        "type": "string",
+        "title": "Thursday",
+        "default": "08:00-18:00"
+      },
+      "friday": {
+        "type": "string",
+        "title": "Friday",
+        "default": "08:00-18:00"
+      },
+      "saturday": {
+        "type": "string",
+        "title": "Saturday",
+        "default": "10:00-16:00"
+      },
+      "sunday": {
+        "type": "string",
+        "title": "Sunday",
+        "description": "Use closed, 24h, or ranges like 09:00-13:00,14:00-18:00.",
+        "default": "closed"
+      },
+      "notes": {
+        "type": "string",
+        "title": "Notes",
+        "default": "Special holiday hours may vary."
+      },
+      "address": {
+        "type": "string",
+        "title": "Address",
+        "default": "Sample Street 12, Berlin"
+      },
+      "phone": {
+        "type": "string",
+        "title": "Phone",
+        "default": ""
+      },
+      "website": {
+        "type": "string",
+        "title": "Website",
+        "default": ""
+      },
+      "showWeeklyHours": {
+        "type": "boolean",
+        "title": "Show weekly hours",
+        "default": true
+      },
+      "showContact": {
+        "type": "boolean",
+        "title": "Show contact details",
+        "default": true
+      },
+      "clockMode": {
+        "type": "string",
+        "title": "Clock mode",
+        "enum": [
+          "24h",
+          "12h"
+        ],
+        "default": "24h"
+      }
+    }
+  },
+  "language": [
+    "en",
+    "de",
+    "fr",
+    "es",
+    "it"
+  ]
+}

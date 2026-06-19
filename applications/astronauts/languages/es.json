@@ -1,0 +1,16 @@
+{
+  "loading": "Cargando...",
+  "updated": "Actualizado",
+  "from": "desde",
+  "errorTitle": "Astronauts no se pudo cargar",
+  "apiFailed": "La API fallo con {status}",
+  "peopleInSpace": "Personas en el espacio",
+  "loadingRoster": "Cargando tripulacion",
+  "crewRoster": "Lista de tripulacion",
+  "empty": "Ninguna tripulacion coincide con este filtro de ubicacion.",
+  "countAll": "personas estan fuera de la Tierra ahora mismo",
+  "countMatched": "{count} de {total} coinciden",
+  "filtered": "Filtrado: {value}",
+  "missionDays": "{count} dias de mision",
+  "launched": "Lanzado el {date}"
+}

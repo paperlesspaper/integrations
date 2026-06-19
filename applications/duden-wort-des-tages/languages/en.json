@@ -1,0 +1,14 @@
+{
+  "loading": "Loading...",
+  "updated": "Updated",
+  "from": "from",
+  "errorTitle": "Duden could not load",
+  "apiFailed": "API failed with {status}",
+  "kicker": "Word of the Day",
+  "meaning": "Meaning",
+  "usage": "Usage",
+  "type": "Type",
+  "origin": "Origin",
+  "frequency": "Frequency",
+  "notAvailable": "N/A"
+}

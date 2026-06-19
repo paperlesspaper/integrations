@@ -1,0 +1,7 @@
+{
+  "loading": "Cargando...",
+  "updated": "Actualizado",
+  "from": "desde",
+  "errorTitle": "No se pudo cargar la cita",
+  "apiFailed": "La API fallo con {status}"
+}

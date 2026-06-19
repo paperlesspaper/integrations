@@ -1,0 +1,669 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="paperless:epd-optimize" content='{"intent":"readable"}' />
+    <title>World Cup 2026</title>
+    <link rel="stylesheet" href="/assets/paperless.css" />
+    <script src="/assets/paperless.iife.js"></script>
+    <style>
+      :root {
+        --wc-red: #e6002e;
+        --wc-blue: #005eb8;
+        --wc-green: #127c48;
+        --wc-gold: #f2c94c;
+        --wc-soft: #f3f3f3;
+      }
+
+      body.dark {
+        --wc-red: #ff4d6d;
+        --wc-blue: #6da8ff;
+        --wc-green: #54b982;
+        --wc-gold: #dab447;
+        --wc-soft: #161616;
+      }
+
+      .wc-screen {
+        padding: 14px 20px 12px;
+        gap: 10px;
+      }
+
+      .wc-topbar {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        align-items: center;
+        gap: 16px;
+        min-height: 44px;
+        padding-bottom: 8px;
+        border-bottom: 4px solid var(--pp-border);
+      }
+
+      .wc-brand,
+      .wc-team-name,
+      .wc-section-title,
+      .wc-status,
+      .wc-date,
+      .wc-table-cell {
+        margin: 0;
+        font-weight: 900;
+      }
+
+      .wc-brand {
+        color: var(--wc-red);
+        font-size: clamp(1.55rem, 6vh, 2.2rem);
+        line-height: 0.92;
+        text-transform: uppercase;
+      }
+
+      .wc-favorite {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 9px;
+        min-width: 0;
+        font-size: 1.05rem;
+        line-height: 1;
+      }
+
+      .wc-flag {
+        display: block;
+        width: 28px;
+        height: 19px;
+        flex: 0 0 auto;
+        object-fit: cover;
+        border: 1px solid rgba(0, 0, 0, 0.35);
+      }
+
+      body.dark .wc-flag {
+        border-color: rgba(255, 255, 255, 0.35);
+      }
+
+      .wc-team-name {
+        min-width: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .wc-layout {
+        flex: 1;
+        min-height: 0;
+        display: grid;
+        grid-template-columns: minmax(310px, 0.95fr) minmax(320px, 1.05fr);
+        gap: 14px;
+      }
+
+      .wc-column {
+        min-width: 0;
+        min-height: 0;
+        display: grid;
+        gap: 10px;
+      }
+
+      .wc-column-left {
+        grid-template-rows: minmax(0, 1fr) minmax(0, 1fr);
+      }
+
+      .wc-column-right {
+        grid-template-rows: auto minmax(0, 1fr);
+      }
+
+      .wc-section {
+        min-width: 0;
+        min-height: 0;
+        display: grid;
+        grid-template-rows: auto minmax(0, 1fr);
+        gap: 4px;
+      }
+
+      .wc-section-title {
+        color: var(--pp-muted);
+        font-size: 0.72rem;
+        line-height: 1;
+        text-transform: uppercase;
+      }
+
+      .wc-match-list {
+        min-width: 0;
+        min-height: 0;
+        display: grid;
+        align-content: start;
+      }
+
+      .wc-match {
+        display: grid;
+        grid-template-columns: 82px minmax(0, 1fr);
+        gap: 10px;
+        min-width: 0;
+        padding: 5px 0;
+        border-top: 2px solid var(--pp-border);
+      }
+
+      .wc-match:first-child {
+        border-top: 0;
+      }
+
+      .wc-meta {
+        min-width: 0;
+      }
+
+      .wc-date {
+        color: var(--pp-fg);
+        font-size: 0.74rem;
+        line-height: 1.15;
+      }
+
+      .wc-status {
+        margin-top: 2px;
+        color: var(--wc-red);
+        font-size: 0.86rem;
+        line-height: 1.05;
+      }
+
+      .wc-venue {
+        margin: 2px 0 0;
+        color: var(--pp-muted);
+        font-size: 0.62rem;
+        line-height: 1.1;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .wc-sides {
+        min-width: 0;
+        display: grid;
+        gap: 2px;
+      }
+
+      .wc-side {
+        display: grid;
+        grid-template-columns: auto minmax(0, 1fr) auto;
+        align-items: center;
+        gap: 7px;
+        min-width: 0;
+        line-height: 1.2;
+      }
+
+      .wc-side .wc-flag {
+        width: 24px;
+        height: 16px;
+      }
+
+      .wc-side-name {
+        min-width: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        font-size: 0.94rem;
+        font-weight: 600;
+      }
+
+      .wc-score {
+        min-width: 1.3ch;
+        text-align: right;
+        font-size: 1rem;
+        font-weight: 900;
+      }
+
+      .is-favorite .wc-side-name,
+      .is-favorite .wc-score {
+        color: var(--wc-red);
+        font-weight: 950;
+      }
+
+      .wc-table-wrap {
+        min-width: 0;
+        padding: 10px 12px;
+        background: var(--wc-soft);
+        border: 3px solid var(--pp-border);
+      }
+
+      .wc-table-heading {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        margin-bottom: 7px;
+      }
+
+      .wc-group-name {
+        margin: 0;
+        font-size: 1.15rem;
+        line-height: 1;
+        font-weight: 950;
+        text-transform: uppercase;
+      }
+
+      .wc-table-subtitle {
+        margin: 0;
+        color: var(--pp-muted);
+        font-size: 0.68rem;
+        line-height: 1;
+        font-weight: 900;
+        text-transform: uppercase;
+      }
+
+      .wc-table-row {
+        display: grid;
+        grid-template-columns: 18px 24px minmax(0, 1fr) 28px 32px 34px;
+        align-items: center;
+        gap: 6px;
+        min-width: 0;
+        padding: 3px 0;
+        border-top: 1px solid var(--pp-border);
+      }
+
+      .wc-table-head {
+        padding-top: 0;
+        border-top: 0;
+        color: var(--pp-muted);
+        font-size: 0.66rem;
+        text-transform: uppercase;
+      }
+
+      .wc-table-cell {
+        min-width: 0;
+        font-size: 0.82rem;
+        line-height: 1.05;
+      }
+
+      .wc-table-cell.is-name {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .wc-table-cell.is-number {
+        text-align: right;
+      }
+
+      .wc-table-row.is-favorite .wc-table-cell {
+        color: var(--wc-red);
+        font-weight: 950;
+      }
+
+      .wc-team-sections {
+        min-width: 0;
+        min-height: 0;
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+        gap: 14px;
+      }
+
+      .wc-empty {
+        margin: 0;
+        color: var(--pp-muted);
+        font-size: 0.9rem;
+        font-weight: 750;
+      }
+
+      @media (orientation: portrait) {
+        .wc-screen {
+          padding: 16px 18px;
+          gap: 12px;
+        }
+
+        .wc-topbar {
+          grid-template-columns: minmax(0, 1fr);
+          align-items: start;
+          gap: 7px;
+        }
+
+        .wc-favorite {
+          justify-content: flex-start;
+        }
+
+        .wc-layout {
+          grid-template-columns: minmax(0, 1fr);
+          grid-template-rows: auto auto;
+          gap: 12px;
+        }
+
+        .wc-column-left,
+        .wc-column-right {
+          grid-template-rows: auto auto;
+        }
+
+        .wc-team-sections {
+          grid-template-columns: minmax(0, 1fr);
+          gap: 10px;
+        }
+
+        .wc-match {
+          grid-template-columns: 90px minmax(0, 1fr);
+          padding: 4px 0;
+        }
+
+        .wc-table-wrap {
+          padding: 9px 10px;
+        }
+      }
+
+      @media (max-width: 560px) {
+        .wc-brand {
+          font-size: 1.78rem;
+        }
+
+        .wc-side-name {
+          font-size: 0.88rem;
+        }
+
+        .wc-match {
+          grid-template-columns: 88px minmax(0, 1fr);
+          gap: 8px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="website-has-loading-element"></div>
+
+    <main id="app" class="pp-screen wc-screen">
+      <p data-i18n="loading">Loading World Cup 2026...</p>
+    </main>
+
+    <script>
+      (async function render() {
+        const {
+          waitForPayload,
+          getSettings,
+          getQuerySettings,
+          mergeSettings,
+          applyColorTheme,
+          escapeHtml,
+          fitText,
+          fitToScreen,
+          markReady,
+          markError,
+        } = window.PaperlessOpenIntegration;
+
+        const defaultMessages = {
+          "loading": "Loading World Cup 2026...",
+          "updated": "Updated",
+          "from": "from",
+          "errorTitle": "World Cup 2026 could not load",
+          "apiFailed": "API failed with {status}",
+          "brand": "World Cup 26",
+          "latestResults": "Latest results",
+          "upNext": "Up next",
+          "groupTable": "Group table",
+          "recent": "Recent",
+          "fixtures": "Fixtures",
+          "noMatches": "No matches yet.",
+          "team": "Team",
+          "played": "P",
+          "goalDifference": "GD",
+          "points": "Pts"
+};
+        let messages = defaultMessages;
+        let currentLanguage = "en";
+
+        function t(key, values = {}) {
+          const template =
+            typeof messages[key] === "string"
+              ? messages[key]
+              : defaultMessages[key] || key;
+          return template.replace(/\{(\w+)\}/g, (_match, name) =>
+            values[name] ?? "",
+          );
+        }
+
+        function applyStaticMessages(root = document) {
+          root.querySelectorAll("[data-i18n]").forEach((element) => {
+            element.textContent = t(element.dataset.i18n);
+          });
+        }
+
+        async function loadMessages(payload) {
+          const loader = window.PaperlessOpenIntegration.loadLanguageJson;
+          let result;
+
+          if (typeof loader === "function") {
+            result = await loader(payload);
+          } else {
+            const requested = String(payload?.meta?.language || "en").trim();
+            const requestedBase = requested.split("-")[0].toLowerCase();
+            const supported = ["en", "de", "fr", "es", "it"];
+            const language = supported.includes(requested)
+              ? requested
+              : supported.includes(requestedBase)
+                ? requestedBase
+                : "en";
+            const response = await fetch(`./languages/${language}.json`, {
+              cache: "no-store",
+            });
+
+            if (!response.ok) {
+              throw new Error(
+                `Could not load language JSON for ${language}: ${response.status}`,
+              );
+            }
+
+            result = {
+              language,
+              messages: await response.json(),
+            };
+          }
+
+          messages = { ...defaultMessages, ...result.messages };
+          currentLanguage = result.language || "en";
+          document.documentElement.lang = currentLanguage;
+          applyStaticMessages();
+          return result;
+        }
+
+        const app = document.getElementById("app");
+        const defaults = {
+          color: "light",
+          team: "SWE",
+          locale: "en-US",
+          timeZone: "Europe/Berlin",
+          highlightGlobalMatches: true,
+        };
+
+        function isEnabled(value) {
+          return value === true || value === "true" || value === "1";
+        }
+
+        function formatDate(value, settings) {
+          const date = new Date(value);
+          if (Number.isNaN(date.getTime())) return "";
+          return new Intl.DateTimeFormat(settings.locale, {
+            timeZone: settings.timeZone,
+            weekday: "short",
+            day: "numeric",
+            month: "short",
+          }).format(date);
+        }
+
+        function formatTime(value, settings) {
+          const date = new Date(value);
+          if (Number.isNaN(date.getTime())) return "";
+          return new Intl.DateTimeFormat(settings.locale, {
+            timeZone: settings.timeZone,
+            hour: "2-digit",
+            minute: "2-digit",
+          }).format(date);
+        }
+
+        function flag(team, className = "wc-flag") {
+          return `<img class="${className}" src="https://flagcdn.com/w80/${escapeHtml(team.flag)}.png" alt="" width="40" height="27">`;
+        }
+
+        function renderSide(team, score, isFavorite) {
+          return `
+            <div class="wc-side${isFavorite ? " is-favorite" : ""}">
+              ${flag(team)}
+              <span class="wc-side-name">${escapeHtml(team.name)}</span>
+              <span class="wc-score">${Number.isFinite(score) ? escapeHtml(score) : ""}</span>
+            </div>
+          `;
+        }
+
+        function renderMatch(match, settings, favorite, shouldHighlight) {
+          const highlightHome = shouldHighlight && match.home.code === favorite.code;
+          const highlightAway = shouldHighlight && match.away.code === favorite.code;
+          const status = match.status === "FT" ? "FT" : formatTime(match.startsAt, settings);
+
+          return `
+            <article class="wc-match">
+              <div class="wc-meta">
+                <p class="wc-date">${escapeHtml(formatDate(match.startsAt, settings))}</p>
+                <p class="wc-status">${escapeHtml(status)}</p>
+                <p class="wc-venue">${escapeHtml(match.venue)}</p>
+              </div>
+              <div class="wc-sides">
+                ${renderSide(match.home, match.homeScore, highlightHome)}
+                ${renderSide(match.away, match.awayScore, highlightAway)}
+              </div>
+            </article>
+          `;
+        }
+
+        function renderMatchList(matches, settings, favorite, shouldHighlight) {
+          if (!matches.length) {
+            return `<p class="wc-empty">${escapeHtml(t("noMatches"))}</p>`;
+          }
+
+          return matches
+            .map((match) => renderMatch(match, settings, favorite, shouldHighlight))
+            .join("");
+        }
+
+        function renderTable(rows, favoriteCode) {
+          return `
+            <div class="wc-table-row wc-table-head">
+              <span></span>
+              <span></span>
+              <span>${escapeHtml(t("team"))}</span>
+              <span class="wc-table-cell is-number">${escapeHtml(t("played"))}</span>
+              <span class="wc-table-cell is-number">${escapeHtml(t("goalDifference"))}</span>
+              <span class="wc-table-cell is-number">${escapeHtml(t("points"))}</span>
+            </div>
+            ${rows
+              .map((row, index) => `
+                <div class="wc-table-row${row.code === favoriteCode ? " is-favorite" : ""}">
+                  <span class="wc-table-cell">${index + 1}</span>
+                  ${flag(row)}
+                  <span class="wc-table-cell is-name">${escapeHtml(row.name)}</span>
+                  <span class="wc-table-cell is-number">${escapeHtml(row.played)}</span>
+                  <span class="wc-table-cell is-number">${escapeHtml(row.goalDifference > 0 ? `+${row.goalDifference}` : row.goalDifference)}</span>
+                  <span class="wc-table-cell is-number">${escapeHtml(row.points)}</span>
+                </div>
+              `)
+              .join("")}
+          `;
+        }
+
+        function waitForImages() {
+          const images = Array.from(document.images);
+          return Promise.all(
+            images.map((image) => {
+              if (image.complete) return Promise.resolve();
+              return new Promise((resolve) => {
+                image.addEventListener("load", resolve, { once: true });
+                image.addEventListener("error", resolve, { once: true });
+              });
+            }),
+          );
+        }
+
+        try {
+          const payload = await waitForPayload({ timeout: 300 });
+          await loadMessages(payload);
+          const settings = mergeSettings(defaults, getSettings(payload), getQuerySettings());
+          applyColorTheme(settings.color, { defaultTheme: defaults.color });
+
+          const params = new URLSearchParams(settings);
+          const response = await fetch(`./api/data?${params.toString()}`, { cache: "no-store" });
+          if (!response.ok) {
+            throw new Error(`World Cup data failed with ${response.status}`);
+          }
+
+          const data = await response.json();
+          const highlightGlobal = isEnabled(settings.highlightGlobalMatches);
+          const isPortrait = window.innerHeight > window.innerWidth;
+          const latestResults = isPortrait ? data.latestResults.slice(-2) : data.latestResults;
+          const upcoming = isPortrait ? data.upcoming.slice(0, 2) : data.upcoming;
+          const favoriteRecent = isPortrait ? data.favoriteRecent.slice(-1) : data.favoriteRecent;
+          const favoriteFixtures = isPortrait ? data.favoriteFixtures.slice(0, 2) : data.favoriteFixtures;
+
+          app.innerHTML = `
+            <header class="wc-topbar">
+              <h1 class="wc-brand" id="wc-brand">${escapeHtml(t("brand"))}</h1>
+              <div class="wc-favorite">
+                ${flag(data.favorite)}
+                <p class="wc-team-name" id="wc-favorite-name">${escapeHtml(data.favorite.name)}</p>
+              </div>
+            </header>
+
+            <section class="wc-layout">
+              <div class="wc-column wc-column-left">
+                <section class="wc-section">
+                  <h2 class="wc-section-title">${escapeHtml(t("latestResults"))}</h2>
+                  <div class="wc-match-list">
+                    ${renderMatchList(latestResults, settings, data.favorite, highlightGlobal)}
+                  </div>
+                </section>
+
+                <section class="wc-section">
+                  <h2 class="wc-section-title">${escapeHtml(t("upNext"))}</h2>
+                  <div class="wc-match-list">
+                    ${renderMatchList(upcoming, settings, data.favorite, highlightGlobal)}
+                  </div>
+                </section>
+              </div>
+
+              <div class="wc-column wc-column-right">
+                <section class="wc-table-wrap">
+                  <div class="wc-table-heading">
+                    <p class="wc-group-name">${escapeHtml(data.group.name)}</p>
+                    <p class="wc-table-subtitle">${escapeHtml(t("groupTable"))}</p>
+                  </div>
+                  ${renderTable(data.group.standings, data.favorite.code)}
+                </section>
+
+                <section class="wc-team-sections">
+                  <section class="wc-section">
+                    <h2 class="wc-section-title">${escapeHtml(t("recent"))}</h2>
+                    <div class="wc-match-list">
+                      ${renderMatchList(favoriteRecent, settings, data.favorite, true)}
+                    </div>
+                  </section>
+
+                  <section class="wc-section">
+                    <h2 class="wc-section-title">${escapeHtml(t("fixtures"))}</h2>
+                    <div class="wc-match-list">
+                      ${renderMatchList(favoriteFixtures, settings, data.favorite, true)}
+                    </div>
+                  </section>
+                </section>
+              </div>
+            </section>
+          `;
+
+          await Promise.all([document.fonts?.ready, waitForImages()]);
+          fitText(document.getElementById("wc-brand"), {
+            min: 22,
+            max: 40,
+            step: 1,
+            tolerance: 4,
+          });
+          fitText(document.getElementById("wc-favorite-name"), {
+            min: 13,
+            max: 20,
+            step: 1,
+            tolerance: 6,
+          });
+          fitToScreen(app);
+          markReady({ team: data.favorite.code });
+        } catch (error) {
+          markError(error);
+          app.innerHTML = `<h1 class="pp-title pp-error">${escapeHtml(t("errorTitle"))}</h1><p>${escapeHtml(error.message)}</p>`;
+        }
+      })();
+    </script>
+  </body>
+</html>

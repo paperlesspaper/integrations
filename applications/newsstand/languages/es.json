@@ -1,0 +1,11 @@
+{
+  "loading": "Cargando...",
+  "updated": "Actualizado",
+  "from": "desde",
+  "errorTitle": "Newsstand no se pudo cargar",
+  "apiFailed": "La API fallo con {status}",
+  "title": "Quiosco",
+  "papers": "{count} periodicos",
+  "imageAlt": "Portada de {name} para {date}",
+  "imageFailed": "No se pudo cargar la portada."
+}

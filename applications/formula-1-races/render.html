@@ -1,0 +1,832 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="paperless:epd-optimize" content='{"intent":"vivid"}' />
+    <title>Formula 1 Races</title>
+    <link rel="stylesheet" href="/assets/paperless.css" />
+    <script src="/assets/paperless.iife.js"></script>
+    <style>
+      :root {
+        --f1-red: #e10600;
+        --f1-yellow: #f2c94c;
+        --f1-teal: #16a085;
+        --f1-soft: #f2f2f2;
+      }
+
+      body.dark {
+        --f1-soft: #161616;
+        --f1-yellow: #d7af35;
+        --f1-teal: #42c6a5;
+      }
+
+      .f1-screen {
+        padding: 18px 20px;
+        gap: 14px;
+      }
+
+      .f1-topbar {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        align-items: center;
+        gap: 16px;
+        padding-bottom: 10px;
+        border-bottom: 4px solid var(--pp-border);
+      }
+
+      .f1-brand,
+      .f1-round {
+        margin: 0;
+        font-weight: 900;
+        text-transform: uppercase;
+      }
+
+      .f1-brand {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        min-width: 0;
+        font-size: 1.1rem;
+        line-height: 1;
+      }
+
+      .f1-mark {
+        display: inline-grid;
+        place-items: center;
+        width: 58px;
+        height: 28px;
+        background: var(--f1-red);
+        color: #fff;
+        font-size: 1.05rem;
+        font-weight: 950;
+        letter-spacing: 0;
+        transform: skew(-12deg);
+      }
+
+      .f1-round {
+        color: var(--pp-muted);
+        font-size: 0.82rem;
+        line-height: 1;
+        text-align: right;
+      }
+
+      .f1-hero {
+        flex: 1;
+        min-height: 0;
+        display: grid;
+        grid-template-columns: minmax(0, 1.04fr) minmax(260px, 0.96fr);
+        gap: 18px;
+      }
+
+      .f1-main {
+        min-width: 0;
+        min-height: 0;
+        display: grid;
+        grid-template-rows: auto minmax(0, 1fr) auto;
+        gap: 12px;
+      }
+
+      .f1-status {
+        width: max-content;
+        max-width: 100%;
+        margin: 0;
+        padding: 6px 10px;
+        background: var(--f1-yellow);
+        color: #111;
+        font-size: 0.82rem;
+        line-height: 1;
+        font-weight: 900;
+        text-transform: uppercase;
+      }
+
+      .f1-title {
+        margin: 0;
+        min-width: 0;
+        align-self: center;
+        font-size: clamp(3rem, 12vh, 7.2rem);
+        line-height: 0.84;
+        font-weight: 950;
+        letter-spacing: 0;
+        text-transform: uppercase;
+      }
+
+      .f1-circuit {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        align-items: end;
+        gap: 14px;
+        padding-top: 10px;
+        border-top: 3px solid var(--pp-border);
+      }
+
+      .f1-circuit-name,
+      .f1-location,
+      .f1-date,
+      .f1-time {
+        margin: 0;
+      }
+
+      .f1-circuit-name {
+        font-size: 1.25rem;
+        line-height: 1;
+        font-weight: 900;
+      }
+
+      .f1-location {
+        margin-top: 4px;
+        color: var(--pp-muted);
+        font-size: 0.9rem;
+        line-height: 1.05;
+        font-weight: 800;
+        text-transform: uppercase;
+      }
+
+      .f1-datebox {
+        min-width: 10ch;
+        padding-left: 12px;
+        border-left: 5px solid var(--f1-red);
+        text-align: right;
+      }
+
+      .f1-date {
+        font-size: 1rem;
+        line-height: 1;
+        font-weight: 950;
+        text-transform: uppercase;
+      }
+
+      .f1-time {
+        margin-top: 5px;
+        color: var(--pp-muted);
+        font-size: 0.76rem;
+        line-height: 1;
+        font-weight: 850;
+      }
+
+      .f1-track {
+        min-width: 0;
+        min-height: 0;
+        display: grid;
+        grid-template-rows: minmax(0, 1fr) auto;
+        gap: 10px;
+        padding: 16px;
+        background: var(--f1-soft);
+        border: 3px solid var(--pp-border);
+      }
+
+      .f1-track-stage {
+        min-width: 0;
+        min-height: 0;
+        display: grid;
+        place-items: center;
+        overflow: hidden;
+      }
+
+      .f1-track-image {
+        display: block;
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+        filter: contrast(1.18) saturate(0.82);
+        mix-blend-mode: multiply;
+      }
+
+      body.dark .f1-track-image {
+        filter: grayscale(1) invert(1) contrast(1.15);
+        mix-blend-mode: screen;
+      }
+
+      .f1-track-fallback {
+        width: 100%;
+        height: 100%;
+        display: grid;
+        place-items: center;
+        border: 6px solid var(--f1-red);
+        border-radius: 48% 52% 44% 56%;
+        color: var(--f1-red);
+        font-size: clamp(3rem, 14vw, 9rem);
+        line-height: 1;
+        font-weight: 950;
+      }
+
+      .f1-track-caption {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        gap: 10px;
+        align-items: end;
+      }
+
+      .f1-track-caption p {
+        margin: 0;
+      }
+
+      .f1-track-label {
+        font-size: 0.72rem;
+        line-height: 1;
+        font-weight: 900;
+        text-transform: uppercase;
+      }
+
+      .f1-coordinates {
+        color: var(--pp-muted);
+        font-size: 0.68rem;
+        line-height: 1;
+        font-weight: 800;
+        text-align: right;
+      }
+
+      .f1-lower {
+        display: grid;
+        grid-template-columns: minmax(0, 1.5fr) minmax(190px, 0.7fr);
+        gap: 14px;
+        min-height: 92px;
+      }
+
+      .f1-section {
+        min-width: 0;
+        min-height: 0;
+        display: grid;
+        grid-template-rows: auto minmax(0, 1fr);
+        gap: 7px;
+      }
+
+      .f1-section-title {
+        margin: 0;
+        color: var(--pp-muted);
+        font-size: 0.68rem;
+        line-height: 1;
+        font-weight: 900;
+        text-transform: uppercase;
+      }
+
+      .f1-sessions,
+      .f1-next-list {
+        min-height: 0;
+        display: grid;
+        gap: 6px;
+      }
+
+      .f1-sessions {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
+
+      .f1-session,
+      .f1-next {
+        min-width: 0;
+        padding: 7px 8px;
+        border: 2px solid var(--pp-border);
+        overflow: hidden;
+      }
+
+      .f1-session:nth-child(4n + 1) {
+        border-left: 6px solid var(--f1-red);
+      }
+
+      .f1-session-label,
+      .f1-session-time,
+      .f1-next-round,
+      .f1-next-name {
+        margin: 0;
+      }
+
+      .f1-session-label,
+      .f1-next-round {
+        color: var(--pp-muted);
+        font-size: 0.58rem;
+        line-height: 1;
+        font-weight: 900;
+        text-transform: uppercase;
+      }
+
+      .f1-session-time,
+      .f1-next-name {
+        margin-top: 4px;
+        font-size: 0.82rem;
+        line-height: 1;
+        font-weight: 900;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .f1-next-list {
+        grid-template-rows: repeat(3, minmax(0, 1fr));
+      }
+
+      .f1-next {
+        display: grid;
+        grid-template-columns: auto minmax(0, 1fr);
+        gap: 8px;
+        align-items: center;
+        padding: 6px 8px;
+      }
+
+      .f1-next-round {
+        display: grid;
+        place-items: center;
+        width: 28px;
+        height: 28px;
+        background: var(--f1-teal);
+        color: #fff;
+      }
+
+      .is-hidden {
+        display: none;
+      }
+
+      @media (orientation: portrait) {
+        .f1-screen {
+          padding: 18px;
+          gap: 12px;
+        }
+
+        .f1-topbar {
+          padding-bottom: 9px;
+        }
+
+        .f1-hero {
+          grid-template-columns: 1fr;
+          grid-template-rows: minmax(0, 0.82fr) minmax(180px, 1fr);
+          gap: 12px;
+        }
+
+        .f1-title {
+          font-size: clamp(3.2rem, 9vh, 6rem);
+        }
+
+        .f1-circuit {
+          grid-template-columns: 1fr;
+          align-items: start;
+          gap: 9px;
+        }
+
+        .f1-datebox {
+          width: max-content;
+          padding-left: 0;
+          padding-top: 8px;
+          border-left: 0;
+          border-top: 5px solid var(--f1-red);
+          text-align: left;
+        }
+
+        .f1-lower {
+          grid-template-columns: 1fr;
+          min-height: 190px;
+        }
+
+        .f1-sessions {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .f1-next-list {
+          grid-template-rows: none;
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+      }
+
+      @media (max-width: 700px), (max-height: 560px) {
+        .f1-screen {
+          padding: 12px;
+          gap: 9px;
+        }
+
+        .f1-topbar {
+          padding-bottom: 7px;
+          border-bottom-width: 3px;
+        }
+
+        .f1-brand {
+          font-size: 0.84rem;
+        }
+
+        .f1-mark {
+          width: 45px;
+          height: 23px;
+          font-size: 0.86rem;
+        }
+
+        .f1-round {
+          font-size: 0.64rem;
+        }
+
+        .f1-hero {
+          gap: 10px;
+        }
+
+        .f1-main {
+          gap: 8px;
+        }
+
+        .f1-status {
+          padding: 5px 8px;
+          font-size: 0.63rem;
+        }
+
+        .f1-title {
+          font-size: clamp(2.1rem, 13vh, 4.7rem);
+        }
+
+        .f1-circuit {
+          gap: 8px;
+          padding-top: 8px;
+          border-top-width: 2px;
+        }
+
+        .f1-circuit-name {
+          font-size: 0.94rem;
+        }
+
+        .f1-location {
+          font-size: 0.66rem;
+        }
+
+        .f1-datebox {
+          min-width: 8ch;
+          padding-left: 9px;
+          border-left-width: 4px;
+        }
+
+        .f1-date {
+          font-size: 0.78rem;
+        }
+
+        .f1-time {
+          font-size: 0.58rem;
+        }
+
+        .f1-track {
+          gap: 7px;
+          padding: 10px;
+          border-width: 2px;
+        }
+
+        .f1-track-label {
+          font-size: 0.56rem;
+        }
+
+        .f1-coordinates {
+          font-size: 0.52rem;
+        }
+
+        .f1-lower {
+          gap: 9px;
+          min-height: 76px;
+        }
+
+        .f1-section {
+          gap: 5px;
+        }
+
+        .f1-section-title {
+          font-size: 0.54rem;
+        }
+
+        .f1-sessions {
+          gap: 5px;
+        }
+
+        .f1-session,
+        .f1-next {
+          padding: 5px 6px;
+          border-width: 1px;
+        }
+
+        .f1-session:nth-child(4n + 1) {
+          border-left-width: 4px;
+        }
+
+        .f1-session-label,
+        .f1-next-round {
+          font-size: 0.48rem;
+        }
+
+        .f1-session-time,
+        .f1-next-name {
+          font-size: 0.62rem;
+        }
+
+        .f1-next-round {
+          width: 22px;
+          height: 22px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="website-has-loading-element"></div>
+    <main class="pp-screen f1-screen" id="app">
+      <header class="f1-topbar">
+        <p class="f1-brand"><span class="f1-mark">F1</span><span data-i18n="brand">Formula 1 Races</span></p>
+        <p class="f1-round" id="round-label" data-i18n="loading">Loading</p>
+      </header>
+
+      <section class="f1-hero">
+        <section class="f1-main">
+          <p class="f1-status" id="race-status" data-i18n="loading">Loading</p>
+          <h1 class="f1-title pp-fit" id="race-title" data-i18n="grandPrix">Grand Prix</h1>
+          <div class="f1-circuit">
+            <div>
+              <p class="f1-circuit-name" id="circuit-name"></p>
+              <p class="f1-location" id="race-location"></p>
+            </div>
+            <div class="f1-datebox">
+              <p class="f1-date" id="race-date"></p>
+              <p class="f1-time" id="race-time"></p>
+            </div>
+          </div>
+        </section>
+
+        <section class="f1-track" id="track-section">
+          <div class="f1-track-stage" id="track-stage"></div>
+          <div class="f1-track-caption">
+            <p class="f1-track-label" id="track-label" data-i18n="circuitMap">Circuit map</p>
+            <p class="f1-coordinates" id="coordinates"></p>
+          </div>
+        </section>
+      </section>
+
+      <footer class="f1-lower">
+        <section class="f1-section" id="sessions-section">
+          <h2 class="f1-section-title" data-i18n="weekendSchedule">Weekend schedule</h2>
+          <div class="f1-sessions" id="sessions"></div>
+        </section>
+        <section class="f1-section" id="following-section">
+          <h2 class="f1-section-title" data-i18n="nextUp">Next up</h2>
+          <div class="f1-next-list" id="following"></div>
+        </section>
+      </footer>
+    </main>
+
+    <script>
+      (async function render() {
+        const {
+          waitForPayload,
+          getSettings,
+          getQuerySettings,
+          mergeSettings,
+          applyColorTheme,
+          escapeHtml,
+          fitText,
+          fitToScreen,
+          markReady,
+          markError,
+        } = window.PaperlessOpenIntegration;
+
+        const defaultMessages = {
+          "loading": "Loading...",
+          "updated": "Updated",
+          "from": "from",
+          "errorTitle": "Formula 1 race could not load",
+          "apiFailed": "API failed with {status}",
+          "brand": "Formula 1 Races",
+          "grandPrix": "Grand Prix",
+          "circuitMap": "Circuit map",
+          "weekendSchedule": "Weekend schedule",
+          "nextUp": "Next up",
+          "circuit": "Circuit",
+          "round": "Round {round}",
+          "seasonRound": "{season} season / round {round} of {total}"
+};
+        let messages = defaultMessages;
+        let currentLanguage = "en";
+
+        function t(key, values = {}) {
+          const template =
+            typeof messages[key] === "string"
+              ? messages[key]
+              : defaultMessages[key] || key;
+          return template.replace(/\{(\w+)\}/g, (_match, name) =>
+            values[name] ?? "",
+          );
+        }
+
+        function applyStaticMessages(root = document) {
+          root.querySelectorAll("[data-i18n]").forEach((element) => {
+            element.textContent = t(element.dataset.i18n);
+          });
+        }
+
+        async function loadMessages(payload) {
+          const loader = window.PaperlessOpenIntegration.loadLanguageJson;
+          let result;
+
+          if (typeof loader === "function") {
+            result = await loader(payload);
+          } else {
+            const requested = String(payload?.meta?.language || "en").trim();
+            const requestedBase = requested.split("-")[0].toLowerCase();
+            const supported = ["en", "de", "fr", "es", "it"];
+            const language = supported.includes(requested)
+              ? requested
+              : supported.includes(requestedBase)
+                ? requestedBase
+                : "en";
+            const response = await fetch(`./languages/${language}.json`, {
+              cache: "no-store",
+            });
+
+            if (!response.ok) {
+              throw new Error(
+                `Could not load language JSON for ${language}: ${response.status}`,
+              );
+            }
+
+            result = {
+              language,
+              messages: await response.json(),
+            };
+          }
+
+          messages = { ...defaultMessages, ...result.messages };
+          currentLanguage = result.language || "en";
+          document.documentElement.lang = currentLanguage;
+          applyStaticMessages();
+          return result;
+        }
+
+        const defaults = {
+          color: "light",
+          selection: "upcoming",
+          offset: 0,
+          round: 1,
+          locale: "en-US",
+          timeZone: "Europe/Berlin",
+          showTrackMap: true,
+          showSessions: true,
+        };
+
+        function isEnabled(value) {
+          return value === true || value === "true" || value === "1";
+        }
+
+        function formatDate(value, settings) {
+          if (!value) return "";
+          const date = new Date(value);
+          if (Number.isNaN(date.getTime())) return "";
+          return new Intl.DateTimeFormat(settings.locale, {
+            timeZone: settings.timeZone,
+            weekday: "short",
+            month: "short",
+            day: "numeric",
+          }).format(date);
+        }
+
+        function formatTime(value, settings) {
+          if (!value) return "";
+          const date = new Date(value);
+          if (Number.isNaN(date.getTime())) return "";
+          return new Intl.DateTimeFormat(settings.locale, {
+            timeZone: settings.timeZone,
+            hour: "2-digit",
+            minute: "2-digit",
+            timeZoneName: "short",
+          }).format(date);
+        }
+
+        function formatSessionTime(value, settings) {
+          if (!value) return "";
+          const date = new Date(value);
+          if (Number.isNaN(date.getTime())) return "";
+          return new Intl.DateTimeFormat(settings.locale, {
+            timeZone: settings.timeZone,
+            weekday: "short",
+            day: "numeric",
+            hour: "2-digit",
+            minute: "2-digit",
+          }).format(date);
+        }
+
+        function waitForImage(image) {
+          if (!image || (image.complete && image.naturalWidth > 0)) {
+            return Promise.resolve();
+          }
+
+          return new Promise((resolve) => {
+            image.addEventListener("load", resolve, { once: true });
+            image.addEventListener("error", resolve, { once: true });
+          });
+        }
+
+        function compactLocation(circuit) {
+          return [circuit.locality, circuit.country].filter(Boolean).join(", ");
+        }
+
+        function initials(value) {
+          return String(value || "F1")
+            .split(/\s+/)
+            .filter(Boolean)
+            .slice(0, 2)
+            .map((word) => word[0])
+            .join("")
+            .toUpperCase();
+        }
+
+        function renderTrack(circuit, showTrackMap) {
+          const stage = document.getElementById("track-stage");
+          const label = document.getElementById("track-label");
+          const coordinates = document.getElementById("coordinates");
+
+          label.textContent = circuit.name || t("circuit");
+          coordinates.textContent =
+            Number.isFinite(circuit.latitude) && Number.isFinite(circuit.longitude)
+              ? `${circuit.latitude.toFixed(2)}, ${circuit.longitude.toFixed(2)}`
+              : "";
+
+          if (showTrackMap && circuit.image) {
+            stage.innerHTML = `<img class="f1-track-image" id="track-image" src="${escapeHtml(circuit.image)}" alt="${escapeHtml(circuit.name)}">`;
+          } else {
+            stage.innerHTML = `<div class="f1-track-fallback">${escapeHtml(initials(circuit.name))}</div>`;
+          }
+
+          return document.getElementById("track-image");
+        }
+
+        function renderSessions(race, settings) {
+          const sessions = race.sessions.slice(-8);
+          document.getElementById("sessions").innerHTML = sessions
+            .map((session) => `
+              <article class="f1-session">
+                <p class="f1-session-label">${escapeHtml(session.label)}</p>
+                <p class="f1-session-time">${escapeHtml(formatSessionTime(session.startsAt, settings))}</p>
+              </article>
+            `)
+            .join("");
+        }
+
+        function renderFollowing(race, settings) {
+          const list = race.following.slice(0, 3);
+          document.getElementById("following-section").classList.toggle("is-hidden", list.length === 0);
+          document.getElementById("following").innerHTML = list
+            .map((item) => `
+              <article class="f1-next">
+                <p class="f1-next-round">R${escapeHtml(item.round)}</p>
+                <div>
+                  <p class="f1-next-name">${escapeHtml(item.raceName)}</p>
+                  <p class="f1-session-label">${escapeHtml(formatDate(item.startsAt, settings))}</p>
+                </div>
+              </article>
+            `)
+            .join("");
+        }
+
+        try {
+          const payload = await waitForPayload({ timeout: 300 });
+          await loadMessages(payload);
+          const settings = mergeSettings(defaults, getSettings(payload), getQuerySettings());
+          applyColorTheme(settings.color, { defaultTheme: defaults.color });
+
+          const params = new URLSearchParams(settings);
+          const response = await fetch(`./api/data?${params.toString()}`, { cache: "no-store" });
+          if (!response.ok) {
+            throw new Error(`Formula 1 API failed with ${response.status}`);
+          }
+
+          const race = await response.json();
+          const status = race.status || t("round", { round: race.round });
+          const location = compactLocation(race.circuit);
+          const trackImage = renderTrack(race.circuit, isEnabled(settings.showTrackMap));
+
+          document.getElementById("round-label").textContent =
+            t("seasonRound", { season: race.season, round: race.round, total: race.totalRounds });
+          document.getElementById("race-status").textContent = status;
+          document.getElementById("race-title").textContent = race.raceName;
+          document.getElementById("circuit-name").textContent = race.circuit.name;
+          document.getElementById("race-location").textContent = location;
+          document.getElementById("race-date").textContent = formatDate(race.startsAt, settings);
+          document.getElementById("race-time").textContent = formatTime(race.startsAt, settings);
+
+          document.getElementById("sessions-section").classList.toggle(
+            "is-hidden",
+            !isEnabled(settings.showSessions),
+          );
+          if (isEnabled(settings.showSessions)) {
+            renderSessions(race, settings);
+          }
+          renderFollowing(race, settings);
+
+          await Promise.all([document.fonts?.ready, waitForImage(trackImage)]);
+          fitText(document.getElementById("race-title"), {
+            min: 32,
+            max: 120,
+            step: 2,
+            tolerance: 8,
+            lineBreak: "balance",
+          });
+          fitText(document.getElementById("circuit-name"), {
+            min: 13,
+            max: 24,
+            step: 1,
+            tolerance: 4,
+            lineBreak: "balance",
+          });
+          fitToScreen();
+          markReady({ round: race.round, race: race.raceName });
+        } catch (error) {
+          markError(error);
+          document.body.innerHTML = `<main class="pp-screen"><h1 class="pp-title pp-error">${escapeHtml(t("errorTitle"))}</h1><p>${escapeHtml(error.message)}</p></main>`;
+        }
+      })();
+    </script>
+  </body>
+</html>

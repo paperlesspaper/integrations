@@ -1,0 +1,13 @@
+{
+  "loading": "Loading...",
+  "updated": "Updated",
+  "from": "from",
+  "errorTitle": "Weather could not load",
+  "apiFailed": "API failed with {status}",
+  "title": "Weather",
+  "current": "Current",
+  "feelsLike": "Feels like",
+  "wind": "Wind",
+  "forecast": "Forecast",
+  "code": "Code"
+}

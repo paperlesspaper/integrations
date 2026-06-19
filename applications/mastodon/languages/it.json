@@ -1,0 +1,14 @@
+{
+  "loading": "Caricamento...",
+  "updated": "Aggiornato",
+  "from": "da",
+  "errorTitle": "Impossibile caricare Mastodon",
+  "apiFailed": "API non riuscita con {status}",
+  "title": "Timeline",
+  "home": "Home",
+  "profile": "Profilo",
+  "tag": "tag {host}",
+  "boostedBy": "Boostato da @{acct}",
+  "noPosts": "Nessun post",
+  "noPostsHint": "Nessun contenuto corrisponde a questo feed."
+}

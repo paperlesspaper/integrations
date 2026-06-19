@@ -1,0 +1,14 @@
+{
+  "loading": "Wird geladen...",
+  "updated": "Aktualisiert",
+  "from": "von",
+  "errorTitle": "Oeffnungszeiten konnten nicht geladen werden",
+  "apiFailed": "API fehlgeschlagen mit {status}",
+  "kicker": "Oeffnungszeiten",
+  "title": "Oeffnungszeiten",
+  "manual": "Manuell",
+  "today": "Heute",
+  "thisWeek": "Diese Woche",
+  "unavailable": "Oeffnungszeiten nicht verfuegbar",
+  "googleMaps": "Google Maps"
+}

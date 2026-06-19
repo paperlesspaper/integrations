@@ -1,0 +1,7 @@
+{
+  "loading": "Loading...",
+  "updated": "Updated",
+  "from": "from",
+  "errorTitle": "Day Calendar could not load",
+  "apiFailed": "API failed with {status}"
+}

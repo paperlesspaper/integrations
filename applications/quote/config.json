@@ -1,0 +1,42 @@
+{
+  "name": "Quote",
+  "version": "0.1.0",
+  "description": "Shows a deterministic daily quote.",
+  "renderPage": "./render.html",
+  "icon": "./assets/icon.png",
+  "nativeSettings": {
+    "index": null
+  },
+  "configVariants": [
+    {
+      "index": null,
+      "screenshots": {
+        "800x480": "./screenshots/quote-daily-800x480-landscape.png",
+        "480x800": "./screenshots/quote-daily-480x800-portrait.png"
+      }
+    },
+    {
+      "index": 7,
+      "screenshots": {
+        "800x480": "./screenshots/quote-index-7-800x480-landscape.png",
+        "480x800": "./screenshots/quote-index-7-480x800-portrait.png"
+      }
+    }
+  ],
+  "formSchema": {
+    "type": "object",
+    "properties": {
+      "index": {
+        "type": "number",
+        "title": "Quote index"
+      }
+    }
+  },
+  "language": [
+    "en",
+    "de",
+    "fr",
+    "es",
+    "it"
+  ]
+}

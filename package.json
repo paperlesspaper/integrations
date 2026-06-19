@@ -1,0 +1,18 @@
+{
+  "name": "paperlesspaper-openintegrations",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node server/index.js",
+    "screenshots": "node scripts/render-screenshots.mjs",
+    "copy:assets": "node -e \"const fs=require('node:fs');const path=require('node:path');const src=path.join(process.cwd(),'node_modules/@paperlesspaper/openintegration/dist');const dest=path.join(process.cwd(),'public');fs.mkdirSync(dest,{recursive:true});for(const file of ['paperless.css','paperless.iife.js']){const from=path.join(src,file);if(fs.existsSync(from)){fs.copyFileSync(from,path.join(dest,file));console.log('copied '+file);}}\"",
+    "postinstall": "npm run copy:assets",
+    "docker:build": "docker build -t paperlesspaper-openintegrations:latest .",
+    "docker:run": "docker run --rm -p 3000:3000 paperlesspaper-openintegrations:latest"
+  },
+  "dependencies": {
+    "@paperlesspaper/openintegration": "file:vendor/openintegration",
+    "express": "^4.19.2"
+  }
+}

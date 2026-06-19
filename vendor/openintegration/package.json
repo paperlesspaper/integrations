@@ -1,0 +1,29 @@
+{
+  "name": "@paperlesspaper/openintegration",
+  "version": "0.1.0",
+  "description": "Tiny helper toolkit for static paperlesspaper OpenIntegration pages.",
+  "type": "module",
+  "sideEffects": [
+    "dist/paperless.css"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./browser": {
+      "types": "./dist/browser.d.ts",
+      "import": "./dist/browser.js"
+    },
+    "./paperless.css": "./dist/paperless.css",
+    "./paperless.js": {
+      "types": "./dist/browser.d.ts",
+      "import": "./dist/paperless.js"
+    },
+    "./paperless.iife.js": "./dist/paperless.iife.js"
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ]
+}

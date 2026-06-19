@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>XKCD</title>
+    <link rel="stylesheet" href="/assets/paperless.css">
+    <script src="/assets/paperless.iife.js"></script>
+    <style>
+      .comic-screen {
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+      }
+
+      .comic-frame {
+        width: min(100%, 1120px);
+        height: 100%;
+        display: grid;
+        grid-template-rows: auto auto minmax(0, 1fr) auto;
+        gap: 16px;
+        justify-items: center;
+        align-items: center;
+      }
+
+      .comic-image {
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+        background: #fff;
+        border: 1px solid rgba(32, 33, 36, 0.14);
+        border-radius: 8px;
+      }
+
+      .comic-alt {
+        margin: 0;
+        max-width: 72ch;
+        color: #3f403f;
+        font-size: 1.35rem;
+        line-height: 1.35;
+      }
+
+      .comic-title {
+        width: 100%;
+        font-size: 4.6rem;
+      }
+
+      .comic-image-wrap {
+        width: 100%;
+        height: 100%;
+        min-height: 0;
+        display: grid;
+        place-items: center;
+      }
+
+      @media (max-width: 700px), (max-height: 560px) {
+        .comic-frame {
+          gap: 10px;
+        }
+
+        .comic-title {
+          font-size: 3.2rem;
+        }
+
+        .comic-alt {
+          font-size: 1rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="pp-screen comic-screen">
+      <section class="comic-frame">
+        <p class="pp-subtitle" id="comic-meta">XKCD</p>
+        <h1 class="pp-title comic-title pp-fit pp-fit-title" id="comic-title" data-i18n="loading">Loading...</h1>
+        <div class="comic-image-wrap">
+          <img class="comic-image" id="comic-image" alt="">
+        </div>
+        <p class="comic-alt pp-fit pp-fit-copy" id="comic-alt"></p>
+      </section>
+    </main>
+    <script>
+      (async function render() {
+        const {
+          waitForPayload,
+          getSettings,
+          getQuerySettings,
+          mergeSettings,
+          escapeHtml,
+          fitHyphenatedText,
+          fitToScreen,
+          markReady,
+          markError,
+        } = window.PaperlessOpenIntegration;
+
+        const defaultMessages = {
+          "loading": "Loading...",
+          "updated": "Updated",
+          "from": "from",
+          "errorTitle": "XKCD could not load",
+          "apiFailed": "API failed with {status}",
+          "title": "XKCD"
+};
+        let messages = defaultMessages;
+        let currentLanguage = "en";
+
+        function t(key, values = {}) {
+          const template =
+            typeof messages[key] === "string"
+              ? messages[key]
+              : defaultMessages[key] || key;
+          return template.replace(/\{(\w+)\}/g, (_match, name) =>
+            values[name] ?? "",
+          );
+        }
+
+        function applyStaticMessages(root = document) {
+          root.querySelectorAll("[data-i18n]").forEach((element) => {
+            element.textContent = t(element.dataset.i18n);
+          });
+        }
+
+        async function loadMessages(payload) {
+          const loader = window.PaperlessOpenIntegration.loadLanguageJson;
+          let result;
+
+          if (typeof loader === "function") {
+            result = await loader(payload);
+          } else {
+            const requested = String(payload?.meta?.language || "en").trim();
+            const requestedBase = requested.split("-")[0].toLowerCase();
+            const supported = ["en", "de", "fr", "es", "it"];
+            const language = supported.includes(requested)
+              ? requested
+              : supported.includes(requestedBase)
+                ? requestedBase
+                : "en";
+            const response = await fetch(`./languages/${language}.json`, {
+              cache: "no-store",
+            });
+
+            if (!response.ok) {
+              throw new Error(
+                `Could not load language JSON for ${language}: ${response.status}`,
+              );
+            }
+
+            result = {
+              language,
+              messages: await response.json(),
+            };
+          }
+
+          messages = { ...defaultMessages, ...result.messages };
+          currentLanguage = result.language || "en";
+          document.documentElement.lang = currentLanguage;
+          applyStaticMessages();
+          return result;
+        }
+
+        try {
+          const defaults = { kind: 'latest', difference: 0 };
+          const payload = await waitForPayload({ timeout: 300 });
+          await loadMessages(payload);
+          const settings = mergeSettings(defaults, getSettings(payload), getQuerySettings());
+          const params = new URLSearchParams(settings);
+          const response = await fetch(`./api/data?${params.toString()}`, { cache: 'no-store' });
+
+          if (!response.ok) {
+            throw new Error(`XKCD API failed with ${response.status}`);
+          }
+
+          const comic = await response.json();
+          document.getElementById('comic-meta').textContent = `#${comic.num} / ${comic.year}-${comic.month}-${comic.day}`;
+          document.getElementById('comic-title').innerHTML = escapeHtml(comic.title);
+          document.getElementById('comic-image').src = comic.img;
+          document.getElementById('comic-image').alt = comic.alt || comic.title;
+          document.getElementById('comic-alt').innerHTML = escapeHtml(comic.alt || '');
+
+          fitHyphenatedText(document.getElementById('comic-title'), {
+            min: 28,
+            max: 82,
+            step: 2,
+            lineBreak: 'balance',
+          });
+          fitHyphenatedText(document.getElementById('comic-alt'), {
+            min: 14,
+            max: 24,
+            step: 1,
+            lineBreak: true,
+          });
+          fitToScreen();
+          markReady({ num: comic.num });
+        } catch (error) {
+          markError(error);
+          document.body.innerHTML = `<main class="pp-screen"><h1 class="pp-title pp-error">${escapeHtml(t("errorTitle"))}</h1><p>${error.message}</p></main>`;
+        }
+      })();
+    </script>
+  </body>
+</html>

@@ -1,0 +1,11 @@
+{
+  "loading": "Caricamento...",
+  "updated": "Aggiornato",
+  "from": "da",
+  "errorTitle": "Impossibile caricare la vignetta di The Onion",
+  "apiFailed": "API non riuscita con {status}",
+  "source": "The Onion",
+  "section": "Vignetta editoriale",
+  "credit": "theonion.com",
+  "imageFailed": "Impossibile caricare l'immagine della vignetta"
+}

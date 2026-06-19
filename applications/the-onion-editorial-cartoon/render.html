@@ -1,0 +1,428 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>The Onion - Editorial Cartoon</title>
+    <link rel="stylesheet" href="/assets/paperless.css" />
+    <script src="/assets/paperless.iife.js"></script>
+    <style>
+      :root {
+        --onion-rule: #151515;
+        --onion-paper: #fffdf7;
+        --onion-red: #b12a22;
+      }
+
+      .onion-screen {
+        padding: 0;
+        gap: 0;
+        background: var(--onion-paper);
+        color: var(--onion-rule);
+      }
+
+      .masthead {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        align-items: end;
+        gap: 10px;
+        width: 100%;
+        padding: 10px 14px 4px;
+      }
+
+      .masthead.title-hidden {
+        grid-template-columns: 1fr;
+        justify-items: end;
+      }
+
+      .brand {
+        min-width: 0;
+      }
+
+      .source {
+        margin: 0;
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: 2.55rem;
+        line-height: 0.9;
+        font-weight: 900;
+        letter-spacing: 0;
+      }
+
+      .section-label {
+        margin: 2px 0 0;
+        color: var(--onion-red);
+        font-size: 0.76rem;
+        line-height: 1;
+        font-weight: 850;
+        text-transform: uppercase;
+      }
+
+      .date-stamp {
+        padding: 0;
+        font-size: 0.7rem;
+        line-height: 1;
+        font-weight: 800;
+        text-align: center;
+        text-transform: uppercase;
+        white-space: nowrap;
+      }
+
+      .cartoon-layout {
+        width: 100%;
+        height: 0;
+        min-height: 0;
+        flex: 1;
+        display: grid;
+        grid-template-rows: minmax(0, 1fr) auto;
+        overflow: hidden;
+      }
+
+      .image-stage {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        min-height: 0;
+        overflow: hidden;
+      }
+
+      .cartoon-image {
+        position: absolute;
+        inset: 0;
+        display: block;
+        width: 100%;
+        height: 100%;
+        max-width: 100%;
+        max-height: 100%;
+        margin: auto;
+        object-fit: contain;
+        background: #fff;
+        filter: contrast(1.08) saturate(0.92);
+      }
+
+      .caption {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(7ch, auto);
+        gap: 10px;
+        align-items: stretch;
+        height: clamp(48px, 12vh, 68px);
+        min-height: 0;
+        padding: 2px 14px 8px;
+      }
+
+      .title {
+        margin: 0;
+        min-width: 0;
+        min-height: 0;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        overflow: hidden;
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: 1.45rem;
+        line-height: 1;
+        font-weight: 900;
+      }
+
+      .credit {
+        margin: 0;
+        color: #3d3d3d;
+        font-size: 0.66rem;
+        line-height: 1.05;
+        font-weight: 760;
+        text-align: right;
+        text-transform: uppercase;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        max-width: 16ch;
+        overflow: hidden;
+      }
+
+      .is-hidden {
+        display: none;
+      }
+
+      @media (max-width: 700px), (orientation: portrait) {
+        .masthead {
+          grid-template-columns: 1fr;
+          gap: 5px;
+          padding: 10px 12px 3px;
+        }
+
+        .source {
+          font-size: 2.25rem;
+        }
+
+        .date-stamp {
+          width: max-content;
+        }
+
+        .cartoon-layout {
+          height: 0;
+          flex: 1;
+          grid-template-rows: minmax(0, 1fr) clamp(108px, 19vh, 150px);
+          align-content: stretch;
+        }
+
+        .caption {
+          grid-template-columns: 1fr;
+          grid-template-rows: minmax(0, 1fr) auto;
+          gap: 4px;
+          height: 100%;
+          padding: 2px 12px 7px;
+        }
+
+        .title {
+          font-size: 1.35rem;
+        }
+
+        .credit {
+          text-align: left;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="website-has-loading-element"></div>
+    <main class="pp-screen onion-screen" id="app">
+      <header class="masthead">
+        <div class="brand">
+          <p class="source" data-i18n="source">The Onion</p>
+          <p class="section-label" data-i18n="section">Editorial Cartoon</p>
+        </div>
+        <p class="date-stamp" id="date-stamp" data-i18n="loading">Loading</p>
+      </header>
+
+      <section class="cartoon-layout">
+        <div class="image-stage">
+          <img class="cartoon-image" id="cartoon-image" alt="" />
+        </div>
+        <footer class="caption">
+          <h1 class="title pp-fit pp-fit-title" id="cartoon-title" data-i18n="loading">
+            Loading...
+          </h1>
+          <p class="credit" id="cartoon-credit" data-i18n="credit">theonion.com</p>
+        </footer>
+      </section>
+    </main>
+
+    <script>
+      (async function render() {
+        const {
+          waitForPayload,
+          getSettings,
+          getQuerySettings,
+          mergeSettings,
+          escapeHtml,
+          fitText,
+          fitToScreen,
+          markReady,
+          markError,
+        } = window.PaperlessOpenIntegration;
+
+        const defaultMessages = {
+          "loading": "Loading...",
+          "updated": "Updated",
+          "from": "from",
+          "errorTitle": "The Onion cartoon could not load",
+          "apiFailed": "API failed with {status}",
+          "source": "The Onion",
+          "section": "Editorial Cartoon",
+          "credit": "theonion.com",
+          "imageFailed": "Cartoon image failed to load"
+};
+        let messages = defaultMessages;
+        let currentLanguage = "en";
+
+        function t(key, values = {}) {
+          const template =
+            typeof messages[key] === "string"
+              ? messages[key]
+              : defaultMessages[key] || key;
+          return template.replace(/\{(\w+)\}/g, (_match, name) =>
+            values[name] ?? "",
+          );
+        }
+
+        function applyStaticMessages(root = document) {
+          root.querySelectorAll("[data-i18n]").forEach((element) => {
+            element.textContent = t(element.dataset.i18n);
+          });
+        }
+
+        async function loadMessages(payload) {
+          const loader = window.PaperlessOpenIntegration.loadLanguageJson;
+          let result;
+
+          if (typeof loader === "function") {
+            result = await loader(payload);
+          } else {
+            const requested = String(payload?.meta?.language || "en").trim();
+            const requestedBase = requested.split("-")[0].toLowerCase();
+            const supported = ["en", "de", "fr", "es", "it"];
+            const language = supported.includes(requested)
+              ? requested
+              : supported.includes(requestedBase)
+                ? requestedBase
+                : "en";
+            const response = await fetch(`./languages/${language}.json`, {
+              cache: "no-store",
+            });
+
+            if (!response.ok) {
+              throw new Error(
+                `Could not load language JSON for ${language}: ${response.status}`,
+              );
+            }
+
+            result = {
+              language,
+              messages: await response.json(),
+            };
+          }
+
+          messages = { ...defaultMessages, ...result.messages };
+          currentLanguage = result.language || "en";
+          document.documentElement.lang = currentLanguage;
+          applyStaticMessages();
+          return result;
+        }
+
+        const defaults = {
+          selection: "latest",
+          offset: 0,
+          showTitle: true,
+          showDate: true,
+        };
+
+        function formatDate(value) {
+          if (!value) return "";
+          const date = new Date(value);
+          if (Number.isNaN(date.getTime())) return "";
+          return date.toLocaleDateString(currentLanguage || undefined, {
+            month: "short",
+            day: "numeric",
+            year: "numeric",
+          });
+        }
+
+        function waitForImage(image) {
+          if (image.complete && image.naturalWidth > 0) {
+            return Promise.resolve();
+          }
+
+          return new Promise((resolve, reject) => {
+            image.addEventListener("load", resolve, { once: true });
+            image.addEventListener(
+              "error",
+              () => reject(new Error(t("imageFailed"))),
+              { once: true },
+            );
+          });
+        }
+
+        function fitDynamicText() {
+          const compact = window.matchMedia(
+            "(max-width: 700px), (orientation: portrait)",
+          ).matches;
+          const source = document.querySelector(".source");
+          const title = document.getElementById("cartoon-title");
+          const dateStamp = document.getElementById("date-stamp");
+          const credit = document.getElementById("cartoon-credit");
+
+          if (!source.classList.contains("is-hidden")) {
+            fitText(source, {
+              min: 24,
+              max: compact ? 36 : 42,
+              step: 1,
+              tolerance: 3,
+              nowrap: true,
+            });
+          }
+
+          if (!dateStamp.classList.contains("is-hidden")) {
+            fitText(dateStamp, {
+              min: 8,
+              max: 12,
+              step: 1,
+              tolerance: 2,
+              nowrap: true,
+            });
+          }
+
+          if (!title.classList.contains("is-hidden")) {
+            fitText(title, {
+              min: compact ? 15 : 16,
+              max: compact ? 34 : 32,
+              step: 1,
+              tolerance: 4,
+              lineBreak: "balance",
+            });
+          }
+
+          fitText(credit, {
+            min: 8,
+            max: 11,
+            step: 1,
+            tolerance: 2,
+            nowrap: true,
+          });
+        }
+
+        try {
+          const payload = await waitForPayload({ timeout: 300 });
+          await loadMessages(payload);
+          const settings = mergeSettings(
+            defaults,
+            getSettings(payload),
+            getQuerySettings(),
+          );
+          const params = new URLSearchParams({
+            selection: settings.selection,
+            offset: settings.offset,
+          });
+          const response = await fetch(`./api/data?${params.toString()}`, {
+            cache: "no-store",
+          });
+
+          if (!response.ok) {
+            throw new Error(`The Onion API failed with ${response.status}`);
+          }
+
+          const cartoon = await response.json();
+          const image = document.getElementById("cartoon-image");
+          const title = document.getElementById("cartoon-title");
+          const dateStamp = document.getElementById("date-stamp");
+
+          image.src = cartoon.image;
+          image.alt = cartoon.alt || cartoon.title;
+          title.innerHTML = escapeHtml(cartoon.title);
+          dateStamp.textContent = formatDate(cartoon.date);
+          document.getElementById("cartoon-credit").textContent =
+            "theonion.com";
+
+          if (!settings.showTitle) {
+            document.querySelector(".masthead").classList.add("title-hidden");
+            document.querySelector(".brand").classList.add("is-hidden");
+            title.classList.add("is-hidden");
+          }
+
+          if (!settings.showDate || !dateStamp.textContent) {
+            dateStamp.classList.add("is-hidden");
+          }
+
+          if (!settings.showTitle && !settings.showDate) {
+            document.querySelector(".masthead").classList.add("is-hidden");
+          }
+
+          await Promise.all([document.fonts?.ready, waitForImage(image)]);
+          fitDynamicText();
+          fitToScreen();
+          markReady({ id: cartoon.id });
+        } catch (error) {
+          markError(error);
+          document.body.innerHTML = `<main class="pp-screen"><h1 class="pp-title pp-error">${escapeHtml(t("errorTitle"))}</h1><p>${escapeHtml(error.message)}</p></main>`;
+        }
+      })();
+    </script>
+  </body>
+</html>

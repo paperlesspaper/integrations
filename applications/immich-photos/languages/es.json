@@ -1,0 +1,10 @@
+{
+  "loading": "Cargando...",
+  "updated": "Actualizado",
+  "from": "desde",
+  "errorTitle": "Immich no se pudo cargar",
+  "apiFailed": "La solicitud de Immich fallo con {status}",
+  "title": "Fotos de Immich",
+  "fallbackCaption": "Foto de Immich",
+  "imageFailed": "No se pudo cargar la imagen resuelta de Immich."
+}

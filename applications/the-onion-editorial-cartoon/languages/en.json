@@ -1,0 +1,11 @@
+{
+  "loading": "Loading...",
+  "updated": "Updated",
+  "from": "from",
+  "errorTitle": "The Onion cartoon could not load",
+  "apiFailed": "API failed with {status}",
+  "source": "The Onion",
+  "section": "Editorial Cartoon",
+  "credit": "theonion.com",
+  "imageFailed": "Cartoon image failed to load"
+}

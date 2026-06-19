@@ -1,0 +1,16 @@
+{
+  "loading": "Loading...",
+  "updated": "Updated",
+  "from": "from",
+  "errorTitle": "Astronauts could not load",
+  "apiFailed": "API failed with {status}",
+  "peopleInSpace": "People in space",
+  "loadingRoster": "Loading roster",
+  "crewRoster": "Crew roster",
+  "empty": "No crew matched this location filter.",
+  "countAll": "humans are off Earth right now",
+  "countMatched": "{count} of {total} matched",
+  "filtered": "Filtered: {value}",
+  "missionDays": "{count} mission days",
+  "launched": "Launched {date}"
+}

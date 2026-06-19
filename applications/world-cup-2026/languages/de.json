@@ -1,0 +1,18 @@
+{
+  "loading": "World Cup 2026 wird geladen...",
+  "updated": "Aktualisiert",
+  "from": "von",
+  "errorTitle": "World Cup 2026 konnte nicht geladen werden",
+  "apiFailed": "API fehlgeschlagen mit {status}",
+  "brand": "World Cup 26",
+  "latestResults": "Letzte Ergebnisse",
+  "upNext": "Als Naechstes",
+  "groupTable": "Gruppentabelle",
+  "recent": "Aktuell",
+  "fixtures": "Spielplan",
+  "noMatches": "Noch keine Spiele.",
+  "team": "Team",
+  "played": "Sp.",
+  "goalDifference": "TD",
+  "points": "Pkt."
+}

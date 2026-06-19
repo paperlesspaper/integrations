@@ -1,0 +1,7 @@
+{
+  "loading": "Wird geladen...",
+  "updated": "Aktualisiert",
+  "from": "von",
+  "errorTitle": "Tageskalender konnte nicht geladen werden",
+  "apiFailed": "API fehlgeschlagen mit {status}"
+}

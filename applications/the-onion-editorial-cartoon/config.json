@@ -1,0 +1,72 @@
+{
+  "name": "The Onion - Editorial Cartoon",
+  "version": "0.1.0",
+  "description": "Shows a recent editorial cartoon from The Onion's Cartoons section.",
+  "renderPage": "./render.html",
+  "icon": "./assets/icon.png",
+  "nativeSettings": {
+    "selection": "latest",
+    "offset": 0,
+    "showTitle": true,
+    "showDate": true
+  },
+  "configVariants": [
+    {
+      "selection": "latest",
+      "offset": 0,
+      "showTitle": true,
+      "showDate": true,
+      "screenshots": {
+        "800x480": "./screenshots/the-onion-editorial-cartoon-latest-with-meta-800x480-landscape.png",
+        "480x800": "./screenshots/the-onion-editorial-cartoon-latest-with-meta-480x800-portrait.png"
+      }
+    },
+    {
+      "selection": "offset",
+      "offset": 3,
+      "showTitle": false,
+      "showDate": false,
+      "screenshots": {
+        "800x480": "./screenshots/the-onion-editorial-cartoon-offset-art-only-800x480-landscape.png",
+        "480x800": "./screenshots/the-onion-editorial-cartoon-offset-art-only-480x800-portrait.png"
+      }
+    }
+  ],
+  "formSchema": {
+    "type": "object",
+    "properties": {
+      "selection": {
+        "type": "string",
+        "title": "Cartoon selection",
+        "enum": [
+          "latest",
+          "random",
+          "offset"
+        ],
+        "default": "latest"
+      },
+      "offset": {
+        "type": "number",
+        "title": "Offset from latest",
+        "default": 0
+      },
+      "showTitle": {
+        "type": "boolean",
+        "title": "Show title",
+        "default": true
+      },
+      "showDate": {
+        "type": "boolean",
+        "title": "Show date",
+        "default": true
+      }
+    }
+  },
+  "language": [
+    "en",
+    "de",
+    "fr",
+    "es",
+    "it"
+  ]
+}

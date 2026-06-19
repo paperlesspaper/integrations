@@ -1,0 +1,351 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Newsstand</title>
+    <link rel="stylesheet" href="/assets/paperless.css" />
+    <script src="/assets/paperless.iife.js"></script>
+    <style>
+      .newsstand-screen {
+        padding: 0;
+        gap: 0;
+      }
+
+      .newsstand-title {
+        min-height: 58px;
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        gap: 18px;
+        align-items: center;
+        padding: 10px 18px;
+        border-bottom: 2px solid currentColor;
+      }
+
+      .newsstand-title.is-hidden {
+        display: none;
+      }
+
+      .newsstand-name {
+        margin: 0;
+        font-size: 1.55rem;
+        line-height: 1;
+        font-weight: 850;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .newsstand-meta {
+        margin: 4px 0 0;
+        color: var(--pp-muted);
+        font-size: 0.88rem;
+        line-height: 1.15;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .newsstand-count {
+        min-width: 7.8em;
+        text-align: right;
+        font-size: 0.76rem;
+        line-height: 1.1;
+        font-weight: 760;
+        text-transform: uppercase;
+      }
+
+      .newsstand-stage {
+        --newsstand-stage-padding: 14px;
+        flex: 1;
+        min-height: 0;
+        display: grid;
+        place-items: center;
+        /* padding: var(--newsstand-stage-padding); */
+        background:
+          linear-gradient(90deg, rgba(0, 0, 0, 0.05) 1px, transparent 1px),
+          linear-gradient(rgba(0, 0, 0, 0.05) 1px, transparent 1px);
+        background-size: 18px 18px;
+      }
+
+      .newsstand-page {
+        max-width: 100%;
+        max-height: 100%;
+        display: block;
+        object-fit: contain;
+        object-position: top center;
+        background: #fff;
+        border: 2px solid currentColor;
+        box-shadow: 7px 7px 0 currentColor;
+        filter: contrast(1.08);
+      }
+
+      .newsstand-screen.no-title .newsstand-stage {
+        --newsstand-stage-padding: 8px;
+      }
+
+      .newsstand-screen.no-title .newsstand-page {
+        box-shadow: none;
+      }
+
+      .newsstand-screen.fit-cover.force-portrait .newsstand-page {
+        width: auto;
+        height: 100%;
+      }
+
+      .newsstand-screen.fit-cover.force-landscape .newsstand-page {
+        width: 100%;
+        height: auto;
+      }
+
+      .newsstand-screen.fit-contain .newsstand-page {
+        width: auto;
+        height: calc(
+          100vh - var(--newsstand-title-height, 58px) -
+            (2 * var(--newsstand-stage-padding))
+        );
+        box-sizing: border-box;
+        object-fit: contain;
+      }
+
+      @media (orientation: portrait) {
+        .newsstand-title {
+          grid-template-columns: 1fr;
+          gap: 4px;
+          padding: 14px;
+        }
+
+        .newsstand-name {
+          font-size: 1.4rem;
+          white-space: normal;
+        }
+
+        .newsstand-meta {
+          white-space: normal;
+        }
+
+        .newsstand-count {
+          display: none;
+        }
+
+        .newsstand-stage {
+          --newsstand-stage-padding: 10px;
+        }
+
+        .newsstand-page {
+          box-shadow: 5px 5px 0 currentColor;
+        }
+      }
+
+      @media (max-width: 700px), (max-height: 560px) {
+        .newsstand-title {
+          min-height: 48px;
+          padding: 8px 12px;
+        }
+
+        .newsstand-name {
+          font-size: 1.1rem;
+        }
+
+        .newsstand-meta {
+          font-size: 0.72rem;
+        }
+
+        .newsstand-stage {
+          --newsstand-stage-padding: 8px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="pp-screen newsstand-screen" id="screen">
+      <header class="newsstand-title" id="title-bar">
+        <div>
+          <h1 class="newsstand-name" id="paper-name" data-i18n="title">Newsstand</h1>
+          <p class="newsstand-meta" id="paper-meta" data-i18n="loading">Loading...</p>
+        </div>
+        <p class="newsstand-count" id="paper-count"></p>
+      </header>
+      <section class="newsstand-stage">
+        <img class="newsstand-page" id="paper-image" alt="" />
+      </section>
+    </main>
+
+    <script>
+      (async function render() {
+        const {
+          waitForPayload,
+          getSettings,
+          getQuerySettings,
+          mergeSettings,
+          escapeHtml,
+          fitToScreen,
+          markReady,
+          markError,
+        } = window.PaperlessOpenIntegration;
+
+        const defaultMessages = {
+          "loading": "Loading...",
+          "updated": "Updated",
+          "from": "from",
+          "errorTitle": "Newsstand could not load",
+          "apiFailed": "API failed with {status}",
+          "title": "Newsstand",
+          "papers": "{count} papers",
+          "imageAlt": "{name} front page for {date}",
+          "imageFailed": "Front page image could not load."
+};
+        let messages = defaultMessages;
+        let currentLanguage = "en";
+
+        function t(key, values = {}) {
+          const template =
+            typeof messages[key] === "string"
+              ? messages[key]
+              : defaultMessages[key] || key;
+          return template.replace(/\{(\w+)\}/g, (_match, name) =>
+            values[name] ?? "",
+          );
+        }
+
+        function applyStaticMessages(root = document) {
+          root.querySelectorAll("[data-i18n]").forEach((element) => {
+            element.textContent = t(element.dataset.i18n);
+          });
+        }
+
+        async function loadMessages(payload) {
+          const loader = window.PaperlessOpenIntegration.loadLanguageJson;
+          let result;
+
+          if (typeof loader === "function") {
+            result = await loader(payload);
+          } else {
+            const requested = String(payload?.meta?.language || "en").trim();
+            const requestedBase = requested.split("-")[0].toLowerCase();
+            const supported = ["en", "de", "fr", "es", "it"];
+            const language = supported.includes(requested)
+              ? requested
+              : supported.includes(requestedBase)
+                ? requestedBase
+                : "en";
+            const response = await fetch(`./languages/${language}.json`, {
+              cache: "no-store",
+            });
+
+            if (!response.ok) {
+              throw new Error(
+                `Could not load language JSON for ${language}: ${response.status}`,
+              );
+            }
+
+            result = {
+              language,
+              messages: await response.json(),
+            };
+          }
+
+          messages = { ...defaultMessages, ...result.messages };
+          currentLanguage = result.language || "en";
+          document.documentElement.lang = currentLanguage;
+          applyStaticMessages();
+          return result;
+        }
+
+        function isEnabled(value) {
+          return value === true || value === "true" || value === "1";
+        }
+
+        function formatDate(value) {
+          const date = new Date(`${value}T12:00:00Z`);
+          if (Number.isNaN(date.getTime())) {
+            return value || "";
+          }
+
+          return date.toLocaleDateString(undefined, {
+            month: "short",
+            day: "numeric",
+            year: "numeric",
+          });
+        }
+
+        function waitForImage(image) {
+          if (image.complete && image.naturalWidth > 0) {
+            return Promise.resolve();
+          }
+
+          return new Promise((resolve, reject) => {
+            image.onload = resolve;
+            image.onerror = () =>
+              reject(new Error(t("imageFailed")));
+          });
+        }
+
+        try {
+          const defaults = {
+            newspaper: "top3",
+            fit: "cover",
+            showTitleBar: true,
+          };
+          const payload = await waitForPayload({ timeout: 300 });
+          await loadMessages(payload);
+          const settings = mergeSettings(
+            defaults,
+            getSettings(payload),
+            getQuerySettings(),
+          );
+          const params = new URLSearchParams(settings);
+          const response = await fetch(`./api/data?${params.toString()}`, {
+            cache: "no-store",
+          });
+
+          if (!response.ok) {
+            const text = await response.text();
+            throw new Error(
+              text || `Newsstand API failed with ${response.status}`,
+            );
+          }
+
+          const paper = await response.json();
+          const screen = document.getElementById("screen");
+          const titleBar = document.getElementById("title-bar");
+          const image = document.getElementById("paper-image");
+          const showTitleBar = isEnabled(settings.showTitleBar);
+          const orientation =
+            window.innerHeight >= window.innerWidth ? "portrait" : "landscape";
+          const fit = settings.fit === "contain" ? "contain" : "cover";
+          const meta = [paper.city, formatDate(paper.date)]
+            .filter(Boolean)
+            .join(" / ");
+
+          screen.classList.add(`force-${orientation}`);
+          screen.classList.add(`fit-${fit}`);
+          screen.classList.toggle("no-title", !showTitleBar);
+          titleBar.classList.toggle("is-hidden", !showTitleBar);
+          screen.style.setProperty(
+            "--newsstand-title-height",
+            showTitleBar ? `${titleBar.offsetHeight}px` : "0px",
+          );
+
+          document.getElementById("paper-name").innerHTML = escapeHtml(
+            paper.name,
+          );
+          document.getElementById("paper-meta").innerHTML = escapeHtml(meta);
+          document.getElementById("paper-count").textContent = paper.totalPapers
+            ? t("papers", { count: paper.totalPapers })
+            : "";
+
+          image.alt = t("imageAlt", { name: paper.name, date: paper.date });
+          image.src = paper.imageUrl;
+
+          await waitForImage(image);
+          fitToScreen();
+          markReady({ slug: paper.slug, date: paper.date });
+        } catch (error) {
+          markError(error);
+          document.body.innerHTML = `<main class="pp-screen"><h1 class="pp-title pp-error">${escapeHtml(t("errorTitle"))}</h1><p>${escapeHtml(error.message)}</p></main>`;
+        }
+      })();
+    </script>
+  </body>
+</html>

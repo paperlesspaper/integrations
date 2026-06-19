@@ -1,0 +1,18 @@
+{
+  "loading": "Cargando Mundial 2026...",
+  "updated": "Actualizado",
+  "from": "desde",
+  "errorTitle": "No se pudo cargar World Cup 2026",
+  "apiFailed": "La API fallo con {status}",
+  "brand": "World Cup 26",
+  "latestResults": "Ultimos resultados",
+  "upNext": "Siguiente",
+  "groupTable": "Tabla del grupo",
+  "recent": "Reciente",
+  "fixtures": "Calendario",
+  "noMatches": "Aun no hay partidos.",
+  "team": "Equipo",
+  "played": "J",
+  "goalDifference": "DG",
+  "points": "Pts"
+}

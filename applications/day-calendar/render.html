@@ -1,0 +1,438 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="paperless:epd-optimize" content='{"intent":"readable"}' />
+    <title>Day Calendar</title>
+    <link rel="stylesheet" href="/assets/paperless.css" />
+    <script src="/assets/paperless.iife.js"></script>
+    <style>
+      .day-calendar-screen {
+        --day-background: #000;
+        --day-foreground: #fff;
+        width: 100vw;
+        height: 100vh;
+        max-width: 100%;
+        padding: 5vmin;
+        background-color: var(--day-background);
+        color: var(--day-foreground);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        font-family: "Arial Narrow", "Roboto Condensed", "Open Sans Condensed", var(--pp-font);
+        font-size: 2.7em;
+        -webkit-font-smoothing: none;
+        overflow: hidden;
+      }
+
+      .day-calendar-screen.theme-light {
+        --day-background: #fff;
+        --day-foreground: #000;
+      }
+
+      .day-calendar-screen.theme-red-dark {
+        --day-background: #ff0000;
+        --day-foreground: #fff;
+      }
+
+      .day-calendar-screen.theme-red-light {
+        --day-background: #fff;
+        --day-foreground: #ff0000;
+      }
+
+      .day-calendar-screen.show-quote {
+        align-items: flex-start;
+      }
+
+      .day-calendar-screen.show-only-date {
+        align-items: center;
+        justify-content: center;
+      }
+
+      .weekday {
+        width: fit-content;
+        max-width: 100%;
+        min-height: 10vh;
+        margin: 0;
+        font-size: 2.2em;
+        line-height: 1;
+        font-weight: 600;
+        text-transform: uppercase;
+      }
+
+      .date {
+        position: relative;
+        max-width: 100%;
+        margin: 0;
+        font-size: 1.2em;
+        line-height: 1;
+        font-weight: 100;
+        white-space: nowrap;
+      }
+
+      .show-quote .date {
+        max-width: 55%;
+        max-height: 20vh;
+      }
+
+      .show-quote .date::before {
+        content: "";
+        position: absolute;
+        top: -2vmin;
+        left: 0;
+        width: 42%;
+        height: 0.1em;
+        background: var(--day-foreground);
+      }
+
+      .show-quote .weekday {
+        max-width: 90%;
+      }
+
+      .day-number,
+      .month {
+        margin: 0;
+        line-height: 1;
+        font-weight: 800;
+      }
+
+      .day-number {
+        max-height: 45vh;
+      }
+
+      .month {
+        flex: 1;
+        max-width: 85vw;
+        min-height: 20vh;
+        overflow: hidden;
+      }
+
+      .show-only-date .weekday {
+        position: relative;
+        max-width: 30vw;
+        min-height: 20vh;
+        margin-top: 10vmax;
+        font-weight: 200;
+        text-transform: none;
+      }
+
+      .show-only-date .weekday::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -20%;
+        right: -20%;
+        width: 140%;
+        height: 0.03em;
+        background: var(--day-foreground);
+      }
+
+      .show-only-date .weekday .scale-text {
+        padding: 0.5em 0;
+      }
+
+      .time {
+        margin: 1em 0 0;
+        font-size: 0.5em;
+        line-height: 1;
+      }
+
+      .quote {
+        flex: 1;
+        width: 92vw;
+        height: 45vh;
+        margin: 0 0 8vh;
+        font-size: 1.5em;
+        line-height: 1;
+        font-weight: 600;
+        overflow: hidden;
+      }
+
+      .quote-text {
+        margin: 0;
+        max-width: 100%;
+        padding-bottom: 2vh;
+        line-height: 1;
+      }
+
+      .scale-text {
+        display: block;
+        max-width: 100%;
+        line-height: 1;
+      }
+
+      @media (max-height: 500px) {
+        .quote {
+          height: 37vh;
+        }
+      }
+
+      @media (orientation: portrait) {
+        .day-calendar-screen {
+          font-size: 2.35em;
+        }
+
+        .show-quote .date {
+          max-width: 78%;
+        }
+
+        .show-only-date .weekday {
+          max-width: 52vw;
+        }
+      }
+
+      @media (max-width: 700px), (max-height: 560px) {
+        .day-calendar-screen {
+          padding: 4vmin;
+          font-size: 1.85em;
+        }
+
+        .quote {
+          width: 91vw;
+          margin-bottom: 5vh;
+        }
+
+        .show-only-date .weekday {
+          margin-top: 6vmax;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="website-has-loading-element"></div>
+    <main class="day-calendar-screen" id="app">
+      <p data-i18n="loading">Loading...</p>
+    </main>
+
+    <script>
+      (async function render() {
+        const {
+          waitForPayload,
+          getSettings,
+          getQuerySettings,
+          mergeSettings,
+          applyColorTheme,
+          escapeHtml,
+          fitText,
+          fitHyphenatedText,
+          fitToScreen,
+          markReady,
+          markError,
+        } = window.PaperlessOpenIntegration;
+
+        const defaultMessages = {
+          "loading": "Loading...",
+          "updated": "Updated",
+          "from": "from",
+          "errorTitle": "Day Calendar could not load",
+          "apiFailed": "API failed with {status}"
+};
+        let messages = defaultMessages;
+        let currentLanguage = "en";
+
+        function t(key, values = {}) {
+          const template =
+            typeof messages[key] === "string"
+              ? messages[key]
+              : defaultMessages[key] || key;
+          return template.replace(/\{(\w+)\}/g, (_match, name) =>
+            values[name] ?? "",
+          );
+        }
+
+        function applyStaticMessages(root = document) {
+          root.querySelectorAll("[data-i18n]").forEach((element) => {
+            element.textContent = t(element.dataset.i18n);
+          });
+        }
+
+        async function loadMessages(payload) {
+          const loader = window.PaperlessOpenIntegration.loadLanguageJson;
+          let result;
+
+          if (typeof loader === "function") {
+            result = await loader(payload);
+          } else {
+            const requested = String(payload?.meta?.language || "en").trim();
+            const requestedBase = requested.split("-")[0].toLowerCase();
+            const supported = ["en", "de", "fr", "es", "it"];
+            const language = supported.includes(requested)
+              ? requested
+              : supported.includes(requestedBase)
+                ? requestedBase
+                : "en";
+            const response = await fetch(`./languages/${language}.json`, {
+              cache: "no-store",
+            });
+
+            if (!response.ok) {
+              throw new Error(
+                `Could not load language JSON for ${language}: ${response.status}`,
+              );
+            }
+
+            result = {
+              language,
+              messages: await response.json(),
+            };
+          }
+
+          messages = { ...defaultMessages, ...result.messages };
+          currentLanguage = result.language || "en";
+          document.documentElement.lang = currentLanguage;
+          applyStaticMessages();
+          return result;
+        }
+
+        const defaults = {
+          color: "dark",
+          kind: "primary",
+          showTime: false,
+          language: "en-US",
+        };
+
+        function colorClass(color) {
+          return `theme-${String(color || defaults.color).replace(/[^a-z0-9-]/gi, "").toLowerCase()}`;
+        }
+
+        function clampTextToBox(element, maxWidth, maxHeight, min = 18, tolerance = 2) {
+          if (!element || !maxWidth || !maxHeight) {
+            return;
+          }
+
+          let size = Number.parseFloat(window.getComputedStyle(element).fontSize);
+
+          while (
+            size > min &&
+            (element.scrollWidth - maxWidth > tolerance ||
+              element.scrollHeight - maxHeight > tolerance)
+          ) {
+            size -= 1;
+            element.style.fontSize = `${size}px`;
+          }
+        }
+
+        function renderQuoteMode(app, data) {
+          app.innerHTML = `
+            <div class="quote" lang="${escapeHtml(data.settings.language)}">
+              <p class="quote-text" id="quote-text">${escapeHtml(data.quote)}</p>
+            </div>
+            <p class="date">
+              <span class="scale-text" id="formatted-date">${escapeHtml(data.date.formattedDate)}</span>
+            </p>
+            <h1 class="weekday">
+              <span class="scale-text" id="weekday">${escapeHtml(data.date.weekday)}</span>
+            </h1>
+            ${data.settings.showTime ? `<p class="time">${escapeHtml(data.date.time)}</p>` : ""}
+          `;
+        }
+
+        function renderDateMode(app, data) {
+          app.innerHTML = `
+            <p class="day-number">
+              <span class="scale-text" id="day-number">${escapeHtml(data.date.day)}</span>
+            </p>
+            <p class="month">
+              <span class="scale-text" id="month">${escapeHtml(data.date.month)}</span>
+            </p>
+            <h1 class="weekday">
+              <span class="scale-text" id="weekday">${escapeHtml(data.date.weekday)}</span>
+            </h1>
+            ${data.settings.showTime ? `<p class="time">${escapeHtml(data.date.time)}</p>` : ""}
+          `;
+        }
+
+        try {
+          const payload = await waitForPayload({ timeout: 300 });
+          await loadMessages(payload);
+          const settings = mergeSettings(defaults, getSettings(payload), getQuerySettings());
+          const resolvedColor = applyColorTheme(settings.color, { defaultTheme: defaults.color });
+          const params = new URLSearchParams(settings);
+          const response = await fetch(`./api/data?${params.toString()}`, {
+            cache: "no-store",
+          });
+
+          if (!response.ok) {
+            throw new Error(`Day Calendar API failed with ${response.status}`);
+          }
+
+          const data = await response.json();
+          const app = document.getElementById("app");
+          const showQuote = data.settings.kind === "demotivational" || data.settings.kind === "funny";
+
+          app.className = [
+            "day-calendar-screen",
+            colorClass(resolvedColor),
+            data.settings.kind,
+            showQuote ? "show-quote" : "show-only-date",
+          ].join(" ");
+
+          if (showQuote) {
+            renderQuoteMode(app, data);
+          } else {
+            renderDateMode(app, data);
+          }
+
+          await document.fonts?.ready;
+
+          if (showQuote) {
+            fitHyphenatedText(document.getElementById("quote-text"), {
+              min: 28,
+              max: 93,
+              step: 1,
+              tolerance: 10,
+              lineBreak: "balance",
+              fitParent: document.querySelector(".quote"),
+            });
+            const quoteBox = document.querySelector(".quote");
+            const quoteMaxHeight = window.matchMedia("(max-height: 500px)").matches
+              ? window.innerHeight * 0.37
+              : window.innerHeight * 0.45;
+            clampTextToBox(
+              document.getElementById("quote-text"),
+              quoteBox.clientWidth,
+              quoteMaxHeight - window.innerHeight * 0.02,
+              18,
+            );
+            fitText(document.getElementById("formatted-date"), {
+              min: 24,
+              max: 150,
+              step: 2,
+              tolerance: 8,
+              fitParent: document.querySelector(".date"),
+            });
+          } else {
+            fitText(document.getElementById("day-number"), {
+              min: 72,
+              max: 300,
+              step: 2,
+              tolerance: 10,
+              fitParent: document.querySelector(".day-number"),
+            });
+            fitText(document.getElementById("month"), {
+              min: 34,
+              max: 100,
+              step: 2,
+              tolerance: 10,
+              fitParent: document.querySelector(".month"),
+            });
+          }
+
+          fitText(document.getElementById("weekday"), {
+            min: 24,
+            max: 100,
+            step: 2,
+            tolerance: 8,
+            fitParent: document.querySelector(".weekday"),
+          });
+          fitToScreen();
+          markReady({ kind: data.settings.kind, dayOfYear: data.dayOfYear });
+        } catch (error) {
+          markError(error);
+          document.body.innerHTML = `<main class="pp-screen"><h1 class="pp-title pp-error">${escapeHtml(t("errorTitle"))}</h1><p>${escapeHtml(error.message)}</p></main>`;
+        }
+      })();
+    </script>
+  </body>
+</html>

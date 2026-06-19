@@ -1,0 +1,16 @@
+{
+  "loading": "Caricamento...",
+  "updated": "Aggiornato",
+  "from": "da",
+  "errorTitle": "Impossibile caricare Astronauts",
+  "apiFailed": "API non riuscita con {status}",
+  "peopleInSpace": "Persone nello spazio",
+  "loadingRoster": "Caricamento equipaggio",
+  "crewRoster": "Elenco equipaggio",
+  "empty": "Nessun membro corrisponde a questo filtro localita.",
+  "countAll": "persone sono fuori dalla Terra in questo momento",
+  "countMatched": "{count} di {total} corrispondono",
+  "filtered": "Filtro: {value}",
+  "missionDays": "{count} giorni di missione",
+  "launched": "Lanciato il {date}"
+}

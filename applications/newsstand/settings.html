@@ -1,0 +1,277 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Newsstand Settings</title>
+    <style>
+      :root {
+        color-scheme: light dark;
+        --bg: #f7f7f4;
+        --fg: #111;
+        --muted: #5f6360;
+        --line: #222;
+        --field: #fff;
+        font-family:
+          Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", sans-serif;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--fg);
+      }
+
+      main {
+        display: grid;
+        gap: 12px;
+        padding: 14px;
+      }
+
+      label {
+        display: grid;
+        gap: 6px;
+        font-size: 0.78rem;
+        font-weight: 760;
+        text-transform: uppercase;
+      }
+
+      select,
+      input {
+        width: 100%;
+        border: 2px solid var(--line);
+        border-radius: 4px;
+        background: var(--field);
+        color: var(--fg);
+        font: inherit;
+        font-size: 0.95rem;
+        font-weight: 560;
+        line-height: 1.25;
+      }
+
+      select {
+        min-height: 42px;
+        padding: 8px 10px;
+      }
+
+      input {
+        min-height: 36px;
+        padding: 7px 9px;
+      }
+
+      .meta,
+      .status {
+        margin: 0;
+        color: var(--muted);
+        font-size: 0.82rem;
+        line-height: 1.35;
+      }
+
+      .status {
+        min-height: 1.35em;
+      }
+
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --bg: #111;
+          --fg: #f5f5f0;
+          --muted: #b5b9b4;
+          --line: #f5f5f0;
+          --field: #050505;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <label>
+        Newspaper
+        <select id="newspaper">
+          <option value="top3">Random top 3</option>
+          <option value="random">Random</option>
+        </select>
+      </label>
+      <label>
+        Filter
+        <input id="filter" type="search" autocomplete="off" />
+      </label>
+      <p class="meta" id="selected">top3</p>
+      <p class="status" id="status">Loading newspapers...</p>
+    </main>
+
+    <script>
+      const defaults = {
+        newspaper: "top3",
+        fit: "cover",
+        showTitleBar: true,
+      };
+      const specialOptions = [
+        {
+          slug: "top3",
+          name: "Random top 3",
+          city: "The New York Times, The Wall Street Journal, or The Guardian",
+          country: "",
+        },
+        {
+          slug: "random",
+          name: "Random",
+          city: "Any available front page",
+          country: "",
+        },
+      ];
+
+      let settings = { ...defaults };
+      let papers = [];
+
+      const newspaper = document.getElementById("newspaper");
+      const filter = document.getElementById("filter");
+      const selected = document.getElementById("selected");
+      const status = document.getElementById("status");
+
+      function isObject(value) {
+        return Boolean(value) && typeof value === "object" && !Array.isArray(value);
+      }
+
+      function escapeText(value) {
+        return String(value || "").replace(/[&<>"']/g, (char) => {
+          switch (char) {
+            case "&":
+              return "&amp;";
+            case "<":
+              return "&lt;";
+            case ">":
+              return "&gt;";
+            case '"':
+              return "&quot;";
+            default:
+              return "&#039;";
+          }
+        });
+      }
+
+      function optionLabel(paper) {
+        const prefix = paper.country ? `${paper.country.toUpperCase()} - ` : "";
+        const suffix = paper.city ? ` (${paper.city})` : "";
+        return `${prefix}${paper.name}${suffix}`;
+      }
+
+      function pluginSettingsFromPayload(payload) {
+        const meta = isObject(payload?.meta) ? payload.meta : {};
+        return isObject(meta.pluginSettings) ? meta.pluginSettings : {};
+      }
+
+      function applySettings(nextSettings) {
+        settings = {
+          ...settings,
+          ...nextSettings,
+        };
+        delete settings.orientation;
+
+        if (!settings.newspaper) {
+          settings.newspaper = defaults.newspaper;
+        }
+
+        renderOptions();
+      }
+
+      function renderOptions() {
+        const needle = filter.value.trim().toLowerCase();
+        const options = [...specialOptions, ...papers].filter((paper) => {
+          if (!needle || paper.slug === settings.newspaper) {
+            return true;
+          }
+
+          return [paper.slug, paper.name, paper.city, paper.country]
+            .filter(Boolean)
+            .join(" ")
+            .toLowerCase()
+            .includes(needle);
+        });
+
+        if (
+          settings.newspaper &&
+          !options.some((paper) => paper.slug === settings.newspaper)
+        ) {
+          options.unshift({
+            slug: settings.newspaper,
+            name: settings.newspaper,
+            city: "Current selection",
+            country: "",
+          });
+        }
+
+        newspaper.innerHTML = options
+          .map(
+            (paper) =>
+              `<option value="${escapeText(paper.slug)}">${escapeText(optionLabel(paper))}</option>`,
+          )
+          .join("");
+        newspaper.value = settings.newspaper || defaults.newspaper;
+        selected.textContent = newspaper.value;
+      }
+
+      function postSettings() {
+        settings = {
+          ...settings,
+          newspaper: newspaper.value,
+        };
+        selected.textContent = settings.newspaper;
+
+        window.parent.postMessage(
+          {
+            type: "paperlesspaper:settings:update",
+            pluginSettings: settings,
+          },
+          "*",
+        );
+      }
+
+      function handleMessage(event) {
+        const message = event.data;
+        if (!isObject(message)) {
+          return;
+        }
+
+        const payload =
+          message.type === "INIT" || message.cmd === "message"
+            ? message.data
+            : message.payload;
+
+        if (isObject(payload)) {
+          applySettings(pluginSettingsFromPayload(payload));
+        } else if (isObject(message.pluginSettings)) {
+          applySettings(message.pluginSettings);
+        }
+      }
+
+      async function loadPapers() {
+        try {
+          const response = await fetch("./api/papers", { cache: "no-store" });
+          if (!response.ok) {
+            throw new Error(`Paper list failed with ${response.status}`);
+          }
+
+          const data = await response.json();
+          papers = Array.isArray(data.papers) ? data.papers : [];
+          renderOptions();
+          status.textContent = `${papers.length} newspapers loaded`;
+        } catch (error) {
+          renderOptions();
+          status.textContent = error.message || "Newspapers could not load";
+        }
+      }
+
+      window.addEventListener("message", handleMessage);
+      newspaper.addEventListener("change", postSettings);
+      filter.addEventListener("input", renderOptions);
+      window.parent.postMessage({ type: "paperlesspaper:settings:ready" }, "*");
+      loadPapers();
+      renderOptions();
+    </script>
+  </body>
+</html>

@@ -1,0 +1,454 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Simple Calendar Settings</title>
+    <style>
+      :root {
+        color-scheme: light dark;
+        --bg: #f7f7f4;
+        --fg: #111;
+        --muted: #5f6360;
+        --line: #222;
+        --field: #fff;
+        --accent: #d8e7d0;
+        font-family:
+          Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", sans-serif;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--fg);
+      }
+
+      main {
+        display: grid;
+        gap: 14px;
+        padding: 14px;
+      }
+
+      section {
+        display: grid;
+        gap: 10px;
+        padding-bottom: 14px;
+        border-bottom: 2px solid var(--line);
+      }
+
+      section:last-child {
+        padding-bottom: 0;
+        border-bottom: 0;
+      }
+
+      h2 {
+        margin: 0;
+        font-size: 0.78rem;
+        line-height: 1.1;
+        font-weight: 860;
+        text-transform: uppercase;
+      }
+
+      label,
+      .field {
+        display: grid;
+        gap: 6px;
+        min-width: 0;
+        font-size: 0.75rem;
+        font-weight: 760;
+        text-transform: uppercase;
+      }
+
+      select,
+      input[type="text"] {
+        width: 100%;
+        min-height: 42px;
+        border: 2px solid var(--line);
+        border-radius: 4px;
+        background: var(--field);
+        color: var(--fg);
+        font: inherit;
+        font-size: 0.95rem;
+        font-weight: 560;
+        line-height: 1.25;
+      }
+
+      select {
+        padding: 8px 10px;
+      }
+
+      input[type="text"] {
+        padding: 7px 9px;
+        text-transform: none;
+      }
+
+      .toggle {
+        display: grid;
+        grid-template-columns: auto minmax(0, 1fr);
+        align-items: center;
+        gap: 10px;
+        min-height: 42px;
+        padding: 8px 10px;
+        border: 2px solid var(--line);
+        border-radius: 4px;
+        background: var(--field);
+        text-transform: none;
+      }
+
+      .toggle input {
+        width: 18px;
+        height: 18px;
+        margin: 0;
+        accent-color: var(--fg);
+      }
+
+      .toggle span {
+        min-width: 0;
+        font-size: 0.9rem;
+        font-weight: 680;
+        line-height: 1.2;
+      }
+
+      .hint,
+      .status {
+        margin: 0;
+        color: var(--muted);
+        font-size: 0.78rem;
+        line-height: 1.35;
+      }
+
+      .status {
+        min-height: 1.35em;
+      }
+
+      .preview {
+        display: grid;
+        grid-template-columns: repeat(7, minmax(0, 1fr));
+        gap: 2px;
+        padding: 8px;
+        border: 2px solid var(--line);
+        border-radius: 4px;
+        background: var(--field);
+      }
+
+      .preview span {
+        display: grid;
+        place-items: center;
+        aspect-ratio: 1;
+        min-width: 0;
+        background: var(--accent);
+        color: var(--fg);
+        font-size: 0.74rem;
+        font-weight: 820;
+        line-height: 1;
+      }
+
+      .preview .is-holiday {
+        background: var(--bg);
+        color: var(--muted);
+      }
+
+      @media (min-width: 520px) {
+        main {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+          align-items: start;
+        }
+
+        section {
+          align-self: start;
+        }
+
+        .span-all {
+          grid-column: 1 / -1;
+        }
+      }
+
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --bg: #111;
+          --fg: #f5f5f0;
+          --muted: #b5b9b4;
+          --line: #f5f5f0;
+          --field: #050505;
+          --accent: #263a32;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <section class="span-all">
+        <h2>Calendar</h2>
+        <label>
+          Locale
+          <input id="locale" type="text" autocomplete="language" spellcheck="false" />
+        </label>
+        <p class="hint">BCP 47 format, for example en-US, de-DE, fr-FR, or ja-JP.</p>
+      </section>
+
+      <section>
+        <h2>Week</h2>
+        <label>
+          Week starts on
+          <select id="weekStart"></select>
+        </label>
+        <label>
+          Weekly holiday
+          <select id="weeklyHoliday"></select>
+        </label>
+        <label>
+          Weekday labels
+          <select id="weekdayLabels">
+            <option value="auto">Auto</option>
+            <option value="show">Show</option>
+            <option value="hide">Hide</option>
+          </select>
+        </label>
+      </section>
+
+      <section>
+        <h2>Regions</h2>
+        <label>
+          Public holidays
+          <select id="holidayRegion"></select>
+        </label>
+        <label>
+          Alternate calendar
+          <select id="alternateCalendar"></select>
+        </label>
+      </section>
+
+      <section>
+        <h2>Style</h2>
+        <label>
+          Font
+          <select id="fontFamily">
+            <option value="system">System</option>
+            <option value="serif">Serif</option>
+            <option value="mono">Mono</option>
+          </select>
+        </label>
+        <label>
+          Font size
+          <select id="density">
+            <option value="compact">Compact</option>
+            <option value="regular">Regular</option>
+            <option value="large">Large</option>
+          </select>
+        </label>
+        <label class="toggle">
+          <input id="hideTitleBar" type="checkbox" />
+          <span>Hide title bar</span>
+        </label>
+        <label class="toggle">
+          <input id="shortMonthLabel" type="checkbox" />
+          <span>Short month label</span>
+        </label>
+      </section>
+
+      <section>
+        <h2>Preview</h2>
+        <div class="preview" id="preview" aria-hidden="true"></div>
+        <p class="status" id="status">Ready</p>
+      </section>
+    </main>
+
+    <script>
+      const defaults = {
+        locale: "en-US",
+        weekStart: "monday",
+        weeklyHoliday: "sunday",
+        holidayRegion: "off",
+        alternateCalendar: "off",
+        fontFamily: "system",
+        density: "regular",
+        weekdayLabels: "auto",
+        hideTitleBar: false,
+        shortMonthLabel: false,
+      };
+
+      const weekdays = [
+        ["sunday", "Sunday"],
+        ["monday", "Monday"],
+        ["tuesday", "Tuesday"],
+        ["wednesday", "Wednesday"],
+        ["thursday", "Thursday"],
+        ["friday", "Friday"],
+        ["saturday", "Saturday"],
+      ];
+
+      const holidayRegions = [
+        ["off", "Off"],
+        ["DE", "Germany"],
+        ["DE-BE", "Berlin"],
+        ["AT", "Austria"],
+        ["CH", "Switzerland"],
+        ["US", "United States"],
+        ["GB-ENG", "England"],
+        ["FR", "France"],
+        ["ES", "Spain"],
+        ["IT", "Italy"],
+        ["NL", "Netherlands"],
+        ["CA", "Canada"],
+        ["AU", "Australia"],
+      ];
+
+      const alternateCalendars = [
+        ["off", "Off"],
+        ["buddhist", "Buddhist"],
+        ["chinese", "Chinese"],
+        ["hebrew", "Hebrew"],
+        ["indian", "Indian"],
+        ["islamic", "Islamic"],
+        ["japanese", "Japanese"],
+        ["persian", "Persian"],
+      ];
+
+      const settingsKeys = Object.keys(defaults);
+      const controls = Object.fromEntries(
+        settingsKeys.map((key) => [key, document.getElementById(key)]),
+      );
+      const status = document.getElementById("status");
+      const preview = document.getElementById("preview");
+
+      let settings = { ...defaults };
+
+      function isObject(value) {
+        return Boolean(value) && typeof value === "object" && !Array.isArray(value);
+      }
+
+      function fillOptions(select, options) {
+        select.innerHTML = options
+          .map(([value, label]) => `<option value="${value}">${label}</option>`)
+          .join("");
+      }
+
+      function pluginSettingsFromPayload(payload) {
+        const meta = isObject(payload?.meta) ? payload.meta : {};
+        return isObject(meta.pluginSettings) ? meta.pluginSettings : {};
+      }
+
+      function normalizeSettings(nextSettings) {
+        const normalized = {
+          ...defaults,
+          ...settings,
+          ...nextSettings,
+        };
+        delete normalized.orientation;
+        return normalized;
+      }
+
+      function orderedWeekdays(weekStart) {
+        const startIndex = weekdays.findIndex(([value]) => value === weekStart);
+        const index = startIndex >= 0 ? startIndex : 0;
+        return [...weekdays.slice(index), ...weekdays.slice(0, index)];
+      }
+
+      function renderPreview() {
+        const ordered = orderedWeekdays(settings.weekStart);
+        const labels = ordered.map(([value, label]) => ({
+          value,
+          label: label.slice(0, 2),
+        }));
+        const days = labels.map((weekday, index) => ({
+          value: weekday.value,
+          label: String(index + 1),
+        }));
+
+        preview.innerHTML = [...labels, ...days]
+          .map(
+            (item) =>
+              `<span class="${item.value === settings.weeklyHoliday ? "is-holiday" : ""}">${item.label}</span>`,
+          )
+          .join("");
+      }
+
+      function applySettings(nextSettings) {
+        settings = normalizeSettings(nextSettings);
+
+        for (const key of settingsKeys) {
+          const control = controls[key];
+          if (!control) {
+            continue;
+          }
+
+          if (control.type === "checkbox") {
+            control.checked = settings[key] === true || settings[key] === "true";
+          } else {
+            control.value = settings[key] ?? defaults[key];
+          }
+        }
+
+        status.textContent = "Ready";
+        renderPreview();
+      }
+
+      function readSettingsFromControls() {
+        const nextSettings = { ...settings };
+
+        for (const key of settingsKeys) {
+          const control = controls[key];
+          if (!control) {
+            continue;
+          }
+
+          nextSettings[key] =
+            control.type === "checkbox" ? control.checked : control.value.trim();
+        }
+
+        return normalizeSettings(nextSettings);
+      }
+
+      function postSettings() {
+        settings = readSettingsFromControls();
+        status.textContent = "Updated";
+        renderPreview();
+
+        window.parent.postMessage(
+          {
+            type: "paperlesspaper:settings:update",
+            pluginSettings: settings,
+          },
+          "*",
+        );
+      }
+
+      function handleMessage(event) {
+        const message = event.data;
+        if (!isObject(message)) {
+          return;
+        }
+
+        const payload =
+          message.type === "INIT" || message.cmd === "message"
+            ? message.data
+            : message.payload;
+
+        if (isObject(payload)) {
+          applySettings(pluginSettingsFromPayload(payload));
+        } else if (isObject(message.pluginSettings)) {
+          applySettings(message.pluginSettings);
+        }
+      }
+
+      fillOptions(controls.weekStart, weekdays);
+      fillOptions(controls.weeklyHoliday, [["off", "Off"], ...weekdays]);
+      fillOptions(controls.holidayRegion, holidayRegions);
+      fillOptions(controls.alternateCalendar, alternateCalendars);
+
+      window.addEventListener("message", handleMessage);
+      for (const control of Object.values(controls)) {
+        control.addEventListener("change", postSettings);
+      }
+      controls.locale.addEventListener("input", postSettings);
+
+      applySettings(defaults);
+      window.parent.postMessage({ type: "paperlesspaper:settings:ready" }, "*");
+    </script>
+  </body>
+</html>

@@ -1,0 +1,18 @@
+{
+  "loading": "Caricamento World Cup 2026...",
+  "updated": "Aggiornato",
+  "from": "da",
+  "errorTitle": "Impossibile caricare World Cup 2026",
+  "apiFailed": "API non riuscita con {status}",
+  "brand": "World Cup 26",
+  "latestResults": "Ultimi risultati",
+  "upNext": "Prossimo",
+  "groupTable": "Classifica gruppo",
+  "recent": "Recenti",
+  "fixtures": "Partite",
+  "noMatches": "Nessuna partita ancora.",
+  "team": "Squadra",
+  "played": "G",
+  "goalDifference": "DR",
+  "points": "Pt"
+}

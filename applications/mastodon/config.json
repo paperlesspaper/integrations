@@ -1,0 +1,170 @@
+{
+  "name": "Mastodon",
+  "version": "0.1.0",
+  "description": "Shows a Mastodon home timeline, hashtag stream, or profile feed.",
+  "renderPage": "./render.html",
+  "icon": "./assets/icon.svg",
+  "nativeSettings": {
+    "color": "light",
+    "instanceUrl": "https://mastodon.social",
+    "accessToken": "",
+    "feedType": "hashtag",
+    "hashtag": "opensource",
+    "profileAcct": "@ScienceNews@mstdn.social",
+    "limit": 3,
+    "displayMode": "list",
+    "postIndex": 0,
+    "showMedia": true,
+    "dateFormat": "relative",
+    "hideReplies": true,
+    "showQrCode": true,
+    "qrCodeSize": 88,
+    "maxLinkLength": 42
+  },
+  "configVariants": [
+    {
+      "color": "light",
+      "instanceUrl": "https://mastodon.social",
+      "accessToken": "",
+      "feedType": "hashtag",
+      "hashtag": "opensource",
+      "profileAcct": "",
+      "limit": 3,
+      "displayMode": "list",
+      "postIndex": 0,
+      "showMedia": true,
+      "dateFormat": "relative",
+      "hideReplies": true,
+      "showQrCode": false,
+      "qrCodeSize": 88,
+      "maxLinkLength": 42,
+      "screenshots": {
+        "800x480": "./screenshots/mastodon-opensource-list-800x480-landscape.png",
+        "480x800": "./screenshots/mastodon-opensource-list-480x800-portrait.png"
+      }
+    },
+    {
+      "color": "blue-light",
+      "instanceUrl": "https://mastodon.social",
+      "accessToken": "",
+      "feedType": "profile",
+      "hashtag": "",
+      "profileAcct": "@ScienceNews@mstdn.social",
+      "limit": 8,
+      "displayMode": "single",
+      "postIndex": 0,
+      "showMedia": true,
+      "dateFormat": "absolute",
+      "hideReplies": true,
+      "showQrCode": true,
+      "qrCodeSize": 112,
+      "maxLinkLength": 36,
+      "screenshots": {
+        "800x480": "./screenshots/mastodon-science-profile-single-800x480-landscape.png",
+        "480x800": "./screenshots/mastodon-science-profile-single-480x800-portrait.png"
+      }
+    }
+  ],
+  "formSchema": {
+    "type": "object",
+    "properties": {
+      "instanceUrl": {
+        "type": "string",
+        "title": "Instance URL",
+        "default": "https://mastodon.social"
+      },
+      "accessToken": {
+        "type": "string",
+        "title": "Access token",
+        "default": ""
+      },
+      "feedType": {
+        "type": "string",
+        "title": "Feed type",
+        "enum": [
+          "home",
+          "hashtag",
+          "profile"
+        ],
+        "default": "hashtag"
+      },
+      "hashtag": {
+        "type": "string",
+        "title": "Hashtag",
+        "default": "opensource"
+      },
+      "profileAcct": {
+        "type": "string",
+        "title": "Profile account",
+        "default": "@ScienceNews@mstdn.social"
+      },
+      "limit": {
+        "type": "number",
+        "title": "Maximum posts",
+        "default": 3,
+        "minimum": 1,
+        "maximum": 12
+      },
+      "displayMode": {
+        "type": "string",
+        "title": "Display mode",
+        "enum": [
+          "list",
+          "single"
+        ],
+        "default": "list"
+      },
+      "postIndex": {
+        "type": "number",
+        "title": "Single post index",
+        "default": 0,
+        "minimum": 0
+      },
+      "showMedia": {
+        "type": "boolean",
+        "title": "Show media",
+        "default": true
+      },
+      "dateFormat": {
+        "type": "string",
+        "title": "Date format",
+        "enum": [
+          "relative",
+          "absolute"
+        ],
+        "default": "relative"
+      },
+      "hideReplies": {
+        "type": "boolean",
+        "title": "Hide replies",
+        "default": true
+      },
+      "showQrCode": {
+        "type": "boolean",
+        "title": "Show QR code",
+        "default": true
+      },
+      "qrCodeSize": {
+        "type": "number",
+        "title": "QR code size",
+        "default": 88,
+        "minimum": 64,
+        "maximum": 256
+      },
+      "maxLinkLength": {
+        "type": "number",
+        "title": "Maximum link length",
+        "default": 42,
+        "minimum": 0,
+        "maximum": 120
+      }
+    }
+  },
+  "language": [
+    "en",
+    "de",
+    "fr",
+    "es",
+    "it"
+  ]
+}

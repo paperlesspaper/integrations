@@ -1,0 +1,95 @@
+{
+  "name": "Apple Photos Gallery",
+  "version": "0.1.0",
+  "description": "Shows a random or numbered image from a public Apple Photos shared album.",
+  "renderPage": "./render.html",
+  "icon": "./assets/icon.png",
+  "nativeSettings": {
+    "albumUrl": "https://www.icloud.com/sharedalbum/de-de/#B1d5Uzl7VAmYnH",
+    "selection": "random",
+    "photoNumber": 1,
+    "fit": "cover",
+    "showMetadata": false,
+    "showCaptureDate": false
+  },
+  "configVariants": [
+    {
+      "albumUrl": "",
+      "selection": "number",
+      "photoNumber": 1,
+      "fit": "cover",
+      "showMetadata": false,
+      "showCaptureDate": false,
+      "screenshots": {
+        "800x480": "./screenshots/apple-photos-gallery-first-cover-800x480-landscape.png",
+        "480x800": "./screenshots/apple-photos-gallery-first-cover-480x800-portrait.png"
+      }
+    },
+    {
+      "albumUrl": "",
+      "selection": "number",
+      "photoNumber": 1,
+      "fit": "contain",
+      "showMetadata": true,
+      "showCaptureDate": true,
+      "screenshots": {
+        "800x480": "./screenshots/apple-photos-gallery-first-metadata-800x480-landscape.png",
+        "480x800": "./screenshots/apple-photos-gallery-first-metadata-480x800-portrait.png"
+      }
+    }
+  ],
+  "formSchema": {
+    "type": "object",
+    "required": [
+      "albumUrl"
+    ],
+    "properties": {
+      "albumUrl": {
+        "type": "string",
+        "title": "Album URL or token",
+        "description": "Public iCloud shared album URL, or the token from the share URL."
+      },
+      "selection": {
+        "type": "string",
+        "title": "Photo selection",
+        "enum": [
+          "random",
+          "number"
+        ],
+        "default": "random"
+      },
+      "photoNumber": {
+        "type": "number",
+        "title": "Photo number",
+        "description": "1-based position in the shared album.",
+        "default": 1
+      },
+      "fit": {
+        "type": "string",
+        "title": "Fit",
+        "enum": [
+          "contain",
+          "cover"
+        ],
+        "default": "cover"
+      },
+      "showMetadata": {
+        "type": "boolean",
+        "title": "Show metadata",
+        "default": false
+      },
+      "showCaptureDate": {
+        "type": "boolean",
+        "title": "Show capture date",
+        "default": false
+      }
+    }
+  },
+  "language": [
+    "en",
+    "de",
+    "fr",
+    "es",
+    "it"
+  ]
+}

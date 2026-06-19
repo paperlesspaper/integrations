@@ -1,0 +1,14 @@
+{
+  "loading": "Chargement...",
+  "updated": "Mis a jour",
+  "from": "depuis",
+  "errorTitle": "Impossible de charger Mastodon",
+  "apiFailed": "Echec de l'API avec {status}",
+  "title": "Fil",
+  "home": "Accueil",
+  "profile": "Profil",
+  "tag": "mot-cle {host}",
+  "boostedBy": "Boost par @{acct}",
+  "noPosts": "Aucun message",
+  "noPostsHint": "Rien ne correspond a ce fil."
+}

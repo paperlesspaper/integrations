@@ -1,0 +1,11 @@
+{
+  "loading": "Chargement...",
+  "updated": "Mis a jour",
+  "from": "depuis",
+  "errorTitle": "Impossible de charger Newsstand",
+  "apiFailed": "Echec de l'API avec {status}",
+  "title": "Kiosque",
+  "papers": "{count} journaux",
+  "imageAlt": "Une de {name} pour {date}",
+  "imageFailed": "Impossible de charger l'image de une."
+}

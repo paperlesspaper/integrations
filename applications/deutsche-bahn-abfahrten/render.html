@@ -1,0 +1,802 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="paperless:epd-optimize" content='{"intent":"readable"}' />
+    <title>Deutsche Bahn Abfahrten</title>
+    <link rel="stylesheet" href="/assets/paperless.css" />
+    <script src="/assets/paperless.iife.js"></script>
+    <style>
+      :root {
+        --db-red: #e2001a;
+        --db-yellow: #f2c94c;
+        --db-green: #15803d;
+        --db-blue: #1d4ed8;
+        --db-soft: #f1f1f1;
+      }
+
+      body.dark {
+        --db-soft: #171717;
+        --db-yellow: #d6ac2f;
+        --db-green: #56b476;
+        --db-blue: #7aa2ff;
+      }
+
+      .db-screen {
+        padding: 18px 20px;
+        gap: 14px;
+      }
+
+      .db-topbar {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        align-items: end;
+        gap: 16px;
+        padding-bottom: 10px;
+        border-bottom: 4px solid var(--pp-border);
+      }
+
+      .db-kicker,
+      .db-meta,
+      .db-label,
+      .db-foot,
+      .db-status {
+        margin: 0;
+        font-weight: 900;
+        text-transform: uppercase;
+      }
+
+      .db-brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        min-width: 0;
+      }
+
+      .db-mark {
+        display: inline-grid;
+        place-items: center;
+        width: 58px;
+        height: 36px;
+        flex: 0 0 auto;
+        background: var(--db-red);
+        color: #fff;
+        font-size: 1.35rem;
+        line-height: 1;
+        font-weight: 950;
+      }
+
+      .db-kicker {
+        color: var(--pp-muted);
+        font-size: 0.8rem;
+        line-height: 1;
+      }
+
+      .db-station {
+        margin: 4px 0 0;
+        min-width: 0;
+        font-size: clamp(2rem, 7.8vh, 4.6rem);
+        line-height: 0.9;
+        font-weight: 950;
+        letter-spacing: 0;
+      }
+
+      .db-meta {
+        color: var(--pp-muted);
+        font-size: 0.78rem;
+        line-height: 1.05;
+        text-align: right;
+      }
+
+      .db-board {
+        flex: 1;
+        min-height: 0;
+        display: grid;
+        grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+        gap: 16px;
+      }
+
+      .db-next,
+      .db-list-panel {
+        min-width: 0;
+        min-height: 0;
+        border: 3px solid var(--pp-border);
+        background: var(--db-soft);
+      }
+
+      .db-next {
+        display: grid;
+        grid-template-rows: auto minmax(0, 1fr) auto;
+        gap: 14px;
+        padding: 16px;
+      }
+
+      .db-label {
+        color: var(--pp-muted);
+        font-size: 0.82rem;
+        line-height: 1;
+      }
+
+      .db-next-main {
+        min-width: 0;
+        min-height: 0;
+        display: grid;
+        align-content: center;
+        gap: 14px;
+      }
+
+      .db-line-row {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        min-width: 0;
+      }
+
+      .db-line {
+        display: inline-grid;
+        place-items: center;
+        min-width: 4.3ch;
+        max-width: 8ch;
+        padding: 7px 10px;
+        background: var(--pp-fg);
+        color: var(--pp-bg);
+        font-size: clamp(1.2rem, 4vh, 2.2rem);
+        line-height: 1;
+        font-weight: 950;
+        text-transform: uppercase;
+        white-space: nowrap;
+        overflow: hidden;
+      }
+
+      .db-product {
+        margin: 0;
+        color: var(--pp-muted);
+        font-size: 0.86rem;
+        line-height: 1;
+        font-weight: 850;
+        text-transform: uppercase;
+      }
+
+      .db-time {
+        margin: 0;
+        font-size: clamp(4.8rem, 18vh, 9rem);
+        line-height: 0.82;
+        font-weight: 950;
+        letter-spacing: 0;
+      }
+
+      .db-direction {
+        margin: 0;
+        font-size: clamp(1.5rem, 5.3vh, 3.25rem);
+        line-height: 0.95;
+        font-weight: 950;
+      }
+
+      .db-next-detail {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        align-items: end;
+        gap: 12px;
+        padding-top: 12px;
+        border-top: 3px solid var(--pp-border);
+      }
+
+      .db-platform {
+        margin: 0;
+        font-size: 1.05rem;
+        line-height: 1;
+        font-weight: 900;
+      }
+
+      .db-platform strong {
+        font-size: 1.45rem;
+      }
+
+      .db-status {
+        justify-self: end;
+        padding: 7px 10px;
+        background: var(--db-green);
+        color: #fff;
+        font-size: 0.84rem;
+        line-height: 1;
+        white-space: nowrap;
+      }
+
+      .db-status.is-delay,
+      .db-status.is-platform {
+        background: var(--db-yellow);
+        color: #111;
+      }
+
+      .db-status.is-cancelled {
+        background: var(--db-red);
+        color: #fff;
+      }
+
+      .db-list-panel {
+        display: grid;
+        grid-template-rows: auto minmax(0, 1fr);
+        overflow: hidden;
+      }
+
+      .db-list-head,
+      .db-row {
+        display: grid;
+        grid-template-columns: 5.2rem 5.8rem minmax(0, 1fr) 4.4rem 5.4rem;
+        align-items: center;
+        gap: 9px;
+      }
+
+      .db-list-head {
+        padding: 9px 12px;
+        border-bottom: 3px solid var(--pp-border);
+        color: var(--pp-muted);
+        font-size: 0.68rem;
+        line-height: 1;
+        font-weight: 950;
+        text-transform: uppercase;
+      }
+
+      .db-list {
+        min-height: 0;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+      }
+
+      .db-row {
+        min-height: 0;
+        padding: 9px 12px;
+        border-bottom: 2px solid var(--pp-border);
+      }
+
+      .db-row:last-child {
+        border-bottom: 0;
+      }
+
+      .db-row.is-cancelled {
+        color: var(--pp-muted);
+        text-decoration: line-through;
+      }
+
+      .db-row-time,
+      .db-row-line,
+      .db-row-direction,
+      .db-row-platform,
+      .db-row-status {
+        min-width: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .db-row-time,
+      .db-row-line {
+        font-size: 1.18rem;
+        font-weight: 950;
+      }
+
+      .db-row-direction {
+        font-size: 1rem;
+        font-weight: 850;
+      }
+
+      .db-row-platform,
+      .db-row-status {
+        font-size: 0.82rem;
+        font-weight: 900;
+        text-align: right;
+      }
+
+      .db-row-status.is-delay,
+      .db-row-status.is-platform {
+        color: var(--db-blue);
+      }
+
+      .db-row-status.is-cancelled {
+        color: var(--db-red);
+      }
+
+      .db-empty {
+        display: grid;
+        place-items: center;
+        min-height: 0;
+        padding: 18px;
+        text-align: center;
+      }
+
+      .db-empty h2 {
+        margin: 0;
+        font-size: clamp(2rem, 8vh, 4.5rem);
+        line-height: 0.9;
+        font-weight: 950;
+      }
+
+      .db-empty p {
+        margin: 10px 0 0;
+        color: var(--pp-muted);
+        font-size: 1rem;
+        font-weight: 850;
+      }
+
+      .db-foot {
+        min-height: 1em;
+        color: var(--pp-muted);
+        font-size: 0.74rem;
+        line-height: 1;
+      }
+
+      @media (orientation: portrait) {
+        .db-screen {
+          padding: 18px;
+          gap: 12px;
+        }
+
+        .db-board {
+          grid-template-columns: 1fr;
+          grid-template-rows: minmax(0, 0.82fr) minmax(0, 1.18fr);
+          gap: 12px;
+        }
+
+        .db-topbar {
+          grid-template-columns: 1fr;
+          gap: 8px;
+          align-items: start;
+        }
+
+        .db-meta {
+          text-align: left;
+        }
+
+        .db-time {
+          font-size: clamp(4rem, 14vh, 7.3rem);
+        }
+
+        .db-list-head,
+        .db-row {
+          grid-template-columns: 4.6rem 5rem minmax(0, 1fr) 3.8rem;
+        }
+
+        .db-list-head .status-col,
+        .db-row-status {
+          display: none;
+        }
+      }
+
+      @media (max-width: 700px), (max-height: 560px) {
+        .db-screen {
+          padding: 12px;
+          gap: 9px;
+        }
+
+        .db-topbar {
+          padding-bottom: 7px;
+          border-bottom-width: 3px;
+        }
+
+        .db-mark {
+          width: 48px;
+          height: 30px;
+          font-size: 1.05rem;
+        }
+
+        .db-station {
+          font-size: clamp(1.6rem, 8vh, 3.2rem);
+        }
+
+        .db-board {
+          gap: 10px;
+        }
+
+        .db-next {
+          gap: 8px;
+          padding: 11px;
+        }
+
+        .db-next,
+        .db-list-panel {
+          border-width: 2px;
+        }
+
+        .db-next-detail {
+          padding-top: 8px;
+          border-top-width: 2px;
+        }
+
+        .db-line {
+          min-width: 3.6ch;
+          padding: 6px 8px;
+          font-size: 1.15rem;
+        }
+
+        .db-product,
+        .db-label,
+        .db-status,
+        .db-platform,
+        .db-foot {
+          font-size: 0.68rem;
+        }
+
+        .db-platform strong {
+          font-size: 1rem;
+        }
+
+        .db-time {
+          font-size: clamp(3.4rem, 18vh, 5.9rem);
+        }
+
+        .db-direction {
+          font-size: clamp(1.15rem, 5.8vh, 2.1rem);
+        }
+
+        .db-list-head,
+        .db-row {
+          grid-template-columns: 4.1rem 4.6rem minmax(0, 1fr) 3.3rem 4.4rem;
+          gap: 7px;
+          padding: 7px 9px;
+        }
+
+        .db-list-head {
+          font-size: 0.58rem;
+          border-bottom-width: 2px;
+        }
+
+        .db-row {
+          border-bottom-width: 1px;
+        }
+
+        .db-row-time,
+        .db-row-line {
+          font-size: 0.95rem;
+        }
+
+        .db-row-direction {
+          font-size: 0.8rem;
+        }
+
+        .db-row-platform,
+        .db-row-status {
+          font-size: 0.66rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="website-has-loading-element"></div>
+
+    <main id="app" class="pp-screen db-screen">
+      <p data-i18n="loading">Loading departures...</p>
+    </main>
+
+    <script>
+      (async function render() {
+        const {
+          waitForPayload,
+          getSettings,
+          getQuerySettings,
+          mergeSettings,
+          applyColorTheme,
+          escapeHtml,
+          fitAllText,
+          fitToScreen,
+          markReady,
+          markError,
+        } = window.PaperlessOpenIntegration;
+
+        const defaultMessages = {
+          "loading": "Loading...",
+          "updated": "Updated",
+          "from": "from",
+          "errorTitle": "Integration could not load",
+          "apiFailed": "API failed with {status}",
+          "departures": "Departures",
+          "nextMinutes": "Next {duration} min",
+          "noDepartures": "No departures",
+          "noDeparturesHint": "Try a longer lookahead window or another product filter.",
+          "nextDeparture": "Next departure",
+          "platform": "Platform",
+          "time": "Time",
+          "line": "Line",
+          "direction": "Direction",
+          "platformShort": "Plat.",
+          "status": "Status",
+          "clearBoard": "Clear board",
+          "noLaterDepartures": "No later departures in this window.",
+          "unavailable": "Departures unavailable",
+          "fallbackError": "Could not load Deutsche Bahn departures.",
+          "now": "Now",
+          "inOneMinute": "In 1 min",
+          "inMinutes": "In {minutes} min"
+};
+        let messages = defaultMessages;
+        let currentLanguage = "en";
+
+        function t(key, values = {}) {
+          const template =
+            typeof messages[key] === "string"
+              ? messages[key]
+              : defaultMessages[key] || key;
+          return template.replace(/\{(\w+)\}/g, (_match, name) =>
+            values[name] ?? "",
+          );
+        }
+
+        function applyStaticMessages(root = document) {
+          root.querySelectorAll("[data-i18n]").forEach((element) => {
+            element.textContent = t(element.dataset.i18n);
+          });
+        }
+
+        async function loadMessages(payload) {
+          const loader = window.PaperlessOpenIntegration.loadLanguageJson;
+          let result;
+
+          if (typeof loader === "function") {
+            result = await loader(payload);
+          } else {
+            const requested = String(payload?.meta?.language || "en").trim();
+            const requestedBase = requested.split("-")[0].toLowerCase();
+            const supported = ["en", "de", "fr", "es", "it"];
+            const language = supported.includes(requested)
+              ? requested
+              : supported.includes(requestedBase)
+                ? requestedBase
+                : "en";
+            const response = await fetch(`./languages/${language}.json`, {
+              cache: "no-store",
+            });
+
+            if (!response.ok) {
+              throw new Error(
+                `Could not load language JSON for ${language}: ${response.status}`,
+              );
+            }
+
+            result = {
+              language,
+              messages: await response.json(),
+            };
+          }
+
+          messages = { ...defaultMessages, ...result.messages };
+          currentLanguage = result.language || "en";
+          document.documentElement.lang = currentLanguage;
+          applyStaticMessages();
+          return result;
+        }
+
+        const defaults = {
+          color: "light",
+          stationName: "Berlin Hbf",
+          stationId: "",
+          duration: 90,
+          limit: 7,
+          products: "nationalExpress,national,regionalExpress,regional,suburban,subway,tram,bus",
+          locale: "de-DE",
+          timeZone: "Europe/Berlin",
+          showCancelled: true,
+          showPlatformChanges: true,
+        };
+
+        const app = document.getElementById("app");
+
+        function formatTime(value, locale, timeZone) {
+          const date = new Date(value);
+          if (Number.isNaN(date.getTime())) {
+            return "--:--";
+          }
+
+          return new Intl.DateTimeFormat(locale, {
+            timeZone,
+            hour: "2-digit",
+            minute: "2-digit",
+          }).format(date);
+        }
+
+        function formatUpdated(value, locale, timeZone) {
+          const date = new Date(value);
+          if (Number.isNaN(date.getTime())) {
+            return "";
+          }
+
+          return new Intl.DateTimeFormat(locale, {
+            timeZone,
+            hour: "2-digit",
+            minute: "2-digit",
+          }).format(date);
+        }
+
+        function minutesUntil(value) {
+          const date = new Date(value);
+          if (Number.isNaN(date.getTime())) {
+            return "";
+          }
+
+          const minutes = Math.round((date.getTime() - Date.now()) / 60000);
+          if (minutes <= 0) {
+            return t("now");
+          }
+
+          if (minutes === 1) {
+            return t("inOneMinute");
+          }
+
+          return t("inMinutes", { minutes });
+        }
+
+        function statusClass(departure, showPlatformChanges) {
+          if (departure.cancelled) {
+            return "is-cancelled";
+          }
+
+          if (showPlatformChanges && departure.platformChanged) {
+            return "is-platform";
+          }
+
+          if (Number(departure.delayMinutes) !== 0) {
+            return "is-delay";
+          }
+
+          return "";
+        }
+
+        function productLabel(value) {
+          const labels = {
+            nationalExpress: "ICE/IC",
+            national: "IC/EC",
+            regionalExpress: "RE",
+            regional: "RB",
+            suburban: "S-Bahn",
+            subway: "U-Bahn",
+            tram: "Tram",
+            bus: "Bus",
+            ferry: "Ferry",
+            taxi: "Taxi",
+          };
+
+          return labels[value] || value || "Departure";
+        }
+
+        function platformLabel(departure) {
+          if (!departure.platform) {
+            return "-";
+          }
+
+          if (departure.platformChanged) {
+            return `${departure.platform} (${departure.plannedPlatform})`;
+          }
+
+          return departure.platform;
+        }
+
+        function renderDepartureRows(departures, settings) {
+          return departures.map((departure) => {
+            const status = statusClass(departure, settings.showPlatformChanges);
+            return `
+              <li class="db-row ${departure.cancelled ? "is-cancelled" : ""}">
+                <span class="db-row-time">${escapeHtml(formatTime(departure.when, settings.locale, settings.timeZone))}</span>
+                <span class="db-row-line">${escapeHtml(departure.line)}</span>
+                <span class="db-row-direction">${escapeHtml(departure.direction)}</span>
+                <span class="db-row-platform">${escapeHtml(platformLabel(departure))}</span>
+                <span class="db-row-status ${status}">${escapeHtml(departure.status)}</span>
+              </li>
+            `;
+          }).join("");
+        }
+
+        function renderBoard(data, settings) {
+          const departures = Array.isArray(data.departures) ? data.departures : [];
+          const next = departures[0];
+          const updated = formatUpdated(data.updatedAt, settings.locale, settings.timeZone);
+          const stationName = data.station?.name || settings.stationName;
+
+          if (!next) {
+            app.innerHTML = `
+              <header class="db-topbar">
+                <div class="db-brand">
+                  <span class="db-mark">DB</span>
+                  <div>
+                    <p class="db-kicker">${escapeHtml(t("departures"))}</p>
+                    <h1 class="db-station db-fit">${escapeHtml(stationName)}</h1>
+                  </div>
+                </div>
+                <p class="db-meta">${escapeHtml(t("nextMinutes", { duration: data.duration || settings.duration }))}</p>
+              </header>
+
+              <section class="db-empty">
+                <div>
+                  <h2>${escapeHtml(t("noDepartures"))}</h2>
+                  <p>${escapeHtml(t("noDeparturesHint"))}</p>
+                </div>
+              </section>
+
+              <footer class="db-foot">${escapeHtml(t("updated"))} ${escapeHtml(updated)}</footer>
+            `;
+            return;
+          }
+
+          const nextStatus = statusClass(next, settings.showPlatformChanges);
+          const rows = renderDepartureRows(departures.slice(1), settings);
+
+          app.innerHTML = `
+            <header class="db-topbar">
+              <div class="db-brand">
+                <span class="db-mark">DB</span>
+                <div>
+                  <p class="db-kicker">${escapeHtml(t("departures"))}</p>
+                  <h1 class="db-station db-fit">${escapeHtml(stationName)}</h1>
+                </div>
+              </div>
+              <p class="db-meta">${escapeHtml(t("nextMinutes", { duration: data.duration || settings.duration }))}<br>${escapeHtml(minutesUntil(next.when))}</p>
+            </header>
+
+            <section class="db-board">
+              <article class="db-next">
+                <p class="db-label">${escapeHtml(t("nextDeparture"))}</p>
+                <div class="db-next-main">
+                  <div class="db-line-row">
+                    <span class="db-line">${escapeHtml(next.line)}</span>
+                    <p class="db-product">${escapeHtml(productLabel(next.product))}</p>
+                  </div>
+                  <p class="db-time">${escapeHtml(formatTime(next.when, settings.locale, settings.timeZone))}</p>
+                  <p class="db-direction db-fit">${escapeHtml(next.direction)}</p>
+                </div>
+                <div class="db-next-detail">
+                  <p class="db-platform">${escapeHtml(t("platform"))} <strong>${escapeHtml(platformLabel(next))}</strong></p>
+                  <p class="db-status ${nextStatus}">${escapeHtml(next.status)}</p>
+                </div>
+              </article>
+
+              <article class="db-list-panel">
+                <div class="db-list-head" aria-hidden="true">
+                  <span>${escapeHtml(t("time"))}</span>
+                  <span>${escapeHtml(t("line"))}</span>
+                  <span>${escapeHtml(t("direction"))}</span>
+                  <span>${escapeHtml(t("platformShort"))}</span>
+                  <span class="status-col">${escapeHtml(t("status"))}</span>
+                </div>
+                <ul class="db-list">
+                  ${rows || `<li class="db-empty"><div><h2>${escapeHtml(t("clearBoard"))}</h2><p>${escapeHtml(t("noLaterDepartures"))}</p></div></li>`}
+                </ul>
+              </article>
+            </section>
+
+            <footer class="db-foot">${escapeHtml(t("updated"))} ${escapeHtml(updated)} ${escapeHtml(t("from"))} ${escapeHtml(data.source || "departure API")}</footer>
+          `;
+        }
+
+        try {
+          const payload = await waitForPayload({ timeoutMs: 500 });
+          await loadMessages(payload);
+          const settings = mergeSettings(defaults, getSettings(payload), getQuerySettings());
+          applyColorTheme(settings.color, { defaultTheme: defaults.color });
+
+          const params = new URLSearchParams(settings);
+          const response = await fetch(`./api/data?${params.toString()}`, { cache: "no-store" });
+          if (!response.ok) {
+            throw new Error(`Departure API failed with ${response.status}`);
+          }
+
+          const data = await response.json();
+          renderBoard(data, settings);
+
+          await document.fonts?.ready;
+          fitAllText(".db-fit", { min: 16, max: 78, step: 2 });
+          fitToScreen(app);
+          markReady({ station: data.station?.name || settings.stationName });
+        } catch (error) {
+          markError(error);
+          app.innerHTML = `
+            <section class="db-empty">
+              <div>
+                <h2>${escapeHtml(t("unavailable"))}</h2>
+                <p>${escapeHtml(error.message || t("fallbackError"))}</p>
+              </div>
+            </section>
+          `;
+        }
+      })();
+    </script>
+  </body>
+</html>

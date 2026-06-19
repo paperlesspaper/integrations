@@ -1,0 +1,14 @@
+{
+  "loading": "Chargement...",
+  "updated": "Mis a jour",
+  "from": "depuis",
+  "errorTitle": "Impossible de charger les horaires",
+  "apiFailed": "Echec de l'API avec {status}",
+  "kicker": "Horaires",
+  "title": "Horaires d'ouverture",
+  "manual": "Manuel",
+  "today": "Aujourd'hui",
+  "thisWeek": "Cette semaine",
+  "unavailable": "Horaires indisponibles",
+  "googleMaps": "Google Maps"
+}

@@ -1,0 +1,11 @@
+{
+  "loading": "Loading...",
+  "updated": "Updated",
+  "from": "from",
+  "errorTitle": "Newsstand could not load",
+  "apiFailed": "API failed with {status}",
+  "title": "Newsstand",
+  "papers": "{count} papers",
+  "imageAlt": "{name} front page for {date}",
+  "imageFailed": "Front page image could not load."
+}

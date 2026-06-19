@@ -1,0 +1,13 @@
+{
+  "loading": "Caricamento...",
+  "updated": "Aggiornato",
+  "from": "da",
+  "errorTitle": "Impossibile caricare il meteo",
+  "apiFailed": "API non riuscita con {status}",
+  "title": "Meteo",
+  "current": "Attuale",
+  "feelsLike": "Percepita",
+  "wind": "Vento",
+  "forecast": "Previsioni",
+  "code": "Codice"
+}

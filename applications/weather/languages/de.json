@@ -1,0 +1,13 @@
+{
+  "loading": "Wird geladen...",
+  "updated": "Aktualisiert",
+  "from": "von",
+  "errorTitle": "Wetter konnte nicht geladen werden",
+  "apiFailed": "API fehlgeschlagen mit {status}",
+  "title": "Wetter",
+  "current": "Aktuell",
+  "feelsLike": "Gefuehlt",
+  "wind": "Wind",
+  "forecast": "Vorhersage",
+  "code": "Code"
+}

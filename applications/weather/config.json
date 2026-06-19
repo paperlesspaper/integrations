@@ -1,0 +1,59 @@
+{
+  "name": "Weather",
+  "version": "0.1.0",
+  "description": "Shows current weather and a three-day forecast from Open-Meteo.",
+  "renderPage": "./render.html",
+  "icon": "./assets/icon.png",
+  "nativeSettings": {
+    "city": "Berlin",
+    "latitude": 52.52,
+    "longitude": 13.405
+  },
+  "configVariants": [
+    {
+      "city": "Berlin",
+      "latitude": 52.52,
+      "longitude": 13.405,
+      "screenshots": {
+        "800x480": "./screenshots/weather-berlin-800x480-landscape.png",
+        "480x800": "./screenshots/weather-berlin-480x800-portrait.png"
+      }
+    },
+    {
+      "city": "New York",
+      "latitude": 40.7128,
+      "longitude": -74.006,
+      "screenshots": {
+        "800x480": "./screenshots/weather-new-york-800x480-landscape.png",
+        "480x800": "./screenshots/weather-new-york-480x800-portrait.png"
+      }
+    }
+  ],
+  "formSchema": {
+    "type": "object",
+    "properties": {
+      "city": {
+        "type": "string",
+        "title": "City",
+        "default": "Berlin"
+      },
+      "latitude": {
+        "type": "number",
+        "title": "Latitude",
+        "default": 52.52
+      },
+      "longitude": {
+        "type": "number",
+        "title": "Longitude",
+        "default": 13.405
+      }
+    }
+  },
+  "language": [
+    "en",
+    "de",
+    "fr",
+    "es",
+    "it"
+  ]
+}

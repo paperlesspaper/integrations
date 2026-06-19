@@ -1,0 +1,366 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Apple Photos Gallery</title>
+    <link rel="stylesheet" href="/assets/paperless.css">
+    <script src="/assets/paperless.iife.js"></script>
+    <style>
+      .photo-screen {
+        position: relative;
+        width: 100vw;
+        height: 100vh;
+        padding: 0;
+        background: #050505;
+        color: #fff;
+        overflow: hidden;
+      }
+
+      .photo-image {
+        width: 100%;
+        height: 100%;
+        display: block;
+        object-position: center;
+        background: #050505;
+      }
+
+      .photo-overlay {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        padding: clamp(14px, 3.4vw, 40px);
+        display: none;
+        gap: 8px;
+        flex-direction: column;
+        background: linear-gradient(to top, rgba(0, 0, 0, 0.72), rgba(0, 0, 0, 0));
+      }
+
+      .photo-overlay.is-visible {
+        display: flex;
+      }
+
+      .photo-caption {
+        max-width: 64ch;
+        margin: 0;
+        font-size: clamp(1.15rem, 2.4vw, 2.4rem);
+        line-height: 1.16;
+        font-weight: 760;
+        overflow-wrap: break-word;
+      }
+
+      .photo-meta {
+        margin: 0;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        color: rgba(255, 255, 255, 0.78);
+        font-size: clamp(0.82rem, 1.3vw, 1.18rem);
+        line-height: 1.25;
+      }
+
+      .photo-status {
+        position: absolute;
+        inset: 0;
+        display: grid;
+        place-items: center;
+        padding: 24px;
+        text-align: center;
+        color: #fff;
+      }
+
+      .photo-status h1 {
+        margin: 0 0 10px;
+        font-size: clamp(2rem, 5vw, 4rem);
+        line-height: 1.05;
+      }
+
+      .photo-status p {
+        max-width: 58ch;
+        margin: 0 auto;
+        color: rgba(255, 255, 255, 0.76);
+        font-size: clamp(1rem, 2vw, 1.4rem);
+        line-height: 1.35;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="photo-screen">
+      <img class="photo-image" id="photo-image" alt="">
+      <section class="photo-overlay" id="photo-overlay" aria-label="Photo details">
+        <p class="photo-caption" id="photo-caption"></p>
+        <p class="photo-meta" id="photo-meta"></p>
+      </section>
+      <section class="photo-status" id="photo-status">
+        <div>
+          <h1>${escapeHtml(t("title"))}</h1>
+          <p>${escapeHtml(t("loading"))}</p>
+        </div>
+      </section>
+    </main>
+    <script>
+      (async function render() {
+        const {
+          waitForPayload,
+          getSettings,
+          getQuerySettings,
+          mergeSettings,
+          escapeHtml,
+          markReady,
+          markError,
+        } = window.PaperlessOpenIntegration;
+
+        const defaultMessages = {
+          "loading": "Loading...",
+          "updated": "Updated",
+          "from": "from",
+          "errorTitle": "Apple Photos could not load",
+          "apiFailed": "Apple Photos API failed with {status}",
+          "title": "Apple Photos",
+          "imageFailed": "Resolved image URL could not be loaded.",
+          "imageAlt": "Apple Photos image {index} of {total}",
+          "photoCount": "Photo {index} / {total}"
+};
+        let messages = defaultMessages;
+        let currentLanguage = "en";
+
+        function t(key, values = {}) {
+          const template =
+            typeof messages[key] === "string"
+              ? messages[key]
+              : defaultMessages[key] || key;
+          return template.replace(/\{(\w+)\}/g, (_match, name) =>
+            values[name] ?? "",
+          );
+        }
+
+        function applyStaticMessages(root = document) {
+          root.querySelectorAll("[data-i18n]").forEach((element) => {
+            element.textContent = t(element.dataset.i18n);
+          });
+        }
+
+        async function loadMessages(payload) {
+          const loader = window.PaperlessOpenIntegration.loadLanguageJson;
+          let result;
+
+          if (typeof loader === "function") {
+            result = await loader(payload);
+          } else {
+            const requested = String(payload?.meta?.language || "en").trim();
+            const requestedBase = requested.split("-")[0].toLowerCase();
+            const supported = ["en", "de", "fr", "es", "it"];
+            const language = supported.includes(requested)
+              ? requested
+              : supported.includes(requestedBase)
+                ? requestedBase
+                : "en";
+            const response = await fetch(`./languages/${language}.json`, {
+              cache: "no-store",
+            });
+
+            if (!response.ok) {
+              throw new Error(
+                `Could not load language JSON for ${language}: ${response.status}`,
+              );
+            }
+
+            result = {
+              language,
+              messages: await response.json(),
+            };
+          }
+
+          messages = { ...defaultMessages, ...result.messages };
+          currentLanguage = result.language || "en";
+          document.documentElement.lang = currentLanguage;
+          applyStaticMessages();
+          return result;
+        }
+
+        function isEnabled(value) {
+          return value === true || value === "true" || value === "1";
+        }
+
+        function formatDate(value) {
+          if (!value) {
+            return "";
+          }
+
+          const date = new Date(value);
+          if (Number.isNaN(date.getTime())) {
+            return String(value);
+          }
+
+          return date.toLocaleDateString(currentLanguage || undefined, {
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+          });
+        }
+
+        function restoreICloudFragment(settings) {
+          const albumUrl = String(settings.albumUrl || "");
+          if (
+            albumUrl.includes("icloud.com/sharedalbum") &&
+            !albumUrl.includes("#") &&
+            window.location.hash.length > 1
+          ) {
+            return {
+              ...settings,
+              albumUrl: `${albumUrl}#${window.location.hash.slice(1)}`,
+            };
+          }
+
+          return settings;
+        }
+
+        async function readApiError(response) {
+          const text = await response.text();
+          if (!text) {
+            return t("apiFailed", { status: response.status });
+          }
+
+          try {
+            const parsed = JSON.parse(text);
+            if (parsed.error) {
+              return parsed.error;
+            }
+          } catch {
+            // The CLI returns plain text stacks for API errors.
+          }
+
+          return text.split("\n")[0].replace(/^Error:\s*/, "");
+        }
+
+        function showError(error) {
+          document.getElementById("photo-status").innerHTML = `
+            <div>
+              <h1>${escapeHtml(t("errorTitle"))}</h1>
+              <p>${escapeHtml(error.message)}</p>
+            </div>
+          `;
+          document.getElementById("photo-status").style.display = "grid";
+        }
+
+        function showLoading() {
+          document.getElementById("photo-status").innerHTML = `
+            <div>
+              <h1>${escapeHtml(t("title"))}</h1>
+              <p>${escapeHtml(t("loading"))}</p>
+            </div>
+          `;
+          document.getElementById("photo-status").style.display = "grid";
+        }
+
+        function payloadFromMessage(event) {
+          const message = event.data;
+          if (!message || typeof message !== "object") {
+            return null;
+          }
+
+          if (message.type !== "INIT" && message.cmd !== "message") {
+            return null;
+          }
+
+          return message.data && typeof message.data === "object" ? message.data : null;
+        }
+
+        const defaults = {
+          albumUrl: "",
+          selection: "random",
+          photoNumber: 1,
+          fit: "cover",
+          showMetadata: false,
+          showCaptureDate: false,
+        };
+        let renderRequest = 0;
+
+        async function renderPayload(payload) {
+          const request = ++renderRequest;
+          await loadMessages(payload);
+          showLoading();
+
+          const settings = restoreICloudFragment(
+            mergeSettings(defaults, getSettings(payload), getQuerySettings()),
+          );
+          const params = new URLSearchParams(settings);
+          const response = await fetch(`./api/data?${params.toString()}`, { cache: "no-store" });
+
+          if (!response.ok) {
+            throw new Error(await readApiError(response));
+          }
+
+          const photo = await response.json();
+          const image = document.getElementById("photo-image");
+          const status = document.getElementById("photo-status");
+          const overlay = document.getElementById("photo-overlay");
+          const caption = document.getElementById("photo-caption");
+          const meta = document.getElementById("photo-meta");
+          const showMetadata = isEnabled(settings.showMetadata);
+          const showCaptureDate = isEnabled(settings.showCaptureDate);
+          const date = formatDate(photo.createdAt);
+          const metaParts = [];
+
+          image.style.objectFit = settings.fit === "contain" ? "contain" : "cover";
+          image.alt = photo.caption || t("imageAlt", { index: photo.index, total: photo.total });
+
+          if (showMetadata) {
+            caption.innerHTML = escapeHtml(photo.caption || t("title"));
+            metaParts.push(t("photoCount", { index: photo.index, total: photo.total }));
+          } else {
+            caption.textContent = "";
+          }
+
+          if (showCaptureDate && date) {
+            metaParts.push(date);
+          }
+
+          meta.innerHTML = metaParts.map((part) => `<span>${escapeHtml(part)}</span>`).join("");
+          overlay.classList.toggle("is-visible", showMetadata || (showCaptureDate && date));
+
+          image.onload = () => {
+            if (request !== renderRequest) {
+              return;
+            }
+            status.style.display = "none";
+            markReady({ index: photo.index, total: photo.total });
+          };
+
+          image.onerror = () => {
+            if (request !== renderRequest) {
+              return;
+            }
+            const imageError = new Error(t("imageFailed"));
+            markError(imageError);
+            showError(imageError);
+          };
+          image.src = photo.imageUrl;
+        }
+
+        function handlePayloadMessage(event) {
+          const payload = payloadFromMessage(event);
+          if (!payload) {
+            return;
+          }
+
+          renderPayload(payload).catch((error) => {
+            markError(error);
+            showError(error);
+          });
+        }
+
+        try {
+          const payload = await waitForPayload({ timeoutMs: 500 });
+          await renderPayload(payload);
+        } catch (error) {
+          markError(error);
+          showError(error);
+        } finally {
+          window.addEventListener("message", handlePayloadMessage);
+        }
+      })();
+    </script>
+  </body>
+</html>

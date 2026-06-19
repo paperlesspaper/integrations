@@ -1,0 +1,14 @@
+{
+  "loading": "Cargando...",
+  "updated": "Actualizado",
+  "from": "desde",
+  "errorTitle": "No se pudo cargar Duden",
+  "apiFailed": "La API fallo con {status}",
+  "kicker": "Palabra del dia",
+  "meaning": "Significado",
+  "usage": "Uso",
+  "type": "Tipo",
+  "origin": "Origen",
+  "frequency": "Frecuencia",
+  "notAvailable": "N/D"
+}

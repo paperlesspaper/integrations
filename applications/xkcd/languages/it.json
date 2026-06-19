@@ -1,0 +1,8 @@
+{
+  "loading": "Caricamento...",
+  "updated": "Aggiornato",
+  "from": "da",
+  "errorTitle": "Impossibile caricare XKCD",
+  "apiFailed": "API non riuscita con {status}",
+  "title": "XKCD"
+}

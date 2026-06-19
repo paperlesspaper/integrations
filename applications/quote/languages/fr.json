@@ -1,0 +1,7 @@
+{
+  "loading": "Chargement...",
+  "updated": "Mis a jour",
+  "from": "depuis",
+  "errorTitle": "Impossible de charger la citation",
+  "apiFailed": "Echec de l'API avec {status}"
+}

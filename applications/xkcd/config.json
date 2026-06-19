@@ -1,0 +1,56 @@
+{
+  "name": "XKCD",
+  "version": "0.1.0",
+  "description": "Shows the latest, random, or offset XKCD comic.",
+  "renderPage": "./render.html",
+  "icon": "./assets/icon.png",
+  "nativeSettings": {
+    "kind": "latest",
+    "difference": 0
+  },
+  "configVariants": [
+    {
+      "kind": "latest",
+      "difference": 0,
+      "screenshots": {
+        "800x480": "./screenshots/xkcd-latest-800x480-landscape.png",
+        "480x800": "./screenshots/xkcd-latest-480x800-portrait.png"
+      }
+    },
+    {
+      "kind": "offset",
+      "difference": 42,
+      "screenshots": {
+        "800x480": "./screenshots/xkcd-offset-42-800x480-landscape.png",
+        "480x800": "./screenshots/xkcd-offset-42-480x800-portrait.png"
+      }
+    }
+  ],
+  "formSchema": {
+    "type": "object",
+    "properties": {
+      "kind": {
+        "type": "string",
+        "title": "Comic selection",
+        "enum": [
+          "latest",
+          "random",
+          "offset"
+        ],
+        "default": "latest"
+      },
+      "difference": {
+        "type": "number",
+        "title": "Offset from latest",
+        "default": 0
+      }
+    }
+  },
+  "language": [
+    "en",
+    "de",
+    "fr",
+    "es",
+    "it"
+  ]
+}

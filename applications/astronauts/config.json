@@ -1,0 +1,60 @@
+{
+  "name": "Astronauts",
+  "version": "0.1.0",
+  "description": "Shows the current people in space, grouped by spacecraft or station.",
+  "renderPage": "./render.html",
+  "icon": "./assets/icon.png",
+  "nativeSettings": {
+    "locationFilter": "",
+    "rosterLimit": 8,
+    "showPortraits": true
+  },
+  "configVariants": [
+    {
+      "locationFilter": "",
+      "rosterLimit": 8,
+      "showPortraits": true,
+      "screenshots": {
+        "800x480": "./screenshots/astronauts-all-crew-800x480-landscape.png",
+        "480x800": "./screenshots/astronauts-all-crew-480x800-portrait.png"
+      }
+    },
+    {
+      "locationFilter": "ISS",
+      "rosterLimit": 6,
+      "showPortraits": false,
+      "screenshots": {
+        "800x480": "./screenshots/astronauts-iss-compact-800x480-landscape.png",
+        "480x800": "./screenshots/astronauts-iss-compact-480x800-portrait.png"
+      }
+    }
+  ],
+  "formSchema": {
+    "type": "object",
+    "properties": {
+      "locationFilter": {
+        "type": "string",
+        "title": "Location filter",
+        "description": "Optional station or spacecraft name, for example ISS.",
+        "default": ""
+      },
+      "rosterLimit": {
+        "type": "number",
+        "title": "Roster limit",
+        "default": 8
+      },
+      "showPortraits": {
+        "type": "boolean",
+        "title": "Show portraits",
+        "default": true
+      }
+    }
+  },
+  "language": [
+    "en",
+    "de",
+    "fr",
+    "es",
+    "it"
+  ]
+}

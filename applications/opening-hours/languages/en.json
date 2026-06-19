@@ -1,0 +1,14 @@
+{
+  "loading": "Loading...",
+  "updated": "Updated",
+  "from": "from",
+  "errorTitle": "Opening hours could not load",
+  "apiFailed": "API failed with {status}",
+  "kicker": "Opening hours",
+  "title": "Opening Hours",
+  "manual": "Manual",
+  "today": "Today",
+  "thisWeek": "This week",
+  "unavailable": "Hours unavailable",
+  "googleMaps": "Google Maps"
+}

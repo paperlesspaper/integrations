@@ -1,0 +1,8 @@
+{
+  "loading": "Caricamento...",
+  "updated": "Aggiornato",
+  "from": "da",
+  "errorTitle": "Impossibile caricare il calendario",
+  "apiFailed": "API non riuscita con {status}",
+  "title": "Calendario"
+}

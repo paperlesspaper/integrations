@@ -1,0 +1,719 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Astronauts</title>
+    <link rel="stylesheet" href="/assets/paperless.css" />
+    <script src="/assets/paperless.iife.js"></script>
+    <style>
+      .astronauts-screen {
+        padding: 0;
+        gap: 0;
+      }
+
+      .astronauts-main {
+        flex: 1;
+        gap: 0;
+        min-height: 0;
+        grid-template-columns: minmax(220px, 0.78fr) minmax(0, 1.6fr);
+        align-items: stretch;
+      }
+
+      .count-panel {
+        display: flex;
+        min-height: 0;
+        flex-direction: column;
+        justify-content: space-between;
+        border-right: 2px solid currentColor;
+        overflow: hidden;
+      }
+
+      .count-block,
+      .locations-block,
+      .crew-heading,
+      .person {
+        padding: 18px;
+      }
+
+      .count-block,
+      .crew-heading {
+        border-bottom: 2px solid currentColor;
+      }
+
+      .locations-block {
+        height: 0;
+        min-height: 0;
+        display: flex;
+        flex: 1;
+        flex-direction: column;
+        gap: 10px;
+        overflow: hidden;
+      }
+
+      .count-value {
+        margin: 0;
+        font-size: 11em;
+        line-height: 0.82;
+        font-weight: 850;
+        letter-spacing: 0;
+      }
+
+      .count-label {
+        margin: 0;
+        font-size: 1.28em;
+        line-height: 1.08;
+        font-weight: 760;
+      }
+
+      .location-list {
+        display: grid;
+        min-height: 0;
+        flex: 1;
+        grid-auto-rows: auto;
+      }
+
+      .location-card {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        gap: 10px;
+        align-items: center;
+        padding: 10px 0;
+        border-bottom: 2px solid currentColor;
+      }
+
+      .location-card:last-child {
+        border-bottom: 0;
+      }
+
+      .location-name {
+        min-width: 0;
+        margin: 0;
+        font-size: 0.86em;
+        line-height: 1.05;
+        font-weight: 800;
+        overflow-wrap: break-word;
+      }
+
+      .location-countries {
+        margin: 2px 0 0;
+        color: var(--pp-muted);
+        font-size: 0.56em;
+        line-height: 1.2;
+      }
+
+      .location-count {
+        font-size: 2.2em;
+        line-height: 0.9;
+        font-weight: 850;
+      }
+
+      .location-copy {
+        min-width: 0;
+        overflow: hidden;
+      }
+
+      .crew-panel {
+        min-height: 0;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .crew-heading {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 12px;
+      }
+
+      .crew-heading h2 {
+        margin: 0;
+        font-size: 1.8em;
+        line-height: 1;
+      }
+
+      .crew-grid {
+        flex: 1;
+        height: 0;
+        min-height: 0;
+        overflow: hidden;
+      }
+
+      .crew-list {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        grid-auto-rows: auto;
+        gap: 0;
+      }
+
+      .person {
+        min-width: 0;
+        min-height: 0;
+        display: grid;
+        grid-template-columns: 5.3em minmax(0, 1fr);
+        gap: 0.7em;
+        align-items: center;
+        border-bottom: 2px solid currentColor;
+        border-right: 2px solid currentColor;
+      }
+
+      .crew-list .person:nth-child(even) {
+        border-right: 0;
+      }
+
+      .crew-list .person:last-child,
+      .crew-list .person:nth-last-child(2):nth-child(odd) {
+        border-bottom: 0;
+      }
+
+      .person-copy {
+        min-width: 0;
+      }
+
+      .person-photo,
+      .person-initials {
+        width: 5em;
+        height: 5em;
+        border: 2px solid currentColor;
+        border-radius: 50%;
+        background: var(--pp-fg);
+      }
+
+      .person-photo {
+        display: block;
+        object-fit: cover;
+        filter: contrast(1.12);
+      }
+
+      .person-photo.is-hidden {
+        display: none;
+      }
+
+      .person-initials {
+        display: grid;
+        place-items: center;
+
+        font-weight: 850;
+        color: var(--pp-bg);
+      }
+
+      .person-initials.is-hidden {
+        display: none;
+      }
+
+      .person-name {
+        margin: 0;
+        font-size: 1.25em;
+        line-height: 1.06;
+        font-weight: 820;
+        overflow-wrap: break-word;
+      }
+
+      .person-meta {
+        margin: 4px 0 0;
+        color: var(--pp-muted);
+        font-size: 0.72em;
+        line-height: 1.24;
+        overflow-wrap: break-word;
+      }
+
+      .empty {
+        height: 100%;
+        display: grid;
+        place-items: center;
+        grid-column: 1 / -1;
+        text-align: center;
+        color: var(--pp-muted);
+        font-size: 1.3em;
+        line-height: 1.25;
+      }
+
+      @media (max-width: 700px), (orientation: portrait) {
+        .astronauts-screen {
+          padding: 0;
+          gap: 0;
+        }
+
+        .astronauts-main {
+          grid-template-columns: 1fr;
+          grid-template-rows: auto minmax(0, 1fr);
+          gap: 0;
+        }
+
+        .count-panel {
+          display: grid;
+          grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+          gap: 0;
+          align-items: center;
+          border-right: 0;
+          border-bottom: 2px solid currentColor;
+        }
+
+        .count-value {
+          font-size: 8em;
+        }
+
+        .count-label {
+          font-size: 1.32em;
+        }
+
+        .count-block,
+        .locations-block,
+        .crew-heading {
+          padding: 12px;
+        }
+
+        .locations-block {
+          height: auto;
+        }
+
+        .person {
+          padding: 16px 10px;
+        }
+
+        .location-list {
+          display: none;
+        }
+
+        .crew-heading h2 {
+          font-size: 2.15em;
+        }
+
+        .crew-list {
+          grid-template-columns: 1fr;
+        }
+
+        .person {
+          grid-template-columns: 3.5em minmax(0, 1fr);
+          gap: 8px;
+          border-right: 0;
+          border-bottom: 2px solid currentColor;
+        }
+
+        .crew-list .person:nth-last-child(2):nth-child(odd) {
+          border-bottom: 2px solid currentColor;
+        }
+
+        .crew-list .person:last-child {
+          border-bottom: 0;
+        }
+
+        .person-photo,
+        .person-initials {
+          width: 3em;
+          height: 3em;
+        }
+
+        .person-initials {
+          font-size: 1em;
+        }
+
+        .person-name {
+          font-size: 1.3em;
+          line-height: 1;
+        }
+
+        .person-meta {
+          margin-top: 2px;
+          font-size: 0.68em;
+          line-height: 1.12;
+        }
+      }
+
+      @media (min-width: 1000px) and (min-height: 900px) {
+        .crew-grid {
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+
+        .person {
+          grid-template-columns: 72px minmax(0, 1fr);
+        }
+
+        .crew-list .person:nth-child(n) {
+          border-right: 2px solid currentColor;
+          border-bottom: 2px solid currentColor;
+        }
+
+        .crew-list .person:nth-child(3n) {
+          border-right: 0;
+        }
+
+        .crew-list .person:last-child,
+        .crew-list .person:nth-last-child(2):nth-child(3n + 1),
+        .crew-list .person:nth-last-child(3):nth-child(3n + 1),
+        .crew-list .person:nth-last-child(2):nth-child(3n + 2) {
+          border-bottom: 0;
+        }
+
+        .person-photo,
+        .person-initials {
+          width: 72px;
+          height: 72px;
+        }
+
+        .person-name {
+          font-size: 1.35em;
+        }
+
+        .person-meta {
+          font-size: 0.92em;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="pp-screen astronauts-screen">
+      <section class="pp-grid astronauts-main">
+        <section class="count-panel">
+          <div class="count-block">
+            <p class="pp-metric-label" data-i18n="peopleInSpace">People in space</p>
+            <p class="count-value pp-fit pp-fit-count" id="count">--</p>
+          </div>
+          <div class="locations-block">
+            <p class="count-label" id="count-label">Loading roster</p>
+            <div class="location-list" id="locations"></div>
+          </div>
+        </section>
+
+        <section class="crew-panel">
+          <div class="crew-heading">
+            <h2 id="crew-heading">Crew roster</h2>
+            <p class="pp-subtitle" id="filter-label"></p>
+          </div>
+          <div class="crew-grid">
+            <div class="crew-list" id="crew"></div>
+          </div>
+        </section>
+      </section>
+    </main>
+
+    <script>
+      (async function render() {
+        const {
+          waitForPayload,
+          getSettings,
+          getQuerySettings,
+          mergeSettings,
+          escapeHtml,
+          fitText,
+          fitToScreen,
+          markReady,
+          markError,
+          loadLanguageJson,
+        } = window.PaperlessOpenIntegration;
+
+        function isEnabled(value) {
+          return value === true || value === "true" || value === "1";
+        }
+
+        function initials(name) {
+          return (
+            String(name || "")
+              .split(/\s+/)
+              .filter(Boolean)
+              .slice(0, 2)
+              .map((part) => part[0])
+              .join("")
+              .toUpperCase() || "A"
+          );
+        }
+
+        const defaultMessages = {
+          peopleInSpace: "People in space",
+          loadingRoster: "Loading roster",
+          crewRoster: "Crew roster",
+          empty: "No crew matched this location filter.",
+          countAll: "humans are off Earth right now",
+          countMatched: "{count} of {total} matched",
+          filtered: "Filtered: {value}",
+          missionDays: "{count} mission days",
+          launched: "Launched {date}",
+          errorTitle: "Astronauts could not load",
+        };
+        let messages = defaultMessages;
+        let currentLanguage = "en";
+
+        function t(key, values = {}) {
+          const template =
+            typeof messages[key] === "string"
+              ? messages[key]
+              : defaultMessages[key] || key;
+          return template.replace(/\{(\w+)\}/g, (_match, name) =>
+            values[name] ?? "",
+          );
+        }
+
+        async function loadMessages(payload) {
+          if (typeof loadLanguageJson === "function") {
+            const result = await loadLanguageJson(payload);
+            return {
+              language: result.language,
+              messages: { ...defaultMessages, ...result.messages },
+            };
+          }
+
+          const requested = String(payload?.meta?.language || "en").trim();
+          const requestedBase = requested.split("-")[0].toLowerCase();
+          const supported = ["en", "de", "fr", "es", "it"];
+          const language = supported.includes(requested)
+            ? requested
+            : supported.includes(requestedBase)
+              ? requestedBase
+              : "en";
+          const response = await fetch(`./languages/${language}.json`, {
+            cache: "no-store",
+          });
+
+          if (!response.ok) {
+            throw new Error(
+              `Could not load language JSON for ${language}: ${response.status}`,
+            );
+          }
+
+          return {
+            language,
+            messages: { ...defaultMessages, ...(await response.json()) },
+          };
+        }
+
+        function formatDate(value) {
+          if (!value) {
+            return "";
+          }
+
+          const date = new Date(value);
+          if (Number.isNaN(date.getTime())) {
+            return "";
+          }
+
+          return date.toLocaleDateString(currentLanguage || undefined, {
+            month: "short",
+            day: "numeric",
+            year: "numeric",
+          });
+        }
+
+        function countrySummary(countries) {
+          return countries
+            .slice(0, 3)
+            .map((item) => `${item.country} ${item.count}`)
+            .join(" / ");
+        }
+
+        function personMeta(person) {
+          const parts = [person.country, person.location];
+          if (Number.isFinite(Number(person.missionDays))) {
+            parts.push(t("missionDays", { count: person.missionDays }));
+          } else {
+            const launched = formatDate(person.launchDate);
+            if (launched) {
+              parts.push(t("launched", { date: launched }));
+            }
+          }
+          return parts.filter(Boolean).join(" / ");
+        }
+
+        function imageLoadPromises(root) {
+          const images = Array.from(root.querySelectorAll("img"));
+          if (!images.length) {
+            return Promise.resolve();
+          }
+
+          const ready = images.map((image) => {
+            if (image.complete) {
+              return Promise.resolve();
+            }
+
+            return new Promise((resolve) => {
+              image.onload = resolve;
+              image.onerror = resolve;
+            });
+          });
+
+          return Promise.race([
+            Promise.allSettled(ready),
+            new Promise((resolve) => setTimeout(resolve, 1500)),
+          ]);
+        }
+
+        function renderLocations(locations) {
+          if (!locations.length) {
+            return "";
+          }
+
+          return locations
+            .map(
+              (location) => `
+            <section class="location-card">
+              <div class="location-copy">
+                <p class="location-name">${escapeHtml(location.location)}</p>
+                <p class="location-countries">${escapeHtml(countrySummary(location.countries))}</p>
+              </div>
+              <strong class="location-count">${location.count}</strong>
+            </section>
+          `,
+            )
+            .join("");
+        }
+
+        function renderPeople(people, showPortraits) {
+          if (!people.length) {
+            return `<div class="empty">${escapeHtml(t("empty"))}</div>`;
+          }
+
+          return people
+            .map((person) => {
+              const photo =
+                showPortraits && person.biophoto
+                  ? `<img class="person-photo" src="${escapeHtml(person.biophoto)}" alt="">`
+                  : "";
+              const fallbackClass = photo
+                ? "person-initials is-hidden"
+                : "person-initials";
+              return `
+              <section class="person">
+                <div>
+                  ${photo}
+                  <span class="${fallbackClass}" aria-hidden="true">${escapeHtml(initials(person.name))}</span>
+                </div>
+                <div class="person-copy">
+                  <p class="person-name">${escapeHtml(person.name)}</p>
+                  <p class="person-meta">${escapeHtml(personMeta(person))}</p>
+                </div>
+              </section>
+            `;
+            })
+            .join("");
+        }
+
+        function attachImageFallbacks(root) {
+          root.querySelectorAll(".person-photo").forEach((image) => {
+            image.addEventListener("error", () => {
+              image.classList.add("is-hidden");
+              const fallback =
+                image.parentElement.querySelector(".person-initials");
+              if (fallback) {
+                fallback.classList.remove("is-hidden");
+              }
+            });
+          });
+        }
+
+        function revealMissingImageFallbacks(root) {
+          root.querySelectorAll(".person-photo").forEach((image) => {
+            if (image.complete && image.naturalWidth > 0) {
+              return;
+            }
+
+            image.classList.add("is-hidden");
+            const fallback =
+              image.parentElement.querySelector(".person-initials");
+            if (fallback) {
+              fallback.classList.remove("is-hidden");
+            }
+          });
+        }
+
+        function fitDynamicText() {
+          const count = document.getElementById("count");
+          const countLabel = document.getElementById("count-label");
+          const locationsBlock = document.querySelector(".locations-block");
+          const crewGrid = document.querySelector(".crew-grid");
+          const crewList = document.querySelector(".crew-list");
+          const compact = window.matchMedia(
+            "(max-width: 700px), (orientation: portrait)",
+          ).matches;
+
+          fitText(count, {
+            min: 72,
+            max: compact ? 230 : 260,
+            step: 2,
+            tolerance: 4,
+            fitParent: document.querySelector(".count-block"),
+          });
+
+          if (!compact) {
+            fitText(locationsBlock, {
+              min: 8,
+              max: 24,
+              step: 1,
+              tolerance: 4,
+              lineBreak: true,
+              fitParent: document.querySelector(".locations-block"),
+            });
+          }
+
+          fitText(crewList, {
+            min: 9,
+            max: compact ? 45 : 50,
+            step: 1,
+            tolerance: 4,
+            lineBreak: true,
+            fitParent: crewGrid,
+          });
+        }
+
+        try {
+          const defaults = {
+            locationFilter: "",
+            rosterLimit: 8,
+            showPortraits: true,
+          };
+          const payload = await waitForPayload({ timeout: 300 });
+          const languageBundle = await loadMessages(payload);
+          messages = languageBundle.messages;
+          currentLanguage = languageBundle.language;
+          document.documentElement.lang = currentLanguage;
+          document.querySelector('[data-i18n="peopleInSpace"]').textContent =
+            t("peopleInSpace");
+          document.getElementById("count-label").textContent =
+            t("loadingRoster");
+          document.getElementById("crew-heading").textContent =
+            t("crewRoster");
+          const settings = mergeSettings(
+            defaults,
+            getSettings(payload),
+            getQuerySettings(),
+          );
+          const params = new URLSearchParams(settings);
+          const response = await fetch(`./api/data?${params.toString()}`, {
+            cache: "no-store",
+          });
+
+          if (!response.ok) {
+            throw new Error(`Astronauts API failed with ${response.status}`);
+          }
+
+          const data = await response.json();
+          const showPortraits = isEnabled(settings.showPortraits);
+          const count = Number(data.count || 0);
+          const total = Number(data.totalCount || data.allPeopleCount || count);
+          const crew = document.getElementById("crew");
+
+          document.getElementById("count").textContent = count;
+          document.getElementById("count-label").textContent =
+            count === total
+              ? t("countAll")
+              : t("countMatched", { count, total });
+          document.getElementById("filter-label").textContent =
+            data.locationFilter ? t("filtered", { value: data.locationFilter }) : "";
+          document.getElementById("locations").innerHTML = renderLocations(
+            data.locations || [],
+          );
+          crew.innerHTML = renderPeople(data.people || [], showPortraits);
+
+          attachImageFallbacks(crew);
+          await imageLoadPromises(crew);
+          revealMissingImageFallbacks(crew);
+
+          fitDynamicText();
+          fitToScreen();
+          markReady({ count, shown: (data.people || []).length });
+        } catch (error) {
+          markError(error);
+          document.body.innerHTML = `<main class="pp-screen"><h1 class="pp-title pp-error">${escapeHtml(t("errorTitle"))}</h1><p>${escapeHtml(error.message)}</p></main>`;
+        }
+      })();
+    </script>
+  </body>
+</html>

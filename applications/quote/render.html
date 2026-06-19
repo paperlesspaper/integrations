@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Quote</title>
+    <link rel="stylesheet" href="/assets/paperless.css" />
+    <script src="/assets/paperless.iife.js"></script>
+    <style>
+      .quote-screen {
+        justify-content: center;
+        gap: 24px;
+      }
+
+      .quote-card {
+        width: 100%;
+        height: min(74vh, calc(100vh - 7.5em));
+        max-width: 100%;
+        margin: 0 auto;
+        border: 0;
+        box-shadow: none;
+        background: transparent;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+      }
+
+      .quote-text {
+        margin: 0;
+        width: 100%;
+        font-size: 8.6rem;
+        line-height: 1.04;
+        font-weight: 750;
+        letter-spacing: 0;
+      }
+
+      .quote-author {
+        max-width: 100%;
+        margin: 0;
+        font-size: 2.3rem;
+        line-height: 1.15;
+        overflow-wrap: break-word;
+      }
+
+      @media (min-width: 1000px) and (min-height: 900px) {
+        .quote-author {
+          font-size: 2.6rem;
+        }
+      }
+
+      @media (max-width: 700px), (max-height: 560px) {
+        .quote-screen {
+          padding: 1.25em;
+        }
+
+        .quote-card {
+          height: min(70vh, calc(100vh - 5.5em));
+        }
+
+        .quote-text {
+          font-size: 4.2rem;
+        }
+
+        .quote-author {
+          font-size: 1.35rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="pp-screen quote-screen">
+      <section class="quote-card">
+        <p class="quote-text pp-fit pp-fit-quote" id="quote" data-i18n="loading">Loading...</p>
+      </section>
+      <p class="quote-author" id="author"></p>
+      <footer class="pp-footer" id="updated"></footer>
+    </main>
+    <script>
+      (async function render() {
+        const {
+          waitForPayload,
+          getSettings,
+          getQuerySettings,
+          mergeSettings,
+          escapeHtml,
+          fitHyphenatedText,
+          fitToScreen,
+          markReady,
+          markError,
+        } = window.PaperlessOpenIntegration;
+
+        const defaultMessages = {
+          "loading": "Loading...",
+          "updated": "Updated",
+          "from": "from",
+          "errorTitle": "Quote could not load",
+          "apiFailed": "API failed with {status}"
+};
+        let messages = defaultMessages;
+        let currentLanguage = "en";
+
+        function t(key, values = {}) {
+          const template =
+            typeof messages[key] === "string"
+              ? messages[key]
+              : defaultMessages[key] || key;
+          return template.replace(/\{(\w+)\}/g, (_match, name) =>
+            values[name] ?? "",
+          );
+        }
+
+        function applyStaticMessages(root = document) {
+          root.querySelectorAll("[data-i18n]").forEach((element) => {
+            element.textContent = t(element.dataset.i18n);
+          });
+        }
+
+        async function loadMessages(payload) {
+          const loader = window.PaperlessOpenIntegration.loadLanguageJson;
+          let result;
+
+          if (typeof loader === "function") {
+            result = await loader(payload);
+          } else {
+            const requested = String(payload?.meta?.language || "en").trim();
+            const requestedBase = requested.split("-")[0].toLowerCase();
+            const supported = ["en", "de", "fr", "es", "it"];
+            const language = supported.includes(requested)
+              ? requested
+              : supported.includes(requestedBase)
+                ? requestedBase
+                : "en";
+            const response = await fetch(`./languages/${language}.json`, {
+              cache: "no-store",
+            });
+
+            if (!response.ok) {
+              throw new Error(
+                `Could not load language JSON for ${language}: ${response.status}`,
+              );
+            }
+
+            result = {
+              language,
+              messages: await response.json(),
+            };
+          }
+
+          messages = { ...defaultMessages, ...result.messages };
+          currentLanguage = result.language || "en";
+          document.documentElement.lang = currentLanguage;
+          applyStaticMessages();
+          return result;
+        }
+
+        try {
+          const payload = await waitForPayload({ timeout: 300 });
+          await loadMessages(payload);
+          const settings = mergeSettings(
+            getSettings(payload),
+            getQuerySettings(),
+          );
+          const params = new URLSearchParams(settings);
+          const response = await fetch(`./api/data?${params.toString()}`, {
+            cache: "no-store",
+          });
+
+          if (!response.ok) {
+            throw new Error(`Quote API failed with ${response.status}`);
+          }
+
+          const data = await response.json();
+          document.getElementById("quote").innerHTML =
+            `&ldquo;${escapeHtml(data.quote)}&rdquo;`;
+          document.getElementById("author").innerHTML =
+            `- ${escapeHtml(data.author)}`;
+          document.getElementById("updated").textContent = new Date(
+            data.updatedAt,
+          ).toLocaleDateString();
+
+          fitHyphenatedText(document.getElementById("quote"), {
+            min: 28,
+            max: 240,
+            step: 2,
+            tolerance: 20,
+            lineBreak: "balance",
+            fitParent: document.querySelector(".quote-card"),
+          });
+          fitToScreen();
+          markReady({ author: data.author });
+        } catch (error) {
+          markError(error);
+          document.body.innerHTML = `<main class="pp-screen"><h1 class="pp-title pp-error">${escapeHtml(t("errorTitle"))}</h1><p>${error.message}</p></main>`;
+        }
+      })();
+    </script>
+  </body>
+</html>

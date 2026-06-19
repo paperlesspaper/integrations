@@ -1,0 +1,247 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Weather</title>
+    <link rel="stylesheet" href="/assets/paperless.css">
+    <script src="/assets/paperless.iife.js"></script>
+    <style>
+      .weather-layout {
+        justify-content: space-between;
+        gap: 18px;
+      }
+
+      .weather-main {
+        flex: 1;
+        align-items: stretch;
+        grid-template-rows: minmax(0, 1.35fr) minmax(0, 0.8fr) minmax(0, 1fr);
+        min-height: 0;
+      }
+
+      .weather-detail {
+        font-size: 3rem;
+        margin: 0;
+        line-height: 1;
+        font-weight: 800;
+      }
+
+      .forecast-day {
+        font-size: 1.35rem;
+      }
+
+      .weather-card {
+        min-width: 0;
+        min-height: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+
+      .weather-city {
+        max-width: 11ch;
+        font-size: 5rem;
+      }
+
+      .weather-current {
+        font-size: 8rem;
+      }
+
+      .weather-forecast {
+        justify-content: start;
+      }
+
+      @media (max-width: 700px), (max-height: 560px) {
+        .weather-layout {
+          padding: 1.25em;
+          gap: 10px;
+        }
+
+        .weather-main {
+          grid-template-rows: minmax(0, 1.05fr) minmax(0, 0.65fr) minmax(0, 1fr);
+          gap: 10px;
+        }
+
+        .weather-card {
+          padding: 12px;
+        }
+
+        .weather-city {
+          font-size: 3.2rem;
+        }
+
+        .weather-current {
+          font-size: 4.3rem;
+        }
+
+        .weather-detail {
+          font-size: 1.9rem;
+        }
+
+        .forecast-day {
+          font-size: 1rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="pp-screen weather-layout">
+      <header class="pp-header">
+        <div>
+          <p class="pp-subtitle" data-i18n="title">Weather</p>
+          <h1 class="pp-title weather-city pp-fit pp-fit-title" id="city">Berlin</h1>
+        </div>
+        <p class="pp-subtitle" id="weather-code"></p>
+      </header>
+
+      <section class="pp-grid weather-main">
+        <article class="pp-card weather-card">
+          <p class="pp-metric-label" data-i18n="current">Current</p>
+          <p class="pp-metric-value weather-current" id="temperature">--</p>
+        </article>
+
+        <div class="pp-grid pp-grid-2">
+          <article class="pp-card weather-card">
+            <p class="pp-metric-label" data-i18n="feelsLike">Feels like</p>
+            <p class="weather-detail" id="apparent">--</p>
+          </article>
+          <article class="pp-card weather-card">
+            <p class="pp-metric-label" data-i18n="wind">Wind</p>
+            <p class="weather-detail" id="wind">--</p>
+          </article>
+        </div>
+
+        <article class="pp-card weather-card weather-forecast">
+          <p class="pp-metric-label" data-i18n="forecast">Forecast</p>
+          <ul class="pp-list" id="forecast"></ul>
+        </article>
+      </section>
+
+      <footer class="pp-footer" id="updated" data-i18n="updated">Updated</footer>
+    </main>
+
+    <script>
+      (async function render() {
+        const {
+          waitForPayload,
+          getSettings,
+          getQuerySettings,
+          mergeSettings,
+          escapeHtml,
+          fitAllText,
+          fitToScreen,
+          markReady,
+          markError,
+        } = window.PaperlessOpenIntegration;
+
+        const defaultMessages = {
+          "loading": "Loading...",
+          "updated": "Updated",
+          "from": "from",
+          "errorTitle": "Weather could not load",
+          "apiFailed": "API failed with {status}",
+          "title": "Weather",
+          "current": "Current",
+          "feelsLike": "Feels like",
+          "wind": "Wind",
+          "forecast": "Forecast",
+          "code": "Code"
+};
+        let messages = defaultMessages;
+        let currentLanguage = "en";
+
+        function t(key, values = {}) {
+          const template =
+            typeof messages[key] === "string"
+              ? messages[key]
+              : defaultMessages[key] || key;
+          return template.replace(/\{(\w+)\}/g, (_match, name) =>
+            values[name] ?? "",
+          );
+        }
+
+        function applyStaticMessages(root = document) {
+          root.querySelectorAll("[data-i18n]").forEach((element) => {
+            element.textContent = t(element.dataset.i18n);
+          });
+        }
+
+        async function loadMessages(payload) {
+          const loader = window.PaperlessOpenIntegration.loadLanguageJson;
+          let result;
+
+          if (typeof loader === "function") {
+            result = await loader(payload);
+          } else {
+            const requested = String(payload?.meta?.language || "en").trim();
+            const requestedBase = requested.split("-")[0].toLowerCase();
+            const supported = ["en", "de", "fr", "es", "it"];
+            const language = supported.includes(requested)
+              ? requested
+              : supported.includes(requestedBase)
+                ? requestedBase
+                : "en";
+            const response = await fetch(`./languages/${language}.json`, {
+              cache: "no-store",
+            });
+
+            if (!response.ok) {
+              throw new Error(
+                `Could not load language JSON for ${language}: ${response.status}`,
+              );
+            }
+
+            result = {
+              language,
+              messages: await response.json(),
+            };
+          }
+
+          messages = { ...defaultMessages, ...result.messages };
+          currentLanguage = result.language || "en";
+          document.documentElement.lang = currentLanguage;
+          applyStaticMessages();
+          return result;
+        }
+
+        function degrees(value) {
+          return Number.isFinite(Number(value)) ? `${Math.round(Number(value))}°C` : '--';
+        }
+
+        try {
+          const defaults = { city: 'Berlin', latitude: 52.52, longitude: 13.405 };
+          const payload = await waitForPayload({ timeout: 300 });
+          await loadMessages(payload);
+          const settings = mergeSettings(defaults, getSettings(payload), getQuerySettings());
+          const params = new URLSearchParams(settings);
+          const response = await fetch(`./api/data?${params.toString()}`, { cache: 'no-store' });
+
+          if (!response.ok) {
+            throw new Error(`Weather API failed with ${response.status}`);
+          }
+
+          const weather = await response.json();
+          document.getElementById('city').innerHTML = escapeHtml(weather.city);
+          document.getElementById('weather-code').textContent = `${t("code")} ${weather.weatherCode}`;
+          document.getElementById('temperature').textContent = degrees(weather.temperature);
+          document.getElementById('apparent').textContent = degrees(weather.apparentTemperature);
+          document.getElementById('wind').textContent = `${Math.round(Number(weather.windSpeed || 0))} km/h`;
+          document.getElementById('forecast').innerHTML = weather.forecast.map((day) => `
+            <li class="pp-list-item forecast-day">
+              <span>${escapeHtml(day.date)}</span>
+              <strong>${degrees(day.min)} / ${degrees(day.max)}</strong>
+            </li>
+          `).join('');
+          document.getElementById('updated').textContent = `${t("updated")} ${new Date(weather.updatedAt).toLocaleString(currentLanguage || undefined)}`;
+
+          fitAllText('.pp-fit-title', { min: 28, max: 88, step: 2 });
+          fitToScreen();
+          markReady({ city: weather.city });
+        } catch (error) {
+          markError(error);
+          document.body.innerHTML = `<main class="pp-screen"><h1 class="pp-title pp-error">${escapeHtml(t("errorTitle"))}</h1><p>${error.message}</p></main>`;
+        }
+      })();
+    </script>
+  </body>
+</html>

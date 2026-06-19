@@ -1,0 +1,801 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="paperless:epd-optimize" content='{"intent":"readable"}' />
+    <title>Uptime Kuma Monitor</title>
+    <link rel="stylesheet" href="/assets/paperless.css" />
+    <script src="/assets/paperless.iife.js"></script>
+    <style>
+      .kuma-screen {
+        padding: 16px 20px 14px;
+        gap: 10px;
+      }
+
+      .kuma-topbar {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        align-items: end;
+        gap: 18px;
+        min-height: 54px;
+        padding-bottom: 9px;
+        border-bottom: 4px solid var(--pp-border);
+      }
+
+      .kuma-eyebrow,
+      .kuma-page,
+      .kuma-state,
+      .kuma-count-label,
+      .kuma-monitor-meta,
+      .kuma-side-title,
+      .kuma-side-meta,
+      .kuma-updated {
+        margin: 0;
+      }
+
+      .kuma-eyebrow,
+      .kuma-count-label,
+      .kuma-monitor-meta,
+      .kuma-side-title,
+      .kuma-side-meta,
+      .kuma-updated {
+        color: var(--pp-muted);
+      }
+
+      .kuma-eyebrow,
+      .kuma-side-title,
+      .kuma-count-label {
+        font-size: 0.74rem;
+        line-height: 1;
+        font-weight: 900;
+        text-transform: uppercase;
+      }
+
+      .kuma-state {
+        font-size: clamp(1.8rem, 6.5vh, 3rem);
+        line-height: 0.96;
+        font-weight: 950;
+      }
+
+      .kuma-page {
+        margin-top: 4px;
+        font-size: 1.05rem;
+        line-height: 1;
+        font-weight: 750;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .kuma-status-mark {
+        display: inline-block;
+        width: 0.74em;
+        height: 0.74em;
+        margin-right: 0.23em;
+        border: 3px solid currentColor;
+        vertical-align: -0.03em;
+      }
+
+      .kuma-status-up .kuma-status-mark {
+        background: currentColor;
+      }
+
+      .kuma-status-down .kuma-status-mark,
+      .kuma-status-degraded .kuma-status-mark {
+        background:
+          linear-gradient(45deg, transparent 39%, currentColor 40%, currentColor 60%, transparent 61%),
+          linear-gradient(-45deg, transparent 39%, currentColor 40%, currentColor 60%, transparent 61%);
+      }
+
+      .kuma-status-pending .kuma-status-mark,
+      .kuma-status-maintenance .kuma-status-mark {
+        background: repeating-linear-gradient(
+          90deg,
+          currentColor 0 3px,
+          transparent 3px 6px
+        );
+      }
+
+      .kuma-counts {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(52px, 1fr));
+        gap: 8px;
+        min-width: min(42vw, 360px);
+      }
+
+      .kuma-count {
+        border: 2px solid var(--pp-border);
+        padding: 6px 8px;
+        min-height: 48px;
+        display: grid;
+        align-content: center;
+      }
+
+      .kuma-count-value {
+        margin: 2px 0 0;
+        font-size: 1.6rem;
+        line-height: 0.95;
+        font-weight: 950;
+      }
+
+      .kuma-layout {
+        flex: 1;
+        min-height: 0;
+        display: grid;
+        grid-template-columns: minmax(0, 1.42fr) minmax(235px, 0.58fr);
+        gap: 12px;
+      }
+
+      .kuma-list {
+        min-height: 0;
+        display: grid;
+        grid-template-rows: repeat(var(--monitor-count, 1), minmax(0, 1fr));
+        gap: 8px;
+      }
+
+      .kuma-monitor {
+        min-width: 0;
+        min-height: 0;
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(132px, auto);
+        gap: 10px;
+        align-items: stretch;
+        padding: 9px 10px;
+        border: 2px solid var(--pp-border);
+        border-left-width: 8px;
+        overflow: hidden;
+      }
+
+      .kuma-monitor.status-up {
+        border-left-style: solid;
+      }
+
+      .kuma-monitor.status-down,
+      .kuma-monitor.status-degraded {
+        border-style: double;
+        border-left-width: 9px;
+      }
+
+      .kuma-monitor.status-maintenance,
+      .kuma-monitor.status-pending {
+        border-left-style: dashed;
+      }
+
+      .kuma-monitor-main,
+      .kuma-monitor-metrics {
+        min-width: 0;
+        display: grid;
+        align-content: center;
+        gap: 5px;
+      }
+
+      .kuma-monitor-title-row {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        align-items: center;
+        gap: 9px;
+        min-width: 0;
+      }
+
+      .kuma-monitor-name {
+        margin: 0;
+        min-width: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        font-size: 1.12rem;
+        line-height: 1;
+        font-weight: 900;
+      }
+
+      .kuma-monitor-state {
+        font-size: 0.78rem;
+        line-height: 1;
+        font-weight: 950;
+        text-transform: uppercase;
+        white-space: nowrap;
+      }
+
+      .kuma-monitor-meta {
+        min-width: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        font-size: 0.74rem;
+        line-height: 1.05;
+      }
+
+      .kuma-beats {
+        display: grid;
+        grid-template-columns: repeat(36, minmax(2px, 1fr));
+        gap: 2px;
+        height: 16px;
+        min-width: 0;
+      }
+
+      .kuma-beat {
+        border: 1px solid var(--pp-border);
+        min-width: 0;
+      }
+
+      .kuma-beat.status-up {
+        background: var(--pp-fg);
+      }
+
+      .kuma-beat.status-down {
+        background: var(--pp-bg);
+        border-width: 2px;
+      }
+
+      .kuma-beat.status-pending,
+      .kuma-beat.status-maintenance {
+        background: repeating-linear-gradient(
+          45deg,
+          var(--pp-fg) 0 2px,
+          transparent 2px 4px
+        );
+      }
+
+      .kuma-monitor-metrics {
+        justify-items: end;
+        text-align: right;
+      }
+
+      .kuma-uptime {
+        margin: 0;
+        font-size: 1.36rem;
+        line-height: 1;
+        font-weight: 950;
+      }
+
+      .kuma-ping {
+        margin: 0;
+        color: var(--pp-muted);
+        font-size: 0.78rem;
+        line-height: 1.1;
+        font-weight: 750;
+        white-space: nowrap;
+      }
+
+      .kuma-side {
+        min-width: 0;
+        min-height: 0;
+        display: grid;
+        grid-template-rows: minmax(0, 1fr) auto;
+        gap: 10px;
+      }
+
+      .kuma-side-section {
+        min-width: 0;
+        min-height: 0;
+        display: grid;
+        align-content: start;
+        gap: 8px;
+        padding: 10px;
+        border: 2px solid var(--pp-border);
+        overflow: hidden;
+      }
+
+      .kuma-side-items {
+        min-height: 0;
+        display: grid;
+        gap: 8px;
+        align-content: start;
+        overflow: hidden;
+      }
+
+      .kuma-side-item {
+        min-width: 0;
+        padding-top: 7px;
+        border-top: 1px solid var(--pp-border);
+      }
+
+      .kuma-side-item:first-child {
+        border-top: 0;
+        padding-top: 0;
+      }
+
+      .kuma-side-name {
+        margin: 0;
+        min-width: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        font-size: 0.9rem;
+        line-height: 1.05;
+        font-weight: 850;
+      }
+
+      .kuma-side-meta {
+        margin-top: 3px;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+        overflow: hidden;
+        font-size: 0.72rem;
+        line-height: 1.12;
+      }
+
+      .kuma-updated {
+        font-size: 0.72rem;
+        line-height: 1.1;
+        text-align: right;
+      }
+
+      .kuma-empty {
+        min-height: 0;
+        display: grid;
+        place-items: center;
+        border: 2px solid var(--pp-border);
+      }
+
+      @media (orientation: portrait) {
+        .kuma-screen {
+          padding: 16px;
+        }
+
+        .kuma-topbar {
+          grid-template-columns: 1fr;
+          align-items: start;
+          gap: 9px;
+        }
+
+        .kuma-counts {
+          min-width: 0;
+          width: 100%;
+        }
+
+        .kuma-layout {
+          grid-template-columns: 1fr;
+          grid-template-rows: minmax(0, 1fr) auto;
+        }
+
+        .kuma-side {
+          grid-template-rows: auto auto;
+        }
+
+        .kuma-side-section {
+          max-height: 136px;
+        }
+
+        .kuma-updated {
+          text-align: left;
+        }
+      }
+
+      @media (max-width: 700px), (max-height: 560px) {
+        .kuma-screen {
+          padding: 12px;
+          gap: 8px;
+        }
+
+        .kuma-topbar {
+          min-height: 44px;
+          padding-bottom: 7px;
+          gap: 10px;
+        }
+
+        .kuma-state {
+          font-size: 1.7rem;
+        }
+
+        .kuma-page {
+          font-size: 0.84rem;
+        }
+
+        .kuma-counts {
+          gap: 5px;
+        }
+
+        .kuma-count {
+          min-height: 38px;
+          padding: 4px 6px;
+        }
+
+        .kuma-count-label,
+        .kuma-eyebrow,
+        .kuma-side-title {
+          font-size: 0.61rem;
+        }
+
+        .kuma-count-value {
+          font-size: 1.1rem;
+        }
+
+        .kuma-layout {
+          gap: 8px;
+          grid-template-columns: minmax(0, 1.35fr) minmax(190px, 0.65fr);
+        }
+
+        .kuma-list {
+          gap: 6px;
+        }
+
+        .kuma-monitor {
+          grid-template-columns: minmax(0, 1fr) minmax(92px, auto);
+          padding: 7px 8px;
+          gap: 7px;
+          border-left-width: 6px;
+        }
+
+        .kuma-monitor-name {
+          font-size: 0.9rem;
+        }
+
+        .kuma-monitor-state,
+        .kuma-monitor-meta,
+        .kuma-ping {
+          font-size: 0.62rem;
+        }
+
+        .kuma-uptime {
+          font-size: 1rem;
+        }
+
+        .kuma-beats {
+          height: 11px;
+          gap: 1px;
+        }
+
+        .kuma-side-section {
+          padding: 8px;
+          gap: 6px;
+        }
+
+        .kuma-side-name {
+          font-size: 0.74rem;
+        }
+
+        .kuma-side-meta,
+        .kuma-updated {
+          font-size: 0.62rem;
+        }
+      }
+
+      @media (max-width: 520px) {
+        .kuma-layout {
+          grid-template-columns: 1fr;
+        }
+
+        .kuma-side-section {
+          display: none;
+        }
+
+        .kuma-counts {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="website-has-loading-element"></div>
+    <main class="pp-screen kuma-screen" id="app">
+      <header class="kuma-topbar" id="topbar">
+        <div>
+          <p class="kuma-eyebrow">Uptime Kuma</p>
+          <h1 class="kuma-state pp-fit pp-fit-title" id="status-label">
+            Loading
+          </h1>
+          <p class="kuma-page" id="page-title"></p>
+        </div>
+        <section class="kuma-counts" aria-label="Monitor counts">
+          <article class="kuma-count">
+            <p class="kuma-count-label" data-i18n="up">Up</p>
+            <p class="kuma-count-value" id="count-up">--</p>
+          </article>
+          <article class="kuma-count">
+            <p class="kuma-count-label" data-i18n="down">Down</p>
+            <p class="kuma-count-value" id="count-down">--</p>
+          </article>
+          <article class="kuma-count">
+            <p class="kuma-count-label" data-i18n="maintenance">Maint.</p>
+            <p class="kuma-count-value" id="count-maintenance">--</p>
+          </article>
+          <article class="kuma-count">
+            <p class="kuma-count-label" data-i18n="total">Total</p>
+            <p class="kuma-count-value" id="count-total">--</p>
+          </article>
+        </section>
+      </header>
+
+      <section class="kuma-layout">
+        <section class="kuma-list" id="monitor-list"></section>
+        <aside class="kuma-side">
+          <section class="kuma-side-section" id="side-section">
+            <p class="kuma-side-title" id="side-title" data-i18n="events">Events</p>
+            <div class="kuma-side-items" id="side-items"></div>
+          </section>
+          <footer class="kuma-updated" id="updated" data-i18n="loading">Loading...</footer>
+        </aside>
+      </section>
+    </main>
+
+    <script>
+      (async function render() {
+        const {
+          waitForPayload,
+          getSettings,
+          getQuerySettings,
+          mergeSettings,
+          applyColorTheme,
+          escapeHtml,
+          fitAllText,
+          fitToScreen,
+          markReady,
+          markError,
+        } = window.PaperlessOpenIntegration;
+
+        const defaultMessages = {
+          "loading": "Loading...",
+          "updated": "Updated",
+          "from": "from",
+          "errorTitle": "Uptime Kuma could not load",
+          "apiFailed": "API failed with {status}",
+          "up": "Up",
+          "down": "Down",
+          "maintenance": "Maint.",
+          "total": "Total",
+          "events": "Events",
+          "recent": "Recent",
+          "publicMonitors": "{count} public monitors",
+          "ping": "Ping {value}",
+          "noPublicMonitors": "No public monitors"
+};
+        let messages = defaultMessages;
+        let currentLanguage = "en";
+
+        function t(key, values = {}) {
+          const template =
+            typeof messages[key] === "string"
+              ? messages[key]
+              : defaultMessages[key] || key;
+          return template.replace(/\{(\w+)\}/g, (_match, name) =>
+            values[name] ?? "",
+          );
+        }
+
+        function applyStaticMessages(root = document) {
+          root.querySelectorAll("[data-i18n]").forEach((element) => {
+            element.textContent = t(element.dataset.i18n);
+          });
+        }
+
+        async function loadMessages(payload) {
+          const loader = window.PaperlessOpenIntegration.loadLanguageJson;
+          let result;
+
+          if (typeof loader === "function") {
+            result = await loader(payload);
+          } else {
+            const requested = String(payload?.meta?.language || "en").trim();
+            const requestedBase = requested.split("-")[0].toLowerCase();
+            const supported = ["en", "de", "fr", "es", "it"];
+            const language = supported.includes(requested)
+              ? requested
+              : supported.includes(requestedBase)
+                ? requestedBase
+                : "en";
+            const response = await fetch(`./languages/${language}.json`, {
+              cache: "no-store",
+            });
+
+            if (!response.ok) {
+              throw new Error(
+                `Could not load language JSON for ${language}: ${response.status}`,
+              );
+            }
+
+            result = {
+              language,
+              messages: await response.json(),
+            };
+          }
+
+          messages = { ...defaultMessages, ...result.messages };
+          currentLanguage = result.language || "en";
+          document.documentElement.lang = currentLanguage;
+          applyStaticMessages();
+          return result;
+        }
+
+        const defaults = {
+          color: "light",
+          baseUrl: "",
+          slug: "default",
+          monitor: "",
+          limit: 6,
+          showIncidents: true,
+          showMaintenance: true,
+          showHeartbeats: true,
+          showPing: true,
+          timeoutMs: 5000,
+        };
+
+        function enabled(value) {
+          return value === true || value === "true" || value === "1";
+        }
+
+        function formatUptime(value) {
+          const number = Number(value);
+          if (!Number.isFinite(number)) {
+            return "--";
+          }
+
+          if (number >= 99.95) {
+            return "100%";
+          }
+
+          return `${number.toFixed(number >= 99 ? 2 : 1)}%`;
+        }
+
+        function formatPing(value) {
+          if (value === null || value === undefined || value === "") {
+            return "--";
+          }
+
+          const number = Number(value);
+          return Number.isFinite(number) ? `${Math.round(number)} ms` : "--";
+        }
+
+        function formatDate(value) {
+          const date = new Date(value);
+          if (!Number.isFinite(date.getTime())) {
+            return "";
+          }
+
+          return date.toLocaleString(currentLanguage || undefined, {
+            month: "short",
+            day: "numeric",
+            hour: "2-digit",
+            minute: "2-digit",
+          });
+        }
+
+        function monitorMeta(monitor) {
+          return [monitor.groupName, monitor.type, monitor.url]
+            .filter(Boolean)
+            .join(" / ");
+        }
+
+        function beatTemplate(beat) {
+          return `<span class="kuma-beat status-${escapeHtml(beat.statusKey)}"></span>`;
+        }
+
+        function monitorTemplate(monitor, data) {
+          const beats = enabled(data.showHeartbeats) && monitor.heartbeats.length
+            ? `<div class="kuma-beats">${monitor.heartbeats.map(beatTemplate).join("")}</div>`
+            : "";
+          const ping = enabled(data.showPing)
+            ? `<p class="kuma-ping">${escapeHtml(t("ping", { value: formatPing(monitor.latestPing ?? monitor.averagePing) }))}</p>`
+            : "";
+
+          return `
+            <article class="kuma-monitor status-${escapeHtml(monitor.statusKey)}">
+              <div class="kuma-monitor-main">
+                <div class="kuma-monitor-title-row">
+                  <h2 class="kuma-monitor-name">${escapeHtml(monitor.name)}</h2>
+                  <span class="kuma-monitor-state">${escapeHtml(monitor.statusLabel)}</span>
+                </div>
+                <p class="kuma-monitor-meta">${escapeHtml(monitorMeta(monitor))}</p>
+                ${beats}
+              </div>
+              <div class="kuma-monitor-metrics">
+                <p class="kuma-uptime">${escapeHtml(formatUptime(monitor.uptime24))}</p>
+                ${ping}
+              </div>
+            </article>
+          `;
+        }
+
+        function sideItemTemplate(item) {
+          const body = item.content || item.description || item.strategy || "";
+          const date = item.createdAt || item.updatedAt;
+
+          return `
+            <article class="kuma-side-item">
+              <h2 class="kuma-side-name">${escapeHtml(item.title)}</h2>
+              <p class="kuma-side-meta">${escapeHtml([formatDate(date), body].filter(Boolean).join(" / "))}</p>
+            </article>
+          `;
+        }
+
+        function sideItems(data) {
+          const incidents = Array.isArray(data.incidents) ? data.incidents : [];
+          const maintenance = Array.isArray(data.maintenanceList)
+            ? data.maintenanceList
+            : [];
+
+          if (incidents.length) {
+            return {
+              title: "Incidents",
+              items: incidents,
+            };
+          }
+
+          if (maintenance.length) {
+            return {
+              title: "Maintenance",
+              items: maintenance,
+            };
+          }
+
+          return {
+            title: t("recent"),
+            items: [
+              {
+                title: data.status.label,
+                content: t("publicMonitors", { count: data.summary.total }),
+                createdAt: data.updatedAt,
+              },
+            ],
+          };
+        }
+
+        try {
+          const payload = await waitForPayload({ timeout: 300 });
+          await loadMessages(payload);
+          const settings = mergeSettings(
+            defaults,
+            getSettings(payload),
+            getQuerySettings(),
+          );
+          applyColorTheme(settings.color, { defaultTheme: defaults.color });
+
+          const params = new URLSearchParams(settings);
+          const response = await fetch(`./api/data?${params.toString()}`, {
+            cache: "no-store",
+          });
+
+          if (!response.ok) {
+            const text = await response.text();
+            throw new Error(text || `Uptime Kuma API failed with ${response.status}`);
+          }
+
+          const data = await response.json();
+          const app = document.getElementById("app");
+          const monitors = Array.isArray(data.monitors) ? data.monitors : [];
+          const list = document.getElementById("monitor-list");
+          const side = sideItems(data);
+
+          app.classList.add(`kuma-status-${data.status.key}`);
+          document.getElementById("status-label").innerHTML =
+            `<span class="kuma-status-mark"></span>${escapeHtml(data.status.label)}`;
+          document.getElementById("page-title").textContent =
+            data.sourceUrl ? `${data.title} / ${new URL(data.sourceUrl).host}` : data.title;
+          document.getElementById("count-up").textContent = data.summary.up;
+          document.getElementById("count-down").textContent = data.summary.down;
+          document.getElementById("count-maintenance").textContent =
+            data.summary.maintenance + data.summary.pending;
+          document.getElementById("count-total").textContent = data.summary.total;
+
+          if (monitors.length) {
+            list.style.setProperty("--monitor-count", String(monitors.length));
+            list.innerHTML = monitors
+              .map((monitor) => monitorTemplate(monitor, data))
+              .join("");
+          } else {
+            list.className = "kuma-empty";
+            list.innerHTML =
+              `<h2 class="pp-title">${escapeHtml(t("noPublicMonitors"))}</h2>`;
+          }
+
+          document.getElementById("side-title").textContent = side.title;
+          document.getElementById("side-items").innerHTML = side.items
+            .map(sideItemTemplate)
+            .join("");
+          document.getElementById("updated").textContent =
+            `${t("updated")} ${formatDate(data.updatedAt)} ${t("from")} ${data.source}`;
+
+          await document.fonts?.ready;
+          fitAllText(".pp-fit-title", { min: 24, max: 58, step: 2 });
+          fitToScreen();
+          markReady({ status: data.status.key, monitors: monitors.length });
+        } catch (error) {
+          markError(error);
+          document.body.innerHTML = `<main class="pp-screen"><h1 class="pp-title pp-error">${escapeHtml(t("errorTitle"))}</h1><p>${escapeHtml(error.message)}</p></main>`;
+        }
+      })();
+    </script>
+  </body>
+</html>

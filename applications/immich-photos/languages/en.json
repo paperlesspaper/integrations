@@ -1,0 +1,10 @@
+{
+  "loading": "Loading...",
+  "updated": "Updated",
+  "from": "from",
+  "errorTitle": "Immich could not load",
+  "apiFailed": "Immich request failed with {status}",
+  "title": "Immich Photos",
+  "fallbackCaption": "Immich photo",
+  "imageFailed": "Resolved Immich image could not be loaded."
+}

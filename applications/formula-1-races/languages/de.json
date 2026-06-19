@@ -1,0 +1,15 @@
+{
+  "loading": "Wird geladen...",
+  "updated": "Aktualisiert",
+  "from": "von",
+  "errorTitle": "Formel-1-Rennen konnte nicht geladen werden",
+  "apiFailed": "API fehlgeschlagen mit {status}",
+  "brand": "Formel-1-Rennen",
+  "grandPrix": "Grand Prix",
+  "circuitMap": "Streckenkarte",
+  "weekendSchedule": "Wochenendplan",
+  "nextUp": "Als Naechstes",
+  "circuit": "Strecke",
+  "round": "Runde {round}",
+  "seasonRound": "Saison {season} / Runde {round} von {total}"
+}

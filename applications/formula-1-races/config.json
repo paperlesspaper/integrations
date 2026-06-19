@@ -1,0 +1,100 @@
+{
+  "name": "Formula 1 Races",
+  "version": "0.1.0",
+  "description": "Shows the upcoming Formula 1 Grand Prix with circuit details, date, session times, and a track image.",
+  "renderPage": "./render.html",
+  "icon": "./assets/icon.png",
+  "nativeSettings": {
+    "color": "light",
+    "selection": "upcoming",
+    "offset": 0,
+    "round": 1,
+    "locale": "en-US",
+    "timeZone": "Europe/Berlin",
+    "showTrackMap": true,
+    "showSessions": true
+  },
+  "configVariants": [
+    {
+      "color": "light",
+      "selection": "upcoming",
+      "offset": 0,
+      "round": 1,
+      "locale": "en-US",
+      "timeZone": "Europe/Berlin",
+      "showTrackMap": true,
+      "showSessions": true,
+      "screenshots": {
+        "800x480": "./screenshots/formula-1-races-upcoming-full-800x480-landscape.png",
+        "480x800": "./screenshots/formula-1-races-upcoming-full-480x800-portrait.png"
+      }
+    },
+    {
+      "color": "dark",
+      "selection": "round",
+      "offset": 0,
+      "round": 1,
+      "locale": "de-DE",
+      "timeZone": "Europe/Berlin",
+      "showTrackMap": false,
+      "showSessions": true,
+      "screenshots": {
+        "800x480": "./screenshots/formula-1-races-round-one-compact-800x480-landscape.png",
+        "480x800": "./screenshots/formula-1-races-round-one-compact-480x800-portrait.png"
+      }
+    }
+  ],
+  "formSchema": {
+    "type": "object",
+    "properties": {
+      "selection": {
+        "type": "string",
+        "title": "Race selection",
+        "enum": [
+          "upcoming",
+          "round"
+        ],
+        "default": "upcoming"
+      },
+      "offset": {
+        "type": "number",
+        "title": "Races after upcoming",
+        "default": 0
+      },
+      "round": {
+        "type": "number",
+        "title": "Round",
+        "default": 1
+      },
+      "locale": {
+        "type": "string",
+        "title": "Locale",
+        "default": "en-US",
+        "description": "BCP 47 locale such as en-US, de-DE, fr-FR, or ja-JP."
+      },
+      "timeZone": {
+        "type": "string",
+        "title": "Time zone",
+        "default": "Europe/Berlin",
+        "description": "IANA time zone such as Europe/Berlin, America/New_York, or Asia/Tokyo."
+      },
+      "showTrackMap": {
+        "type": "boolean",
+        "title": "Show track map",
+        "default": true
+      },
+      "showSessions": {
+        "type": "boolean",
+        "title": "Show session schedule",
+        "default": true
+      }
+    }
+  },
+  "language": [
+    "en",
+    "de",
+    "fr",
+    "es",
+    "it"
+  ]
+}

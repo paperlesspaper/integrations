@@ -1,0 +1,16 @@
+{
+  "loading": "Chargement...",
+  "updated": "Mis a jour",
+  "from": "depuis",
+  "errorTitle": "Impossible de charger Uptime Kuma",
+  "apiFailed": "Echec de l'API avec {status}",
+  "up": "En ligne",
+  "down": "Hors ligne",
+  "maintenance": "Maint.",
+  "total": "Total",
+  "events": "Evenements",
+  "recent": "Recent",
+  "publicMonitors": "{count} moniteurs publics",
+  "ping": "Ping {value}",
+  "noPublicMonitors": "Aucun moniteur public"
+}

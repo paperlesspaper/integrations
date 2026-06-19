@@ -1,0 +1,81 @@
+{
+  "name": "Day Calendar",
+  "version": "0.1.0",
+  "description": "Shows the current day with optional demotivational quotes or funny facts from the paperlesspaper DayCalendar app.",
+  "renderPage": "./render.html",
+  "icon": "./assets/icon.png",
+  "nativeSettings": {
+    "color": "dark",
+    "kind": "primary",
+    "showTime": false,
+    "language": "en-US"
+  },
+  "configVariants": [
+    {
+      "color": "dark",
+      "kind": "primary",
+      "showTime": false,
+      "language": "en-US",
+      "screenshots": {
+        "800x480": "./screenshots/day-calendar-primary-dark-800x480-landscape.png",
+        "480x800": "./screenshots/day-calendar-primary-dark-480x800-portrait.png"
+      }
+    },
+    {
+      "color": "light",
+      "kind": "demotivational",
+      "showTime": true,
+      "language": "de",
+      "screenshots": {
+        "800x480": "./screenshots/day-calendar-demotivational-de-800x480-landscape.png",
+        "480x800": "./screenshots/day-calendar-demotivational-de-480x800-portrait.png"
+      }
+    },
+    {
+      "color": "red-light",
+      "kind": "funny",
+      "showTime": false,
+      "language": "en-US",
+      "screenshots": {
+        "800x480": "./screenshots/day-calendar-funny-red-800x480-landscape.png",
+        "480x800": "./screenshots/day-calendar-funny-red-480x800-portrait.png"
+      }
+    }
+  ],
+  "formSchema": {
+    "type": "object",
+    "properties": {
+      "kind": {
+        "type": "string",
+        "title": "Content",
+        "enum": [
+          "primary",
+          "demotivational",
+          "funny"
+        ],
+        "default": "primary"
+      },
+      "showTime": {
+        "type": "boolean",
+        "title": "Show time",
+        "default": false
+      },
+      "language": {
+        "type": "string",
+        "title": "Language",
+        "enum": [
+          "en-US",
+          "de"
+        ],
+        "default": "en-US"
+      }
+    }
+  },
+  "language": [
+    "en",
+    "de",
+    "fr",
+    "es",
+    "it"
+  ]
+}

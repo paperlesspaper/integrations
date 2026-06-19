@@ -1,0 +1,7 @@
+.env
+node_modules
+npm-debug.log
+.DS_Store
+*.code-workspace
+output
+applications/*/screenshots

@@ -1,0 +1,14 @@
+{
+  "loading": "Wird geladen...",
+  "updated": "Aktualisiert",
+  "from": "von",
+  "errorTitle": "Duden konnte nicht geladen werden",
+  "apiFailed": "API fehlgeschlagen mit {status}",
+  "kicker": "Wort des Tages",
+  "meaning": "Bedeutung",
+  "usage": "Gebrauch",
+  "type": "Typ",
+  "origin": "Herkunft",
+  "frequency": "Haeufigkeit",
+  "notAvailable": "k. A."
+}

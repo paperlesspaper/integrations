@@ -1,0 +1,581 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="paperless:epd-optimize" content='{"intent":"readable"}'>
+    <title>Mastodon</title>
+    <link rel="stylesheet" href="/assets/paperless.css">
+    <script src="/assets/paperless.iife.js"></script>
+    <style>
+      .mastodon-screen {
+        gap: 14px;
+      }
+
+      .mastodon-header {
+        align-items: start;
+        gap: 18px;
+      }
+
+      .mastodon-title {
+        max-width: 12ch;
+      }
+
+      .mastodon-feed-label {
+        text-align: right;
+        max-width: 100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .mastodon-list {
+        flex: 1;
+        min-height: 0;
+        display: grid;
+        gap: 10px;
+        grid-template-rows: repeat(var(--post-count, 5), minmax(0, 1fr));
+      }
+
+      .mastodon-post {
+        min-width: 0;
+        min-height: 0;
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        gap: 12px;
+        padding: 12px;
+        overflow: hidden;
+      }
+
+      .mastodon-post-main {
+        min-width: 0;
+        min-height: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .mastodon-account {
+        min-width: 0;
+        display: grid;
+        grid-template-columns: 34px minmax(0, 1fr) auto;
+        gap: 9px;
+        align-items: center;
+      }
+
+      .mastodon-avatar {
+        width: 34px;
+        height: 34px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 1px solid var(--pp-border);
+        background: var(--pp-bg);
+      }
+
+      .mastodon-name {
+        margin: 0;
+        font-size: 1.05rem;
+        font-weight: 800;
+        line-height: 1.05;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .mastodon-acct,
+      .mastodon-time,
+      .mastodon-boost {
+        color: var(--pp-muted);
+        font-size: 0.82rem;
+        line-height: 1.1;
+      }
+
+      .mastodon-acct {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .mastodon-time {
+        justify-self: end;
+        align-self: start;
+      }
+
+      .mastodon-boost {
+        font-weight: 700;
+      }
+
+      .mastodon-content {
+        min-height: 0;
+        overflow: hidden;
+        font-size: 1.05rem;
+        line-height: 1.25;
+      }
+
+      .mastodon-content p {
+        margin: 0 0 0.45em;
+      }
+
+      .mastodon-content p:last-child {
+        margin-bottom: 0;
+      }
+
+      .mastodon-content a {
+        color: var(--pp-accent);
+        text-decoration: none;
+        font-weight: 700;
+      }
+
+      .mastodon-media {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(70px, 1fr));
+        gap: 6px;
+        min-height: 52px;
+        max-height: 132px;
+      }
+
+      .mastodon-media img {
+        width: 100%;
+        height: 100%;
+        min-height: 52px;
+        object-fit: cover;
+        border-radius: 6px;
+        border: 1px solid var(--pp-border);
+      }
+
+      .mastodon-qr {
+        width: var(--qr-size, 88px);
+        height: var(--qr-size, 88px);
+        align-self: end;
+        image-rendering: pixelated;
+        border: 1px solid var(--pp-border);
+        background: #fff;
+      }
+
+      .mastodon-single {
+        --post-count: 1;
+      }
+
+      .mastodon-list:not(.mastodon-single) .mastodon-content {
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+      }
+
+      .mastodon-list:not(.mastodon-single) .mastodon-qr {
+        width: min(var(--qr-size, 88px), 72px);
+        height: min(var(--qr-size, 88px), 72px);
+        align-self: start;
+      }
+
+      .mastodon-single .mastodon-post {
+        padding: 18px;
+      }
+
+      .mastodon-single .mastodon-account {
+        grid-template-columns: 48px minmax(0, 1fr) auto;
+      }
+
+      .mastodon-single .mastodon-avatar {
+        width: 48px;
+        height: 48px;
+      }
+
+      .mastodon-single .mastodon-name {
+        font-size: 1.35rem;
+      }
+
+      .mastodon-single .mastodon-content {
+        font-size: 2.05rem;
+        line-height: 1.15;
+      }
+
+      .mastodon-empty {
+        flex: 1;
+        justify-content: center;
+      }
+
+      @media (orientation: portrait) {
+        .mastodon-header {
+          display: grid;
+          grid-template-columns: 1fr;
+          gap: 4px;
+        }
+
+        .mastodon-feed-label {
+          text-align: left;
+          white-space: nowrap;
+        }
+
+        .mastodon-list {
+          gap: 12px;
+        }
+
+        .mastodon-post {
+          grid-template-columns: minmax(0, 1fr);
+        }
+
+        .mastodon-qr {
+          width: min(var(--qr-size, 88px), 92px);
+          height: min(var(--qr-size, 88px), 92px);
+          align-self: start;
+        }
+
+        .mastodon-media {
+          max-height: 190px;
+        }
+      }
+
+      @media (max-width: 700px), (max-height: 560px) {
+        .mastodon-screen {
+          padding: 1.1em;
+          gap: 10px;
+        }
+
+        .mastodon-post {
+          padding: 10px;
+          gap: 8px;
+        }
+
+        .mastodon-name,
+        .mastodon-content {
+          font-size: 0.9rem;
+        }
+
+        .mastodon-acct,
+        .mastodon-time,
+        .mastodon-boost {
+          font-size: 0.72rem;
+        }
+
+        .mastodon-single .mastodon-content {
+          font-size: 1.45rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="website-has-loading-element"></div>
+    <main class="pp-screen mastodon-screen" id="app">
+      <header class="pp-header mastodon-header">
+        <div>
+          <p class="pp-subtitle">Mastodon</p>
+          <h1 class="pp-title mastodon-title pp-fit pp-fit-title" id="title" data-i18n="title">Timeline</h1>
+        </div>
+        <p class="pp-subtitle mastodon-feed-label" id="feed-label"></p>
+      </header>
+      <section class="mastodon-list" id="feed"></section>
+      <footer class="pp-footer" id="updated" data-i18n="loading">Loading...</footer>
+    </main>
+
+    <script>
+      (async function render() {
+        const {
+          waitForPayload,
+          getSettings,
+          getQuerySettings,
+          mergeSettings,
+          applyColorTheme,
+          escapeHtml,
+          fitAllText,
+          fitToScreen,
+          markReady,
+          markError,
+        } = window.PaperlessOpenIntegration;
+
+        const defaultMessages = {
+          "loading": "Loading...",
+          "updated": "Updated",
+          "from": "from",
+          "errorTitle": "Mastodon could not load",
+          "apiFailed": "API failed with {status}",
+          "title": "Timeline",
+          "home": "Home",
+          "profile": "Profile",
+          "tag": "{host} tag",
+          "boostedBy": "Boosted by @{acct}",
+          "noPosts": "No posts",
+          "noPostsHint": "Nothing matched this feed."
+};
+        let messages = defaultMessages;
+        let currentLanguage = "en";
+
+        function t(key, values = {}) {
+          const template =
+            typeof messages[key] === "string"
+              ? messages[key]
+              : defaultMessages[key] || key;
+          return template.replace(/\{(\w+)\}/g, (_match, name) =>
+            values[name] ?? "",
+          );
+        }
+
+        function applyStaticMessages(root = document) {
+          root.querySelectorAll("[data-i18n]").forEach((element) => {
+            element.textContent = t(element.dataset.i18n);
+          });
+        }
+
+        async function loadMessages(payload) {
+          const loader = window.PaperlessOpenIntegration.loadLanguageJson;
+          let result;
+
+          if (typeof loader === "function") {
+            result = await loader(payload);
+          } else {
+            const requested = String(payload?.meta?.language || "en").trim();
+            const requestedBase = requested.split("-")[0].toLowerCase();
+            const supported = ["en", "de", "fr", "es", "it"];
+            const language = supported.includes(requested)
+              ? requested
+              : supported.includes(requestedBase)
+                ? requestedBase
+                : "en";
+            const response = await fetch(`./languages/${language}.json`, {
+              cache: "no-store",
+            });
+
+            if (!response.ok) {
+              throw new Error(
+                `Could not load language JSON for ${language}: ${response.status}`,
+              );
+            }
+
+            result = {
+              language,
+              messages: await response.json(),
+            };
+          }
+
+          messages = { ...defaultMessages, ...result.messages };
+          currentLanguage = result.language || "en";
+          document.documentElement.lang = currentLanguage;
+          applyStaticMessages();
+          return result;
+        }
+
+        const defaults = {
+          color: "light",
+          instanceUrl: "https://mastodon.social",
+          accessToken: "",
+          feedType: "hashtag",
+          hashtag: "opensource",
+          profileAcct: "@ScienceNews@mstdn.social",
+          limit: 3,
+          displayMode: "list",
+          postIndex: 0,
+          showMedia: true,
+          dateFormat: "relative",
+          hideReplies: true,
+          showQrCode: true,
+          qrCodeSize: 88,
+          maxLinkLength: 42,
+        };
+
+        function bool(value) {
+          return value === true || value === "true" || value === "1";
+        }
+
+        function number(value, fallback) {
+          const parsed = Number(value);
+          return Number.isFinite(parsed) ? parsed : fallback;
+        }
+
+        function feedTitle(settings) {
+          if (settings.feedType === "home") {
+            return t("home");
+          }
+
+          if (settings.feedType === "profile") {
+            return settings.profileAcct || t("profile");
+          }
+
+          return `#${String(settings.hashtag || "opensource").replace(/^#/, "")}`;
+        }
+
+        function feedLabel(data) {
+          if (data.feedType === "home") {
+            return new URL(data.instanceUrl).host;
+          }
+
+          if (data.feedType === "profile") {
+            return `@${String(data.profileAcct || "").replace(/^@/, "")}`;
+          }
+
+          return t("tag", { host: new URL(data.instanceUrl).host });
+        }
+
+        function formatTimestamp(value, mode) {
+          const date = new Date(value);
+          if (!Number.isFinite(date.getTime())) {
+            return "";
+          }
+
+          if (mode === "absolute") {
+            return date.toLocaleString(currentLanguage || undefined, {
+              month: "short",
+              day: "numeric",
+              hour: "2-digit",
+              minute: "2-digit",
+            });
+          }
+
+          const diffSeconds = Math.max(1, Math.floor((Date.now() - date.getTime()) / 1000));
+          const units = [
+            { max: 60, divisor: 1, label: "s" },
+            { max: 3600, divisor: 60, label: "m" },
+            { max: 86400, divisor: 3600, label: "h" },
+            { max: 604800, divisor: 86400, label: "d" },
+          ];
+
+          for (const unit of units) {
+            if (diffSeconds < unit.max) {
+              return `${Math.floor(diffSeconds / unit.divisor)}${unit.label}`;
+            }
+          }
+
+          return date.toLocaleDateString(currentLanguage || undefined, { month: "short", day: "numeric" });
+        }
+
+        function sanitizeContent(html, maxLinkLength) {
+          const allowedTags = new Set(["A", "BR", "EM", "P", "SPAN", "STRONG"]);
+          const template = document.createElement("template");
+          template.innerHTML = String(html || "");
+
+          function clean(node) {
+            for (const child of [...node.childNodes]) {
+              if (child.nodeType === Node.TEXT_NODE) {
+                continue;
+              }
+
+              if (child.nodeType !== Node.ELEMENT_NODE || !allowedTags.has(child.tagName)) {
+                child.replaceWith(document.createTextNode(child.textContent || ""));
+                continue;
+              }
+
+              if (child.tagName === "A") {
+                const href = child.getAttribute("href") || "";
+                for (const attribute of [...child.attributes]) {
+                  child.removeAttribute(attribute.name);
+                }
+
+                if (href.startsWith("http://") || href.startsWith("https://")) {
+                  child.setAttribute("href", href);
+                }
+              } else {
+                for (const attribute of [...child.attributes]) {
+                  child.removeAttribute(attribute.name);
+                }
+              }
+
+              if (child.tagName === "A") {
+                const text = child.textContent || "";
+                const limit = Number(maxLinkLength);
+                if (Number.isFinite(limit)) {
+                  if (limit === 0) {
+                    child.textContent = "";
+                  } else if (limit > 0 && text.length > limit) {
+                    const head = Math.max(6, Math.floor(limit * 0.65));
+                    const tail = Math.max(4, limit - head - 1);
+                    child.textContent = `${text.slice(0, head)}...${text.slice(-tail)}`;
+                  }
+                }
+              }
+
+              clean(child);
+            }
+          }
+
+          clean(template.content);
+          return template.innerHTML || "";
+        }
+
+        function postTemplate(item, settings) {
+          const displayName = item.account.displayName || item.account.username || item.account.acct;
+          const acct = item.account.acct ? `@${item.account.acct}` : "";
+          const boost = item.boostedBy
+            ? `<div class="mastodon-boost">${escapeHtml(t("boostedBy", { acct: item.boostedBy.acct }))}</div>`
+            : "";
+          const media = bool(settings.showMedia) && item.media.length
+            ? `<div class="mastodon-media">${item.media.slice(0, 4).map((image) => `
+                <img src="${escapeHtml(image.previewUrl || image.url)}" alt="${escapeHtml(image.description || "")}">
+              `).join("")}</div>`
+            : "";
+          const qr = bool(settings.showQrCode) && item.qrCodeUrl
+            ? `<img class="mastodon-qr" src="${escapeHtml(item.qrCodeUrl)}" alt="QR code for post">`
+            : "";
+
+          return `
+            <article class="pp-card mastodon-post" style="--qr-size:${number(settings.qrCodeSize, 88)}px">
+              <div class="mastodon-post-main">
+                ${boost}
+                <header class="mastodon-account">
+                  <img class="mastodon-avatar" src="${escapeHtml(item.account.avatar)}" alt="">
+                  <div>
+                    <p class="mastodon-name">${escapeHtml(displayName)}</p>
+                    <div class="mastodon-acct">${escapeHtml(acct)}</div>
+                  </div>
+                  <time class="mastodon-time">${escapeHtml(formatTimestamp(item.createdAt, settings.dateFormat))}</time>
+                </header>
+                <div class="mastodon-content">${sanitizeContent(item.contentHtml, settings.maxLinkLength)}</div>
+                ${media}
+              </div>
+              ${qr}
+            </article>
+          `;
+        }
+
+        try {
+          const payload = await waitForPayload({ timeout: 300 });
+          await loadMessages(payload);
+          const settings = mergeSettings(defaults, getSettings(payload), getQuerySettings());
+          applyColorTheme(settings.color, { defaultTheme: defaults.color });
+
+          const params = new URLSearchParams(settings);
+          const response = await fetch(`./api/data?${params.toString()}`, { cache: "no-store" });
+          if (!response.ok) {
+            throw new Error(`Mastodon API failed with ${response.status}`);
+          }
+
+          const data = await response.json();
+          const app = document.getElementById("app");
+          const feed = document.getElementById("feed");
+          const items = Array.isArray(data.items) ? data.items : [];
+          const singleMode = settings.displayMode === "single";
+          const postIndex = Math.max(0, number(settings.postIndex, 0)) % Math.max(items.length, 1);
+          const renderedItems = singleMode ? items.slice(postIndex, postIndex + 1) : items;
+
+          document.getElementById("title").innerHTML = escapeHtml(feedTitle(settings));
+          document.getElementById("feed-label").textContent = feedLabel(data);
+
+          if (!renderedItems.length) {
+            feed.className = "pp-card mastodon-empty";
+            feed.innerHTML = `<h2 class="pp-title">${escapeHtml(t("noPosts"))}</h2><p class="pp-subtitle">${escapeHtml(t("noPostsHint"))}</p>`;
+          } else {
+            feed.style.setProperty("--post-count", String(renderedItems.length));
+            feed.classList.toggle("mastodon-single", singleMode);
+            feed.innerHTML = renderedItems.map((item) => postTemplate(item, settings)).join("");
+          }
+
+          document.getElementById("updated").textContent =
+            `${t("updated")} ${new Date(data.updatedAt).toLocaleString(currentLanguage || undefined)}`;
+
+          await document.fonts?.ready;
+          await Promise.all(
+            [...document.images].map((image) => image.complete
+              ? Promise.resolve()
+              : new Promise((resolve) => {
+                  image.addEventListener("load", resolve, { once: true });
+                  image.addEventListener("error", resolve, { once: true });
+                })),
+          );
+          fitAllText(".pp-fit-title", { min: 26, max: 80, step: 2 });
+          fitToScreen();
+          markReady({ posts: items.length, feedType: data.feedType });
+        } catch (error) {
+          markError(error);
+          document.body.innerHTML = `<main class="pp-screen"><h1 class="pp-title pp-error">${escapeHtml(t("errorTitle"))}</h1><p>${escapeHtml(error.message)}</p></main>`;
+        }
+      })();
+    </script>
+  </body>
+</html>

@@ -1,0 +1,589 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="paperless:epd-optimize" content='{"intent":"readable"}' />
+    <title>Opening Hours</title>
+    <link rel="stylesheet" href="/assets/paperless.css" />
+    <script src="/assets/paperless.iife.js"></script>
+    <style>
+      .hours-screen {
+        padding: 22px;
+        gap: 14px;
+      }
+
+      .hours-header {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        gap: 18px;
+        align-items: start;
+        padding-bottom: 12px;
+        border-bottom: 3px solid currentColor;
+      }
+
+      .hours-kicker {
+        margin: 0 0 6px;
+        color: var(--pp-muted);
+        font-size: 0.84rem;
+        font-weight: 760;
+        letter-spacing: 0;
+        text-transform: uppercase;
+      }
+
+      .hours-title {
+        margin: 0;
+        font-size: 3.1rem;
+        line-height: 0.95;
+        font-weight: 900;
+      }
+
+      .hours-subtitle {
+        margin: 7px 0 0;
+        color: var(--pp-muted);
+        font-size: 1rem;
+        line-height: 1.2;
+        font-weight: 680;
+      }
+
+      .hours-source {
+        align-self: start;
+        border: 2px solid currentColor;
+        padding: 7px 9px;
+        font-size: 0.68rem;
+        line-height: 1;
+        font-weight: 820;
+        text-transform: uppercase;
+        white-space: nowrap;
+      }
+
+      .hours-status {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+        gap: 14px;
+        flex: 1;
+        min-height: 0;
+      }
+
+      .hours-screen.has-no-week .hours-status {
+        grid-template-columns: 1fr;
+      }
+
+      .status-panel {
+        min-width: 0;
+        min-height: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 22px;
+        border: 3px solid currentColor;
+        background: var(--pp-card);
+      }
+
+      .status-panel.is-open {
+        background: color-mix(in srgb, var(--pp-accent) 24%, var(--pp-card));
+      }
+
+      .status-panel.is-closed,
+      .status-panel.is-temporarily-closed,
+      .status-panel.is-permanently-closed {
+        background:
+          repeating-linear-gradient(
+            -45deg,
+            transparent 0 11px,
+            color-mix(in srgb, var(--pp-fg) 9%, transparent) 11px 14px
+          ),
+          var(--pp-card);
+      }
+
+      .status-label {
+        margin: 0;
+        font-size: clamp(2.5rem, 9vh, 5.7rem);
+        line-height: 0.9;
+        font-weight: 950;
+      }
+
+      .status-next {
+        margin: 16px 0 0;
+        font-size: 1.35rem;
+        line-height: 1.1;
+        font-weight: 790;
+      }
+
+      .today-hours {
+        margin: 26px 0 0;
+        padding-top: 16px;
+        border-top: 2px solid currentColor;
+      }
+
+      .today-label {
+        margin: 0 0 5px;
+        color: var(--pp-muted);
+        font-size: 0.78rem;
+        font-weight: 780;
+        text-transform: uppercase;
+      }
+
+      .today-value {
+        margin: 0;
+        font-size: 1.6rem;
+        line-height: 1.05;
+        font-weight: 850;
+      }
+
+      .week-panel {
+        min-height: 0;
+        display: grid;
+        grid-template-rows: auto minmax(0, 1fr);
+        gap: 9px;
+      }
+
+      .section-label {
+        margin: 0;
+        color: var(--pp-muted);
+        font-size: 0.82rem;
+        font-weight: 820;
+        text-transform: uppercase;
+      }
+
+      .hours-list {
+        min-height: 0;
+        display: grid;
+        grid-template-rows: repeat(7, minmax(0, 1fr));
+        gap: 6px;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+      }
+
+      .hours-row {
+        display: grid;
+        grid-template-columns: minmax(5.6em, 0.58fr) minmax(0, 1fr);
+        gap: 9px;
+        align-items: center;
+        min-height: 0;
+        padding: 8px 10px;
+        border: 2px solid var(--pp-border);
+        background: var(--pp-bg);
+      }
+
+      .hours-row.is-today {
+        border-color: currentColor;
+        background: color-mix(in srgb, var(--pp-accent) 18%, var(--pp-bg));
+      }
+
+      .day-name {
+        min-width: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        font-size: 1rem;
+        line-height: 1;
+        font-weight: 830;
+      }
+
+      .day-hours {
+        min-width: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        text-align: right;
+        font-size: 1rem;
+        line-height: 1;
+        font-weight: 720;
+      }
+
+      .hours-footer {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        gap: 16px;
+        align-items: end;
+        padding-top: 12px;
+        border-top: 2px solid currentColor;
+      }
+
+      .contact-lines {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 7px 14px;
+        min-width: 0;
+        color: var(--pp-muted);
+        font-size: 0.82rem;
+        line-height: 1.15;
+        font-weight: 650;
+      }
+
+      .contact-line {
+        min-width: 0;
+        max-width: 42ch;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .hours-updated {
+        color: var(--pp-muted);
+        font-size: 0.75rem;
+        line-height: 1.1;
+        font-weight: 720;
+        text-align: right;
+        white-space: nowrap;
+      }
+
+      .is-hidden {
+        display: none;
+      }
+
+      @media (orientation: portrait) {
+        .hours-screen {
+          padding: 18px;
+        }
+
+        .hours-header {
+          grid-template-columns: 1fr;
+          gap: 9px;
+        }
+
+        .hours-source {
+          justify-self: start;
+        }
+
+        .hours-status {
+          grid-template-columns: 1fr;
+          grid-template-rows: auto minmax(0, 1fr);
+        }
+
+        .status-panel {
+          padding: 18px;
+        }
+
+        .hours-title {
+          font-size: 2.6rem;
+        }
+
+        .status-label {
+          font-size: 4rem;
+        }
+
+        .hours-footer {
+          grid-template-columns: 1fr;
+          gap: 8px;
+        }
+
+        .hours-updated {
+          text-align: left;
+        }
+      }
+
+      @media (max-width: 700px), (max-height: 560px) {
+        .hours-screen {
+          padding: 14px;
+          gap: 10px;
+        }
+
+        .hours-header {
+          padding-bottom: 9px;
+        }
+
+        .hours-title {
+          font-size: 2.1rem;
+        }
+
+        .hours-subtitle,
+        .status-next {
+          font-size: 0.95rem;
+        }
+
+        .status-panel {
+          padding: 14px;
+        }
+
+        .status-label {
+          font-size: 3.2rem;
+        }
+
+        .today-hours {
+          margin-top: 15px;
+          padding-top: 11px;
+        }
+
+        .today-value {
+          font-size: 1.15rem;
+        }
+
+        .hours-row {
+          padding: 5px 8px;
+          grid-template-columns: minmax(4.7em, 0.56fr) minmax(0, 1fr);
+        }
+
+        .day-name,
+        .day-hours {
+          font-size: 0.82rem;
+        }
+
+        .contact-lines,
+        .hours-updated {
+          font-size: 0.68rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="website-has-loading-element"></div>
+    <main class="pp-screen hours-screen" id="screen">
+      <header class="hours-header">
+        <div>
+          <p class="hours-kicker" data-i18n="kicker">Opening hours</p>
+          <h1 class="hours-title pp-fit" id="business-name" data-i18n="title">Opening Hours</h1>
+          <p class="hours-subtitle" id="subtitle"></p>
+        </div>
+        <p class="hours-source" id="source-label" data-i18n="manual">Manual</p>
+      </header>
+
+      <section class="hours-status">
+        <article class="status-panel" id="status-panel">
+          <p class="status-label pp-fit" id="status-label" data-i18n="loading">Loading</p>
+          <p class="status-next" id="next-change"></p>
+          <div class="today-hours">
+            <p class="today-label" data-i18n="today">Today</p>
+            <p class="today-value" id="today-hours">--</p>
+          </div>
+        </article>
+
+        <article class="week-panel" id="week-panel">
+          <p class="section-label" data-i18n="thisWeek">This week</p>
+          <ul class="hours-list" id="hours-list"></ul>
+        </article>
+      </section>
+
+      <footer class="hours-footer">
+        <div class="contact-lines" id="contact-lines"></div>
+        <p class="hours-updated" id="updated-at"></p>
+      </footer>
+    </main>
+
+    <script>
+      (async function render() {
+        const {
+          waitForPayload,
+          getSettings,
+          getQuerySettings,
+          mergeSettings,
+          applyColorTheme,
+          escapeHtml,
+          fitAllText,
+          fitToScreen,
+          markReady,
+          markError,
+        } = window.PaperlessOpenIntegration;
+
+        const defaultMessages = {
+          "loading": "Loading...",
+          "updated": "Updated",
+          "from": "from",
+          "errorTitle": "Opening hours could not load",
+          "apiFailed": "API failed with {status}",
+          "kicker": "Opening hours",
+          "title": "Opening Hours",
+          "manual": "Manual",
+          "today": "Today",
+          "thisWeek": "This week",
+          "unavailable": "Hours unavailable",
+          "googleMaps": "Google Maps"
+};
+        let messages = defaultMessages;
+        let currentLanguage = "en";
+
+        function t(key, values = {}) {
+          const template =
+            typeof messages[key] === "string"
+              ? messages[key]
+              : defaultMessages[key] || key;
+          return template.replace(/\{(\w+)\}/g, (_match, name) =>
+            values[name] ?? "",
+          );
+        }
+
+        function applyStaticMessages(root = document) {
+          root.querySelectorAll("[data-i18n]").forEach((element) => {
+            element.textContent = t(element.dataset.i18n);
+          });
+        }
+
+        async function loadMessages(payload) {
+          const loader = window.PaperlessOpenIntegration.loadLanguageJson;
+          let result;
+
+          if (typeof loader === "function") {
+            result = await loader(payload);
+          } else {
+            const requested = String(payload?.meta?.language || "en").trim();
+            const requestedBase = requested.split("-")[0].toLowerCase();
+            const supported = ["en", "de", "fr", "es", "it"];
+            const language = supported.includes(requested)
+              ? requested
+              : supported.includes(requestedBase)
+                ? requestedBase
+                : "en";
+            const response = await fetch(`./languages/${language}.json`, {
+              cache: "no-store",
+            });
+
+            if (!response.ok) {
+              throw new Error(
+                `Could not load language JSON for ${language}: ${response.status}`,
+              );
+            }
+
+            result = {
+              language,
+              messages: await response.json(),
+            };
+          }
+
+          messages = { ...defaultMessages, ...result.messages };
+          currentLanguage = result.language || "en";
+          document.documentElement.lang = currentLanguage;
+          applyStaticMessages();
+          return result;
+        }
+
+        const defaults = {
+          color: "light",
+          businessName: "Paperless Coffee",
+          subtitle: "Cafe and workspace",
+          placeId: "",
+          googleMapsApiKey: "",
+          languageCode: "en",
+          regionCode: "",
+          timezone: "Europe/Berlin",
+          monday: "08:00-18:00",
+          tuesday: "08:00-18:00",
+          wednesday: "08:00-18:00",
+          thursday: "08:00-18:00",
+          friday: "08:00-18:00",
+          saturday: "10:00-16:00",
+          sunday: "closed",
+          notes: "Special holiday hours may vary.",
+          address: "Sample Street 12, Berlin",
+          phone: "",
+          website: "",
+          showWeeklyHours: true,
+          showContact: true,
+          clockMode: "24h",
+        };
+
+        function isEnabled(value) {
+          return value === true || value === "true" || value === "1";
+        }
+
+        function formatUpdated(value, timezone) {
+          const date = new Date(value);
+          if (Number.isNaN(date.getTime())) {
+            return "";
+          }
+          return date.toLocaleString(currentLanguage || undefined, {
+            timeZone: timezone || undefined,
+            month: "short",
+            day: "numeric",
+            hour: "2-digit",
+            minute: "2-digit",
+          });
+        }
+
+        function compactUrl(value) {
+          try {
+            const url = new URL(value);
+            return url.hostname.replace(/^www\./, "");
+          } catch (_error) {
+            return value;
+          }
+        }
+
+        function contactLine(value) {
+          return value ? `<span class="contact-line">${escapeHtml(value)}</span>` : "";
+        }
+
+        try {
+          const payload = await waitForPayload({ timeout: 300 });
+          await loadMessages(payload);
+          const settings = mergeSettings(
+            defaults,
+            getSettings(payload),
+            getQuerySettings(),
+          );
+          applyColorTheme(settings.color, { defaultTheme: defaults.color });
+
+          const params = new URLSearchParams(settings);
+          const response = await fetch(`./api/data?${params.toString()}`, {
+            cache: "no-store",
+          });
+
+          if (!response.ok) {
+            const text = await response.text();
+            throw new Error(text || `Opening hours API failed with ${response.status}`);
+          }
+
+          const data = await response.json();
+          const screen = document.getElementById("screen");
+          const statusPanel = document.getElementById("status-panel");
+          const weekPanel = document.getElementById("week-panel");
+          const contactLines = document.getElementById("contact-lines");
+
+          document.getElementById("business-name").innerHTML = escapeHtml(
+            data.businessName || settings.businessName,
+          );
+          document.getElementById("subtitle").innerHTML = escapeHtml(
+            data.subtitle || settings.subtitle,
+          );
+          document.getElementById("source-label").textContent =
+            data.source === "google" ? "Google" : t("manual");
+          document.getElementById("status-label").textContent =
+            data.statusLabel || t("unavailable");
+          document.getElementById("next-change").innerHTML = escapeHtml(
+            data.nextChangeLabel || data.notes || "",
+          );
+          document.getElementById("today-hours").innerHTML = escapeHtml(
+            data.todayLabel || t("unavailable"),
+          );
+
+          statusPanel.className = `status-panel is-${data.status || "unknown"}`;
+          weekPanel.classList.toggle("is-hidden", !isEnabled(data.showWeeklyHours));
+          screen.classList.toggle("has-no-week", !isEnabled(data.showWeeklyHours));
+
+          document.getElementById("hours-list").innerHTML = (data.weeklyHours || [])
+            .map((day) => `
+              <li class="hours-row${day.isToday ? " is-today" : ""}">
+                <span class="day-name">${escapeHtml(day.day)}</span>
+                <strong class="day-hours">${escapeHtml(day.hours)}</strong>
+              </li>
+            `)
+            .join("");
+
+          const contact = [
+            contactLine(data.address),
+            contactLine(data.phone),
+            contactLine(data.website ? compactUrl(data.website) : ""),
+            contactLine(data.googleMapsUri ? t("googleMaps") : ""),
+          ].filter(Boolean);
+          contactLines.innerHTML = isEnabled(data.showContact)
+            ? contact.join("")
+            : contactLine(data.notes);
+          document.getElementById("updated-at").textContent =
+            `${t("updated")} ${formatUpdated(data.updatedAt, data.timezone)}`;
+
+          fitAllText(".pp-fit", { min: 24, max: 78, step: 2 });
+          fitToScreen();
+          markReady({
+            source: data.source,
+            status: data.status,
+            businessName: data.businessName,
+          });
+        } catch (error) {
+          markError(error);
+          document.body.innerHTML = `<main class="pp-screen"><h1 class="pp-title pp-error">${escapeHtml(t("errorTitle"))}</h1><p>${escapeHtml(error.message)}</p></main>`;
+        }
+      })();
+    </script>
+  </body>
+</html>

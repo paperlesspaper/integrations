@@ -1,0 +1,14 @@
+{
+  "loading": "Loading...",
+  "updated": "Updated",
+  "from": "from",
+  "errorTitle": "Mastodon could not load",
+  "apiFailed": "API failed with {status}",
+  "title": "Timeline",
+  "home": "Home",
+  "profile": "Profile",
+  "tag": "{host} tag",
+  "boostedBy": "Boosted by @{acct}",
+  "noPosts": "No posts",
+  "noPostsHint": "Nothing matched this feed."
+}

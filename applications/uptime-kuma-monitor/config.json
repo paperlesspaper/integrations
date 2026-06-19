@@ -1,0 +1,113 @@
+{
+  "name": "Uptime Kuma Monitor",
+  "version": "0.1.0",
+  "description": "Shows a public Uptime Kuma status page with monitor states, 24-hour uptime, heartbeat history, incidents, and maintenance.",
+  "renderPage": "./render.html",
+  "icon": "./assets/icon.svg",
+  "nativeSettings": {
+    "color": "light",
+    "baseUrl": "",
+    "slug": "default",
+    "monitor": "",
+    "limit": 6,
+    "showIncidents": true,
+    "showMaintenance": true,
+    "showHeartbeats": true,
+    "showPing": true,
+    "timeoutMs": 5000
+  },
+  "configVariants": [
+    {
+      "color": "light",
+      "baseUrl": "",
+      "slug": "default",
+      "monitor": "",
+      "limit": 6,
+      "showIncidents": true,
+      "showMaintenance": true,
+      "showHeartbeats": true,
+      "showPing": true,
+      "timeoutMs": 5000,
+      "screenshots": {
+        "800x480": "./screenshots/uptime-kuma-monitor-overview-800x480-landscape.png",
+        "480x800": "./screenshots/uptime-kuma-monitor-overview-480x800-portrait.png"
+      }
+    },
+    {
+      "color": "dark",
+      "baseUrl": "",
+      "slug": "default",
+      "monitor": "API",
+      "limit": 1,
+      "showIncidents": false,
+      "showMaintenance": true,
+      "showHeartbeats": true,
+      "showPing": true,
+      "timeoutMs": 5000,
+      "screenshots": {
+        "800x480": "./screenshots/uptime-kuma-monitor-single-api-800x480-landscape.png",
+        "480x800": "./screenshots/uptime-kuma-monitor-single-api-480x800-portrait.png"
+      }
+    }
+  ],
+  "formSchema": {
+    "type": "object",
+    "properties": {
+      "baseUrl": {
+        "type": "string",
+        "title": "Uptime Kuma URL",
+        "default": "",
+        "description": "Base URL of your Uptime Kuma instance. Leave blank to use UPTIME_KUMA_BASE_URL from .env or show sample data."
+      },
+      "slug": {
+        "type": "string",
+        "title": "Status page slug",
+        "default": "default",
+        "description": "The slug from /status/{slug}. Use default for the default status page."
+      },
+      "monitor": {
+        "type": "string",
+        "title": "Monitor filter",
+        "default": "",
+        "description": "Optional monitor ID or part of a monitor name."
+      },
+      "limit": {
+        "type": "number",
+        "title": "Monitor limit",
+        "default": 6
+      },
+      "showIncidents": {
+        "type": "boolean",
+        "title": "Show incidents",
+        "default": true
+      },
+      "showMaintenance": {
+        "type": "boolean",
+        "title": "Show maintenance",
+        "default": true
+      },
+      "showHeartbeats": {
+        "type": "boolean",
+        "title": "Show heartbeat history",
+        "default": true
+      },
+      "showPing": {
+        "type": "boolean",
+        "title": "Show ping",
+        "default": true
+      },
+      "timeoutMs": {
+        "type": "number",
+        "title": "Request timeout",
+        "default": 5000
+      }
+    }
+  },
+  "language": [
+    "en",
+    "de",
+    "fr",
+    "es",
+    "it"
+  ]
+}

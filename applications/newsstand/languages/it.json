@@ -1,0 +1,11 @@
+{
+  "loading": "Caricamento...",
+  "updated": "Aggiornato",
+  "from": "da",
+  "errorTitle": "Impossibile caricare Newsstand",
+  "apiFailed": "API non riuscita con {status}",
+  "title": "Edicola",
+  "papers": "{count} giornali",
+  "imageAlt": "Prima pagina di {name} per {date}",
+  "imageFailed": "Impossibile caricare l'immagine della prima pagina."
+}
