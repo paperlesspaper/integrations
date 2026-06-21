@@ -22,6 +22,18 @@ screenshots:
 
 Offline-friendly OpenIntegration screen for a daily quote. It uses local data only, accepts an optional `index` query setting, and fits the quote text with `fitHyphenatedText(...)`.
 
+## Links
+
+- [Demo](https://integrations.paperlesspaper.de/quote/run)
+- [config.json](./config.json)
+
+## Screenshots
+
+| Landscape | Portrait |
+| --- | --- |
+| <img src="./screenshots/quote-daily-800x480-landscape.png" alt="Quote landscape screenshot: Daily" width="360"> | <img src="./screenshots/quote-daily-480x800-portrait.png" alt="Quote portrait screenshot: Daily" width="216"> |
+| <img src="./screenshots/quote-index-7-800x480-landscape.png" alt="Quote landscape screenshot: Index 7" width="360"> | <img src="./screenshots/quote-index-7-480x800-portrait.png" alt="Quote portrait screenshot: Index 7" width="216"> |
+
 ## Common URLs
 
 - `/quote/`

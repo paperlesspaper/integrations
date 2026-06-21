@@ -18,6 +18,18 @@ screenshots:
 
 OpenIntegration screen for showing a photo from a public iCloud shared album. It can pick a random image or a fixed 1-based photo number, then render it as a full-screen cover or contained image.
 
+## Links
+
+- [Demo](https://integrations.paperlesspaper.de/apple-photos-gallery/run)
+- [config.json](./config.json)
+
+## Screenshots
+
+| Landscape | Portrait |
+| --- | --- |
+| <img src="./screenshots/apple-photos-gallery-first-cover-800x480-landscape.png" alt="Apple Photos Gallery landscape screenshot: First Cover" width="360"> | <img src="./screenshots/apple-photos-gallery-first-cover-480x800-portrait.png" alt="Apple Photos Gallery portrait screenshot: First Cover" width="216"> |
+| <img src="./screenshots/apple-photos-gallery-first-metadata-800x480-landscape.png" alt="Apple Photos Gallery landscape screenshot: First Metadata" width="360"> | <img src="./screenshots/apple-photos-gallery-first-metadata-480x800-portrait.png" alt="Apple Photos Gallery portrait screenshot: First Metadata" width="216"> |
+
 ## Common URLs
 
 - `/apple-photos-gallery/`

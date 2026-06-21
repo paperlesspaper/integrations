@@ -2,6 +2,18 @@
 
 Displays the upcoming Formula 1 Grand Prix with circuit details, location, race date, session schedule, and a track image, inspired by TRMNL recipe 11914.
 
+## Links
+
+- [Demo](https://integrations.paperlesspaper.de/formula-1-races/run)
+- [config.json](./config.json)
+
+## Screenshots
+
+| Landscape | Portrait |
+| --- | --- |
+| <img src="./screenshots/formula-1-races-round-one-compact-800x480-landscape.png" alt="Formula 1 Races landscape screenshot: Round One Compact" width="360"> | <img src="./screenshots/formula-1-races-round-one-compact-480x800-portrait.png" alt="Formula 1 Races portrait screenshot: Round One Compact" width="216"> |
+| <img src="./screenshots/formula-1-races-upcoming-full-800x480-landscape.png" alt="Formula 1 Races landscape screenshot: Upcoming Full" width="360"> | <img src="./screenshots/formula-1-races-upcoming-full-480x800-portrait.png" alt="Formula 1 Races portrait screenshot: Upcoming Full" width="216"> |
+
 ## Settings
 
 - `selection`: `upcoming` or `round`

@@ -21,6 +21,18 @@ screenshots:
 
 Plain OpenIntegration dashboard for current conditions and a compact forecast. It uses Open-Meteo, requires no API key, and fits the city title with `fitAllText(...)` before calling `markReady()`.
 
+## Links
+
+- [Demo](https://integrations.paperlesspaper.de/weather/run)
+- [config.json](./config.json)
+
+## Screenshots
+
+| Landscape | Portrait |
+| --- | --- |
+| <img src="./screenshots/weather-berlin-800x480-landscape.png" alt="Weather landscape screenshot: Berlin" width="360"> | <img src="./screenshots/weather-berlin-480x800-portrait.png" alt="Weather portrait screenshot: Berlin" width="216"> |
+| <img src="./screenshots/weather-new-york-800x480-landscape.png" alt="Weather landscape screenshot: New York" width="360"> | <img src="./screenshots/weather-new-york-480x800-portrait.png" alt="Weather portrait screenshot: New York" width="216"> |
+
 ## Common URLs
 
 - `/weather/`

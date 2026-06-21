@@ -7,6 +7,18 @@ Bike Commute Card shows a compact ride decision for a regular commute:
 - route disruption status and note
 - European AQI plus PM2.5 / PM10
 
+## Links
+
+- [Demo](https://integrations.paperlesspaper.de/bike-commute-card/run)
+- [config.json](./config.json)
+
+## Screenshots
+
+| Landscape | Portrait |
+| --- | --- |
+| <img src="./screenshots/bike-commute-card-home-to-work-800x480-landscape.png" alt="Bike Commute Card landscape screenshot: Home To Work" width="360"> | <img src="./screenshots/bike-commute-card-home-to-work-480x800-portrait.png" alt="Bike Commute Card portrait screenshot: Home To Work" width="216"> |
+| <img src="./screenshots/bike-commute-card-kreuzberg-to-mitte-800x480-landscape.png" alt="Bike Commute Card landscape screenshot: Kreuzberg To Mitte" width="360"> | <img src="./screenshots/bike-commute-card-kreuzberg-to-mitte-480x800-portrait.png" alt="Bike Commute Card portrait screenshot: Kreuzberg To Mitte" width="216"> |
+
 ## APIs
 
 Yes, for most of the card:

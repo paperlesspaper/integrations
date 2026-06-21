@@ -2,6 +2,18 @@
 
 Shows public Uptime Kuma status-page monitors on a paperlesspaper display.
 
+## Links
+
+- [Demo](https://integrations.paperlesspaper.de/uptime-kuma-monitor/run)
+- [config.json](./config.json)
+
+## Screenshots
+
+| Landscape | Portrait |
+| --- | --- |
+| <img src="./screenshots/uptime-kuma-monitor-overview-800x480-landscape.png" alt="Uptime Kuma Monitor landscape screenshot: Overview" width="360"> | <img src="./screenshots/uptime-kuma-monitor-overview-480x800-portrait.png" alt="Uptime Kuma Monitor portrait screenshot: Overview" width="216"> |
+| <img src="./screenshots/uptime-kuma-monitor-single-api-800x480-landscape.png" alt="Uptime Kuma Monitor landscape screenshot: Single Api" width="360"> | <img src="./screenshots/uptime-kuma-monitor-single-api-480x800-portrait.png" alt="Uptime Kuma Monitor portrait screenshot: Single Api" width="216"> |
+
 ## Settings
 
 - `baseUrl`: Uptime Kuma base URL, for example `https://status.example.com`. Leave blank to use `UPTIME_KUMA_BASE_URL` from `.env` or render sample data.

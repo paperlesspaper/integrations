@@ -22,6 +22,18 @@ Plain OpenIntegration version of the upstream `paperlesspaper-apps/src/component
 
 It keeps the same base settings (`color`, `kind`, `showTime`, `language`), the same date/time formatting behavior, and the same quote/fact arrays. Additional fact modes are selected by local day-of-year or deterministic date calculations.
 
+## Links
+
+- [Demo](https://integrations.paperlesspaper.de/day-calendar/run)
+- [config.json](./config.json)
+
+## Screenshots
+
+| Landscape | Portrait |
+| --- | --- |
+| <img src="./screenshots/day-calendar-primary-dark-800x480-landscape.png" alt="Day Calendar landscape screenshot: Primary Dark" width="360"> | <img src="./screenshots/day-calendar-primary-dark-480x800-portrait.png" alt="Day Calendar portrait screenshot: Primary Dark" width="216"> |
+| <img src="./screenshots/day-calendar-demotivational-de-800x480-landscape.png" alt="Day Calendar landscape screenshot: Demotivational De" width="360"> | <img src="./screenshots/day-calendar-demotivational-de-480x800-portrait.png" alt="Day Calendar portrait screenshot: Demotivational De" width="216"> |
+
 ## Common URLs
 
 - `/day-calendar/`

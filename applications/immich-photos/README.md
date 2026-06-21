@@ -2,6 +2,18 @@
 
 Shows a random, newest, or oldest photo from an Immich server on a paperlesspaper display.
 
+## Links
+
+- [Demo](https://integrations.paperlesspaper.de/immich-photos/run)
+- [config.json](./config.json)
+
+## Screenshots
+
+| Landscape | Portrait |
+| --- | --- |
+| <img src="./screenshots/immich-photos-favorites-metadata-800x480-landscape.png" alt="Immich Photos landscape screenshot: Favorites Metadata" width="360"> | <img src="./screenshots/immich-photos-favorites-metadata-480x800-portrait.png" alt="Immich Photos portrait screenshot: Favorites Metadata" width="216"> |
+| <img src="./screenshots/immich-photos-newest-cover-800x480-landscape.png" alt="Immich Photos landscape screenshot: Newest Cover" width="360"> | <img src="./screenshots/immich-photos-newest-cover-480x800-portrait.png" alt="Immich Photos portrait screenshot: Newest Cover" width="216"> |
+
 ## Settings
 
 - `serverUrl`: Immich server base URL, with or without `/api`.

@@ -14,6 +14,18 @@ apiUrl: /newsstand/api/data
 
 Newsstand displays a daily newspaper front page from Riley Walz's Papers archive at `walzr.com/papers`.
 
+## Links
+
+- [Demo](https://integrations.paperlesspaper.de/newsstand/run)
+- [config.json](./config.json)
+
+## Screenshots
+
+| Landscape | Portrait |
+| --- | --- |
+| <img src="./screenshots/newsstand-guardian-contain-800x480-landscape.png" alt="Newsstand landscape screenshot: Guardian Contain" width="360"> | <img src="./screenshots/newsstand-guardian-contain-480x800-portrait.png" alt="Newsstand portrait screenshot: Guardian Contain" width="216"> |
+| <img src="./screenshots/newsstand-top3-cover-800x480-landscape.png" alt="Newsstand landscape screenshot: Top3 Cover" width="360"> | <img src="./screenshots/newsstand-top3-cover-480x800-portrait.png" alt="Newsstand portrait screenshot: Top3 Cover" width="216"> |
+
 ## Common URLs
 
 - `/newsstand/`

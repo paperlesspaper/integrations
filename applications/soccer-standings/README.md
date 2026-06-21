@@ -4,6 +4,18 @@ Shows a compact European soccer league table inspired by `fewieden/MMM-soccer`, 
 
 The integration can display live `football-data.org` standings when an API key is configured. Without a key it renders deterministic sample standings, which keeps previews and screenshots useful.
 
+## Links
+
+- [Demo](https://integrations.paperlesspaper.de/soccer-standings/run)
+- [config.json](./config.json)
+
+## Screenshots
+
+| Landscape | Portrait |
+| --- | --- |
+| <img src="./screenshots/soccer-standings-bundesliga-800x480-landscape.png" alt="Soccer Standings landscape screenshot: Bundesliga" width="360"> | <img src="./screenshots/soccer-standings-bundesliga-480x800-portrait.png" alt="Soccer Standings portrait screenshot: Bundesliga" width="216"> |
+| <img src="./screenshots/soccer-standings-premier-league-800x480-landscape.png" alt="Soccer Standings landscape screenshot: Premier League" width="360"> | <img src="./screenshots/soccer-standings-premier-league-480x800-portrait.png" alt="Soccer Standings portrait screenshot: Premier League" width="216"> |
+
 ## Settings
 
 | Setting | Purpose |

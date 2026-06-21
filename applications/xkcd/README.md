@@ -21,6 +21,18 @@ screenshots:
 
 Plain OpenIntegration screen for XKCD comics. The render page uses the shared Paperless helpers, waits for payload settings, merges query settings, fetches `./api/data`, and calls grouped `fitHyphenatedText(...)`, `fitToScreen()`, and `markReady()`.
 
+## Links
+
+- [Demo](https://integrations.paperlesspaper.de/xkcd/run)
+- [config.json](./config.json)
+
+## Screenshots
+
+| Landscape | Portrait |
+| --- | --- |
+| <img src="./screenshots/xkcd-latest-800x480-landscape.png" alt="XKCD landscape screenshot: Latest" width="360"> | <img src="./screenshots/xkcd-latest-480x800-portrait.png" alt="XKCD portrait screenshot: Latest" width="216"> |
+| <img src="./screenshots/xkcd-specific-1-800x480-landscape.png" alt="XKCD landscape screenshot: Specific 1" width="360"> | <img src="./screenshots/xkcd-specific-1-480x800-portrait.png" alt="XKCD portrait screenshot: Specific 1" width="216"> |
+
 ## Common URLs
 
 - `/xkcd/`

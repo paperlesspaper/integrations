@@ -13,6 +13,18 @@ screenshots: []
 
 Plain OpenIntegration dashboard for the live people-in-space roster. It uses the public "How Many People Are In Space Right Now?" JSON feed, requires no API key, and groups the current crew by spacecraft or station.
 
+## Links
+
+- [Demo](https://integrations.paperlesspaper.de/astronauts/run)
+- [config.json](./config.json)
+
+## Screenshots
+
+| Landscape | Portrait |
+| --- | --- |
+| <img src="./screenshots/astronauts-all-crew-800x480-landscape.png" alt="Astronauts landscape screenshot: All Crew" width="360"> | <img src="./screenshots/astronauts-all-crew-480x800-portrait.png" alt="Astronauts portrait screenshot: All Crew" width="216"> |
+| <img src="./screenshots/astronauts-iss-compact-800x480-landscape.png" alt="Astronauts landscape screenshot: Iss Compact" width="360"> | <img src="./screenshots/astronauts-iss-compact-480x800-portrait.png" alt="Astronauts portrait screenshot: Iss Compact" width="216"> |
+
 ## Common URLs
 
 - `/astronauts/`

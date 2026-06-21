@@ -4,6 +4,18 @@ Shows upcoming waste collection dates on a paperlesspaper display.
 
 The integration is inspired by `mampfes/hacs_waste_collection_schedule`: it can use a municipality or service-provider ICS/iCal calendar, or generate dates from manually configured static and recurring rules.
 
+## Links
+
+- [Demo](https://integrations.paperlesspaper.de/waste-collection-schedule/run)
+- [config.json](./config.json)
+
+## Screenshots
+
+| Landscape | Portrait |
+| --- | --- |
+| <img src="./screenshots/waste-collection-schedule-abfallkalender-800x480-landscape.png" alt="Waste Collection Schedule landscape screenshot: Abfallkalender" width="360"> | <img src="./screenshots/waste-collection-schedule-abfallkalender-480x800-portrait.png" alt="Waste Collection Schedule portrait screenshot: Abfallkalender" width="216"> |
+| <img src="./screenshots/waste-collection-schedule-sample-street-800x480-landscape.png" alt="Waste Collection Schedule landscape screenshot: Sample Street" width="360"> | <img src="./screenshots/waste-collection-schedule-sample-street-480x800-portrait.png" alt="Waste Collection Schedule portrait screenshot: Sample Street" width="216"> |
+
 ## Sources
 
 - `ICS/iCal URL`: fetches and parses `VEVENT` entries from a calendar URL. `webcal:` URLs are converted to `https:`.

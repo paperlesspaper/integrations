@@ -2,6 +2,18 @@
 
 Shows upcoming realtime departures for a Deutsche Bahn station, inspired by the TRMNL Deutsche Bahn Abfahrten plugin.
 
+## Links
+
+- [Demo](https://integrations.paperlesspaper.de/deutsche-bahn-abfahrten/run)
+- [config.json](./config.json)
+
+## Screenshots
+
+| Landscape | Portrait |
+| --- | --- |
+| <img src="./screenshots/deutsche-bahn-abfahrten-berlin-hbf-800x480-landscape.png" alt="Deutsche Bahn Abfahrten landscape screenshot: Berlin Hbf" width="360"> | <img src="./screenshots/deutsche-bahn-abfahrten-berlin-hbf-480x800-portrait.png" alt="Deutsche Bahn Abfahrten portrait screenshot: Berlin Hbf" width="216"> |
+| <img src="./screenshots/deutsche-bahn-abfahrten-hamburg-regional-800x480-landscape.png" alt="Deutsche Bahn Abfahrten landscape screenshot: Hamburg Regional" width="360"> | <img src="./screenshots/deutsche-bahn-abfahrten-hamburg-regional-480x800-portrait.png" alt="Deutsche Bahn Abfahrten portrait screenshot: Hamburg Regional" width="216"> |
+
 ## Settings
 
 - `stationName`: station search text, used when `stationId` is empty

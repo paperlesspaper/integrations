@@ -2,6 +2,18 @@
 
 Displays a recent cartoon from The Onion's `Cartoons` category, inspired by TRMNL recipe 32609.
 
+## Links
+
+- [Demo](https://integrations.paperlesspaper.de/the-onion-editorial-cartoon/run)
+- [config.json](./config.json)
+
+## Screenshots
+
+| Landscape | Portrait |
+| --- | --- |
+| <img src="./screenshots/the-onion-editorial-cartoon-latest-with-meta-800x480-landscape.png" alt="The Onion - Editorial Cartoon landscape screenshot: Latest With Meta" width="360"> | <img src="./screenshots/the-onion-editorial-cartoon-latest-with-meta-480x800-portrait.png" alt="The Onion - Editorial Cartoon portrait screenshot: Latest With Meta" width="216"> |
+| <img src="./screenshots/the-onion-editorial-cartoon-offset-art-only-800x480-landscape.png" alt="The Onion - Editorial Cartoon landscape screenshot: Offset Art Only" width="360"> | <img src="./screenshots/the-onion-editorial-cartoon-offset-art-only-480x800-portrait.png" alt="The Onion - Editorial Cartoon portrait screenshot: Offset Art Only" width="216"> |
+
 ## Settings
 
 - `selection`: `latest`, `random`, or `offset`

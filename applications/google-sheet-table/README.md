@@ -4,6 +4,17 @@ Shows matching rows from a public Google Sheet as a compact `Date | Name | Group
 
 This integration is inspired by `supermem613/MMM-GoogleSheetToTable` for MagicMirror. It fetches a public sheet through Google's CSV export, searches configured columns for configured names, and keeps the useful date-block behavior from that module.
 
+## Links
+
+- [Demo](https://integrations.paperlesspaper.de/google-sheet-table/run)
+- [config.json](./config.json)
+
+## Screenshots
+
+| Landscape | Portrait |
+| --- | --- |
+| <img src="./screenshots/google-sheet-table-sample-800x480-landscape.png" alt="Google Sheet Table landscape screenshot: Sample" width="360"> | <img src="./screenshots/google-sheet-table-sample-480x800-portrait.png" alt="Google Sheet Table portrait screenshot: Sample" width="216"> |
+
 ## Settings
 
 - `Google Sheet ID or URL`: paste the sheet ID or the full Google Sheets URL.

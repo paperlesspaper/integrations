@@ -4,6 +4,18 @@ Shows a kid-friendly dinosaur, space, or animal fact of the day on a paperlesspa
 
 The integration uses a curated local fact bank instead of a live public API. That keeps the wording child-safe, deterministic, and available even when external services are slow or offline.
 
+## Links
+
+- [Demo](https://integrations.paperlesspaper.de/kids-fact-card/run)
+- [config.json](./config.json)
+
+## Screenshots
+
+| Landscape | Portrait |
+| --- | --- |
+| <img src="./screenshots/kids-fact-card-mixed-800x480-landscape.png" alt="Kids Fact Card landscape screenshot: Mixed" width="360"> | <img src="./screenshots/kids-fact-card-mixed-480x800-portrait.png" alt="Kids Fact Card portrait screenshot: Mixed" width="216"> |
+| <img src="./screenshots/kids-fact-card-space-800x480-landscape.png" alt="Kids Fact Card landscape screenshot: Space" width="360"> | <img src="./screenshots/kids-fact-card-space-480x800-portrait.png" alt="Kids Fact Card portrait screenshot: Space" width="216"> |
+
 ## Settings
 
 - `topic`: `mixed`, `dinosaurs`, `space`, or `animals`

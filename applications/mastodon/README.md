@@ -7,6 +7,18 @@ This integration follows the core behavior of
 it supports home, hashtag, and profile feeds; reply filtering; media thumbnails;
 relative or absolute dates; QR codes for posts; and configurable link truncation.
 
+## Links
+
+- [Demo](https://integrations.paperlesspaper.de/mastodon/run)
+- [config.json](./config.json)
+
+## Screenshots
+
+| Landscape | Portrait |
+| --- | --- |
+| <img src="./screenshots/mastodon-opensource-list-800x480-landscape.png" alt="Mastodon landscape screenshot: Opensource List" width="360"> | <img src="./screenshots/mastodon-opensource-list-480x800-portrait.png" alt="Mastodon portrait screenshot: Opensource List" width="216"> |
+| <img src="./screenshots/mastodon-science-profile-single-800x480-landscape.png" alt="Mastodon landscape screenshot: Science Profile Single" width="360"> | <img src="./screenshots/mastodon-science-profile-single-480x800-portrait.png" alt="Mastodon portrait screenshot: Science Profile Single" width="216"> |
+
 ## Settings
 
 - `instanceUrl`: Base URL of the Mastodon instance.

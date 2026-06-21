@@ -2,6 +2,18 @@
 
 Shows a random Bible verse or curated verse of the day on a paperlesspaper display, inspired by TRMNL's Bible Verses plugin.
 
+## Links
+
+- [Demo](https://integrations.paperlesspaper.de/bible-verses/run)
+- [config.json](./config.json)
+
+## Screenshots
+
+| Landscape | Portrait |
+| --- | --- |
+| <img src="./screenshots/bible-verses-bolls-lut-800x480-landscape.png" alt="Bible Verses landscape screenshot: Bolls Lut" width="360"> | <img src="./screenshots/bible-verses-bolls-lut-480x800-portrait.png" alt="Bible Verses portrait screenshot: Bolls Lut" width="216"> |
+| <img src="./screenshots/bible-verses-kjv-nt-800x480-landscape.png" alt="Bible Verses landscape screenshot: Kjv Nt" width="360"> | <img src="./screenshots/bible-verses-kjv-nt-480x800-portrait.png" alt="Bible Verses portrait screenshot: Kjv Nt" width="216"> |
+
 ## Settings
 
 - `mode`: choose `random` or `daily`. Daily mode uses the curated DailyVerses.net verse of the day and follows the selected display language.

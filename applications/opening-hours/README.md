@@ -12,6 +12,18 @@ apiUrl: /opening-hours/api/data
 
 OpenIntegration dashboard inspired by TRMNL's Opening hours plugin. It can read live hours from Google Places when `placeId` and `googleMapsApiKey` are configured, and it falls back to manual weekly hours when Google credentials are omitted.
 
+## Links
+
+- [Demo](https://integrations.paperlesspaper.de/opening-hours/run)
+- [config.json](./config.json)
+
+## Screenshots
+
+| Landscape | Portrait |
+| --- | --- |
+| <img src="./screenshots/opening-hours-coffee-week-800x480-landscape.png" alt="Opening Hours landscape screenshot: Coffee Week" width="360"> | <img src="./screenshots/opening-hours-coffee-week-480x800-portrait.png" alt="Opening Hours portrait screenshot: Coffee Week" width="216"> |
+| <img src="./screenshots/opening-hours-studio-open-now-800x480-landscape.png" alt="Opening Hours landscape screenshot: Studio Open Now" width="360"> | <img src="./screenshots/opening-hours-studio-open-now-480x800-portrait.png" alt="Opening Hours portrait screenshot: Studio Open Now" width="216"> |
+
 ## Common URLs
 
 - `/opening-hours/`

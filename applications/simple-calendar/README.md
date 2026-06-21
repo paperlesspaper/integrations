@@ -2,6 +2,18 @@
 
 Monthly calendar integration inspired by the TRMNL Simple Calendar recipe.
 
+## Links
+
+- [Demo](https://integrations.paperlesspaper.de/simple-calendar/run)
+- [config.json](./config.json)
+
+## Screenshots
+
+| Landscape | Portrait |
+| --- | --- |
+| <img src="./screenshots/simple-calendar-berlin-persian-compact-800x480-landscape.png" alt="Simple Calendar landscape screenshot: Berlin Persian Compact" width="360"> | <img src="./screenshots/simple-calendar-berlin-persian-compact-480x800-portrait.png" alt="Simple Calendar portrait screenshot: Berlin Persian Compact" width="216"> |
+| <img src="./screenshots/simple-calendar-us-regular-800x480-landscape.png" alt="Simple Calendar landscape screenshot: Us Regular" width="360"> | <img src="./screenshots/simple-calendar-us-regular-480x800-portrait.png" alt="Simple Calendar portrait screenshot: Us Regular" width="216"> |
+
 ## Settings
 
 - `locale`: BCP 47 locale for month and weekday labels, for example `en-US`, `de-DE`, `fr-FR`, or `ja-JP`.
