@@ -1,0 +1,11 @@
+{
+  "kicker": "Record Airtable",
+  "loading": "Caricamento...",
+  "noRows": "Nessun record da mostrare",
+  "sample": "Esempio",
+  "updated": "Aggiornato",
+  "rows": "righe",
+  "fields": "campi",
+  "errorTitle": "Impossibile caricare Airtable",
+  "source": "Fonte"
+}

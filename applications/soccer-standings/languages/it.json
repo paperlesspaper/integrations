@@ -1,0 +1,13 @@
+{
+  "loading": "Classifica in caricamento...",
+  "played": "G",
+  "goalDifference": "DR",
+  "points": "Pt",
+  "sourceLive": "Live",
+  "sourceSample": "Esempio",
+  "updated": "Aggiornato",
+  "focus": "Focus",
+  "noFocus": "Nessuna squadra preferita",
+  "markdownTitle": "Nota",
+  "errorTitle": "Impossibile caricare la classifica"
+}

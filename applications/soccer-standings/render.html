@@ -1,0 +1,737 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="paperless:epd-optimize" content='{"intent":"readable"}'>
+    <title>Soccer Standings</title>
+    <link rel="stylesheet" href="/assets/paperless.css">
+    <script src="/assets/paperless.iife.js"></script>
+    <style>
+      :root {
+        --soccer-green: #168a46;
+        --soccer-yellow: #f2c94c;
+        --soccer-red: #d71920;
+        --soccer-blue: #005eb8;
+        --soccer-soft: #f2f2f2;
+      }
+
+      body.dark {
+        --soccer-green: #44b36f;
+        --soccer-yellow: #d6ad35;
+        --soccer-red: #ff5961;
+        --soccer-blue: #6da8ff;
+        --soccer-soft: #161616;
+      }
+
+      .soccer-screen {
+        padding: 14px 18px 12px;
+        gap: 10px;
+      }
+
+      .soccer-topbar {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        align-items: end;
+        gap: 14px;
+        padding-bottom: 8px;
+        border-bottom: 4px solid var(--pp-border);
+      }
+
+      .soccer-title,
+      .soccer-subtitle,
+      .soccer-badge,
+      .soccer-note-title,
+      .soccer-cell,
+      .soccer-team-name,
+      .soccer-meta {
+        margin: 0;
+      }
+
+      .soccer-title {
+        min-width: 0;
+        color: var(--soccer-green);
+        font-size: clamp(1.9rem, 6.8vh, 3.3rem);
+        line-height: 0.92;
+        font-weight: 950;
+        letter-spacing: 0;
+        text-transform: uppercase;
+      }
+
+      .soccer-subtitle {
+        margin-top: 5px;
+        color: var(--pp-muted);
+        font-size: 0.78rem;
+        line-height: 1;
+        font-weight: 850;
+        text-transform: uppercase;
+      }
+
+      .soccer-meta-stack {
+        display: grid;
+        justify-items: end;
+        gap: 6px;
+        min-width: 150px;
+      }
+
+      .soccer-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        max-width: 100%;
+        padding: 6px 9px;
+        background: var(--soccer-yellow);
+        color: #111;
+        font-size: 0.78rem;
+        line-height: 1;
+        font-weight: 950;
+        text-transform: uppercase;
+      }
+
+      .soccer-badge-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--soccer-green);
+      }
+
+      .soccer-meta {
+        color: var(--pp-muted);
+        font-size: 0.68rem;
+        line-height: 1.05;
+        font-weight: 800;
+        text-align: right;
+      }
+
+      .soccer-layout {
+        flex: 1;
+        min-height: 0;
+        display: grid;
+        grid-template-columns: minmax(430px, 1fr) minmax(220px, 0.42fr);
+        gap: 14px;
+      }
+
+      .soccer-table-wrap,
+      .soccer-note {
+        min-width: 0;
+        min-height: 0;
+      }
+
+      .soccer-table-wrap {
+        display: grid;
+        grid-template-rows: auto minmax(0, 1fr);
+        border: 3px solid var(--pp-border);
+        background: var(--soccer-soft);
+      }
+
+      .soccer-table-headline {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        align-items: center;
+        gap: 10px;
+        padding: 8px 10px;
+        border-bottom: 3px solid var(--pp-border);
+      }
+
+      .soccer-focus {
+        min-width: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        font-size: 0.8rem;
+        line-height: 1;
+        font-weight: 950;
+        text-transform: uppercase;
+      }
+
+      .soccer-source {
+        color: var(--soccer-red);
+        font-size: 0.68rem;
+        line-height: 1;
+        font-weight: 950;
+        text-transform: uppercase;
+      }
+
+      .soccer-table {
+        min-height: 0;
+        overflow: hidden;
+        display: grid;
+        align-content: start;
+      }
+
+      .soccer-row {
+        display: grid;
+        grid-template-columns: 30px 28px minmax(0, 1fr) 32px 30px 30px 30px 38px 42px;
+        align-items: center;
+        gap: 7px;
+        min-height: 29px;
+        padding: 2px 10px;
+        border-top: 1px solid var(--pp-border);
+      }
+
+      .soccer-row:first-child {
+        border-top: 0;
+      }
+
+      .soccer-row.is-head {
+        min-height: 24px;
+        color: var(--pp-muted);
+        font-size: 0.62rem;
+        line-height: 1;
+        font-weight: 950;
+        text-transform: uppercase;
+      }
+
+      .soccer-row.is-focus {
+        background: var(--soccer-yellow);
+        color: #111;
+        border-top-color: #111;
+      }
+
+      .soccer-row.is-focus + .soccer-row {
+        border-top-color: #111;
+      }
+
+      .soccer-cell {
+        min-width: 0;
+        font-size: 0.82rem;
+        line-height: 1;
+        font-weight: 850;
+      }
+
+      .soccer-number {
+        text-align: right;
+        font-variant-numeric: tabular-nums;
+      }
+
+      .soccer-position {
+        font-size: 0.92rem;
+        font-weight: 950;
+      }
+
+      .soccer-team {
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        min-width: 0;
+      }
+
+      .soccer-crest {
+        display: block;
+        width: 24px;
+        height: 24px;
+        flex: 0 0 auto;
+        object-fit: contain;
+      }
+
+      .soccer-initials {
+        display: inline-grid;
+        place-items: center;
+        width: 24px;
+        height: 24px;
+        flex: 0 0 auto;
+        border: 2px solid currentColor;
+        color: var(--soccer-green);
+        font-size: 0.58rem;
+        line-height: 1;
+        font-weight: 950;
+      }
+
+      .soccer-row.is-focus .soccer-initials {
+        color: #111;
+      }
+
+      .soccer-team-name {
+        min-width: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        font-size: 0.92rem;
+        line-height: 1.05;
+        font-weight: 900;
+      }
+
+      .soccer-points {
+        color: var(--soccer-green);
+        font-size: 1rem;
+        font-weight: 950;
+      }
+
+      .soccer-row.is-focus .soccer-points {
+        color: #111;
+      }
+
+      .soccer-note {
+        display: grid;
+        grid-template-rows: auto minmax(0, 1fr);
+        gap: 8px;
+        padding: 10px 12px;
+        border-left: 6px solid var(--soccer-green);
+      }
+
+      .soccer-note.is-empty {
+        align-content: center;
+      }
+
+      .soccer-note-title {
+        color: var(--pp-muted);
+        font-size: 0.7rem;
+        line-height: 1;
+        font-weight: 950;
+        text-transform: uppercase;
+      }
+
+      .soccer-markdown {
+        min-width: 0;
+        min-height: 0;
+        overflow: hidden;
+        font-size: clamp(0.86rem, 2.5vh, 1.1rem);
+        line-height: 1.22;
+        font-weight: 650;
+      }
+
+      .soccer-markdown > * {
+        margin: 0;
+      }
+
+      .soccer-markdown > * + * {
+        margin-top: 0.55em;
+      }
+
+      .soccer-markdown h1,
+      .soccer-markdown h2,
+      .soccer-markdown h3 {
+        color: var(--soccer-green);
+        font-size: 1.2em;
+        line-height: 1;
+        font-weight: 950;
+        text-transform: uppercase;
+      }
+
+      .soccer-markdown ul,
+      .soccer-markdown ol {
+        padding-left: 1.2em;
+      }
+
+      .soccer-markdown li + li {
+        margin-top: 0.2em;
+      }
+
+      .soccer-markdown blockquote {
+        padding-left: 0.75em;
+        border-left: 4px solid var(--pp-border);
+        color: var(--pp-muted);
+      }
+
+      .soccer-markdown code {
+        padding: 0 0.2em;
+        border: 1px solid var(--pp-border);
+        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+        font-size: 0.9em;
+      }
+
+      .soccer-markdown a {
+        color: var(--soccer-blue);
+        text-decoration: underline;
+      }
+
+      .soccer-warning {
+        margin-top: 5px;
+        color: var(--soccer-red);
+        font-size: 0.62rem;
+        line-height: 1.05;
+        font-weight: 850;
+      }
+
+      .is-compact .optional-column {
+        display: none;
+      }
+
+      .is-compact .soccer-row {
+        grid-template-columns: 30px 28px minmax(0, 1fr) 34px 42px;
+      }
+
+      @media (orientation: portrait) {
+        .soccer-screen {
+          padding: 18px 16px;
+          gap: 12px;
+        }
+
+        .soccer-topbar {
+          grid-template-columns: minmax(0, 1fr);
+          align-items: start;
+        }
+
+        .soccer-meta-stack {
+          justify-items: start;
+          min-width: 0;
+        }
+
+        .soccer-meta {
+          text-align: left;
+        }
+
+        .soccer-layout {
+          grid-template-columns: minmax(0, 1fr);
+          grid-template-rows: minmax(0, 1fr) auto;
+          gap: 12px;
+        }
+
+        .soccer-note {
+          max-height: 210px;
+          border-left: 0;
+          border-top: 5px solid var(--soccer-green);
+          padding: 9px 2px 0;
+        }
+
+        .soccer-row {
+          grid-template-columns: 28px 26px minmax(0, 1fr) 30px 30px 30px 30px 36px 40px;
+          gap: 5px;
+          padding: 4px 7px;
+        }
+      }
+
+      @media (max-width: 620px) {
+        .optional-column {
+          display: none;
+        }
+
+        .soccer-row,
+        .is-compact .soccer-row {
+          grid-template-columns: 28px 26px minmax(0, 1fr) 34px 40px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="website-has-loading-element"></div>
+    <main class="pp-screen soccer-screen" id="app">
+      <p data-i18n="loading">Loading standings...</p>
+    </main>
+
+    <script>
+      (async function render() {
+        const {
+          waitForPayload,
+          getSettings,
+          getQuerySettings,
+          mergeSettings,
+          loadLanguageJson,
+          applyColorTheme,
+          escapeHtml,
+          fitHyphenatedText,
+          fitToScreen,
+          markReady,
+          markError,
+        } = window.PaperlessOpenIntegration;
+
+        const app = document.getElementById('app');
+        const defaultMessages = {
+          loading: 'Loading standings...',
+          played: 'P',
+          goalDifference: 'GD',
+          points: 'PTS',
+          sourceLive: 'Live',
+          sourceSample: 'Sample',
+          updated: 'Updated',
+          focus: 'Focus',
+          noFocus: 'No focus team',
+          markdownTitle: 'Note',
+          errorTitle: 'Soccer standings could not load',
+        };
+
+        let messages = defaultMessages;
+        let currentLanguage = 'en';
+
+        function t(key) {
+          return typeof messages[key] === 'string' ? messages[key] : defaultMessages[key] || key;
+        }
+
+        async function loadMessages(payload) {
+          if (typeof loadLanguageJson === 'function') {
+            const result = await loadLanguageJson(payload);
+            messages = { ...defaultMessages, ...result.messages };
+            currentLanguage = result.language || 'en';
+            document.documentElement.lang = currentLanguage;
+            return;
+          }
+
+          const requested = String(payload?.meta?.language || 'en').trim();
+          const requestedBase = requested.split('-')[0].toLowerCase();
+          const supported = ['en', 'de', 'fr', 'es', 'it'];
+          const language = supported.includes(requested)
+            ? requested
+            : supported.includes(requestedBase)
+              ? requestedBase
+              : 'en';
+          const response = await fetch(`./languages/${language}.json`, { cache: 'no-store' });
+
+          if (!response.ok) {
+            throw new Error(`Could not load language JSON for ${language}: ${response.status}`);
+          }
+
+          messages = { ...defaultMessages, ...(await response.json()) };
+          currentLanguage = language;
+          document.documentElement.lang = currentLanguage;
+        }
+
+        function text(value) {
+          return escapeHtml(value == null ? '' : String(value));
+        }
+
+        function safeUrl(value) {
+          const raw = String(value || '').trim();
+          if (!/^https?:\/\//i.test(raw)) {
+            return '';
+          }
+          return raw.replace(/"/g, '%22');
+        }
+
+        function inlineMarkdown(value) {
+          let output = text(value);
+          output = output.replace(/`([^`]+)`/g, '<code>$1</code>');
+          output = output.replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g, (_match, label, url) => {
+            const safeHref = safeUrl(url);
+            return safeHref ? `<a href="${safeHref}">${label}</a>` : label;
+          });
+          output = output.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+          output = output.replace(/\*([^*]+)\*/g, '<em>$1</em>');
+          return output;
+        }
+
+        function flushList(blocks, list) {
+          if (!list) {
+            return null;
+          }
+
+          blocks.push(`<${list.type}>${list.items.map((item) => `<li>${inlineMarkdown(item)}</li>`).join('')}</${list.type}>`);
+          return null;
+        }
+
+        function markdownToHtml(markdown) {
+          const lines = String(markdown || '').replace(/\r\n?/g, '\n').replace(/\\n/g, '\n').split('\n');
+          const blocks = [];
+          let list = null;
+
+          for (const line of lines) {
+            const trimmed = line.trim();
+            if (!trimmed) {
+              list = flushList(blocks, list);
+              continue;
+            }
+
+            const unordered = trimmed.match(/^[-*]\s+(.+)$/);
+            const ordered = trimmed.match(/^\d+[.)]\s+(.+)$/);
+
+            if (unordered || ordered) {
+              const type = unordered ? 'ul' : 'ol';
+              if (!list || list.type !== type) {
+                list = flushList(blocks, list);
+                list = { type, items: [] };
+              }
+              list.items.push((unordered || ordered)[1]);
+              continue;
+            }
+
+            list = flushList(blocks, list);
+
+            const heading = trimmed.match(/^(#{1,3})\s+(.+)$/);
+            if (heading) {
+              const level = heading[1].length;
+              blocks.push(`<h${level}>${inlineMarkdown(heading[2])}</h${level}>`);
+              continue;
+            }
+
+            if (trimmed.startsWith('> ')) {
+              blocks.push(`<blockquote>${inlineMarkdown(trimmed.slice(2))}</blockquote>`);
+              continue;
+            }
+
+            blocks.push(`<p>${inlineMarkdown(trimmed)}</p>`);
+          }
+
+          flushList(blocks, list);
+          return blocks.join('');
+        }
+
+        function initials(team) {
+          const tla = String(team?.tla || '').trim();
+          if (tla) {
+            return tla.slice(0, 3).toUpperCase();
+          }
+          return String(team?.name || '?')
+            .split(/\s+/)
+            .filter(Boolean)
+            .slice(0, 2)
+            .map((part) => part[0])
+            .join('')
+            .toUpperCase();
+        }
+
+        function crestHtml(team, showCrests) {
+          const crest = showCrests ? safeUrl(team?.crest) : '';
+          if (crest) {
+            return `<img class="soccer-crest" src="${crest}" alt="">`;
+          }
+          return `<span class="soccer-initials">${text(initials(team))}</span>`;
+        }
+
+        function rowHtml(row, settings) {
+          const teamLabel = row.team?.shortName || row.team?.name || '';
+          const fullTeamLabel = row.team?.name || teamLabel;
+          const isFocus = Boolean(settings.focusTeam) && [
+            row.team?.name,
+            row.team?.shortName,
+            row.team?.tla,
+          ].filter(Boolean).some((value) =>
+            String(value).toLowerCase().includes(String(settings.focusTeam).toLowerCase()),
+          );
+
+          return `
+            <div class="soccer-row${isFocus ? ' is-focus' : ''}">
+              <p class="soccer-cell soccer-number soccer-position">${text(row.position)}</p>
+              <div class="soccer-team-mark">${crestHtml(row.team, settings.showCrests)}</div>
+              <div class="soccer-team" title="${text(fullTeamLabel)}">
+                <p class="soccer-team-name">${text(teamLabel)}</p>
+              </div>
+              <p class="soccer-cell soccer-number">${text(row.playedGames)}</p>
+              <p class="soccer-cell soccer-number optional-column">${text(row.won)}</p>
+              <p class="soccer-cell soccer-number optional-column">${text(row.draw)}</p>
+              <p class="soccer-cell soccer-number optional-column">${text(row.lost)}</p>
+              <p class="soccer-cell soccer-number">${text(row.goalDifference > 0 ? `+${row.goalDifference}` : row.goalDifference)}</p>
+              <p class="soccer-cell soccer-number soccer-points">${text(row.points)}</p>
+            </div>
+          `;
+        }
+
+        function tableHeaderHtml() {
+          return `
+            <div class="soccer-row is-head">
+              <p class="soccer-cell soccer-number">#</p>
+              <span></span>
+              <p class="soccer-cell">Team</p>
+              <p class="soccer-cell soccer-number">${text(t('played'))}</p>
+              <p class="soccer-cell soccer-number optional-column">W</p>
+              <p class="soccer-cell soccer-number optional-column">D</p>
+              <p class="soccer-cell soccer-number optional-column">L</p>
+              <p class="soccer-cell soccer-number">${text(t('goalDifference'))}</p>
+              <p class="soccer-cell soccer-number">${text(t('points'))}</p>
+            </div>
+          `;
+        }
+
+        function formatDate(value) {
+          const date = new Date(value);
+          if (Number.isNaN(date.getTime())) {
+            return '';
+          }
+          return new Intl.DateTimeFormat(currentLanguage, {
+            month: 'short',
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit',
+          }).format(date);
+        }
+
+        function apiUrl(settings) {
+          const url = new URL('./api/data', window.location.href);
+          for (const key of ['competition', 'apiKey', 'focusTeam', 'maxTeams', 'markdownUrl']) {
+            url.searchParams.set(key, settings[key] == null ? '' : String(settings[key]));
+          }
+          return url;
+        }
+
+        try {
+          const defaults = {
+            color: 'light',
+            competition: 'BL1',
+            apiKey: '',
+            focusTeam: '',
+            maxTeams: 10,
+            showCrests: true,
+            compact: false,
+            headline: 'League table',
+            markdown: '',
+            markdownUrl: '',
+          };
+          const payload = await waitForPayload({ timeoutMs: 500 });
+          await loadMessages(payload);
+
+          const settings = mergeSettings(defaults, getSettings(payload), getQuerySettings());
+          settings.showCrests = settings.showCrests === true || settings.showCrests === 'true';
+          settings.compact = settings.compact === true || settings.compact === 'true';
+          settings.maxTeams = Number(settings.maxTeams) || 0;
+          applyColorTheme(settings.color, { defaultTheme: defaults.color });
+
+          const response = await fetch(apiUrl(settings), { cache: 'no-store' });
+          if (!response.ok) {
+            throw new Error(`API failed with ${response.status}`);
+          }
+
+          const data = await response.json();
+          const sourceLabel = data.source === 'live' ? t('sourceLive') : t('sourceSample');
+          const focusLabel = data.focused?.team?.shortName || data.focused?.team?.name || settings.focusTeam || t('noFocus');
+          const noteMarkdown = data.remoteMarkdown || settings.markdown;
+          const noteHtml = markdownToHtml(noteMarkdown);
+          const warnings = [data.warning, data.remoteMarkdownWarning].filter(Boolean);
+          const subtitleParts = [
+            data.competition?.name,
+            data.competition?.area,
+            data.season?.currentMatchday ? `Matchday ${data.season.currentMatchday}` : '',
+          ].filter(Boolean);
+
+          app.classList.toggle('is-compact', settings.compact);
+          app.innerHTML = `
+            <section class="soccer-topbar">
+              <div>
+                <h1 class="soccer-title pp-fit">${text(settings.headline || data.competition?.name || 'Soccer')}</h1>
+                <p class="soccer-subtitle">${text(subtitleParts.join(' / '))}</p>
+              </div>
+              <div class="soccer-meta-stack">
+                <p class="soccer-badge"><span class="soccer-badge-dot"></span>${text(t('focus'))}: ${text(focusLabel)}</p>
+                <p class="soccer-meta">${text(sourceLabel)} / ${text(t('updated'))}: ${text(formatDate(data.updatedAt))}</p>
+                ${warnings.length ? `<p class="soccer-warning">${text(warnings.join(' / '))}</p>` : ''}
+              </div>
+            </section>
+
+            <section class="soccer-layout">
+              <section class="soccer-table-wrap">
+                <div class="soccer-table-headline">
+                  <p class="soccer-focus">${text(data.table.length)} / ${text(data.fullTableSize || data.table.length)} Teams</p>
+                  <p class="soccer-source">${text(data.competition?.code || settings.competition)}</p>
+                </div>
+                <div class="soccer-table">
+                  ${tableHeaderHtml()}
+                  ${data.table.map((row) => rowHtml(row, settings)).join('')}
+                </div>
+              </section>
+
+              <aside class="soccer-note${noteHtml ? '' : ' is-empty'}">
+                <p class="soccer-note-title">${text(t('markdownTitle'))}</p>
+                <div class="soccer-markdown pp-fit-copy">${noteHtml || `<p>${text(data.focused?.team?.name || data.competition?.name || '')}</p>`}</div>
+              </aside>
+            </section>
+          `;
+
+          await document.fonts?.ready;
+          fitHyphenatedText(app.querySelector('.soccer-title'), {
+            min: 24,
+            max: 58,
+            step: 2,
+            lineBreak: 'balance',
+          });
+          fitToScreen(app);
+          markReady({ competition: data.competition?.code || settings.competition, source: data.source });
+        } catch (error) {
+          markError(error);
+          app.innerHTML = `
+            <section>
+              <h1 class="pp-title pp-error">${text(t('errorTitle'))}</h1>
+              <p>${text(error instanceof Error ? error.message : error)}</p>
+            </section>
+          `;
+        }
+      })();
+    </script>
+  </body>
+</html>

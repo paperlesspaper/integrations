@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" role="img" aria-label="Constellation icon">
+  <rect width="1024" height="1024" rx="224" fill="#111111"/>
+  <path d="M158 656c126-214 252-322 378-322 112 0 219 86 330 258" fill="none" stroke="#f7cf28" stroke-width="54" stroke-linecap="round" opacity=".94"/>
+  <path d="M190 716c176-82 340-102 492-60 58 16 108 40 150 72" fill="none" stroke="#ffffff" stroke-width="22" stroke-linecap="round" opacity=".86"/>
+  <g fill="#ffffff">
+    <circle cx="248" cy="664" r="34"/>
+    <circle cx="378" cy="500" r="27"/>
+    <circle cx="514" cy="392" r="38"/>
+    <circle cx="664" cy="478" r="29"/>
+    <circle cx="786" cy="644" r="35"/>
+    <circle cx="608" cy="704" r="22"/>
+    <circle cx="350" cy="746" r="18"/>
+  </g>
+  <g fill="#e83d35">
+    <circle cx="514" cy="392" r="18"/>
+    <circle cx="248" cy="664" r="15"/>
+  </g>
+  <g fill="#5eb3ff">
+    <circle cx="228" cy="290" r="18"/>
+    <circle cx="796" cy="260" r="14"/>
+    <circle cx="858" cy="408" r="11"/>
+    <circle cx="458" cy="210" r="10"/>
+    <circle cx="180" cy="492" r="9"/>
+  </g>
+</svg>

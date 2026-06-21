@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" role="img" aria-label="Bike commute card icon">
+  <rect width="1024" height="1024" rx="164" fill="#f8f5e8"/>
+  <path d="M212 684c0-82 66-148 148-148s148 66 148 148-66 148-148 148-148-66-148-148Zm78 0c0 39 31 70 70 70s70-31 70-70-31-70-70-70-70 31-70 70Zm304 0c0-82 66-148 148-148s148 66 148 148-66 148-148 148-148-66-148-148Zm78 0c0 39 31 70 70 70s70-31 70-70-31-70-70-70-70 31-70 70Z" fill="#1f2933"/>
+  <path d="M366 684 500 426h118l124 258M500 426l92 258H360m258-258 68-98h92" fill="none" stroke="#1f2933" stroke-width="52" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M250 244c56-52 132-78 226-78 92 0 170 26 232 78" fill="none" stroke="#2f8f4e" stroke-width="56" stroke-linecap="round"/>
+  <path d="M298 342c44-34 102-52 174-52 74 0 136 18 184 52" fill="none" stroke="#2377bf" stroke-width="44" stroke-linecap="round"/>
+  <path d="M782 292c54 0 98 44 98 98 0 70-98 164-98 164s-98-94-98-164c0-54 44-98 98-98Z" fill="#c64232"/>
+  <circle cx="782" cy="390" r="36" fill="#f8f5e8"/>
+</svg>

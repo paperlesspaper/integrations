@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="Daily Buddhism Wisdom">
+  <rect width="128" height="128" rx="18" fill="#f7f3df"/>
+  <circle cx="64" cy="63" r="42" fill="#d7a928"/>
+  <circle cx="64" cy="63" r="28" fill="#f7f3df"/>
+  <path d="M64 22v82M23 63h82M34 34l60 60M94 34 34 94" fill="none" stroke="#1f1d16" stroke-width="8" stroke-linecap="round"/>
+  <circle cx="64" cy="63" r="13" fill="#1f1d16"/>
+  <path d="M32 105c14-8 50-8 64 0" fill="none" stroke="#1f1d16" stroke-width="8" stroke-linecap="round"/>
+</svg>

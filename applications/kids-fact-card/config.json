@@ -1,0 +1,66 @@
+{
+  "name": "Kids Fact Card",
+  "version": "0.1.0",
+  "description": "Shows a kid-friendly dinosaur, space, or animal fact of the day with a small thinking prompt.",
+  "renderPage": "./render.html",
+  "icon": "./assets/icon.svg",
+  "nativeSettings": {
+    "color": "light",
+    "topic": "mixed",
+    "showQuestion": true,
+    "seed": ""
+  },
+  "configVariants": [
+    {
+      "color": "light",
+      "topic": "mixed",
+      "showQuestion": true,
+      "seed": "",
+      "screenshots": {
+        "800x480": "./screenshots/kids-fact-card-mixed-800x480-landscape.png",
+        "480x800": "./screenshots/kids-fact-card-mixed-480x800-portrait.png"
+      }
+    },
+    {
+      "color": "blue-light",
+      "topic": "space",
+      "showQuestion": true,
+      "seed": "orbit",
+      "screenshots": {
+        "800x480": "./screenshots/kids-fact-card-space-800x480-landscape.png",
+        "480x800": "./screenshots/kids-fact-card-space-480x800-portrait.png"
+      }
+    }
+  ],
+  "formSchema": {
+    "type": "object",
+    "properties": {
+      "topic": {
+        "type": "string",
+        "title": "Topic",
+        "enum": [
+          "mixed",
+          "dinosaurs",
+          "space",
+          "animals"
+        ],
+        "default": "mixed"
+      },
+      "showQuestion": {
+        "type": "boolean",
+        "title": "Show thinking prompt",
+        "default": true
+      },
+      "seed": {
+        "type": "string",
+        "title": "Rotation seed",
+        "description": "Optional text that creates a different daily rotation.",
+        "default": ""
+      }
+    }
+  },
+  "language": [
+    "en",
+    "de"
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "loading": "Loading NFL scoreboard...",
+  "brand": "NFL Scoreboard",
+  "week": "Week",
+  "live": "Live",
+  "pregame": "Pregame",
+  "halftime": "Halftime",
+  "final": "Final",
+  "finalOvertime": "Final OT",
+  "overtime": "OT",
+  "quarter": "Q{period}",
+  "favorite": "Favorite",
+  "leaders": "League leaders",
+  "noGames": "No NFL games found for this selection.",
+  "updated": "Updated",
+  "from": "from",
+  "record": "Record"
+}

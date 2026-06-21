@@ -1,0 +1,114 @@
+{
+  "name": "Google Sheet Table",
+  "version": "0.1.0",
+  "description": "Shows matching rows from a public Google Sheet as a compact Date, Name, and Group table.",
+  "renderPage": "./render.html",
+  "nativeSettings": {
+    "color": "light",
+    "title": "Sheet Schedule",
+    "sheetId": "",
+    "gid": "",
+    "namesText": "Jane Smith\nJohn Smith",
+    "displayNamesText": "Jane Smith=Jane\nJohn Smith=John",
+    "columnsText": "B=Group 1\nC=Group 2\nD=Group 3",
+    "dateColumn": "A",
+    "maxEntries": 6,
+    "showPastDates": false,
+    "includeSectionHeaders": false,
+    "maxSectionHeaders": 2,
+    "showUpdatedAt": true
+  },
+  "configVariants": [
+    {
+      "color": "light",
+      "title": "Sheet Schedule",
+      "sheetId": "",
+      "gid": "",
+      "namesText": "Jane Smith\nJohn Smith",
+      "displayNamesText": "Jane Smith=Jane\nJohn Smith=John",
+      "columnsText": "B=Group 1\nC=Group 2\nD=Group 3",
+      "dateColumn": "A",
+      "maxEntries": 6,
+      "showPastDates": false,
+      "includeSectionHeaders": false,
+      "maxSectionHeaders": 2,
+      "showUpdatedAt": true
+    }
+  ],
+  "formSchema": {
+    "type": "object",
+    "properties": {
+      "title": {
+        "type": "string",
+        "title": "Title",
+        "default": "Sheet Schedule"
+      },
+      "sheetId": {
+        "type": "string",
+        "title": "Google Sheet ID or URL",
+        "description": "Use a public Google Sheet ID, or paste the full Google Sheets URL.",
+        "default": ""
+      },
+      "gid": {
+        "type": "string",
+        "title": "Sheet gid",
+        "description": "Optional worksheet gid. Leave empty for the first sheet.",
+        "default": ""
+      },
+      "namesText": {
+        "type": "string",
+        "title": "Names to find",
+        "description": "One name per line, or comma-separated. Matches are case-insensitive and exact.",
+        "default": "Jane Smith\nJohn Smith"
+      },
+      "displayNamesText": {
+        "type": "string",
+        "title": "Display names",
+        "description": "Optional aliases, one per line: Full Name=Display Name.",
+        "default": "Jane Smith=Jane\nJohn Smith=John"
+      },
+      "columnsText": {
+        "type": "string",
+        "title": "Column mapping",
+        "description": "One mapping per line, such as B=Group 1. Only mapped columns are searched.",
+        "default": "B=Group 1\nC=Group 2\nD=Group 3"
+      },
+      "dateColumn": {
+        "type": "string",
+        "title": "Date column",
+        "description": "Spreadsheet column containing dates or section labels.",
+        "default": "A"
+      },
+      "maxEntries": {
+        "type": "number",
+        "title": "Maximum entries",
+        "default": 6
+      },
+      "showPastDates": {
+        "type": "boolean",
+        "title": "Show past dates",
+        "default": false
+      },
+      "includeSectionHeaders": {
+        "type": "boolean",
+        "title": "Include section labels",
+        "description": "Rows under a non-date label can be shown with that label in the Date column.",
+        "default": false
+      },
+      "maxSectionHeaders": {
+        "type": "number",
+        "title": "Maximum floating section labels",
+        "default": 2
+      },
+      "showUpdatedAt": {
+        "type": "boolean",
+        "title": "Show update time",
+        "default": true
+      }
+    }
+  },
+  "language": [
+    "en",
+    "de"
+  ]
+}

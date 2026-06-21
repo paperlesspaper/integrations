@@ -1,0 +1,15 @@
+{
+  "wifiTitle": "Wi-Fi",
+  "wifiSubtitle": "Scan to join",
+  "networkLabel": "Network",
+  "passwordLabel": "Password",
+  "hiddenPassword": "Hidden",
+  "checkoutTitle": "Checkout",
+  "rulesTitle": "House Rules",
+  "cafesTitle": "Nearby Cafes",
+  "smartHomeTitle": "Smart Home",
+  "contactTitle": "Contact",
+  "emptyRules": "Add house rules in settings.",
+  "emptyCafes": "Add nearby cafes in settings.",
+  "emptySmartHome": "Add smart-home instructions in settings."
+}

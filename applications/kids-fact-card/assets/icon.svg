@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" role="img" aria-label="Kids Fact Card icon">
+  <rect x="118" y="134" width="788" height="756" rx="110" fill="#f7cf28"/>
+  <rect x="180" y="196" width="664" height="632" rx="72" fill="#fff8d7" stroke="#171717" stroke-width="34"/>
+  <path d="M270 346h258M270 446h484M270 546h392" fill="none" stroke="#171717" stroke-width="46" stroke-linecap="round"/>
+  <circle cx="720" cy="330" r="70" fill="#2d6cdf" stroke="#171717" stroke-width="30"/>
+  <path d="M637 371c64 36 174 13 220-53" fill="none" stroke="#171717" stroke-width="28" stroke-linecap="round"/>
+  <path d="M330 681c38-60 110-84 182-42l28-34 24 43 55 3-38 37 14 54-50-25-48 30 6-57c-56-35-109-18-145 31l-55-1Z" fill="#30a46c" stroke="#171717" stroke-width="28" stroke-linejoin="round"/>
+  <circle cx="506" cy="648" r="12" fill="#171717"/>
+</svg>

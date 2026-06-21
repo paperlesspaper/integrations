@@ -1,0 +1,11 @@
+{
+  "kicker": "Enregistrements Airtable",
+  "loading": "Chargement...",
+  "noRows": "Aucun enregistrement à afficher",
+  "sample": "Exemple",
+  "updated": "Mis à jour",
+  "rows": "lignes",
+  "fields": "champs",
+  "errorTitle": "Impossible de charger Airtable",
+  "source": "Source"
+}

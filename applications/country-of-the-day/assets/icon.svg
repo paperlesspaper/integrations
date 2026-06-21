@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-label="Country of the Day icon">
+  <rect width="256" height="256" fill="#f7f4e8"/>
+  <circle cx="128" cy="128" r="82" fill="#ffffff" stroke="#171717" stroke-width="12"/>
+  <path d="M52 128h152M128 46c24 24 36 51 36 82s-12 58-36 82M128 46c-24 24-36 51-36 82s12 58 36 82" fill="none" stroke="#171717" stroke-width="10" stroke-linecap="round"/>
+  <path d="M72 82c28 12 84 12 112 0M72 174c28-12 84-12 112 0" fill="none" stroke="#171717" stroke-width="10" stroke-linecap="round"/>
+  <path d="M160 42h54v80h-54z" fill="#e83d35" stroke="#171717" stroke-width="10" stroke-linejoin="round"/>
+  <path d="M160 42h54v28h-54z" fill="#f7cf28"/>
+  <path d="M160 94h54v28h-54z" fill="#246fbd"/>
+</svg>

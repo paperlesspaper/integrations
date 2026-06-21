@@ -1,0 +1,15 @@
+{
+  "kicker": "Google Sheets",
+  "loading": "Loading...",
+  "source": "Public Google Sheet",
+  "date": "Date",
+  "name": "Name",
+  "group": "Group",
+  "configuredNeededTitle": "Add a Sheet ID",
+  "configuredNeededCopy": "Paste a public Google Sheet ID or URL in the integration settings.",
+  "emptyTitle": "No upcoming entries",
+  "emptyCopy": "No configured names were found in the mapped columns.",
+  "updated": "Updated",
+  "rowsChecked": "{count} rows checked",
+  "errorTitle": "Sheet could not load"
+}

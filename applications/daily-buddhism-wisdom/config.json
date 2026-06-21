@@ -1,0 +1,119 @@
+{
+  "name": "Daily Buddhism Wisdom",
+  "version": "0.1.0",
+  "description": "Shows a deterministic daily Buddhist-inspired reflection based on the current day of the year.",
+  "renderPage": "./render.html",
+  "icon": "./assets/icon.svg",
+  "nativeSettings": {
+    "color": "light",
+    "showPage": true,
+    "fontSize": "large",
+    "fontWeight": "700",
+    "textAlign": "left",
+    "lineHeight": "1.12",
+    "showAttribution": true,
+    "showDay": true,
+    "day": "",
+    "dayOffset": 0
+  },
+  "formSchema": {
+    "type": "object",
+    "properties": {
+      "showPage": {
+        "type": "boolean",
+        "title": "Show wisdom text",
+        "description": "Display the daily reflection text.",
+        "default": true
+      },
+      "fontSize": {
+        "type": "string",
+        "title": "Font size",
+        "description": "Choose the display size for the daily wisdom text.",
+        "enum": [
+          "xx-small",
+          "x-small",
+          "small",
+          "medium",
+          "large",
+          "x-large",
+          "xx-large"
+        ],
+        "default": "large"
+      },
+      "fontWeight": {
+        "type": "string",
+        "title": "Font weight",
+        "description": "Choose the display weight for the daily wisdom text.",
+        "enum": [
+          "lighter",
+          "normal",
+          "bold",
+          "bolder",
+          "100",
+          "200",
+          "300",
+          "400",
+          "500",
+          "600",
+          "700",
+          "800",
+          "900"
+        ],
+        "default": "700"
+      },
+      "textAlign": {
+        "type": "string",
+        "title": "Text alignment",
+        "description": "Choose how the daily wisdom text is aligned.",
+        "enum": [
+          "left",
+          "center",
+          "right",
+          "justify"
+        ],
+        "default": "left"
+      },
+      "lineHeight": {
+        "type": "string",
+        "title": "Line height",
+        "description": "Choose the spacing between lines.",
+        "enum": [
+          "1",
+          "1.12",
+          "1.25",
+          "1.4",
+          "normal"
+        ],
+        "default": "1.12"
+      },
+      "showAttribution": {
+        "type": "boolean",
+        "title": "Show attribution",
+        "description": "Show the source-style attribution line.",
+        "default": true
+      },
+      "showDay": {
+        "type": "boolean",
+        "title": "Show day number",
+        "description": "Show the day-of-year number used for the daily selection.",
+        "default": true
+      },
+      "day": {
+        "type": "string",
+        "title": "Fixed day",
+        "description": "Optional day of year from 1 to 366. Leave empty to use today.",
+        "default": ""
+      },
+      "dayOffset": {
+        "type": "number",
+        "title": "Day offset",
+        "description": "Shift the selected daily reflection by this many days.",
+        "default": 0
+      }
+    }
+  },
+  "language": [
+    "en",
+    "de"
+  ]
+}

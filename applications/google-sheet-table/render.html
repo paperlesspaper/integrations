@@ -1,0 +1,423 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="paperless:epd-optimize" content='{"intent":"readable"}'>
+    <title>Google Sheet Table</title>
+    <link rel="stylesheet" href="/assets/paperless.css">
+    <script src="/assets/paperless.iife.js"></script>
+    <style>
+      .sheet-screen {
+        padding: 22px;
+        display: grid;
+        grid-template-rows: auto minmax(0, 1fr) auto;
+        gap: 16px;
+      }
+
+      .sheet-header {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        align-items: end;
+        gap: 16px;
+        border-bottom: 4px solid var(--pp-border);
+        padding-bottom: 12px;
+      }
+
+      .sheet-kicker,
+      .sheet-meta,
+      .sheet-empty-title,
+      .sheet-empty-copy {
+        margin: 0;
+      }
+
+      .sheet-kicker,
+      .sheet-meta {
+        color: var(--pp-muted);
+        font-size: 0.82rem;
+        font-weight: 900;
+        line-height: 1;
+        text-transform: uppercase;
+      }
+
+      .sheet-title {
+        margin: 5px 0 0;
+        font-size: clamp(2.2rem, 8.5vh, 5rem);
+        font-weight: 950;
+        line-height: 0.9;
+        letter-spacing: 0;
+      }
+
+      .sheet-meta {
+        text-align: right;
+        white-space: nowrap;
+      }
+
+      .sheet-table-wrap {
+        min-width: 0;
+        min-height: 0;
+        overflow: hidden;
+        border: 3px solid var(--pp-border);
+      }
+
+      .sheet-table {
+        width: 100%;
+        height: 100%;
+        border-collapse: collapse;
+        table-layout: fixed;
+      }
+
+      .sheet-table col:nth-child(1) {
+        width: 24%;
+      }
+
+      .sheet-table col:nth-child(2) {
+        width: 32%;
+      }
+
+      .sheet-table col:nth-child(3) {
+        width: 44%;
+      }
+
+      .sheet-table th {
+        background: var(--pp-fg);
+        color: var(--pp-bg);
+        font-size: clamp(0.9rem, 2.4vh, 1.2rem);
+        line-height: 1;
+        padding: 10px 12px;
+        text-align: left;
+        text-transform: uppercase;
+      }
+
+      .sheet-table td {
+        border-top: 3px solid var(--pp-border);
+        font-size: clamp(1.05rem, 4vh, 2.15rem);
+        font-weight: 850;
+        line-height: 1.05;
+        padding: 10px 12px;
+        vertical-align: middle;
+        overflow-wrap: anywhere;
+      }
+
+      .sheet-date {
+        color: var(--pp-accent);
+        font-weight: 950;
+      }
+
+      .sheet-group {
+        color: var(--pp-muted);
+      }
+
+      .sheet-empty {
+        min-height: 0;
+        border: 3px solid var(--pp-border);
+        display: grid;
+        place-items: center;
+        text-align: center;
+        padding: 24px;
+      }
+
+      .sheet-empty-inner {
+        max-width: 34rem;
+      }
+
+      .sheet-empty-title {
+        font-size: clamp(2rem, 7vh, 4.6rem);
+        font-weight: 950;
+        line-height: 0.95;
+      }
+
+      .sheet-empty-copy {
+        margin-top: 12px;
+        color: var(--pp-muted);
+        font-size: clamp(1rem, 3vh, 1.45rem);
+        font-weight: 800;
+        line-height: 1.2;
+      }
+
+      .sheet-footer {
+        display: flex;
+        justify-content: space-between;
+        gap: 16px;
+        color: var(--pp-muted);
+        font-size: 0.88rem;
+        font-weight: 850;
+        line-height: 1;
+        text-transform: uppercase;
+      }
+
+      @media (orientation: portrait) {
+        .sheet-screen {
+          padding: 18px;
+          gap: 14px;
+        }
+
+        .sheet-header {
+          grid-template-columns: minmax(0, 1fr);
+        }
+
+        .sheet-meta {
+          text-align: left;
+        }
+
+        .sheet-table col:nth-child(1) {
+          width: 27%;
+        }
+
+        .sheet-table col:nth-child(2) {
+          width: 29%;
+        }
+
+        .sheet-table col:nth-child(3) {
+          width: 44%;
+        }
+
+        .sheet-table td {
+          padding: 9px 10px;
+        }
+
+        .sheet-footer {
+          display: grid;
+        }
+      }
+
+      @media (max-height: 520px) {
+        .sheet-screen {
+          padding: 16px 18px;
+          gap: 10px;
+        }
+
+        .sheet-header {
+          padding-bottom: 8px;
+        }
+
+        .sheet-table th {
+          padding: 8px 10px;
+        }
+
+        .sheet-table td {
+          padding: 7px 10px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="website-has-loading-element"></div>
+    <main class="pp-screen sheet-screen" id="app">
+      <header class="sheet-header">
+        <div>
+          <p class="sheet-kicker" data-i18n="kicker">Google Sheets</p>
+          <h1 class="sheet-title pp-fit-title" id="sheet-title">Sheet Schedule</h1>
+        </div>
+        <p class="sheet-meta" id="sheet-meta" data-i18n="loading">Loading...</p>
+      </header>
+      <section class="sheet-empty" id="sheet-content">
+        <div class="sheet-empty-inner">
+          <p class="sheet-empty-title" data-i18n="loading">Loading...</p>
+        </div>
+      </section>
+      <footer class="sheet-footer">
+        <span id="sheet-count"></span>
+        <span id="sheet-source" data-i18n="source">Public Google Sheet</span>
+      </footer>
+    </main>
+    <script>
+      (async function render() {
+        const {
+          waitForPayload,
+          getSettings,
+          getQuerySettings,
+          mergeSettings,
+          loadLanguageJson,
+          applyColorTheme,
+          escapeHtml,
+          fitAllText,
+          fitToScreen,
+          markReady,
+          markError,
+        } = window.PaperlessOpenIntegration;
+
+        const defaultMessages = {
+          kicker: "Google Sheets",
+          loading: "Loading...",
+          source: "Public Google Sheet",
+          date: "Date",
+          name: "Name",
+          group: "Group",
+          configuredNeededTitle: "Add a Sheet ID",
+          configuredNeededCopy: "Paste a public Google Sheet ID or URL in the integration settings.",
+          emptyTitle: "No upcoming entries",
+          emptyCopy: "No configured names were found in the mapped columns.",
+          updated: "Updated",
+          rowsChecked: "{count} rows checked",
+          errorTitle: "Sheet could not load",
+        };
+        let messages = defaultMessages;
+
+        function t(key, values = {}) {
+          const template =
+            typeof messages[key] === "string"
+              ? messages[key]
+              : defaultMessages[key] || key;
+          return template.replace(/\{(\w+)\}/g, (_match, name) => values[name] ?? "");
+        }
+
+        function applyStaticMessages(root = document) {
+          root.querySelectorAll("[data-i18n]").forEach((element) => {
+            element.textContent = t(element.dataset.i18n);
+          });
+        }
+
+        async function loadMessages(payload) {
+          if (typeof loadLanguageJson !== "function") {
+            return { language: "en", messages: defaultMessages };
+          }
+
+          const result = await loadLanguageJson(payload);
+          messages = { ...defaultMessages, ...result.messages };
+          document.documentElement.lang = result.language || "en";
+          applyStaticMessages();
+          return result;
+        }
+
+        function formatTime(value, language) {
+          const date = new Date(value);
+          if (Number.isNaN(date.getTime())) {
+            return "";
+          }
+
+          return new Intl.DateTimeFormat(language || "en", {
+            hour: "2-digit",
+            minute: "2-digit",
+          }).format(date);
+        }
+
+        function hasSheetId(value) {
+          return typeof value === "string" && value.trim().length > 0;
+        }
+
+        function renderEmpty(title, copy) {
+          document.getElementById("sheet-content").className = "sheet-empty";
+          document.getElementById("sheet-content").innerHTML = `
+            <div class="sheet-empty-inner">
+              <p class="sheet-empty-title pp-fit-title">${escapeHtml(title)}</p>
+              <p class="sheet-empty-copy">${escapeHtml(copy)}</p>
+            </div>
+          `;
+        }
+
+        function renderTable(entries) {
+          const rows = entries
+            .map((entry) => `
+              <tr>
+                <td class="sheet-date">${escapeHtml(entry.date || "")}</td>
+                <td>${escapeHtml(entry.name || "")}</td>
+                <td class="sheet-group">${escapeHtml(entry.group || "")}</td>
+              </tr>
+            `)
+            .join("");
+
+          document.getElementById("sheet-content").className = "sheet-table-wrap";
+          document.getElementById("sheet-content").innerHTML = `
+            <table class="sheet-table">
+              <colgroup><col><col><col></colgroup>
+              <thead>
+                <tr>
+                  <th>${escapeHtml(t("date"))}</th>
+                  <th>${escapeHtml(t("name"))}</th>
+                  <th>${escapeHtml(t("group"))}</th>
+                </tr>
+              </thead>
+              <tbody>${rows}</tbody>
+            </table>
+          `;
+        }
+
+        function paramsFor(settings, language) {
+          const params = new URLSearchParams();
+          for (const key of [
+            "sheetId",
+            "gid",
+            "namesText",
+            "displayNamesText",
+            "columnsText",
+            "dateColumn",
+            "maxEntries",
+            "showPastDates",
+            "includeSectionHeaders",
+            "maxSectionHeaders",
+          ]) {
+            params.set(key, settings[key] ?? "");
+          }
+          params.set("language", language || "en");
+          return params;
+        }
+
+        try {
+          const defaults = {
+            color: "light",
+            title: "Sheet Schedule",
+            sheetId: "",
+            gid: "",
+            namesText: "Jane Smith\nJohn Smith",
+            displayNamesText: "Jane Smith=Jane\nJohn Smith=John",
+            columnsText: "B=Group 1\nC=Group 2\nD=Group 3",
+            dateColumn: "A",
+            maxEntries: 6,
+            showPastDates: false,
+            includeSectionHeaders: false,
+            maxSectionHeaders: 2,
+            showUpdatedAt: true,
+          };
+          const payload = await waitForPayload({ timeoutMs: 500, timeout: 500 });
+          const languageResult = await loadMessages(payload);
+          const settings = mergeSettings(defaults, getSettings(payload), getQuerySettings());
+          applyColorTheme(settings.color, { defaultTheme: defaults.color });
+
+          document.getElementById("sheet-title").textContent = settings.title || defaults.title;
+
+          if (!hasSheetId(settings.sheetId)) {
+            document.getElementById("sheet-meta").textContent = t("configuredNeededTitle");
+            renderEmpty(t("configuredNeededTitle"), t("configuredNeededCopy"));
+            fitAllText(".pp-fit-title", { min: 24, max: 78, step: 2 });
+            fitToScreen(document.getElementById("app"));
+            markReady({ configured: false });
+            return;
+          }
+
+          const response = await fetch(`./api/data?${paramsFor(settings, languageResult.language).toString()}`, {
+            cache: "no-store",
+          });
+
+          if (!response.ok) {
+            throw new Error(`API failed with ${response.status}`);
+          }
+
+          const data = await response.json();
+          const entries = Array.isArray(data.entries) ? data.entries : [];
+
+          if (entries.length) {
+            renderTable(entries);
+          } else {
+            renderEmpty(t("emptyTitle"), t("emptyCopy"));
+          }
+
+          document.getElementById("sheet-meta").textContent =
+            settings.showUpdatedAt && data.updatedAt
+              ? `${t("updated")} ${formatTime(data.updatedAt, languageResult.language)}`
+              : t("source");
+          document.getElementById("sheet-count").textContent = t("rowsChecked", {
+            count: data.rowCount ?? 0,
+          });
+
+          fitAllText(".pp-fit-title", { min: 24, max: 78, step: 2 });
+          fitToScreen(document.getElementById("app"));
+          markReady({ entries: entries.length });
+        } catch (error) {
+          markError(error);
+          document.body.innerHTML = `<main class="pp-screen sheet-screen"><section class="sheet-empty"><div class="sheet-empty-inner"><p class="sheet-empty-title">${escapeHtml(t("errorTitle"))}</p><p class="sheet-empty-copy">${escapeHtml(error.message)}</p></div></section></main>`;
+        }
+      })();
+    </script>
+  </body>
+</html>

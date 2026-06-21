@@ -1,18 +1,18 @@
 {
   "kicker": "Abfallkalender",
   "loading": "Lade...",
-  "next": "Naechste Abholung",
+  "next": "Nächste Abholung",
   "today": "Heute",
   "tomorrow": "Morgen",
   "inDays": "In {days} Tagen",
   "overdue": "Vor {days} Tagen",
   "upcoming": "Anstehend",
   "noCollections": "Keine Abholtermine gefunden",
-  "noCollectionsHint": "Pruefe die ICS-URL oder den manuellen Abfallkalender.",
+  "noCollectionsHint": "Prüfe die ICS-URL oder den manuellen Abfallkalender.",
   "updated": "Aktualisiert",
   "sourceManual": "Manueller Kalender",
   "sourceIcs": "ICS-Kalender",
   "sourceAuto": "Automatische Quelle",
   "errorTitle": "Abfallkalender konnte nicht geladen werden",
-  "weekTitle": "Naechste 14 Tage"
+  "weekTitle": "Nächste 14 Tage"
 }

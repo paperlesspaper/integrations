@@ -1,0 +1,378 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="paperless:epd-optimize" content='{"intent":"readable"}'>
+    <title>Airtable</title>
+    <link rel="stylesheet" href="/assets/paperless.css">
+    <script src="/assets/paperless.iife.js"></script>
+    <style>
+      .airtable-screen {
+        --table-accent: var(--pp-blue, var(--pp-accent));
+        --table-warm: var(--pp-yellow, #f0c84b);
+        display: grid;
+        gap: 12px;
+        grid-template-rows: auto minmax(0, 1fr) auto;
+        padding: 22px;
+      }
+
+      .airtable-header,
+      .airtable-footer {
+        align-items: end;
+        border-bottom: 2px solid var(--pp-border);
+        display: flex;
+        gap: 12px;
+        justify-content: space-between;
+        min-width: 0;
+        padding-bottom: 8px;
+      }
+
+      .airtable-footer {
+        align-items: center;
+        border-bottom: 0;
+        border-top: 2px solid var(--pp-border);
+        color: var(--pp-muted);
+        font-size: clamp(0.72rem, 1.7vh, 0.94rem);
+        font-weight: 780;
+        padding: 8px 0 0;
+      }
+
+      .airtable-kicker,
+      .airtable-meta,
+      .table-count {
+        color: var(--pp-muted);
+        font-size: clamp(0.7rem, 1.8vh, 0.95rem);
+        font-weight: 850;
+        letter-spacing: 0;
+        margin: 0;
+        text-transform: uppercase;
+      }
+
+      .airtable-title {
+        font-size: clamp(1.95rem, 7.2vh, 4.4rem);
+        line-height: 0.92;
+        margin: 3px 0 0;
+        min-width: 0;
+      }
+
+      .tables {
+        display: grid;
+        gap: 12px;
+        grid-auto-rows: minmax(0, 1fr);
+        min-height: 0;
+      }
+
+      .table-panel {
+        border: 2px solid var(--pp-border);
+        display: grid;
+        grid-template-rows: auto minmax(0, 1fr);
+        min-height: 0;
+      }
+
+      .table-heading {
+        align-items: center;
+        background: var(--pp-card);
+        border-left: 8px solid var(--table-accent);
+        border-bottom: 2px solid var(--pp-border);
+        display: flex;
+        gap: 10px;
+        justify-content: space-between;
+        min-width: 0;
+        padding: 7px 10px;
+      }
+
+      .table-name {
+        font-size: clamp(1rem, 2.8vh, 1.45rem);
+        font-weight: 900;
+        line-height: 1;
+        margin: 0;
+        min-width: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .table-wrap {
+        min-height: 0;
+        overflow: hidden;
+      }
+
+      .data-table {
+        border-collapse: collapse;
+        table-layout: fixed;
+        width: 100%;
+      }
+
+      .data-table th,
+      .data-table td {
+        min-width: 0;
+        overflow: hidden;
+        padding: 6px 9px;
+        text-align: left;
+        text-overflow: ellipsis;
+        vertical-align: top;
+      }
+
+      .data-table th {
+        background: var(--pp-bg);
+        border-bottom: 2px solid var(--pp-border);
+        color: var(--pp-muted);
+        font-size: clamp(0.68rem, 1.55vh, 0.86rem);
+        font-weight: 900;
+        text-transform: uppercase;
+        white-space: nowrap;
+      }
+
+      .data-table td {
+        border-bottom: 1px solid color-mix(in srgb, var(--pp-border) 72%, transparent);
+        font-size: clamp(0.86rem, 2.15vh, 1.16rem);
+        font-weight: 760;
+        line-height: 1.14;
+        word-break: break-word;
+      }
+
+      .table-panel.no-borders .data-table td {
+        border-bottom-color: transparent;
+      }
+
+      .empty {
+        align-items: center;
+        color: var(--pp-muted);
+        display: grid;
+        font-size: clamp(1rem, 2.6vh, 1.3rem);
+        font-weight: 800;
+        min-height: 100%;
+        padding: 18px;
+        text-align: center;
+      }
+
+      .sample-badge {
+        background: var(--table-warm);
+        color: #1c1c1c;
+        font-weight: 900;
+        padding: 3px 7px;
+      }
+
+      @media (orientation: portrait) {
+        .airtable-screen {
+          grid-template-rows: auto minmax(0, 1fr) auto;
+          padding: 18px;
+        }
+
+        .airtable-header {
+          align-items: start;
+          flex-direction: column;
+          gap: 4px;
+        }
+
+        .airtable-title {
+          font-size: clamp(2.2rem, 6.4vh, 4rem);
+        }
+
+        .tables {
+          grid-auto-rows: minmax(180px, 1fr);
+        }
+
+        .data-table th,
+        .data-table td {
+          padding-left: 7px;
+          padding-right: 7px;
+        }
+      }
+
+      @media (max-width: 620px), (max-height: 520px) {
+        .airtable-screen {
+          gap: 8px;
+          padding: 14px;
+        }
+
+        .airtable-title {
+          font-size: clamp(1.6rem, 6.6vh, 3.4rem);
+        }
+
+        .table-heading {
+          padding: 5px 8px;
+        }
+
+        .data-table th,
+        .data-table td {
+          padding-bottom: 4px;
+          padding-top: 4px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="website-has-loading-element"></div>
+    <main class="pp-screen airtable-screen" id="app">
+      <header class="airtable-header">
+        <div>
+          <p class="airtable-kicker" data-i18n="kicker">Airtable records</p>
+          <h1 class="pp-title airtable-title pp-fit" id="screen-title" data-i18n="loading">Loading...</h1>
+        </div>
+        <p class="airtable-meta" id="screen-meta"></p>
+      </header>
+      <section class="tables" id="tables"></section>
+      <footer class="airtable-footer" id="footer"></footer>
+    </main>
+
+    <script>
+      (async function render() {
+        const {
+          waitForPayload,
+          getSettings,
+          getQuerySettings,
+          mergeSettings,
+          loadLanguageJson,
+          applyColorTheme,
+          escapeHtml,
+          fitHyphenatedText,
+          fitToScreen,
+          markReady,
+          markError,
+        } = window.PaperlessOpenIntegration;
+
+        const defaultMessages = {
+          kicker: "Airtable records",
+          loading: "Loading...",
+          noRows: "No records to display",
+          sample: "Sample",
+          updated: "Updated",
+          rows: "rows",
+          fields: "fields",
+          errorTitle: "Airtable could not load",
+          source: "Source"
+        };
+        let messages = defaultMessages;
+
+        function t(key, values = {}) {
+          const template = typeof messages[key] === "string" ? messages[key] : defaultMessages[key] || key;
+          return template.replace(/\{(\w+)\}/g, (_match, name) => values[name] ?? "");
+        }
+
+        function applyStaticMessages(root = document) {
+          root.querySelectorAll("[data-i18n]").forEach((element) => {
+            element.textContent = t(element.dataset.i18n);
+          });
+        }
+
+        async function loadMessages(payload) {
+          const result = await loadLanguageJson(payload);
+          messages = { ...defaultMessages, ...result.messages };
+          document.documentElement.lang = result.language || "en";
+          applyStaticMessages();
+        }
+
+        function formatTime(value) {
+          const date = new Date(value);
+          if (Number.isNaN(date.getTime())) {
+            return "";
+          }
+          return date.toLocaleTimeString(document.documentElement.lang || "en", {
+            hour: "2-digit",
+            minute: "2-digit"
+          });
+        }
+
+        function columnsMarkup(columns) {
+          return columns.map((column) => `<th>${escapeHtml(column)}</th>`).join("");
+        }
+
+        function rowsMarkup(rows) {
+          return rows.map((row) =>
+            `<tr>${row.map((cell) => `<td>${escapeHtml(cell)}</td>`).join("")}</tr>`
+          ).join("");
+        }
+
+        function tableMarkup(table) {
+          const columns = Array.isArray(table.columns) ? table.columns : [];
+          const rows = Array.isArray(table.rows) ? table.rows : [];
+          const borderClass = table.rowBorder ? "" : " no-borders";
+
+          return `
+            <article class="table-panel${borderClass}">
+              <header class="table-heading">
+                <h2 class="table-name">${escapeHtml(table.title || table.source || "Airtable")}</h2>
+                <p class="table-count">${rows.length} ${escapeHtml(t("rows"))}</p>
+              </header>
+              <div class="table-wrap">
+                ${rows.length && columns.length
+                  ? `<table class="data-table"><thead><tr>${columnsMarkup(columns)}</tr></thead><tbody>${rowsMarkup(rows)}</tbody></table>`
+                  : `<div class="empty">${escapeHtml(t("noRows"))}</div>`}
+              </div>
+            </article>
+          `;
+        }
+
+        try {
+          const payload = await waitForPayload({ timeoutMs: 500 });
+          await loadMessages(payload);
+
+          const defaults = {
+            color: "light",
+            title: "Airtable",
+            token: "",
+            baseId: "",
+            tableName: "",
+            view: "Grid view",
+            fields: "",
+            filterByFormula: "",
+            sortField: "",
+            sortDirection: "asc",
+            maxRows: 8,
+            rowBorder: true,
+            showTitle: true,
+            showMeta: true,
+            tablesJson: ""
+          };
+          const settings = mergeSettings(defaults, getSettings(payload), getQuerySettings());
+          applyColorTheme(settings.color, { defaultTheme: defaults.color });
+
+          const params = new URLSearchParams();
+          Object.entries(settings).forEach(([key, value]) => {
+            if (Array.isArray(value)) {
+              params.set(key, value.join(","));
+            } else {
+              params.set(key, value ?? "");
+            }
+          });
+
+          const response = await fetch(`./api/data?${params.toString()}`, { cache: "no-store" });
+          if (!response.ok) {
+            throw new Error(`API failed with ${response.status}`);
+          }
+
+          const data = await response.json();
+          const tables = Array.isArray(data.tables) ? data.tables : [];
+          const totalRows = tables.reduce((sum, table) => sum + (Array.isArray(table.rows) ? table.rows.length : 0), 0);
+          const totalFields = tables.reduce((sum, table) => sum + (Array.isArray(table.columns) ? table.columns.length : 0), 0);
+
+          document.getElementById("screen-title").textContent = settings.showTitle ? settings.title || "Airtable" : "Airtable";
+          document.getElementById("screen-meta").innerHTML = data.isSample
+            ? `<span class="sample-badge">${escapeHtml(t("sample"))}</span>`
+            : `${escapeHtml(totalRows)} ${escapeHtml(t("rows"))}`;
+          document.getElementById("tables").innerHTML = tables.map(tableMarkup).join("");
+
+          const footer = document.getElementById("footer");
+          footer.textContent = data.showMeta
+            ? `${t("updated")} ${formatTime(data.generatedAt)} · ${totalFields} ${t("fields")}`
+            : "";
+
+          await document.fonts?.ready;
+          fitHyphenatedText(document.getElementById("screen-title"), {
+            min: 24,
+            max: 76,
+            step: 2,
+            lineBreak: "balance"
+          });
+          fitToScreen(document.getElementById("app"));
+          markReady({ tables: tables.length, rows: totalRows, sample: Boolean(data.isSample) });
+        } catch (error) {
+          markError(error);
+          document.body.innerHTML = `<main class="pp-screen"><h1 class="pp-title pp-error">${escapeHtml(t("errorTitle"))}</h1><p>${escapeHtml(error.message)}</p></main>`;
+        }
+      })();
+    </script>
+  </body>
+</html>

@@ -1,0 +1,116 @@
+{
+  "name": "Soccer Standings",
+  "version": "0.1.0",
+  "description": "Shows European soccer league standings with optional favorite-team focus, crests, and a markdown note.",
+  "renderPage": "./render.html",
+  "icon": "./assets/icon.svg",
+  "nativeSettings": {
+    "color": "light",
+    "competition": "BL1",
+    "apiKey": "",
+    "focusTeam": "",
+    "maxTeams": 10,
+    "showCrests": true,
+    "compact": false,
+    "headline": "League table",
+    "markdown": "",
+    "markdownUrl": ""
+  },
+  "configVariants": [
+    {
+      "color": "light",
+      "competition": "BL1",
+      "apiKey": "",
+      "focusTeam": "Bayern",
+      "maxTeams": 10,
+      "showCrests": true,
+      "compact": false,
+      "headline": "Bundesliga",
+      "markdown": "**Focus:** Bayern window\n\n- Form and goal difference at a glance\n- Live data when an API key is configured",
+      "markdownUrl": ""
+    },
+    {
+      "color": "dark",
+      "competition": "PL",
+      "apiKey": "",
+      "focusTeam": "Arsenal",
+      "maxTeams": 8,
+      "showCrests": false,
+      "compact": true,
+      "headline": "Premier League",
+      "markdown": "### Matchday note\nRotate focus teams from the settings page.",
+      "markdownUrl": ""
+    }
+  ],
+  "formSchema": {
+    "type": "object",
+    "properties": {
+      "competition": {
+        "type": "string",
+        "title": "League",
+        "enum": [
+          "BL1",
+          "PL",
+          "PD",
+          "SA",
+          "FL1",
+          "DED",
+          "PPL",
+          "CL"
+        ],
+        "default": "BL1"
+      },
+      "apiKey": {
+        "type": "string",
+        "title": "football-data.org API key",
+        "description": "Optional. Leave blank to use FOOTBALL_DATA_API_KEY from .env or sample standings."
+      },
+      "focusTeam": {
+        "type": "string",
+        "title": "Focus team",
+        "description": "Optional team name, short name, or TLA. The table centers around this team when possible.",
+        "default": ""
+      },
+      "maxTeams": {
+        "type": "number",
+        "title": "Maximum teams",
+        "description": "Use 0 to show the full table.",
+        "default": 10
+      },
+      "showCrests": {
+        "type": "boolean",
+        "title": "Show crests",
+        "default": true
+      },
+      "compact": {
+        "type": "boolean",
+        "title": "Compact table",
+        "default": false
+      },
+      "headline": {
+        "type": "string",
+        "title": "Headline",
+        "default": "League table"
+      },
+      "markdown": {
+        "type": "string",
+        "title": "Markdown note",
+        "description": "Optional markdown shown beside or below the table. Supports headings, bold, italic, code, links, blockquotes, and lists.",
+        "default": ""
+      },
+      "markdownUrl": {
+        "type": "string",
+        "title": "Remote markdown URL",
+        "description": "Optional HTTP(S) URL to a raw markdown file. When set, this content is shown instead of the inline markdown note.",
+        "default": ""
+      }
+    }
+  },
+  "language": [
+    "en",
+    "de",
+    "fr",
+    "es",
+    "it"
+  ]
+}

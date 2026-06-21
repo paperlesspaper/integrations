@@ -1,0 +1,434 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="paperless:epd-optimize" content='{"intent":"readable"}' />
+    <title>Daily Buddhism Wisdom</title>
+    <link rel="stylesheet" href="/assets/paperless.css" />
+    <script src="/assets/paperless.iife.js"></script>
+    <style>
+      .wisdom-screen {
+        --wisdom-size: 4.4rem;
+        --wisdom-weight: 700;
+        --wisdom-line: 1.12;
+        padding: 28px;
+        gap: 18px;
+      }
+
+      .wisdom-header {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        align-items: start;
+        gap: 18px;
+        padding-bottom: 14px;
+        border-bottom: 4px solid var(--pp-border);
+      }
+
+      .wisdom-brand {
+        min-width: 0;
+      }
+
+      .wisdom-kicker {
+        margin: 0 0 7px;
+        color: var(--pp-muted);
+        font-size: 0.82rem;
+        line-height: 1;
+        font-weight: 850;
+        text-transform: uppercase;
+      }
+
+      .wisdom-title {
+        margin: 0;
+        font-size: clamp(2.2rem, 8.8vh, 4.8rem);
+        line-height: 0.92;
+        font-weight: 940;
+        overflow-wrap: anywhere;
+      }
+
+      .wisdom-day {
+        align-self: start;
+        min-width: 6.5em;
+        padding: 9px 11px;
+        border: 3px solid var(--pp-fg);
+        color: var(--pp-fg);
+        font-size: 1rem;
+        line-height: 1;
+        font-weight: 900;
+        text-align: center;
+        white-space: nowrap;
+      }
+
+      .wisdom-body {
+        flex: 1;
+        min-height: 0;
+        display: grid;
+        grid-template-rows: auto minmax(0, 1fr);
+        gap: 18px;
+        text-align: var(--wisdom-align, left);
+      }
+
+      .entry-title {
+        margin: 0;
+        color: var(--pp-accent);
+        font-size: clamp(1.25rem, 4.4vh, 2.5rem);
+        line-height: 1;
+        font-weight: 900;
+        overflow-wrap: anywhere;
+      }
+
+      .wisdom-panel {
+        min-height: 0;
+        display: flex;
+        align-items: center;
+        overflow: hidden;
+      }
+
+      .wisdom-text {
+        margin: 0;
+        width: 100%;
+        font-size: var(--wisdom-size);
+        line-height: var(--wisdom-line);
+        font-weight: var(--wisdom-weight);
+        letter-spacing: 0;
+        overflow-wrap: break-word;
+      }
+
+      .wisdom-footer {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        align-items: end;
+        gap: 18px;
+        padding-top: 12px;
+        border-top: 3px solid var(--pp-border);
+        color: var(--pp-muted);
+        font-size: 0.82rem;
+        line-height: 1.1;
+        font-weight: 720;
+      }
+
+      .wisdom-footer p {
+        margin: 0;
+      }
+
+      .wisdom-source {
+        min-width: 0;
+        overflow-wrap: anywhere;
+      }
+
+      .wisdom-mark {
+        width: 2.15rem;
+        height: 2.15rem;
+        border: 0.45rem solid var(--pp-accent);
+        border-left-color: transparent;
+        border-radius: 50%;
+      }
+
+      .wisdom-screen.is-hidden .wisdom-panel {
+        align-items: center;
+        justify-content: center;
+        border: 3px dashed var(--pp-border);
+      }
+
+      .hidden-message {
+        margin: 0;
+        color: var(--pp-muted);
+        font-size: clamp(1.4rem, 5vh, 3rem);
+        line-height: 1;
+        font-weight: 850;
+        text-align: center;
+      }
+
+      [hidden] {
+        display: none !important;
+      }
+
+      @media (orientation: portrait) {
+        .wisdom-screen {
+          padding: 26px;
+          gap: 22px;
+        }
+
+        .wisdom-header {
+          grid-template-columns: minmax(0, 1fr);
+        }
+
+        .wisdom-day {
+          justify-self: start;
+        }
+
+        .wisdom-body {
+          gap: 24px;
+        }
+
+        .wisdom-panel {
+          align-items: flex-start;
+        }
+
+        .wisdom-footer {
+          grid-template-columns: minmax(0, 1fr);
+        }
+      }
+
+      @media (max-width: 700px), (max-height: 560px) {
+        .wisdom-screen {
+          padding: 18px;
+          gap: 13px;
+        }
+
+        .wisdom-header {
+          gap: 12px;
+          padding-bottom: 10px;
+          border-bottom-width: 3px;
+        }
+
+        .wisdom-kicker {
+          font-size: 0.66rem;
+        }
+
+        .wisdom-title {
+          font-size: clamp(1.85rem, 8vh, 3rem);
+        }
+
+        .wisdom-day {
+          min-width: 5.8em;
+          padding: 7px 8px;
+          border-width: 2px;
+          font-size: 0.78rem;
+        }
+
+        .wisdom-body {
+          gap: 12px;
+        }
+
+        .entry-title {
+          font-size: clamp(1.05rem, 4vh, 1.7rem);
+        }
+
+        .wisdom-footer {
+          gap: 12px;
+          padding-top: 9px;
+          border-top-width: 2px;
+          font-size: 0.68rem;
+        }
+
+        .wisdom-mark {
+          width: 1.55rem;
+          height: 1.55rem;
+          border-width: 0.32rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="website-has-loading-element"></div>
+    <main class="pp-screen wisdom-screen" id="screen">
+      <header class="wisdom-header">
+        <div class="wisdom-brand">
+          <p class="wisdom-kicker" data-i18n="source">Daily reflection</p>
+          <h1 class="wisdom-title pp-fit" data-i18n="title">Daily Buddhism Wisdom</h1>
+        </div>
+        <p class="wisdom-day" id="day"></p>
+      </header>
+
+      <section class="wisdom-body" id="body">
+        <h2 class="entry-title pp-fit" id="entry-title" data-i18n="loading">
+          Loading...
+        </h2>
+        <div class="wisdom-panel" id="panel">
+          <p class="wisdom-text pp-fit pp-fit-quote" id="wisdom"></p>
+          <p class="hidden-message" id="hidden-message" data-i18n="hidden" hidden>
+            Wisdom text hidden
+          </p>
+        </div>
+      </section>
+
+      <footer class="wisdom-footer" id="footer">
+        <p class="wisdom-source" id="attribution"></p>
+        <div class="wisdom-mark" aria-hidden="true"></div>
+      </footer>
+    </main>
+    <script>
+      (async function render() {
+        const {
+          waitForPayload,
+          getSettings,
+          getQuerySettings,
+          mergeSettings,
+          loadLanguageJson,
+          applyColorTheme,
+          escapeHtml,
+          fitHyphenatedText,
+          fitToScreen,
+          markReady,
+          markError,
+        } = window.PaperlessOpenIntegration;
+
+        const defaultMessages = {
+          title: "Daily Buddhism Wisdom",
+          loading: "Loading...",
+          day: "Day {day}",
+          source: "Daily reflection",
+          errorTitle: "Wisdom could not load",
+          hidden: "Wisdom text hidden",
+        };
+        const defaults = {
+          color: "light",
+          showPage: true,
+          fontSize: "large",
+          fontWeight: "700",
+          textAlign: "left",
+          lineHeight: "1.12",
+          showAttribution: true,
+          showDay: true,
+          day: "",
+          dayOffset: 0,
+        };
+        const sizeMap = {
+          "xx-small": "1.8rem",
+          "x-small": "2.35rem",
+          small: "3rem",
+          medium: "3.7rem",
+          large: "4.65rem",
+          "x-large": "5.55rem",
+          "xx-large": "6.35rem",
+        };
+        const allowedAlignments = new Set(["left", "center", "right", "justify"]);
+        const allowedLineHeights = new Set(["1", "1.12", "1.25", "1.4", "normal"]);
+        const allowedWeights = new Set([
+          "lighter",
+          "normal",
+          "bold",
+          "bolder",
+          "100",
+          "200",
+          "300",
+          "400",
+          "500",
+          "600",
+          "700",
+          "800",
+          "900",
+        ]);
+        let messages = defaultMessages;
+        let currentLanguage = "en";
+
+        function t(key, values = {}) {
+          const template =
+            typeof messages[key] === "string"
+              ? messages[key]
+              : defaultMessages[key] || key;
+          return template.replace(/\{(\w+)\}/g, (_match, name) =>
+            values[name] ?? "",
+          );
+        }
+
+        function asBoolean(value) {
+          return value === true || value === "true";
+        }
+
+        function applyStaticMessages(root = document) {
+          root.querySelectorAll("[data-i18n]").forEach((element) => {
+            element.textContent = t(element.dataset.i18n);
+          });
+        }
+
+        async function loadMessages(payload) {
+          const result = await loadLanguageJson(payload);
+          messages = { ...defaultMessages, ...result.messages };
+          currentLanguage = result.language || "en";
+          document.documentElement.lang = currentLanguage;
+          applyStaticMessages();
+        }
+
+        function applyDisplaySettings(settings) {
+          const screen = document.getElementById("screen");
+          const body = document.getElementById("body");
+          const fontSize = sizeMap[settings.fontSize] || sizeMap.large;
+          const fontWeight = allowedWeights.has(String(settings.fontWeight))
+            ? String(settings.fontWeight)
+            : defaults.fontWeight;
+          const lineHeight = allowedLineHeights.has(String(settings.lineHeight))
+            ? String(settings.lineHeight)
+            : defaults.lineHeight;
+          const textAlign = allowedAlignments.has(String(settings.textAlign))
+            ? String(settings.textAlign)
+            : defaults.textAlign;
+
+          screen.style.setProperty("--wisdom-size", fontSize);
+          screen.style.setProperty("--wisdom-weight", fontWeight);
+          screen.style.setProperty("--wisdom-line", lineHeight);
+          body.style.setProperty("--wisdom-align", textAlign);
+        }
+
+        try {
+          const payload = await waitForPayload({ timeout: 300 });
+          await loadMessages(payload);
+          const settings = mergeSettings(
+            defaults,
+            getSettings(payload),
+            getQuerySettings(),
+          );
+          applyColorTheme(settings.color, { defaultTheme: defaults.color });
+          applyDisplaySettings(settings);
+
+          const params = new URLSearchParams();
+          Object.entries(settings).forEach(([key, value]) => {
+            if (value !== undefined && value !== null) {
+              params.set(key, String(value));
+            }
+          });
+          params.set("language", currentLanguage);
+
+          const response = await fetch(`./api/data?${params.toString()}`, {
+            cache: "no-store",
+          });
+
+          if (!response.ok) {
+            throw new Error(`Wisdom API failed with ${response.status}`);
+          }
+
+          const data = await response.json();
+          const screen = document.getElementById("screen");
+          const wisdom = document.getElementById("wisdom");
+          const hiddenMessage = document.getElementById("hidden-message");
+          const showPage = asBoolean(settings.showPage);
+          const showDay = asBoolean(settings.showDay);
+          const showAttribution = asBoolean(settings.showAttribution);
+
+          document.getElementById("entry-title").textContent = data.title;
+          document.getElementById("day").textContent = t("day", {
+            day: data.dayOfYear,
+          });
+          document.getElementById("day").hidden = !showDay;
+          document.getElementById("attribution").textContent = data.attribution;
+          document.getElementById("footer").hidden = !showAttribution;
+
+          screen.classList.toggle("is-hidden", !showPage);
+          wisdom.hidden = !showPage;
+          hiddenMessage.hidden = showPage;
+
+          if (showPage) {
+            wisdom.innerHTML = escapeHtml(data.text);
+            fitHyphenatedText(wisdom, {
+              min: 22,
+              max: 180,
+              step: 2,
+              tolerance: 18,
+              lineBreak: "balance",
+              fitParent: document.getElementById("panel"),
+            });
+          }
+
+          fitToScreen();
+          markReady({
+            dayOfYear: data.dayOfYear,
+          });
+        } catch (error) {
+          markError(error);
+          document.body.innerHTML = `<main class="pp-screen"><h1 class="pp-title pp-error">${escapeHtml(t("errorTitle"))}</h1><p>${escapeHtml(error.message)}</p></main>`;
+        }
+      })();
+    </script>
+  </body>
+</html>

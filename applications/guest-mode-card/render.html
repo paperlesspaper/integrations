@@ -1,0 +1,812 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="paperless:epd-optimize" content='{"intent":"readable"}' />
+    <title>Guest Mode Card</title>
+    <link rel="stylesheet" href="/assets/paperless.css" />
+    <script src="/assets/paperless.iife.js"></script>
+    <style>
+      .guest-screen {
+        padding: 18px;
+        gap: 12px;
+      }
+
+      .guest-header {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        gap: 14px;
+        align-items: end;
+        padding-bottom: 10px;
+        border-bottom: 3px solid currentColor;
+      }
+
+      .guest-place {
+        margin: 0;
+        font-size: clamp(2.1rem, 8vh, 4.2rem);
+        line-height: 0.9;
+        font-weight: 950;
+        letter-spacing: 0;
+        overflow-wrap: anywhere;
+      }
+
+      .guest-welcome {
+        margin: 8px 0 0;
+        color: var(--pp-muted);
+        font-size: 1rem;
+        line-height: 1.12;
+        font-weight: 720;
+        overflow-wrap: anywhere;
+      }
+
+      .checkout-badge {
+        min-width: 132px;
+        padding: 9px 12px;
+        border: 3px solid currentColor;
+        background: color-mix(in srgb, var(--pp-accent) 22%, var(--pp-card));
+        text-align: center;
+      }
+
+      .checkout-label {
+        margin: 0 0 4px;
+        font-size: 0.72rem;
+        line-height: 1;
+        font-weight: 860;
+        text-transform: uppercase;
+      }
+
+      .checkout-time {
+        margin: 0;
+        font-size: 2.05rem;
+        line-height: 0.9;
+        font-weight: 950;
+      }
+
+      .guest-grid {
+        flex: 1;
+        min-height: 0;
+        display: grid;
+        grid-template-columns: 1.02fr 1fr 1fr;
+        grid-template-rows: minmax(0, 1fr) minmax(0, 0.96fr);
+        gap: 10px;
+      }
+
+      .panel {
+        min-width: 0;
+        min-height: 0;
+        display: flex;
+        flex-direction: column;
+        padding: 12px;
+        border: 2px solid var(--pp-border);
+        background: var(--pp-card);
+        overflow: hidden;
+      }
+
+      .panel-title {
+        display: flex;
+        gap: 7px;
+        align-items: center;
+        margin: 0 0 8px;
+        font-size: 0.83rem;
+        line-height: 1;
+        font-weight: 890;
+        text-transform: uppercase;
+      }
+
+      .panel-icon {
+        width: 1.25em;
+        height: 1.25em;
+        flex: 0 0 auto;
+      }
+
+      .wifi-panel {
+        grid-row: 1 / span 2;
+        gap: 10px;
+      }
+
+      .qr-wrap {
+        align-self: center;
+        width: min(100%, 214px);
+        aspect-ratio: 1;
+        padding: 8px;
+        border: 3px solid currentColor;
+        background: #ffffff;
+      }
+
+      #qr {
+        display: block;
+        width: 100%;
+        height: 100%;
+      }
+
+      .wifi-subtitle {
+        margin: -2px 0 0;
+        color: var(--pp-muted);
+        font-size: 0.82rem;
+        line-height: 1;
+        font-weight: 790;
+        text-align: center;
+        text-transform: uppercase;
+      }
+
+      .wifi-details {
+        display: grid;
+        gap: 6px;
+        min-height: 0;
+      }
+
+      .detail-row {
+        min-width: 0;
+        display: grid;
+        grid-template-columns: auto minmax(0, 1fr);
+        gap: 8px;
+        align-items: baseline;
+      }
+
+      .detail-label {
+        color: var(--pp-muted);
+        font-size: 0.72rem;
+        line-height: 1;
+        font-weight: 830;
+        text-transform: uppercase;
+      }
+
+      .detail-value {
+        min-width: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        font-size: 0.95rem;
+        line-height: 1.05;
+        font-weight: 830;
+      }
+
+      .rules-panel {
+        background: color-mix(in srgb, var(--pp-accent) 13%, var(--pp-card));
+      }
+
+      .list {
+        min-height: 0;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        display: grid;
+        gap: 7px;
+        overflow: hidden;
+      }
+
+      .list li {
+        min-width: 0;
+        display: grid;
+        grid-template-columns: auto minmax(0, 1fr);
+        gap: 8px;
+        align-items: start;
+        font-size: 0.98rem;
+        line-height: 1.12;
+        font-weight: 740;
+        overflow-wrap: anywhere;
+      }
+
+      .list li::before {
+        content: "";
+        width: 0.58em;
+        height: 0.58em;
+        margin-top: 0.24em;
+        border: 2px solid currentColor;
+        background: var(--pp-accent);
+      }
+
+      .checkout-note {
+        margin: auto 0 0;
+        padding-top: 8px;
+        border-top: 2px solid var(--pp-border);
+        color: var(--pp-muted);
+        font-size: 0.78rem;
+        line-height: 1.15;
+        font-weight: 720;
+        overflow-wrap: anywhere;
+      }
+
+      .smart-panel {
+        grid-column: 2 / span 2;
+      }
+
+      .contact-strip {
+        display: grid;
+        grid-template-columns: auto minmax(0, 1fr);
+        gap: 8px;
+        align-items: center;
+        padding-top: 10px;
+        border-top: 2px solid currentColor;
+        font-size: 0.84rem;
+        line-height: 1;
+        font-weight: 820;
+      }
+
+      .contact-value {
+        min-width: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .is-hidden {
+        display: none;
+      }
+
+      @media (orientation: portrait) {
+        .guest-screen {
+          padding: 16px;
+          gap: 10px;
+        }
+
+        .guest-header {
+          grid-template-columns: 1fr;
+          align-items: start;
+          gap: 8px;
+          padding-bottom: 9px;
+        }
+
+        .guest-place {
+          font-size: 2.25rem;
+          line-height: 0.96;
+        }
+
+        .guest-welcome {
+          margin-top: 6px;
+          font-size: 0.92rem;
+        }
+
+        .checkout-badge {
+          min-width: 0;
+          width: 100%;
+          display: grid;
+          grid-template-columns: auto 1fr;
+          gap: 12px;
+          align-items: baseline;
+          text-align: left;
+        }
+
+        .checkout-label {
+          margin: 0;
+        }
+
+        .checkout-time {
+          font-size: 1.78rem;
+        }
+
+        .guest-grid {
+          grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+          grid-template-rows: minmax(0, 235px) minmax(0, 145px) minmax(0, 1fr);
+          gap: 8px;
+        }
+
+        .wifi-panel {
+          grid-column: 1 / span 2;
+          grid-row: auto;
+        }
+
+        .smart-panel {
+          grid-column: 1 / span 2;
+          grid-row: auto;
+        }
+
+        .wifi-panel {
+          display: grid;
+          grid-template-columns: minmax(0, 172px) minmax(0, 1fr);
+          grid-template-rows: auto minmax(0, 1fr) auto;
+          gap: 8px 12px;
+          align-items: center;
+        }
+
+        .wifi-panel .panel-title {
+          grid-column: 1 / span 2;
+        }
+
+        .wifi-subtitle {
+          grid-column: 1;
+          grid-row: 3;
+          margin: 0;
+        }
+
+        .qr-wrap {
+          grid-column: 1;
+          grid-row: 2;
+          width: min(100%, 160px);
+        }
+
+        .wifi-details {
+          grid-column: 2;
+          grid-row: 2 / span 2;
+          align-self: center;
+        }
+
+        .list li {
+          font-size: 0.82rem;
+          line-height: 1.08;
+        }
+
+        .checkout-note {
+          font-size: 0.68rem;
+        }
+      }
+
+      @media (max-width: 700px), (max-height: 560px) {
+        .guest-screen {
+          padding: 14px;
+          gap: 9px;
+        }
+
+        .guest-grid {
+          gap: 8px;
+        }
+
+        .panel {
+          padding: 10px;
+        }
+
+        .panel-title {
+          margin-bottom: 6px;
+          font-size: 0.72rem;
+        }
+
+        .qr-wrap {
+          width: min(100%, 166px);
+          padding: 6px;
+        }
+
+        .list {
+          gap: 5px;
+        }
+
+        .list li {
+          font-size: 0.85rem;
+          line-height: 1.08;
+        }
+
+        .checkout-note,
+        .wifi-subtitle,
+        .detail-label {
+          font-size: 0.68rem;
+        }
+
+        .detail-value {
+          font-size: 0.82rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="website-has-loading-element"></div>
+    <main class="pp-screen guest-screen" id="screen">
+      <header class="guest-header">
+        <div>
+          <h1 class="guest-place" id="placeName">Guest Mode</h1>
+          <p class="guest-welcome" id="welcomeLine"></p>
+        </div>
+        <aside class="checkout-badge">
+          <p class="checkout-label" id="checkoutTitle">Checkout</p>
+          <p class="checkout-time" id="checkoutTime">11:00</p>
+        </aside>
+      </header>
+
+      <section class="guest-grid">
+        <article class="panel wifi-panel">
+          <h2 class="panel-title">
+            <svg class="panel-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M4 9c4.6-4 11.4-4 16 0" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" />
+              <path d="M7.5 12.5c2.6-2.2 6.4-2.2 9 0" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" />
+              <path d="M10.5 16a2.2 2.2 0 0 1 3 0" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" />
+              <circle cx="12" cy="19" r="1.2" fill="currentColor" />
+            </svg>
+            <span id="wifiTitle">Wi-Fi</span>
+          </h2>
+          <div class="qr-wrap">
+            <canvas id="qr" width="29" height="29"></canvas>
+          </div>
+          <p class="wifi-subtitle" id="wifiSubtitle">Scan to join</p>
+          <div class="wifi-details">
+            <div class="detail-row">
+              <span class="detail-label" id="networkLabel">Network</span>
+              <span class="detail-value" id="wifiName"></span>
+            </div>
+            <div class="detail-row">
+              <span class="detail-label" id="passwordLabel">Password</span>
+              <span class="detail-value" id="wifiPassword"></span>
+            </div>
+          </div>
+        </article>
+
+        <article class="panel rules-panel">
+          <h2 class="panel-title">
+            <svg class="panel-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M6 4h12v16H6z" fill="none" stroke="currentColor" stroke-width="2.2" />
+              <path d="M9 8h6M9 12h6M9 16h4" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" />
+            </svg>
+            <span id="rulesTitle">House Rules</span>
+          </h2>
+          <ul class="list" id="houseRules"></ul>
+          <p class="checkout-note" id="checkoutNote"></p>
+        </article>
+
+        <article class="panel">
+          <h2 class="panel-title">
+            <svg class="panel-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M5 9h14l-1.4 10H6.4L5 9Z" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" />
+              <path d="M7 9V6h10v3M9 13h6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" />
+            </svg>
+            <span id="cafesTitle">Nearby Cafes</span>
+          </h2>
+          <ul class="list" id="nearbyCafes"></ul>
+        </article>
+
+        <article class="panel smart-panel">
+          <h2 class="panel-title">
+            <svg class="panel-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M4 11 12 4l8 7v9H4v-9Z" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" />
+              <path d="M9 20v-6h6v6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" />
+            </svg>
+            <span id="smartHomeTitle">Smart Home</span>
+          </h2>
+          <ul class="list" id="smartHomeInstructions"></ul>
+        </article>
+      </section>
+
+      <footer class="contact-strip" id="contactStrip">
+        <span id="contactTitle">Contact</span>
+        <span class="contact-value" id="emergencyContact"></span>
+      </footer>
+    </main>
+
+    <script>
+      (async function render() {
+        const {
+          waitForPayload,
+          getSettings,
+          getQuerySettings,
+          mergeSettings,
+          loadLanguageJson,
+          applyColorTheme,
+          fitToScreen,
+          escapeHtml,
+          markReady,
+          markError,
+        } = window.PaperlessOpenIntegration;
+
+        const defaults = {
+          color: "light",
+          placeName: "The Paperless Loft",
+          welcomeLine: "Welcome home. Everything important is right here.",
+          wifiName: "Paperless Guest",
+          wifiPassword: "make-yourself-at-home",
+          wifiSecurity: "WPA",
+          checkoutTime: "11:00",
+          checkoutNote: "Leave keys on the kitchen table and pull the door closed.",
+          houseRules: "Quiet hours after 22:00\nNo smoking indoors\nPlease separate recycling",
+          nearbyCafes: "Milo Coffee - 3 min walk\nCorner Bakery - opens 07:30\nNorthside Espresso - best flat white",
+          smartHomeInstructions:
+            "Say: Hey Home, set living room to warm\nThermostat: turn the dial gently\nLights: long press the wall switch to dim",
+          emergencyContact: "+49 30 000000",
+          showWifiPassword: false,
+        };
+
+        const fallbackMessages = {
+          wifiTitle: "Wi-Fi",
+          wifiSubtitle: "Scan to join",
+          networkLabel: "Network",
+          passwordLabel: "Password",
+          hiddenPassword: "Hidden",
+          checkoutTitle: "Checkout",
+          rulesTitle: "House Rules",
+          cafesTitle: "Nearby Cafes",
+          smartHomeTitle: "Smart Home",
+          contactTitle: "Contact",
+          emptyRules: "Add house rules in settings.",
+          emptyCafes: "Add nearby cafes in settings.",
+          emptySmartHome: "Add smart-home instructions in settings.",
+        };
+
+        const qrVersion = 6;
+        const qrSize = qrVersion * 4 + 17;
+        const qrBlockCount = 2;
+        const qrBlockDataCodewords = 68;
+        const qrDataCodewords = qrBlockCount * qrBlockDataCodewords;
+        const qrEcCodewords = 18;
+        const qrMaxPayloadBytes = 134;
+
+        function normalizeLines(value, fallback) {
+          const lines = String(value || "")
+            .replace(/\r\n?/g, "\n")
+            .split("\n")
+            .map((line) => line.trim())
+            .filter(Boolean)
+            .slice(0, 4);
+          return lines.length ? lines : [fallback];
+        }
+
+        function setText(id, value) {
+          document.getElementById(id).textContent = value;
+        }
+
+        function renderList(id, lines) {
+          const list = document.getElementById(id);
+          list.innerHTML = lines.map((line) => `<li><span>${escapeHtml(line)}</span></li>`).join("");
+        }
+
+        function escapeWifiValue(value) {
+          return String(value || "").replace(/([\\;,:"])/g, "\\$1");
+        }
+
+        function buildWifiPayload(settings) {
+          const security = ["WPA", "WEP", "nopass"].includes(settings.wifiSecurity)
+            ? settings.wifiSecurity
+            : defaults.wifiSecurity;
+          const ssid = escapeWifiValue(settings.wifiName || defaults.wifiName);
+          if (security === "nopass") {
+            return `WIFI:T:nopass;S:${ssid};;`;
+          }
+          return `WIFI:T:${security};S:${ssid};P:${escapeWifiValue(settings.wifiPassword || "")};;`;
+        }
+
+        function makeQrBytes(value) {
+          const bytes = Array.from(new TextEncoder().encode(value || ""));
+          if (bytes.length > qrMaxPayloadBytes) {
+            throw new Error("Wi-Fi QR payload is too long for this card.");
+          }
+
+          const bits = [0, 1, 0, 0];
+          for (let i = 7; i >= 0; i -= 1) bits.push((bytes.length >>> i) & 1);
+          for (const byte of bytes) {
+            for (let i = 7; i >= 0; i -= 1) bits.push((byte >>> i) & 1);
+          }
+          const maxBits = qrDataCodewords * 8;
+          for (let i = 0; i < 4 && bits.length < maxBits; i += 1) bits.push(0);
+          while (bits.length % 8) bits.push(0);
+
+          const data = [];
+          for (let i = 0; i < bits.length; i += 8) {
+            data.push(bits.slice(i, i + 8).reduce((value, bit) => (value << 1) | bit, 0));
+          }
+          for (let pad = 0xec; data.length < qrDataCodewords; pad = pad === 0xec ? 0x11 : 0xec) {
+            data.push(pad);
+          }
+
+          return data;
+        }
+
+        function makeGaloisTables() {
+          const exp = Array(512).fill(0);
+          const log = Array(256).fill(0);
+          let value = 1;
+          for (let i = 0; i < 255; i += 1) {
+            exp[i] = value;
+            log[value] = i;
+            value <<= 1;
+            if (value & 0x100) value ^= 0x11d;
+          }
+          for (let i = 255; i < exp.length; i += 1) exp[i] = exp[i - 255];
+          return { exp, log };
+        }
+
+        const gf = makeGaloisTables();
+
+        function gfMul(left, right) {
+          if (!left || !right) return 0;
+          return gf.exp[gf.log[left] + gf.log[right]];
+        }
+
+        function makeGenerator(degree) {
+          let result = [1];
+          for (let degreeIndex = 0; degreeIndex < degree; degreeIndex += 1) {
+            const next = Array(result.length + 1).fill(0);
+            for (let i = 0; i < result.length; i += 1) {
+              next[i] ^= result[i];
+              next[i + 1] ^= gfMul(result[i], gf.exp[degreeIndex]);
+            }
+            result = next;
+          }
+          return result;
+        }
+
+        function makeErrorCorrection(data) {
+          const generator = makeGenerator(qrEcCodewords);
+          const result = Array(qrEcCodewords).fill(0);
+          for (const byte of data) {
+            const factor = byte ^ result.shift();
+            result.push(0);
+            for (let i = 0; i < qrEcCodewords; i += 1) {
+              result[i] ^= gfMul(generator[i + 1], factor);
+            }
+          }
+          return result;
+        }
+
+        function makeQrCodewords(value) {
+          const data = makeQrBytes(value);
+          const blocks = [];
+          for (let blockIndex = 0; blockIndex < qrBlockCount; blockIndex += 1) {
+            const start = blockIndex * qrBlockDataCodewords;
+            const blockData = data.slice(start, start + qrBlockDataCodewords);
+            blocks.push({
+              data: blockData,
+              errorCorrection: makeErrorCorrection(blockData),
+            });
+          }
+
+          const codewords = [];
+          for (let i = 0; i < qrBlockDataCodewords; i += 1) {
+            for (const block of blocks) codewords.push(block.data[i]);
+          }
+          for (let i = 0; i < qrEcCodewords; i += 1) {
+            for (const block of blocks) codewords.push(block.errorCorrection[i]);
+          }
+          return codewords;
+        }
+
+        function makeQrMatrix(value) {
+          const size = qrSize;
+          const matrix = Array.from({ length: size }, () => Array(size).fill(false));
+          const reserved = Array.from({ length: size }, () => Array(size).fill(false));
+
+          function setModule(x, y, dark, isFunction = true) {
+            if (x < 0 || y < 0 || x >= size || y >= size) return;
+            matrix[y][x] = Boolean(dark);
+            if (isFunction) reserved[y][x] = true;
+          }
+
+          function placeFinder(x, y) {
+            for (let yy = -1; yy <= 7; yy += 1) {
+              for (let xx = -1; xx <= 7; xx += 1) {
+                const px = x + xx;
+                const py = y + yy;
+                if (px < 0 || py < 0 || px >= size || py >= size) continue;
+                const dark =
+                  (xx >= 0 &&
+                    xx <= 6 &&
+                    yy >= 0 &&
+                    yy <= 6 &&
+                    (xx === 0 || xx === 6 || yy === 0 || yy === 6 || (xx >= 2 && xx <= 4 && yy >= 2 && yy <= 4)));
+                setModule(px, py, dark);
+              }
+            }
+          }
+
+          function placeAlignment(cx, cy) {
+            for (let yy = -2; yy <= 2; yy += 1) {
+              for (let xx = -2; xx <= 2; xx += 1) {
+                const distance = Math.max(Math.abs(xx), Math.abs(yy));
+                setModule(cx + xx, cy + yy, distance !== 1);
+              }
+            }
+          }
+
+          placeFinder(0, 0);
+          placeFinder(size - 7, 0);
+          placeFinder(0, size - 7);
+          placeAlignment(34, 34);
+
+          for (let i = 8; i < size - 8; i += 1) {
+            setModule(i, 6, i % 2 === 0);
+            setModule(6, i, i % 2 === 0);
+          }
+
+          setModule(8, qrVersion * 4 + 9, true);
+          for (let i = 0; i < 9; i += 1) {
+            if (i !== 6) {
+              reserved[8][i] = true;
+              reserved[i][8] = true;
+            }
+          }
+          for (let i = 0; i < 8; i += 1) {
+            reserved[8][size - 1 - i] = true;
+            reserved[size - 1 - i][8] = true;
+          }
+
+          const codewords = makeQrCodewords(value);
+          const bits = [];
+          for (const codeword of codewords) {
+            for (let i = 7; i >= 0; i -= 1) bits.push((codeword >>> i) & 1);
+          }
+
+          let bitIndex = 0;
+          let upward = true;
+          for (let right = size - 1; right >= 1; right -= 2) {
+            if (right === 6) right -= 1;
+            for (let vertical = 0; vertical < size; vertical += 1) {
+              const y = upward ? size - 1 - vertical : vertical;
+              for (let offset = 0; offset < 2; offset += 1) {
+                const x = right - offset;
+                if (!reserved[y][x]) {
+                  const bit = bitIndex < bits.length ? bits[bitIndex] : 0;
+                  matrix[y][x] = Boolean(bit) !== ((x + y) % 2 === 0);
+                  bitIndex += 1;
+                }
+              }
+            }
+            upward = !upward;
+          }
+
+          const formatBits = 0b111011111000100;
+          function formatBit(i) {
+            return ((formatBits >>> i) & 1) === 1;
+          }
+          for (let i = 0; i <= 5; i += 1) setModule(8, i, formatBit(i));
+          setModule(8, 7, formatBit(6));
+          setModule(8, 8, formatBit(7));
+          setModule(7, 8, formatBit(8));
+          for (let i = 9; i < 15; i += 1) setModule(14 - i, 8, formatBit(i));
+          for (let i = 0; i < 8; i += 1) setModule(size - 1 - i, 8, formatBit(i));
+          for (let i = 8; i < 15; i += 1) setModule(8, size - 15 + i, formatBit(i));
+
+          return matrix;
+        }
+
+        function drawQr(canvas, value) {
+          const scale = 10;
+          canvas.width = qrSize * scale;
+          canvas.height = qrSize * scale;
+          const context = canvas.getContext("2d");
+          context.fillStyle = "#ffffff";
+          context.fillRect(0, 0, canvas.width, canvas.height);
+          context.fillStyle = "#111111";
+          const grid = makeQrMatrix(value);
+          for (let y = 0; y < qrSize; y += 1) {
+            for (let x = 0; x < qrSize; x += 1) {
+              if (grid[y][x]) {
+                context.fillRect(x * scale, y * scale, scale, scale);
+              }
+            }
+          }
+        }
+
+        try {
+          const payload = await waitForPayload({ timeout: 300 });
+          const settings = mergeSettings(defaults, getSettings(payload), getQuerySettings());
+          const languageResult = await loadLanguageJson(payload).catch(() => ({ language: "en", messages: {} }));
+          const messages = { ...fallbackMessages, ...(languageResult.messages || {}) };
+          document.documentElement.lang = languageResult.language || "en";
+
+          applyColorTheme(settings.color, { defaultTheme: defaults.color });
+
+          setText("placeName", String(settings.placeName || defaults.placeName).trim());
+          setText("welcomeLine", String(settings.welcomeLine || defaults.welcomeLine).trim());
+          setText("checkoutTitle", messages.checkoutTitle);
+          setText("checkoutTime", String(settings.checkoutTime || defaults.checkoutTime).trim());
+          setText("wifiTitle", messages.wifiTitle);
+          setText("wifiSubtitle", messages.wifiSubtitle);
+          setText("networkLabel", messages.networkLabel);
+          setText("passwordLabel", messages.passwordLabel);
+          setText("rulesTitle", messages.rulesTitle);
+          setText("cafesTitle", messages.cafesTitle);
+          setText("smartHomeTitle", messages.smartHomeTitle);
+          setText("contactTitle", messages.contactTitle);
+          setText("wifiName", String(settings.wifiName || defaults.wifiName).trim());
+          setText(
+            "wifiPassword",
+            settings.showWifiPassword === true || settings.showWifiPassword === "true"
+              ? String(settings.wifiPassword || "").trim()
+              : messages.hiddenPassword,
+          );
+          setText("checkoutNote", String(settings.checkoutNote || defaults.checkoutNote).trim());
+          setText("emergencyContact", String(settings.emergencyContact || "").trim());
+          document
+            .getElementById("contactStrip")
+            .classList.toggle("is-hidden", !String(settings.emergencyContact || "").trim());
+
+          renderList("houseRules", normalizeLines(settings.houseRules, messages.emptyRules));
+          renderList("nearbyCafes", normalizeLines(settings.nearbyCafes, messages.emptyCafes));
+          renderList("smartHomeInstructions", normalizeLines(settings.smartHomeInstructions, messages.emptySmartHome));
+          drawQr(document.getElementById("qr"), buildWifiPayload(settings));
+
+          await document.fonts?.ready;
+          fitToScreen(document.getElementById("screen"));
+          markReady();
+        } catch (error) {
+          markError(error);
+          document.body.innerHTML = `<main class="pp-screen"><h1 class="pp-title pp-error">Guest Mode Card could not load</h1><p>${escapeHtml(error.message)}</p></main>`;
+        }
+      })();
+    </script>
+  </body>
+</html>

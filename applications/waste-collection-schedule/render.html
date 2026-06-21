@@ -204,9 +204,10 @@
         min-height: 0;
         display: grid;
         grid-auto-rows: minmax(0, 1fr);
-        gap: 7px;
         margin: 0;
         padding: 0;
+        border-top: 2px solid var(--pp-border);
+        border-bottom: 2px solid var(--pp-border);
         list-style: none;
       }
 
@@ -217,13 +218,17 @@
         grid-template-columns: minmax(5.6em, 0.54fr) minmax(0, 1fr);
         gap: 9px;
         align-items: center;
-        padding: 8px 10px;
-        border: 2px solid var(--pp-border);
-        background: var(--pp-bg);
+        padding: 9px 4px 9px 10px;
+        border-bottom: 2px solid var(--pp-border);
+      }
+
+      .upcoming-row:last-child {
+        border-bottom: 0;
       }
 
       .upcoming-row.is-next {
-        background: color-mix(in srgb, var(--pp-accent) 18%, var(--pp-bg));
+        border-left: 4px solid var(--pp-accent);
+        padding-left: 8px;
       }
 
       .row-date {
@@ -256,12 +261,30 @@
 
       .row-type {
         min-width: 0;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
         font-size: 0.92rem;
         line-height: 1;
         font-weight: 780;
+      }
+
+      .row-dot {
+        width: 0.54rem;
+        height: 0.54rem;
+        flex: 0 0 auto;
+        border: 1px solid currentColor;
+        background: currentColor;
+      }
+
+      .row-type-label {
+        min-width: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
       }
 
       .week-panel {
@@ -271,7 +294,7 @@
 
       .week-strip {
         display: grid;
-        grid-template-columns: repeat(14, minmax(0, 1fr));
+        grid-template-columns: repeat(7, minmax(0, 1fr));
         gap: 4px;
       }
 
@@ -389,9 +412,6 @@
           min-height: 270px;
         }
 
-        .week-strip {
-          grid-template-columns: repeat(7, minmax(0, 1fr));
-        }
       }
 
       @media (max-width: 700px), (max-height: 560px) {
@@ -427,12 +447,18 @@
         }
 
         .upcoming-list {
-          gap: 5px;
+          border-width: 1px;
         }
 
         .upcoming-row {
           grid-template-columns: minmax(4.8em, 0.48fr) minmax(0, 1fr);
-          padding: 6px 8px;
+          padding: 7px 2px 7px 8px;
+          border-bottom-width: 1px;
+        }
+
+        .upcoming-row.is-next {
+          border-left-width: 3px;
+          padding-left: 7px;
         }
 
         .row-day,
@@ -467,7 +493,6 @@
     <main class="pp-screen waste-screen" id="screen">
       <header class="waste-header">
         <div>
-          <p class="waste-kicker" data-i18n="kicker">Waste collection</p>
           <h1 class="waste-title pp-fit" id="title">Waste Collection</h1>
         </div>
         <div class="waste-meta">
@@ -480,7 +505,9 @@
         <article class="next-panel">
           <p class="section-label" data-i18n="next">Next pickup</p>
           <div class="next-body">
-            <p class="next-when pp-fit" id="next-when" data-i18n="loading">Loading...</p>
+            <p class="next-when pp-fit" id="next-when" data-i18n="loading">
+              Loading...
+            </p>
             <p class="next-date" id="next-date"></p>
             <div class="type-stack" id="next-types"></div>
             <p class="note-line" id="next-note"></p>
@@ -546,7 +573,8 @@
           addressLabel: "Sample Street 12",
           sourceMode: "manual",
           icsUrl: "",
-          manualDates: "2026-06-23 | Bulky waste | Booked appointment\n2026-07-03 | Glass",
+          manualDates:
+            "2026-06-23 | Bulky waste | Booked appointment\n2026-07-03 | Glass",
           recurringRules:
             "Residual waste | WEEKLY | 2 | 2026-01-05 | MO\nPaper | WEEKLY | 4 | 2026-01-12 | MO\nOrganic waste | WEEKLY | 1 | 2026-01-07 | WE\nRecycling | WEEKLY | 2 | 2026-01-09 | FR",
           excludedDates: "",
@@ -565,8 +593,9 @@
             typeof messages[key] === "string"
               ? messages[key]
               : defaultMessages[key] || key;
-          return template.replace(/\{(\w+)\}/g, (_match, name) =>
-            values[name] ?? "",
+          return template.replace(
+            /\{(\w+)\}/g,
+            (_match, name) => values[name] ?? "",
           );
         }
 
@@ -611,10 +640,13 @@
         }
 
         function formatDate(key, options) {
-          return dateFromKey(key).toLocaleDateString(currentLanguage || undefined, {
-            timeZone: "UTC",
-            ...options,
-          });
+          return dateFromKey(key).toLocaleDateString(
+            currentLanguage || undefined,
+            {
+              timeZone: "UTC",
+              ...options,
+            },
+          );
         }
 
         function formatUpdated(value, timeZone) {
@@ -685,25 +717,35 @@
           }
 
           const nextItems = nextGroup.items || [];
-          const note = nextItems.map((item) => item.note).filter(Boolean).join(" | ");
+          const note = nextItems
+            .map((item) => item.note)
+            .filter(Boolean)
+            .join(" | ");
           document.getElementById("next-when").textContent = dayDistanceLabel(
             nextGroup.daysUntil,
           );
-          document.getElementById("next-date").textContent = formatDate(nextGroup.date, {
-            weekday: "long",
-            month: "long",
-            day: "numeric",
-          });
-          document.getElementById("next-types").innerHTML = nextItems.map(typeChip).join("");
+          document.getElementById("next-date").textContent = formatDate(
+            nextGroup.date,
+            {
+              weekday: "long",
+              month: "long",
+              day: "numeric",
+            },
+          );
+          document.getElementById("next-types").innerHTML = nextItems
+            .map(typeChip)
+            .join("");
           document.getElementById("next-note").innerHTML = escapeHtml(note);
 
-          document.getElementById("week-panel").classList.toggle(
-            "is-hidden",
-            !data.showWeekStrip,
-          );
+          document
+            .getElementById("week-panel")
+            .classList.toggle("is-hidden", !data.showWeekStrip);
           document.getElementById("week-strip").innerHTML = (data.week || [])
             .map((day) => {
-              const label = formatDate(day.date, { weekday: "short", day: "numeric" });
+              const label = formatDate(day.date, {
+                weekday: "short",
+                day: "numeric",
+              });
               const items = day.items || [];
               return `
                 <div class="week-day${items.length ? " has-pickup" : ""}">
@@ -714,9 +756,14 @@
             })
             .join("");
 
-          document.getElementById("upcoming-list").innerHTML = (data.groups || [])
+          document.getElementById("upcoming-list").innerHTML = (
+            data.groups || []
+          )
             .map((group, index) => {
-              const date = formatDate(group.date, { month: "short", day: "numeric" });
+              const date = formatDate(group.date, {
+                month: "short",
+                day: "numeric",
+              });
               const items = group.items || [];
               return `
                 <li class="upcoming-row${index === 0 ? " is-next" : ""}">
@@ -728,7 +775,7 @@
                     ${items
                       .map(
                         (item) =>
-                          `<span class="row-type category-${escapeHtml(item.category || "default")}">${escapeHtml(item.type)}</span>`,
+                          `<span class="row-type category-${escapeHtml(item.category || "default")}"><span class="row-dot"></span><span class="row-type-label">${escapeHtml(item.type)}</span></span>`,
                       )
                       .join("")}
                   </span>
@@ -749,16 +796,23 @@
           );
           applyColorTheme(settings.color, { defaultTheme: defaults.color });
 
-          const response = await fetch(`./api/data?${new URLSearchParams(settings)}`, {
-            cache: "no-store",
-          });
+          const response = await fetch(
+            `./api/data?${new URLSearchParams(settings)}`,
+            {
+              cache: "no-store",
+            },
+          );
           if (!response.ok) {
             const text = await response.text();
-            throw new Error(text || `Waste collection API failed with ${response.status}`);
+            throw new Error(
+              text || `Waste collection API failed with ${response.status}`,
+            );
           }
 
           const data = await response.json();
-          document.getElementById("title").innerHTML = escapeHtml(data.title || settings.title);
+          document.getElementById("title").innerHTML = escapeHtml(
+            data.title || settings.title,
+          );
           document.getElementById("address-label").innerHTML = escapeHtml(
             data.addressLabel || "",
           );
@@ -766,10 +820,9 @@
             data.source,
             data.sourceMode,
           );
-          document.getElementById("source-label").classList.toggle(
-            "is-hidden",
-            !data.showSource,
-          );
+          document
+            .getElementById("source-label")
+            .classList.toggle("is-hidden", !data.showSource);
           document.getElementById("updated-at").textContent =
             `${t("updated")} ${formatUpdated(data.updatedAt, data.timeZone)}`;
 

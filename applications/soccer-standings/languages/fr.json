@@ -1,0 +1,13 @@
+{
+  "loading": "Chargement du classement...",
+  "played": "J",
+  "goalDifference": "Diff",
+  "points": "Pts",
+  "sourceLive": "Direct",
+  "sourceSample": "Exemple",
+  "updated": "Mis a jour",
+  "focus": "Focus",
+  "noFocus": "Aucune equipe cible",
+  "markdownTitle": "Note",
+  "errorTitle": "Impossible de charger le classement"
+}

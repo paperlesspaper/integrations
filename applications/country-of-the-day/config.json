@@ -1,0 +1,78 @@
+{
+  "name": "Country of the Day",
+  "version": "0.1.0",
+  "description": "Shows one deterministic daily country with flag, capital, region, area, languages, currency, and map-friendly facts.",
+  "renderPage": "./render.html",
+  "icon": "./assets/icon.svg",
+  "nativeSettings": {
+    "region": "any",
+    "independentOnly": true,
+    "countryCode": "",
+    "seed": ""
+  },
+  "configVariants": [
+    {
+      "region": "any",
+      "independentOnly": true,
+      "countryCode": "",
+      "seed": "",
+      "screenshots": {
+        "800x480": "./screenshots/country-of-the-day-global-800x480-landscape.png",
+        "480x800": "./screenshots/country-of-the-day-global-480x800-portrait.png"
+      }
+    },
+    {
+      "region": "Europe",
+      "independentOnly": true,
+      "countryCode": "",
+      "seed": "paperlesspaper",
+      "screenshots": {
+        "800x480": "./screenshots/country-of-the-day-europe-800x480-landscape.png",
+        "480x800": "./screenshots/country-of-the-day-europe-480x800-portrait.png"
+      }
+    }
+  ],
+  "formSchema": {
+    "type": "object",
+    "properties": {
+      "region": {
+        "type": "string",
+        "title": "Region",
+        "enum": [
+          "any",
+          "Africa",
+          "Americas",
+          "Asia",
+          "Europe",
+          "Oceania",
+          "Antarctic"
+        ],
+        "default": "any"
+      },
+      "independentOnly": {
+        "type": "boolean",
+        "title": "Independent countries only",
+        "default": true
+      },
+      "countryCode": {
+        "type": "string",
+        "title": "Pinned country",
+        "description": "Optional ISO alpha-2, ISO alpha-3, or country name.",
+        "default": ""
+      },
+      "seed": {
+        "type": "string",
+        "title": "Rotation seed",
+        "description": "Optional text that creates a different daily rotation.",
+        "default": ""
+      }
+    }
+  },
+  "language": [
+    "en",
+    "de",
+    "fr",
+    "es",
+    "it"
+  ]
+}

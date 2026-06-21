@@ -1,0 +1,139 @@
+{
+  "name": "Guest Mode Card",
+  "version": "0.1.0",
+  "description": "Shows a guest-ready home card with Wi-Fi QR, house rules, checkout time, nearby cafes, and smart-home instructions.",
+  "renderPage": "./render.html",
+  "icon": "./assets/icon.svg",
+  "nativeSettings": {
+    "color": "light",
+    "placeName": "The Paperless Loft",
+    "welcomeLine": "Welcome home. Everything important is right here.",
+    "wifiName": "Paperless Guest",
+    "wifiPassword": "make-yourself-at-home",
+    "wifiSecurity": "WPA",
+    "checkoutTime": "11:00",
+    "checkoutNote": "Leave keys on the kitchen table and pull the door closed.",
+    "houseRules": "Quiet hours after 22:00\nNo smoking indoors\nPlease separate recycling",
+    "nearbyCafes": "Milo Coffee - 3 min walk\nCorner Bakery - opens 07:30\nNorthside Espresso - best flat white",
+    "smartHomeInstructions": "Say: Hey Home, set living room to warm\nThermostat: turn the dial gently\nLights: long press the wall switch to dim",
+    "emergencyContact": "+49 30 000000",
+    "showWifiPassword": false
+  },
+  "configVariants": [
+    {
+      "color": "light",
+      "placeName": "The Paperless Loft",
+      "welcomeLine": "Welcome home. Everything important is right here.",
+      "wifiName": "Paperless Guest",
+      "wifiPassword": "make-yourself-at-home",
+      "wifiSecurity": "WPA",
+      "checkoutTime": "11:00",
+      "checkoutNote": "Leave keys on the kitchen table and pull the door closed.",
+      "houseRules": "Quiet hours after 22:00\nNo smoking indoors\nPlease separate recycling",
+      "nearbyCafes": "Milo Coffee - 3 min walk\nCorner Bakery - opens 07:30\nNorthside Espresso - best flat white",
+      "smartHomeInstructions": "Say: Hey Home, set living room to warm\nThermostat: turn the dial gently\nLights: long press the wall switch to dim",
+      "emergencyContact": "+49 30 000000",
+      "showWifiPassword": false,
+      "screenshots": {
+        "800x480": "./screenshots/guest-mode-card-800x480-landscape.png",
+        "480x800": "./screenshots/guest-mode-card-480x800-portrait.png"
+      }
+    },
+    {
+      "color": "dark",
+      "placeName": "Suite 4B",
+      "welcomeLine": "Your stay essentials, all in one calm corner.",
+      "wifiName": "Suite 4B Guest",
+      "wifiPassword": "sunrise-terrace-42",
+      "wifiSecurity": "WPA",
+      "checkoutTime": "10:30",
+      "checkoutNote": "Message us when you leave so cleaning can start.",
+      "houseRules": "Shoes off inside\nBalcony closes at 22:00\nRun dishwasher before checkout",
+      "nearbyCafes": "Atelier Cafe - courtyard seating\nKlara's - breakfast plates\nStation Kiosk - quick coffee",
+      "smartHomeInstructions": "Tablet by sofa controls scenes\nHeating resets at night\nUse Away scene before leaving",
+      "emergencyContact": "+49 30 111111",
+      "showWifiPassword": true,
+      "screenshots": {
+        "800x480": "./screenshots/guest-mode-card-dark-800x480-landscape.png",
+        "480x800": "./screenshots/guest-mode-card-dark-480x800-portrait.png"
+      }
+    }
+  ],
+  "formSchema": {
+    "type": "object",
+    "properties": {
+      "placeName": {
+        "type": "string",
+        "title": "Place name",
+        "default": "The Paperless Loft"
+      },
+      "welcomeLine": {
+        "type": "string",
+        "title": "Welcome line",
+        "default": "Welcome home. Everything important is right here."
+      },
+      "wifiName": {
+        "type": "string",
+        "title": "Wi-Fi network",
+        "default": "Paperless Guest"
+      },
+      "wifiPassword": {
+        "type": "string",
+        "title": "Wi-Fi password",
+        "default": "make-yourself-at-home"
+      },
+      "wifiSecurity": {
+        "type": "string",
+        "title": "Wi-Fi security",
+        "enum": [
+          "WPA",
+          "WEP",
+          "nopass"
+        ],
+        "default": "WPA"
+      },
+      "checkoutTime": {
+        "type": "string",
+        "title": "Checkout time",
+        "default": "11:00"
+      },
+      "checkoutNote": {
+        "type": "string",
+        "title": "Checkout note",
+        "default": "Leave keys on the kitchen table and pull the door closed."
+      },
+      "houseRules": {
+        "type": "string",
+        "title": "House rules",
+        "description": "One rule per line.",
+        "default": "Quiet hours after 22:00\nNo smoking indoors\nPlease separate recycling"
+      },
+      "nearbyCafes": {
+        "type": "string",
+        "title": "Nearby cafes",
+        "description": "One cafe per line.",
+        "default": "Milo Coffee - 3 min walk\nCorner Bakery - opens 07:30\nNorthside Espresso - best flat white"
+      },
+      "smartHomeInstructions": {
+        "type": "string",
+        "title": "Smart-home instructions",
+        "description": "One instruction per line.",
+        "default": "Say: Hey Home, set living room to warm\nThermostat: turn the dial gently\nLights: long press the wall switch to dim"
+      },
+      "emergencyContact": {
+        "type": "string",
+        "title": "Emergency contact",
+        "default": "+49 30 000000"
+      },
+      "showWifiPassword": {
+        "type": "boolean",
+        "title": "Show Wi-Fi password",
+        "default": false
+      }
+    }
+  },
+  "language": [
+    "en",
+    "de"
+  ]
+}

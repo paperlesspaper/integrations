@@ -1,0 +1,11 @@
+{
+  "kicker": "Airtable-Datensätze",
+  "loading": "Wird geladen...",
+  "noRows": "Keine Datensätze zum Anzeigen",
+  "sample": "Beispiel",
+  "updated": "Aktualisiert",
+  "rows": "Zeilen",
+  "fields": "Felder",
+  "errorTitle": "Airtable konnte nicht geladen werden",
+  "source": "Quelle"
+}

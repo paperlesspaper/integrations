@@ -1,0 +1,13 @@
+{
+  "loading": "Loading standings...",
+  "played": "P",
+  "goalDifference": "GD",
+  "points": "PTS",
+  "sourceLive": "Live",
+  "sourceSample": "Sample",
+  "updated": "Updated",
+  "focus": "Focus",
+  "noFocus": "No focus team",
+  "markdownTitle": "Note",
+  "errorTitle": "Soccer standings could not load"
+}

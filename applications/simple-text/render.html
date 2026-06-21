@@ -1,0 +1,494 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="paperless:epd-optimize" content='{"intent":"readable"}' />
+    <title>Simple Text</title>
+    <link rel="stylesheet" href="/assets/paperless.css" />
+    <script src="/assets/paperless.iife.js"></script>
+    <style>
+      .simple-text-screen {
+        --simple-text-size: 4.2rem;
+        --simple-text-line: 1.15;
+        --simple-text-weight: 700;
+        --simple-text-font: var(--pp-font);
+        padding: 30px;
+        gap: 18px;
+      }
+
+      .simple-text-screen.align-top {
+        justify-content: flex-start;
+      }
+
+      .simple-text-screen.align-center {
+        justify-content: center;
+      }
+
+      .simple-text-screen.align-bottom {
+        justify-content: flex-end;
+      }
+
+      .simple-text-panel {
+        width: 100%;
+        max-width: 100%;
+        height: 100%;
+        min-height: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 18px;
+        overflow: hidden;
+      }
+
+      .simple-text-screen.align-top .simple-text-panel {
+        justify-content: flex-start;
+      }
+
+      .simple-text-screen.align-center .simple-text-panel {
+        justify-content: center;
+      }
+
+      .simple-text-screen.align-bottom .simple-text-panel {
+        justify-content: flex-end;
+      }
+
+      .simple-text-screen.has-frame .simple-text-panel {
+        padding: 26px;
+        border: 4px solid var(--pp-border);
+      }
+
+      .simple-text-title {
+        margin: 0;
+        padding-bottom: 12px;
+        border-bottom: 3px solid var(--pp-border);
+        color: var(--pp-accent);
+        font-size: clamp(1.15rem, 5vh, 3rem);
+        line-height: 1;
+        font-weight: 900;
+        overflow-wrap: anywhere;
+      }
+
+      .simple-text-content {
+        flex: 0 1 auto;
+        min-height: 0;
+        max-height: 100%;
+        margin: 0;
+        font-family: var(--simple-text-font);
+        font-size: var(--simple-text-size);
+        font-style: var(--simple-text-style, normal);
+        font-weight: var(--simple-text-weight);
+        line-height: var(--simple-text-line);
+        text-align: var(--simple-text-align, center);
+        letter-spacing: 0;
+        overflow: hidden;
+        overflow-wrap: anywhere;
+      }
+
+      .simple-text-content > :first-child {
+        margin-top: 0;
+      }
+
+      .simple-text-content > :last-child {
+        margin-bottom: 0;
+      }
+
+      .simple-text-content p,
+      .simple-text-content ul,
+      .simple-text-content ol,
+      .simple-text-content blockquote,
+      .simple-text-content pre {
+        margin: 0.45em 0;
+      }
+
+      .simple-text-content h1,
+      .simple-text-content h2,
+      .simple-text-content h3 {
+        margin: 0.35em 0 0.18em;
+        line-height: 0.98;
+        font-weight: 920;
+      }
+
+      .simple-text-content h1 {
+        font-size: 1.35em;
+      }
+
+      .simple-text-content h2 {
+        font-size: 1.12em;
+      }
+
+      .simple-text-content h3 {
+        font-size: 1em;
+      }
+
+      .simple-text-content strong {
+        font-weight: 920;
+      }
+
+      .simple-text-content em {
+        font-style: italic;
+      }
+
+      .simple-text-content code {
+        padding: 0 0.18em;
+        border: 2px solid var(--pp-border);
+        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+        font-size: 0.82em;
+      }
+
+      .simple-text-content pre {
+        padding: 0.45em;
+        border: 3px solid var(--pp-border);
+        white-space: pre-wrap;
+      }
+
+      .simple-text-content pre code {
+        padding: 0;
+        border: 0;
+      }
+
+      .simple-text-content blockquote {
+        padding-left: 0.55em;
+        border-left: 0.18em solid var(--pp-accent);
+      }
+
+      .simple-text-content ul,
+      .simple-text-content ol {
+        padding-left: 1.15em;
+        text-align: left;
+      }
+
+      .simple-text-content li + li {
+        margin-top: 0.2em;
+      }
+
+      .simple-text-content a {
+        color: inherit;
+        text-decoration: underline;
+        text-decoration-thickness: 0.08em;
+      }
+
+      @media (orientation: portrait) {
+        .simple-text-screen {
+          padding: 28px;
+          gap: 22px;
+        }
+
+        .simple-text-panel {
+          gap: 20px;
+        }
+      }
+
+      @media (max-width: 700px), (max-height: 560px) {
+        .simple-text-screen {
+          padding: 18px;
+          gap: 12px;
+        }
+
+        .simple-text-screen.has-frame .simple-text-panel {
+          padding: 16px;
+          border-width: 3px;
+        }
+
+        .simple-text-panel {
+          gap: 12px;
+        }
+
+        .simple-text-title {
+          padding-bottom: 8px;
+          border-bottom-width: 2px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="website-has-loading-element"></div>
+    <main class="pp-screen simple-text-screen align-center" id="screen">
+      <section class="simple-text-panel" id="panel">
+        <h1 class="simple-text-title" id="title" hidden></h1>
+        <article class="simple-text-content pp-fit" id="content">Loading...</article>
+      </section>
+    </main>
+    <script>
+      (async function render() {
+        const {
+          waitForPayload,
+          getSettings,
+          getQuerySettings,
+          mergeSettings,
+          loadLanguageJson,
+          applyColorTheme,
+          fitHyphenatedText,
+          fitToScreen,
+          escapeHtml,
+          markReady,
+          markError,
+        } = window.PaperlessOpenIntegration;
+
+        const defaults = {
+          color: "light",
+          title: "",
+          content: "# Hello World\n\nUse **markdown** or plain text on your paperlesspaper display.",
+          format: "markdown",
+          fontFamily: "system",
+          fontSize: "large",
+          fontStyle: "normal",
+          fontWeight: "700",
+          textAlign: "center",
+          verticalAlign: "center",
+          lineHeight: "1.15",
+          showFrame: false,
+        };
+
+        const fontFamilies = {
+          system: "var(--pp-font)",
+          serif: "Georgia, 'Times New Roman', Times, serif",
+          mono: "ui-monospace, SFMono-Regular, Menlo, Consolas, monospace",
+        };
+        const fontSizes = {
+          "xx-small": "1.05rem",
+          "x-small": "1.45rem",
+          "small": "2rem",
+          "medium": "2.8rem",
+          "large": "4.2rem",
+          "x-large": "5.6rem",
+          "xx-large": "7.2rem",
+        };
+        const fitBounds = {
+          "xx-small": { min: 12, max: 44 },
+          "x-small": { min: 14, max: 58 },
+          "small": { min: 18, max: 82 },
+          "medium": { min: 22, max: 120 },
+          "large": { min: 26, max: 170 },
+          "x-large": { min: 30, max: 210 },
+          "xx-large": { min: 34, max: 260 },
+        };
+        const alignments = new Set(["left", "center", "right", "justify"]);
+        const verticalAlignments = new Set(["top", "center", "bottom"]);
+        const fontStyles = new Set(["normal", "italic"]);
+        const fontWeights = new Set([
+          "lighter",
+          "normal",
+          "bold",
+          "bolder",
+          "100",
+          "200",
+          "300",
+          "400",
+          "500",
+          "600",
+          "700",
+          "800",
+          "900",
+        ]);
+        const lineHeights = new Set(["1", "1.15", "1.3", "1.5", "normal"]);
+
+        function normalizeChoice(value, allowed, fallback) {
+          const normalized = String(value ?? "").trim();
+          return allowed.has(normalized) ? normalized : fallback;
+        }
+
+        function escapeAttribute(value) {
+          return escapeHtml(value).replace(/"/g, "&quot;");
+        }
+
+        function renderInline(markdown) {
+          const placeholders = [];
+          let value = String(markdown ?? "");
+
+          value = value.replace(/`([^`\n]+)`/g, (_match, code) => {
+            const token = `\u0000${placeholders.length}\u0000`;
+            placeholders.push(`<code>${escapeHtml(code)}</code>`);
+            return token;
+          });
+
+          value = escapeHtml(value);
+          value = value.replace(/\[([^\]\n]+)\]\((https?:\/\/[^\s)]+)\)/g, (_match, label, url) => {
+            return `<a href="${escapeAttribute(url)}">${label}</a>`;
+          });
+          value = value.replace(/\*\*([^*\n][\s\S]*?[^*\n])\*\*/g, "<strong>$1</strong>");
+          value = value.replace(/\*([^*\n][^*\n]*?)\*/g, "<em>$1</em>");
+          value = value.replace(/__([^_\n][\s\S]*?[^_\n])__/g, "<strong>$1</strong>");
+          value = value.replace(/_([^_\n][^_\n]*?)_/g, "<em>$1</em>");
+
+          return value.replace(/\u0000(\d+)\u0000/g, (_match, index) => placeholders[Number(index)] || "");
+        }
+
+        function renderList(lines, ordered) {
+          const tag = ordered ? "ol" : "ul";
+          const items = lines.map((line) => {
+            const text = ordered
+              ? line.replace(/^\s*\d+[.)]\s+/, "")
+              : line.replace(/^\s*[-*+]\s+/, "");
+            return `<li>${renderInline(text)}</li>`;
+          });
+          return `<${tag}>${items.join("")}</${tag}>`;
+        }
+
+        function renderParagraph(lines) {
+          return `<p>${renderInline(lines.join("\n")).replace(/\n/g, "<br>")}</p>`;
+        }
+
+        function renderMarkdown(markdown) {
+          const normalized = String(markdown ?? "").replace(/\r\n?/g, "\n");
+          const lines = normalized.split("\n");
+          const blocks = [];
+          let index = 0;
+
+          while (index < lines.length) {
+            const line = lines[index];
+
+            if (!line.trim()) {
+              index += 1;
+              continue;
+            }
+
+            if (/^```/.test(line.trim())) {
+              const code = [];
+              index += 1;
+              while (index < lines.length && !/^```/.test(lines[index].trim())) {
+                code.push(lines[index]);
+                index += 1;
+              }
+              index += index < lines.length ? 1 : 0;
+              blocks.push(`<pre><code>${escapeHtml(code.join("\n"))}</code></pre>`);
+              continue;
+            }
+
+            const heading = line.match(/^(#{1,3})\s+(.+)$/);
+            if (heading) {
+              const level = heading[1].length;
+              blocks.push(`<h${level}>${renderInline(heading[2].trim())}</h${level}>`);
+              index += 1;
+              continue;
+            }
+
+            if (/^\s*[-*+]\s+/.test(line)) {
+              const listLines = [];
+              while (index < lines.length && /^\s*[-*+]\s+/.test(lines[index])) {
+                listLines.push(lines[index]);
+                index += 1;
+              }
+              blocks.push(renderList(listLines, false));
+              continue;
+            }
+
+            if (/^\s*\d+[.)]\s+/.test(line)) {
+              const listLines = [];
+              while (index < lines.length && /^\s*\d+[.)]\s+/.test(lines[index])) {
+                listLines.push(lines[index]);
+                index += 1;
+              }
+              blocks.push(renderList(listLines, true));
+              continue;
+            }
+
+            if (/^\s*>\s?/.test(line)) {
+              const quoteLines = [];
+              while (index < lines.length && /^\s*>\s?/.test(lines[index])) {
+                quoteLines.push(lines[index].replace(/^\s*>\s?/, ""));
+                index += 1;
+              }
+              blocks.push(`<blockquote>${renderParagraph(quoteLines)}</blockquote>`);
+              continue;
+            }
+
+            const paragraph = [];
+            while (
+              index < lines.length &&
+              lines[index].trim() &&
+              !/^(#{1,3})\s+/.test(lines[index]) &&
+              !/^\s*[-*+]\s+/.test(lines[index]) &&
+              !/^\s*\d+[.)]\s+/.test(lines[index]) &&
+              !/^\s*>\s?/.test(lines[index]) &&
+              !/^```/.test(lines[index].trim())
+            ) {
+              paragraph.push(lines[index]);
+              index += 1;
+            }
+            blocks.push(renderParagraph(paragraph));
+          }
+
+          return blocks.join("");
+        }
+
+        try {
+          const payload = await waitForPayload({ timeout: 300 });
+          const settings = mergeSettings(defaults, getSettings(payload), getQuerySettings());
+          const languageResult = await loadLanguageJson(payload).catch(() => ({ language: "en", messages: {} }));
+          const messages = languageResult.messages || {};
+          document.documentElement.lang = languageResult.language || "en";
+
+          applyColorTheme(settings.color, { defaultTheme: defaults.color });
+
+          const screen = document.getElementById("screen");
+          const panel = document.getElementById("panel");
+          const title = document.getElementById("title");
+          const content = document.getElementById("content");
+          const textAlign = normalizeChoice(settings.textAlign, alignments, defaults.textAlign);
+          const verticalAlign = normalizeChoice(
+            settings.verticalAlign,
+            verticalAlignments,
+            defaults.verticalAlign,
+          );
+          const fontFamily = fontFamilies[settings.fontFamily] || fontFamilies.system;
+          const fontSize = fontSizes[settings.fontSize] || fontSizes.large;
+          const fontWeight = normalizeChoice(settings.fontWeight, fontWeights, defaults.fontWeight);
+          const fontStyle = normalizeChoice(settings.fontStyle, fontStyles, defaults.fontStyle);
+          const lineHeight = normalizeChoice(settings.lineHeight, lineHeights, defaults.lineHeight);
+          const format = settings.format === "plain" ? "plain" : "markdown";
+          const rawContent = String(settings.content || "").trim();
+          const fallbackContent =
+            typeof messages.emptyContent === "string" ? messages.emptyContent : "Add text in settings.";
+
+          screen.classList.remove("align-top", "align-center", "align-bottom");
+          screen.classList.add(`align-${verticalAlign}`);
+          screen.classList.toggle("has-frame", settings.showFrame === true || settings.showFrame === "true");
+          panel.style.setProperty("--simple-text-font", fontFamily);
+          panel.style.setProperty("--simple-text-size", fontSize);
+          panel.style.setProperty("--simple-text-style", fontStyle);
+          panel.style.setProperty("--simple-text-weight", fontWeight);
+          panel.style.setProperty("--simple-text-align", textAlign);
+          panel.style.setProperty("--simple-text-line", lineHeight);
+
+          const titleText = String(settings.title || "").trim();
+          title.hidden = !titleText;
+          title.textContent = titleText;
+
+          if (format === "plain") {
+            content.textContent = rawContent || fallbackContent;
+            content.style.whiteSpace = "pre-wrap";
+          } else {
+            content.innerHTML = renderMarkdown(rawContent || fallbackContent);
+            content.style.whiteSpace = "normal";
+          }
+
+          await document.fonts?.ready;
+          const panelStyle = window.getComputedStyle(panel);
+          const gap = Number.parseFloat(panelStyle.rowGap || panelStyle.gap) || 0;
+          const reservedTitleHeight = title.hidden
+            ? 0
+            : Math.ceil(title.getBoundingClientRect().height + gap);
+          const contentMaxHeight = Math.max(48, panel.clientHeight - reservedTitleHeight);
+          content.style.maxHeight = `${contentMaxHeight}px`;
+          content.style.maxWidth = `${panel.clientWidth}px`;
+
+          const bounds = fitBounds[settings.fontSize] || fitBounds.large;
+          fitHyphenatedText(content, {
+            min: bounds.min,
+            max: bounds.max,
+            step: 1,
+            tolerance: 12,
+            lineBreak: "balance",
+            fitParent: content,
+          });
+          fitToScreen(screen);
+          markReady({ format });
+        } catch (error) {
+          markError(error);
+          document.body.innerHTML = `<main class="pp-screen"><h1 class="pp-title pp-error">Simple Text could not load</h1><p>${escapeHtml(error.message)}</p></main>`;
+        }
+      })();
+    </script>
+  </body>
+</html>

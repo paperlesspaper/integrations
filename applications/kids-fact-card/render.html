@@ -1,0 +1,487 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="paperless:epd-optimize" content='{"intent":"readable"}' />
+    <title>Kids Fact Card</title>
+    <link rel="stylesheet" href="/assets/paperless.css" />
+    <script src="/assets/paperless.iife.js"></script>
+    <style>
+      .fact-screen {
+        padding: 18px;
+      }
+
+      .fact-card {
+        width: 100%;
+        height: 100%;
+        min-height: 0;
+        display: grid;
+        grid-template-columns: minmax(220px, 0.72fr) minmax(0, 1.28fr);
+        border: 3px solid currentColor;
+        background: var(--pp-card);
+        overflow: hidden;
+      }
+
+      .topic-panel {
+        min-width: 0;
+        min-height: 0;
+        display: grid;
+        grid-template-rows: auto minmax(0, 1fr) auto;
+        gap: 14px;
+        padding: 22px;
+        border-right: 3px solid currentColor;
+        background: #f7cf28;
+        color: #171717;
+      }
+
+      .topic-panel.is-space {
+        background: #2d6cdf;
+        color: #ffffff;
+      }
+
+      .topic-panel.is-animals {
+        background: #30a46c;
+        color: #ffffff;
+      }
+
+      .topic-panel.is-dinosaurs {
+        background: #e83d35;
+        color: #ffffff;
+      }
+
+      .kicker,
+      .date,
+      .label,
+      .source {
+        margin: 0;
+        font-size: 0.84rem;
+        line-height: 1.05;
+        font-weight: 860;
+        text-transform: uppercase;
+      }
+
+      .kicker-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+      }
+
+      .date {
+        flex: 0 0 auto;
+        padding: 7px 9px;
+        border: 2px solid currentColor;
+      }
+
+      .topic-art {
+        min-height: 0;
+        display: grid;
+        place-items: center;
+      }
+
+      .topic-art svg {
+        display: block;
+        width: min(100%, 230px);
+        height: auto;
+      }
+
+      .topic-name {
+        margin: 0;
+        font-size: 2.45rem;
+        line-height: 0.9;
+        font-weight: 950;
+        overflow-wrap: anywhere;
+      }
+
+      .content {
+        min-width: 0;
+        min-height: 0;
+        display: grid;
+        grid-template-rows: auto minmax(0, 1fr) auto;
+      }
+
+      .title-block {
+        min-width: 0;
+        padding: 24px 28px 18px;
+        border-bottom: 3px solid currentColor;
+      }
+
+      .title {
+        margin: 7px 0 0;
+        font-size: 4.45rem;
+        line-height: 0.92;
+        font-weight: 950;
+        overflow-wrap: anywhere;
+      }
+
+      .main-fact {
+        min-width: 0;
+        min-height: 0;
+        display: flex;
+        align-items: center;
+        padding: 22px 28px;
+        border-bottom: 3px solid currentColor;
+        overflow: hidden;
+      }
+
+      .fact-text {
+        margin: 0;
+        font-size: 2.6rem;
+        line-height: 1.06;
+        font-weight: 850;
+        overflow-wrap: anywhere;
+      }
+
+      .bottom-grid {
+        min-height: 0;
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      }
+
+      .mini-panel {
+        min-width: 0;
+        min-height: 0;
+        padding: 16px 18px;
+        overflow: hidden;
+      }
+
+      .mini-panel:first-child {
+        border-right: 3px solid currentColor;
+      }
+
+      .mini-panel.question {
+        background: color-mix(in srgb, var(--pp-accent) 18%, var(--pp-card));
+      }
+
+      .mini-text {
+        margin: 8px 0 0;
+        font-size: 1.16rem;
+        line-height: 1.12;
+        font-weight: 760;
+        overflow-wrap: anywhere;
+      }
+
+      @media (orientation: portrait), (max-width: 700px) {
+        .fact-screen {
+          padding: 16px;
+        }
+
+        .fact-card {
+          grid-template-columns: 1fr;
+          grid-template-rows: auto minmax(0, 1fr);
+        }
+
+        .topic-panel {
+          grid-template-columns: minmax(0, 1fr) auto;
+          grid-template-rows: auto auto;
+          gap: 10px 14px;
+          padding: 15px 16px;
+          border-right: 0;
+          border-bottom: 3px solid currentColor;
+        }
+
+        .kicker-row {
+          grid-column: 1;
+        }
+
+        .topic-art {
+          grid-column: 2;
+          grid-row: 1 / span 2;
+        }
+
+        .topic-art svg {
+          width: 98px;
+        }
+
+        .topic-name {
+          font-size: 1.95rem;
+        }
+
+        .title-block {
+          padding: 18px 18px 14px;
+        }
+
+        .title {
+          font-size: 3.1rem;
+        }
+
+        .main-fact {
+          padding: 18px;
+        }
+
+        .fact-text {
+          font-size: 2.05rem;
+        }
+
+        .bottom-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .mini-panel {
+          padding: 12px 16px;
+        }
+
+        .mini-panel:first-child {
+          border-right: 0;
+          border-bottom: 3px solid currentColor;
+        }
+
+        .mini-text {
+          font-size: 1rem;
+        }
+      }
+
+      @media (max-height: 560px) and (orientation: landscape) {
+        .fact-screen {
+          padding: 14px;
+        }
+
+        .topic-panel {
+          padding: 17px;
+        }
+
+        .topic-art svg {
+          width: 172px;
+        }
+
+        .topic-name {
+          font-size: 2.05rem;
+        }
+
+        .title-block {
+          padding: 17px 20px 12px;
+        }
+
+        .title {
+          font-size: 3.25rem;
+        }
+
+        .main-fact {
+          padding: 16px 20px;
+        }
+
+        .fact-text {
+          font-size: 2.02rem;
+        }
+
+        .mini-panel {
+          padding: 12px 14px;
+        }
+
+        .mini-text {
+          font-size: 0.96rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="website-has-loading-element"></div>
+    <main class="pp-screen fact-screen">
+      <article class="fact-card" id="app">
+        <aside class="topic-panel" id="topic-panel">
+          <div class="kicker-row">
+            <p class="kicker" data-i18n="kicker">Fact of the day</p>
+            <p class="date" id="date">----</p>
+          </div>
+          <div class="topic-art" id="topic-art" aria-hidden="true"></div>
+          <p class="topic-name" id="topic-name">Loading...</p>
+        </aside>
+
+        <section class="content">
+          <header class="title-block">
+            <p class="label" data-i18n="forKids">For curious kids</p>
+            <h1 class="title pp-fit" id="title">Loading...</h1>
+          </header>
+
+          <section class="main-fact">
+            <p class="fact-text pp-fit" id="fact"></p>
+          </section>
+
+          <section class="bottom-grid" id="bottom-grid">
+            <div class="mini-panel">
+              <p class="label" data-i18n="tinyExtra">Tiny extra</p>
+              <p class="mini-text pp-fit" id="detail"></p>
+            </div>
+            <div class="mini-panel question" id="question-panel">
+              <p class="label" data-i18n="thinkAboutIt">Think about it</p>
+              <p class="mini-text pp-fit" id="question"></p>
+            </div>
+          </section>
+        </section>
+      </article>
+    </main>
+
+    <script>
+      (async function render() {
+        const {
+          waitForPayload,
+          getSettings,
+          getQuerySettings,
+          mergeSettings,
+          escapeHtml,
+          fitHyphenatedText,
+          fitAllText,
+          fitToScreen,
+          markReady,
+          markError,
+          applyColorTheme,
+          loadLanguageJson,
+        } = window.PaperlessOpenIntegration;
+
+        const defaultMessages = {
+          loading: 'Loading...',
+          kicker: 'Fact of the day',
+          forKids: 'For curious kids',
+          tinyExtra: 'Tiny extra',
+          thinkAboutIt: 'Think about it',
+          dinosaurs: 'Dinosaurs',
+          space: 'Space',
+          animals: 'Animals',
+          errorTitle: 'Fact could not load',
+        };
+        const topicIcons = {
+          dinosaurs: `
+            <svg viewBox="0 0 160 160" role="img" aria-label="">
+              <path d="M28 93c7-23 28-41 57-42 15-1 31 4 44 14l13-13 5 8-7 18 16 6-4 10-21-3c-9 19-28 32-53 32H61l-8 19H39l4-24c-15-4-24-13-15-25Z" fill="none" stroke="currentColor" stroke-width="9" stroke-linejoin="round"/>
+              <circle cx="111" cy="68" r="4" fill="currentColor"/>
+              <path d="M47 116 31 139M83 122l2 20M75 48l-8-22M94 49l5-24M112 57l20-19" fill="none" stroke="currentColor" stroke-width="8" stroke-linecap="round"/>
+            </svg>
+          `,
+          space: `
+            <svg viewBox="0 0 160 160" role="img" aria-label="">
+              <circle cx="82" cy="81" r="36" fill="none" stroke="currentColor" stroke-width="9"/>
+              <path d="M28 99c20 13 69 10 101-8 21-12 28-26 21-34-8-9-28-4-50 8" fill="none" stroke="currentColor" stroke-width="8" stroke-linecap="round"/>
+              <path d="M39 37h1M129 29h1M125 128h1M29 135h1" stroke="currentColor" stroke-width="9" stroke-linecap="round"/>
+              <path d="M72 54c7-3 17-3 26 1" fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="round"/>
+            </svg>
+          `,
+          animals: `
+            <svg viewBox="0 0 160 160" role="img" aria-label="">
+              <circle cx="55" cy="51" r="19" fill="none" stroke="currentColor" stroke-width="9"/>
+              <circle cx="105" cy="51" r="19" fill="none" stroke="currentColor" stroke-width="9"/>
+              <path d="M34 105c2-27 21-48 46-48s44 21 46 48c2 20-12 33-31 24-7-3-12-6-15-6s-8 3-15 6c-19 9-33-4-31-24Z" fill="none" stroke="currentColor" stroke-width="9" stroke-linejoin="round"/>
+              <path d="M67 86h1M93 86h1M75 103c4 3 8 3 12 0" stroke="currentColor" stroke-width="8" stroke-linecap="round"/>
+            </svg>
+          `,
+        };
+        let messages = defaultMessages;
+        let currentLanguage = 'en';
+
+        function t(key, values = {}) {
+          const template =
+            typeof messages[key] === 'string'
+              ? messages[key]
+              : defaultMessages[key] || key;
+          return template.replace(/\{(\w+)\}/g, (_match, name) => values[name] ?? '');
+        }
+
+        function applyStaticMessages(root = document) {
+          root.querySelectorAll('[data-i18n]').forEach((element) => {
+            element.textContent = t(element.dataset.i18n);
+          });
+        }
+
+        async function loadMessages(payload) {
+          let result;
+          if (typeof loadLanguageJson === 'function') {
+            result = await loadLanguageJson(payload);
+          } else {
+            const requested = String(payload?.meta?.language || 'en').trim();
+            const requestedBase = requested.split('-')[0].toLowerCase();
+            const language = ['en', 'de'].includes(requestedBase) ? requestedBase : 'en';
+            const response = await fetch(`./languages/${language}.json`, { cache: 'no-store' });
+            if (!response.ok) {
+              throw new Error(`Could not load language JSON for ${language}: ${response.status}`);
+            }
+            result = { language, messages: await response.json() };
+          }
+
+          messages = { ...defaultMessages, ...result.messages };
+          currentLanguage = result.language || 'en';
+          document.documentElement.lang = currentLanguage;
+          applyStaticMessages();
+        }
+
+        function formatDate(dayKey) {
+          const date = new Date(`${dayKey}T00:00:00Z`);
+          return date.toLocaleDateString(currentLanguage || undefined, {
+            day: '2-digit',
+            month: 'short',
+            timeZone: 'UTC',
+          });
+        }
+
+        try {
+          const defaults = {
+            color: 'light',
+            topic: 'mixed',
+            showQuestion: true,
+            seed: '',
+          };
+          const payload = await waitForPayload({ timeout: 300 });
+          await loadMessages(payload);
+          const settings = mergeSettings(defaults, getSettings(payload), getQuerySettings());
+          if (typeof applyColorTheme === 'function') {
+            applyColorTheme(settings.color, { defaultTheme: defaults.color });
+          }
+
+          const params = new URLSearchParams({
+            topic: settings.topic,
+            seed: settings.seed,
+            language: currentLanguage,
+          });
+          const response = await fetch(`./api/data?${params.toString()}`, { cache: 'no-store' });
+          if (!response.ok) {
+            throw new Error(`Fact API failed with ${response.status}`);
+          }
+
+          const data = await response.json();
+          const topic = data.topic || 'space';
+          const topicPanel = document.getElementById('topic-panel');
+          topicPanel.classList.add(`is-${topic}`);
+          document.getElementById('topic-art').innerHTML = topicIcons[topic] || topicIcons.space;
+          document.getElementById('date').textContent = formatDate(data.dayKey);
+          document.getElementById('topic-name').textContent = t(topic);
+          document.getElementById('title').innerHTML = escapeHtml(data.title);
+          document.getElementById('fact').innerHTML = escapeHtml(data.fact);
+          document.getElementById('detail').innerHTML = escapeHtml(data.detail);
+          document.getElementById('question').innerHTML = escapeHtml(data.question);
+
+          if (!settings.showQuestion) {
+            document.getElementById('question-panel').remove();
+            document.getElementById('bottom-grid').style.gridTemplateColumns = '1fr';
+          }
+
+          fitHyphenatedText(document.getElementById('title'), {
+            min: 24,
+            max: 68,
+            step: 2,
+            tolerance: 8,
+            lineBreak: 'balance',
+          });
+          fitHyphenatedText(document.getElementById('fact'), {
+            min: 20,
+            max: 42,
+            step: 2,
+            tolerance: 4,
+            lineBreak: 'balance',
+            fitParent: document.querySelector('.main-fact'),
+          });
+          fitAllText('.mini-text.pp-fit', {
+            min: 12,
+            max: 22,
+            step: 1,
+            tolerance: 4,
+            lineBreak: true,
+          });
+          fitToScreen();
+          markReady({ topic, day: data.dayKey });
+        } catch (error) {
+          markError(error);
+          document.body.innerHTML = `<main class="pp-screen"><h1 class="pp-title pp-error">${escapeHtml(t('errorTitle'))}</h1><p>${escapeHtml(error.message)}</p></main>`;
+        }
+      })();
+    </script>
+  </body>
+</html>

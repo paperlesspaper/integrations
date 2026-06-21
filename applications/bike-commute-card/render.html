@@ -1,0 +1,520 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="paperless:epd-optimize" content='{"intent":"readable"}'>
+    <title>Bike Commute Card</title>
+    <link rel="stylesheet" href="/assets/paperless.css">
+    <script src="/assets/paperless.iife.js"></script>
+    <style>
+      .bike-screen {
+        --ride: var(--pp-green, #2f8f4e);
+        --watch: var(--pp-yellow, #f0c84b);
+        --avoid: var(--pp-red, #c64232);
+        display: grid;
+        gap: 12px;
+        grid-template-rows: auto minmax(0, 1fr) auto;
+        padding: 22px;
+      }
+
+      .bike-header {
+        align-items: start;
+        border-bottom: 2px solid var(--pp-border);
+        display: grid;
+        gap: 12px;
+        grid-template-columns: minmax(0, 1fr) auto;
+        padding-bottom: 8px;
+      }
+
+      .eyebrow,
+      .metric-label,
+      .metric-sub,
+      .footer {
+        color: var(--pp-muted);
+        font-size: clamp(0.68rem, 1.65vh, 0.92rem);
+        font-weight: 850;
+        letter-spacing: 0;
+        margin: 0;
+        text-transform: uppercase;
+      }
+
+      .title {
+        font-size: clamp(1.8rem, 5.9vh, 3.6rem);
+        font-weight: 950;
+        line-height: 0.95;
+        margin: 2px 0 0;
+      }
+
+      .score {
+        align-self: center;
+        border: 3px solid var(--pp-fg);
+        color: var(--pp-fg);
+        font-size: clamp(1rem, 3.1vh, 1.55rem);
+        font-weight: 950;
+        min-width: 112px;
+        padding: 8px 12px;
+        text-align: center;
+        text-transform: uppercase;
+      }
+
+      .score-ride {
+        background: var(--ride);
+      }
+
+      .score-watch {
+        background: var(--watch);
+      }
+
+      .score-avoid {
+        background: var(--avoid);
+      }
+
+      .content {
+        display: grid;
+        gap: 12px;
+        grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.95fr);
+        min-height: 0;
+      }
+
+      .rain-card,
+      .metric,
+      .route-card {
+        border: 2px solid var(--pp-border);
+        min-width: 0;
+      }
+
+      .rain-card {
+        background: var(--pp-card);
+        display: grid;
+        gap: 12px;
+        grid-template-rows: auto minmax(0, 1fr) auto;
+        padding: 16px;
+      }
+
+      .rain-main {
+        align-content: center;
+        display: grid;
+        gap: 8px;
+        min-height: 0;
+      }
+
+      .rain-value {
+        font-size: clamp(2.5rem, 9.5vh, 6rem);
+        font-weight: 950;
+        line-height: 0.88;
+        margin: 0;
+      }
+
+      .rain-detail {
+        font-size: clamp(1.02rem, 2.8vh, 1.45rem);
+        font-weight: 850;
+        margin: 0;
+      }
+
+      .route-line {
+        display: grid;
+        gap: 6px;
+        grid-template-columns: 28px minmax(0, 1fr) 28px;
+        margin-top: 4px;
+      }
+
+      .route-dot {
+        aspect-ratio: 1;
+        border: 3px solid var(--pp-fg);
+        border-radius: 50%;
+      }
+
+      .route-track {
+        align-self: center;
+        border-top: 5px solid var(--pp-fg);
+        position: relative;
+      }
+
+      .route-track::before,
+      .route-track::after {
+        background: var(--pp-accent);
+        border: 2px solid var(--pp-fg);
+        content: "";
+        height: 14px;
+        position: absolute;
+        top: -10px;
+        width: 14px;
+      }
+
+      .route-track::before {
+        left: 24%;
+      }
+
+      .route-track::after {
+        right: 18%;
+      }
+
+      .side {
+        display: grid;
+        gap: 12px;
+        grid-template-rows: repeat(3, minmax(0, 1fr));
+        min-height: 0;
+      }
+
+      .metric,
+      .route-card {
+        display: grid;
+        gap: 5px;
+        min-height: 0;
+        padding: 12px;
+      }
+
+      .metric-value {
+        font-size: clamp(1.55rem, 4.9vh, 2.7rem);
+        font-weight: 950;
+        line-height: 0.95;
+        margin: 0;
+      }
+
+      .metric-sub {
+        text-transform: none;
+      }
+
+      .status-clear {
+        border-left: 8px solid var(--ride);
+      }
+
+      .status-caution {
+        border-left: 8px solid var(--watch);
+      }
+
+      .status-disrupted {
+        border-left: 8px solid var(--avoid);
+      }
+
+      .footer {
+        align-items: center;
+        border-top: 2px solid var(--pp-border);
+        display: flex;
+        gap: 10px;
+        justify-content: space-between;
+        min-width: 0;
+        padding-top: 7px;
+      }
+
+      .footer span {
+        min-width: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .footer span:last-child {
+        text-align: right;
+      }
+
+      @media (orientation: portrait) {
+        .bike-screen {
+          gap: 14px;
+          grid-template-rows: auto minmax(0, 1fr) auto;
+          padding: 24px;
+        }
+
+        .bike-header,
+        .content {
+          grid-template-columns: 1fr;
+        }
+
+        .score {
+          justify-self: start;
+        }
+
+        .content {
+          grid-template-rows: minmax(0, 0.9fr) minmax(0, 1fr);
+        }
+
+        .side {
+          grid-template-rows: repeat(3, minmax(0, 1fr));
+        }
+
+        .footer {
+          align-items: start;
+          display: grid;
+          gap: 2px;
+          grid-template-columns: 1fr;
+        }
+
+        .footer span:last-child {
+          text-align: left;
+        }
+      }
+
+      @media (max-width: 620px), (max-height: 540px) {
+        .bike-screen {
+          gap: 9px;
+          padding: 14px;
+        }
+
+        .content,
+        .side {
+          gap: 9px;
+        }
+
+        .rain-card,
+        .metric,
+        .route-card {
+          padding: 10px;
+        }
+
+        .score {
+          min-width: 92px;
+          padding: 6px 9px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="website-has-loading-element"></div>
+    <main id="app" class="pp-screen bike-screen"></main>
+
+    <script>
+      (async function render() {
+        const {
+          waitForPayload,
+          getSettings,
+          getQuerySettings,
+          mergeSettings,
+          loadLanguageJson,
+          applyColorTheme,
+          escapeHtml,
+          fitAllText,
+          fitToScreen,
+          markReady,
+          markError
+        } = window.PaperlessOpenIntegration;
+
+        const defaultMessages = {
+          title: "Bike Commute",
+          rainWindow: "Rain window",
+          commuteRain: "Commute rain",
+          wind: "Wind",
+          airQuality: "Air quality",
+          route: "Route",
+          temperature: "Temp",
+          updated: "Updated",
+          source: "Open-Meteo forecast and air quality",
+          ride: "Ride",
+          watch: "Watch",
+          avoid: "Avoid",
+          clear: "Clear",
+          caution: "Caution",
+          disrupted: "Disrupted",
+          noRain: "No rain expected",
+          unavailable: "Unavailable",
+          until: "until",
+          chance: "chance",
+          gust: "gust",
+          aqiGood: "Good",
+          aqiFair: "Fair",
+          aqiModerate: "Moderate",
+          aqiPoor: "Poor"
+        };
+        let messages = defaultMessages;
+        let currentLanguage = "en";
+
+        function t(key) {
+          return messages[key] || defaultMessages[key] || key;
+        }
+
+        function formatNumber(value, digits = 0) {
+          const number = Number(value);
+          if (!Number.isFinite(number)) {
+            return "--";
+          }
+
+          return new Intl.NumberFormat(currentLanguage, {
+            maximumFractionDigits: digits,
+            minimumFractionDigits: digits
+          }).format(number);
+        }
+
+        function percent(value) {
+          return Number.isFinite(Number(value)) ? `${formatNumber(value)}%` : "--";
+        }
+
+        function kmh(value) {
+          return Number.isFinite(Number(value)) ? `${formatNumber(value)} km/h` : "--";
+        }
+
+        function mm(value) {
+          return Number.isFinite(Number(value)) ? `${formatNumber(value, 1)} mm` : "--";
+        }
+
+        function aqiLabel(value) {
+          const number = Number(value);
+          if (!Number.isFinite(number)) {
+            return t("unavailable");
+          }
+
+          if (number <= 20) {
+            return t("aqiGood");
+          }
+
+          if (number <= 40) {
+            return t("aqiFair");
+          }
+
+          if (number <= 60) {
+            return t("aqiModerate");
+          }
+
+          return t("aqiPoor");
+        }
+
+        function updatedText(iso) {
+          const date = new Date(iso);
+          if (Number.isNaN(date.getTime())) {
+            return "";
+          }
+
+          return date.toLocaleString(currentLanguage, {
+            month: "short",
+            day: "numeric",
+            hour: "2-digit",
+            minute: "2-digit"
+          });
+        }
+
+        try {
+          const defaults = {
+            color: "light",
+            title: "Bike Commute",
+            routeName: "Home to Work",
+            city: "Berlin",
+            latitude: 52.52,
+            longitude: 13.405,
+            commuteStart: "07:30",
+            commuteDurationMinutes: 45,
+            rainProbabilityThreshold: 35,
+            windCautionKmh: 28,
+            windStrongKmh: 40,
+            aqiCaution: 40,
+            aqiHigh: 60,
+            routeStatus: "clear",
+            routeNote: "",
+            showSource: true
+          };
+          const payload = await waitForPayload({ timeoutMs: 500, timeout: 500 });
+          const languageResult = await loadLanguageJson(payload).catch(() => ({
+            language: "en",
+            messages: defaultMessages
+          }));
+          messages = { ...defaultMessages, ...languageResult.messages };
+          currentLanguage = languageResult.language || "en";
+          document.documentElement.lang = currentLanguage;
+
+          const settings = mergeSettings(
+            defaults,
+            getSettings(payload),
+            getQuerySettings()
+          );
+          applyColorTheme(settings.color, { defaultTheme: defaults.color });
+
+          const params = new URLSearchParams();
+          Object.entries(settings).forEach(([key, value]) => {
+            if (value !== undefined && value !== null) {
+              params.set(key, String(value));
+            }
+          });
+
+          const response = await fetch(`./api/data?${params.toString()}`, {
+            cache: "no-store"
+          });
+          if (!response.ok) {
+            throw new Error(`Bike commute API failed with ${response.status}`);
+          }
+
+          const data = await response.json();
+          const forecast = data.forecast || {};
+          const commute = forecast.commute || {};
+          const rainWindow = forecast.rainWindow;
+          const air = data.airQuality || {};
+          const routeStatus = data.routeStatus || "clear";
+          const score = data.score || "watch";
+          const rainHeadline = rainWindow
+            ? `${escapeHtml(rainWindow.start)} ${escapeHtml(t("until"))} ${escapeHtml(rainWindow.end)}`
+            : escapeHtml(t("noRain"));
+          const routeNote = data.routeNote
+            ? escapeHtml(data.routeNote)
+            : `${escapeHtml(data.city)} - ${escapeHtml(t(routeStatus))}`;
+          const sourceText = data.showSource
+            ? escapeHtml(t("source"))
+            : "";
+
+          document.getElementById("app").innerHTML = `
+            <header class="bike-header">
+              <div>
+                <p class="eyebrow">${escapeHtml(data.title || t("title"))} / ${escapeHtml(data.city)}</p>
+                <h1 class="title pp-fit">${escapeHtml(data.routeName)}</h1>
+              </div>
+              <div class="score score-${escapeHtml(score)}">${escapeHtml(t(score))}</div>
+            </header>
+
+            <section class="content">
+              <article class="rain-card">
+                <div>
+                  <p class="metric-label">${escapeHtml(t("rainWindow"))}</p>
+                  <div class="route-line" aria-hidden="true">
+                    <span class="route-dot"></span>
+                    <span class="route-track"></span>
+                    <span class="route-dot"></span>
+                  </div>
+                </div>
+                <div class="rain-main">
+                  <p class="rain-value pp-fit">${rainHeadline}</p>
+                  <p class="rain-detail">${escapeHtml(t("commuteRain"))}: ${escapeHtml(percent(commute.rainProbability))} ${escapeHtml(t("chance"))}, ${escapeHtml(mm(commute.rainTotal))}</p>
+                </div>
+                <p class="metric-sub">${escapeHtml(commute.start || data.commuteStart)}-${escapeHtml(commute.end || "")} / ${escapeHtml(t("temperature"))} ${escapeHtml(formatNumber(forecast.temperature))}°C</p>
+              </article>
+
+              <section class="side">
+                <article class="metric">
+                  <p class="metric-label">${escapeHtml(t("wind"))}</p>
+                  <p class="metric-value">${escapeHtml(kmh(commute.windSpeed ?? forecast.currentWindSpeed))}</p>
+                  <p class="metric-sub">${escapeHtml(t("gust"))}: ${escapeHtml(kmh(commute.windGust ?? forecast.currentWindGust))}</p>
+                </article>
+
+                <article class="metric">
+                  <p class="metric-label">${escapeHtml(t("airQuality"))}</p>
+                  <p class="metric-value">AQI ${escapeHtml(formatNumber(air.europeanAqi))}</p>
+                  <p class="metric-sub">${escapeHtml(aqiLabel(air.europeanAqi))} / PM2.5 ${escapeHtml(formatNumber(air.pm25, 1))}</p>
+                </article>
+
+                <article class="route-card status-${escapeHtml(routeStatus)}">
+                  <p class="metric-label">${escapeHtml(t("route"))}</p>
+                  <p class="metric-value">${escapeHtml(t(routeStatus))}</p>
+                  <p class="metric-sub">${routeNote}</p>
+                </article>
+              </section>
+            </section>
+
+            <footer class="footer">
+              <span>${escapeHtml(t("updated"))} ${escapeHtml(updatedText(data.updatedAt))}</span>
+              <span>${sourceText}</span>
+            </footer>
+          `;
+
+          await document.fonts?.ready;
+          fitAllText(".pp-fit", { min: 24, max: 72, step: 2 });
+          fitToScreen(document.getElementById("app"));
+          markReady({ score });
+        } catch (error) {
+          markError(error);
+          document.getElementById("app").innerHTML = `
+            <section class="rain-card">
+              <p class="metric-label">${escapeHtml(t("title"))}</p>
+              <h1 class="title">${escapeHtml(t("unavailable"))}</h1>
+              <p class="rain-detail">${escapeHtml(error.message || String(error))}</p>
+            </section>
+          `;
+        }
+      })();
+    </script>
+  </body>
+</html>

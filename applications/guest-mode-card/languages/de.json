@@ -1,0 +1,15 @@
+{
+  "wifiTitle": "WLAN",
+  "wifiSubtitle": "Zum Verbinden scannen",
+  "networkLabel": "Netzwerk",
+  "passwordLabel": "Passwort",
+  "hiddenPassword": "Ausgeblendet",
+  "checkoutTitle": "Checkout",
+  "rulesTitle": "Hausregeln",
+  "cafesTitle": "Cafes in der Nahe",
+  "smartHomeTitle": "Smart Home",
+  "contactTitle": "Kontakt",
+  "emptyRules": "Hausregeln in den Einstellungen erganzen.",
+  "emptyCafes": "Cafes in den Einstellungen erganzen.",
+  "emptySmartHome": "Smart-Home-Hinweise in den Einstellungen erganzen."
+}

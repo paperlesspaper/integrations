@@ -1,0 +1,11 @@
+{
+  "kicker": "Airtable records",
+  "loading": "Loading...",
+  "noRows": "No records to display",
+  "sample": "Sample",
+  "updated": "Updated",
+  "rows": "rows",
+  "fields": "fields",
+  "errorTitle": "Airtable could not load",
+  "source": "Source"
+}

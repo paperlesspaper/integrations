@@ -1,0 +1,707 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="paperless:epd-optimize" content='{"intent":"vivid"}' />
+    <title>NFL Scoreboard</title>
+    <link rel="stylesheet" href="/assets/paperless.css" />
+    <script src="/assets/paperless.iife.js"></script>
+    <style>
+      :root {
+        --nfl-blue: #013369;
+        --nfl-red: #d50a0a;
+        --nfl-green: #1f8f4d;
+        --nfl-gold: #f2c94c;
+        --nfl-soft: #f2f4f6;
+      }
+
+      body.dark {
+        --nfl-blue: #79a9e8;
+        --nfl-red: #ff6b6b;
+        --nfl-green: #5bc982;
+        --nfl-gold: #d8b647;
+        --nfl-soft: #16191d;
+      }
+
+      .nfl-screen {
+        padding: 14px 18px;
+        gap: 10px;
+      }
+
+      .nfl-topbar {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        gap: 16px;
+        align-items: center;
+        min-height: 46px;
+        padding-bottom: 9px;
+        border-bottom: 4px solid var(--pp-border);
+      }
+
+      .nfl-brand,
+      .nfl-meta,
+      .nfl-chip,
+      .nfl-team-name,
+      .nfl-score,
+      .nfl-section-title,
+      .nfl-leader-name,
+      .nfl-empty,
+      .nfl-record {
+        margin: 0;
+      }
+
+      .nfl-brand {
+        min-width: 0;
+        color: var(--nfl-blue);
+        font-size: clamp(1.5rem, 6vh, 2.25rem);
+        line-height: 0.92;
+        font-weight: 950;
+        letter-spacing: 0;
+        text-transform: uppercase;
+      }
+
+      .nfl-meta {
+        color: var(--pp-muted);
+        font-size: 0.72rem;
+        line-height: 1;
+        font-weight: 850;
+        text-transform: uppercase;
+        text-align: right;
+      }
+
+      .nfl-main {
+        flex: 1;
+        min-height: 0;
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(220px, 0.33fr);
+        gap: 12px;
+      }
+
+      .nfl-games {
+        min-width: 0;
+        min-height: 0;
+        display: grid;
+        grid-auto-rows: minmax(0, 1fr);
+        gap: 7px;
+      }
+
+      .nfl-game {
+        min-width: 0;
+        min-height: 0;
+        display: grid;
+        grid-template-columns: 82px minmax(0, 1fr) 72px;
+        gap: 8px;
+        align-items: center;
+        padding: 6px 8px;
+        background: var(--nfl-soft);
+        border: 2px solid var(--pp-border);
+      }
+
+      .nfl-game.is-favorite {
+        border-left: 8px solid var(--nfl-red);
+        padding-left: 5px;
+      }
+
+      .nfl-status {
+        min-width: 0;
+        display: grid;
+        gap: 3px;
+      }
+
+      .nfl-chip {
+        width: max-content;
+        max-width: 100%;
+        padding: 4px 6px;
+        background: var(--nfl-blue);
+        color: #fff;
+        font-size: 0.68rem;
+        line-height: 1;
+        font-weight: 950;
+        text-transform: uppercase;
+      }
+
+      .nfl-chip.is-live {
+        background: var(--nfl-green);
+      }
+
+      .nfl-chip.is-final {
+        background: var(--nfl-red);
+      }
+
+      .nfl-time,
+      .nfl-venue,
+      .nfl-situation,
+      .nfl-leader-meta,
+      .nfl-footer {
+        margin: 0;
+        color: var(--pp-muted);
+        font-size: 0.64rem;
+        line-height: 1.08;
+        font-weight: 750;
+      }
+
+      .nfl-venue,
+      .nfl-situation {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .nfl-venue {
+        display: none;
+      }
+
+      .nfl-teams {
+        min-width: 0;
+        display: grid;
+        gap: 3px;
+      }
+
+      .nfl-team {
+        min-width: 0;
+        display: grid;
+        grid-template-columns: 24px minmax(0, 1fr) auto;
+        gap: 7px;
+        align-items: center;
+      }
+
+      .nfl-logo {
+        width: 24px;
+        height: 24px;
+        object-fit: contain;
+      }
+
+      .nfl-logo-placeholder {
+        width: 24px;
+        height: 24px;
+        display: grid;
+        place-items: center;
+        background: var(--nfl-blue);
+        color: #fff;
+        font-size: 0.58rem;
+        line-height: 1;
+        font-weight: 950;
+      }
+
+      .nfl-team-name {
+        min-width: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        font-size: 0.9rem;
+        line-height: 1.05;
+        font-weight: 850;
+      }
+
+      .nfl-record {
+        color: var(--pp-muted);
+        font-size: 0.58rem;
+        line-height: 1;
+        font-weight: 750;
+      }
+
+      .nfl-score {
+        min-width: 2ch;
+        text-align: right;
+        font-size: 1.28rem;
+        line-height: 1;
+        font-weight: 950;
+      }
+
+      .nfl-team.is-favorite .nfl-team-name,
+      .nfl-team.is-favorite .nfl-score {
+        color: var(--nfl-red);
+      }
+
+      .nfl-team.is-winner .nfl-score {
+        color: var(--nfl-green);
+      }
+
+      .nfl-possession {
+        display: grid;
+        place-items: center;
+        width: 100%;
+        min-height: 34px;
+        border-left: 3px solid var(--pp-border);
+        color: var(--nfl-red);
+        font-size: 0.7rem;
+        line-height: 1;
+        font-weight: 950;
+        text-align: center;
+        text-transform: uppercase;
+      }
+
+      .nfl-panel {
+        min-width: 0;
+        min-height: 0;
+        display: grid;
+        grid-template-rows: auto minmax(0, 1fr) auto;
+        gap: 8px;
+        padding-left: 12px;
+        border-left: 4px solid var(--pp-border);
+      }
+
+      .nfl-section-title {
+        color: var(--pp-muted);
+        font-size: 0.72rem;
+        line-height: 1;
+        font-weight: 950;
+        text-transform: uppercase;
+      }
+
+      .nfl-favorite-box {
+        min-width: 0;
+        padding: 10px;
+        background: var(--nfl-blue);
+        color: #fff;
+      }
+
+      .nfl-favorite-label {
+        margin: 0 0 6px;
+        color: rgba(255, 255, 255, 0.76);
+        font-size: 0.65rem;
+        line-height: 1;
+        font-weight: 900;
+        text-transform: uppercase;
+      }
+
+      .nfl-favorite-teams {
+        display: grid;
+        gap: 3px;
+      }
+
+      .nfl-favorite-line {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        gap: 8px;
+        font-size: 1.04rem;
+        line-height: 1;
+        font-weight: 950;
+      }
+
+      .nfl-leaders {
+        min-width: 0;
+        min-height: 0;
+        display: grid;
+        align-content: start;
+        gap: 6px;
+      }
+
+      .nfl-leader {
+        min-width: 0;
+        display: grid;
+        grid-template-columns: 20px minmax(0, 1fr) auto;
+        gap: 7px;
+        align-items: center;
+        padding-top: 6px;
+        border-top: 1px solid var(--pp-border);
+      }
+
+      .nfl-leader:first-child {
+        padding-top: 0;
+        border-top: 0;
+      }
+
+      .nfl-rank {
+        color: var(--nfl-red);
+        font-size: 0.76rem;
+        font-weight: 950;
+      }
+
+      .nfl-leader-name {
+        min-width: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        font-size: 0.82rem;
+        line-height: 1.05;
+        font-weight: 850;
+      }
+
+      .nfl-leader-value {
+        font-size: 0.85rem;
+        line-height: 1;
+        font-weight: 950;
+        text-align: right;
+      }
+
+      .nfl-empty {
+        color: var(--pp-muted);
+        font-size: 1rem;
+        font-weight: 850;
+      }
+
+      .nfl-footer {
+        text-align: right;
+      }
+
+      @media (orientation: portrait) {
+        .nfl-screen {
+          padding: 16px 17px;
+          gap: 11px;
+        }
+
+        .nfl-topbar {
+          grid-template-columns: minmax(0, 1fr);
+          align-items: start;
+          gap: 6px;
+        }
+
+        .nfl-meta {
+          text-align: left;
+        }
+
+        .nfl-main {
+          grid-template-columns: minmax(0, 1fr);
+          grid-template-rows: minmax(0, 1fr) auto;
+          gap: 10px;
+        }
+
+        .nfl-game {
+          grid-template-columns: 82px minmax(0, 1fr);
+        }
+
+        .nfl-possession {
+          display: none;
+        }
+
+        .nfl-panel {
+          grid-template-rows: auto auto;
+          padding-left: 0;
+          padding-top: 10px;
+          border-left: 0;
+          border-top: 4px solid var(--pp-border);
+        }
+
+        .nfl-leaders {
+          grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+        }
+
+        .nfl-footer {
+          display: none;
+        }
+      }
+
+      @media (max-width: 560px) {
+        .nfl-game {
+          grid-template-columns: 72px minmax(0, 1fr);
+          padding: 5px 6px;
+        }
+
+        .nfl-team {
+          grid-template-columns: 22px minmax(0, 1fr) auto;
+          gap: 6px;
+        }
+
+        .nfl-logo,
+        .nfl-logo-placeholder {
+          width: 22px;
+          height: 22px;
+        }
+
+        .nfl-team-name {
+          font-size: 0.82rem;
+        }
+
+        .nfl-score {
+          font-size: 1.12rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="website-has-loading-element"></div>
+
+    <main id="app" class="pp-screen nfl-screen">
+      <p data-i18n="loading">Loading NFL scoreboard...</p>
+    </main>
+
+    <script>
+      (async function render() {
+        const {
+          waitForPayload,
+          getSettings,
+          getQuerySettings,
+          mergeSettings,
+          loadLanguageJson,
+          applyColorTheme,
+          escapeHtml,
+          fitText,
+          fitToScreen,
+          markReady,
+          markError,
+        } = window.PaperlessOpenIntegration;
+
+        const app = document.getElementById("app");
+        const defaultMessages = {
+          loading: "Loading NFL scoreboard...",
+          brand: "NFL Scoreboard",
+          week: "Week",
+          live: "Live",
+          pregame: "Pregame",
+          halftime: "Halftime",
+          final: "Final",
+          finalOvertime: "Final OT",
+          overtime: "OT",
+          quarter: "Q{period}",
+          favorite: "Favorite",
+          leaders: "League leaders",
+          noGames: "No NFL games found for this selection.",
+          updated: "Updated",
+          from: "from",
+          record: "Record",
+        };
+        let messages = defaultMessages;
+
+        const defaults = {
+          color: "light",
+          scoreboardMode: "week",
+          team: "KC",
+          season: 2026,
+          seasonType: 2,
+          week: 1,
+          maxGames: 6,
+          showLogos: true,
+          showLeaders: true,
+          statType: "passingYards",
+          reverseTeams: false,
+          locale: "en-US",
+          timeZone: "America/New_York",
+        };
+
+        function t(key, values = {}) {
+          const template = typeof messages[key] === "string" ? messages[key] : defaultMessages[key] || key;
+          return template.replace(/\{(\w+)\}/g, (_match, name) => values[name] ?? "");
+        }
+
+        function isEnabled(value) {
+          return value === true || value === "true" || value === "1";
+        }
+
+        function formatDate(value, settings) {
+          const date = new Date(value);
+          if (Number.isNaN(date.getTime())) return "";
+          return new Intl.DateTimeFormat(settings.locale, {
+            timeZone: settings.timeZone,
+            weekday: "short",
+            month: "short",
+            day: "numeric",
+          }).format(date);
+        }
+
+        function formatTime(value, settings) {
+          const date = new Date(value);
+          if (Number.isNaN(date.getTime())) return "";
+          return new Intl.DateTimeFormat(settings.locale, {
+            timeZone: settings.timeZone,
+            hour: "2-digit",
+            minute: "2-digit",
+          }).format(date);
+        }
+
+        function statusLabel(game) {
+          if (game.state === "pre") return t("pregame");
+          if (game.status === "halftime") return t("halftime");
+          if (game.status === "final") return t("final");
+          if (game.status === "final-overtime") return t("finalOvertime");
+          if (game.status === "overtime") return t("overtime");
+          if (game.state === "in") return t("quarter", { period: game.period });
+          return game.detail || "";
+        }
+
+        function statusClass(game) {
+          if (game.state === "in") return " is-live";
+          if (game.state === "post") return " is-final";
+          return "";
+        }
+
+        function teamLogo(team, showLogos) {
+          if (showLogos && team.logo) {
+            return `<img class="nfl-logo" src="${escapeHtml(team.logo)}" alt="" width="24" height="24">`;
+          }
+
+          return `<span class="nfl-logo-placeholder">${escapeHtml(team.abbreviation)}</span>`;
+        }
+
+        function renderTeam(team, game, showLogos) {
+          const isFavorite = game.favoriteSide === team.homeAway;
+          const classes = [
+            "nfl-team",
+            isFavorite ? "is-favorite" : "",
+            team.winner ? "is-winner" : "",
+          ].filter(Boolean).join(" ");
+
+          return `
+            <div class="${classes}">
+              ${teamLogo(team, showLogos)}
+              <div>
+                <p class="nfl-team-name">${escapeHtml(team.name || team.abbreviation)}</p>
+                <p class="nfl-record">${escapeHtml(team.record ? `${t("record")} ${team.record}` : team.abbreviation)}</p>
+              </div>
+              <p class="nfl-score">${escapeHtml(team.score)}</p>
+            </div>
+          `;
+        }
+
+        function renderGame(game, settings) {
+          const teams = isEnabled(settings.reverseTeams) ? [game.home, game.away] : [game.away, game.home];
+          const isLive = game.state === "in";
+          const dateLine = game.state === "pre"
+            ? `${formatDate(game.startsAt, settings)} ${formatTime(game.startsAt, settings)}`
+            : game.clock || game.detail;
+          const situation = [
+            game.possessionTeam ? `${game.possessionTeam} ball` : "",
+            game.downDistance,
+            game.inRedZone ? "Red zone" : "",
+          ].filter(Boolean).join(" | ");
+          const situationHtml = situation
+            ? `<p class="nfl-situation">${escapeHtml(situation)}</p>`
+            : "";
+
+          return `
+            <article class="nfl-game${game.isFavoriteGame ? " is-favorite" : ""}">
+              <div class="nfl-status">
+                <p class="nfl-chip${statusClass(game)}">${escapeHtml(isLive ? t("live") : statusLabel(game))}</p>
+                <p class="nfl-time">${escapeHtml(dateLine)}</p>
+                <p class="nfl-venue">${escapeHtml(game.venue || game.name)}</p>
+              </div>
+
+              <div class="nfl-teams">
+                ${teams.map((team) => renderTeam(team, game, isEnabled(settings.showLogos))).join("")}
+                ${situationHtml}
+              </div>
+
+              <div class="nfl-possession">
+                ${escapeHtml(game.possessionTeam || "")}
+                ${game.inRedZone ? `<span>${escapeHtml("RZ")}</span>` : ""}
+              </div>
+            </article>
+          `;
+        }
+
+        function renderGames(games, settings) {
+          if (!games.length) {
+            return `<p class="nfl-empty">${escapeHtml(t("noGames"))}</p>`;
+          }
+
+          return games.map((game) => renderGame(game, settings)).join("");
+        }
+
+        function renderFavorite(game, favoriteTeam) {
+          if (!game) {
+            return `
+              <section class="nfl-favorite-box">
+                <p class="nfl-favorite-label">${escapeHtml(t("favorite"))}</p>
+                <div class="nfl-favorite-line">
+                  <span>${escapeHtml(favoriteTeam)}</span>
+                  <span>-</span>
+                </div>
+              </section>
+            `;
+          }
+
+          return `
+            <section class="nfl-favorite-box">
+              <p class="nfl-favorite-label">${escapeHtml(t("favorite"))}</p>
+              <div class="nfl-favorite-teams">
+                <div class="nfl-favorite-line">
+                  <span>${escapeHtml(game.away.abbreviation)}</span>
+                  <span>${escapeHtml(game.away.score)}</span>
+                </div>
+                <div class="nfl-favorite-line">
+                  <span>${escapeHtml(game.home.abbreviation)}</span>
+                  <span>${escapeHtml(game.home.score)}</span>
+                </div>
+              </div>
+            </section>
+          `;
+        }
+
+        function renderLeaders(data) {
+          if (!data.leaders?.leaders?.length) return "";
+
+          return `
+            <section class="nfl-leader-section">
+              <h2 class="nfl-section-title">${escapeHtml(t("leaders"))}: ${escapeHtml(data.leaders.shortLabel || data.leaders.label)}</h2>
+              <div class="nfl-leaders">
+                ${data.leaders.leaders.slice(0, 5).map((leader, index) => `
+                  <article class="nfl-leader">
+                    <span class="nfl-rank">${index + 1}</span>
+                    <div>
+                      <p class="nfl-leader-name">${escapeHtml(leader.name)}</p>
+                      <p class="nfl-leader-meta">${escapeHtml(leader.team)}</p>
+                    </div>
+                    <strong class="nfl-leader-value">${escapeHtml(leader.value)}</strong>
+                  </article>
+                `).join("")}
+              </div>
+            </section>
+          `;
+        }
+
+        function waitForImages() {
+          return Promise.all(Array.from(document.images).map((image) => {
+            if (image.complete) return Promise.resolve();
+            return new Promise((resolve) => {
+              image.addEventListener("load", resolve, { once: true });
+              image.addEventListener("error", resolve, { once: true });
+            });
+          }));
+        }
+
+        try {
+          const payload = await waitForPayload({ timeoutMs: 500 });
+          const result = await loadLanguageJson(payload);
+          messages = { ...defaultMessages, ...result.messages };
+          document.documentElement.lang = result.language || "en";
+
+          const settings = mergeSettings(defaults, getSettings(payload), getQuerySettings());
+          applyColorTheme(settings.color, { defaultTheme: defaults.color });
+
+          const params = new URLSearchParams(settings);
+          const response = await fetch(`./api/data?${params.toString()}`, { cache: "no-store" });
+          if (!response.ok) throw new Error(`NFL data failed with ${response.status}`);
+
+          const data = await response.json();
+          const isPortrait = window.innerHeight > window.innerWidth;
+          const landscapeLimit = isEnabled(settings.showLeaders) ? 6 : 7;
+          const visibleLimit = isPortrait ? 7 : landscapeLimit;
+          const visibleGames = data.games.slice(0, Math.min(visibleLimit, data.games.length));
+          const meta = [
+            `${t("week")} ${data.week}`,
+            data.stage,
+            settings.scoreboardMode,
+          ].filter(Boolean).join(" | ");
+
+          app.innerHTML = `
+            <header class="nfl-topbar">
+              <h1 class="nfl-brand" id="nfl-brand">${escapeHtml(t("brand"))}</h1>
+              <p class="nfl-meta">${escapeHtml(meta)}</p>
+            </header>
+
+            <section class="nfl-main">
+              <section class="nfl-games">
+                ${renderGames(visibleGames, settings)}
+              </section>
+
+              <aside class="nfl-panel">
+                ${renderFavorite(data.favoriteGame, data.favoriteTeam)}
+                ${isEnabled(settings.showLeaders) ? renderLeaders(data) : ""}
+                <p class="nfl-footer">${escapeHtml(`${t("updated")} ${formatTime(data.updatedAt, settings)} ${t("from")} ${data.source}`)}</p>
+              </aside>
+            </section>
+          `;
+
+          await document.fonts?.ready;
+          await waitForImages();
+          fitText(document.getElementById("nfl-brand"), { min: 16, max: 40 });
+          fitToScreen(app);
+          markReady();
+        } catch (error) {
+          markError(error);
+        }
+      })();
+    </script>
+  </body>
+</html>

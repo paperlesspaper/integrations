@@ -1,0 +1,160 @@
+{
+  "name": "Airtable",
+  "version": "0.1.0",
+  "description": "Shows one or more Airtable tables as compact eInk-friendly data views.",
+  "renderPage": "./render.html",
+  "icon": "./assets/icon.png",
+  "nativeSettings": {
+    "color": "light",
+    "title": "Airtable",
+    "token": "",
+    "baseId": "",
+    "tableName": "",
+    "view": "Grid view",
+    "fields": "",
+    "filterByFormula": "",
+    "sortField": "",
+    "sortDirection": "asc",
+    "maxRows": 8,
+    "rowBorder": true,
+    "showTitle": true,
+    "showMeta": true,
+    "tablesJson": ""
+  },
+  "configVariants": [
+    {
+      "color": "light",
+      "title": "Project Board",
+      "token": "",
+      "baseId": "",
+      "tableName": "",
+      "view": "Grid view",
+      "fields": "Task,Owner,Status,Due",
+      "filterByFormula": "",
+      "sortField": "Due",
+      "sortDirection": "asc",
+      "maxRows": 8,
+      "rowBorder": true,
+      "showTitle": true,
+      "showMeta": true,
+      "tablesJson": "",
+      "screenshots": {
+        "800x480": "./screenshots/airtable-project-board-800x480-landscape.png",
+        "480x800": "./screenshots/airtable-project-board-480x800-portrait.png"
+      }
+    },
+    {
+      "color": "dark",
+      "title": "Launch Tables",
+      "token": "",
+      "baseId": "",
+      "tableName": "",
+      "view": "Grid view",
+      "fields": "",
+      "filterByFormula": "",
+      "sortField": "",
+      "sortDirection": "asc",
+      "maxRows": 5,
+      "rowBorder": false,
+      "showTitle": true,
+      "showMeta": true,
+      "tablesJson": "[{\"title\":\"Launch Tasks\",\"tableName\":\"Tasks\",\"fields\":\"Task,Owner,Status\",\"maxRows\":4},{\"title\":\"Milestones\",\"tableName\":\"Milestones\",\"fields\":\"Milestone,Date,Owner\",\"maxRows\":3}]",
+      "screenshots": {
+        "800x480": "./screenshots/airtable-launch-tables-800x480-landscape.png",
+        "480x800": "./screenshots/airtable-launch-tables-480x800-portrait.png"
+      }
+    }
+  ],
+  "formSchema": {
+    "type": "object",
+    "properties": {
+      "title": {
+        "type": "string",
+        "title": "Display title",
+        "default": "Airtable"
+      },
+      "token": {
+        "type": "string",
+        "title": "Airtable token",
+        "description": "Personal access token. Leave blank to use AIRTABLE_TOKEN from the server environment or sample data.",
+        "default": ""
+      },
+      "baseId": {
+        "type": "string",
+        "title": "Base ID",
+        "description": "For example appXXXXXXXXXXXXXX.",
+        "default": ""
+      },
+      "tableName": {
+        "type": "string",
+        "title": "Table name",
+        "description": "Airtable table name or table ID.",
+        "default": ""
+      },
+      "view": {
+        "type": "string",
+        "title": "View",
+        "default": "Grid view"
+      },
+      "fields": {
+        "type": "string",
+        "title": "Fields",
+        "description": "Comma- or line-separated fields. Leave blank to show fields from the first records.",
+        "default": ""
+      },
+      "filterByFormula": {
+        "type": "string",
+        "title": "Filter formula",
+        "description": "Optional Airtable formula, such as {Status} = 'Open'.",
+        "default": ""
+      },
+      "sortField": {
+        "type": "string",
+        "title": "Sort field",
+        "default": ""
+      },
+      "sortDirection": {
+        "type": "string",
+        "title": "Sort direction",
+        "enum": [
+          "asc",
+          "desc"
+        ],
+        "default": "asc"
+      },
+      "maxRows": {
+        "type": "number",
+        "title": "Maximum rows",
+        "default": 8
+      },
+      "rowBorder": {
+        "type": "boolean",
+        "title": "Show row borders",
+        "default": true
+      },
+      "showTitle": {
+        "type": "boolean",
+        "title": "Show title",
+        "default": true
+      },
+      "showMeta": {
+        "type": "boolean",
+        "title": "Show source and update time",
+        "default": true
+      },
+      "tablesJson": {
+        "type": "string",
+        "title": "Advanced tables JSON",
+        "description": "Optional JSON array for multiple tables. Each entry can set title, tableName, view, fields, filterByFormula, sortField, sortDirection, maxRows, and rowBorder.",
+        "default": ""
+      }
+    }
+  },
+  "language": [
+    "en",
+    "de",
+    "fr",
+    "es",
+    "it"
+  ]
+}

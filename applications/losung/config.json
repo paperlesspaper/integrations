@@ -1,0 +1,71 @@
+{
+  "name": "Losung",
+  "version": "0.1.0",
+  "description": "Shows the daily Losung and Lehrtext from losungen.de.",
+  "renderPage": "./render.html",
+  "icon": "./assets/icon.svg",
+  "nativeSettings": {
+    "color": "light",
+    "showLosung": true,
+    "showLehrtext": true,
+    "showDate": true,
+    "dateOffset": 0
+  },
+  "configVariants": [
+    {
+      "color": "light",
+      "showLosung": true,
+      "showLehrtext": true,
+      "showDate": true,
+      "dateOffset": 0,
+      "screenshots": {
+        "800x480": "./screenshots/losung-both-800x480-landscape.png",
+        "480x800": "./screenshots/losung-both-480x800-portrait.png"
+      }
+    },
+    {
+      "color": "dark",
+      "showLosung": true,
+      "showLehrtext": false,
+      "showDate": true,
+      "dateOffset": 0,
+      "screenshots": {
+        "800x480": "./screenshots/losung-losung-only-800x480-landscape.png",
+        "480x800": "./screenshots/losung-losung-only-480x800-portrait.png"
+      }
+    }
+  ],
+  "formSchema": {
+    "type": "object",
+    "properties": {
+      "showLosung": {
+        "type": "boolean",
+        "title": "Show Losung",
+        "description": "Show the Old Testament daily verse.",
+        "default": true
+      },
+      "showLehrtext": {
+        "type": "boolean",
+        "title": "Show Lehrtext",
+        "description": "Show the New Testament teaching text.",
+        "default": true
+      },
+      "showDate": {
+        "type": "boolean",
+        "title": "Show date",
+        "description": "Show the Losungen date in the header.",
+        "default": true
+      },
+      "dateOffset": {
+        "type": "number",
+        "title": "Date offset",
+        "description": "Offset from today in days, for example -1 for yesterday or 1 for tomorrow.",
+        "default": 0
+      }
+    }
+  },
+  "language": [
+    "de",
+    "en"
+  ]
+}

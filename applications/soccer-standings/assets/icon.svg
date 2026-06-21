@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="Soccer Standings">
+  <rect width="128" height="128" rx="18" fill="#ffffff"/>
+  <path d="M14 95h100v15H14z" fill="#111111"/>
+  <path d="M20 22h88v68H20z" fill="#168a46"/>
+  <path d="M64 22v68M20 56h88" stroke="#ffffff" stroke-width="5"/>
+  <circle cx="64" cy="56" r="15" fill="none" stroke="#ffffff" stroke-width="5"/>
+  <circle cx="64" cy="56" r="11" fill="#ffffff"/>
+  <path d="M64 45l9 7-3 11H58l-3-11z" fill="#111111"/>
+  <path d="M37 99h14v7H37zm20 0h14v7H57zm20 0h14v7H77z" fill="#f2c94c"/>
+</svg>

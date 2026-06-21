@@ -1,0 +1,53 @@
+{
+  "title": "Sternbilder im Himmel",
+  "kicker": "Sternbilder",
+  "subtitle": "Saisonale Sternmuster als ruhige eInk-Himmelskarte",
+  "highlightLabel": "Markiert",
+  "seasonLabel": "Jahreszeit",
+  "hemisphereLabel": "Himmel",
+  "legendText": "Markierte Linien",
+  "apiLabel": "API",
+  "apiValue": "Eingebauter Sternbild-Katalog",
+  "none": "Keine",
+  "noHighlightNote": "Es ist kein Sternbild markiert.",
+  "seasons": {
+    "spring": "Fruehling",
+    "summer": "Sommer",
+    "autumn": "Herbst",
+    "winter": "Winter"
+  },
+  "hemispheres": {
+    "north": "Norden",
+    "south": "Sueden"
+  },
+  "constellations": {
+    "Andromeda": "Andromeda",
+    "Carina": "Kiel des Schiffs",
+    "Cassiopeia": "Kassiopeia",
+    "Centaurus": "Zentaur",
+    "Crux": "Kreuz des Suedens",
+    "Cygnus": "Schwan",
+    "Leo": "Loewe",
+    "Lyra": "Leier",
+    "Orion": "Orion",
+    "Pegasus": "Pegasus",
+    "Scorpius": "Skorpion",
+    "Taurus": "Stier",
+    "Ursa Major": "Grosser Baer"
+  },
+  "notes": {
+    "Andromeda": "Mirach weist unter dunklem Himmel den Weg zur Andromeda-Galaxie.",
+    "Carina": "Carina enthaelt Canopus, einen der hellsten Sterne des Nachthimmels.",
+    "Cassiopeia": "Ein kompaktes W nahe der noerdlichen Milchstrasse.",
+    "Centaurus": "Alpha Centauri und Hadar zeigen zum Kreuz des Suedens.",
+    "Crux": "Das Kreuz des Suedens ist klein, aber ein beruehmter Orientierungspunkt.",
+    "Cygnus": "Das noerdliche Kreuz liegt mitten in der hellen Sommer-Milchstrasse.",
+    "Leo": "Regulus und die sichelfoermige Kopfpartie praegen dieses Fruehlingssternbild.",
+    "Lyra": "Wega verankert die kleine Leier und das Sommerdreieck.",
+    "Orion": "Ein helles Wintermuster mit drei Guertelsternen in der Mitte.",
+    "Pegasus": "Das grosse Pegasusquadrat dominiert Herbstabende.",
+    "Scorpius": "Der geschwungene Schwanz und der rote Antares machen den Skorpion auffaellig.",
+    "Taurus": "Aldebaran, Hyaden und Plejaden machen den Stier besonders reich.",
+    "Ursa Major": "Der Grosse Wagen ist der bekannteste Teil dieses noerdlichen Sternbilds."
+  }
+}

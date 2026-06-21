@@ -1,0 +1,13 @@
+{
+  "loading": "Tabelle wird geladen...",
+  "played": "Sp",
+  "goalDifference": "TD",
+  "points": "Pkt",
+  "sourceLive": "Live",
+  "sourceSample": "Beispiel",
+  "updated": "Aktualisiert",
+  "focus": "Fokus",
+  "noFocus": "Kein Fokus-Team",
+  "markdownTitle": "Notiz",
+  "errorTitle": "Fußballtabelle konnte nicht geladen werden"
+}

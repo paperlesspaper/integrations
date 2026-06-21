@@ -1,0 +1,18 @@
+{
+  "loading": "Caricamento tabellone NFL...",
+  "brand": "Tabellone NFL",
+  "week": "Settimana",
+  "live": "Live",
+  "pregame": "Prepartita",
+  "halftime": "Intervallo",
+  "final": "Finale",
+  "finalOvertime": "Finale OT",
+  "overtime": "OT",
+  "quarter": "Q{period}",
+  "favorite": "Preferita",
+  "leaders": "Leader",
+  "noGames": "Nessuna partita NFL trovata per questa selezione.",
+  "updated": "Aggiornato",
+  "from": "fonte",
+  "record": "Record"
+}

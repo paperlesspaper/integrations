@@ -1,0 +1,122 @@
+{
+  "name": "Sternbilder im Himmel",
+  "version": "0.1.0",
+  "description": "Shows a seasonal constellation sky map with highlighted star patterns and labels.",
+  "renderPage": "./render.html",
+  "icon": "./assets/icon.svg",
+  "nativeSettings": {
+    "color": "dark",
+    "hemisphere": "north",
+    "season": "auto",
+    "highlight": "daily",
+    "showLabels": true,
+    "showMilkyWay": true,
+    "density": "balanced"
+  },
+  "configVariants": [
+    {
+      "color": "dark",
+      "hemisphere": "north",
+      "season": "winter",
+      "highlight": "Orion",
+      "showLabels": true,
+      "showMilkyWay": true,
+      "density": "balanced",
+      "screenshots": {
+        "800x480": "./screenshots/sternbilder-winter-orion-800x480-landscape.png",
+        "480x800": "./screenshots/sternbilder-winter-orion-480x800-portrait.png"
+      }
+    },
+    {
+      "color": "blue-dark",
+      "hemisphere": "south",
+      "season": "auto",
+      "highlight": "daily",
+      "showLabels": true,
+      "showMilkyWay": true,
+      "density": "rich",
+      "screenshots": {
+        "800x480": "./screenshots/sternbilder-south-daily-800x480-landscape.png",
+        "480x800": "./screenshots/sternbilder-south-daily-480x800-portrait.png"
+      }
+    }
+  ],
+  "formSchema": {
+    "type": "object",
+    "properties": {
+      "hemisphere": {
+        "type": "string",
+        "title": "Hemisphere",
+        "description": "Choose the sky orientation.",
+        "enum": [
+          "north",
+          "south"
+        ],
+        "default": "north"
+      },
+      "season": {
+        "type": "string",
+        "title": "Season",
+        "description": "Use automatic season selection or pin a seasonal sky.",
+        "enum": [
+          "auto",
+          "spring",
+          "summer",
+          "autumn",
+          "winter"
+        ],
+        "default": "auto"
+      },
+      "highlight": {
+        "type": "string",
+        "title": "Highlighted constellation",
+        "description": "Pick a constellation or rotate one daily from the visible scene.",
+        "enum": [
+          "daily",
+          "none",
+          "Orion",
+          "Ursa Major",
+          "Cassiopeia",
+          "Cygnus",
+          "Lyra",
+          "Scorpius",
+          "Crux",
+          "Leo",
+          "Pegasus",
+          "Taurus",
+          "Andromeda",
+          "Centaurus",
+          "Carina"
+        ],
+        "default": "daily"
+      },
+      "showLabels": {
+        "type": "boolean",
+        "title": "Show labels",
+        "description": "Show constellation names on the map.",
+        "default": true
+      },
+      "showMilkyWay": {
+        "type": "boolean",
+        "title": "Show Milky Way",
+        "description": "Draw a soft Milky Way band behind the star map.",
+        "default": true
+      },
+      "density": {
+        "type": "string",
+        "title": "Star density",
+        "description": "Choose how many background stars are shown.",
+        "enum": [
+          "minimal",
+          "balanced",
+          "rich"
+        ],
+        "default": "balanced"
+      }
+    }
+  },
+  "language": [
+    "de",
+    "en"
+  ]
+}

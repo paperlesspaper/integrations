@@ -1,0 +1,417 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="paperless:epd-optimize" content='{"intent":"readable"}' />
+    <title>Losung</title>
+    <link rel="stylesheet" href="/assets/paperless.css" />
+    <script src="/assets/paperless.iife.js"></script>
+    <style>
+      .losung-screen {
+        padding: 24px;
+        gap: 18px;
+      }
+
+      .losung-header {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        align-items: end;
+        gap: 18px;
+        padding-bottom: 14px;
+        border-bottom: 4px solid var(--pp-border);
+      }
+
+      .losung-kicker {
+        margin: 0 0 6px;
+        color: var(--pp-muted);
+        font-size: 0.9rem;
+        line-height: 1;
+        font-weight: 840;
+        text-transform: uppercase;
+      }
+
+      .losung-title {
+        margin: 0;
+        font-size: clamp(3rem, 12vh, 6.4rem);
+        line-height: 0.88;
+        font-weight: 940;
+        overflow-wrap: anywhere;
+      }
+
+      .losung-date {
+        margin: 0;
+        max-width: 22ch;
+        color: var(--pp-muted);
+        font-size: 1rem;
+        line-height: 1.15;
+        font-weight: 760;
+        text-align: right;
+      }
+
+      .losung-grid {
+        flex: 1;
+        min-height: 0;
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        grid-template-rows: minmax(0, 1fr);
+        gap: 18px;
+      }
+
+      .losung-grid.is-single {
+        grid-template-columns: 1fr;
+      }
+
+      .verse-card {
+        min-width: 0;
+        min-height: 0;
+        display: grid;
+        grid-template-rows: auto minmax(0, 1fr) auto;
+        gap: 14px;
+        padding: 20px;
+        border: 3px solid var(--pp-border);
+        background: var(--pp-card);
+        overflow: hidden;
+      }
+
+      .verse-card.is-losung {
+        border-left: 12px solid #2455a4;
+      }
+
+      .verse-card.is-lehrtext {
+        border-left: 12px solid #b88900;
+      }
+
+      body.dark .verse-card.is-losung {
+        border-left-color: #79a8ff;
+      }
+
+      body.dark .verse-card.is-lehrtext {
+        border-left-color: #ffd166;
+      }
+
+      .verse-label {
+        margin: 0;
+        color: var(--pp-muted);
+        font-size: 0.86rem;
+        line-height: 1;
+        font-weight: 850;
+        text-transform: uppercase;
+      }
+
+      .verse-text-wrap {
+        min-height: 0;
+        display: flex;
+        align-items: center;
+        overflow: hidden;
+      }
+
+      .verse-text {
+        margin: 0;
+        font-size: clamp(2rem, 8vh, 5rem);
+        line-height: 1.03;
+        font-weight: 820;
+        overflow-wrap: anywhere;
+      }
+
+      .verse-reference {
+        margin: 0;
+        color: var(--pp-muted);
+        font-size: clamp(1rem, 3.2vh, 1.75rem);
+        line-height: 1.05;
+        font-weight: 820;
+        text-align: right;
+      }
+
+      .losung-footer {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        color: var(--pp-muted);
+        font-size: 0.78rem;
+        line-height: 1.1;
+        font-weight: 680;
+      }
+
+      .empty-state {
+        min-height: 0;
+        display: grid;
+        place-items: center;
+        border: 3px dashed var(--pp-border);
+        padding: 20px;
+        color: var(--pp-muted);
+        font-size: 2rem;
+        line-height: 1.1;
+        font-weight: 800;
+        text-align: center;
+      }
+
+      @media (orientation: portrait) {
+        .losung-screen {
+          padding: 24px;
+        }
+
+        .losung-header {
+          align-items: start;
+        }
+
+        .losung-title {
+          font-size: clamp(3.4rem, 9vh, 6rem);
+        }
+
+        .losung-grid {
+          grid-template-columns: 1fr;
+          grid-template-rows: repeat(2, minmax(0, 1fr));
+        }
+
+        .losung-grid.is-single {
+          grid-template-rows: minmax(0, 1fr);
+        }
+
+        .verse-card {
+          padding: 18px;
+        }
+
+        .verse-text {
+          font-size: clamp(2.2rem, 6vh, 4.8rem);
+        }
+      }
+
+      @media (max-width: 700px), (max-height: 560px) {
+        .losung-screen {
+          padding: 18px;
+          gap: 12px;
+        }
+
+        .losung-header {
+          gap: 10px;
+          padding-bottom: 10px;
+          border-bottom-width: 3px;
+        }
+
+        .losung-kicker {
+          font-size: 0.72rem;
+          margin-bottom: 4px;
+        }
+
+        .losung-title {
+          font-size: 3rem;
+        }
+
+        .losung-date {
+          font-size: 0.72rem;
+        }
+
+        .losung-grid {
+          gap: 10px;
+        }
+
+        .verse-card {
+          gap: 8px;
+          padding: 12px;
+          border-width: 2px;
+        }
+
+        .verse-card.is-losung,
+        .verse-card.is-lehrtext {
+          border-left-width: 8px;
+        }
+
+        .verse-label {
+          font-size: 0.7rem;
+        }
+
+        .verse-text {
+          font-size: 2rem;
+        }
+
+        .verse-reference {
+          font-size: 0.86rem;
+        }
+
+        .losung-footer {
+          font-size: 0.68rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="website-has-loading-element"></div>
+    <main class="pp-screen losung-screen">
+      <header class="losung-header">
+        <div>
+          <p class="losung-kicker" data-i18n="kicker">Herrnhuter Losungen</p>
+          <h1 class="losung-title" data-i18n="title">Losung</h1>
+        </div>
+        <p class="losung-date" id="date"></p>
+      </header>
+
+      <section class="losung-grid" id="verses"></section>
+
+      <footer class="losung-footer">
+        <span data-i18n="source">losungen.de</span>
+        <span id="updated"></span>
+      </footer>
+    </main>
+
+    <script>
+      (async function render() {
+        const {
+          waitForPayload,
+          getSettings,
+          getQuerySettings,
+          mergeSettings,
+          loadLanguageJson,
+          applyColorTheme,
+          escapeHtml,
+          fitAllText,
+          fitHyphenatedText,
+          fitToScreen,
+          markReady,
+          markError,
+        } = window.PaperlessOpenIntegration;
+
+        const defaultMessages = {
+          loading: "Loading...",
+          kicker: "Moravian Daily Texts",
+          title: "Daily Text",
+          losung: "Losung",
+          lehrtext: "Teaching Text",
+          source: "losungen.de",
+          updated: "Updated",
+          empty: "No text selected.",
+          errorTitle: "Losung could not load",
+        };
+        let messages = defaultMessages;
+        let currentLanguage = "en";
+
+        function t(key, values = {}) {
+          const template =
+            typeof messages[key] === "string"
+              ? messages[key]
+              : defaultMessages[key] || key;
+          return template.replace(/\{(\w+)\}/g, (_match, name) =>
+            values[name] ?? "",
+          );
+        }
+
+        function applyStaticMessages(root = document) {
+          root.querySelectorAll("[data-i18n]").forEach((element) => {
+            element.textContent = t(element.dataset.i18n);
+          });
+        }
+
+        async function loadMessages(payload) {
+          const result = await loadLanguageJson(payload);
+          messages = { ...defaultMessages, ...result.messages };
+          currentLanguage = result.language || "en";
+          document.documentElement.lang = currentLanguage;
+          applyStaticMessages();
+        }
+
+        function asBoolean(value, fallback) {
+          if (typeof value === "boolean") {
+            return value;
+          }
+          if (value === "true") {
+            return true;
+          }
+          if (value === "false") {
+            return false;
+          }
+          return fallback;
+        }
+
+        function renderVerse(kind, verse) {
+          return `
+            <article class="verse-card is-${kind}">
+              <p class="verse-label">${escapeHtml(t(kind))}</p>
+              <div class="verse-text-wrap">
+                <p class="verse-text pp-fit">${escapeHtml(verse.text)}</p>
+              </div>
+              <p class="verse-reference pp-fit">${escapeHtml(verse.reference)}</p>
+            </article>
+          `;
+        }
+
+        try {
+          const payload = await waitForPayload({ timeout: 300 });
+          await loadMessages(payload);
+
+          const defaults = {
+            color: "light",
+            showLosung: true,
+            showLehrtext: true,
+            showDate: true,
+            dateOffset: 0,
+          };
+          const settings = mergeSettings(
+            defaults,
+            getSettings(payload),
+            getQuerySettings(),
+          );
+          applyColorTheme(settings.color, { defaultTheme: defaults.color });
+
+          const showLosung = asBoolean(settings.showLosung, true);
+          const showLehrtext = asBoolean(settings.showLehrtext, true);
+          const showDate = asBoolean(settings.showDate, true);
+          const params = new URLSearchParams({
+            dateOffset: String(settings.dateOffset || 0),
+          });
+          const response = await fetch(`./api/data?${params.toString()}`, {
+            cache: "no-store",
+          });
+
+          if (!response.ok) {
+            throw new Error(`Losung API failed with ${response.status}`);
+          }
+
+          const data = await response.json();
+          const verses = document.getElementById("verses");
+          const cards = [];
+
+          if (showLosung) {
+            cards.push(renderVerse("losung", data.losung));
+          }
+          if (showLehrtext) {
+            cards.push(renderVerse("lehrtext", data.lehrtext));
+          }
+
+          verses.classList.toggle("is-single", cards.length === 1);
+          verses.innerHTML = cards.length
+            ? cards.join("")
+            : `<div class="empty-state">${escapeHtml(t("empty"))}</div>`;
+
+          document.getElementById("date").textContent = showDate
+            ? data.dateLabel || new Date(`${data.date}T12:00:00`).toLocaleDateString(currentLanguage)
+            : "";
+          document.getElementById("updated").textContent =
+            `${t("updated")}: ${new Date(data.updatedAt).toLocaleDateString(currentLanguage)}`;
+
+          document.querySelectorAll(".verse-text").forEach((element) => {
+            fitHyphenatedText(element, {
+              min: 18,
+              max: 82,
+              step: 2,
+              tolerance: 10,
+              lineBreak: "balance",
+              fitParent: element.closest(".verse-text-wrap"),
+            });
+          });
+          fitAllText(".verse-reference", {
+            min: 12,
+            max: 30,
+            step: 1,
+            tolerance: 4,
+            lineBreak: true,
+          });
+          fitToScreen();
+          markReady({ date: data.date });
+        } catch (error) {
+          markError(error);
+          document.body.innerHTML = `<main class="pp-screen"><h1 class="pp-title pp-error">${escapeHtml(t("errorTitle"))}</h1><p>${escapeHtml(error.message)}</p></main>`;
+        }
+      })();
+    </script>
+  </body>
+</html>

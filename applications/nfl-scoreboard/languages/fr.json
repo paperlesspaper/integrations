@@ -1,0 +1,18 @@
+{
+  "loading": "Chargement du tableau NFL...",
+  "brand": "Tableau NFL",
+  "week": "Semaine",
+  "live": "Direct",
+  "pregame": "Avant-match",
+  "halftime": "Mi-temps",
+  "final": "Final",
+  "finalOvertime": "Final OT",
+  "overtime": "OT",
+  "quarter": "Q{period}",
+  "favorite": "Favori",
+  "leaders": "Leaders",
+  "noGames": "Aucun match NFL trouve pour cette selection.",
+  "updated": "Mis a jour",
+  "from": "source",
+  "record": "Bilan"
+}

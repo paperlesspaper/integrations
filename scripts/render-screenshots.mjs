@@ -479,6 +479,45 @@ const apps = [
     ],
   },
   {
+    slug: "simple-text",
+    variants: [
+      {
+        id: "markdown",
+        values: {
+          color: "light",
+          title: "",
+          content: "# Hello World\n\nUse **markdown** or plain text on your paperlesspaper display.",
+          format: "markdown",
+          fontFamily: "system",
+          fontSize: "large",
+          fontStyle: "normal",
+          fontWeight: "700",
+          textAlign: "center",
+          verticalAlign: "center",
+          lineHeight: "1.15",
+          showFrame: false,
+        },
+      },
+      {
+        id: "plain",
+        values: {
+          color: "dark",
+          title: "Notice",
+          content: "This is a plain text note.\nLine breaks are preserved.",
+          format: "plain",
+          fontFamily: "serif",
+          fontSize: "x-large",
+          fontStyle: "italic",
+          fontWeight: "600",
+          textAlign: "left",
+          verticalAlign: "center",
+          lineHeight: "1.25",
+          showFrame: true,
+        },
+      },
+    ],
+  },
+  {
     slug: "the-onion-editorial-cartoon",
     variants: [
       {

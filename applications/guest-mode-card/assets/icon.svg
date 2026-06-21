@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" role="img" aria-label="Guest Mode Card icon">
+  <rect width="1024" height="1024" rx="220" fill="#f7f1df"/>
+  <path d="M208 438c0-151 122-273 304-273s304 122 304 273v316c0 53-43 96-96 96H304c-53 0-96-43-96-96V438Z" fill="#1f2933"/>
+  <path d="M292 444c0-109 88-197 220-197s220 88 220 197v295c0 18-15 33-33 33H325c-18 0-33-15-33-33V444Z" fill="#ffffff"/>
+  <path d="M373 456c69-70 209-70 278 0" fill="none" stroke="#d9472b" stroke-width="48" stroke-linecap="round"/>
+  <path d="M439 527c36-36 110-36 146 0" fill="none" stroke="#d9472b" stroke-width="44" stroke-linecap="round"/>
+  <circle cx="512" cy="606" r="34" fill="#d9472b"/>
+  <rect x="374" y="672" width="276" height="56" rx="28" fill="#1f2933"/>
+</svg>

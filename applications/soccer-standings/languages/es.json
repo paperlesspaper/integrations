@@ -1,0 +1,13 @@
+{
+  "loading": "Cargando clasificacion...",
+  "played": "PJ",
+  "goalDifference": "DG",
+  "points": "Pts",
+  "sourceLive": "En vivo",
+  "sourceSample": "Ejemplo",
+  "updated": "Actualizado",
+  "focus": "Enfoque",
+  "noFocus": "Sin equipo destacado",
+  "markdownTitle": "Nota",
+  "errorTitle": "No se pudo cargar la clasificacion"
+}

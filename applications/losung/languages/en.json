@@ -1,0 +1,11 @@
+{
+  "loading": "Loading...",
+  "kicker": "Moravian Daily Texts",
+  "title": "Daily Text",
+  "losung": "Losung",
+  "lehrtext": "Teaching Text",
+  "source": "losungen.de",
+  "updated": "Updated",
+  "empty": "No text selected.",
+  "errorTitle": "Losung could not load"
+}

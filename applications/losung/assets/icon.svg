@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="Losung">
+  <rect width="128" height="128" rx="18" fill="#f8f7ef"/>
+  <path d="M24 32h56c13 0 24 11 24 24v46H48c-13 0-24-11-24-24V32z" fill="#fff" stroke="#1e1e1e" stroke-width="6"/>
+  <path d="M48 32v70" fill="none" stroke="#1e1e1e" stroke-width="5"/>
+  <path d="M68 48v31M53 63h30" fill="none" stroke="#2455a4" stroke-width="8" stroke-linecap="round"/>
+  <path d="M61 92h28" fill="none" stroke="#b88900" stroke-width="7" stroke-linecap="round"/>
+</svg>

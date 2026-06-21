@@ -1,0 +1,18 @@
+{
+  "loading": "Cargando marcador NFL...",
+  "brand": "Marcador NFL",
+  "week": "Semana",
+  "live": "En vivo",
+  "pregame": "Previo",
+  "halftime": "Descanso",
+  "final": "Final",
+  "finalOvertime": "Final OT",
+  "overtime": "OT",
+  "quarter": "Q{period}",
+  "favorite": "Favorito",
+  "leaders": "Lideres",
+  "noGames": "No se encontraron partidos NFL para esta seleccion.",
+  "updated": "Actualizado",
+  "from": "fuente",
+  "record": "Marca"
+}

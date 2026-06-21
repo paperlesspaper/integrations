@@ -1,0 +1,184 @@
+{
+  "name": "NFL Scoreboard",
+  "version": "0.1.0",
+  "description": "Shows NFL scores, fixtures, live status, favorite-team highlights, and league leaders from ESPN.",
+  "renderPage": "./render.html",
+  "nativeSettings": {
+    "color": "light",
+    "scoreboardMode": "week",
+    "team": "KC",
+    "season": 2026,
+    "seasonType": 2,
+    "week": 1,
+    "maxGames": 6,
+    "showLogos": true,
+    "showLeaders": true,
+    "statType": "passingYards",
+    "reverseTeams": false,
+    "locale": "en-US",
+    "timeZone": "America/New_York"
+  },
+  "configVariants": [
+    {
+      "color": "light",
+      "scoreboardMode": "week",
+      "team": "KC",
+      "season": 2026,
+      "seasonType": 2,
+      "week": 1,
+      "maxGames": 6,
+      "showLogos": true,
+      "showLeaders": true,
+      "statType": "passingYards",
+      "reverseTeams": false,
+      "locale": "en-US",
+      "timeZone": "America/New_York"
+    },
+    {
+      "color": "dark",
+      "scoreboardMode": "favorite",
+      "team": "SEA",
+      "season": 2026,
+      "seasonType": 2,
+      "week": 1,
+      "maxGames": 6,
+      "showLogos": true,
+      "showLeaders": true,
+      "statType": "receivingYards",
+      "reverseTeams": false,
+      "locale": "de-DE",
+      "timeZone": "Europe/Berlin"
+    }
+  ],
+  "formSchema": {
+    "type": "object",
+    "properties": {
+      "scoreboardMode": {
+        "type": "string",
+        "title": "Scoreboard mode",
+        "enum": [
+          "current",
+          "week",
+          "favorite"
+        ],
+        "default": "week"
+      },
+      "team": {
+        "type": "string",
+        "title": "Favorite team",
+        "enum": [
+          "ARI",
+          "ATL",
+          "BAL",
+          "BUF",
+          "CAR",
+          "CHI",
+          "CIN",
+          "CLE",
+          "DAL",
+          "DEN",
+          "DET",
+          "GB",
+          "HOU",
+          "IND",
+          "JAX",
+          "KC",
+          "LA",
+          "LAC",
+          "LV",
+          "MIA",
+          "MIN",
+          "NE",
+          "NO",
+          "NYG",
+          "NYJ",
+          "PHI",
+          "PIT",
+          "SEA",
+          "SF",
+          "TB",
+          "TEN",
+          "WAS"
+        ],
+        "default": "KC"
+      },
+      "season": {
+        "type": "number",
+        "title": "Season",
+        "default": 2026
+      },
+      "seasonType": {
+        "type": "number",
+        "title": "Season type",
+        "enum": [
+          1,
+          2,
+          3
+        ],
+        "default": 2,
+        "description": "1 preseason, 2 regular season, 3 postseason."
+      },
+      "week": {
+        "type": "number",
+        "title": "Week",
+        "default": 1
+      },
+      "maxGames": {
+        "type": "number",
+        "title": "Maximum games",
+        "default": 6
+      },
+      "showLogos": {
+        "type": "boolean",
+        "title": "Show team logos",
+        "default": true
+      },
+      "showLeaders": {
+        "type": "boolean",
+        "title": "Show league leaders",
+        "default": true
+      },
+      "statType": {
+        "type": "string",
+        "title": "Leader statistic",
+        "enum": [
+          "passingYards",
+          "rushingYards",
+          "receivingYards",
+          "totalTackles",
+          "sacks",
+          "interceptions",
+          "passingTouchdowns",
+          "rushingTouchdowns",
+          "receivingTouchdowns",
+          "totalPoints"
+        ],
+        "default": "passingYards"
+      },
+      "reverseTeams": {
+        "type": "boolean",
+        "title": "Reverse home/away order",
+        "default": false
+      },
+      "locale": {
+        "type": "string",
+        "title": "Locale",
+        "default": "en-US",
+        "description": "BCP 47 locale such as en-US, de-DE, fr-FR, or ja-JP."
+      },
+      "timeZone": {
+        "type": "string",
+        "title": "Time zone",
+        "default": "America/New_York",
+        "description": "IANA time zone such as America/New_York, Europe/Berlin, or UTC."
+      }
+    }
+  },
+  "language": [
+    "en",
+    "de",
+    "fr",
+    "es",
+    "it"
+  ]
+}

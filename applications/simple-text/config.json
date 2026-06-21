@@ -1,0 +1,189 @@
+{
+  "name": "Simple Text",
+  "version": "0.1.0",
+  "description": "Displays configurable plain text or markdown.",
+  "renderPage": "./render.html",
+  "icon": "./assets/icon.svg",
+  "nativeSettings": {
+    "color": "light",
+    "title": "",
+    "content": "# Hello World\n\nUse **markdown** or plain text on your paperlesspaper display.",
+    "format": "markdown",
+    "fontFamily": "system",
+    "fontSize": "large",
+    "fontStyle": "normal",
+    "fontWeight": "700",
+    "textAlign": "center",
+    "verticalAlign": "center",
+    "lineHeight": "1.15",
+    "showFrame": false
+  },
+  "configVariants": [
+    {
+      "color": "light",
+      "title": "",
+      "content": "# Hello World\n\nUse **markdown** or plain text on your paperlesspaper display.",
+      "format": "markdown",
+      "fontFamily": "system",
+      "fontSize": "large",
+      "fontStyle": "normal",
+      "fontWeight": "700",
+      "textAlign": "center",
+      "verticalAlign": "center",
+      "lineHeight": "1.15",
+      "showFrame": false,
+      "screenshots": {
+        "800x480": "./screenshots/simple-text-markdown-800x480-landscape.png",
+        "480x800": "./screenshots/simple-text-markdown-480x800-portrait.png"
+      }
+    },
+    {
+      "color": "dark",
+      "title": "Notice",
+      "content": "This is a plain text note.\nLine breaks are preserved.",
+      "format": "plain",
+      "fontFamily": "serif",
+      "fontSize": "x-large",
+      "fontStyle": "italic",
+      "fontWeight": "600",
+      "textAlign": "left",
+      "verticalAlign": "center",
+      "lineHeight": "1.25",
+      "showFrame": true,
+      "screenshots": {
+        "800x480": "./screenshots/simple-text-plain-800x480-landscape.png",
+        "480x800": "./screenshots/simple-text-plain-480x800-portrait.png"
+      }
+    }
+  ],
+  "formSchema": {
+    "type": "object",
+    "properties": {
+      "title": {
+        "type": "string",
+        "title": "Title",
+        "description": "Optional heading shown above the text.",
+        "default": ""
+      },
+      "content": {
+        "type": "string",
+        "title": "Text or markdown",
+        "description": "Content to display on the screen.",
+        "default": "# Hello World\n\nUse **markdown** or plain text on your paperlesspaper display."
+      },
+      "format": {
+        "type": "string",
+        "title": "Format",
+        "description": "Render the content as plain text or markdown.",
+        "enum": [
+          "plain",
+          "markdown"
+        ],
+        "default": "markdown"
+      },
+      "fontFamily": {
+        "type": "string",
+        "title": "Font",
+        "description": "Choose the content font family.",
+        "enum": [
+          "system",
+          "serif",
+          "mono"
+        ],
+        "default": "system"
+      },
+      "fontSize": {
+        "type": "string",
+        "title": "Font size",
+        "description": "Choose the base content size.",
+        "enum": [
+          "xx-small",
+          "x-small",
+          "small",
+          "medium",
+          "large",
+          "x-large",
+          "xx-large"
+        ],
+        "default": "large"
+      },
+      "fontStyle": {
+        "type": "string",
+        "title": "Font style",
+        "description": "Choose normal or italic text.",
+        "enum": [
+          "normal",
+          "italic"
+        ],
+        "default": "normal"
+      },
+      "fontWeight": {
+        "type": "string",
+        "title": "Font weight",
+        "description": "Choose the text weight.",
+        "enum": [
+          "lighter",
+          "normal",
+          "bold",
+          "bolder",
+          "100",
+          "200",
+          "300",
+          "400",
+          "500",
+          "600",
+          "700",
+          "800",
+          "900"
+        ],
+        "default": "700"
+      },
+      "textAlign": {
+        "type": "string",
+        "title": "Text alignment",
+        "description": "Choose horizontal alignment.",
+        "enum": [
+          "left",
+          "center",
+          "right",
+          "justify"
+        ],
+        "default": "center"
+      },
+      "verticalAlign": {
+        "type": "string",
+        "title": "Vertical alignment",
+        "description": "Choose vertical placement on the display.",
+        "enum": [
+          "top",
+          "center",
+          "bottom"
+        ],
+        "default": "center"
+      },
+      "lineHeight": {
+        "type": "string",
+        "title": "Line height",
+        "description": "Choose spacing between lines.",
+        "enum": [
+          "1",
+          "1.15",
+          "1.3",
+          "1.5",
+          "normal"
+        ],
+        "default": "1.15"
+      },
+      "showFrame": {
+        "type": "boolean",
+        "title": "Show frame",
+        "description": "Draw a simple border around the content.",
+        "default": false
+      }
+    }
+  },
+  "language": [
+    "en",
+    "de"
+  ]
+}

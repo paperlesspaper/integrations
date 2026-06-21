@@ -1,0 +1,154 @@
+{
+  "name": "Bike Commute Card",
+  "version": "0.1.0",
+  "description": "Shows rain window, wind, route status, and air quality for a bike commute.",
+  "renderPage": "./render.html",
+  "icon": "./assets/icon.svg",
+  "nativeSettings": {
+    "color": "light",
+    "title": "Bike Commute",
+    "routeName": "Home to Work",
+    "city": "Berlin",
+    "latitude": 52.52,
+    "longitude": 13.405,
+    "commuteStart": "07:30",
+    "commuteDurationMinutes": 45,
+    "rainProbabilityThreshold": 35,
+    "windCautionKmh": 28,
+    "windStrongKmh": 40,
+    "aqiCaution": 40,
+    "aqiHigh": 60,
+    "routeStatus": "clear",
+    "routeNote": "",
+    "showSource": true
+  },
+  "configVariants": [
+    {
+      "color": "light",
+      "title": "Bike Commute",
+      "routeName": "Home to Work",
+      "city": "Berlin",
+      "latitude": 52.52,
+      "longitude": 13.405,
+      "commuteStart": "07:30",
+      "commuteDurationMinutes": 45,
+      "rainProbabilityThreshold": 35,
+      "windCautionKmh": 28,
+      "windStrongKmh": 40,
+      "aqiCaution": 40,
+      "aqiHigh": 60,
+      "routeStatus": "clear",
+      "routeNote": "",
+      "showSource": true
+    },
+    {
+      "color": "blue-light",
+      "title": "Bike Commute",
+      "routeName": "Kreuzberg to Mitte",
+      "city": "Berlin",
+      "latitude": 52.506,
+      "longitude": 13.391,
+      "commuteStart": "08:15",
+      "commuteDurationMinutes": 35,
+      "rainProbabilityThreshold": 30,
+      "windCautionKmh": 24,
+      "windStrongKmh": 36,
+      "aqiCaution": 40,
+      "aqiHigh": 60,
+      "routeStatus": "caution",
+      "routeNote": "Check construction around the river crossing.",
+      "showSource": true
+    }
+  ],
+  "formSchema": {
+    "type": "object",
+    "properties": {
+      "title": {
+        "type": "string",
+        "title": "Title",
+        "default": "Bike Commute"
+      },
+      "routeName": {
+        "type": "string",
+        "title": "Route name",
+        "default": "Home to Work"
+      },
+      "city": {
+        "type": "string",
+        "title": "City",
+        "default": "Berlin"
+      },
+      "latitude": {
+        "type": "number",
+        "title": "Latitude",
+        "default": 52.52
+      },
+      "longitude": {
+        "type": "number",
+        "title": "Longitude",
+        "default": 13.405
+      },
+      "commuteStart": {
+        "type": "string",
+        "title": "Commute start",
+        "default": "07:30",
+        "description": "Local time in HH:MM format."
+      },
+      "commuteDurationMinutes": {
+        "type": "number",
+        "title": "Commute duration",
+        "default": 45
+      },
+      "rainProbabilityThreshold": {
+        "type": "number",
+        "title": "Rain threshold",
+        "default": 35,
+        "description": "Percent probability that counts as a rain window."
+      },
+      "windCautionKmh": {
+        "type": "number",
+        "title": "Wind caution",
+        "default": 28
+      },
+      "windStrongKmh": {
+        "type": "number",
+        "title": "Strong wind",
+        "default": 40
+      },
+      "aqiCaution": {
+        "type": "number",
+        "title": "AQI caution",
+        "default": 40
+      },
+      "aqiHigh": {
+        "type": "number",
+        "title": "AQI high",
+        "default": 60
+      },
+      "routeStatus": {
+        "type": "string",
+        "title": "Route status",
+        "enum": [
+          "clear",
+          "caution",
+          "disrupted"
+        ],
+        "default": "clear"
+      },
+      "routeNote": {
+        "type": "string",
+        "title": "Route note",
+        "default": ""
+      },
+      "showSource": {
+        "type": "boolean",
+        "title": "Show source",
+        "default": true
+      }
+    }
+  },
+  "language": [
+    "en",
+    "de"
+  ]
+}

@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="Simple Text icon">
+  <rect width="128" height="128" fill="#f8f4e8"/>
+  <rect x="16" y="18" width="96" height="92" fill="#ffffff" stroke="#111111" stroke-width="8"/>
+  <path d="M34 42h60M34 60h45M34 78h60M34 96h32" fill="none" stroke="#111111" stroke-width="8" stroke-linecap="square"/>
+  <path d="M86 60l11 11 19-25" fill="none" stroke="#d62728" stroke-width="8" stroke-linecap="square" stroke-linejoin="miter"/>
+</svg>
