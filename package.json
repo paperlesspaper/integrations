@@ -12,7 +12,7 @@
     "docker:run": "docker run --rm -p 3000:3000 paperlesspaper-openintegrations:latest"
   },
   "dependencies": {
-    "@paperlesspaper/openintegration": "0.1.1",
+    "@paperlesspaper/openintegration": "file:vendor/openintegration",
     "express": "^4.19.2"
   }
 }

@@ -1,4 +1,4 @@
-# Sternbilder im Himmel
+# Constellations in the Sky
 
 Displays a seasonal constellation sky map for paperlesspaper. The app draws a stable eInk-friendly star field, constellation line art, localized labels, and one highlighted constellation.
 
@@ -26,7 +26,7 @@ Those are heavier than this display needs because the integration shows recogniz
 ## Local URLs
 
 ```txt
-http://localhost:3000/sternbilder-im-himmel/
-http://localhost:3000/sternbilder-im-himmel/config.json
-http://localhost:3000/sternbilder-im-himmel/api/data
+http://localhost:3000/constellations-in-the-sky/
+http://localhost:3000/constellations-in-the-sky/config.json
+http://localhost:3000/constellations-in-the-sky/api/data
 ```

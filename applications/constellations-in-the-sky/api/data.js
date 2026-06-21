@@ -426,7 +426,7 @@ export default async function handler({ query }) {
   const seed = seedFromText(`${hemisphere}:${season}:${density}:${now.toISOString().slice(0, 10)}`);
 
   return {
-    title: "Sternbilder im Himmel",
+    title: "Constellations in the Sky",
     hemisphere,
     season,
     requestedSeason,

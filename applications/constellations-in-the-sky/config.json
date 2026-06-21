@@ -1,5 +1,5 @@
 {
-  "name": "Sternbilder im Himmel",
+  "name": "Constellations in the Sky",
   "version": "0.1.0",
   "description": "Shows a seasonal constellation sky map with highlighted star patterns and labels.",
   "renderPage": "./render.html",
@@ -23,8 +23,8 @@
       "showMilkyWay": true,
       "density": "balanced",
       "screenshots": {
-        "800x480": "./screenshots/sternbilder-winter-orion-800x480-landscape.png",
-        "480x800": "./screenshots/sternbilder-winter-orion-480x800-portrait.png"
+        "800x480": "./screenshots/constellations-winter-orion-800x480-landscape.png",
+        "480x800": "./screenshots/constellations-winter-orion-480x800-portrait.png"
       }
     },
     {
@@ -36,8 +36,8 @@
       "showMilkyWay": true,
       "density": "rich",
       "screenshots": {
-        "800x480": "./screenshots/sternbilder-south-daily-800x480-landscape.png",
-        "480x800": "./screenshots/sternbilder-south-daily-480x800-portrait.png"
+        "800x480": "./screenshots/constellations-south-daily-800x480-landscape.png",
+        "480x800": "./screenshots/constellations-south-daily-480x800-portrait.png"
       }
     }
   ],
