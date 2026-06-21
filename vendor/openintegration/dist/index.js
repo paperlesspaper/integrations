@@ -83,7 +83,8 @@ function originAllowed(origin, allowedOrigins) {
   return allowedOrigins.includes(origin);
 }
 function waitForPayload(options = {}) {
-  const { timeoutMs = 500, fallback = {}, allowedOrigins } = options;
+  const { fallback = {}, allowedOrigins } = options;
+  const timeoutMs = options.timeoutMs ?? options.timeout ?? 500;
   if (typeof window === "undefined") {
     return Promise.resolve(fallback);
   }
@@ -155,12 +156,160 @@ function getQuerySettings(defaults) {
   return mergeSettings(defaults, values);
 }
 
+// src/language.ts
+function isRecord3(value) {
+  return Boolean(value) && typeof value === "object" && !Array.isArray(value);
+}
+function isLanguageCode(value) {
+  return typeof value === "string" && /^[A-Za-z]{2,3}(?:-[A-Za-z0-9]{2,8})*$/.test(value.trim());
+}
+function normalizeLanguage(value) {
+  const trimmed = value?.trim();
+  return trimmed && isLanguageCode(trimmed) ? trimmed : void 0;
+}
+function payloadManifestLanguages(payload) {
+  const meta = isRecord3(payload?.meta) ? payload.meta : void 0;
+  const manifest = isRecord3(meta?.pluginManifest) ? meta.pluginManifest : void 0;
+  return Array.isArray(manifest?.language) ? manifest.language.filter(isLanguageCode) : [];
+}
+function defaultFetch(input, init) {
+  if (typeof fetch !== "function") {
+    throw new Error("fetch is not available to load language JSON");
+  }
+  return fetch(input, init);
+}
+function languagePath(basePath, language) {
+  return `${basePath.replace(/\/+$/, "")}/${encodeURIComponent(language)}.json`;
+}
+function getPayloadLanguage(payload) {
+  const meta = isRecord3(payload?.meta) ? payload.meta : void 0;
+  return normalizeLanguage(typeof meta?.language === "string" ? meta.language : void 0);
+}
+function resolveLanguage({
+  requested,
+  supported = [],
+  defaultLanguage
+}) {
+  const supportedCodes = supported.filter(isLanguageCode);
+  const requestedCode = normalizeLanguage(requested);
+  if (requestedCode) {
+    const exact = supportedCodes.find((code) => code === requestedCode);
+    if (exact) {
+      return exact;
+    }
+    const exactInsensitive = supportedCodes.find(
+      (code) => code.toLowerCase() === requestedCode.toLowerCase()
+    );
+    if (exactInsensitive) {
+      return exactInsensitive;
+    }
+    const requestedBase = requestedCode.split("-")[0]?.toLowerCase();
+    const base = supportedCodes.find((code) => code.toLowerCase() === requestedBase);
+    if (base) {
+      return base;
+    }
+  }
+  const defaultCode = normalizeLanguage(defaultLanguage);
+  if (defaultCode) {
+    const defaultMatch = supportedCodes.find((code) => code === defaultCode);
+    if (defaultMatch) {
+      return defaultMatch;
+    }
+    const defaultInsensitive = supportedCodes.find(
+      (code) => code.toLowerCase() === defaultCode.toLowerCase()
+    );
+    if (defaultInsensitive) {
+      return defaultInsensitive;
+    }
+    if (supportedCodes.length === 0) {
+      return defaultCode;
+    }
+  }
+  return supportedCodes[0] ?? "de";
+}
+async function loadLanguageJson(payload, options = {}) {
+  const supported = options.supported ?? payloadManifestLanguages(payload);
+  const defaultLanguage = options.defaultLanguage ?? supported[0] ?? "de";
+  const language = resolveLanguage({
+    defaultLanguage,
+    requested: options.requested ?? getPayloadLanguage(payload),
+    supported
+  });
+  const response = await (options.fetch ?? defaultFetch)(
+    languagePath(options.basePath ?? "./languages", language)
+  );
+  if (!response.ok) {
+    throw new Error(`Could not load language JSON for ${language}: ${response.status}`);
+  }
+  const messages = await response.json();
+  if (!isRecord3(messages)) {
+    throw new Error(`Language JSON for ${language} must contain an object`);
+  }
+  return {
+    language,
+    messages
+  };
+}
+
+// src/theme.ts
+var COLOR_THEMES = [
+  "dark",
+  "light",
+  "red-dark",
+  "red-light",
+  "blue-dark",
+  "blue-light",
+  "green-dark",
+  "green-light"
+];
+var COLOR_THEME_SET = new Set(COLOR_THEMES);
+var LEGACY_COLOR_THEME_ALIASES = {
+  black: "light",
+  white: "dark",
+  blue: "blue-light",
+  green: "green-light",
+  red: "red-light",
+  yellow: "light"
+};
+var REMOVABLE_COLOR_CLASSES = [...COLOR_THEMES, ...Object.keys(LEGACY_COLOR_THEME_ALIASES)];
+function normalizeColorTheme(value, fallback = "light") {
+  if (!value) {
+    return fallback;
+  }
+  if (COLOR_THEME_SET.has(value)) {
+    return value;
+  }
+  return LEGACY_COLOR_THEME_ALIASES[value] ?? fallback;
+}
+function applyColorTheme(value, options = {}) {
+  const theme = normalizeColorTheme(value, options.defaultTheme);
+  const target = options.target ?? globalThis.document?.body;
+  target?.classList.remove(...REMOVABLE_COLOR_CLASSES);
+  target?.classList.add(theme);
+  return theme;
+}
+function applyColorThemeFromQuery(options = {}) {
+  const { paramName = "color" } = options;
+  const value = typeof window === "undefined" ? void 0 : new URLSearchParams(window.location.search).get(paramName);
+  return applyColorTheme(value, options);
+}
+
 // src/fitText.ts
 function px(value) {
   const parsed = Number.parseFloat(value);
   return Number.isFinite(parsed) ? parsed : 0;
 }
-function overflowTarget(element, fitParent) {
+function contentWidth(element) {
+  const style = window.getComputedStyle(element);
+  const width = element.clientWidth || element.offsetWidth;
+  return Math.max(0, width - px(style.paddingLeft) - px(style.paddingRight));
+}
+function contentHeight(element) {
+  const style = window.getComputedStyle(element);
+  const height = element.clientHeight || element.offsetHeight;
+  return Math.max(0, height - px(style.paddingTop) - px(style.paddingBottom));
+}
+function fitTarget(element, fitParent) {
   if (fitParent instanceof HTMLElement) {
     return fitParent;
   }
@@ -170,8 +319,11 @@ function overflowTarget(element, fitParent) {
   return element;
 }
 function overflows(element, tolerance, fitParent) {
-  const target = overflowTarget(element, fitParent);
-  return target.scrollWidth - target.clientWidth > tolerance || target.scrollHeight - target.clientHeight > tolerance;
+  const target = fitTarget(element, fitParent);
+  const elementWidth = element.clientWidth || element.offsetWidth;
+  const targetWidth = target === element ? elementWidth : Math.min(contentWidth(target), elementWidth || Number.POSITIVE_INFINITY);
+  const targetHeight = target === element ? target.clientHeight || target.offsetHeight : contentHeight(target);
+  return element.scrollWidth - targetWidth > tolerance || element.scrollHeight - targetHeight > tolerance;
 }
 function fitText(element, options = {}) {
   const {
@@ -196,18 +348,8 @@ function fitText(element, options = {}) {
   if (nowrap) {
     element.style.whiteSpace = "nowrap";
   }
-  let size = Math.min(startingSize, max);
+  let size = max;
   element.style.fontSize = `${size}px`;
-  while (size < max && !overflows(element, tolerance, fitParent)) {
-    const previousSize = size;
-    size = Math.min(max, size + step);
-    element.style.fontSize = `${size}px`;
-    if (overflows(element, tolerance, fitParent)) {
-      size = previousSize;
-      element.style.fontSize = `${size}px`;
-      break;
-    }
-  }
   while (size > min && overflows(element, tolerance, fitParent)) {
     size = Math.max(min, size - step);
     element.style.fontSize = `${size}px`;
@@ -382,7 +524,7 @@ function escapeHtml(value) {
 }
 
 // src/manifest.ts
-function isRecord3(value) {
+function isRecord4(value) {
   return Boolean(value) && typeof value === "object" && !Array.isArray(value);
 }
 function isHttpUrl(value) {
@@ -393,10 +535,13 @@ function isHttpUrl(value) {
     return false;
   }
 }
+function isLanguageCode2(value) {
+  return typeof value === "string" && /^[A-Za-z]{2,3}(?:-[A-Za-z0-9]{2,8})*$/.test(value.trim());
+}
 function validateConfig(config) {
   const errors = [];
   const warnings = [];
-  if (!isRecord3(config)) {
+  if (!isRecord4(config)) {
     return {
       valid: false,
       errors: ["config must be an object"],
@@ -415,10 +560,13 @@ function validateConfig(config) {
   if ("settingsPage" in config && typeof config.settingsPage !== "string") {
     errors.push("settingsPage must be a string");
   }
-  if ("nativeSettings" in config && !isRecord3(config.nativeSettings)) {
+  if ("language" in config && (!Array.isArray(config.language) || config.language.some((language) => !isLanguageCode2(language)))) {
+    errors.push("language must be an array of non-empty language codes");
+  }
+  if ("nativeSettings" in config && !isRecord4(config.nativeSettings)) {
     errors.push("nativeSettings must be an object");
   }
-  if ("formSchema" in config && !isRecord3(config.formSchema)) {
+  if ("formSchema" in config && !isRecord4(config.formSchema)) {
     errors.push("formSchema must be an object");
   }
   if (!("description" in config)) {
@@ -440,8 +588,11 @@ function validateConfig(config) {
   };
 }
 export {
+  COLOR_THEMES,
   SOFT_HYPHEN,
   addSoftHyphensToTextNodes,
+  applyColorTheme,
+  applyColorThemeFromQuery,
   detectOverflow,
   escapeHtml,
   fitAllText,
@@ -449,15 +600,19 @@ export {
   fitImage,
   fitText,
   fitToScreen,
+  getPayloadLanguage,
   getQuerySettings,
   getSettings,
   hyphenateText,
   hyphenateWord,
+  loadLanguageJson,
   markError,
   markLoading,
   markReady,
   mergeSettings,
+  normalizeColorTheme,
   prepareHyphenation,
+  resolveLanguage,
   stripSoftHyphens,
   validateConfig,
   waitForPayload

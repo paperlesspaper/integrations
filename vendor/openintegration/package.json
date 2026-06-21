@@ -1,6 +1,6 @@
 {
   "name": "@paperlesspaper/openintegration",
-  "version": "0.1.0",
+  "version": "0.1.3",
   "description": "Tiny helper toolkit for static paperlesspaper OpenIntegration pages.",
   "type": "module",
   "sideEffects": [

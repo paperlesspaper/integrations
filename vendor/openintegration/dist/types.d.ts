@@ -1,11 +1,17 @@
 export type JsonRecord = Record<string, unknown>;
+export interface OpenIntegrationConfigVariant extends JsonRecord {
+    screenshots?: Record<string, string>;
+}
 export interface OpenIntegrationConfig {
     name: string;
     version: string;
     description?: string;
     renderPage: string;
+    icon?: string;
+    language?: string[];
     settingsPage?: string;
     nativeSettings?: JsonRecord;
+    configVariants?: OpenIntegrationConfigVariant[];
     formSchema?: unknown;
 }
 export interface ValidationResult {
@@ -14,6 +20,7 @@ export interface ValidationResult {
     warnings: string[];
 }
 export interface WaitForPayloadOptions {
+    timeout?: number;
     timeoutMs?: number;
     fallback?: JsonRecord;
     allowedOrigins?: string[];

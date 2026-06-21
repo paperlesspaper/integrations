@@ -535,9 +535,9 @@ function createField(name, property, required) {
         option.textContent = String(optionValue);
         input.append(option);
       }
-    } else if (property.type === "array" || property.type === "object") {
+    } else if (property.type === "array" || property.type === "object" || property.format === "textarea") {
       input = document.createElement("textarea");
-      input.rows = 4;
+      input.rows = Number.isInteger(property.rows) ? property.rows : 4;
     } else {
       input = document.createElement("input");
       input.type = property.type === "number" || property.type === "integer"

@@ -69,7 +69,9 @@
         "type": "string",
         "title": "Text or markdown",
         "description": "Content to display on the screen.",
-        "default": "# Hello World\n\nUse **markdown** or plain text on your paperlesspaper display."
+        "default": "# Hello World\n\nUse **markdown** or plain text on your paperlesspaper display.",
+        "format": "textarea",
+        "rows": 8
       },
       "format": {
         "type": "string",

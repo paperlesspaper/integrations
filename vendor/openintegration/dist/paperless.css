@@ -1,10 +1,16 @@
 :root {
-  --pp-bg: #FFFFFF;
-  --pp-fg: #000000;
-  --pp-muted: #000000;
-  --pp-border: #000000;
-  --pp-card: #FFFFFF;
-  --pp-accent: #000000;
+  --pp-black: #000000;
+  --pp-white: #FFFFFF;
+  --pp-red: #FF0000;
+  --pp-yellow: #FFFF00;
+  --pp-green: #00FF00;
+  --pp-blue: #0000FF;
+  --pp-bg: var(--pp-white);
+  --pp-fg: var(--pp-black);
+  --pp-muted: var(--pp-black);
+  --pp-border: var(--pp-black);
+  --pp-card: var(--pp-white);
+  --pp-accent: var(--pp-black);
   --pp-space-1: 4px;
   --pp-space-2: 8px;
   --pp-space-3: 12px;
@@ -19,102 +25,102 @@
 .red-light,
 .blue-light,
 .green-light {
-  --pp-bg: #FFFFFF;
-  --pp-fg: #000000;
-  --pp-muted: #000000;
-  --pp-border: #000000;
-  --pp-card: #FFFFFF;
-  --pp-accent: #000000;
+  --pp-bg: var(--pp-white);
+  --pp-fg: var(--pp-black);
+  --pp-muted: var(--pp-black);
+  --pp-border: var(--pp-black);
+  --pp-card: var(--pp-white);
+  --pp-accent: var(--pp-black);
 }
 
 .dark,
 .red-dark,
 .blue-dark,
 .green-dark {
-  --pp-bg: #000000;
-  --pp-fg: #FFFFFF;
-  --pp-muted: #FFFFFF;
-  --pp-border: #FFFFFF;
-  --pp-card: #000000;
-  --pp-accent: #FFFFFF;
+  --pp-bg: var(--pp-black);
+  --pp-fg: var(--pp-white);
+  --pp-muted: var(--pp-white);
+  --pp-border: var(--pp-white);
+  --pp-card: var(--pp-black);
+  --pp-accent: var(--pp-white);
 }
 
 .blue-light {
-  --pp-accent: #0000FF;
+  --pp-accent: var(--pp-blue);
 }
 
 .blue-dark {
-  --pp-bg: #FFFFFF;
-  --pp-fg: #0000FF;
-  --pp-muted: #0000FF;
-  --pp-border: #0000FF;
-  --pp-card: #FFFFFF;
-  --pp-accent: #0000FF;
+  --pp-bg: var(--pp-white);
+  --pp-fg: var(--pp-blue);
+  --pp-muted: var(--pp-blue);
+  --pp-border: var(--pp-blue);
+  --pp-card: var(--pp-white);
+  --pp-accent: var(--pp-blue);
 }
 
 .green-light {
-  --pp-accent: #00FF00;
+  --pp-accent: var(--pp-green);
 }
 
 .green-dark {
-  --pp-bg: #FFFFFF;
-  --pp-fg: #00FF00;
-  --pp-muted: #00FF00;
-  --pp-border: #00FF00;
-  --pp-card: #FFFFFF;
-  --pp-accent: #00FF00;
+  --pp-bg: var(--pp-white);
+  --pp-fg: var(--pp-green);
+  --pp-muted: var(--pp-green);
+  --pp-border: var(--pp-green);
+  --pp-card: var(--pp-white);
+  --pp-accent: var(--pp-green);
 }
 
 .red-light {
-  --pp-accent: #FF0000;
+  --pp-accent: var(--pp-red);
 }
 
 .red-dark {
-  --pp-bg: #FFFFFF;
-  --pp-fg: #FF0000;
-  --pp-muted: #FF0000;
-  --pp-border: #FF0000;
-  --pp-card: #FFFFFF;
-  --pp-accent: #FF0000;
+  --pp-bg: var(--pp-white);
+  --pp-fg: var(--pp-red);
+  --pp-muted: var(--pp-red);
+  --pp-border: var(--pp-red);
+  --pp-card: var(--pp-white);
+  --pp-accent: var(--pp-red);
 }
 
 .black {
-  --pp-bg: #FFFFFF;
-  --pp-fg: #000000;
-  --pp-muted: #000000;
-  --pp-border: #000000;
-  --pp-card: #FFFFFF;
-  --pp-accent: #000000;
+  --pp-bg: var(--pp-white);
+  --pp-fg: var(--pp-black);
+  --pp-muted: var(--pp-black);
+  --pp-border: var(--pp-black);
+  --pp-card: var(--pp-white);
+  --pp-accent: var(--pp-black);
 }
 
 .white {
-  --pp-bg: #000000;
-  --pp-fg: #FFFFFF;
-  --pp-muted: #FFFFFF;
-  --pp-border: #FFFFFF;
-  --pp-card: #000000;
-  --pp-accent: #FFFFFF;
+  --pp-bg: var(--pp-black);
+  --pp-fg: var(--pp-white);
+  --pp-muted: var(--pp-white);
+  --pp-border: var(--pp-white);
+  --pp-card: var(--pp-black);
+  --pp-accent: var(--pp-white);
 }
 
 .blue {
-  --pp-accent: #0000FF;
+  --pp-accent: var(--pp-blue);
 }
 
 .green {
-  --pp-accent: #00FF00;
+  --pp-accent: var(--pp-green);
 }
 
 .red {
-  --pp-accent: #FF0000;
+  --pp-accent: var(--pp-red);
 }
 
 .yellow {
-  --pp-bg: #000000;
-  --pp-fg: #FFFF00;
-  --pp-muted: #FFFF00;
-  --pp-border: #FFFF00;
-  --pp-card: #000000;
-  --pp-accent: #FFFF00;
+  --pp-bg: var(--pp-black);
+  --pp-fg: var(--pp-yellow);
+  --pp-muted: var(--pp-yellow);
+  --pp-border: var(--pp-yellow);
+  --pp-card: var(--pp-black);
+  --pp-accent: var(--pp-yellow);
 }
 
 :root,
