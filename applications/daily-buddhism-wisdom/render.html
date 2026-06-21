@@ -334,7 +334,35 @@
         }
 
         async function loadMessages(payload) {
-          const result = await loadLanguageJson(payload);
+          let result;
+
+          if (typeof loadLanguageJson === "function") {
+            result = await loadLanguageJson(payload);
+          } else {
+            const requested = String(payload?.meta?.language || "en").trim();
+            const requestedBase = requested.split("-")[0].toLowerCase();
+            const supported = ["en", "de"];
+            const language = supported.includes(requested)
+              ? requested
+              : supported.includes(requestedBase)
+                ? requestedBase
+                : "en";
+            const response = await fetch(`./languages/${language}.json`, {
+              cache: "no-store",
+            });
+
+            if (!response.ok) {
+              throw new Error(
+                `Could not load language JSON for ${language}: ${response.status}`,
+              );
+            }
+
+            result = {
+              language,
+              messages: await response.json(),
+            };
+          }
+
           messages = { ...defaultMessages, ...result.messages };
           currentLanguage = result.language || "en";
           document.documentElement.lang = currentLanguage;

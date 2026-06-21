@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "description": "Displays configurable plain text or markdown.",
   "renderPage": "./render.html",
-  "icon": "./assets/icon.svg",
+  "icon": "./assets/icon.png",
   "nativeSettings": {
     "color": "light",
     "title": "",

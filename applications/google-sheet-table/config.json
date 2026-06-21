@@ -2,6 +2,7 @@
   "name": "Google Sheet Table",
   "version": "0.1.0",
   "description": "Shows matching rows from a public Google Sheet as a compact Date, Name, and Group table.",
+  "icon": "./assets/icon.png",
   "renderPage": "./render.html",
   "nativeSettings": {
     "color": "light",

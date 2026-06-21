@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "description": "Shows a deterministic daily Buddhist-inspired reflection based on the current day of the year.",
   "renderPage": "./render.html",
-  "icon": "./assets/icon.svg",
+  "icon": "./assets/icon.png",
   "nativeSettings": {
     "color": "light",
     "showPage": true,

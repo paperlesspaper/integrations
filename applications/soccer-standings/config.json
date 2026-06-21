@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "description": "Shows European soccer league standings with optional favorite-team focus, crests, and a markdown note.",
   "renderPage": "./render.html",
-  "icon": "./assets/icon.svg",
+  "icon": "./assets/icon.png",
   "nativeSettings": {
     "color": "light",
     "competition": "BL1",

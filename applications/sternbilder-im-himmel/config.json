@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "description": "Shows a seasonal constellation sky map with highlighted star patterns and labels.",
   "renderPage": "./render.html",
-  "icon": "./assets/icon.svg",
+  "icon": "./assets/icon.png",
   "nativeSettings": {
     "color": "dark",
     "hemisphere": "north",

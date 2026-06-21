@@ -4,5 +4,6 @@ npm-debug.log
 .DS_Store
 *.code-workspace
 output
-applications/*/screenshots
+# applications/*/screenshots
 public/runner.css
+.playwright-cli/*

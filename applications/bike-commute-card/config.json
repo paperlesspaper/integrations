@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "description": "Shows rain window, wind, route status, and air quality for a bike commute.",
   "renderPage": "./render.html",
-  "icon": "./assets/icon.svg",
+  "icon": "./assets/icon.png",
   "nativeSettings": {
     "color": "light",
     "title": "Bike Commute",

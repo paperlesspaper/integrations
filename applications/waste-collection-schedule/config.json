@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "description": "Shows the next waste collection dates from an ICS/iCal feed or manual recurring schedules.",
   "renderPage": "./render.html",
-  "icon": "./assets/icon.svg",
+  "icon": "./assets/icon.png",
   "nativeSettings": {
     "color": "light",
     "title": "Waste Collection",

@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "description": "Shows a kid-friendly dinosaur, space, or animal fact of the day with a small thinking prompt.",
   "renderPage": "./render.html",
-  "icon": "./assets/icon.svg",
+  "icon": "./assets/icon.png",
   "nativeSettings": {
     "color": "light",
     "topic": "mixed",

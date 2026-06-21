@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "description": "Shows a guest-ready home card with Wi-Fi QR, house rules, checkout time, nearby cafes, and smart-home instructions.",
   "renderPage": "./render.html",
-  "icon": "./assets/icon.svg",
+  "icon": "./assets/icon.png",
   "nativeSettings": {
     "color": "light",
     "placeName": "The Paperless Loft",

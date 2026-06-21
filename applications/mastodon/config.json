@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "description": "Shows a Mastodon home timeline, hashtag stream, or profile feed.",
   "renderPage": "./render.html",
-  "icon": "./assets/icon.svg",
+  "icon": "./assets/icon.png",
   "nativeSettings": {
     "color": "light",
     "instanceUrl": "https://mastodon.social",

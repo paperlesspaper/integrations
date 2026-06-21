@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "description": "Shows one deterministic daily country with flag, capital, region, area, languages, currency, and map-friendly facts.",
   "renderPage": "./render.html",
-  "icon": "./assets/icon.svg",
+  "icon": "./assets/icon.png",
   "nativeSettings": {
     "region": "any",
     "independentOnly": true,
