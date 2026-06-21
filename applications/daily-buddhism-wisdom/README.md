@@ -1,6 +1,6 @@
 # Daily Buddhism Wisdom
 
-Shows a deterministic daily Buddhist-inspired reflection on a paperlesspaper display. The selection is based on the current day of the year, similar to the MagicMirror `MMM-DailyBuddhismWisdom` module, but uses original local reflections instead of bundling the source module's book text.
+Shows the daily quote from [Buddha API](https://buddha-api.com/) on a paperlesspaper display. A small local fallback is used if the remote quote cannot be loaded.
 
 ## Settings
 
@@ -9,10 +9,9 @@ Shows a deterministic daily Buddhist-inspired reflection on a paperlesspaper dis
 - `fontWeight`: choose a CSS font weight.
 - `textAlign`: align the reflection text.
 - `lineHeight`: adjust line spacing.
-- `showAttribution`: show or hide the source-style attribution line.
-- `showDay`: show or hide the selected day-of-year number.
-- `day`: optional fixed day of year from `1` to `366`.
-- `dayOffset`: shift the selected entry by a number of days.
+- `showAttribution`: show or hide the author and source line.
+- `showDay`: show or hide the current day-of-year number.
+- `author`: optionally restrict the daily quote to Buddha, Dalai Lama, Dogen, or Thich Nhat Hanh.
 
 ## Local URLs
 

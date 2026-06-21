@@ -6,7 +6,7 @@
   "name": "Name",
   "group": "Gruppe",
   "configuredNeededTitle": "Sheet-ID eintragen",
-  "configuredNeededCopy": "Fuege in den Integrationseinstellungen eine oeffentliche Google-Sheet-ID oder URL ein.",
+  "configuredNeededCopy": "Füge in den Integrationseinstellungen eine oeffentliche Google-Sheet-ID oder URL ein.",
   "emptyTitle": "Keine kommenden Eintraege",
   "emptyCopy": "In den zugeordneten Spalten wurden keine konfigurierten Namen gefunden.",
   "updated": "Aktualisiert",

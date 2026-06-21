@@ -2,7 +2,7 @@
   "title": "Daily Buddhism Wisdom",
   "loading": "Loading...",
   "day": "Day {day}",
-  "source": "Daily reflection",
+  "source": "Daily quote",
   "errorTitle": "Wisdom could not load",
   "hidden": "Wisdom text hidden"
 }

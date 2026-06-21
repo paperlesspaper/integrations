@@ -1,7 +1,7 @@
 {
   "name": "Daily Buddhism Wisdom",
   "version": "0.1.0",
-  "description": "Shows a deterministic daily Buddhist-inspired reflection based on the current day of the year.",
+  "description": "Shows the daily quote from Buddha API.",
   "renderPage": "./render.html",
   "icon": "./assets/icon.png",
   "nativeSettings": {
@@ -13,8 +13,7 @@
     "lineHeight": "1.12",
     "showAttribution": true,
     "showDay": true,
-    "day": "",
-    "dayOffset": 0
+    "author": ""
   },
   "formSchema": {
     "type": "object",
@@ -89,26 +88,34 @@
       "showAttribution": {
         "type": "boolean",
         "title": "Show attribution",
-        "description": "Show the source-style attribution line.",
+        "description": "Show the quote author and source.",
         "default": true
       },
       "showDay": {
         "type": "boolean",
         "title": "Show day number",
-        "description": "Show the day-of-year number used for the daily selection.",
+        "description": "Show the current day-of-year number.",
         "default": true
       },
-      "day": {
+      "author": {
         "type": "string",
-        "title": "Fixed day",
-        "description": "Optional day of year from 1 to 366. Leave empty to use today.",
+        "title": "Author",
+        "description": "Optionally restrict the daily quote to one Buddhist figure.",
+        "enum": [
+          "",
+          "buddha",
+          "dalai_lama",
+          "dogen",
+          "thich_nhat_hanh"
+        ],
+        "enumNames": [
+          "All",
+          "Buddha",
+          "Dalai Lama",
+          "Dogen",
+          "Thich Nhat Hanh"
+        ],
         "default": ""
-      },
-      "dayOffset": {
-        "type": "number",
-        "title": "Day offset",
-        "description": "Shift the selected daily reflection by this many days.",
-        "default": 0
       }
     }
   },
