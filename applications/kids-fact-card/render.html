@@ -98,20 +98,28 @@
         min-width: 0;
         min-height: 0;
         display: grid;
-        grid-template-rows: auto minmax(0, 1fr) auto;
+        grid-template-rows: minmax(0, 1.05fr) minmax(0, 1fr) minmax(0, 0.78fr);
+        overflow: hidden;
       }
 
       .title-block {
         min-width: 0;
+        min-height: 0;
+        display: grid;
+        grid-template-rows: auto minmax(0, 1fr);
+        gap: 7px;
         padding: 24px 28px 18px;
         border-bottom: 3px solid currentColor;
+        overflow: hidden;
       }
 
       .title {
-        margin: 7px 0 0;
+        min-height: 0;
+        margin: 0;
         font-size: 4.45rem;
         line-height: 0.92;
         font-weight: 950;
+        overflow: hidden;
         overflow-wrap: anywhere;
       }
 
@@ -126,10 +134,12 @@
       }
 
       .fact-text {
+        max-height: 100%;
         margin: 0;
         font-size: 2.6rem;
         line-height: 1.06;
         font-weight: 850;
+        overflow: hidden;
         overflow-wrap: anywhere;
       }
 
@@ -142,6 +152,9 @@
       .mini-panel {
         min-width: 0;
         min-height: 0;
+        display: grid;
+        grid-template-rows: auto minmax(0, 1fr);
+        gap: 8px;
         padding: 16px 18px;
         overflow: hidden;
       }
@@ -155,10 +168,12 @@
       }
 
       .mini-text {
-        margin: 8px 0 0;
+        min-height: 0;
+        margin: 0;
         font-size: 1.16rem;
         line-height: 1.12;
         font-weight: 760;
+        overflow: hidden;
         overflow-wrap: anywhere;
       }
 
@@ -170,6 +185,10 @@
         .fact-card {
           grid-template-columns: 1fr;
           grid-template-rows: auto minmax(0, 1fr);
+        }
+
+        .content {
+          grid-template-rows: minmax(0, 0.78fr) minmax(0, 1.22fr) minmax(0, 0.8fr);
         }
 
         .topic-panel {
@@ -216,6 +235,7 @@
 
         .bottom-grid {
           grid-template-columns: 1fr;
+          grid-template-rows: minmax(0, 1fr) minmax(0, 1fr);
         }
 
         .mini-panel {
@@ -455,14 +475,12 @@
 
           fitHyphenatedText(document.getElementById('title'), {
             min: 24,
-            max: 68,
             step: 2,
             tolerance: 8,
             lineBreak: 'balance',
           });
           fitHyphenatedText(document.getElementById('fact'), {
             min: 20,
-            max: 42,
             step: 2,
             tolerance: 4,
             lineBreak: 'balance',
@@ -470,7 +488,6 @@
           });
           fitAllText('.mini-text.pp-fit', {
             min: 12,
-            max: 22,
             step: 1,
             tolerance: 4,
             lineBreak: true,
