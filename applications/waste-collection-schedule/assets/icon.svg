@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="Waste collection schedule">
+  <rect width="128" height="128" rx="24" fill="#f5f5f0"/>
+  <path d="M35 43h58l-5 65H40L35 43Z" fill="#2f2f2f"/>
+  <path d="M47 43V31h34v12" fill="none" stroke="#2f2f2f" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M29 43h70" fill="none" stroke="#2f2f2f" stroke-width="10" stroke-linecap="round"/>
+  <path d="M52 59v32M64 59v32M76 59v32" stroke="#f5f5f0" stroke-width="7" stroke-linecap="round"/>
+  <circle cx="38" cy="105" r="8" fill="#d83a2e"/>
+  <circle cx="90" cy="105" r="8" fill="#d83a2e"/>
+</svg>

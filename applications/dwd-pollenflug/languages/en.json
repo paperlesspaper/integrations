@@ -1,0 +1,36 @@
+{
+  "title": "DWD Pollen",
+  "subtitle": "Pollen load forecast",
+  "highest": "Highest today",
+  "today": "Today",
+  "tomorrow": "Tomorrow",
+  "dayafter_to": "Day after",
+  "updated": "DWD update",
+  "nextUpdate": "Next",
+  "noLoad": "No relevant pollen load",
+  "errorTitle": "Pollen forecast could not load",
+  "source": "Source",
+  "regionId": "Region ID",
+  "valueDescriptions": {
+    "0": "none",
+    "0-1": "none to low",
+    "0.5": "none to low",
+    "1": "low",
+    "1-2": "low to moderate",
+    "1.5": "low to moderate",
+    "2": "moderate",
+    "2-3": "moderate to high",
+    "2.5": "moderate to high",
+    "3": "high"
+  },
+  "pollenNames": {
+    "Ambrosia": "Ambrosia",
+    "Beifuss": "Mugwort",
+    "Birke": "Birch",
+    "Erle": "Alder",
+    "Esche": "Ash",
+    "Graeser": "Grass",
+    "Hasel": "Hazel",
+    "Roggen": "Rye"
+  }
+}

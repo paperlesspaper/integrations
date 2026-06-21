@@ -1,0 +1,158 @@
+{
+  "name": "Waste Collection Schedule",
+  "version": "0.1.0",
+  "description": "Shows the next waste collection dates from an ICS/iCal feed or manual recurring schedules.",
+  "renderPage": "./render.html",
+  "icon": "./assets/icon.svg",
+  "nativeSettings": {
+    "color": "light",
+    "title": "Waste Collection",
+    "addressLabel": "Sample Street 12",
+    "sourceMode": "manual",
+    "icsUrl": "",
+    "manualDates": "2026-06-23 | Bulky waste | Booked appointment\n2026-07-03 | Glass",
+    "recurringRules": "Residual waste | WEEKLY | 2 | 2026-01-05 | MO\nPaper | WEEKLY | 4 | 2026-01-12 | MO\nOrganic waste | WEEKLY | 1 | 2026-01-07 | WE\nRecycling | WEEKLY | 2 | 2026-01-09 | FR",
+    "excludedDates": "",
+    "includeTypes": "",
+    "excludeTypes": "",
+    "daysAhead": 45,
+    "limit": 8,
+    "locale": "en-US",
+    "timeZone": "Europe/Berlin",
+    "showWeekStrip": true,
+    "showSource": true
+  },
+  "configVariants": [
+    {
+      "color": "light",
+      "title": "Waste Collection",
+      "addressLabel": "Sample Street 12",
+      "sourceMode": "manual",
+      "icsUrl": "",
+      "manualDates": "2026-06-23 | Bulky waste | Booked appointment\n2026-07-03 | Glass",
+      "recurringRules": "Residual waste | WEEKLY | 2 | 2026-01-05 | MO\nPaper | WEEKLY | 4 | 2026-01-12 | MO\nOrganic waste | WEEKLY | 1 | 2026-01-07 | WE\nRecycling | WEEKLY | 2 | 2026-01-09 | FR",
+      "excludedDates": "",
+      "includeTypes": "",
+      "excludeTypes": "",
+      "daysAhead": 45,
+      "limit": 8,
+      "locale": "en-US",
+      "timeZone": "Europe/Berlin",
+      "showWeekStrip": true,
+      "showSource": true
+    },
+    {
+      "color": "dark",
+      "title": "Abfallkalender",
+      "addressLabel": "Berlin",
+      "sourceMode": "manual",
+      "icsUrl": "",
+      "manualDates": "",
+      "recurringRules": "Restmuell | WEEKLY | 2 | 2026-01-05 | MO\nBiomuell | WEEKLY | 1 | 2026-01-07 | WE\nPapiertonne | WEEKLY | 4 | 2026-01-12 | MO\nGelbe Tonne | WEEKLY | 2 | 2026-01-09 | FR",
+      "excludedDates": "",
+      "includeTypes": "",
+      "excludeTypes": "",
+      "daysAhead": 30,
+      "limit": 6,
+      "locale": "de-DE",
+      "timeZone": "Europe/Berlin",
+      "showWeekStrip": true,
+      "showSource": true
+    }
+  ],
+  "formSchema": {
+    "type": "object",
+    "properties": {
+      "title": {
+        "type": "string",
+        "title": "Title",
+        "default": "Waste Collection"
+      },
+      "addressLabel": {
+        "type": "string",
+        "title": "Address label",
+        "default": "Sample Street 12"
+      },
+      "sourceMode": {
+        "type": "string",
+        "title": "Source",
+        "enum": [
+          "manual",
+          "ics",
+          "auto"
+        ],
+        "default": "manual"
+      },
+      "icsUrl": {
+        "type": "string",
+        "title": "ICS/iCal URL",
+        "description": "Optional calendar URL from your municipality or waste service provider.",
+        "default": ""
+      },
+      "manualDates": {
+        "type": "string",
+        "title": "Manual dates",
+        "description": "One per line: YYYY-MM-DD | Type | optional note.",
+        "default": ""
+      },
+      "recurringRules": {
+        "type": "string",
+        "title": "Recurring rules",
+        "description": "One per line: Type | WEEKLY | interval | start YYYY-MM-DD | weekday, e.g. Paper | WEEKLY | 4 | 2026-01-12 | MO.",
+        "default": ""
+      },
+      "excludedDates": {
+        "type": "string",
+        "title": "Excluded dates",
+        "description": "Comma or line separated dates to remove. Use YYYY-MM-DD or YYYY-MM-DD | Type.",
+        "default": ""
+      },
+      "includeTypes": {
+        "type": "string",
+        "title": "Include types",
+        "description": "Optional comma-separated waste types to keep.",
+        "default": ""
+      },
+      "excludeTypes": {
+        "type": "string",
+        "title": "Exclude types",
+        "description": "Optional comma-separated waste types to hide.",
+        "default": ""
+      },
+      "daysAhead": {
+        "type": "number",
+        "title": "Days ahead",
+        "default": 45
+      },
+      "limit": {
+        "type": "number",
+        "title": "Maximum rows",
+        "default": 8
+      },
+      "locale": {
+        "type": "string",
+        "title": "Locale",
+        "default": "en-US"
+      },
+      "timeZone": {
+        "type": "string",
+        "title": "Time zone",
+        "default": "Europe/Berlin"
+      },
+      "showWeekStrip": {
+        "type": "boolean",
+        "title": "Show week strip",
+        "default": true
+      },
+      "showSource": {
+        "type": "boolean",
+        "title": "Show source",
+        "default": true
+      }
+    }
+  },
+  "language": [
+    "en",
+    "de"
+  ]
+}

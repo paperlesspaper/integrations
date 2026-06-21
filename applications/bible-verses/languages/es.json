@@ -1,0 +1,7 @@
+{
+  "title": "Versiculos biblicos",
+  "loading": "Cargando...",
+  "fallback": "Versiculo sin conexion",
+  "source": "Fuente",
+  "errorTitle": "No se pudo cargar el versiculo"
+}

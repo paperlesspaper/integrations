@@ -1,0 +1,285 @@
+{
+  "name": "Finance Snapshot",
+  "version": "0.1.0",
+  "description": "Shows a compact snapshot of markets, commodities, crypto, currencies, energy, and selected stocks.",
+  "renderPage": "./render.html",
+  "icon": "./assets/icon.png",
+  "nativeSettings": {
+    "color": "light",
+    "preset": "balanced",
+    "symbols": [
+      "GC=F",
+      "BTC-USD",
+      "EURUSD=X",
+      "^GSPC",
+      "CL=F",
+      "EUR=X"
+    ],
+    "customSymbols": "",
+    "currency": "USD",
+    "locale": "en-US",
+    "limit": 8,
+    "chartRange": "1mo",
+    "showChart": true,
+    "showSparklines": true,
+    "showRangeStats": true,
+    "showChange": true,
+    "showSource": true
+  },
+  "configVariants": [
+    {
+      "color": "light",
+      "preset": "balanced",
+      "symbols": [
+        "GC=F",
+        "BTC-USD",
+        "EURUSD=X",
+        "^GSPC",
+        "CL=F",
+        "EUR=X"
+      ],
+      "customSymbols": "",
+      "currency": "USD",
+      "locale": "en-US",
+      "limit": 8,
+      "chartRange": "1mo",
+      "showChart": true,
+      "showSparklines": true,
+      "showRangeStats": true,
+      "showChange": true,
+      "showSource": true,
+      "screenshots": {
+        "800x480": "./screenshots/finance-snapshot-balanced-800x480-landscape.png",
+        "480x800": "./screenshots/finance-snapshot-balanced-480x800-portrait.png"
+      }
+    },
+    {
+      "color": "dark",
+      "preset": "energy",
+      "symbols": [
+        "CL=F",
+        "BZ=F",
+        "NG=F",
+        "RB=F",
+        "HO=F",
+        "TTF=F"
+      ],
+      "customSymbols": "",
+      "currency": "USD",
+      "locale": "de-DE",
+      "limit": 6,
+      "chartRange": "5d",
+      "showChart": true,
+      "showSparklines": true,
+      "showRangeStats": true,
+      "showChange": true,
+      "showSource": true,
+      "screenshots": {
+        "800x480": "./screenshots/finance-snapshot-energy-800x480-landscape.png",
+        "480x800": "./screenshots/finance-snapshot-energy-480x800-portrait.png"
+      }
+    }
+  ],
+  "formSchema": {
+    "type": "object",
+    "properties": {
+      "preset": {
+        "type": "string",
+        "title": "Preset",
+        "enum": [
+          "balanced",
+          "metals",
+          "crypto",
+          "currencies",
+          "energy",
+          "indices",
+          "tech",
+          "europe",
+          "custom"
+        ],
+        "default": "balanced"
+      },
+      "symbols": {
+        "type": "array",
+        "title": "Selected values",
+        "description": "Choose from common commodities, crypto, currencies, energy futures, indices, ETFs, and stocks. Add more tickers in Custom symbols.",
+        "items": {
+          "type": "string",
+          "enum": [
+            "GC=F",
+            "SI=F",
+            "PL=F",
+            "PA=F",
+            "HG=F",
+            "ALI=F",
+            "BTC-USD",
+            "ETH-USD",
+            "SOL-USD",
+            "BNB-USD",
+            "XRP-USD",
+            "ADA-USD",
+            "DOGE-USD",
+            "DOT-USD",
+            "LINK-USD",
+            "AVAX-USD",
+            "MATIC-USD",
+            "LTC-USD",
+            "BCH-USD",
+            "EURUSD=X",
+            "GBPUSD=X",
+            "USDJPY=X",
+            "USDCHF=X",
+            "USDCAD=X",
+            "AUDUSD=X",
+            "NZDUSD=X",
+            "EURGBP=X",
+            "EURJPY=X",
+            "EURCHF=X",
+            "EUR=X",
+            "GBP=X",
+            "JPY=X",
+            "CHF=X",
+            "CL=F",
+            "BZ=F",
+            "NG=F",
+            "RB=F",
+            "HO=F",
+            "TTF=F",
+            "ZC=F",
+            "ZW=F",
+            "ZS=F",
+            "KC=F",
+            "CC=F",
+            "SB=F",
+            "CT=F",
+            "^GSPC",
+            "^DJI",
+            "^IXIC",
+            "^RUT",
+            "^VIX",
+            "^FTSE",
+            "^GDAXI",
+            "^FCHI",
+            "^STOXX50E",
+            "^N225",
+            "^HSI",
+            "^AXJO",
+            "SPY",
+            "QQQ",
+            "DIA",
+            "IWM",
+            "GLD",
+            "SLV",
+            "USO",
+            "UNG",
+            "AAPL",
+            "MSFT",
+            "GOOGL",
+            "AMZN",
+            "NVDA",
+            "META",
+            "TSLA",
+            "BRK-B",
+            "JPM",
+            "V",
+            "MA",
+            "ASML",
+            "SAP.DE",
+            "SIE.DE",
+            "DTE.DE",
+            "ALV.DE",
+            "BAS.DE",
+            "AIR.PA",
+            "MC.PA",
+            "NESN.SW",
+            "NOVN.SW",
+            "SHEL.L",
+            "BP.L"
+          ]
+        },
+        "uniqueItems": true,
+        "default": [
+          "GC=F",
+          "BTC-USD",
+          "EURUSD=X",
+          "^GSPC",
+          "CL=F",
+          "EUR=X"
+        ]
+      },
+      "customSymbols": {
+        "type": "string",
+        "title": "Custom symbols",
+        "default": "",
+        "description": "Comma-separated Yahoo Finance symbols, such as AAPL, SAP.DE, ETH-USD, CHF=X, or ^GDAXI."
+      },
+      "currency": {
+        "type": "string",
+        "title": "Display currency",
+        "enum": [
+          "USD",
+          "EUR",
+          "GBP",
+          "CHF",
+          "JPY"
+        ],
+        "default": "USD"
+      },
+      "locale": {
+        "type": "string",
+        "title": "Locale",
+        "default": "en-US",
+        "description": "BCP 47 locale such as en-US, de-DE, fr-FR, or ja-JP."
+      },
+      "limit": {
+        "type": "number",
+        "title": "Item limit",
+        "default": 8
+      },
+      "chartRange": {
+        "type": "string",
+        "title": "Chart range",
+        "enum": [
+          "5d",
+          "1mo",
+          "3mo",
+          "6mo",
+          "1y"
+        ],
+        "default": "1mo"
+      },
+      "showChart": {
+        "type": "boolean",
+        "title": "Show lead chart",
+        "default": true
+      },
+      "showSparklines": {
+        "type": "boolean",
+        "title": "Show row sparklines",
+        "default": true
+      },
+      "showRangeStats": {
+        "type": "boolean",
+        "title": "Show high and low",
+        "default": true
+      },
+      "showChange": {
+        "type": "boolean",
+        "title": "Show daily change",
+        "default": true
+      },
+      "showSource": {
+        "type": "boolean",
+        "title": "Show data source",
+        "default": true
+      }
+    }
+  },
+  "language": [
+    "en",
+    "de",
+    "fr",
+    "es",
+    "it"
+  ]
+}

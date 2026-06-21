@@ -1,0 +1,15 @@
+{
+  "loading": "Caricamento...",
+  "updated": "Aggiornato",
+  "errorTitle": "Impossibile caricare il riepilogo finanziario",
+  "title": "Riepilogo finanziario",
+  "subtitle": "Vista mercato",
+  "leader": "Movimento principale",
+  "items": "Valori",
+  "source": "Fonte",
+  "delayed": "I dati di mercato possono essere in ritardo",
+  "noData": "Nessuna quotazione disponibile",
+  "high": "Massimo",
+  "low": "Minimo",
+  "range": "Periodo"
+}

@@ -1,0 +1,18 @@
+{
+  "kicker": "Waste collection",
+  "loading": "Loading...",
+  "next": "Next pickup",
+  "today": "Today",
+  "tomorrow": "Tomorrow",
+  "inDays": "In {days} days",
+  "overdue": "{days} days ago",
+  "upcoming": "Upcoming",
+  "noCollections": "No collection dates found",
+  "noCollectionsHint": "Check the ICS URL or manual schedule settings.",
+  "updated": "Updated",
+  "sourceManual": "Manual schedule",
+  "sourceIcs": "ICS calendar",
+  "sourceAuto": "Auto source",
+  "errorTitle": "Waste schedule could not load",
+  "weekTitle": "Next 14 days"
+}

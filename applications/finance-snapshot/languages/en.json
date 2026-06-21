@@ -1,0 +1,15 @@
+{
+  "loading": "Loading...",
+  "updated": "Updated",
+  "errorTitle": "Finance snapshot could not load",
+  "title": "Finance Snapshot",
+  "subtitle": "Market watch",
+  "leader": "Lead mover",
+  "items": "Items",
+  "source": "Source",
+  "delayed": "Market data may be delayed",
+  "noData": "No quotes available",
+  "high": "High",
+  "low": "Low",
+  "range": "Range"
+}

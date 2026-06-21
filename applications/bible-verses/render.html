@@ -1,0 +1,523 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="paperless:epd-optimize" content='{"intent":"readable"}' />
+    <title>Bible Verses</title>
+    <link rel="stylesheet" href="/assets/paperless.css" />
+    <script src="/assets/paperless.iife.js"></script>
+    <style>
+      .verse-screen {
+        --verse-rule-width: 4px;
+        position: relative;
+        gap: 22px;
+        padding: 30px;
+      }
+
+      .verse-header {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 18px;
+        min-height: 0;
+      }
+
+      .verse-brand {
+        min-width: 0;
+      }
+
+      .verse-title {
+        margin: 0;
+        font-size: 3.2rem;
+        line-height: 0.98;
+        font-weight: 880;
+        letter-spacing: 0;
+      }
+
+      .verse-title[dir="rtl"],
+      .verse-reference[dir="rtl"],
+      .verse-text[dir="rtl"] {
+        line-height: 1.2;
+        text-align: right;
+      }
+
+      .verse-title[dir="rtl"] {
+        padding-top: 0.16em;
+      }
+
+      .verse-main {
+        flex: 1;
+        min-height: 0;
+        display: grid;
+        grid-template-rows: auto minmax(0, 1fr);
+        gap: 18px;
+        border-top: var(--verse-rule-width) solid var(--pp-fg);
+        border-bottom: var(--verse-rule-width) solid var(--pp-fg);
+        padding: 18px 0;
+      }
+
+      .verse-reference {
+        margin: 0;
+        max-width: 100%;
+        font-size: 3.9rem;
+        line-height: 0.98;
+        font-weight: 900;
+        overflow-wrap: anywhere;
+      }
+
+      .verse-text-wrap {
+        min-height: 0;
+        display: flex;
+        align-items: center;
+        overflow: hidden;
+      }
+
+      .verse-text {
+        margin: 0;
+        width: 100%;
+        font-size: 4.8rem;
+        line-height: 1.04;
+        font-weight: 740;
+        overflow-wrap: break-word;
+      }
+
+      .verse-footer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        box-sizing: border-box;
+        color: var(--pp-muted);
+        font-size: 1rem;
+        line-height: 1.1;
+        font-weight: 650;
+      }
+
+      .verse-footer p {
+        margin: 0;
+      }
+
+      .verse-source {
+        text-align: right;
+      }
+
+      .verse-qr {
+        position: absolute;
+        right: 24px;
+        bottom: 24px;
+        width: 64px;
+        height: 64px;
+        box-sizing: border-box;
+        border: 3px solid #fff;
+        background: #fff;
+        image-rendering: pixelated;
+      }
+
+      .verse-screen.has-qr .verse-footer {
+        padding-right: 84px;
+        min-height: 64px;
+      }
+
+      .verse-screen.has-qr.no-footer .verse-main {
+        padding-right: 84px;
+      }
+
+      .verse-screen.no-header {
+        padding-top: 24px;
+      }
+
+      .verse-screen.no-header .verse-main {
+        border-top-width: 0;
+        padding-top: 0;
+      }
+
+      .verse-screen.no-footer .verse-main {
+        border-bottom-width: 0;
+        padding-bottom: 0;
+      }
+
+      .verse-screen.reference-in-header .verse-main {
+        grid-template-rows: minmax(0, 1fr);
+      }
+
+      .verse-screen.reference-in-header .verse-text-wrap {
+        grid-row: 1;
+      }
+
+      [hidden] {
+        display: none !important;
+      }
+
+      @media (orientation: portrait) {
+        .verse-screen {
+          gap: 24px;
+          padding: 28px;
+        }
+
+        .verse-header {
+          gap: 14px;
+        }
+
+        .verse-title {
+          font-size: 3.7rem;
+        }
+
+        .verse-main {
+          grid-template-rows: auto minmax(0, 1fr);
+          padding-top: 24px;
+        }
+
+        .verse-reference {
+          font-size: 4.5rem;
+        }
+
+        .verse-text-wrap {
+          align-items: flex-start;
+        }
+
+        .verse-text {
+          font-size: 5.2rem;
+          line-height: 1.08;
+        }
+
+        .verse-footer {
+          align-items: flex-start;
+          flex-direction: column;
+        }
+
+        .verse-source {
+          text-align: left;
+        }
+
+        .verse-screen.has-qr .verse-footer {
+          padding-right: 0;
+          padding-bottom: 84px;
+        }
+
+        .verse-screen.has-qr.no-footer .verse-main {
+          padding-right: 0;
+          padding-bottom: 84px;
+        }
+      }
+
+      @media (max-width: 700px), (max-height: 560px) {
+        .verse-screen {
+          --verse-rule-width: 3px;
+          gap: 14px;
+          padding: 18px;
+        }
+
+        .verse-title {
+          font-size: 2.35rem;
+        }
+
+        .verse-main {
+          gap: 12px;
+          padding: 12px 0;
+        }
+
+        .verse-reference {
+          font-size: 2.7rem;
+        }
+
+        .verse-text {
+          font-size: 2.75rem;
+        }
+
+        .verse-footer {
+          font-size: 0.76rem;
+        }
+
+        .verse-qr {
+          right: 18px;
+          bottom: 18px;
+          width: 56px;
+          height: 56px;
+          border-width: 3px;
+        }
+
+        .verse-screen.has-qr .verse-footer {
+          padding-right: 74px;
+          min-height: 56px;
+        }
+
+        .verse-screen.has-qr.no-footer .verse-main {
+          padding-right: 74px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="website-has-loading-element"></div>
+    <main class="pp-screen verse-screen">
+      <header class="verse-header" id="header">
+        <div class="verse-brand">
+          <h1 class="verse-title pp-fit" id="title" data-i18n="title">Bible Verses</h1>
+        </div>
+      </header>
+
+      <section class="verse-main">
+        <h2 class="verse-reference pp-fit" id="reference" data-i18n="loading">
+          Loading...
+        </h2>
+        <div class="verse-text-wrap">
+          <p class="verse-text pp-fit" id="verse"></p>
+        </div>
+      </section>
+
+      <footer class="verse-footer" id="footer">
+        <p id="translation"></p>
+        <p class="verse-source" id="source"></p>
+      </footer>
+      <img class="verse-qr" id="qr" alt="QR code for source verse" hidden />
+    </main>
+    <script>
+      (async function render() {
+        const {
+          waitForPayload,
+          getSettings,
+          getQuerySettings,
+          mergeSettings,
+          loadLanguageJson,
+          applyColorTheme,
+          escapeHtml,
+          fitHyphenatedText,
+          fitToScreen,
+          markReady,
+          markError,
+        } = window.PaperlessOpenIntegration;
+
+        const defaultMessages = {
+          title: "Bible Verses",
+          loading: "Loading...",
+          fallback: "Offline verse",
+          source: "Source",
+          errorTitle: "Verse could not load",
+        };
+        let messages = defaultMessages;
+
+        function t(key, values = {}) {
+          const template =
+            typeof messages[key] === "string"
+              ? messages[key]
+              : defaultMessages[key] || key;
+          return template.replace(/\{(\w+)\}/g, (_match, name) =>
+            values[name] ?? "",
+          );
+        }
+
+        function applyStaticMessages(root = document) {
+          root.querySelectorAll("[data-i18n]").forEach((element) => {
+            element.textContent = t(element.dataset.i18n);
+          });
+        }
+
+        function booleanSetting(value, fallback = true) {
+          if (value === true || value === "true" || value === "1") {
+            return true;
+          }
+
+          if (value === false || value === "false" || value === "0") {
+            return false;
+          }
+
+          return fallback;
+        }
+
+        function qrCodeUrl(url, size) {
+          if (!url) {
+            return "";
+          }
+
+          const qr = new URL("https://api.qrserver.com/v1/create-qr-code/");
+          qr.searchParams.set("size", `${size}x${size}`);
+          qr.searchParams.set("margin", "1");
+          qr.searchParams.set("data", url);
+          return qr.toString();
+        }
+
+        function textDirection(text) {
+          return /[\u0590-\u08ff\u200f\ufb1d-\ufdff\ufe70-\ufefc]/.test(text)
+            ? "rtl"
+            : "auto";
+        }
+
+        async function loadMessages(payload) {
+          const supported = [
+            "af",
+            "ar",
+            "bn",
+            "cs",
+            "da",
+            "en",
+            "de",
+            "el",
+            "es",
+            "fa",
+            "fi",
+            "fr",
+            "hi",
+            "hu",
+            "it",
+            "mg",
+            "nl",
+            "pl",
+            "pt",
+            "ru",
+            "sk",
+            "st",
+            "tc",
+            "ur",
+            "xh",
+            "zu",
+          ];
+          let result;
+
+          if (typeof loadLanguageJson === "function") {
+            result = await loadLanguageJson(payload, {
+              supported,
+              defaultLanguage: "en",
+            });
+          } else {
+            const requested = String(payload?.meta?.language || "en").trim();
+            const base = requested.split("-")[0].toLowerCase();
+            const language = supported.includes(requested)
+              ? requested
+              : supported.includes(base)
+                ? base
+                : "en";
+            const response = await fetch(`./languages/${language}.json`, {
+              cache: "no-store",
+            });
+
+            if (!response.ok) {
+              throw new Error(`Could not load language JSON: ${response.status}`);
+            }
+
+            result = { language, messages: await response.json() };
+          }
+
+          messages = { ...defaultMessages, ...result.messages };
+          document.documentElement.lang = result.language || "en";
+          applyStaticMessages();
+        }
+
+        try {
+          const payload = await waitForPayload({ timeout: 500 });
+          await loadMessages(payload);
+
+          const defaults = {
+            color: "light",
+            mode: "random",
+            source: "bible-api",
+            version: "web",
+            scope: "all",
+            showHeader: true,
+            showFooter: true,
+            showQrCode: true,
+          };
+          const settings = mergeSettings(
+            defaults,
+            getSettings(payload),
+            getQuerySettings(),
+          );
+          const showHeader = booleanSetting(settings.showHeader, defaults.showHeader);
+          const showFooter = booleanSetting(settings.showFooter, defaults.showFooter);
+          const showQrCode = booleanSetting(settings.showQrCode, defaults.showQrCode);
+          const screen = document.querySelector(".verse-screen");
+          const qrImage = document.getElementById("qr");
+
+          document.getElementById("header").hidden = !showHeader;
+          document.getElementById("footer").hidden = !showFooter;
+          screen.classList.toggle("no-header", !showHeader);
+          screen.classList.toggle("no-footer", !showFooter);
+          screen.classList.toggle("reference-in-header", showHeader);
+
+          if (typeof applyColorTheme === "function") {
+            applyColorTheme(settings.color, { defaultTheme: defaults.color });
+          }
+
+          const params = new URLSearchParams(settings);
+          params.set("language", document.documentElement.lang || "en");
+          const response = await fetch(`./api/data?${params.toString()}`, {
+            cache: "no-store",
+          });
+
+          if (!response.ok) {
+            throw new Error(`Bible verse API failed with ${response.status}`);
+          }
+
+          const data = await response.json();
+          const translationCode =
+            data.translation?.shortName || String(data.version || "web").toUpperCase();
+          const translationName = data.translation?.name || translationCode;
+          const sourceLabel = data.isFallback
+            ? t("fallback")
+            : `${t("source")}: ${data.sourceName}`;
+
+          document.getElementById("title").textContent = data.reference;
+          document.getElementById("reference").textContent = data.reference;
+          document.getElementById("reference").hidden = showHeader;
+          document.getElementById("title").dir = textDirection(data.reference);
+          document.getElementById("reference").dir = textDirection(data.reference);
+          document.getElementById("verse").dir = textDirection(data.text);
+          document.getElementById("verse").innerHTML =
+            `&ldquo;${escapeHtml(data.text)}&rdquo;`;
+          if (showFooter) {
+            document.getElementById("translation").textContent = translationName;
+            document.getElementById("source").textContent = sourceLabel;
+          }
+
+          const qrSrc = showQrCode && data.sourceUrl
+            ? qrCodeUrl(data.sourceUrl, 160)
+            : "";
+          qrImage.hidden = !qrSrc;
+          screen.classList.toggle("has-qr", Boolean(qrSrc));
+          if (qrSrc) {
+            qrImage.src = qrSrc;
+            await (qrImage.decode?.() || Promise.resolve()).catch(() => {
+              qrImage.hidden = true;
+              screen.classList.remove("has-qr");
+            });
+          }
+
+          if (showHeader) {
+            fitHyphenatedText(document.getElementById("title"), {
+              min: 20,
+              max: 72,
+              step: 2,
+              tolerance: 8,
+              fitParent: document.querySelector(".verse-header"),
+            });
+          } else {
+            fitHyphenatedText(document.getElementById("reference"), {
+              min: 28,
+              max: 88,
+              step: 2,
+              tolerance: 10,
+              fitParent: document.querySelector(".verse-main"),
+            });
+          }
+          fitHyphenatedText(document.getElementById("verse"), {
+            min: 24,
+            max: 120,
+            step: 2,
+            tolerance: 12,
+            lineBreak: "balance",
+            fitParent: document.querySelector(".verse-text-wrap"),
+          });
+          fitToScreen();
+          markReady({
+            reference: data.reference,
+            mode: data.mode || settings.mode,
+            version: translationCode,
+          });
+        } catch (error) {
+          markError(error);
+          document.body.innerHTML = `<main class="pp-screen"><h1 class="pp-title pp-error">${escapeHtml(t("errorTitle"))}</h1><p>${escapeHtml(error.message)}</p></main>`;
+        }
+      })();
+    </script>
+  </body>
+</html>

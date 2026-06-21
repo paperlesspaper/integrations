@@ -1,0 +1,36 @@
+{
+  "title": "DWD Pollenflug",
+  "subtitle": "Pollenbelastung",
+  "highest": "Heute maximal",
+  "today": "Heute",
+  "tomorrow": "Morgen",
+  "dayafter_to": "Übermorgen",
+  "updated": "DWD-Update",
+  "nextUpdate": "Naechstes",
+  "noLoad": "Keine relevante Pollenbelastung",
+  "errorTitle": "Pollenflug konnte nicht geladen werden",
+  "source": "Quelle",
+  "regionId": "Region ID",
+  "valueDescriptions": {
+    "0": "keine Belastung",
+    "0-1": "keine bis geringe Belastung",
+    "0.5": "keine bis geringe Belastung",
+    "1": "geringe Belastung",
+    "1-2": "geringe bis mittlere Belastung",
+    "1.5": "geringe bis mittlere Belastung",
+    "2": "mittlere Belastung",
+    "2-3": "mittlere bis hohe Belastung",
+    "2.5": "mittlere bis hohe Belastung",
+    "3": "hohe Belastung"
+  },
+  "pollenNames": {
+    "Ambrosia": "Ambrosia",
+    "Beifuss": "Beifuss",
+    "Birke": "Birke",
+    "Erle": "Erle",
+    "Esche": "Esche",
+    "Graeser": "Graeser",
+    "Hasel": "Hasel",
+    "Roggen": "Roggen"
+  }
+}

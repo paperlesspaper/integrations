@@ -1,0 +1,36 @@
+{
+  "title": "Pollen DWD",
+  "subtitle": "Prevision de charge pollinique",
+  "highest": "Maximum aujourd'hui",
+  "today": "Aujourd'hui",
+  "tomorrow": "Demain",
+  "dayafter_to": "Apres-demain",
+  "updated": "Mise a jour DWD",
+  "nextUpdate": "Prochaine",
+  "noLoad": "Aucune charge pollinique notable",
+  "errorTitle": "Impossible de charger la prevision pollen",
+  "source": "Source",
+  "regionId": "Region ID",
+  "valueDescriptions": {
+    "0": "aucune",
+    "0-1": "aucune a faible",
+    "0.5": "aucune a faible",
+    "1": "faible",
+    "1-2": "faible a moderee",
+    "1.5": "faible a moderee",
+    "2": "moderee",
+    "2-3": "moderee a elevee",
+    "2.5": "moderee a elevee",
+    "3": "elevee"
+  },
+  "pollenNames": {
+    "Ambrosia": "Ambroisie",
+    "Beifuss": "Armoise",
+    "Birke": "Bouleau",
+    "Erle": "Aulne",
+    "Esche": "Frene",
+    "Graeser": "Graminees",
+    "Hasel": "Noisetier",
+    "Roggen": "Seigle"
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "title": "Versets bibliques",
+  "loading": "Chargement...",
+  "fallback": "Verset hors ligne",
+  "source": "Source",
+  "errorTitle": "Le verset n'a pas pu etre charge"
+}

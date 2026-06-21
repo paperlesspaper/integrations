@@ -1,0 +1,914 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="paperless:epd-optimize" content='{"intent":"readable"}'>
+    <title>Finance Snapshot</title>
+    <link rel="stylesheet" href="/assets/paperless.css">
+    <script src="/assets/paperless.iife.js"></script>
+    <style>
+      .finance-screen {
+        --market-up: var(--pp-green, #2f8f4e);
+        --market-down: var(--pp-red, #c64232);
+        --market-neutral: var(--pp-muted);
+        --market-accent: var(--pp-yellow, var(--pp-accent, #f0c84b));
+        display: grid;
+        gap: 12px;
+        grid-template-rows: auto minmax(0, 1.22fr) minmax(0, 1.48fr) auto;
+        padding: 22px;
+      }
+
+      .finance-header {
+        border-bottom: 2px solid var(--pp-border);
+        display: flex;
+        justify-content: space-between;
+        min-width: 0;
+        padding-bottom: 7px;
+      }
+
+      .finance-subtitle,
+      .finance-meta,
+      .footer-meta {
+        color: var(--pp-muted);
+        font-size: clamp(0.72rem, 1.8vh, 1rem);
+        font-weight: 800;
+        letter-spacing: 0;
+        margin: 0;
+        text-transform: uppercase;
+      }
+
+      .summary {
+        border: 2px solid var(--pp-border);
+        border-left: 8px solid var(--trend-color, var(--market-accent));
+        display: grid;
+        gap: 14px;
+        grid-template-columns: minmax(180px, 0.55fr) minmax(0, 1fr);
+        min-height: 0;
+        padding: 14px;
+      }
+
+      .leader {
+        align-content: center;
+        display: grid;
+        gap: 6px;
+        min-width: 0;
+      }
+
+      .leader-label {
+        color: var(--pp-muted);
+        font-size: clamp(0.72rem, 1.7vh, 0.95rem);
+        font-weight: 850;
+        margin: 0;
+        text-transform: uppercase;
+      }
+
+      .leader-name {
+        font-size: clamp(1.45rem, 4.6vh, 2.5rem);
+        font-weight: 900;
+        line-height: 0.95;
+        margin: 0;
+        min-width: 0;
+      }
+
+      .leader-value {
+        align-items: baseline;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px 12px;
+        margin: 0;
+      }
+
+      .leader-price {
+        font-size: clamp(1.55rem, 5.4vh, 2.9rem);
+        font-weight: 900;
+        line-height: 0.9;
+      }
+
+      .leader-change {
+        background: var(--trend-color, var(--pp-card));
+        color: var(--pp-bg, #fff);
+        font-size: clamp(0.95rem, 2.6vh, 1.35rem);
+        font-weight: 900;
+        padding: 3px 8px;
+      }
+
+      .leader-chart {
+        align-self: stretch;
+        display: grid;
+        gap: 6px;
+        grid-template-columns: minmax(0, 1fr) minmax(126px, 0.42fr);
+        min-height: 0;
+      }
+
+      .chart-frame {
+        border: 2px solid var(--pp-border);
+        display: grid;
+        min-height: 0;
+        overflow: hidden;
+      }
+
+      .chart-svg {
+        display: block;
+        height: 100%;
+        min-height: 34px;
+        width: 100%;
+      }
+
+      .chart-grid {
+        stroke: var(--pp-border);
+        stroke-width: 1.4;
+        vector-effect: non-scaling-stroke;
+      }
+
+      .chart-fill {
+        fill: var(--trend-color, var(--pp-card));
+        opacity: 0.22;
+      }
+
+      .chart-line {
+        fill: none;
+        stroke: var(--trend-color, var(--pp-fg));
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        stroke-width: 3;
+        vector-effect: non-scaling-stroke;
+      }
+
+      .chart-up {
+        --trend-color: var(--market-up);
+      }
+
+      .chart-down {
+        --trend-color: var(--market-down);
+      }
+
+      .chart-flat {
+        --trend-color: var(--market-neutral);
+      }
+
+      .range-stats {
+        display: grid;
+        gap: 4px;
+        min-width: 0;
+      }
+
+      .range-stat {
+        border: 2px solid var(--pp-border);
+        background: var(--pp-card);
+        min-width: 0;
+        padding: 5px 7px;
+      }
+
+      .range-label {
+        color: var(--pp-muted);
+        font-size: clamp(0.58rem, 1.28vh, 0.72rem);
+        font-weight: 850;
+        margin: 0;
+        text-transform: uppercase;
+      }
+
+      .range-value {
+        font-size: clamp(0.82rem, 2.05vh, 1.08rem);
+        font-weight: 900;
+        line-height: 1;
+        margin: 2px 0 0;
+      }
+
+      .quotes {
+        border: 2px solid var(--pp-border);
+        display: grid;
+        gap: 0;
+        grid-template-rows: auto minmax(0, 1fr);
+        min-height: 0;
+      }
+
+      .quote-head,
+      .quote-row {
+        align-items: stretch;
+        display: grid;
+        gap: 0;
+        grid-template-columns: minmax(120px, 1.2fr) minmax(84px, 0.75fr) minmax(84px, 0.65fr) minmax(74px, 0.55fr);
+      }
+
+      .quote-head {
+        border-bottom: 2px solid var(--pp-border);
+        color: var(--pp-muted);
+        font-size: clamp(0.68rem, 1.65vh, 0.92rem);
+        font-weight: 850;
+        text-transform: uppercase;
+      }
+
+      .quote-head span {
+        min-width: 0;
+        overflow: hidden;
+        padding: 5px 9px;
+        text-overflow: ellipsis;
+      }
+
+      .quote-head span + span,
+      .quote-cell + .quote-cell {
+        border-left: 2px solid var(--pp-border);
+      }
+
+      .quote-body {
+        display: grid;
+        gap: 0;
+        min-height: 0;
+      }
+
+      .quote-row {
+        min-height: 0;
+      }
+
+      .quote-row + .quote-row {
+        border-top: 2px solid var(--pp-border);
+      }
+
+      .quote-cell {
+        min-width: 0;
+        overflow: hidden;
+        padding: 7px 9px;
+      }
+
+      .quote-name {
+        align-items: center;
+        display: flex;
+        gap: 9px;
+      }
+
+      .trend-mark {
+        display: inline-flex;
+        flex: 0 0 18px;
+        height: 18px;
+        width: 18px;
+      }
+
+      .trend-mark svg {
+        display: block;
+        height: 100%;
+        stroke: var(--trend-color, var(--pp-fg));
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        stroke-width: 3;
+        width: 100%;
+      }
+
+      .trend-up {
+        --trend-color: var(--market-up);
+      }
+
+      .trend-down {
+        --trend-color: var(--market-down);
+      }
+
+      .trend-flat {
+        --trend-color: var(--market-neutral);
+      }
+
+      .trend-flat .trend-mark {
+        opacity: 0.55;
+      }
+
+      .quote-change-cell .quote-number {
+        color: var(--trend-color);
+      }
+
+      .quote-title {
+        font-size: clamp(0.92rem, 2.55vh, 1.38rem);
+        font-weight: 900;
+        line-height: 1;
+        margin: 0;
+        min-width: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .quote-symbol {
+        color: var(--pp-muted);
+        font-size: clamp(0.62rem, 1.45vh, 0.82rem);
+        font-weight: 800;
+        margin: 2px 0 0;
+      }
+
+      .quote-number {
+        font-size: clamp(0.95rem, 2.8vh, 1.48rem);
+        font-weight: 900;
+        line-height: 1;
+        margin: 0;
+      }
+
+      .quote-small {
+        color: var(--pp-muted);
+        font-size: clamp(0.62rem, 1.45vh, 0.82rem);
+        font-weight: 760;
+        margin: 3px 0 0;
+      }
+
+      .mini-chart {
+        bottom: 2px;
+        opacity: 0.34;
+        position: absolute;
+        right: 4px;
+        top: 2px;
+        width: 38%;
+      }
+
+      .mini-chart .chart-svg {
+        min-height: 0;
+      }
+
+      .mini-chart .chart-line {
+        stroke-width: 2;
+      }
+
+      .quote-price-cell {
+        position: relative;
+      }
+
+      .quote-price-content {
+        position: relative;
+        z-index: 1;
+      }
+
+      .quote-range {
+        color: var(--pp-muted);
+        font-size: clamp(0.56rem, 1.35vh, 0.76rem);
+        font-weight: 780;
+        margin: 2px 0 0;
+      }
+
+      .finance-footer {
+        align-items: center;
+        border-top: 2px solid var(--pp-border);
+        display: flex;
+        gap: 12px;
+        justify-content: space-between;
+        min-width: 0;
+        padding-top: 8px;
+      }
+
+      @media (max-width: 700px), (max-height: 560px) {
+        .finance-screen {
+          gap: 10px;
+          padding: 14px;
+        }
+
+        .finance-header,
+        .summary {
+          gap: 10px;
+        }
+
+        .summary {
+          padding: 10px;
+        }
+
+        .range-stat {
+          padding: 4px 5px;
+        }
+
+        .quote-head,
+        .quote-row {
+          gap: 0;
+          grid-template-columns: minmax(104px, 1.08fr) minmax(82px, 0.72fr) minmax(78px, 0.7fr) minmax(54px, 0.45fr);
+        }
+
+        .quote-head span {
+          padding: 4px 6px;
+        }
+
+        .quote-cell {
+          align-items: center;
+          display: flex;
+          padding: 5px 6px;
+        }
+
+        .quote-change-cell {
+          padding-left: 5px;
+          padding-right: 5px;
+        }
+
+        .trend-mark {
+          flex-basis: 16px;
+          height: 16px;
+          width: 16px;
+        }
+
+        .quote-title,
+        .quote-number {
+          font-size: clamp(0.9rem, 4vw, 1.22rem);
+        }
+
+        .quote-row .quote-small,
+        .quote-row .quote-range,
+        .quote-row .mini-chart {
+          display: none;
+        }
+      }
+
+      @media (max-height: 560px) and (min-width: 701px) {
+        .finance-screen {
+          grid-template-rows: auto minmax(0, 1.08fr) minmax(0, 1.35fr) auto;
+        }
+
+        .quotes {
+          gap: 0;
+        }
+
+        .quote-head,
+        .quote-row {
+          gap: 0;
+          grid-template-columns: minmax(132px, 1.18fr) minmax(94px, 0.76fr) minmax(84px, 0.64fr) minmax(58px, 0.42fr);
+        }
+
+        .quote-head {
+          font-size: 0.68rem;
+        }
+
+        .quote-body {
+          gap: 0;
+        }
+
+        .quote-cell {
+          align-items: center;
+          display: flex;
+          min-height: 18px;
+          padding: 2px 6px;
+        }
+
+        .quote-name {
+          gap: 6px;
+        }
+
+        .trend-mark {
+          flex-basis: 16px;
+          height: 16px;
+          width: 16px;
+        }
+
+        .quote-title,
+        .quote-number {
+          font-size: 0.92rem;
+          line-height: 1;
+          white-space: nowrap;
+        }
+
+        .quote-row .quote-symbol,
+        .quote-row .quote-small,
+        .quote-row .quote-range,
+        .quote-row .mini-chart {
+          display: none;
+        }
+
+        .quote-price-content {
+          min-width: 0;
+        }
+      }
+
+      @media (max-width: 700px) {
+        .summary {
+          grid-template-columns: minmax(0, 1fr);
+        }
+
+        .leader {
+          grid-column: 1 / -1;
+          grid-row: 1;
+        }
+
+        .leader-chart {
+          grid-column: 1 / -1;
+          grid-row: 2;
+          grid-template-columns: minmax(0, 1fr);
+          grid-template-rows: minmax(58px, 1fr) auto;
+        }
+
+        .leader-chart .chart-frame {
+          min-height: 58px;
+        }
+
+        .range-stats {
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+
+        .mini-chart {
+          display: none;
+        }
+
+        .quote-symbol {
+          display: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="pp-screen finance-screen">
+      <header class="finance-header">
+        <p class="finance-meta" data-i18n="subtitle">Market watch</p>
+        <p class="finance-meta" id="preset"></p>
+      </header>
+
+      <section class="summary" id="summary">
+        <article class="leader">
+          <p class="leader-label" data-i18n="leader">Lead mover</p>
+          <h2 class="leader-name pp-fit pp-fit-leader" id="leader-name">--</h2>
+          <p class="leader-value">
+            <span class="leader-price" id="leader-price">--</span>
+            <span class="leader-change" id="leader-change">--</span>
+          </p>
+        </article>
+
+        <div class="leader-chart" id="leader-chart"></div>
+      </section>
+
+      <section class="quotes">
+        <div class="quote-head">
+          <span>Value</span>
+          <span>Price</span>
+          <span>Change</span>
+          <span>Unit</span>
+        </div>
+        <div class="quote-body" id="quotes"></div>
+      </section>
+
+      <footer class="finance-footer">
+        <p class="footer-meta" id="updated">Updated</p>
+        <p class="footer-meta" id="source-footer"></p>
+        <p class="footer-meta" id="delay-note" data-i18n="delayed">Market data may be delayed</p>
+      </footer>
+    </main>
+
+    <script>
+      (async function render() {
+        const {
+          waitForPayload,
+          getSettings,
+          getQuerySettings,
+          mergeSettings,
+          escapeHtml,
+          applyColorTheme,
+          fitAllText,
+          fitToScreen,
+          markReady,
+          markError,
+        } = window.PaperlessOpenIntegration;
+
+        const defaultMessages = {
+          loading: "Loading...",
+          updated: "Updated",
+          errorTitle: "Finance snapshot could not load",
+          title: "Finance Snapshot",
+          subtitle: "Market watch",
+          leader: "Lead mover",
+          items: "Items",
+          source: "Yahoo Finance",
+          delayed: "Market data may be delayed",
+          noData: "No quotes available",
+          high: "High",
+          low: "Low",
+          range: "Range",
+        };
+        let messages = defaultMessages;
+        let currentLanguage = "en";
+        let currentLocale = "en-US";
+
+        function localeForLanguage(language) {
+          const base = String(language || "en").split("-")[0].toLowerCase();
+          const locales = {
+            de: "de-DE",
+            en: "en-US",
+            es: "es-ES",
+            fr: "fr-FR",
+            it: "it-IT",
+          };
+          return locales[base] || language || "en-US";
+        }
+
+        function resolveDisplayLocale(configuredLocale) {
+          const locale = String(configuredLocale || "").trim();
+          return locale && locale !== "en-US"
+            ? locale
+            : localeForLanguage(currentLanguage);
+        }
+
+        function t(key, values = {}) {
+          const template =
+            typeof messages[key] === "string"
+              ? messages[key]
+              : defaultMessages[key] || key;
+          return template.replace(/\{(\w+)\}/g, (_match, name) =>
+            values[name] ?? "",
+          );
+        }
+
+        function applyStaticMessages(root = document) {
+          root.querySelectorAll("[data-i18n]").forEach((element) => {
+            element.textContent = t(element.dataset.i18n);
+          });
+        }
+
+        async function loadMessages(payload) {
+          const loader = window.PaperlessOpenIntegration.loadLanguageJson;
+          let result;
+
+          if (typeof loader === "function") {
+            result = await loader(payload);
+          } else {
+            const requested = String(payload?.meta?.language || "en").trim();
+            const requestedBase = requested.split("-")[0].toLowerCase();
+            const supported = ["en", "de", "fr", "es", "it"];
+            const language = supported.includes(requested)
+              ? requested
+              : supported.includes(requestedBase)
+                ? requestedBase
+                : "en";
+            const response = await fetch(`./languages/${language}.json`, {
+              cache: "no-store",
+            });
+
+            if (!response.ok) {
+              throw new Error(
+                `Could not load language JSON for ${language}: ${response.status}`,
+              );
+            }
+
+            result = {
+              language,
+              messages: await response.json(),
+            };
+          }
+
+          messages = { ...defaultMessages, ...result.messages };
+          currentLanguage = result.language || "en";
+          currentLocale = localeForLanguage(currentLanguage);
+          document.documentElement.lang = currentLanguage;
+          applyStaticMessages();
+          return result;
+        }
+
+        function formatNumber(value, options = {}) {
+          const number = Number(value);
+          if (!Number.isFinite(number)) {
+            return "--";
+          }
+
+          return new Intl.NumberFormat(currentLocale || undefined, {
+            maximumFractionDigits: Math.abs(number) >= 100 ? 2 : 4,
+            minimumFractionDigits: Math.abs(number) >= 10 ? 2 : 4,
+            ...options,
+          }).format(number);
+        }
+
+        function formatDateTime(value) {
+          const date = new Date(value);
+          if (Number.isNaN(date.getTime())) {
+            return "--";
+          }
+
+          return new Intl.DateTimeFormat(localeForLanguage(currentLanguage), {
+            day: "2-digit",
+            month: "2-digit",
+            year: "numeric",
+            hour: "2-digit",
+            minute: "2-digit",
+            second: "2-digit",
+          }).format(date);
+        }
+
+        function formatChange(value) {
+          const number = Number(value);
+          if (!Number.isFinite(number)) {
+            return "--";
+          }
+
+          const sign = number > 0 ? "+" : "";
+          return `${sign}${formatNumber(number, {
+            maximumFractionDigits: 2,
+            minimumFractionDigits: 2,
+          })}%`;
+        }
+
+        function trendIcon(trend) {
+          if (trend === "up") {
+            return '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 15l7-7 7 7"></path><path d="M12 8v12"></path></svg>';
+          }
+          if (trend === "down") {
+            return '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 9l7 7 7-7"></path><path d="M12 4v12"></path></svg>';
+          }
+          return '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"></path></svg>';
+        }
+
+        function finiteHistory(quote) {
+          return Array.isArray(quote.history)
+            ? quote.history
+                .map((point) => Number(point.close))
+                .filter((value) => Number.isFinite(value))
+            : [];
+        }
+
+        function chartPath(values, width = 180, height = 58, padding = 8) {
+          const finite = values.filter((value) => Number.isFinite(value));
+          if (finite.length < 2) {
+            return "";
+          }
+
+          const min = Math.min(...finite);
+          const max = Math.max(...finite);
+          const span = max - min || Math.max(Math.abs(max), 1);
+          const usableWidth = width - padding * 2;
+          const usableHeight = height - padding * 2;
+          return finite
+            .map((value, index) => {
+              const x = padding + (index / (finite.length - 1)) * usableWidth;
+              const y = padding + (1 - (value - min) / span) * usableHeight;
+              return `${index === 0 ? "M" : "L"}${x.toFixed(1)} ${y.toFixed(1)}`;
+            })
+            .join(" ");
+        }
+
+        function renderChart(values, trend, options = {}) {
+          const width = options.width || 180;
+          const height = options.height || 58;
+          const path = chartPath(values, width, height, options.padding || 8);
+          if (!path) {
+            return "";
+          }
+
+          const fillPath = `${path} L${width - 8} ${height - 8} L8 ${height - 8} Z`;
+          const trendClass = trend === "down" ? "chart-down" : trend === "up" ? "chart-up" : "chart-flat";
+          return `
+            <svg class="chart-svg ${trendClass}" viewBox="0 0 ${width} ${height}" preserveAspectRatio="none" aria-hidden="true">
+              <path class="chart-fill" d="${fillPath}"></path>
+              <path class="chart-grid" d="M8 ${Math.round(height / 2)} H${width - 8}"></path>
+              <path class="chart-line" d="${path}"></path>
+            </svg>
+          `;
+        }
+
+        function renderRangeStats(quote) {
+          return `
+            <div class="range-stats">
+              <div class="range-stat">
+                <p class="range-label">${escapeHtml(t("high"))}</p>
+                <p class="range-value">${formatNumber(quote.high)}</p>
+              </div>
+              <div class="range-stat">
+                <p class="range-label">${escapeHtml(t("low"))}</p>
+                <p class="range-value">${formatNumber(quote.low)}</p>
+              </div>
+              <div class="range-stat">
+                <p class="range-label">${escapeHtml(t("range"))}</p>
+                <p class="range-value">${formatChange(quote.rangeChangePercent)}</p>
+              </div>
+            </div>
+          `;
+        }
+
+        function renderLeaderChart(quote, settings) {
+          if (!quote || settings.showChart === false) {
+            return "";
+          }
+
+          const values = finiteHistory(quote);
+          const chart = renderChart(values, quote.rangeTrend || quote.trend, {
+            width: 260,
+            height: 78,
+            padding: 10,
+          });
+
+          if (!chart) {
+            return "";
+          }
+
+          return `
+            <div class="chart-frame">${chart}</div>
+            ${settings.showRangeStats === false ? "" : renderRangeStats(quote)}
+          `;
+        }
+
+        function renderQuote(quote, showChange, showSparklines, showRangeStats) {
+          const change = showChange ? formatChange(quote.changePercent) : "";
+          const unit = quote.unit || "";
+          const sparkline =
+            showSparklines && finiteHistory(quote).length > 1
+              ? `<div class="mini-chart">${renderChart(finiteHistory(quote), quote.rangeTrend || quote.trend, {
+                  width: 150,
+                  height: 32,
+                  padding: 4,
+                })}</div>`
+              : "";
+          const range =
+            showRangeStats && quote.high !== null && quote.low !== null
+              ? `<p class="quote-range">H ${formatNumber(quote.high)} / L ${formatNumber(quote.low)}</p>`
+              : "";
+          return `
+            <article class="quote-row trend-${escapeHtml(quote.trend || "flat")}">
+              <div class="quote-cell quote-name">
+                <span class="trend-mark">${trendIcon(quote.trend)}</span>
+                <div>
+                  <p class="quote-title">${escapeHtml(quote.name)}</p>
+                  <p class="quote-symbol">${escapeHtml(quote.symbol)}</p>
+                </div>
+              </div>
+              <div class="quote-cell quote-price-cell">
+                <div class="quote-price-content">
+                  <p class="quote-number">${formatNumber(quote.price)}</p>
+                  <p class="quote-small">${escapeHtml(quote.exchange || quote.category || "")}</p>
+                </div>
+                ${sparkline}
+              </div>
+              <div class="quote-cell quote-change-cell">
+                <p class="quote-number">${escapeHtml(change)}</p>
+                <p class="quote-small">${formatNumber(quote.change)}</p>
+                ${range}
+              </div>
+              <div class="quote-cell">
+                <p class="quote-number">${escapeHtml(unit)}</p>
+                <p class="quote-small">${escapeHtml(quote.marketState || "")}</p>
+              </div>
+            </article>
+          `;
+        }
+
+        try {
+          const defaults = {
+            color: "light",
+            preset: "balanced",
+            symbols: ["GC=F", "BTC-USD", "EURUSD=X", "^GSPC", "CL=F", "EUR=X"],
+            customSymbols: "",
+            currency: "USD",
+            locale: "en-US",
+            limit: 8,
+            chartRange: "1mo",
+            showChart: true,
+            showSparklines: true,
+            showRangeStats: true,
+            showChange: true,
+            showSource: true,
+          };
+          const payload = await waitForPayload({ timeout: 300 });
+          await loadMessages(payload);
+          const settings = mergeSettings(defaults, getSettings(payload), getQuerySettings());
+          applyColorTheme(settings.color, { defaultTheme: defaults.color });
+          const params = new URLSearchParams();
+
+          Object.entries(settings).forEach(([key, value]) => {
+            if (Array.isArray(value)) {
+              params.set(key, value.join(","));
+            } else {
+              params.set(key, value);
+            }
+          });
+
+          const response = await fetch(`./api/data?${params.toString()}`, { cache: "no-store" });
+          if (!response.ok) {
+            throw new Error(`Finance API failed with ${response.status}`);
+          }
+
+          const data = await response.json();
+          currentLocale = resolveDisplayLocale(data.settings?.locale || settings.locale);
+          document.documentElement.lang = currentLanguage;
+
+          const quotes = Array.isArray(data.quotes) ? data.quotes : [];
+          const leader = data.leader || quotes[0] || null;
+          document.getElementById("preset").textContent = `${String(data.settings?.preset || "balanced").toUpperCase()} · ${String(data.settings?.chartRange || "1mo").toUpperCase()}`;
+          document.getElementById("source-footer").textContent =
+            data.settings?.showSource ? `${t("source")}: ${data.source}` : "";
+
+          if (leader) {
+            document.getElementById("summary").className = `summary trend-${leader.trend || "flat"}`;
+            document.getElementById("leader-name").textContent = leader.name;
+            document.getElementById("leader-price").textContent = formatNumber(leader.price);
+            document.getElementById("leader-change").textContent = formatChange(leader.changePercent);
+            document.getElementById("leader-chart").innerHTML = renderLeaderChart(leader, data.settings || settings);
+          } else {
+            document.getElementById("summary").className = "summary trend-flat";
+            document.getElementById("leader-name").textContent = t("noData");
+            document.getElementById("leader-price").textContent = "--";
+            document.getElementById("leader-change").textContent = "--";
+            document.getElementById("leader-chart").innerHTML = "";
+          }
+
+          document.getElementById("quotes").innerHTML = quotes
+            .map((quote) =>
+              renderQuote(
+                quote,
+                data.settings?.showChange !== false,
+                data.settings?.showSparklines !== false,
+                data.settings?.showRangeStats !== false,
+              ),
+            )
+            .join("");
+          document.getElementById("updated").textContent =
+            `${t("updated")} ${formatDateTime(data.updatedAt)}`;
+
+          fitAllText(".pp-fit-leader", { min: 18, max: 42, step: 2 });
+          fitToScreen();
+          markReady({ count: quotes.length, preset: data.settings?.preset });
+        } catch (error) {
+          markError(error);
+          document.body.innerHTML = `<main class="pp-screen"><h1 class="pp-title pp-error">${escapeHtml(t("errorTitle"))}</h1><p>${escapeHtml(error.message)}</p></main>`;
+        }
+      })();
+    </script>
+  </body>
+</html>

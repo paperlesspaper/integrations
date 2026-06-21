@@ -149,11 +149,33 @@
         overflow: hidden;
       }
 
+      .quote-title {
+        margin: 0 0 0.22em;
+        max-width: 100%;
+        font-size: 0.5em;
+        line-height: 1;
+        font-weight: 800;
+        text-transform: uppercase;
+      }
+
       .quote-text {
         margin: 0;
         max-width: 100%;
         padding-bottom: 2vh;
         line-height: 1;
+      }
+
+      .quote-meta,
+      .quote-source {
+        margin: 0.45em 0 0;
+        max-width: 100%;
+        font-size: 0.34em;
+        line-height: 1.08;
+        font-weight: 400;
+      }
+
+      .quote-source {
+        opacity: 0.82;
       }
 
       .scale-text {
@@ -290,7 +312,19 @@
           kind: "primary",
           showTime: false,
           language: "en-US",
+          holidayRegion: "DE-BE",
+          latitude: 52.52,
+          longitude: 13.405,
         };
+        const quoteKinds = new Set([
+          "demotivational",
+          "funny",
+          "day-progress",
+          "holiday-observance",
+          "season-daylight",
+          "word-phrase",
+          "curiosity",
+        ]);
 
         function colorClass(color) {
           return `theme-${String(color || defaults.color).replace(/[^a-z0-9-]/gi, "").toLowerCase()}`;
@@ -314,9 +348,17 @@
         }
 
         function renderQuoteMode(app, data) {
+          const fact = data.fact && typeof data.fact === "object" ? data.fact : {};
+          const quoteText = fact.text || data.quote || "";
+          const source = fact.sourceName
+            ? `${escapeHtml(t("from"))} ${escapeHtml(fact.sourceName)}`
+            : "";
           app.innerHTML = `
             <div class="quote" lang="${escapeHtml(data.settings.language)}">
-              <p class="quote-text" id="quote-text">${escapeHtml(data.quote)}</p>
+              ${fact.title ? `<p class="quote-title" id="quote-title">${escapeHtml(fact.title)}</p>` : ""}
+              <p class="quote-text" id="quote-text">${escapeHtml(quoteText)}</p>
+              ${fact.meta ? `<p class="quote-meta" id="quote-meta">${escapeHtml(fact.meta)}</p>` : ""}
+              ${source ? `<p class="quote-source" id="quote-source">${source}</p>` : ""}
             </div>
             <p class="date">
               <span class="scale-text" id="formatted-date">${escapeHtml(data.date.formattedDate)}</span>
@@ -359,7 +401,7 @@
 
           const data = await response.json();
           const app = document.getElementById("app");
-          const showQuote = data.settings.kind === "demotivational" || data.settings.kind === "funny";
+          const showQuote = quoteKinds.has(data.settings.kind);
 
           app.className = [
             "day-calendar-screen",

@@ -1,0 +1,7 @@
+{
+  "title": "Biblicke verse",
+  "loading": "Nacitani...",
+  "fallback": "Offline vers",
+  "source": "Zdroj",
+  "errorTitle": "Vers se nepodarilo nacist"
+}

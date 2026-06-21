@@ -1,0 +1,36 @@
+{
+  "title": "Polen DWD",
+  "subtitle": "Prevision de carga de polen",
+  "highest": "Maximo hoy",
+  "today": "Hoy",
+  "tomorrow": "Manana",
+  "dayafter_to": "Pasado",
+  "updated": "Actualizacion DWD",
+  "nextUpdate": "Siguiente",
+  "noLoad": "Sin carga relevante de polen",
+  "errorTitle": "No se pudo cargar la prevision de polen",
+  "source": "Fuente",
+  "regionId": "Region ID",
+  "valueDescriptions": {
+    "0": "ninguna",
+    "0-1": "ninguna a baja",
+    "0.5": "ninguna a baja",
+    "1": "baja",
+    "1-2": "baja a moderada",
+    "1.5": "baja a moderada",
+    "2": "moderada",
+    "2-3": "moderada a alta",
+    "2.5": "moderada a alta",
+    "3": "alta"
+  },
+  "pollenNames": {
+    "Ambrosia": "Ambrosia",
+    "Beifuss": "Artemisa",
+    "Birke": "Abedul",
+    "Erle": "Aliso",
+    "Esche": "Fresno",
+    "Graeser": "Gramineas",
+    "Hasel": "Avellano",
+    "Roggen": "Centeno"
+  }
+}

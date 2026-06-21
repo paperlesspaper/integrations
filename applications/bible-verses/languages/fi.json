@@ -1,0 +1,7 @@
+{
+  "title": "Raamatun jakeet",
+  "loading": "Ladataan...",
+  "fallback": "Offline-jae",
+  "source": "Lahde",
+  "errorTitle": "Jaetta ei voitu ladata"
+}

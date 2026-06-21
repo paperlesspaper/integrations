@@ -1,0 +1,7 @@
+{
+  "title": "Bibelverse",
+  "loading": "Ladt...",
+  "fallback": "Offline-Vers",
+  "source": "Quelle",
+  "errorTitle": "Vers konnte nicht geladen werden"
+}

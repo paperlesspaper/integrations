@@ -1,0 +1,7 @@
+{
+  "title": "Bibliai versek",
+  "loading": "Betoltes...",
+  "fallback": "Offline igevers",
+  "source": "Forras",
+  "errorTitle": "Az igevers nem toltheto be"
+}

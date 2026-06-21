@@ -1,0 +1,7 @@
+{
+  "title": "Versetti biblici",
+  "loading": "Caricamento...",
+  "fallback": "Versetto offline",
+  "source": "Fonte",
+  "errorTitle": "Impossibile caricare il versetto"
+}

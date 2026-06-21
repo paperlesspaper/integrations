@@ -2,7 +2,7 @@
 slug: day-calendar
 name: Day Calendar
 version: 0.1.0
-description: Shows the current day, optional time, and the upstream paperlesspaper demotivational quote or funny fact of the day.
+description: Shows the current day, optional time, quotes, and daily facts.
 renderPage: ./render.html
 configUrl: /day-calendar/config.json
 apiUrl: /day-calendar/api/data
@@ -18,24 +18,32 @@ screenshots:
 
 # Day Calendar
 
-Plain OpenIntegration version of the upstream `paperlesspaper-apps/src/components/DayCalendar` component.
+Plain OpenIntegration version of the upstream `paperlesspaper-apps/src/components/DayCalendar` component, extended with offline daily fact modes.
 
-It keeps the same settings (`color`, `kind`, `showTime`, `language`), the same date/time formatting behavior, and the same quote/fact arrays. The daily text is selected by local day-of-year modulo the matching upstream array length.
+It keeps the same base settings (`color`, `kind`, `showTime`, `language`), the same date/time formatting behavior, and the same quote/fact arrays. Additional fact modes are selected by local day-of-year or deterministic date calculations.
 
 ## Common URLs
 
 - `/day-calendar/`
 - `/day-calendar/?color=light&kind=demotivational&language=de&showTime=true`
 - `/day-calendar/?color=red-light&kind=funny&language=en-US`
+- `/day-calendar/?kind=day-progress`
+- `/day-calendar/?kind=holiday-observance&holidayRegion=DE-BE`
+- `/day-calendar/?kind=season-daylight&latitude=52.52&longitude=13.405`
+- `/day-calendar/?kind=word-phrase&language=de`
+- `/day-calendar/?kind=curiosity&language=en-US`
 - `/day-calendar/config.json`
 - `/day-calendar/api/data`
 
 ## Settings
 
 - `color`: `dark`, `light`, `red-dark`, or `red-light`
-- `kind`: `primary`, `demotivational`, or `funny`
+- `kind`: `primary`, `demotivational`, `funny`, `day-progress`, `holiday-observance`, `season-daylight`, `word-phrase`, or `curiosity`
 - `showTime`: optional boolean
 - `language`: `en-US` or `de`
+- `holidayRegion`: public-holiday region for `holiday-observance`; defaults to `DE-BE`
+- `latitude`: latitude for `season-daylight`; defaults to Berlin
+- `longitude`: longitude for `season-daylight`; defaults to Berlin
 
 ## Language Support
 

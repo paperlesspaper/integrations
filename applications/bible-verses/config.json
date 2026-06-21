@@ -1,0 +1,125 @@
+{
+  "name": "Bible Verses",
+  "version": "0.1.0",
+  "description": "Shows a random Bible verse or a curated verse of the day.",
+  "renderPage": "./render.html",
+  "icon": "./assets/icon.png",
+  "nativeSettings": {
+    "color": "light",
+    "mode": "random",
+    "source": "bible-api",
+    "version": "web",
+    "scope": "all",
+    "showHeader": true,
+    "showFooter": true,
+    "showQrCode": true
+  },
+  "configVariants": [
+    {
+      "source": "bible-api",
+      "version": "web",
+      "scope": "all",
+      "screenshots": {
+        "800x480": "./screenshots/bible-verses-web-800x480-landscape.png",
+        "480x800": "./screenshots/bible-verses-web-480x800-portrait.png"
+      }
+    },
+    {
+      "source": "bible-api",
+      "version": "kjv",
+      "scope": "nt",
+      "screenshots": {
+        "800x480": "./screenshots/bible-verses-kjv-nt-800x480-landscape.png",
+        "480x800": "./screenshots/bible-verses-kjv-nt-480x800-portrait.png"
+      }
+    },
+    {
+      "source": "bolls",
+      "version": "lut",
+      "scope": "all",
+      "screenshots": {
+        "800x480": "./screenshots/bible-verses-bolls-lut-800x480-landscape.png",
+        "480x800": "./screenshots/bible-verses-bolls-lut-480x800-portrait.png"
+      }
+    }
+  ],
+  "formSchema": {
+    "type": "object",
+    "properties": {
+      "mode": {
+        "type": "string",
+        "title": "Mode",
+        "description": "Choose random verses or the curated DailyVerses.net verse of the day.",
+        "enum": ["random", "daily"],
+        "default": "random"
+      },
+      "source": {
+        "type": "string",
+        "title": "Source",
+        "description": "Choose the random verse API source. Daily mode uses DailyVerses.net.",
+        "enum": ["bible-api", "bolls"],
+        "default": "bible-api"
+      },
+      "version": {
+        "type": "string",
+        "title": "Version",
+        "description": "Pick a Bible translation. Daily mode uses matching DailyVerses.net translations where available, otherwise WEB or LUT.",
+        "enum": ["asv", "kjv", "web", "lut", "elb", "sch", "mb"],
+        "default": "web"
+      },
+      "scope": {
+        "type": "string",
+        "title": "Books",
+        "description": "Choose where the random verse is selected from.",
+        "enum": ["all", "ot", "nt"],
+        "default": "all"
+      },
+      "showHeader": {
+        "type": "boolean",
+        "title": "Show header",
+        "description": "Show the top reference title.",
+        "default": true
+      },
+      "showFooter": {
+        "type": "boolean",
+        "title": "Show footer",
+        "description": "Show the translation and source line.",
+        "default": true
+      },
+      "showQrCode": {
+        "type": "boolean",
+        "title": "Show QR code",
+        "description": "Show a QR code linking to the source verse.",
+        "default": true
+      }
+    }
+  },
+  "language": [
+    "af",
+    "ar",
+    "bn",
+    "cs",
+    "da",
+    "en",
+    "de",
+    "el",
+    "es",
+    "fa",
+    "fi",
+    "fr",
+    "hi",
+    "hu",
+    "it",
+    "mg",
+    "nl",
+    "pl",
+    "pt",
+    "ru",
+    "sk",
+    "st",
+    "tc",
+    "ur",
+    "xh",
+    "zu"
+  ]
+}

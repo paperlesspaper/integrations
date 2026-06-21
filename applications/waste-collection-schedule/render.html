@@ -1,0 +1,791 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="paperless:epd-optimize" content='{"intent":"readable"}' />
+    <title>Waste Collection Schedule</title>
+    <link rel="stylesheet" href="/assets/paperless.css" />
+    <script src="/assets/paperless.iife.js"></script>
+    <style>
+      .waste-screen {
+        padding: 20px;
+        gap: 14px;
+      }
+
+      .waste-header {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        align-items: end;
+        gap: 14px;
+        padding-bottom: 10px;
+        border-bottom: 4px solid var(--pp-border);
+      }
+
+      .waste-kicker {
+        margin: 0 0 5px;
+        color: var(--pp-muted);
+        font-size: 0.84rem;
+        line-height: 1;
+        font-weight: 820;
+        text-transform: uppercase;
+      }
+
+      .waste-title {
+        margin: 0;
+        font-size: clamp(2.3rem, 9vh, 5.2rem);
+        line-height: 0.9;
+        font-weight: 940;
+        overflow-wrap: anywhere;
+      }
+
+      .waste-meta {
+        display: grid;
+        gap: 5px;
+        justify-items: end;
+        min-width: 0;
+        max-width: 25ch;
+        color: var(--pp-muted);
+        font-size: 0.78rem;
+        line-height: 1.08;
+        font-weight: 760;
+        text-align: right;
+      }
+
+      .source-pill {
+        display: inline-block;
+        max-width: 100%;
+        padding: 6px 8px;
+        border: 2px solid currentColor;
+        color: var(--pp-fg);
+        font-size: 0.68rem;
+        line-height: 1;
+        font-weight: 860;
+        text-transform: uppercase;
+        white-space: nowrap;
+      }
+
+      .waste-main {
+        flex: 1;
+        min-height: 0;
+        display: grid;
+        grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+        gap: 14px;
+      }
+
+      .next-panel {
+        min-width: 0;
+        min-height: 0;
+        display: grid;
+        grid-template-rows: auto minmax(0, 1fr) auto;
+        padding: 18px;
+        border: 3px solid var(--pp-border);
+        background: var(--pp-card);
+      }
+
+      .section-label {
+        margin: 0;
+        color: var(--pp-muted);
+        font-size: 0.78rem;
+        line-height: 1;
+        font-weight: 820;
+        text-transform: uppercase;
+      }
+
+      .next-body {
+        min-height: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 12px;
+      }
+
+      .next-when {
+        margin: 0;
+        font-size: clamp(3rem, 14vh, 7.8rem);
+        line-height: 0.82;
+        font-weight: 960;
+      }
+
+      .next-date {
+        margin: 0;
+        color: var(--pp-muted);
+        font-size: clamp(1.15rem, 4vh, 2rem);
+        line-height: 1;
+        font-weight: 820;
+      }
+
+      .type-stack {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 7px;
+        min-width: 0;
+      }
+
+      .type-chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        min-width: 0;
+        max-width: 100%;
+        padding: 7px 9px;
+        border: 2px solid var(--pp-border);
+        background: var(--pp-bg);
+        font-size: 0.92rem;
+        line-height: 1;
+        font-weight: 830;
+      }
+
+      .type-chip span:last-child {
+        min-width: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .type-dot {
+        width: 0.86em;
+        height: 0.86em;
+        flex: 0 0 auto;
+        border: 2px solid currentColor;
+        background: currentColor;
+      }
+
+      .category-residual {
+        color: #2f2f2f;
+      }
+
+      body.dark .category-residual {
+        color: #f5f5f0;
+      }
+
+      .category-organic {
+        color: #2d6b3f;
+      }
+
+      .category-paper {
+        color: #2455a4;
+      }
+
+      .category-recycling {
+        color: #b88900;
+      }
+
+      .category-glass {
+        color: #00806b;
+      }
+
+      .category-bulky,
+      .category-hazard {
+        color: #c23b2f;
+      }
+
+      .category-default {
+        color: var(--pp-accent);
+      }
+
+      .note-line {
+        margin: 0;
+        color: var(--pp-muted);
+        font-size: 0.84rem;
+        line-height: 1.15;
+        font-weight: 680;
+      }
+
+      .side-panel {
+        min-width: 0;
+        min-height: 0;
+        display: grid;
+        grid-template-rows: auto minmax(0, 1fr);
+        gap: 9px;
+      }
+
+      .upcoming-list {
+        min-height: 0;
+        display: grid;
+        grid-auto-rows: minmax(0, 1fr);
+        gap: 7px;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+      }
+
+      .upcoming-row {
+        min-width: 0;
+        min-height: 0;
+        display: grid;
+        grid-template-columns: minmax(5.6em, 0.54fr) minmax(0, 1fr);
+        gap: 9px;
+        align-items: center;
+        padding: 8px 10px;
+        border: 2px solid var(--pp-border);
+        background: var(--pp-bg);
+      }
+
+      .upcoming-row.is-next {
+        background: color-mix(in srgb, var(--pp-accent) 18%, var(--pp-bg));
+      }
+
+      .row-date {
+        display: grid;
+        gap: 3px;
+        min-width: 0;
+      }
+
+      .row-day {
+        margin: 0;
+        font-size: 0.72rem;
+        line-height: 1;
+        font-weight: 830;
+        color: var(--pp-muted);
+        text-transform: uppercase;
+      }
+
+      .row-date-text {
+        margin: 0;
+        font-size: 1rem;
+        line-height: 1;
+        font-weight: 900;
+      }
+
+      .row-types {
+        min-width: 0;
+        display: grid;
+        gap: 4px;
+      }
+
+      .row-type {
+        min-width: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        font-size: 0.92rem;
+        line-height: 1;
+        font-weight: 780;
+      }
+
+      .week-panel {
+        display: grid;
+        gap: 7px;
+      }
+
+      .week-strip {
+        display: grid;
+        grid-template-columns: repeat(14, minmax(0, 1fr));
+        gap: 4px;
+      }
+
+      .week-day {
+        min-width: 0;
+        min-height: 46px;
+        display: grid;
+        grid-template-rows: auto 1fr;
+        gap: 4px;
+        padding: 5px 3px;
+        border: 2px solid var(--pp-border);
+        text-align: center;
+      }
+
+      .week-day.has-pickup {
+        background: color-mix(in srgb, var(--pp-accent) 16%, var(--pp-card));
+      }
+
+      .week-label {
+        min-width: 0;
+        overflow: hidden;
+        text-overflow: clip;
+        white-space: nowrap;
+        font-size: 0.58rem;
+        line-height: 1;
+        font-weight: 850;
+        text-transform: uppercase;
+      }
+
+      .week-dots {
+        align-self: center;
+        justify-self: center;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 2px;
+      }
+
+      .mini-dot {
+        width: 0.42rem;
+        height: 0.42rem;
+        border: 1px solid currentColor;
+        background: currentColor;
+      }
+
+      .empty-state {
+        min-height: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 10px;
+        padding: 24px;
+        border: 3px dashed var(--pp-border);
+        text-align: center;
+      }
+
+      .empty-state h2 {
+        margin: 0;
+        font-size: 2rem;
+        line-height: 1;
+      }
+
+      .empty-state p {
+        margin: 0;
+        color: var(--pp-muted);
+        font-size: 1rem;
+        line-height: 1.2;
+        font-weight: 680;
+      }
+
+      .waste-footer {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        gap: 12px;
+        align-items: end;
+        padding-top: 9px;
+        border-top: 2px solid var(--pp-border);
+        color: var(--pp-muted);
+        font-size: 0.74rem;
+        line-height: 1.08;
+        font-weight: 700;
+      }
+
+      .footer-warning {
+        color: var(--pp-fg);
+      }
+
+      .is-hidden {
+        display: none;
+      }
+
+      @media (orientation: portrait) {
+        .waste-screen {
+          padding: 18px;
+          gap: 12px;
+        }
+
+        .waste-header {
+          grid-template-columns: 1fr;
+          align-items: start;
+          gap: 8px;
+        }
+
+        .waste-meta {
+          justify-items: start;
+          text-align: left;
+        }
+
+        .waste-main {
+          grid-template-columns: 1fr;
+          grid-template-rows: auto minmax(0, 1fr);
+        }
+
+        .next-panel {
+          min-height: 270px;
+        }
+
+        .week-strip {
+          grid-template-columns: repeat(7, minmax(0, 1fr));
+        }
+      }
+
+      @media (max-width: 700px), (max-height: 560px) {
+        .waste-screen {
+          padding: 12px;
+          gap: 9px;
+        }
+
+        .waste-header {
+          padding-bottom: 7px;
+          border-bottom-width: 3px;
+        }
+
+        .waste-title {
+          font-size: clamp(2rem, 10vh, 4.3rem);
+        }
+
+        .waste-main {
+          gap: 9px;
+        }
+
+        .next-panel {
+          padding: 12px;
+        }
+
+        .next-when {
+          font-size: clamp(2.55rem, 13vh, 6rem);
+        }
+
+        .type-chip {
+          padding: 5px 7px;
+          font-size: 0.76rem;
+        }
+
+        .upcoming-list {
+          gap: 5px;
+        }
+
+        .upcoming-row {
+          grid-template-columns: minmax(4.8em, 0.48fr) minmax(0, 1fr);
+          padding: 6px 8px;
+        }
+
+        .row-day,
+        .waste-footer,
+        .waste-meta {
+          font-size: 0.62rem;
+        }
+
+        .row-date-text,
+        .row-type {
+          font-size: 0.78rem;
+        }
+
+        .week-day {
+          min-height: 34px;
+          border-width: 1px;
+        }
+
+        .week-label {
+          font-size: 0.48rem;
+        }
+
+        .mini-dot {
+          width: 0.32rem;
+          height: 0.32rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="website-has-loading-element"></div>
+    <main class="pp-screen waste-screen" id="screen">
+      <header class="waste-header">
+        <div>
+          <p class="waste-kicker" data-i18n="kicker">Waste collection</p>
+          <h1 class="waste-title pp-fit" id="title">Waste Collection</h1>
+        </div>
+        <div class="waste-meta">
+          <span class="source-pill" id="source-label">Manual schedule</span>
+          <span id="address-label"></span>
+        </div>
+      </header>
+
+      <section class="waste-main" id="content">
+        <article class="next-panel">
+          <p class="section-label" data-i18n="next">Next pickup</p>
+          <div class="next-body">
+            <p class="next-when pp-fit" id="next-when" data-i18n="loading">Loading...</p>
+            <p class="next-date" id="next-date"></p>
+            <div class="type-stack" id="next-types"></div>
+            <p class="note-line" id="next-note"></p>
+          </div>
+          <section class="week-panel" id="week-panel">
+            <p class="section-label" data-i18n="weekTitle">Next 14 days</p>
+            <div class="week-strip" id="week-strip"></div>
+          </section>
+        </article>
+
+        <article class="side-panel">
+          <p class="section-label" data-i18n="upcoming">Upcoming</p>
+          <ul class="upcoming-list" id="upcoming-list"></ul>
+        </article>
+      </section>
+
+      <footer class="waste-footer">
+        <span class="footer-warning" id="warning"></span>
+        <span id="updated-at"></span>
+      </footer>
+    </main>
+
+    <script>
+      (async function render() {
+        const {
+          waitForPayload,
+          getSettings,
+          getQuerySettings,
+          mergeSettings,
+          applyColorTheme,
+          loadLanguageJson,
+          escapeHtml,
+          fitAllText,
+          fitToScreen,
+          markReady,
+          markError,
+        } = window.PaperlessOpenIntegration;
+
+        const defaultMessages = {
+          kicker: "Waste collection",
+          loading: "Loading...",
+          next: "Next pickup",
+          today: "Today",
+          tomorrow: "Tomorrow",
+          inDays: "In {days} days",
+          overdue: "{days} days ago",
+          upcoming: "Upcoming",
+          noCollections: "No collection dates found",
+          noCollectionsHint: "Check the ICS URL or manual schedule settings.",
+          updated: "Updated",
+          sourceManual: "Manual schedule",
+          sourceIcs: "ICS calendar",
+          sourceAuto: "Auto source",
+          errorTitle: "Waste schedule could not load",
+          weekTitle: "Next 14 days",
+        };
+        let messages = defaultMessages;
+        let currentLanguage = "en";
+
+        const defaults = {
+          color: "light",
+          title: "Waste Collection",
+          addressLabel: "Sample Street 12",
+          sourceMode: "manual",
+          icsUrl: "",
+          manualDates: "2026-06-23 | Bulky waste | Booked appointment\n2026-07-03 | Glass",
+          recurringRules:
+            "Residual waste | WEEKLY | 2 | 2026-01-05 | MO\nPaper | WEEKLY | 4 | 2026-01-12 | MO\nOrganic waste | WEEKLY | 1 | 2026-01-07 | WE\nRecycling | WEEKLY | 2 | 2026-01-09 | FR",
+          excludedDates: "",
+          includeTypes: "",
+          excludeTypes: "",
+          daysAhead: 45,
+          limit: 8,
+          locale: "en-US",
+          timeZone: "Europe/Berlin",
+          showWeekStrip: true,
+          showSource: true,
+        };
+
+        function t(key, values = {}) {
+          const template =
+            typeof messages[key] === "string"
+              ? messages[key]
+              : defaultMessages[key] || key;
+          return template.replace(/\{(\w+)\}/g, (_match, name) =>
+            values[name] ?? "",
+          );
+        }
+
+        function applyStaticMessages(root = document) {
+          root.querySelectorAll("[data-i18n]").forEach((element) => {
+            element.textContent = t(element.dataset.i18n);
+          });
+        }
+
+        async function loadMessages(payload) {
+          let result;
+          if (typeof loadLanguageJson === "function") {
+            result = await loadLanguageJson(payload);
+          } else {
+            const requested = String(payload?.meta?.language || "en").trim();
+            const base = requested.split("-")[0].toLowerCase();
+            const supported = ["en", "de"];
+            const language = supported.includes(requested)
+              ? requested
+              : supported.includes(base)
+                ? base
+                : "en";
+            const response = await fetch(`./languages/${language}.json`, {
+              cache: "no-store",
+            });
+            if (!response.ok) {
+              throw new Error(`Could not load language JSON for ${language}`);
+            }
+            result = {
+              language,
+              messages: await response.json(),
+            };
+          }
+          messages = { ...defaultMessages, ...result.messages };
+          currentLanguage = result.language || "en";
+          document.documentElement.lang = currentLanguage;
+          applyStaticMessages();
+        }
+
+        function dateFromKey(key) {
+          return new Date(`${key}T12:00:00Z`);
+        }
+
+        function formatDate(key, options) {
+          return dateFromKey(key).toLocaleDateString(currentLanguage || undefined, {
+            timeZone: "UTC",
+            ...options,
+          });
+        }
+
+        function formatUpdated(value, timeZone) {
+          const date = new Date(value);
+          if (Number.isNaN(date.getTime())) {
+            return "";
+          }
+          return date.toLocaleString(currentLanguage || undefined, {
+            timeZone,
+            month: "short",
+            day: "numeric",
+            hour: "2-digit",
+            minute: "2-digit",
+          });
+        }
+
+        function dayDistanceLabel(days) {
+          if (days === 0) {
+            return t("today");
+          }
+          if (days === 1) {
+            return t("tomorrow");
+          }
+          if (days < 0) {
+            return t("overdue", { days: Math.abs(days) });
+          }
+          return t("inDays", { days });
+        }
+
+        function typeChip(item) {
+          return `
+            <span class="type-chip category-${escapeHtml(item.category || "default")}">
+              <span class="type-dot"></span>
+              <span>${escapeHtml(item.type)}</span>
+            </span>
+          `;
+        }
+
+        function miniDot(item) {
+          return `<span class="mini-dot category-${escapeHtml(item.category || "default")}"></span>`;
+        }
+
+        function sourceLabel(source, sourceMode) {
+          if (source === "ics") {
+            return t("sourceIcs");
+          }
+          if (sourceMode === "auto") {
+            return t("sourceAuto");
+          }
+          return t("sourceManual");
+        }
+
+        function renderEmpty(data) {
+          document.getElementById("content").innerHTML = `
+            <section class="empty-state">
+              <h2>${escapeHtml(t("noCollections"))}</h2>
+              <p>${escapeHtml(t("noCollectionsHint"))}</p>
+            </section>
+          `;
+          document.getElementById("warning").textContent = data.warning || "";
+        }
+
+        function renderSchedule(data) {
+          const nextGroup = data.groups?.[0];
+          if (!nextGroup) {
+            renderEmpty(data);
+            return;
+          }
+
+          const nextItems = nextGroup.items || [];
+          const note = nextItems.map((item) => item.note).filter(Boolean).join(" | ");
+          document.getElementById("next-when").textContent = dayDistanceLabel(
+            nextGroup.daysUntil,
+          );
+          document.getElementById("next-date").textContent = formatDate(nextGroup.date, {
+            weekday: "long",
+            month: "long",
+            day: "numeric",
+          });
+          document.getElementById("next-types").innerHTML = nextItems.map(typeChip).join("");
+          document.getElementById("next-note").innerHTML = escapeHtml(note);
+
+          document.getElementById("week-panel").classList.toggle(
+            "is-hidden",
+            !data.showWeekStrip,
+          );
+          document.getElementById("week-strip").innerHTML = (data.week || [])
+            .map((day) => {
+              const label = formatDate(day.date, { weekday: "short", day: "numeric" });
+              const items = day.items || [];
+              return `
+                <div class="week-day${items.length ? " has-pickup" : ""}">
+                  <span class="week-label">${escapeHtml(label)}</span>
+                  <span class="week-dots">${items.slice(0, 4).map(miniDot).join("")}</span>
+                </div>
+              `;
+            })
+            .join("");
+
+          document.getElementById("upcoming-list").innerHTML = (data.groups || [])
+            .map((group, index) => {
+              const date = formatDate(group.date, { month: "short", day: "numeric" });
+              const items = group.items || [];
+              return `
+                <li class="upcoming-row${index === 0 ? " is-next" : ""}">
+                  <span class="row-date">
+                    <span class="row-day">${escapeHtml(dayDistanceLabel(group.daysUntil))}</span>
+                    <strong class="row-date-text">${escapeHtml(date)}</strong>
+                  </span>
+                  <span class="row-types">
+                    ${items
+                      .map(
+                        (item) =>
+                          `<span class="row-type category-${escapeHtml(item.category || "default")}">${escapeHtml(item.type)}</span>`,
+                      )
+                      .join("")}
+                  </span>
+                </li>
+              `;
+            })
+            .join("");
+          document.getElementById("warning").textContent = data.warning || "";
+        }
+
+        try {
+          const payload = await waitForPayload({ timeout: 300 });
+          await loadMessages(payload);
+          const settings = mergeSettings(
+            defaults,
+            getSettings(payload),
+            getQuerySettings(),
+          );
+          applyColorTheme(settings.color, { defaultTheme: defaults.color });
+
+          const response = await fetch(`./api/data?${new URLSearchParams(settings)}`, {
+            cache: "no-store",
+          });
+          if (!response.ok) {
+            const text = await response.text();
+            throw new Error(text || `Waste collection API failed with ${response.status}`);
+          }
+
+          const data = await response.json();
+          document.getElementById("title").innerHTML = escapeHtml(data.title || settings.title);
+          document.getElementById("address-label").innerHTML = escapeHtml(
+            data.addressLabel || "",
+          );
+          document.getElementById("source-label").textContent = sourceLabel(
+            data.source,
+            data.sourceMode,
+          );
+          document.getElementById("source-label").classList.toggle(
+            "is-hidden",
+            !data.showSource,
+          );
+          document.getElementById("updated-at").textContent =
+            `${t("updated")} ${formatUpdated(data.updatedAt, data.timeZone)}`;
+
+          renderSchedule(data);
+          fitAllText(".pp-fit", { min: 22, max: 86, step: 2 });
+          fitToScreen();
+          markReady({
+            source: data.source,
+            next: data.next?.date || "",
+            count: data.groups?.length || 0,
+          });
+        } catch (error) {
+          markError(error);
+          document.body.innerHTML = `<main class="pp-screen"><h1 class="pp-title pp-error">${escapeHtml(t("errorTitle"))}</h1><p>${escapeHtml(error.message)}</p></main>`;
+        }
+      })();
+    </script>
+  </body>
+</html>

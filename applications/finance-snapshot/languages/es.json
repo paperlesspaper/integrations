@@ -1,0 +1,15 @@
+{
+  "loading": "Cargando...",
+  "updated": "Actualizado",
+  "errorTitle": "No se pudo cargar el resumen financiero",
+  "title": "Resumen financiero",
+  "subtitle": "Vista de mercado",
+  "leader": "Mayor movimiento",
+  "items": "Valores",
+  "source": "Fuente",
+  "delayed": "Los datos de mercado pueden tener retraso",
+  "noData": "No hay cotizaciones disponibles",
+  "high": "Maximo",
+  "low": "Minimo",
+  "range": "Periodo"
+}

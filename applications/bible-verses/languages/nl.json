@@ -1,0 +1,7 @@
+{
+  "title": "Bijbelverzen",
+  "loading": "Laden...",
+  "fallback": "Offline vers",
+  "source": "Bron",
+  "errorTitle": "Vers kon niet worden geladen"
+}

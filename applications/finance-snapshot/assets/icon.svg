@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="Finance Snapshot">
+  <rect width="128" height="128" rx="18" fill="#f8f8f2"/>
+  <rect x="16" y="18" width="96" height="92" rx="10" fill="none" stroke="#111" stroke-width="8"/>
+  <path d="M30 84 50 64l15 12 32-38" fill="none" stroke="#111" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="36" cy="40" r="9" fill="#111"/>
+  <path d="M32 102h64" fill="none" stroke="#111" stroke-width="8" stroke-linecap="round"/>
+</svg>

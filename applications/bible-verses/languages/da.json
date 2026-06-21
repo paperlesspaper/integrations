@@ -1,0 +1,7 @@
+{
+  "title": "Bibelvers",
+  "loading": "Indlaeser...",
+  "fallback": "Offline vers",
+  "source": "Kilde",
+  "errorTitle": "Verset kunne ikke indlaeses"
+}

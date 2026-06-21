@@ -120,6 +120,31 @@ const apps = [
     ],
   },
   {
+    slug: "dwd-pollenflug",
+    variants: [
+      {
+        id: "berlin",
+        values: {
+          color: "light",
+          regionId: 50,
+          limit: 8,
+          sortBy: "severity",
+          showEmpty: false,
+        },
+      },
+      {
+        id: "rhein-main",
+        values: {
+          color: "dark",
+          regionId: 91,
+          limit: 6,
+          sortBy: "severity",
+          showEmpty: true,
+        },
+      },
+    ],
+  },
+  {
     slug: "day-calendar",
     variants: [
       {
@@ -145,6 +170,54 @@ const apps = [
         values: {
           color: "red-light",
           kind: "funny",
+          showTime: false,
+          language: "en-US",
+        },
+      },
+      {
+        id: "day-progress",
+        values: {
+          color: "dark",
+          kind: "day-progress",
+          showTime: false,
+          language: "en-US",
+        },
+      },
+      {
+        id: "holiday-observance-de",
+        values: {
+          color: "light",
+          kind: "holiday-observance",
+          showTime: false,
+          language: "de",
+          holidayRegion: "DE-BE",
+        },
+      },
+      {
+        id: "season-daylight",
+        values: {
+          color: "dark",
+          kind: "season-daylight",
+          showTime: true,
+          language: "en-US",
+          latitude: 52.52,
+          longitude: 13.405,
+        },
+      },
+      {
+        id: "word-phrase-de",
+        values: {
+          color: "red-light",
+          kind: "word-phrase",
+          showTime: false,
+          language: "de",
+        },
+      },
+      {
+        id: "curiosity",
+        values: {
+          color: "light",
+          kind: "curiosity",
           showTime: false,
           language: "en-US",
         },

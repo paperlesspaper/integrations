@@ -1,0 +1,36 @@
+{
+  "title": "Polline DWD",
+  "subtitle": "Previsione del carico pollinico",
+  "highest": "Massimo oggi",
+  "today": "Oggi",
+  "tomorrow": "Domani",
+  "dayafter_to": "Dopodomani",
+  "updated": "Aggiornamento DWD",
+  "nextUpdate": "Prossimo",
+  "noLoad": "Nessun carico pollinico rilevante",
+  "errorTitle": "Impossibile caricare la previsione pollini",
+  "source": "Fonte",
+  "regionId": "Region ID",
+  "valueDescriptions": {
+    "0": "assente",
+    "0-1": "assente a basso",
+    "0.5": "assente a basso",
+    "1": "basso",
+    "1-2": "basso a moderato",
+    "1.5": "basso a moderato",
+    "2": "moderato",
+    "2-3": "moderato ad alto",
+    "2.5": "moderato ad alto",
+    "3": "alto"
+  },
+  "pollenNames": {
+    "Ambrosia": "Ambrosia",
+    "Beifuss": "Artemisia",
+    "Birke": "Betulla",
+    "Erle": "Ontano",
+    "Esche": "Frassino",
+    "Graeser": "Graminacee",
+    "Hasel": "Nocciolo",
+    "Roggen": "Segale"
+  }
+}

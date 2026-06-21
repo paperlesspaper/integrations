@@ -1,0 +1,74 @@
+{
+  "name": "DWD Pollenflug",
+  "version": "0.1.0",
+  "description": "Shows current DWD pollen forecasts for a German forecast region.",
+  "renderPage": "./render.html",
+  "icon": "./assets/icon.png",
+  "nativeSettings": {
+    "color": "light",
+    "regionId": 50,
+    "limit": 8,
+    "sortBy": "severity",
+    "showEmpty": false
+  },
+  "configVariants": [
+    {
+      "color": "light",
+      "regionId": 50,
+      "limit": 8,
+      "sortBy": "severity",
+      "showEmpty": false,
+      "screenshots": {
+        "480x800": "./screenshots/dwd-pollenflug-berlin-480x800-portrait.png"
+      }
+    },
+    {
+      "color": "dark",
+      "regionId": 91,
+      "limit": 6,
+      "sortBy": "severity",
+      "showEmpty": true,
+      "screenshots": {
+        "480x800": "./screenshots/dwd-pollenflug-rhein-main-480x800-portrait.png"
+      }
+    }
+  ],
+  "formSchema": {
+    "type": "object",
+    "properties": {
+      "regionId": {
+        "type": "number",
+        "title": "DWD region ID",
+        "default": 50,
+        "description": "Use a DWD region or part-region ID. 50 is Brandenburg und Berlin, 91 is Rhein-Main."
+      },
+      "limit": {
+        "type": "number",
+        "title": "Pollen rows",
+        "default": 8,
+        "description": "Maximum pollen types shown."
+      },
+      "sortBy": {
+        "type": "string",
+        "title": "Sorting",
+        "enum": [
+          "severity",
+          "name"
+        ],
+        "default": "severity"
+      },
+      "showEmpty": {
+        "type": "boolean",
+        "title": "Show zero-load pollen",
+        "default": false
+      }
+    }
+  },
+  "language": [
+    "en",
+    "de",
+    "fr",
+    "es",
+    "it"
+  ]
+}

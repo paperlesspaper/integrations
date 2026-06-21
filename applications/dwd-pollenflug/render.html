@@ -1,0 +1,589 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="paperless:epd-optimize" content='{"intent":"readable"}'>
+    <title>DWD Pollenflug</title>
+    <link rel="stylesheet" href="/assets/paperless.css">
+    <script src="/assets/paperless.iife.js"></script>
+    <style>
+      .pollen-screen {
+        display: grid;
+        grid-template-rows: auto minmax(0, 1fr) minmax(0, 1.35fr) auto;
+        gap: 14px;
+        padding: 22px;
+      }
+
+      .pollen-header {
+        align-items: end;
+        border-bottom: 2px solid var(--pp-border);
+        display: grid;
+        gap: 12px;
+        grid-template-columns: minmax(0, 1fr) auto;
+        padding-bottom: 10px;
+      }
+
+      .pollen-title {
+        font-size: clamp(2rem, 8vh, 4.6rem);
+        line-height: 0.96;
+        margin: 0;
+        max-width: 12ch;
+      }
+
+      .region-name {
+        font-size: clamp(1.05rem, 3vh, 1.8rem);
+        font-weight: 750;
+        line-height: 1.05;
+        margin: 0;
+        max-width: 22ch;
+        text-align: right;
+      }
+
+      .region-meta,
+      .footer-meta {
+        color: var(--pp-muted);
+        font-size: clamp(0.72rem, 1.8vh, 1rem);
+        font-weight: 650;
+        letter-spacing: 0;
+        margin: 0;
+        text-transform: uppercase;
+      }
+
+      .summary {
+        border: 2px solid var(--pp-border);
+        display: grid;
+        gap: 16px;
+        grid-template-columns: minmax(0, 1fr) minmax(140px, 0.6fr);
+        min-height: 0;
+        padding: 16px;
+      }
+
+      .summary-copy {
+        align-items: center;
+        column-gap: 14px;
+        display: grid;
+        grid-template-columns: auto minmax(0, 1fr);
+        grid-template-rows: auto minmax(0, 1fr);
+        min-width: 0;
+      }
+
+      .summary-label {
+        color: var(--pp-muted);
+        font-size: clamp(0.78rem, 1.8vh, 1rem);
+        font-weight: 800;
+        grid-column: 1 / -1;
+        margin: 0 0 6px;
+        text-transform: uppercase;
+      }
+
+      .summary-value {
+        align-items: baseline;
+        display: flex;
+        gap: 10px;
+        margin: 0;
+      }
+
+      .summary-number {
+        font-size: clamp(3rem, 12vh, 5.4rem);
+        font-weight: 900;
+        line-height: 0.88;
+      }
+
+      .summary-scale {
+        color: var(--pp-muted);
+        font-size: clamp(1rem, 3.3vh, 1.7rem);
+        font-weight: 800;
+      }
+
+      .summary-text {
+        min-width: 0;
+      }
+
+      .summary-name {
+        font-size: clamp(1.15rem, 3.4vh, 1.9rem);
+        font-weight: 850;
+        line-height: 1;
+        margin: 0;
+      }
+
+      .summary-desc {
+        color: var(--pp-muted);
+        font-size: clamp(0.82rem, 2vh, 1.05rem);
+        font-weight: 700;
+        line-height: 1.12;
+        margin: 5px 0 0;
+      }
+
+      .gauge {
+        align-self: stretch;
+        border: 2px solid var(--pp-border);
+        display: grid;
+        grid-template-rows: repeat(4, minmax(0, 1fr));
+        min-height: 0;
+      }
+
+      .gauge-segment {
+        border-bottom: 1px solid var(--pp-border);
+        position: relative;
+      }
+
+      .gauge-segment:last-child {
+        border-bottom: 0;
+      }
+
+      .gauge-fill {
+        background: var(--tone);
+        bottom: 0;
+        left: 0;
+        position: absolute;
+        right: 0;
+      }
+
+      .pollen-table {
+        display: grid;
+        gap: 8px;
+        grid-template-rows: auto minmax(0, 1fr);
+        min-height: 0;
+      }
+
+      .table-head,
+      .pollen-row {
+        align-items: stretch;
+        display: grid;
+        gap: 8px;
+        grid-template-columns: minmax(96px, 1fr) repeat(3, minmax(64px, 0.7fr));
+      }
+
+      .table-head {
+        color: var(--pp-muted);
+        font-size: clamp(0.72rem, 1.8vh, 1rem);
+        font-weight: 850;
+        text-transform: uppercase;
+      }
+
+      .table-body {
+        display: grid;
+        gap: 8px;
+        min-height: 0;
+      }
+
+      .pollen-row {
+        min-height: 0;
+      }
+
+      .pollen-name,
+      .forecast-cell {
+        border: 2px solid var(--pp-border);
+        min-width: 0;
+        overflow: hidden;
+        padding: 8px 10px;
+      }
+
+      .pollen-name {
+        align-items: center;
+        display: flex;
+        gap: 10px;
+      }
+
+      .pollen-mark {
+        background: var(--tone);
+        border: 2px solid var(--pp-fg);
+        display: inline-block;
+        flex: 0 0 18px;
+        height: 18px;
+        transform: rotate(45deg);
+        width: 18px;
+      }
+
+      .pollen-name-text {
+        font-size: clamp(0.95rem, 2.8vh, 1.5rem);
+        font-weight: 850;
+        line-height: 1;
+        min-width: 0;
+      }
+
+      .forecast-cell {
+        display: grid;
+        gap: 2px;
+        grid-template-rows: auto minmax(0, 1fr);
+      }
+
+      .forecast-value {
+        font-size: clamp(1.05rem, 3.2vh, 1.7rem);
+        font-weight: 900;
+        line-height: 1;
+      }
+
+      .forecast-desc {
+        color: var(--pp-muted);
+        font-size: clamp(0.66rem, 1.65vh, 0.9rem);
+        font-weight: 680;
+        line-height: 1.05;
+      }
+
+      .pollen-footer {
+        align-items: center;
+        border-top: 2px solid var(--pp-border);
+        display: grid;
+        gap: 8px;
+        grid-template-columns: minmax(0, 1fr) auto;
+        padding-top: 8px;
+      }
+
+      .source-link {
+        color: var(--pp-fg);
+        font-size: clamp(0.72rem, 1.8vh, 1rem);
+        font-weight: 800;
+        text-decoration: none;
+      }
+
+      .tone-none {
+        --tone: #ffffff;
+      }
+
+      .tone-low {
+        --tone: #83c55b;
+      }
+
+      .tone-medium {
+        --tone: #f6d04d;
+      }
+
+      .tone-high {
+        --tone: #e34c35;
+      }
+
+      @media (orientation: portrait) {
+        .pollen-screen {
+          grid-template-rows: auto minmax(0, 0.8fr) minmax(0, 1.7fr) auto;
+          gap: 12px;
+          padding: 18px;
+        }
+
+        .pollen-header {
+          align-items: start;
+          grid-template-columns: 1fr;
+        }
+
+        .region-name {
+          max-width: 100%;
+          text-align: left;
+        }
+
+        .summary {
+          gap: 10px;
+          grid-template-columns: minmax(0, 1fr) 84px;
+          padding: 12px;
+        }
+
+        .summary-copy {
+          column-gap: 10px;
+        }
+
+        .table-head,
+        .pollen-row {
+          gap: 6px;
+          grid-template-columns: minmax(86px, 1fr) repeat(3, minmax(52px, 0.66fr));
+        }
+
+        .pollen-name,
+        .forecast-cell {
+          padding: 7px;
+        }
+
+        .pollen-mark {
+          flex-basis: 14px;
+          height: 14px;
+          width: 14px;
+        }
+      }
+
+      @media (max-width: 620px), (max-height: 520px) {
+        .pollen-screen {
+          gap: 9px;
+          padding: 14px;
+        }
+
+        .summary {
+          padding: 10px;
+        }
+
+        .pollen-name,
+        .forecast-cell {
+          border-width: 1px;
+          padding: 6px;
+        }
+
+        .pollen-mark {
+          display: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="website-has-loading-element"></div>
+    <main id="app" class="pp-screen pollen-screen">
+      <p>Loading...</p>
+    </main>
+
+    <script>
+      (async function render() {
+        const {
+          waitForPayload,
+          getSettings,
+          getQuerySettings,
+          mergeSettings,
+          loadLanguageJson,
+          applyColorTheme,
+          escapeHtml,
+          fitAllText,
+          fitToScreen,
+          markReady,
+          markError,
+        } = window.PaperlessOpenIntegration;
+
+        const app = document.querySelector("#app");
+        const defaultMessages = {
+          title: "DWD Pollen",
+          subtitle: "Pollen load forecast",
+          highest: "Highest today",
+          today: "Today",
+          tomorrow: "Tomorrow",
+          dayafter_to: "Day after",
+          updated: "DWD update",
+          nextUpdate: "Next",
+          noLoad: "No relevant pollen load",
+          errorTitle: "Pollen forecast could not load",
+          source: "Source",
+          regionId: "Region ID",
+          valueDescriptions: {
+            "0": "none",
+            "0-1": "none to low",
+            "0.5": "none to low",
+            "1": "low",
+            "1-2": "low to moderate",
+            "1.5": "low to moderate",
+            "2": "moderate",
+            "2-3": "moderate to high",
+            "2.5": "moderate to high",
+            "3": "high",
+          },
+          pollenNames: {
+            Ambrosia: "Ambrosia",
+            Beifuss: "Mugwort",
+            Birke: "Birch",
+            Erle: "Alder",
+            Esche: "Ash",
+            Graeser: "Grass",
+            Hasel: "Hazel",
+            Roggen: "Rye",
+          },
+        };
+        let messages = defaultMessages;
+
+        function t(key) {
+          return typeof messages[key] === "string"
+            ? messages[key]
+            : defaultMessages[key] || key;
+        }
+
+        async function loadMessages(payload) {
+          const result = await loadLanguageJson(payload);
+          messages = {
+            ...defaultMessages,
+            ...result.messages,
+            valueDescriptions: {
+              ...defaultMessages.valueDescriptions,
+              ...(result.messages?.valueDescriptions || {}),
+            },
+            pollenNames: {
+              ...defaultMessages.pollenNames,
+              ...(result.messages?.pollenNames || {}),
+            },
+          };
+          document.documentElement.lang = result.language || "en";
+        }
+
+        function pollenName(key) {
+          return messages.pollenNames?.[key] || key;
+        }
+
+        function valueDescription(forecast) {
+          if (!forecast) {
+            return "";
+          }
+
+          return (
+            messages.valueDescriptions?.[forecast.raw]
+            || messages.valueDescriptions?.[String(forecast.value)]
+            || forecast.description
+            || ""
+          );
+        }
+
+        function toneClass(value) {
+          if (!Number.isFinite(Number(value)) || Number(value) <= 0) {
+            return "tone-none";
+          }
+
+          if (Number(value) <= 1) {
+            return "tone-low";
+          }
+
+          if (Number(value) <= 2) {
+            return "tone-medium";
+          }
+
+          return "tone-high";
+        }
+
+        function valueLabel(forecast) {
+          return forecast ? forecast.raw : "-";
+        }
+
+        function bestToday(pollen) {
+          return [...pollen].sort((left, right) => {
+            const severity = (right.todayValue ?? -1) - (left.todayValue ?? -1);
+            return severity || pollenName(left.key).localeCompare(pollenName(right.key));
+          })[0] || null;
+        }
+
+        function gaugeHtml(value) {
+          const number = Number.isFinite(Number(value)) ? Number(value) : 0;
+          const clamped = Math.max(0, Math.min(3, number));
+          const fullSegments = Math.floor(clamped);
+          const partial = clamped - fullSegments;
+
+          return [3, 2, 1, 0].map((segment) => {
+            const fill =
+              segment < fullSegments
+                ? 100
+                : segment === fullSegments
+                  ? partial * 100
+                  : 0;
+
+            return `<span class="gauge-segment"><span class="gauge-fill" style="height:${fill}%"></span></span>`;
+          }).join("");
+        }
+
+        function forecastCell(forecast) {
+          const tone = toneClass(forecast?.value);
+
+          return `
+            <div class="forecast-cell ${tone}">
+              <span class="forecast-value">${escapeHtml(valueLabel(forecast))}</span>
+              <span class="forecast-desc">${escapeHtml(valueDescription(forecast))}</span>
+            </div>
+          `;
+        }
+
+        function pollenRow(row) {
+          const today = row.forecasts.today;
+          const tone = toneClass(today?.value ?? row.highestValue);
+
+          return `
+            <article class="pollen-row ${tone}">
+              <div class="pollen-name">
+                <span class="pollen-mark"></span>
+                <span class="pollen-name-text pp-fit-name">${escapeHtml(pollenName(row.key))}</span>
+              </div>
+              ${forecastCell(row.forecasts.today)}
+              ${forecastCell(row.forecasts.tomorrow)}
+              ${forecastCell(row.forecasts.dayafter_to)}
+            </article>
+          `;
+        }
+
+        function renderData(data) {
+          const top = bestToday(data.pollen || []);
+          const topForecast = top?.forecasts?.today || null;
+          const topValue = topForecast?.value ?? 0;
+          const topTone = toneClass(topValue);
+          const region = data.region || {};
+          const rows = (data.pollen || []).length
+            ? data.pollen.map(pollenRow).join("")
+            : `<article class="pollen-row tone-none"><div class="pollen-name"><span class="pollen-name-text">${escapeHtml(t("noLoad"))}</span></div>${forecastCell(null)}${forecastCell(null)}${forecastCell(null)}</article>`;
+
+          app.innerHTML = `
+            <header class="pollen-header">
+              <div>
+                <p class="region-meta">${escapeHtml(t("subtitle"))}</p>
+                <h1 class="pollen-title pp-fit-title">${escapeHtml(t("title"))}</h1>
+              </div>
+              <div>
+                <p class="region-name pp-fit-region">${escapeHtml(region.displayName || "")}</p>
+                <p class="region-meta">${escapeHtml(t("regionId"))} ${escapeHtml(String(region.id || ""))}</p>
+              </div>
+            </header>
+
+            <section class="summary ${topTone}">
+              <div class="summary-copy">
+                <p class="summary-label">${escapeHtml(t("highest"))}</p>
+                <p class="summary-value">
+                  <span class="summary-number">${escapeHtml(valueLabel(topForecast))}</span>
+                  <span class="summary-scale">/ 3</span>
+                </p>
+                <div class="summary-text">
+                  <p class="summary-name pp-fit-summary">${escapeHtml(top ? pollenName(top.key) : t("noLoad"))}</p>
+                  <p class="summary-desc">${escapeHtml(valueDescription(topForecast))}</p>
+                </div>
+              </div>
+              <div class="gauge" aria-hidden="true">${gaugeHtml(topValue)}</div>
+            </section>
+
+            <section class="pollen-table">
+              <div class="table-head">
+                <span></span>
+                <span>${escapeHtml(t("today"))}</span>
+                <span>${escapeHtml(t("tomorrow"))}</span>
+                <span>${escapeHtml(t("dayafter_to"))}</span>
+              </div>
+              <div class="table-body">${rows}</div>
+            </section>
+
+            <footer class="pollen-footer">
+              <p class="footer-meta">${escapeHtml(t("updated"))}: ${escapeHtml(data.lastUpdate || "")} · ${escapeHtml(t("nextUpdate"))}: ${escapeHtml(data.nextUpdate || "")}</p>
+              <a class="source-link" href="${escapeHtml(data.sourceUrl || "#")}">${escapeHtml(t("source"))}</a>
+            </footer>
+          `;
+        }
+
+        try {
+          const defaults = {
+            color: "light",
+            regionId: 50,
+            limit: 8,
+            sortBy: "severity",
+            showEmpty: false,
+          };
+          const payload = await waitForPayload({ timeoutMs: 500, timeout: 500 });
+          await loadMessages(payload);
+          const settings = mergeSettings(defaults, getSettings(payload), getQuerySettings());
+          applyColorTheme(settings.color, { defaultTheme: defaults.color });
+
+          const params = new URLSearchParams(settings);
+          const response = await fetch(`./api/data?${params.toString()}`, { cache: "no-store" });
+
+          if (!response.ok) {
+            throw new Error(`DWD API failed with ${response.status}`);
+          }
+
+          const data = await response.json();
+          renderData(data);
+
+          await document.fonts?.ready;
+          fitAllText(".pp-fit-title", { min: 26, max: 76, step: 2 });
+          fitAllText(".pp-fit-region", { min: 14, max: 28, step: 1 });
+          fitAllText(".pp-fit-summary", { min: 16, max: 38, step: 1 });
+          fitAllText(".pp-fit-name", { min: 12, max: 24, step: 1 });
+          fitToScreen(app);
+          markReady({ regionId: data.region?.id });
+        } catch (error) {
+          markError(error);
+          app.innerHTML = `<h1 class="pp-title pp-error">${escapeHtml(t("errorTitle"))}</h1><p>${escapeHtml(error.message)}</p>`;
+        }
+      })();
+    </script>
+  </body>
+</html>

@@ -1,0 +1,15 @@
+{
+  "loading": "Chargement...",
+  "updated": "Mis a jour",
+  "errorTitle": "L'instantane financier n'a pas pu se charger",
+  "title": "Instantane financier",
+  "subtitle": "Suivi des marches",
+  "leader": "Plus fort mouvement",
+  "items": "Valeurs",
+  "source": "Source",
+  "delayed": "Les donnees de marche peuvent etre differees",
+  "noData": "Aucune cotation disponible",
+  "high": "Haut",
+  "low": "Bas",
+  "range": "Periode"
+}
