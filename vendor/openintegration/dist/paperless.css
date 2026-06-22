@@ -159,6 +159,9 @@ body {
   background: var(--pp-bg);
   color: var(--pp-fg);
   font-family: var(--pp-font);
+  -webkit-font-smoothing: none;
+  -moz-osx-font-smoothing: unset;
+  font-smooth: never;
 }
 
 * {

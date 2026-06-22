@@ -1,0 +1,91 @@
+{
+  "name": "Tour de France",
+  "version": "0.1.0",
+  "description": "Shows the current or selected Tour de France 2026 stage with route details, profile imagery, and best-effort official ranking data.",
+  "renderPage": "./render.html",
+  "icon": "./assets/icon.png",
+  "nativeSettings": {
+    "color": "light",
+    "selection": "auto",
+    "stage": 1,
+    "locale": "en-US",
+    "timeZone": "Europe/Berlin",
+    "showProfile": true,
+    "showRankings": true
+  },
+  "configVariants": [
+    {
+      "color": "light",
+      "selection": "auto",
+      "stage": 1,
+      "locale": "en-US",
+      "timeZone": "Europe/Berlin",
+      "showProfile": true,
+      "showRankings": true,
+      "screenshots": {
+        "800x480": "./screenshots/tour-de-france-auto-800x480-landscape.png",
+        "480x800": "./screenshots/tour-de-france-auto-480x800-portrait.png"
+      }
+    },
+    {
+      "color": "dark",
+      "selection": "stage",
+      "stage": 19,
+      "locale": "de-DE",
+      "timeZone": "Europe/Berlin",
+      "showProfile": true,
+      "showRankings": false,
+      "screenshots": {
+        "800x480": "./screenshots/tour-de-france-alpe-dhuez-800x480-landscape.png",
+        "480x800": "./screenshots/tour-de-france-alpe-dhuez-480x800-portrait.png"
+      }
+    }
+  ],
+  "formSchema": {
+    "type": "object",
+    "properties": {
+      "selection": {
+        "type": "string",
+        "title": "Stage selection",
+        "enum": [
+          "auto",
+          "stage",
+          "next"
+        ],
+        "default": "auto"
+      },
+      "stage": {
+        "type": "number",
+        "title": "Stage",
+        "default": 1,
+        "description": "Used when stage selection is set to stage."
+      },
+      "locale": {
+        "type": "string",
+        "title": "Locale",
+        "default": "en-US",
+        "description": "BCP 47 locale such as en-US, de-DE, fr-FR, or es-ES."
+      },
+      "timeZone": {
+        "type": "string",
+        "title": "Time zone",
+        "default": "Europe/Berlin",
+        "description": "IANA time zone such as Europe/Berlin, Europe/Paris, or America/New_York."
+      },
+      "showProfile": {
+        "type": "boolean",
+        "title": "Show profile image",
+        "default": true
+      },
+      "showRankings": {
+        "type": "boolean",
+        "title": "Show general ranking",
+        "default": true
+      }
+    }
+  },
+  "language": [
+    "en",
+    "de"
+  ]
+}

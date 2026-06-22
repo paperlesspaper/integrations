@@ -296,6 +296,54 @@ const scenes = {
   }
 };
 
+const scenePlacements = {
+  north: {
+    spring: {
+      "Ursa Major": { x: 31, y: 32, size: 30 },
+      Leo: { x: 51, y: 57, size: 29 },
+      Cassiopeia: { x: 73, y: 30, size: 23 }
+    },
+    summer: {
+      Cygnus: { x: 49, y: 42, size: 31 },
+      Lyra: { x: 73, y: 31, size: 22 },
+      Scorpius: { x: 31, y: 60, size: 30 },
+      "Ursa Major": { x: 27, y: 29, size: 25 }
+    },
+    autumn: {
+      Pegasus: { x: 52, y: 52, size: 31 },
+      Andromeda: { x: 31, y: 37, size: 28 },
+      Cassiopeia: { x: 73, y: 29, size: 23 }
+    },
+    winter: {
+      Orion: { x: 53, y: 56, size: 30 },
+      Taurus: { x: 31, y: 39, size: 28 },
+      Cassiopeia: { x: 73, y: 29, size: 23 }
+    }
+  },
+  south: {
+    spring: {
+      Centaurus: { x: 33, y: 56, size: 30 },
+      Crux: { x: 52, y: 35, size: 23 },
+      Scorpius: { x: 72, y: 58, size: 29 }
+    },
+    summer: {
+      Carina: { x: 30, y: 56, size: 29 },
+      Orion: { x: 53, y: 53, size: 29 },
+      Taurus: { x: 74, y: 36, size: 27 }
+    },
+    autumn: {
+      Crux: { x: 32, y: 34, size: 23 },
+      Centaurus: { x: 52, y: 55, size: 31 },
+      Carina: { x: 73, y: 43, size: 27 }
+    },
+    winter: {
+      Scorpius: { x: 31, y: 58, size: 31 },
+      Crux: { x: 50, y: 35, size: 23 },
+      Lyra: { x: 73, y: 45, size: 23 }
+    }
+  }
+};
+
 const densityCounts = {
   minimal: 42,
   balanced: 76,
@@ -404,6 +452,60 @@ function shapeConstellation(name) {
   };
 }
 
+function transformConstellation(constellation, placement) {
+  if (!placement) {
+    return constellation;
+  }
+
+  const bounds = constellation.stars.reduce((box, star) => ({
+    minX: Math.min(box.minX, star.x),
+    maxX: Math.max(box.maxX, star.x),
+    minY: Math.min(box.minY, star.y),
+    maxY: Math.max(box.maxY, star.y)
+  }), {
+    minX: Infinity,
+    maxX: -Infinity,
+    minY: Infinity,
+    maxY: -Infinity
+  });
+  const width = bounds.maxX - bounds.minX || 1;
+  const height = bounds.maxY - bounds.minY || 1;
+  const scale = placement.size / Math.max(width, height);
+  const sourceCenter = {
+    x: bounds.minX + width / 2,
+    y: bounds.minY + height / 2
+  };
+
+  function transformPoint(point) {
+    return {
+      ...point,
+      x: Number((placement.x + (point.x - sourceCenter.x) * scale).toFixed(2)),
+      y: Number((placement.y + (point.y - sourceCenter.y) * scale).toFixed(2))
+    };
+  }
+
+  const starsByName = new Map(
+    constellation.stars.map((star) => {
+      const transformed = transformPoint(star);
+      transformed.size = Number(Math.max(0.5, star.size * Math.sqrt(scale)).toFixed(2));
+      return [star.name, transformed];
+    })
+  );
+
+  return {
+    ...constellation,
+    x: Number((placement.x + (constellation.x - sourceCenter.x) * scale).toFixed(2)),
+    y: Number((placement.y + (constellation.y - sourceCenter.y) * scale).toFixed(2)),
+    stars: Array.from(starsByName.values()),
+    lines: constellation.lines
+      .map((line) => ({
+        from: starsByName.get(line.from.name),
+        to: starsByName.get(line.to.name)
+      }))
+      .filter((line) => line.from && line.to)
+  };
+}
+
 export default async function handler({ query }) {
   const now = new Date();
   const hemisphere = oneOf(query.hemisphere, ["north", "south"], "north");
@@ -411,7 +513,10 @@ export default async function handler({ query }) {
   const season = requestedSeason === "auto" ? autoSeason(now, hemisphere) : requestedSeason;
   const density = oneOf(query.density, ["minimal", "balanced", "rich"], "balanced");
   const visibleNames = scenes[hemisphere][season] || scenes.north.winter;
-  const visibleConstellations = visibleNames.map(shapeConstellation);
+  const placements = scenePlacements[hemisphere][season] || {};
+  const visibleConstellations = visibleNames.map((name) => (
+    transformConstellation(shapeConstellation(name), placements[name])
+  ));
 
   const requestedHighlight = stringValue(query.highlight, "daily");
   const dailyIndex = dayOfYear(now) % visibleNames.length;

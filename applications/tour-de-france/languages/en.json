@@ -1,0 +1,15 @@
+{
+  "loading": "Loading...",
+  "title": "Tour de France",
+  "type": "Type",
+  "distance": "Distance",
+  "elevation": "D+",
+  "profile": "Profile",
+  "map": "Map",
+  "generalRanking": "General ranking",
+  "nextStage": "Next stage",
+  "unavailableRanking": "2026 rankings will appear when official race classifications are available.",
+  "updated": "Updated",
+  "source": "Source",
+  "errorTitle": "Tour de France could not load"
+}

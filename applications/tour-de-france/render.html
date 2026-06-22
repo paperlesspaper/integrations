@@ -1,0 +1,740 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="paperless:epd-optimize" content='{"intent":"vivid"}'>
+    <title>Tour de France</title>
+    <link rel="stylesheet" href="/assets/paperless.css">
+    <script src="/assets/paperless.iife.js"></script>
+    <style>
+      body {
+        --tdf-yellow: #ffd500;
+        --tdf-red: #e23b2e;
+        --tdf-blue: #2878b8;
+        --tdf-green: #138a5b;
+        --tdf-ink: #141414;
+      }
+
+      body.dark {
+        --tdf-yellow: #f0c800;
+        --tdf-red: #ff6254;
+        --tdf-blue: #66a6d9;
+        --tdf-green: #4cc083;
+      }
+
+      .tdf-screen {
+        padding: 18px;
+        gap: 14px;
+        background: var(--pp-bg);
+      }
+
+      .tdf-topbar {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        align-items: center;
+        gap: 14px;
+        padding-bottom: 10px;
+        border-bottom: 4px solid var(--pp-border);
+      }
+
+      .tdf-brand {
+        display: flex;
+        align-items: center;
+        min-width: 0;
+        gap: 10px;
+      }
+
+      .tdf-mark {
+        display: grid;
+        place-items: center;
+        width: 70px;
+        height: 34px;
+        background: var(--tdf-yellow);
+        color: var(--tdf-ink);
+        border: 3px solid var(--tdf-ink);
+        font-size: 1.15rem;
+        line-height: 1;
+        font-weight: 950;
+        transform: skew(-12deg);
+      }
+
+      .tdf-title {
+        margin: 0;
+        font-size: 1.15rem;
+        line-height: 1;
+        font-weight: 950;
+        text-transform: uppercase;
+      }
+
+      .tdf-subtitle {
+        margin: 3px 0 0;
+        color: var(--pp-muted);
+        font-size: 0.72rem;
+        line-height: 1;
+        font-weight: 850;
+        text-transform: uppercase;
+      }
+
+      .tdf-status {
+        margin: 0;
+        padding: 8px 10px;
+        background: var(--tdf-red);
+        color: #fff;
+        font-size: 0.82rem;
+        line-height: 1;
+        font-weight: 950;
+        text-transform: uppercase;
+        text-align: right;
+      }
+
+      .tdf-layout {
+        flex: 1;
+        min-height: 0;
+        display: grid;
+        grid-template-columns: minmax(0, 1.1fr) minmax(250px, 0.78fr);
+        gap: 14px;
+      }
+
+      .tdf-main {
+        min-width: 0;
+        min-height: 0;
+        display: grid;
+        grid-template-rows: auto minmax(0, 1fr) auto;
+        gap: 12px;
+      }
+
+      .tdf-stage-kicker {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin: 0;
+        font-size: 0.82rem;
+        line-height: 1;
+        font-weight: 950;
+        text-transform: uppercase;
+      }
+
+      .tdf-chip {
+        display: inline-grid;
+        place-items: center;
+        min-width: 68px;
+        padding: 6px 8px;
+        background: var(--tdf-yellow);
+        color: var(--tdf-ink);
+        border: 2px solid var(--tdf-ink);
+      }
+
+      .tdf-route {
+        margin: 0;
+        min-width: 0;
+        align-self: center;
+        font-size: 4.85rem;
+        line-height: 0.9;
+        font-weight: 950;
+        text-transform: uppercase;
+      }
+
+      .tdf-route-sep {
+        color: var(--tdf-red);
+      }
+
+      .tdf-metrics {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 8px;
+      }
+
+      .tdf-metric {
+        min-width: 0;
+        padding: 10px;
+        border: 3px solid var(--pp-border);
+        background: var(--pp-card);
+      }
+
+      .tdf-metric-label,
+      .tdf-metric-value {
+        margin: 0;
+      }
+
+      .tdf-metric-label {
+        color: var(--pp-muted);
+        font-size: 0.68rem;
+        line-height: 1;
+        font-weight: 900;
+        text-transform: uppercase;
+      }
+
+      .tdf-metric-value {
+        margin-top: 5px;
+        font-size: 1.15rem;
+        line-height: 1;
+        font-weight: 950;
+      }
+
+      .tdf-side {
+        min-width: 0;
+        min-height: 0;
+        display: grid;
+        grid-template-rows: minmax(0, 1fr) auto;
+        gap: 12px;
+      }
+
+      .tdf-visual {
+        min-width: 0;
+        min-height: 0;
+        display: grid;
+        grid-template-rows: auto minmax(0, 1fr);
+        gap: 8px;
+        padding: 10px;
+        border: 3px solid var(--pp-border);
+        background: var(--pp-card);
+      }
+
+      .tdf-section-title {
+        margin: 0;
+        color: var(--pp-muted);
+        font-size: 0.68rem;
+        line-height: 1;
+        font-weight: 950;
+        text-transform: uppercase;
+      }
+
+      .tdf-profile-wrap {
+        min-width: 0;
+        min-height: 0;
+        display: grid;
+        place-items: center;
+        overflow: hidden;
+        background: #fff;
+      }
+
+      body.dark .tdf-profile-wrap {
+        background: #101010;
+      }
+
+      .tdf-profile {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        filter: saturate(0.86) contrast(1.12);
+      }
+
+      .tdf-profile-bg {
+        width: 100%;
+        height: 100%;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: contain;
+      }
+
+      body.dark .tdf-profile {
+        filter: grayscale(1) invert(1) contrast(1.08);
+      }
+
+      .tdf-fallback-map {
+        width: 100%;
+        height: 100%;
+        min-height: 118px;
+        display: grid;
+        place-items: center;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .tdf-fallback-map::before {
+        content: "";
+        width: 82%;
+        height: 44%;
+        border: 10px solid var(--tdf-blue);
+        border-left-color: var(--tdf-green);
+        border-bottom-color: var(--tdf-red);
+        border-radius: 50%;
+        transform: rotate(-9deg);
+      }
+
+      .tdf-fallback-map span {
+        position: absolute;
+        display: grid;
+        place-items: center;
+        width: 56px;
+        height: 56px;
+        border-radius: 50%;
+        background: var(--tdf-yellow);
+        color: var(--tdf-ink);
+        border: 3px solid var(--tdf-ink);
+        font-size: 1.25rem;
+        font-weight: 950;
+      }
+
+      .tdf-panel {
+        min-width: 0;
+        padding: 10px;
+        border: 3px solid var(--pp-border);
+        background: var(--pp-card);
+      }
+
+      .tdf-ranking {
+        display: grid;
+        gap: 7px;
+        margin-top: 8px;
+      }
+
+      .tdf-rider,
+      .tdf-next-row {
+        display: grid;
+        grid-template-columns: auto minmax(0, 1fr) auto;
+        align-items: center;
+        gap: 8px;
+        min-height: 26px;
+      }
+
+      .tdf-rank {
+        display: grid;
+        place-items: center;
+        width: 28px;
+        height: 24px;
+        background: var(--tdf-yellow);
+        color: var(--tdf-ink);
+        font-size: 0.82rem;
+        font-weight: 950;
+      }
+
+      .tdf-rider-name,
+      .tdf-rider-gap,
+      .tdf-next-name,
+      .tdf-next-date {
+        margin: 0;
+        line-height: 1;
+        font-weight: 900;
+      }
+
+      .tdf-rider-name,
+      .tdf-next-name {
+        min-width: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        font-size: 0.86rem;
+      }
+
+      .tdf-rider-team {
+        margin: 3px 0 0;
+        min-width: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        color: var(--pp-muted);
+        font-size: 0.62rem;
+        line-height: 1;
+        font-weight: 800;
+      }
+
+      .tdf-rider-gap,
+      .tdf-next-date {
+        color: var(--pp-muted);
+        font-size: 0.72rem;
+        text-align: right;
+        white-space: nowrap;
+      }
+
+      .tdf-note {
+        margin: 8px 0 0;
+        color: var(--pp-muted);
+        font-size: 0.74rem;
+        line-height: 1.15;
+        font-weight: 750;
+      }
+
+      .tdf-footer {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        gap: 12px;
+        align-items: center;
+        color: var(--pp-muted);
+        font-size: 0.72rem;
+        line-height: 1;
+        font-weight: 850;
+        text-transform: uppercase;
+      }
+
+      @media (min-width: 701px) {
+        .tdf-screen {
+          gap: 12px;
+        }
+
+        .tdf-layout {
+          grid-template-columns: 1fr;
+          grid-template-rows: auto minmax(0, 1fr);
+          gap: 10px;
+        }
+
+        .tdf-main {
+          grid-template-columns: auto minmax(0, 1fr) minmax(280px, 0.92fr);
+          grid-template-rows: auto;
+          align-items: center;
+          gap: 10px;
+        }
+
+        .tdf-stage-kicker {
+          align-self: stretch;
+          flex-direction: column;
+          align-items: flex-start;
+          justify-content: center;
+          gap: 6px;
+          min-width: 102px;
+        }
+
+        .tdf-route {
+          font-size: 2.45rem;
+          line-height: 0.95;
+        }
+
+        .tdf-metrics {
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+          align-self: stretch;
+        }
+
+        .tdf-metric {
+          display: grid;
+          align-content: center;
+          min-height: 66px;
+          padding: 8px;
+        }
+
+        .tdf-metric-value {
+          font-size: 1rem;
+        }
+
+        .tdf-side {
+          grid-template-columns: minmax(0, 1fr);
+          grid-template-rows: minmax(0, 1fr);
+          gap: 10px;
+        }
+
+        .tdf-panel {
+          display: none;
+        }
+
+        .tdf-profile-bg {
+          background-position: center bottom;
+          background-size: 100% auto;
+        }
+      }
+
+      @media (max-width: 700px) {
+        .tdf-screen {
+          padding: 13px;
+          gap: 10px;
+        }
+
+        .tdf-topbar {
+          gap: 8px;
+          padding-bottom: 8px;
+        }
+
+        .tdf-mark {
+          width: 56px;
+          height: 28px;
+          font-size: 0.92rem;
+        }
+
+        .tdf-title {
+          font-size: 0.92rem;
+        }
+
+        .tdf-subtitle,
+        .tdf-status {
+          font-size: 0.64rem;
+        }
+
+        .tdf-layout {
+          grid-template-columns: 1fr;
+          grid-template-rows: auto minmax(0, 1fr);
+          gap: 10px;
+        }
+
+        .tdf-main {
+          gap: 8px;
+        }
+
+        .tdf-route {
+          font-size: 3.05rem;
+        }
+
+        .tdf-metrics {
+          gap: 6px;
+        }
+
+        .tdf-metric {
+          padding: 8px;
+        }
+
+        .tdf-metric-value {
+          font-size: 0.9rem;
+        }
+
+        .tdf-side {
+          grid-template-rows: minmax(0, 1fr);
+        }
+
+        .tdf-visual {
+          min-height: 185px;
+        }
+
+        .tdf-panel {
+          display: none;
+        }
+
+        .tdf-footer {
+          font-size: 0.62rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="website-has-loading-element"></div>
+    <main id="app" class="pp-screen tdf-screen">
+      <header class="tdf-topbar">
+        <div class="tdf-brand">
+          <div class="tdf-mark">TDF</div>
+          <div>
+            <h1 class="tdf-title" data-i18n="title">Tour de France</h1>
+            <p class="tdf-subtitle" id="edition">2026</p>
+          </div>
+        </div>
+        <p class="tdf-status" id="status" data-i18n="loading">Loading...</p>
+      </header>
+
+      <section class="tdf-layout">
+        <article class="tdf-main">
+          <p class="tdf-stage-kicker">
+            <span class="tdf-chip" id="stage-label">Stage</span>
+            <span id="stage-date"></span>
+          </p>
+          <h2 class="tdf-route pp-fit pp-fit-title" id="stage-route">Tour de France</h2>
+          <div class="tdf-metrics">
+            <div class="tdf-metric">
+              <p class="tdf-metric-label" data-i18n="type">Type</p>
+              <p class="tdf-metric-value pp-fit pp-fit-copy" id="stage-type"></p>
+            </div>
+            <div class="tdf-metric">
+              <p class="tdf-metric-label" data-i18n="distance">Distance</p>
+              <p class="tdf-metric-value" id="stage-distance"></p>
+            </div>
+            <div class="tdf-metric">
+              <p class="tdf-metric-label" data-i18n="elevation">D+</p>
+              <p class="tdf-metric-value" id="stage-elevation"></p>
+            </div>
+          </div>
+        </article>
+
+        <aside class="tdf-side">
+          <section class="tdf-visual" id="visual-panel">
+            <p class="tdf-section-title" id="visual-title" data-i18n="profile">Profile</p>
+            <div class="tdf-profile-wrap" id="profile-wrap">
+              <div class="tdf-fallback-map"><span id="fallback-stage">1</span></div>
+            </div>
+          </section>
+
+          <section class="tdf-panel" id="rankings-panel">
+            <p class="tdf-section-title" id="panel-title" data-i18n="generalRanking">General ranking</p>
+            <div class="tdf-ranking" id="ranking-list"></div>
+            <p class="tdf-note" id="ranking-note"></p>
+          </section>
+        </aside>
+      </section>
+
+      <footer class="tdf-footer">
+        <span id="source">letour.fr</span>
+        <span id="updated"></span>
+      </footer>
+    </main>
+
+    <script>
+      (async function render() {
+        const {
+          waitForPayload,
+          getSettings,
+          getQuerySettings,
+          mergeSettings,
+          applyColorTheme,
+          escapeHtml,
+          fitHyphenatedText,
+          fitToScreen,
+          markReady,
+          markError,
+        } = window.PaperlessOpenIntegration;
+
+        const defaultMessages = {
+          loading: "Loading...",
+          title: "Tour de France",
+          type: "Type",
+          distance: "Distance",
+          elevation: "D+",
+          profile: "Profile",
+          map: "Map",
+          generalRanking: "General ranking",
+          nextStage: "Next stage",
+          unavailableRanking: "2026 rankings will appear when official race classifications are available.",
+          updated: "Updated",
+          source: "Source",
+          errorTitle: "Tour de France could not load",
+        };
+        let messages = defaultMessages;
+
+        function t(key, values = {}) {
+          const template = typeof messages[key] === "string" ? messages[key] : defaultMessages[key] || key;
+          return template.replace(/\{(\w+)\}/g, (_match, name) => values[name] ?? "");
+        }
+
+        function applyStaticMessages(root = document) {
+          root.querySelectorAll("[data-i18n]").forEach((element) => {
+            element.textContent = t(element.dataset.i18n);
+          });
+        }
+
+        function withSeparator(route) {
+          const parts = String(route || "").split(">");
+          if (parts.length < 2) return escapeHtml(route || "");
+          return `${escapeHtml(parts[0].trim())}<span class="tdf-route-sep"> &gt; </span>${escapeHtml(parts.slice(1).join(">").trim())}`;
+        }
+
+        function formatUpdated(value) {
+          const date = new Date(value);
+          if (Number.isNaN(date.getTime())) return "";
+          try {
+            return `${t("updated")} ${new Intl.DateTimeFormat(undefined, {
+              hour: "2-digit",
+              minute: "2-digit",
+            }).format(date)}`;
+          } catch {
+            return t("updated");
+          }
+        }
+
+        function cssUrl(value) {
+          return String(value || "").replace(/\\/g, "\\\\").replace(/'/g, "\\'");
+        }
+
+        function renderFallbackNext(data) {
+          const rows = [data.stage, data.next].filter(Boolean).slice(0, 2);
+          return rows.map((stage) => `
+            <div class="tdf-next-row">
+              <span class="tdf-rank">${escapeHtml(stage.stage ? String(stage.stage) : "R")}</span>
+              <p class="tdf-next-name">${escapeHtml(stage.route || "")}</p>
+              <p class="tdf-next-date">${escapeHtml(stage.dayLabel || "")}</p>
+            </div>
+          `).join("");
+        }
+
+        function renderRankings(data) {
+          const list = document.getElementById("ranking-list");
+          const note = document.getElementById("ranking-note");
+          const title = document.getElementById("panel-title");
+
+          if (data.rankings?.available && data.rankings.riders?.length) {
+            title.textContent = t("generalRanking");
+            list.innerHTML = data.rankings.riders.map((rider) => `
+              <div class="tdf-rider">
+                <span class="tdf-rank">${escapeHtml(rider.position)}</span>
+                <div>
+                  <p class="tdf-rider-name">${escapeHtml(rider.name)}</p>
+                  <p class="tdf-rider-team">${escapeHtml(rider.team)}</p>
+                </div>
+                <p class="tdf-rider-gap">${escapeHtml(rider.gap || rider.time || "")}</p>
+              </div>
+            `).join("");
+            note.textContent = data.rankings.label || "";
+            return;
+          }
+
+          title.textContent = t("nextStage");
+          list.innerHTML = renderFallbackNext(data);
+          note.textContent = t("unavailableRanking");
+        }
+
+        async function loadImage(src, alt) {
+          if (!src) return false;
+          const wrap = document.getElementById("profile-wrap");
+          const image = new Image();
+          image.alt = alt || "";
+          image.src = src;
+          try {
+            await image.decode();
+            wrap.innerHTML = `<div class="tdf-profile-bg" role="img" aria-label="${escapeHtml(alt || "")}" style="background-image: url('${cssUrl(src)}')"></div>`;
+            return true;
+          } catch {
+            if (image.complete && image.naturalWidth > 0) {
+              wrap.innerHTML = `<div class="tdf-profile-bg" role="img" aria-label="${escapeHtml(alt || "")}" style="background-image: url('${cssUrl(src)}')"></div>`;
+              return true;
+            }
+            return false;
+          }
+        }
+
+        try {
+          const payload = await waitForPayload({ timeout: 300 });
+          const loader = window.PaperlessOpenIntegration.loadLanguageJson;
+          if (typeof loader === "function") {
+            const languageResult = await loader(payload, { defaultMessages });
+            messages = { ...defaultMessages, ...(languageResult.messages || {}) };
+          }
+
+          const defaults = {
+            color: "light",
+            selection: "auto",
+            stage: 1,
+            locale: "en-US",
+            timeZone: "Europe/Berlin",
+            showProfile: true,
+            showRankings: true,
+          };
+          const settings = mergeSettings(defaults, getSettings(payload), getQuerySettings());
+          applyColorTheme(settings.color, { defaultTheme: defaults.color });
+          applyStaticMessages();
+
+          const params = new URLSearchParams({
+            selection: settings.selection,
+            stage: String(settings.stage),
+            locale: settings.locale,
+            timeZone: settings.timeZone,
+            showRankings: String(settings.showRankings),
+          });
+          const response = await fetch(`./api/data?${params.toString()}`);
+          if (!response.ok) throw new Error(`API failed with ${response.status}`);
+          const data = await response.json();
+          const stage = data.stage || {};
+
+          document.getElementById("edition").textContent = `${data.year || 2026} | ${escapeHtml(stage.type || "")}`;
+          document.getElementById("status").textContent = stage.status || "";
+          document.getElementById("stage-label").textContent = stage.label || "";
+          document.getElementById("stage-date").textContent = stage.dateLabel || stage.dayLabel || "";
+          document.getElementById("stage-route").innerHTML = withSeparator(stage.route);
+          document.getElementById("stage-type").textContent = stage.type || "";
+          document.getElementById("stage-distance").textContent = stage.distance || "-";
+          document.getElementById("stage-elevation").textContent = stage.elevation || "-";
+          document.getElementById("fallback-stage").textContent = stage.stage || "R";
+          document.getElementById("source").textContent = `${t("source")}: ${data.sourceNote || data.source || "letour.fr"}`;
+          document.getElementById("updated").textContent = formatUpdated(data.updatedAt);
+
+          const profileSrc = settings.showProfile ? stage.profileImage || stage.mapImage || stage.heroImage : "";
+          const loaded = await loadImage(profileSrc, stage.route);
+          document.getElementById("visual-title").textContent = profileSrc && loaded ? (stage.profileImage ? t("profile") : t("map")) : t("map");
+
+          renderRankings(data);
+          await document.fonts?.ready;
+          document.querySelectorAll(".pp-fit").forEach((element) => {
+            fitHyphenatedText(element);
+          });
+          fitToScreen(document.querySelector("#app"));
+          markReady();
+        } catch (error) {
+          document.body.innerHTML = `<main class="pp-screen"><h1 class="pp-title pp-error">${escapeHtml(t("errorTitle"))}</h1><p>${escapeHtml(error.message)}</p></main>`;
+          markError(error);
+        }
+      })();
+    </script>
+  </body>
+</html>

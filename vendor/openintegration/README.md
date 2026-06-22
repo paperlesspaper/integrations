@@ -52,6 +52,15 @@ Render pages can tune `epdoptimize` with a meta tag:
 
 Supported intents are `natural`, `vivid`, `readable`, `faithful`, and `lowNoise`. The page may update this tag before calling `markReady()`. Use `content='{"enabled":false}'` when a page wants the EPD render path to return the raw Puppeteer screenshot.
 
+The content may also select a built-in `epdoptimize` palette export and override image/dither options:
+
+```html
+<meta
+  name="paperless:epd-optimize"
+  content='{"palette":"spectra6OriginalPalette","canvasDitherOptions":{"ditheringType":"quantizationOnly"}}'
+/>
+```
+
 It also watches the integration folder and live-reloads the preview when files change. Disable that with:
 
 ```sh

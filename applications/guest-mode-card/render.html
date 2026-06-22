@@ -3,12 +3,18 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="paperless:epd-optimize" content='{"intent":"readable"}' />
+    <meta
+      name="paperless:epd-optimize"
+      content='{"intent":"dynamic", "palette": "spectra6OriginalPalette", "canvasDitherOptions": { "ditheringType": "quantizationOnly" }}'
+    />
     <title>Guest Mode Card</title>
     <link rel="stylesheet" href="/assets/paperless.css" />
     <script src="/assets/paperless.iife.js"></script>
     <style>
       .guest-screen {
+        --guest-blue: #0000ff;
+        --guest-tint: #ffff00;
+        --guest-tint-strong: #00ff00;
         padding: 18px;
         gap: 12px;
       }
@@ -19,7 +25,6 @@
         gap: 14px;
         align-items: end;
         padding-bottom: 10px;
-        border-bottom: 3px solid currentColor;
       }
 
       .guest-place {
@@ -69,7 +74,9 @@
         display: grid;
         grid-template-columns: 1.02fr 1fr 1fr;
         grid-template-rows: minmax(0, 1fr) minmax(0, 0.96fr);
-        gap: 10px;
+        gap: 0;
+        border-top: 2px solid var(--pp-border);
+        border-left: 2px solid var(--pp-border);
       }
 
       .panel {
@@ -78,7 +85,9 @@
         display: flex;
         flex-direction: column;
         padding: 12px;
-        border: 2px solid var(--pp-border);
+        border: 0;
+        border-right: 2px solid var(--pp-border);
+        border-bottom: 2px solid var(--pp-border);
         background: var(--pp-card);
         overflow: hidden;
       }
@@ -110,7 +119,6 @@
         width: min(100%, 214px);
         aspect-ratio: 1;
         padding: 8px;
-        border: 3px solid currentColor;
         background: #ffffff;
       }
 
@@ -163,7 +171,25 @@
       }
 
       .rules-panel {
-        background: color-mix(in srgb, var(--pp-accent) 13%, var(--pp-card));
+        background: var(--guest-blue);
+        color: #ffffff;
+      }
+
+      .rules-panel .checkout-note {
+        border-top-color: currentColor;
+        color: currentColor;
+      }
+
+      .rules-panel .list li::before {
+        background: currentColor;
+      }
+
+      .cafes-panel {
+        background: var(--guest-tint);
+      }
+
+      .smart-panel {
+        background: var(--guest-tint-strong);
       }
 
       .list {
@@ -218,7 +244,6 @@
         gap: 8px;
         align-items: center;
         padding-top: 10px;
-        border-top: 2px solid currentColor;
         font-size: 0.84rem;
         line-height: 1;
         font-weight: 820;
@@ -279,7 +304,7 @@
         .guest-grid {
           grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
           grid-template-rows: minmax(0, 235px) minmax(0, 145px) minmax(0, 1fr);
-          gap: 8px;
+          gap: 0;
         }
 
         .wifi-panel {
@@ -339,7 +364,7 @@
         }
 
         .guest-grid {
-          gap: 8px;
+          gap: 0;
         }
 
         .panel {
@@ -395,9 +420,27 @@
         <article class="panel wifi-panel">
           <h2 class="panel-title">
             <svg class="panel-icon" viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M4 9c4.6-4 11.4-4 16 0" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" />
-              <path d="M7.5 12.5c2.6-2.2 6.4-2.2 9 0" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" />
-              <path d="M10.5 16a2.2 2.2 0 0 1 3 0" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" />
+              <path
+                d="M4 9c4.6-4 11.4-4 16 0"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.4"
+                stroke-linecap="round"
+              />
+              <path
+                d="M7.5 12.5c2.6-2.2 6.4-2.2 9 0"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.4"
+                stroke-linecap="round"
+              />
+              <path
+                d="M10.5 16a2.2 2.2 0 0 1 3 0"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.4"
+                stroke-linecap="round"
+              />
               <circle cx="12" cy="19" r="1.2" fill="currentColor" />
             </svg>
             <span id="wifiTitle">Wi-Fi</span>
@@ -421,8 +464,19 @@
         <article class="panel rules-panel">
           <h2 class="panel-title">
             <svg class="panel-icon" viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M6 4h12v16H6z" fill="none" stroke="currentColor" stroke-width="2.2" />
-              <path d="M9 8h6M9 12h6M9 16h4" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" />
+              <path
+                d="M6 4h12v16H6z"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.2"
+              />
+              <path
+                d="M9 8h6M9 12h6M9 16h4"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.2"
+                stroke-linecap="round"
+              />
             </svg>
             <span id="rulesTitle">House Rules</span>
           </h2>
@@ -430,11 +484,23 @@
           <p class="checkout-note" id="checkoutNote"></p>
         </article>
 
-        <article class="panel">
+        <article class="panel cafes-panel">
           <h2 class="panel-title">
             <svg class="panel-icon" viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M5 9h14l-1.4 10H6.4L5 9Z" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" />
-              <path d="M7 9V6h10v3M9 13h6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" />
+              <path
+                d="M5 9h14l-1.4 10H6.4L5 9Z"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.2"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M7 9V6h10v3M9 13h6"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.2"
+                stroke-linecap="round"
+              />
             </svg>
             <span id="cafesTitle">Nearby Cafes</span>
           </h2>
@@ -444,8 +510,20 @@
         <article class="panel smart-panel">
           <h2 class="panel-title">
             <svg class="panel-icon" viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M4 11 12 4l8 7v9H4v-9Z" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" />
-              <path d="M9 20v-6h6v6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" />
+              <path
+                d="M4 11 12 4l8 7v9H4v-9Z"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.2"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M9 20v-6h6v6"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.2"
+                stroke-linejoin="round"
+              />
             </svg>
             <span id="smartHomeTitle">Smart Home</span>
           </h2>
@@ -482,9 +560,12 @@
           wifiPassword: "make-yourself-at-home",
           wifiSecurity: "WPA",
           checkoutTime: "11:00",
-          checkoutNote: "Leave keys on the kitchen table and pull the door closed.",
-          houseRules: "Quiet hours after 22:00\nNo smoking indoors\nPlease separate recycling",
-          nearbyCafes: "Milo Coffee - 3 min walk\nCorner Bakery - opens 07:30\nNorthside Espresso - best flat white",
+          checkoutNote:
+            "Leave keys on the kitchen table and pull the door closed.",
+          houseRules:
+            "Quiet hours after 22:00\nNo smoking indoors\nPlease separate recycling",
+          nearbyCafes:
+            "Milo Coffee - 3 min walk\nCorner Bakery - opens 07:30\nNorthside Espresso - best flat white",
           smartHomeInstructions:
             "Say: Hey Home, set living room to warm\nThermostat: turn the dial gently\nLights: long press the wall switch to dim",
           emergencyContact: "+49 30 000000",
@@ -531,7 +612,9 @@
 
         function renderList(id, lines) {
           const list = document.getElementById(id);
-          list.innerHTML = lines.map((line) => `<li><span>${escapeHtml(line)}</span></li>`).join("");
+          list.innerHTML = lines
+            .map((line) => `<li><span>${escapeHtml(line)}</span></li>`)
+            .join("");
         }
 
         function escapeWifiValue(value) {
@@ -539,7 +622,9 @@
         }
 
         function buildWifiPayload(settings) {
-          const security = ["WPA", "WEP", "nopass"].includes(settings.wifiSecurity)
+          const security = ["WPA", "WEP", "nopass"].includes(
+            settings.wifiSecurity,
+          )
             ? settings.wifiSecurity
             : defaults.wifiSecurity;
           const ssid = escapeWifiValue(settings.wifiName || defaults.wifiName);
@@ -566,9 +651,17 @@
 
           const data = [];
           for (let i = 0; i < bits.length; i += 8) {
-            data.push(bits.slice(i, i + 8).reduce((value, bit) => (value << 1) | bit, 0));
+            data.push(
+              bits
+                .slice(i, i + 8)
+                .reduce((value, bit) => (value << 1) | bit, 0),
+            );
           }
-          for (let pad = 0xec; data.length < qrDataCodewords; pad = pad === 0xec ? 0x11 : 0xec) {
+          for (
+            let pad = 0xec;
+            data.length < qrDataCodewords;
+            pad = pad === 0xec ? 0x11 : 0xec
+          ) {
             data.push(pad);
           }
 
@@ -639,15 +732,20 @@
             for (const block of blocks) codewords.push(block.data[i]);
           }
           for (let i = 0; i < qrEcCodewords; i += 1) {
-            for (const block of blocks) codewords.push(block.errorCorrection[i]);
+            for (const block of blocks)
+              codewords.push(block.errorCorrection[i]);
           }
           return codewords;
         }
 
         function makeQrMatrix(value) {
           const size = qrSize;
-          const matrix = Array.from({ length: size }, () => Array(size).fill(false));
-          const reserved = Array.from({ length: size }, () => Array(size).fill(false));
+          const matrix = Array.from({ length: size }, () =>
+            Array(size).fill(false),
+          );
+          const reserved = Array.from({ length: size }, () =>
+            Array(size).fill(false),
+          );
 
           function setModule(x, y, dark, isFunction = true) {
             if (x < 0 || y < 0 || x >= size || y >= size) return;
@@ -662,11 +760,15 @@
                 const py = y + yy;
                 if (px < 0 || py < 0 || px >= size || py >= size) continue;
                 const dark =
-                  (xx >= 0 &&
-                    xx <= 6 &&
-                    yy >= 0 &&
-                    yy <= 6 &&
-                    (xx === 0 || xx === 6 || yy === 0 || yy === 6 || (xx >= 2 && xx <= 4 && yy >= 2 && yy <= 4)));
+                  xx >= 0 &&
+                  xx <= 6 &&
+                  yy >= 0 &&
+                  yy <= 6 &&
+                  (xx === 0 ||
+                    xx === 6 ||
+                    yy === 0 ||
+                    yy === 6 ||
+                    (xx >= 2 && xx <= 4 && yy >= 2 && yy <= 4));
                 setModule(px, py, dark);
               }
             }
@@ -736,8 +838,10 @@
           setModule(8, 8, formatBit(7));
           setModule(7, 8, formatBit(8));
           for (let i = 9; i < 15; i += 1) setModule(14 - i, 8, formatBit(i));
-          for (let i = 0; i < 8; i += 1) setModule(size - 1 - i, 8, formatBit(i));
-          for (let i = 8; i < 15; i += 1) setModule(8, size - 15 + i, formatBit(i));
+          for (let i = 0; i < 8; i += 1)
+            setModule(size - 1 - i, 8, formatBit(i));
+          for (let i = 8; i < 15; i += 1)
+            setModule(8, size - 15 + i, formatBit(i));
 
           return matrix;
         }
@@ -762,17 +866,36 @@
 
         try {
           const payload = await waitForPayload({ timeout: 300 });
-          const settings = mergeSettings(defaults, getSettings(payload), getQuerySettings());
-          const languageResult = await loadLanguageJson(payload).catch(() => ({ language: "en", messages: {} }));
-          const messages = { ...fallbackMessages, ...(languageResult.messages || {}) };
+          const settings = mergeSettings(
+            defaults,
+            getSettings(payload),
+            getQuerySettings(),
+          );
+          const languageResult = await loadLanguageJson(payload).catch(() => ({
+            language: "en",
+            messages: {},
+          }));
+          const messages = {
+            ...fallbackMessages,
+            ...(languageResult.messages || {}),
+          };
           document.documentElement.lang = languageResult.language || "en";
 
           applyColorTheme(settings.color, { defaultTheme: defaults.color });
 
-          setText("placeName", String(settings.placeName || defaults.placeName).trim());
-          setText("welcomeLine", String(settings.welcomeLine || defaults.welcomeLine).trim());
+          setText(
+            "placeName",
+            String(settings.placeName || defaults.placeName).trim(),
+          );
+          setText(
+            "welcomeLine",
+            String(settings.welcomeLine || defaults.welcomeLine).trim(),
+          );
           setText("checkoutTitle", messages.checkoutTitle);
-          setText("checkoutTime", String(settings.checkoutTime || defaults.checkoutTime).trim());
+          setText(
+            "checkoutTime",
+            String(settings.checkoutTime || defaults.checkoutTime).trim(),
+          );
           setText("wifiTitle", messages.wifiTitle);
           setText("wifiSubtitle", messages.wifiSubtitle);
           setText("networkLabel", messages.networkLabel);
@@ -781,22 +904,47 @@
           setText("cafesTitle", messages.cafesTitle);
           setText("smartHomeTitle", messages.smartHomeTitle);
           setText("contactTitle", messages.contactTitle);
-          setText("wifiName", String(settings.wifiName || defaults.wifiName).trim());
+          setText(
+            "wifiName",
+            String(settings.wifiName || defaults.wifiName).trim(),
+          );
           setText(
             "wifiPassword",
-            settings.showWifiPassword === true || settings.showWifiPassword === "true"
+            settings.showWifiPassword === true ||
+              settings.showWifiPassword === "true"
               ? String(settings.wifiPassword || "").trim()
               : messages.hiddenPassword,
           );
-          setText("checkoutNote", String(settings.checkoutNote || defaults.checkoutNote).trim());
-          setText("emergencyContact", String(settings.emergencyContact || "").trim());
+          setText(
+            "checkoutNote",
+            String(settings.checkoutNote || defaults.checkoutNote).trim(),
+          );
+          setText(
+            "emergencyContact",
+            String(settings.emergencyContact || "").trim(),
+          );
           document
             .getElementById("contactStrip")
-            .classList.toggle("is-hidden", !String(settings.emergencyContact || "").trim());
+            .classList.toggle(
+              "is-hidden",
+              !String(settings.emergencyContact || "").trim(),
+            );
 
-          renderList("houseRules", normalizeLines(settings.houseRules, messages.emptyRules));
-          renderList("nearbyCafes", normalizeLines(settings.nearbyCafes, messages.emptyCafes));
-          renderList("smartHomeInstructions", normalizeLines(settings.smartHomeInstructions, messages.emptySmartHome));
+          renderList(
+            "houseRules",
+            normalizeLines(settings.houseRules, messages.emptyRules),
+          );
+          renderList(
+            "nearbyCafes",
+            normalizeLines(settings.nearbyCafes, messages.emptyCafes),
+          );
+          renderList(
+            "smartHomeInstructions",
+            normalizeLines(
+              settings.smartHomeInstructions,
+              messages.emptySmartHome,
+            ),
+          );
           drawQr(document.getElementById("qr"), buildWifiPayload(settings));
 
           await document.fonts?.ready;

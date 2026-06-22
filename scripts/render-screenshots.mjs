@@ -265,6 +265,35 @@ const apps = [
     ],
   },
   {
+    slug: "tour-de-france",
+    variants: [
+      {
+        id: "auto",
+        values: {
+          color: "light",
+          selection: "auto",
+          stage: 1,
+          locale: "en-US",
+          timeZone: "Europe/Berlin",
+          showProfile: true,
+          showRankings: true,
+        },
+      },
+      {
+        id: "alpe-dhuez",
+        values: {
+          color: "dark",
+          selection: "stage",
+          stage: 19,
+          locale: "de-DE",
+          timeZone: "Europe/Berlin",
+          showProfile: true,
+          showRankings: false,
+        },
+      },
+    ],
+  },
+  {
     slug: "immich-photos",
     variants: [
       {
