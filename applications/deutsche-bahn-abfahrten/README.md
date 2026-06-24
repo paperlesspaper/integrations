@@ -2,6 +2,8 @@
 
 Shows upcoming realtime departures for a Deutsche Bahn station, inspired by the TRMNL Deutsche Bahn Abfahrten plugin.
 
+[https://trmnl.com/integrations/deutsche-bahn-abfahrten](https://trmnl.com/integrations/deutsche-bahn-abfahrten)
+
 ## Links
 
 - [Demo](https://integrations.paperlesspaper.de/deutsche-bahn-abfahrten/run)
