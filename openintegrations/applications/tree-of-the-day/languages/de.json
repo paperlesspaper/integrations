@@ -1,0 +1,20 @@
+{
+  "loading": "Laden...",
+  "kicker": "Baum des Tages",
+  "species": "Art",
+  "range": "Verbreitung",
+  "height": "Hoehe",
+  "age": "Alter",
+  "leafType": "Blatttyp",
+  "fruitSeed": "Frucht / Samen",
+  "culturalRole": "Kulturelle Rolle",
+  "family": "Familie",
+  "habitat": "Lebensraum",
+  "conservation": "Schutzstatus",
+  "category": "Eintrag",
+  "categorySpecies": "Baumart",
+  "categoryIndividual": "Beruehmter Baum",
+  "source": "Quelle",
+  "selectedFrom": "{count} in Rotation",
+  "errorTitle": "Baum konnte nicht geladen werden"
+}
