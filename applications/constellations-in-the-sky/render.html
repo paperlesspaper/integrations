@@ -209,6 +209,12 @@
           display: none;
         }
 
+        .daily-sign-mode .highlight-note {
+          display: block;
+          font-size: 0.78rem;
+          line-height: 1.12;
+        }
+
         .footer-stack {
           grid-column: 1 / -1;
           display: grid;
@@ -304,6 +310,8 @@
 
         const defaults = {
           color: "dark",
+          displayMode: "sky",
+          dailySignSeed: "",
           latitude: 52.52,
           longitude: 13.405,
           timeMode: "tonight",
@@ -312,6 +320,7 @@
           projection: "stereo",
           direction: 180,
           magnitude: 5.5,
+          starSize: 1,
           showLabels: true,
           showMilkyWay: true,
           showBoundaries: false,
@@ -320,6 +329,7 @@
         };
 
         const projectionLabels = {
+          gnomic: "Focused",
           stereo: "Stereographic",
           polar: "All sky",
           lambert: "Lambert",
@@ -327,6 +337,93 @@
           mollweide: "Mollweide",
           planechart: "Plane chart",
         };
+
+        const zodiacSigns = [
+          {
+            key: "Ari",
+            name: "Aries",
+            ra: 42,
+            dec: 20,
+            note: "Aries is a small northern zodiac constellation. Its modest pattern sits between Pisces and Taurus and marks the Ram in the traditional zodiac."
+          },
+          {
+            key: "Tau",
+            name: "Taurus",
+            ra: 68,
+            dec: 18,
+            note: "Taurus is one of the richest zodiac constellations, with Aldebaran, the Hyades, and the Pleiades all nearby."
+          },
+          {
+            key: "Gem",
+            name: "Gemini",
+            ra: 105,
+            dec: 24,
+            note: "Gemini is anchored by Castor and Pollux, the twin stars that make this winter constellation easy to recognize."
+          },
+          {
+            key: "Cnc",
+            name: "Cancer",
+            ra: 130,
+            dec: 20,
+            note: "Cancer is faint, but it contains the Beehive Cluster, a bright open cluster visible under dark skies."
+          },
+          {
+            key: "Leo",
+            name: "Leo",
+            ra: 153,
+            dec: 13,
+            note: "Leo is marked by Regulus and a sickle-shaped head. It is one of spring's most recognizable zodiac constellations."
+          },
+          {
+            key: "Vir",
+            name: "Virgo",
+            ra: 195,
+            dec: -4,
+            note: "Virgo is the largest zodiac constellation. Its bright star Spica sits near the ecliptic path of the Moon and planets."
+          },
+          {
+            key: "Lib",
+            name: "Libra",
+            ra: 230,
+            dec: -15,
+            note: "Libra represents the scales. Its main stars form a compact shape between Virgo and Scorpius."
+          },
+          {
+            key: "Sco",
+            name: "Scorpius",
+            ra: 247,
+            dec: -26,
+            note: "Scorpius is a dramatic zodiac constellation with the red star Antares and a long curved tail."
+          },
+          {
+            key: "Sgr",
+            name: "Sagittarius",
+            ra: 285,
+            dec: -25,
+            note: "Sagittarius lies toward the center of the Milky Way. Its teapot-shaped star pattern is a useful summer guide."
+          },
+          {
+            key: "Cap",
+            name: "Capricornus",
+            ra: 315,
+            dec: -18,
+            note: "Capricornus is a faint but ancient zodiac constellation, often drawn as a sea-goat in classical sky lore."
+          },
+          {
+            key: "Aqr",
+            name: "Aquarius",
+            ra: 335,
+            dec: -10,
+            note: "Aquarius covers a broad, mostly faint region of the zodiac and is associated with the Water Bearer."
+          },
+          {
+            key: "Psc",
+            name: "Pisces",
+            ra: 15,
+            dec: 10,
+            note: "Pisces is a large, faint constellation of two fish joined by a cord, stretching across the autumn sky."
+          }
+        ];
 
         function message(messages, key, fallback) {
           return typeof messages[key] === "string" ? messages[key] : fallback;
@@ -383,6 +480,54 @@
           return date;
         }
 
+        function dayOfYear(date) {
+          const start = new Date(date.getFullYear(), 0, 0);
+          return Math.floor((date - start) / 86400000);
+        }
+
+        function hashText(text) {
+          let hash = 2166136261;
+          for (let index = 0; index < text.length; index += 1) {
+            hash ^= text.charCodeAt(index);
+            hash = Math.imul(hash, 16777619);
+          }
+          return hash >>> 0;
+        }
+
+        function dailySignForDate(date, seed) {
+          const normalizedSeed = String(seed || "").trim();
+          const seedOffset = normalizedSeed ? hashText(normalizedSeed) : 0;
+          return zodiacSigns[(dayOfYear(date) + seedOffset) % zodiacSigns.length];
+        }
+
+        function localizedSign(messages, sign) {
+          const signs = messages.zodiacSigns && typeof messages.zodiacSigns === "object"
+            ? messages.zodiacSigns
+            : {};
+          return typeof signs[sign.key] === "string" ? signs[sign.key] : sign.name;
+        }
+
+        function localizedSignNote(messages, sign) {
+          const notes = messages.zodiacNotes && typeof messages.zodiacNotes === "object"
+            ? messages.zodiacNotes
+            : {};
+          return typeof notes[sign.key] === "string" ? notes[sign.key] : sign.note;
+        }
+
+        function filterConstellationLines(lines, sign) {
+          if (!sign || !Array.isArray(lines)) {
+            return lines;
+          }
+          return lines.filter((line) => line[0] === sign.key);
+        }
+
+        function filterConstellationBoundaries(boundaries, sign) {
+          if (!sign || !Array.isArray(boundaries)) {
+            return boundaries;
+          }
+          return boundaries.filter((boundary) => boundary[0] === sign.key);
+        }
+
         async function loadJson(path) {
           const response = await fetch(path);
           if (!response.ok) {
@@ -424,34 +569,44 @@
           }));
         }
 
-        function renderInfo({ messages, settings, skyTime, projection }) {
+        function renderInfo({ messages, settings, skyTime, projection, displayMode, dailySign }) {
           const latitude = numberSetting(settings.latitude, defaults.latitude, -90, 90);
           const longitude = numberSetting(settings.longitude, defaults.longitude, -180, 180);
           const direction = numberSetting(settings.direction, defaults.direction, 0, 359);
           const magnitude = numberSetting(settings.magnitude, defaults.magnitude, 1, 6.5);
+          const starSize = numberSetting(settings.starSize, defaults.starSize, 0.4, 3);
           const mode = oneOf(settings.timeMode, ["now", "tonight", "custom"], defaults.timeMode);
 
           document.querySelector("#kicker").textContent = message(messages, "kicker", "Constellations");
           document.querySelector("#title").textContent = message(messages, "title", "Constellations in the Sky");
-          document.querySelector("#subtitle").textContent = message(messages, "subtitle", "Location-aware sky map from real star positions");
-          document.querySelector("#viewLabel").textContent = message(messages, "viewLabel", "View");
+          document.querySelector("#subtitle").textContent = displayMode === "dailySign"
+            ? message(messages, "dailySubtitle", "One zodiac constellation for today")
+            : message(messages, "subtitle", "Location-aware sky map from real star positions");
+          document.querySelector("#viewLabel").textContent = displayMode === "dailySign"
+            ? message(messages, "dailySignLabel", "Today's sign")
+            : message(messages, "viewLabel", "View");
           const localizedProjection = messages.projections && typeof messages.projections[projection] === "string"
             ? messages.projections[projection]
             : projectionLabels[projection] || projection;
-          document.querySelector("#viewValue").textContent =
-            `${localizedProjection} ${Math.round(direction)}°`;
-          document.querySelector("#viewNote").textContent = message(
-            messages,
-            "viewNote",
-            `Stars to magnitude ${magnitude.toFixed(1)} with constellation lines from VirtualSky.`
-          );
+          document.querySelector("#viewValue").textContent = displayMode === "dailySign" && dailySign
+            ? localizedSign(messages, dailySign)
+            : `${localizedProjection} ${Math.round(direction)}°`;
+          document.querySelector("#viewNote").textContent = displayMode === "dailySign" && dailySign
+            ? localizedSignNote(messages, dailySign)
+            : message(
+                messages,
+                "viewNote",
+                `Stars to magnitude ${magnitude.toFixed(1)} with constellation lines from VirtualSky.`
+              );
           document.querySelector("#locationLabel").textContent = message(messages, "locationLabel", "Location");
           document.querySelector("#locationValue").textContent =
             `${formatCoordinate(latitude, "N", "S")} ${formatCoordinate(longitude, "E", "W")}`;
           document.querySelector("#timeLabel").textContent = message(messages, "timeLabel", "Time");
           document.querySelector("#timeValue").textContent =
             mode === "now" ? message(messages, "now", "Now") : formatDateTime(skyTime);
-          document.querySelector("#legendText").textContent = message(messages, "legendText", "Constellation lines");
+          document.querySelector("#legendText").textContent = displayMode === "dailySign"
+            ? message(messages, "dailyLegendText", "Today's constellation")
+            : message(messages, "legendText", "Constellation lines");
           document.querySelector("#apiLabel").textContent = message(messages, "apiLabel", "Engine");
           document.querySelector("#apiValue").textContent = message(messages, "apiValue", "VirtualSky local catalogue");
         }
@@ -470,12 +625,19 @@
           const longitude = numberSetting(settings.longitude, defaults.longitude, -180, 180);
           const direction = numberSetting(settings.direction, defaults.direction, 0, 359);
           const magnitude = numberSetting(settings.magnitude, defaults.magnitude, 1, 6.5);
-          const projection = oneOf(
+          const starSize = numberSetting(settings.starSize, defaults.starSize, 0.4, 3);
+          const displayMode = oneOf(settings.displayMode, ["sky", "dailySign"], defaults.displayMode);
+          document.body.classList.toggle("daily-sign-mode", displayMode === "dailySign");
+          const configuredProjection = oneOf(
             settings.projection,
             ["stereo", "polar", "lambert", "ortho", "mollweide", "planechart"],
             defaults.projection
           );
+          const projection = displayMode === "dailySign" ? "gnomic" : configuredProjection;
           const skyTime = timeFromSettings(settings);
+          const dailySign = displayMode === "dailySign"
+            ? dailySignForDate(skyTime, settings.dailySignSeed)
+            : null;
 
           const [lines, boundaries, galaxy, stars] = await Promise.all([
             loadJson("./assets/virtualsky/lines_latin.json"),
@@ -484,7 +646,7 @@
             loadJson("./assets/virtualsky/stars.json"),
           ]);
 
-          renderInfo({ messages, settings, skyTime, projection });
+          renderInfo({ messages, settings, skyTime, projection, displayMode, dailySign });
 
           const stage = document.querySelector("#skyStage");
           const sky = window.S.virtualsky({
@@ -494,15 +656,19 @@
             longitude,
             clock: skyTime,
             az: direction,
+            ra: dailySign ? dailySign.ra : undefined,
+            dec: dailySign ? dailySign.dec : undefined,
+            fov: dailySign ? 52 : undefined,
             magnitude,
+            scalestars: starSize,
             constellations: true,
             constellationlabels: boolSetting(settings.showLabels),
-            constellationboundaries: boolSetting(settings.showBoundaries),
-            constellationwidth: 1.35,
+            constellationboundaries: dailySign ? true : boolSetting(settings.showBoundaries),
+            constellationwidth: dailySign ? 2.2 : 1.35,
             constellationboundarieswidth: 0.8,
-            lines: lines.lines,
-            boundaries: boundaries.boundaries,
-            showgalaxy: boolSetting(settings.showMilkyWay),
+            lines: filterConstellationLines(lines.lines, dailySign),
+            boundaries: filterConstellationBoundaries(boundaries.boundaries, dailySign),
+            showgalaxy: dailySign ? false : boolSetting(settings.showMilkyWay),
             galaxy: galaxy.galaxy,
             galaxywidth: 1.15,
             showstars: true,
@@ -518,7 +684,7 @@
             gridstep: 30,
             gridlineswidth: 0.7,
             gradient: false,
-            ground: true,
+            ground: displayMode !== "dailySign",
             transparent: true,
             keyboard: false,
             mouse: false,

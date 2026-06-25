@@ -2,11 +2,14 @@
   "title": "Sternbilder im Himmel",
   "kicker": "Sternbilder",
   "subtitle": "Standortbezogene Himmelskarte mit echten Sternpositionen",
+  "dailySubtitle": "Ein Tierkreissternbild fuer heute",
   "viewLabel": "Ansicht",
   "viewNote": "Sterne, Sternbildlinien und optionale Grenzen werden lokal mit VirtualSky gerendert.",
+  "dailySignLabel": "Heutiges Zeichen",
   "locationLabel": "Ort",
   "timeLabel": "Zeit",
   "legendText": "Sternbildlinien",
+  "dailyLegendText": "Heutiges Sternbild",
   "apiLabel": "Engine",
   "apiValue": "Lokaler VirtualSky-Katalog",
   "now": "Jetzt",
@@ -17,5 +20,33 @@
     "ortho": "Orthografisch",
     "mollweide": "Mollweide",
     "planechart": "Planisphaere"
+  },
+  "zodiacSigns": {
+    "Ari": "Widder",
+    "Tau": "Stier",
+    "Gem": "Zwillinge",
+    "Cnc": "Krebs",
+    "Leo": "Loewe",
+    "Vir": "Jungfrau",
+    "Lib": "Waage",
+    "Sco": "Skorpion",
+    "Sgr": "Schuetze",
+    "Cap": "Steinbock",
+    "Aqr": "Wassermann",
+    "Psc": "Fische"
+  },
+  "zodiacNotes": {
+    "Ari": "Der Widder ist ein kleines noerdliches Tierkreissternbild zwischen Fische und Stier.",
+    "Tau": "Der Stier ist besonders reich: Aldebaran, Hyaden und Plejaden liegen in seiner Naehe.",
+    "Gem": "Die Zwillinge werden von Castor und Pollux gepraegt, zwei auffaelligen Sternen des Winterhimmels.",
+    "Cnc": "Der Krebs ist lichtschwach, enthaelt aber den Bienenstockhaufen, einen hellen offenen Sternhaufen.",
+    "Leo": "Der Loewe wird von Regulus und einer sichelfoermigen Kopfpartie markiert.",
+    "Vir": "Die Jungfrau ist das groesste Tierkreissternbild. Ihr heller Stern Spica liegt nahe der Ekliptik.",
+    "Lib": "Die Waage bildet eine kompakte Sternfigur zwischen Jungfrau und Skorpion.",
+    "Sco": "Der Skorpion ist mit dem roten Antares und seinem langen gebogenen Schwanz besonders markant.",
+    "Sgr": "Der Schuetze liegt Richtung Zentrum der Milchstrasse. Seine Teekannenform hilft bei der Orientierung.",
+    "Cap": "Der Steinbock ist ein lichtschwaches, aber sehr altes Tierkreissternbild.",
+    "Aqr": "Der Wassermann bedeckt eine grosse, eher lichtschwache Region des Tierkreises.",
+    "Psc": "Die Fische sind ein grosses, lichtschwaches Sternbild aus zwei durch ein Band verbundenen Fischen."
   }
 }

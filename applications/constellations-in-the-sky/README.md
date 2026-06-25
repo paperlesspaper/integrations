@@ -34,6 +34,8 @@ VirtualSky gives the integration a real observer-based sky projection without AP
 
 ## Settings
 
+- `displayMode`: location-aware sky map or one daily zodiac constellation.
+- `dailySignSeed`: optional seed that changes the deterministic daily zodiac constellation rotation.
 - `latitude`: observer latitude in decimal degrees.
 - `longitude`: observer longitude in decimal degrees.
 - `timeMode`: current time, tonight, or custom date.
@@ -47,6 +49,8 @@ VirtualSky gives the integration a real observer-based sky projection without AP
 - `showBoundaries`: draw IAU constellation boundaries.
 - `showGrid`: draw an azimuth/elevation grid.
 - `showPlanets`: draw planets, Sun, and Moon using VirtualSky's built-in ephemeris plugin.
+
+In `dailySign` mode, the app rotates through the 12 zodiac constellations by date and optional seed, centers the map on that constellation, and shows a short astronomical explanation in the sidebar. This is a daily star-sign feature, not a horoscope.
 
 ## Local URLs
 

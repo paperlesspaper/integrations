@@ -2,11 +2,14 @@
   "title": "Constellations in the Sky",
   "kicker": "Constellations",
   "subtitle": "Location-aware sky map from real star positions",
+  "dailySubtitle": "One zodiac constellation for today",
   "viewLabel": "View",
   "viewNote": "Stars, constellation lines, and optional boundaries rendered locally with VirtualSky.",
+  "dailySignLabel": "Today's sign",
   "locationLabel": "Location",
   "timeLabel": "Time",
   "legendText": "Constellation lines",
+  "dailyLegendText": "Today's constellation",
   "apiLabel": "Engine",
   "apiValue": "VirtualSky local catalogue",
   "now": "Now",
@@ -17,5 +20,33 @@
     "ortho": "Orthographic",
     "mollweide": "Mollweide",
     "planechart": "Plane chart"
+  },
+  "zodiacSigns": {
+    "Ari": "Aries",
+    "Tau": "Taurus",
+    "Gem": "Gemini",
+    "Cnc": "Cancer",
+    "Leo": "Leo",
+    "Vir": "Virgo",
+    "Lib": "Libra",
+    "Sco": "Scorpius",
+    "Sgr": "Sagittarius",
+    "Cap": "Capricornus",
+    "Aqr": "Aquarius",
+    "Psc": "Pisces"
+  },
+  "zodiacNotes": {
+    "Ari": "Aries is a small northern zodiac constellation. Its modest pattern sits between Pisces and Taurus and marks the Ram in the traditional zodiac.",
+    "Tau": "Taurus is one of the richest zodiac constellations, with Aldebaran, the Hyades, and the Pleiades all nearby.",
+    "Gem": "Gemini is anchored by Castor and Pollux, the twin stars that make this winter constellation easy to recognize.",
+    "Cnc": "Cancer is faint, but it contains the Beehive Cluster, a bright open cluster visible under dark skies.",
+    "Leo": "Leo is marked by Regulus and a sickle-shaped head. It is one of spring's most recognizable zodiac constellations.",
+    "Vir": "Virgo is the largest zodiac constellation. Its bright star Spica sits near the ecliptic path of the Moon and planets.",
+    "Lib": "Libra represents the scales. Its main stars form a compact shape between Virgo and Scorpius.",
+    "Sco": "Scorpius is a dramatic zodiac constellation with the red star Antares and a long curved tail.",
+    "Sgr": "Sagittarius lies toward the center of the Milky Way. Its teapot-shaped star pattern is a useful summer guide.",
+    "Cap": "Capricornus is a faint but ancient zodiac constellation, often drawn as a sea-goat in classical sky lore.",
+    "Aqr": "Aquarius covers a broad, mostly faint region of the zodiac and is associated with the Water Bearer.",
+    "Psc": "Pisces is a large, faint constellation of two fish joined by a cord, stretching across the autumn sky."
   }
 }

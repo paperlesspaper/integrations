@@ -6,6 +6,8 @@
   "icon": "./assets/icon.png",
   "nativeSettings": {
     "color": "dark",
+    "displayMode": "sky",
+    "dailySignSeed": "",
     "latitude": 52.52,
     "longitude": 13.405,
     "timeMode": "tonight",
@@ -14,6 +16,7 @@
     "projection": "stereo",
     "direction": 180,
     "magnitude": 5.5,
+    "starSize": 1,
     "showLabels": true,
     "showMilkyWay": true,
     "showBoundaries": false,
@@ -23,6 +26,8 @@
   "configVariants": [
     {
       "color": "dark",
+      "displayMode": "dailySign",
+      "dailySignSeed": "berlin",
       "latitude": 52.52,
       "longitude": 13.405,
       "timeMode": "tonight",
@@ -31,6 +36,7 @@
       "projection": "stereo",
       "direction": 180,
       "magnitude": 5.5,
+      "starSize": 1.25,
       "showLabels": true,
       "showMilkyWay": true,
       "showBoundaries": false,
@@ -43,6 +49,8 @@
     },
     {
       "color": "blue-dark",
+      "displayMode": "sky",
+      "dailySignSeed": "",
       "latitude": -33.8688,
       "longitude": 151.2093,
       "timeMode": "tonight",
@@ -51,6 +59,7 @@
       "projection": "polar",
       "direction": 180,
       "magnitude": 6,
+      "starSize": 1,
       "showLabels": true,
       "showMilkyWay": true,
       "showBoundaries": true,
@@ -65,6 +74,22 @@
   "formSchema": {
     "type": "object",
     "properties": {
+      "displayMode": {
+        "type": "string",
+        "title": "Display mode",
+        "description": "Show the location-aware sky or focus one zodiac constellation each day.",
+        "enum": [
+          "sky",
+          "dailySign"
+        ],
+        "default": "sky"
+      },
+      "dailySignSeed": {
+        "type": "string",
+        "title": "Daily sign seed",
+        "description": "Optional seed that changes the deterministic daily zodiac constellation rotation.",
+        "default": ""
+      },
       "latitude": {
         "type": "number",
         "title": "Latitude",
@@ -133,6 +158,14 @@
         "minimum": 1,
         "maximum": 6.5,
         "default": 5.5
+      },
+      "starSize": {
+        "type": "number",
+        "title": "Star size",
+        "description": "Scale the rendered star dots.",
+        "minimum": 0.4,
+        "maximum": 3,
+        "default": 1
       },
       "showLabels": {
         "type": "boolean",
