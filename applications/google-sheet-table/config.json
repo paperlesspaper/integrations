@@ -1,38 +1,50 @@
 {
   "name": "Google Sheet Table",
   "version": "0.1.0",
-  "description": "Shows matching rows from a public Google Sheet as a compact Date, Name, and Group table.",
+  "description": "Shows a public Google Sheet as an eInk-friendly table, with optional filtered summary mode.",
   "icon": "./assets/icon.png",
   "renderPage": "./render.html",
   "nativeSettings": {
     "color": "light",
-    "title": "Sheet Schedule",
+    "title": "",
     "sheetId": "",
     "gid": "",
-    "namesText": "Jane Smith\nJohn Smith",
-    "displayNamesText": "Jane Smith=Jane\nJohn Smith=John",
-    "columnsText": "B=Group 1\nC=Group 2\nD=Group 3",
+    "namesText": "",
+    "displayNamesText": "",
+    "columnsText": "",
     "dateColumn": "A",
-    "maxEntries": 6,
+    "maxEntries": 20,
     "showPastDates": false,
-    "includeSectionHeaders": false,
+    "includeSectionHeaders": true,
     "maxSectionHeaders": 2,
+    "tableHeaderStyle": "contrast",
+    "contrastHeader": true,
+    "preserveTextStyles": true,
+    "preserveTextColors": true,
+    "preserveBackgroundColors": true,
+    "preserveAlignment": true,
     "showUpdatedAt": true
   },
   "configVariants": [
     {
       "color": "light",
-      "title": "Sheet Schedule",
+      "title": "",
       "sheetId": "",
       "gid": "",
-      "namesText": "Jane Smith\nJohn Smith",
-      "displayNamesText": "Jane Smith=Jane\nJohn Smith=John",
-      "columnsText": "B=Group 1\nC=Group 2\nD=Group 3",
+      "namesText": "",
+      "displayNamesText": "",
+      "columnsText": "",
       "dateColumn": "A",
-      "maxEntries": 6,
+      "maxEntries": 20,
       "showPastDates": false,
-      "includeSectionHeaders": false,
+      "includeSectionHeaders": true,
       "maxSectionHeaders": 2,
+      "tableHeaderStyle": "contrast",
+      "contrastHeader": true,
+      "preserveTextStyles": true,
+      "preserveTextColors": true,
+      "preserveBackgroundColors": true,
+      "preserveAlignment": true,
       "showUpdatedAt": true
     }
   ],
@@ -42,7 +54,8 @@
       "title": {
         "type": "string",
         "title": "Title",
-        "default": "Sheet Schedule"
+        "description": "Optional. Leave empty to use the Google Sheet title.",
+        "default": ""
       },
       "sheetId": {
         "type": "string",
@@ -59,31 +72,38 @@
       "namesText": {
         "type": "string",
         "title": "Names to find",
-        "description": "One name per line, or comma-separated. Matches are case-insensitive and exact.",
-        "default": "Jane Smith\nJohn Smith"
+        "description": "Optional filter mode. One exact value per line. Leave empty with no column mapping to show the sheet as-is.",
+        "format": "textarea",
+        "rows": 5,
+        "default": ""
       },
       "displayNamesText": {
         "type": "string",
         "title": "Display names",
         "description": "Optional aliases, one per line: Full Name=Display Name.",
-        "default": "Jane Smith=Jane\nJohn Smith=John"
+        "format": "textarea",
+        "rows": 4,
+        "default": ""
       },
       "columnsText": {
         "type": "string",
         "title": "Column mapping",
-        "description": "One mapping per line, such as B=Group 1. Only mapped columns are searched.",
-        "default": "B=Group 1\nC=Group 2\nD=Group 3"
+        "description": "Optional filter mode. One mapping per line, such as B=Group 1. Leave empty with no names to show the sheet as-is.",
+        "format": "textarea",
+        "rows": 5,
+        "default": ""
       },
       "dateColumn": {
         "type": "string",
-        "title": "Date column",
-        "description": "Spreadsheet column containing dates or section labels.",
+        "title": "Date / label column",
+        "description": "Spreadsheet column containing dates, row labels, or section labels.",
         "default": "A"
       },
       "maxEntries": {
         "type": "number",
-        "title": "Maximum entries",
-        "default": 6
+        "title": "Maximum rows",
+        "description": "Limits table rows in default mode, or matching entries in filter mode.",
+        "default": 20
       },
       "showPastDates": {
         "type": "boolean",
@@ -92,14 +112,56 @@
       },
       "includeSectionHeaders": {
         "type": "boolean",
-        "title": "Include section labels",
-        "description": "Rows under a non-date label can be shown with that label in the Date column.",
-        "default": false
+        "title": "Use labels from date column",
+        "description": "Allow non-date values in the date/label column to appear in the Date column.",
+        "default": true
       },
       "maxSectionHeaders": {
         "type": "number",
         "title": "Maximum floating section labels",
-        "default": 2
+        "default": 2,
+        "inSettingsPage": true,
+        "inStettingsPage": true
+      },
+      "contrastHeader": {
+        "type": "boolean",
+        "title": "Contrast table header",
+        "description": "Use background-colored text on a foreground-colored table header. Turn off to reverse it.",
+        "default": true,
+        "inSettingsPage": true,
+        "inStettingsPage": true
+      },
+      "tableHeaderStyle": {
+        "type": "string",
+        "title": "Table header style",
+        "description": "Choose theme contrast, theme plain, or the formatting from the Google Sheet header row.",
+        "enum": [
+          "contrast",
+          "plain",
+          "sheet"
+        ],
+        "default": "contrast"
+      },
+      "preserveTextStyles": {
+        "type": "boolean",
+        "title": "Preserve text styles",
+        "description": "Apply exported bold, italic, underline, and strikethrough formatting.",
+        "default": true
+      },
+      "preserveTextColors": {
+        "type": "boolean",
+        "title": "Preserve text colors",
+        "default": true
+      },
+      "preserveBackgroundColors": {
+        "type": "boolean",
+        "title": "Preserve background colors",
+        "default": true
+      },
+      "preserveAlignment": {
+        "type": "boolean",
+        "title": "Preserve alignment",
+        "default": true
       },
       "showUpdatedAt": {
         "type": "boolean",
