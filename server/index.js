@@ -46,7 +46,8 @@ const port = Number(process.env.PORT || 3000);
 const app = express();
 const corsAllowedMethods = 'GET,HEAD,OPTIONS';
 const allowedApiNamePattern = /^[a-z0-9-]+$/;
-const allowedAssetExtensions = new Set(['.jpg', '.jpeg', '.png', '.svg', '.webp']);
+const allowedAssetExtensions = new Set(['.jpg', '.jpeg', '.png', '.svg', '.webp', '.json', '.js']);
+const allowedDataExtensions = new Set(['.js', '.json']);
 const allowedLanguageExtensions = new Set(['.json']);
 
 function isSafeSlug(slug) {
@@ -57,6 +58,24 @@ function isSafeFileName(fileName, allowedExtensions) {
   return (
     /^[a-z0-9][a-z0-9._-]*$/i.test(fileName) &&
     allowedExtensions.has(path.extname(fileName).toLowerCase())
+  );
+}
+
+function isSafePathSegment(segment) {
+  return /^[a-z0-9][a-z0-9._-]*$/i.test(segment);
+}
+
+function isSafeRelativeFilePath(filePath, allowedExtensions) {
+  if (typeof filePath !== 'string') {
+    return false;
+  }
+
+  const segments = filePath.split('/');
+  const fileName = segments.at(-1);
+  return (
+    segments.length > 0 &&
+    segments.every((segment) => isSafePathSegment(segment)) &&
+    isSafeFileName(fileName, allowedExtensions)
   );
 }
 
@@ -247,24 +266,37 @@ app.get('/:slug/settings.html', async (request, response) => {
   await sendIntegrationFile(response, request.params.slug, 'settings.html');
 });
 
-app.get('/:slug/languages/:fileName', async (request, response) => {
-  const { fileName, slug } = request.params;
-  if (!isSafeFileName(fileName, allowedLanguageExtensions)) {
+app.get('/:slug/languages/*', async (request, response) => {
+  const { slug } = request.params;
+  const filePath = request.params[0];
+  if (!isSafeRelativeFilePath(filePath, allowedLanguageExtensions)) {
     response.status(400).json({ error: 'Invalid language file' });
     return;
   }
 
-  await sendIntegrationFile(response, slug, path.join('languages', fileName));
+  await sendIntegrationFile(response, slug, path.join('languages', filePath));
 });
 
-app.get('/:slug/assets/:fileName', async (request, response) => {
-  const { fileName, slug } = request.params;
-  if (!isSafeFileName(fileName, allowedAssetExtensions)) {
+app.get('/:slug/assets/*', async (request, response) => {
+  const { slug } = request.params;
+  const filePath = request.params[0];
+  if (!isSafeRelativeFilePath(filePath, allowedAssetExtensions)) {
     response.status(400).json({ error: 'Invalid asset file' });
     return;
   }
 
-  await sendIntegrationFile(response, slug, path.join('assets', fileName));
+  await sendIntegrationFile(response, slug, path.join('assets', filePath));
+});
+
+app.get('/:slug/data/*', async (request, response) => {
+  const { slug } = request.params;
+  const filePath = request.params[0];
+  if (!isSafeRelativeFilePath(filePath, allowedDataExtensions)) {
+    response.status(400).json({ error: 'Invalid data file' });
+    return;
+  }
+
+  await sendIntegrationFile(response, slug, path.join('data', filePath));
 });
 
 app.get('/:slug/screenshots/:fileName', async (request, response) => {
