@@ -11,6 +11,18 @@
       .chore-screen {
         --wheel-accent: var(--pp-accent);
         --wheel-soft: color-mix(in srgb, var(--pp-accent) 18%, var(--pp-card));
+        --wheel-row-1: var(--pp-card);
+        --wheel-row-2: var(--pp-bg);
+        --wheel-row-3: var(--wheel-soft);
+        --wheel-row-4: var(--pp-card);
+        --wheel-row-fg-1: var(--pp-fg);
+        --wheel-row-fg-2: var(--pp-fg);
+        --wheel-row-fg-3: var(--pp-fg);
+        --wheel-row-fg-4: var(--pp-fg);
+        --wheel-segment-1: var(--wheel-accent);
+        --wheel-segment-2: var(--pp-card);
+        --wheel-segment-3: var(--wheel-soft);
+        --wheel-segment-4: var(--pp-bg);
         padding: 20px;
         gap: 12px;
       }
@@ -88,10 +100,10 @@
         background:
           conic-gradient(
             from -90deg,
-            var(--wheel-accent) 0deg 90deg,
-            var(--pp-card) 90deg 180deg,
-            var(--wheel-soft) 180deg 270deg,
-            var(--pp-bg) 270deg 360deg
+            var(--wheel-segment-1) 0deg 90deg,
+            var(--wheel-segment-2) 90deg 180deg,
+            var(--wheel-segment-3) 180deg 270deg,
+            var(--wheel-segment-4) 270deg 360deg
           );
       }
 
@@ -167,7 +179,8 @@
         align-items: center;
         padding: 8px 10px;
         border: 2px solid var(--pp-border);
-        background: var(--pp-card);
+        background: var(--wheel-row-bg, var(--pp-card));
+        color: var(--wheel-row-fg, var(--pp-fg));
       }
 
       .chore-name,
@@ -186,7 +199,7 @@
       }
 
       .member-name {
-        color: var(--wheel-accent);
+        color: var(--wheel-member-fg, var(--wheel-accent));
         font-size: 1.22rem;
         line-height: 1;
         font-weight: 930;
@@ -198,7 +211,7 @@
         margin-top: -2px;
         padding-top: 5px;
         border-top: 1px solid var(--pp-border);
-        color: var(--pp-muted);
+        color: var(--wheel-next-fg, var(--pp-muted));
         font-size: 0.72rem;
         line-height: 1;
         font-weight: 760;
@@ -392,6 +405,7 @@
           rotation: "weekly",
           seed: "home",
           showNext: true,
+          palette: "theme",
         };
 
         const fallbackMessages = {
@@ -402,7 +416,46 @@
           nextWeekLabel: "Next week",
           emptyMembers: "Add household members in settings.",
           emptyChores: "Add chores in settings.",
+          errorTitle: "Chore Wheel could not load",
         };
+
+        const palettes = {
+          theme: {
+            segments: ["var(--wheel-accent)", "var(--pp-card)", "var(--wheel-soft)", "var(--pp-bg)"],
+            rows: ["var(--pp-card)", "var(--pp-bg)", "var(--wheel-soft)", "var(--pp-card)"],
+          },
+          rainbow: {
+            segments: ["#f97316", "#facc15", "#22c55e", "#38bdf8"],
+            rows: ["#fff7ed", "#fefce8", "#f0fdf4", "#f0f9ff"],
+            member: "#0f172a",
+            next: "#475569",
+          },
+          warm: {
+            segments: ["#ef4444", "#f97316", "#facc15", "#fde68a"],
+            rows: ["#fef2f2", "#fff7ed", "#fefce8", "#fffbeb"],
+            member: "#7f1d1d",
+            next: "#854d0e",
+          },
+          cool: {
+            segments: ["#2563eb", "#06b6d4", "#22c55e", "#d9f99d"],
+            rows: ["#eff6ff", "#ecfeff", "#f0fdf4", "#f7fee7"],
+            member: "#172554",
+            next: "#155e75",
+          },
+        };
+
+        function applyPalette(value) {
+          const palette = palettes[value] || palettes.theme;
+          const root = document.getElementById("screen");
+          palette.segments.forEach((color, index) => {
+            root.style.setProperty(`--wheel-segment-${index + 1}`, color);
+          });
+          palette.rows.forEach((color, index) => {
+            root.style.setProperty(`--wheel-row-${index + 1}`, color);
+          });
+          root.style.setProperty("--wheel-member-fg", palette.member || "var(--wheel-accent)");
+          root.style.setProperty("--wheel-next-fg", palette.next || "var(--pp-muted)");
+        }
 
         function parseList(value) {
           return String(value || "")
@@ -481,7 +534,8 @@
               const nextHtml = showNext
                 ? `<span class="next-name">${escapeHtml(nextLabel)}: ${escapeHtml(next)}</span>`
                 : "";
-              return `<li class="assignment"><span class="chore-name">${escapeHtml(assignment.chore)}</span><span class="member-name">${escapeHtml(assignment.member)}</span>${nextHtml}</li>`;
+              const colorIndex = index % 4 + 1;
+              return `<li class="assignment" style="--wheel-row-bg: var(--wheel-row-${colorIndex}); --wheel-row-fg: var(--wheel-row-fg-${colorIndex})"><span class="chore-name">${escapeHtml(assignment.chore)}</span><span class="member-name">${escapeHtml(assignment.member)}</span>${nextHtml}</li>`;
             })
             .join("");
         }
@@ -490,6 +544,8 @@
           return value === true || value === "true";
         }
 
+        let messages = fallbackMessages;
+
         try {
           const payload = await waitForPayload({ timeout: 300 });
           const settings = mergeSettings(defaults, getSettings(payload), getQuerySettings());
@@ -497,13 +553,14 @@
             language: "en",
             messages: {},
           }));
-          const messages = {
+          messages = {
             ...fallbackMessages,
             ...(languageResult.messages || {}),
           };
           document.documentElement.lang = languageResult.language || "en";
 
           applyColorTheme(settings.color, { defaultTheme: defaults.color });
+          applyPalette(settings.palette);
 
           const rotation = settings.rotation === "daily" ? "daily" : "weekly";
           const members = parseList(settings.members);
@@ -554,7 +611,7 @@
           markReady({ rotation, period: period.key });
         } catch (error) {
           markError(error);
-          document.body.innerHTML = `<main class="pp-screen"><h1 class="pp-title pp-error">Chore Wheel could not load</h1><p>${escapeHtml(error.message)}</p></main>`;
+          document.body.innerHTML = `<main class="pp-screen"><h1 class="pp-title pp-error">${escapeHtml(messages.errorTitle)}</h1><p>${escapeHtml(error.message)}</p></main>`;
         }
       })();
     </script>

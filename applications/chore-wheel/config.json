@@ -11,7 +11,8 @@
     "chores": "Dishes\nTrash\nVacuum\nBathroom\nPlants",
     "rotation": "weekly",
     "seed": "home",
-    "showNext": true
+    "showNext": true,
+    "palette": "theme"
   },
   "configVariants": [
     {
@@ -25,7 +26,8 @@
       "screenshots": {
         "800x480": "./screenshots/chore-wheel-weekly-800x480-landscape.png",
         "480x800": "./screenshots/chore-wheel-weekly-480x800-portrait.png"
-      }
+      },
+      "palette": "theme"
     },
     {
       "color": "dark",
@@ -38,7 +40,8 @@
       "screenshots": {
         "800x480": "./screenshots/chore-wheel-daily-dark-800x480-landscape.png",
         "480x800": "./screenshots/chore-wheel-daily-dark-480x800-portrait.png"
-      }
+      },
+      "palette": "warm"
     }
   ],
   "formSchema": {
@@ -76,6 +79,18 @@
         ],
         "default": "weekly"
       },
+      "palette": {
+        "type": "string",
+        "title": "Colors",
+        "description": "Choose how colorful the wheel and assignment rows should be.",
+        "enum": [
+          "theme",
+          "rainbow",
+          "warm",
+          "cool"
+        ],
+        "default": "theme"
+      },
       "seed": {
         "type": "string",
         "title": "Seed",
@@ -92,6 +107,9 @@
   },
   "language": [
     "en",
-    "de"
+    "de",
+    "fr",
+    "es",
+    "it"
   ]
 }
