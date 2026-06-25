@@ -22,7 +22,6 @@
         min-height: 0;
         display: grid;
         grid-template-columns: minmax(0, 1fr) 226px;
-        border: 4px solid currentColor;
       }
 
       .sky-stage {
@@ -124,6 +123,10 @@
         font-weight: 720;
       }
 
+      .highlight-note:empty {
+        display: none !important;
+      }
+
       .fact-grid {
         display: grid;
         grid-template-columns: 1fr 1fr;
@@ -162,6 +165,11 @@
       .api-note {
         display: grid;
         gap: 3px;
+      }
+
+      .api-label,
+      .api-value {
+        display: none;
       }
 
       .api-value {
@@ -225,10 +233,6 @@
       }
 
       @media (max-width: 520px), (max-height: 520px) {
-        .stars-shell {
-          border-width: 3px;
-        }
-
         .stars-panel {
           gap: 8px;
           padding: 10px;
@@ -344,84 +348,96 @@
             name: "Aries",
             ra: 42,
             dec: 20,
-            note: "Aries is a small northern zodiac constellation. Its modest pattern sits between Pisces and Taurus and marks the Ram in the traditional zodiac."
+            note: "Aries is a small northern zodiac constellation. Its modest pattern sits between Pisces and Taurus and marks the Ram in the traditional zodiac.",
+            guide: "Look for a short bent line of three modest stars west of the Pleiades and east of Pisces. The brightest point is Hamal."
           },
           {
             key: "Tau",
             name: "Taurus",
             ra: 68,
             dec: 18,
-            note: "Taurus is one of the richest zodiac constellations, with Aldebaran, the Hyades, and the Pleiades all nearby."
+            note: "Taurus is one of the richest zodiac constellations, with Aldebaran, the Hyades, and the Pleiades all nearby.",
+            guide: "Find orange Aldebaran and the V-shaped Hyades. The tiny Pleiades cluster sits nearby and points you into Taurus."
           },
           {
             key: "Gem",
             name: "Gemini",
             ra: 105,
             dec: 24,
-            note: "Gemini is anchored by Castor and Pollux, the twin stars that make this winter constellation easy to recognize."
+            note: "Gemini is anchored by Castor and Pollux, the twin stars that make this winter constellation easy to recognize.",
+            guide: "Start with bright Castor and Pollux. From those twin stars, trace two roughly parallel chains back toward Orion."
           },
           {
             key: "Cnc",
             name: "Cancer",
             ra: 130,
             dec: 20,
-            note: "Cancer is faint, but it contains the Beehive Cluster, a bright open cluster visible under dark skies."
+            note: "Cancer is faint, but it contains the Beehive Cluster, a bright open cluster visible under dark skies.",
+            guide: "Cancer is faint. Look between Gemini and Leo for the hazy Beehive Cluster, then trace the small surrounding stars."
           },
           {
             key: "Leo",
             name: "Leo",
             ra: 153,
             dec: 13,
-            note: "Leo is marked by Regulus and a sickle-shaped head. It is one of spring's most recognizable zodiac constellations."
+            note: "Leo is marked by Regulus and a sickle-shaped head. It is one of spring's most recognizable zodiac constellations.",
+            guide: "Find bright Regulus, then follow the backward question-mark sickle above it. Denebola marks the lion's tail."
           },
           {
             key: "Vir",
             name: "Virgo",
             ra: 195,
             dec: -4,
-            note: "Virgo is the largest zodiac constellation. Its bright star Spica sits near the ecliptic path of the Moon and planets."
+            note: "Virgo is the largest zodiac constellation. Its bright star Spica sits near the ecliptic path of the Moon and planets.",
+            guide: "Arc from the Big Dipper handle to Arcturus, then continue the same curve to bright Spica. That anchors Virgo."
           },
           {
             key: "Lib",
             name: "Libra",
             ra: 230,
             dec: -15,
-            note: "Libra represents the scales. Its main stars form a compact shape between Virgo and Scorpius."
+            note: "Libra represents the scales. Its main stars form a compact shape between Virgo and Scorpius.",
+            guide: "Look between Spica in Virgo and red Antares in Scorpius. Libra is the modest diamond-like pattern between them."
           },
           {
             key: "Sco",
             name: "Scorpius",
             ra: 247,
             dec: -26,
-            note: "Scorpius is a dramatic zodiac constellation with the red star Antares and a long curved tail."
+            note: "Scorpius is a dramatic zodiac constellation with the red star Antares and a long curved tail.",
+            guide: "Find red Antares low in the south. From there, follow the curved chain of bright stars down to the scorpion tail."
           },
           {
             key: "Sgr",
             name: "Sagittarius",
             ra: 285,
             dec: -25,
-            note: "Sagittarius lies toward the center of the Milky Way. Its teapot-shaped star pattern is a useful summer guide."
+            note: "Sagittarius lies toward the center of the Milky Way. Its teapot-shaped star pattern is a useful summer guide.",
+            guide: "Search low in the south for the Teapot shape. The Milky Way looks like steam rising from its spout."
           },
           {
             key: "Cap",
             name: "Capricornus",
             ra: 315,
             dec: -18,
-            note: "Capricornus is a faint but ancient zodiac constellation, often drawn as a sea-goat in classical sky lore."
+            note: "Capricornus is a faint but ancient zodiac constellation, often drawn as a sea-goat in classical sky lore.",
+            guide: "Find a wide, faint triangle east of Sagittarius and west of Aquarius. Dark skies help a lot with Capricornus."
           },
           {
             key: "Aqr",
             name: "Aquarius",
             ra: 335,
             dec: -10,
-            note: "Aquarius covers a broad, mostly faint region of the zodiac and is associated with the Water Bearer."
+            note: "Aquarius covers a broad, mostly faint region of the zodiac and is associated with the Water Bearer.",
+            guide: "Look for a loose Y-shaped water jar below Pegasus. The rest of Aquarius spreads faintly south and east."
           },
           {
             key: "Psc",
             name: "Pisces",
             ra: 15,
             dec: 10,
-            note: "Pisces is a large, faint constellation of two fish joined by a cord, stretching across the autumn sky."
+            note: "Pisces is a large, faint constellation of two fish joined by a cord, stretching across the autumn sky.",
+            guide: "Use the Great Square of Pegasus as a landmark. Pisces curves around its southeast side as a faint loop and cord."
           }
         ];
 
@@ -514,6 +530,13 @@
           return typeof notes[sign.key] === "string" ? notes[sign.key] : sign.note;
         }
 
+        function localizedSignGuide(messages, sign) {
+          const guides = messages.zodiacGuides && typeof messages.zodiacGuides === "object"
+            ? messages.zodiacGuides
+            : {};
+          return typeof guides[sign.key] === "string" ? guides[sign.key] : sign.guide;
+        }
+
         function filterConstellationLines(lines, sign) {
           if (!sign || !Array.isArray(lines)) {
             return lines;
@@ -592,12 +615,8 @@
             ? localizedSign(messages, dailySign)
             : `${localizedProjection} ${Math.round(direction)}°`;
           document.querySelector("#viewNote").textContent = displayMode === "dailySign" && dailySign
-            ? localizedSignNote(messages, dailySign)
-            : message(
-                messages,
-                "viewNote",
-                `Stars to magnitude ${magnitude.toFixed(1)} with constellation lines from VirtualSky.`
-              );
+            ? `${localizedSignNote(messages, dailySign)} ${localizedSignGuide(messages, dailySign)}`
+            : "";
           document.querySelector("#locationLabel").textContent = message(messages, "locationLabel", "Location");
           document.querySelector("#locationValue").textContent =
             `${formatCoordinate(latitude, "N", "S")} ${formatCoordinate(longitude, "E", "W")}`;

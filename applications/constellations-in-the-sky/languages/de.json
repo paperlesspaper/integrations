@@ -4,7 +4,6 @@
   "subtitle": "Standortbezogene Himmelskarte mit echten Sternpositionen",
   "dailySubtitle": "Ein Tierkreissternbild fuer heute",
   "viewLabel": "Ansicht",
-  "viewNote": "Sterne, Sternbildlinien und optionale Grenzen werden lokal mit VirtualSky gerendert.",
   "dailySignLabel": "Heutiges Zeichen",
   "locationLabel": "Ort",
   "timeLabel": "Zeit",
@@ -48,5 +47,19 @@
     "Cap": "Der Steinbock ist ein lichtschwaches, aber sehr altes Tierkreissternbild.",
     "Aqr": "Der Wassermann bedeckt eine grosse, eher lichtschwache Region des Tierkreises.",
     "Psc": "Die Fische sind ein grosses, lichtschwaches Sternbild aus zwei durch ein Band verbundenen Fischen."
+  },
+  "zodiacGuides": {
+    "Ari": "Suche eine kurze geknickte Linie aus drei eher schwachen Sternen westlich der Plejaden und oestlich der Fische.",
+    "Tau": "Suche den orangefarbenen Aldebaran und die V-Form der Hyaden. Die nahen Plejaden weisen in den Stier.",
+    "Gem": "Beginne bei Castor und Pollux. Von diesen Zwillingssternen laufen zwei fast parallele Sternketten Richtung Orion.",
+    "Cnc": "Der Krebs ist schwach. Suche zwischen Zwillinge und Loewe den nebligen Bienenstockhaufen und die Sterne darum.",
+    "Leo": "Suche Regulus und folge darueber der sichelfoermigen Kopfpartie. Denebola markiert den Schwanz des Loewen.",
+    "Vir": "Folge dem Bogen der Deichsel des Grossen Wagens zu Arktur und weiter zu Spica. Dort beginnt die Jungfrau.",
+    "Lib": "Suche zwischen Spica in der Jungfrau und dem roten Antares im Skorpion die kleine rautenartige Waage.",
+    "Sco": "Suche den roten Antares tief im Sueden. Von dort fuehrt eine helle gebogene Sternkette zum Schwanz des Skorpions.",
+    "Sgr": "Suche tief im Sueden die Teekannenform. Die Milchstrasse wirkt dort wie Dampf aus der Tuelle.",
+    "Cap": "Suche oestlich vom Schuetzen und westlich vom Wassermann ein breites, lichtschwaches Dreieck.",
+    "Aqr": "Suche unter Pegasus eine lockere Y-Form als Wasserkrug. Der Rest des Wassermanns zieht schwach nach Sueden und Osten.",
+    "Psc": "Nutze das grosse Pegasusquadrat als Anker. Die Fische ziehen sich als schwache Schleife und Schnur suedostlich darum."
   }
 }

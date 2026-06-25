@@ -4,7 +4,6 @@
   "subtitle": "Location-aware sky map from real star positions",
   "dailySubtitle": "One zodiac constellation for today",
   "viewLabel": "View",
-  "viewNote": "Stars, constellation lines, and optional boundaries rendered locally with VirtualSky.",
   "dailySignLabel": "Today's sign",
   "locationLabel": "Location",
   "timeLabel": "Time",
@@ -48,5 +47,19 @@
     "Cap": "Capricornus is a faint but ancient zodiac constellation, often drawn as a sea-goat in classical sky lore.",
     "Aqr": "Aquarius covers a broad, mostly faint region of the zodiac and is associated with the Water Bearer.",
     "Psc": "Pisces is a large, faint constellation of two fish joined by a cord, stretching across the autumn sky."
+  },
+  "zodiacGuides": {
+    "Ari": "Look for a short bent line of three modest stars west of the Pleiades and east of Pisces. The brightest point is Hamal.",
+    "Tau": "Find orange Aldebaran and the V-shaped Hyades. The tiny Pleiades cluster sits nearby and points you into Taurus.",
+    "Gem": "Start with bright Castor and Pollux. From those twin stars, trace two roughly parallel chains back toward Orion.",
+    "Cnc": "Cancer is faint. Look between Gemini and Leo for the hazy Beehive Cluster, then trace the small surrounding stars.",
+    "Leo": "Find bright Regulus, then follow the backward question-mark sickle above it. Denebola marks the lion's tail.",
+    "Vir": "Arc from the Big Dipper handle to Arcturus, then continue the same curve to bright Spica. That anchors Virgo.",
+    "Lib": "Look between Spica in Virgo and red Antares in Scorpius. Libra is the modest diamond-like pattern between them.",
+    "Sco": "Find red Antares low in the south. From there, follow the curved chain of bright stars down to the scorpion tail.",
+    "Sgr": "Search low in the south for the Teapot shape. The Milky Way looks like steam rising from its spout.",
+    "Cap": "Find a wide, faint triangle east of Sagittarius and west of Aquarius. Dark skies help a lot with Capricornus.",
+    "Aqr": "Look for a loose Y-shaped water jar below Pegasus. The rest of Aquarius spreads faintly south and east.",
+    "Psc": "Use the Great Square of Pegasus as a landmark. Pisces curves around its southeast side as a faint loop and cord."
   }
 }
