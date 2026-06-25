@@ -98,22 +98,13 @@
       "region": {
         "type": "string",
         "title": "Region",
-        "enum": [
-          "europe",
-          "worldwide",
-          "any"
-        ],
+        "enum": ["europe", "worldwide", "any"],
         "default": "europe"
       },
       "traction": {
         "type": "string",
         "title": "Train type",
-        "enum": [
-          "any",
-          "high-speed",
-          "locomotive",
-          "emu"
-        ],
+        "enum": ["any", "high-speed", "locomotive", "emu"],
         "default": "any"
       },
       "trainId": {
@@ -225,11 +216,5 @@
       }
     }
   },
-  "language": [
-    "en",
-    "de",
-    "fr",
-    "es",
-    "it"
-  ]
+  "language": ["en", "de", "fr", "es", "it"]
 }
