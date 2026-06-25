@@ -1,0 +1,23 @@
+{
+  "title": "Mondphase",
+  "illuminationTitle": "Beleuchtung",
+  "ageTitle": "Alter",
+  "cycleTitle": "Zyklus",
+  "hemisphereTitle": "Hemisphäre",
+  "nextTitle": "Nächste Hauptphase",
+  "today": "Heute",
+  "dayUnit": "T",
+  "northern": "Nord",
+  "southern": "Süd",
+  "onDate": "am",
+  "phaseNames": {
+    "newMoon": "Neumond",
+    "waxingCrescent": "Zunehmende Sichel",
+    "firstQuarter": "Erstes Viertel",
+    "waxingGibbous": "Zunehmender Mond",
+    "fullMoon": "Vollmond",
+    "waningGibbous": "Abnehmender Mond",
+    "lastQuarter": "Letztes Viertel",
+    "waningCrescent": "Abnehmende Sichel"
+  }
+}

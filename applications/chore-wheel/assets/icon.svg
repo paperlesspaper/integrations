@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title">
+  <title id="title">Chore Wheel icon</title>
+  <rect width="512" height="512" fill="#f8f8f8"/>
+  <circle cx="256" cy="256" r="188" fill="#ffffff" stroke="#111111" stroke-width="28"/>
+  <path d="M256 68a188 188 0 0 1 188 188H256Z" fill="#ffe45c"/>
+  <path d="M444 256a188 188 0 0 1-188 188V256Z" fill="#38d17a"/>
+  <path d="M256 444A188 188 0 0 1 68 256h188Z" fill="#ffffff"/>
+  <path d="M68 256A188 188 0 0 1 256 68v188Z" fill="#4f7cff"/>
+  <path d="M256 68v376M68 256h376" fill="none" stroke="#111111" stroke-width="18"/>
+  <circle cx="256" cy="256" r="70" fill="#f8f8f8" stroke="#111111" stroke-width="18"/>
+  <path d="M256 46l36 66h-72Z" fill="#111111"/>
+  <path d="M214 250l29 29 58-68" fill="none" stroke="#111111" stroke-width="24" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

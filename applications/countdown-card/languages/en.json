@@ -1,0 +1,12 @@
+{
+  "untilLabel": "Until",
+  "sinceLabel": "Since",
+  "pastTargetLabel": "Past target",
+  "futureSinceLabel": "Starts in",
+  "daysLabel": "Days",
+  "hoursLabel": "Hours",
+  "minutesLabel": "Minutes",
+  "progressLabel": "Progress",
+  "targetDateLabel": "Target",
+  "invalidDateMessage": "Set a valid targetDate in settings."
+}

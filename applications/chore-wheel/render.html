@@ -1,0 +1,562 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="paperless:epd-optimize" content='{"intent":"readable"}' />
+    <title>Chore Wheel</title>
+    <link rel="stylesheet" href="/assets/paperless.css" />
+    <script src="/assets/paperless.iife.js"></script>
+    <style>
+      .chore-screen {
+        --wheel-accent: var(--pp-accent);
+        --wheel-soft: color-mix(in srgb, var(--pp-accent) 18%, var(--pp-card));
+        padding: 20px;
+        gap: 12px;
+      }
+
+      .chore-header {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        gap: 18px;
+        align-items: end;
+        padding-bottom: 10px;
+        border-bottom: 3px solid var(--pp-border);
+      }
+
+      .chore-title {
+        margin: 0;
+        color: var(--wheel-accent);
+        font-size: 3.4rem;
+        line-height: 0.92;
+        font-weight: 950;
+        letter-spacing: 0;
+        overflow-wrap: anywhere;
+      }
+
+      .chore-period {
+        display: grid;
+        gap: 5px;
+        min-width: 168px;
+        padding: 9px 12px;
+        border: 3px solid currentColor;
+        text-align: center;
+      }
+
+      .period-label {
+        margin: 0;
+        color: var(--pp-muted);
+        font-size: 0.74rem;
+        line-height: 1;
+        font-weight: 880;
+        text-transform: uppercase;
+      }
+
+      .period-value {
+        margin: 0;
+        font-size: 1.22rem;
+        line-height: 1;
+        font-weight: 920;
+      }
+
+      .chore-layout {
+        flex: 1;
+        min-height: 0;
+        display: grid;
+        grid-template-columns: minmax(176px, 0.72fr) minmax(0, 1.4fr);
+        gap: 14px;
+      }
+
+      .wheel-panel,
+      .assignment-panel {
+        min-width: 0;
+        min-height: 0;
+        overflow: hidden;
+      }
+
+      .wheel-panel {
+        display: grid;
+        place-items: center;
+      }
+
+      .wheel {
+        width: min(100%, 252px);
+        aspect-ratio: 1;
+        border: 5px solid currentColor;
+        border-radius: 50%;
+        position: relative;
+        background:
+          conic-gradient(
+            from -90deg,
+            var(--wheel-accent) 0deg 90deg,
+            var(--pp-card) 90deg 180deg,
+            var(--wheel-soft) 180deg 270deg,
+            var(--pp-bg) 270deg 360deg
+          );
+      }
+
+      .wheel::before,
+      .wheel::after {
+        content: "";
+        position: absolute;
+        inset: 49% 8%;
+        border-top: 4px solid currentColor;
+        transform: rotate(var(--line-rotation, 0deg));
+      }
+
+      .wheel::after {
+        --line-rotation: 90deg;
+      }
+
+      .wheel-center {
+        position: absolute;
+        inset: 31%;
+        display: grid;
+        place-items: center;
+        border: 4px solid currentColor;
+        border-radius: 50%;
+        background: var(--pp-bg);
+        font-size: 2.9rem;
+        line-height: 1;
+        font-weight: 950;
+      }
+
+      .wheel-marker {
+        position: absolute;
+        top: -15px;
+        left: 50%;
+        width: 0;
+        height: 0;
+        border-left: 16px solid transparent;
+        border-right: 16px solid transparent;
+        border-top: 28px solid currentColor;
+        transform: translateX(-50%);
+      }
+
+      .assignment-panel {
+        display: flex;
+        flex-direction: column;
+        gap: 9px;
+      }
+
+      .section-title {
+        margin: 0;
+        font-size: 1rem;
+        line-height: 1;
+        font-weight: 900;
+        text-transform: uppercase;
+      }
+
+      .assignments {
+        flex: 1;
+        min-height: 0;
+        display: grid;
+        grid-template-columns: minmax(0, 1fr);
+        gap: 7px;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        overflow: hidden;
+      }
+
+      .assignment {
+        min-width: 0;
+        display: grid;
+        grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+        gap: 10px;
+        align-items: center;
+        padding: 8px 10px;
+        border: 2px solid var(--pp-border);
+        background: var(--pp-card);
+      }
+
+      .chore-name,
+      .member-name,
+      .next-name {
+        min-width: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .chore-name {
+        font-size: 1.08rem;
+        line-height: 1.06;
+        font-weight: 840;
+      }
+
+      .member-name {
+        color: var(--wheel-accent);
+        font-size: 1.22rem;
+        line-height: 1;
+        font-weight: 930;
+        text-align: right;
+      }
+
+      .next-name {
+        grid-column: 1 / span 2;
+        margin-top: -2px;
+        padding-top: 5px;
+        border-top: 1px solid var(--pp-border);
+        color: var(--pp-muted);
+        font-size: 0.72rem;
+        line-height: 1;
+        font-weight: 760;
+        text-align: right;
+        text-transform: uppercase;
+      }
+
+      .is-hidden {
+        display: none;
+      }
+
+      .empty-state {
+        flex: 1;
+        min-height: 0;
+        display: grid;
+        place-items: center;
+        padding: 22px;
+        border: 3px dashed var(--pp-border);
+        color: var(--pp-muted);
+        font-size: 1.35rem;
+        line-height: 1.14;
+        font-weight: 820;
+        text-align: center;
+      }
+
+      @media (orientation: portrait) {
+        .chore-screen {
+          padding: 18px;
+          gap: 12px;
+        }
+
+        .chore-header {
+          grid-template-columns: 1fr;
+          gap: 10px;
+          align-items: start;
+        }
+
+        .chore-title {
+          font-size: 3rem;
+        }
+
+        .chore-period {
+          width: 100%;
+          min-width: 0;
+          grid-template-columns: auto minmax(0, 1fr);
+          align-items: baseline;
+          text-align: left;
+        }
+
+        .chore-layout {
+          grid-template-columns: 1fr;
+          grid-template-rows: auto minmax(0, 1fr);
+          gap: 12px;
+        }
+
+        .wheel {
+          width: min(100%, 164px);
+        }
+
+        .wheel-center {
+          font-size: 2rem;
+        }
+      }
+
+      @media (max-width: 700px), (max-height: 560px) {
+        .chore-screen {
+          padding: 14px;
+          gap: 9px;
+        }
+
+        .chore-header {
+          padding-bottom: 8px;
+          border-bottom-width: 2px;
+        }
+
+        .chore-title {
+          font-size: 2.35rem;
+        }
+
+        .chore-period {
+          padding: 7px 9px;
+          border-width: 2px;
+        }
+
+        .period-label {
+          font-size: 0.65rem;
+        }
+
+        .period-value {
+          font-size: 1rem;
+        }
+
+        .chore-layout {
+          gap: 10px;
+        }
+
+        .wheel {
+          width: min(100%, 190px);
+          border-width: 4px;
+        }
+
+        .wheel-center {
+          border-width: 3px;
+          font-size: 2.2rem;
+        }
+
+        .assignment-panel {
+          gap: 7px;
+        }
+
+        .section-title {
+          font-size: 0.82rem;
+        }
+
+        .assignments {
+          gap: 5px;
+        }
+
+        .assignment {
+          gap: 7px;
+          padding: 6px 8px;
+          border-width: 2px;
+        }
+
+        .chore-name {
+          font-size: 0.9rem;
+        }
+
+        .member-name {
+          font-size: 1.02rem;
+        }
+
+        .next-name {
+          font-size: 0.62rem;
+        }
+
+        .empty-state {
+          font-size: 1rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="website-has-loading-element"></div>
+    <main class="pp-screen chore-screen" id="screen">
+      <header class="chore-header">
+        <h1 class="chore-title" id="title">Chore Wheel</h1>
+        <aside class="chore-period">
+          <p class="period-label" id="periodLabel">This week</p>
+          <p class="period-value" id="periodValue"></p>
+        </aside>
+      </header>
+
+      <section class="chore-layout">
+        <aside class="wheel-panel" aria-hidden="true">
+          <div class="wheel">
+            <div class="wheel-marker"></div>
+            <div class="wheel-center" id="wheelCenter">0</div>
+          </div>
+        </aside>
+
+        <section class="assignment-panel">
+          <h2 class="section-title" id="assignmentsTitle">Assignments</h2>
+          <ul class="assignments" id="assignments"></ul>
+          <p class="empty-state is-hidden" id="emptyState"></p>
+        </section>
+      </section>
+    </main>
+
+    <script>
+      (async function render() {
+        const {
+          waitForPayload,
+          getSettings,
+          getQuerySettings,
+          mergeSettings,
+          loadLanguageJson,
+          applyColorTheme,
+          fitHyphenatedText,
+          fitToScreen,
+          escapeHtml,
+          markReady,
+          markError,
+        } = window.PaperlessOpenIntegration;
+
+        const defaults = {
+          color: "light",
+          title: "Chore Wheel",
+          members: "Alex\nSam\nMira\nJonas",
+          chores: "Dishes\nTrash\nVacuum\nBathroom\nPlants",
+          rotation: "weekly",
+          seed: "home",
+          showNext: true,
+        };
+
+        const fallbackMessages = {
+          assignmentsTitle: "Assignments",
+          todayLabel: "Today",
+          thisWeekLabel: "This week",
+          nextDayLabel: "Next",
+          nextWeekLabel: "Next week",
+          emptyMembers: "Add household members in settings.",
+          emptyChores: "Add chores in settings.",
+        };
+
+        function parseList(value) {
+          return String(value || "")
+            .replace(/\r\n?/g, "\n")
+            .split(/[,\n]/)
+            .map((item) => item.trim())
+            .filter(Boolean)
+            .slice(0, 12);
+        }
+
+        function hashString(value) {
+          let hash = 2166136261;
+          const input = String(value || "");
+          for (let i = 0; i < input.length; i += 1) {
+            hash ^= input.charCodeAt(i);
+            hash = Math.imul(hash, 16777619);
+          }
+          return hash >>> 0;
+        }
+
+        function pad(number) {
+          return String(number).padStart(2, "0");
+        }
+
+        function startOfLocalDay(date) {
+          return new Date(date.getFullYear(), date.getMonth(), date.getDate());
+        }
+
+        function getDayPeriod(date) {
+          const day = startOfLocalDay(date);
+          return {
+            key: `${day.getFullYear()}-${pad(day.getMonth() + 1)}-${pad(day.getDate())}`,
+            label: `${pad(day.getDate())}.${pad(day.getMonth() + 1)}.${day.getFullYear()}`,
+          };
+        }
+
+        function getIsoWeekPeriod(date) {
+          const day = startOfLocalDay(date);
+          day.setDate(day.getDate() + 3 - ((day.getDay() + 6) % 7));
+          const weekOne = new Date(day.getFullYear(), 0, 4);
+          const week = 1 + Math.round(
+            ((day - weekOne) / 86400000 - 3 + ((weekOne.getDay() + 6) % 7)) / 7,
+          );
+          return {
+            key: `${day.getFullYear()}-W${pad(week)}`,
+            label: `${day.getFullYear()} W${pad(week)}`,
+          };
+        }
+
+        function getPeriod(date, rotation) {
+          return rotation === "daily" ? getDayPeriod(date) : getIsoWeekPeriod(date);
+        }
+
+        function getNextDate(date, rotation) {
+          const next = startOfLocalDay(date);
+          next.setDate(next.getDate() + (rotation === "daily" ? 1 : 7));
+          return next;
+        }
+
+        function buildAssignments(members, chores, rotation, seed, date) {
+          const period = getPeriod(date, rotation);
+          const offset = members.length
+            ? hashString(`${seed}|${rotation}|${period.key}`) % members.length
+            : 0;
+          return chores.map((chore, index) => ({
+            chore,
+            member: members[(index + offset) % members.length],
+          }));
+        }
+
+        function renderAssignments(assignments, nextAssignments, showNext, messages, rotation) {
+          const nextLabel = rotation === "daily" ? messages.nextDayLabel : messages.nextWeekLabel;
+          return assignments
+            .map((assignment, index) => {
+              const next = nextAssignments[index]?.member || "";
+              const nextHtml = showNext
+                ? `<span class="next-name">${escapeHtml(nextLabel)}: ${escapeHtml(next)}</span>`
+                : "";
+              return `<li class="assignment"><span class="chore-name">${escapeHtml(assignment.chore)}</span><span class="member-name">${escapeHtml(assignment.member)}</span>${nextHtml}</li>`;
+            })
+            .join("");
+        }
+
+        function isTrue(value) {
+          return value === true || value === "true";
+        }
+
+        try {
+          const payload = await waitForPayload({ timeout: 300 });
+          const settings = mergeSettings(defaults, getSettings(payload), getQuerySettings());
+          const languageResult = await loadLanguageJson(payload).catch(() => ({
+            language: "en",
+            messages: {},
+          }));
+          const messages = {
+            ...fallbackMessages,
+            ...(languageResult.messages || {}),
+          };
+          document.documentElement.lang = languageResult.language || "en";
+
+          applyColorTheme(settings.color, { defaultTheme: defaults.color });
+
+          const rotation = settings.rotation === "daily" ? "daily" : "weekly";
+          const members = parseList(settings.members);
+          const chores = parseList(settings.chores);
+          const seed = String(settings.seed || defaults.seed).trim();
+          const now = new Date();
+          const period = getPeriod(now, rotation);
+          const nextDate = getNextDate(now, rotation);
+          const showNext = isTrue(settings.showNext);
+
+          document.getElementById("title").textContent =
+            String(settings.title || defaults.title).trim() || defaults.title;
+          document.getElementById("assignmentsTitle").textContent = messages.assignmentsTitle;
+          document.getElementById("periodLabel").textContent =
+            rotation === "daily" ? messages.todayLabel : messages.thisWeekLabel;
+          document.getElementById("periodValue").textContent = period.label;
+          document.getElementById("wheelCenter").textContent = String(members.length || 0);
+
+          const assignmentList = document.getElementById("assignments");
+          const emptyState = document.getElementById("emptyState");
+          if (!members.length || !chores.length) {
+            assignmentList.classList.add("is-hidden");
+            emptyState.classList.remove("is-hidden");
+            emptyState.textContent = members.length ? messages.emptyChores : messages.emptyMembers;
+          } else {
+            const assignments = buildAssignments(members, chores, rotation, seed, now);
+            const nextAssignments = buildAssignments(members, chores, rotation, seed, nextDate);
+            assignmentList.innerHTML = renderAssignments(
+              assignments,
+              nextAssignments,
+              showNext,
+              messages,
+              rotation,
+            );
+          }
+
+          await document.fonts?.ready;
+          document.querySelectorAll(".chore-name, .member-name, .next-name").forEach((element) => {
+            fitHyphenatedText(element, {
+              min: 10,
+              max: 28,
+              step: 1,
+              tolerance: 6,
+              fitParent: element,
+            });
+          });
+          fitToScreen(document.getElementById("screen"));
+          markReady({ rotation, period: period.key });
+        } catch (error) {
+          markError(error);
+          document.body.innerHTML = `<main class="pp-screen"><h1 class="pp-title pp-error">Chore Wheel could not load</h1><p>${escapeHtml(error.message)}</p></main>`;
+        }
+      })();
+    </script>
+  </body>
+</html>

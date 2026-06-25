@@ -1,0 +1,103 @@
+{
+  "name": "Countdown Card",
+  "version": "0.1.0",
+  "description": "Shows days, hours, and minutes until or since a configurable target date.",
+  "renderPage": "./render.html",
+  "icon": "./assets/icon.png",
+  "nativeSettings": {
+    "color": "light",
+    "title": "Launch Day",
+    "targetDate": "2030-01-01T00:00:00",
+    "mode": "auto",
+    "showTime": true,
+    "showProgress": true,
+    "startDate": "2026-01-01T00:00:00",
+    "dateLabel": "Target"
+  },
+  "configVariants": [
+    {
+      "color": "light",
+      "title": "Launch Day",
+      "targetDate": "2030-01-01T00:00:00",
+      "mode": "auto",
+      "showTime": true,
+      "showProgress": true,
+      "startDate": "2026-01-01T00:00:00",
+      "dateLabel": "Target",
+      "screenshots": {
+        "800x480": "./screenshots/countdown-card-launch-800x480-landscape.png",
+        "480x800": "./screenshots/countdown-card-launch-480x800-portrait.png"
+      }
+    },
+    {
+      "color": "dark",
+      "title": "Since Opening",
+      "targetDate": "2024-05-01T09:00:00",
+      "mode": "since",
+      "showTime": false,
+      "showProgress": false,
+      "startDate": "",
+      "dateLabel": "Opened",
+      "screenshots": {
+        "800x480": "./screenshots/countdown-card-since-800x480-landscape.png",
+        "480x800": "./screenshots/countdown-card-since-480x800-portrait.png"
+      }
+    }
+  ],
+  "formSchema": {
+    "type": "object",
+    "properties": {
+      "title": {
+        "type": "string",
+        "title": "Title",
+        "description": "Heading shown above the countdown.",
+        "default": "Launch Day"
+      },
+      "targetDate": {
+        "type": "string",
+        "title": "Target date",
+        "description": "Date or date-time to count toward or away from. Use local display time.",
+        "default": "2030-01-01T00:00:00"
+      },
+      "mode": {
+        "type": "string",
+        "title": "Mode",
+        "description": "Automatically choose until/since, or force one direction.",
+        "enum": [
+          "auto",
+          "until",
+          "since"
+        ],
+        "default": "auto"
+      },
+      "showTime": {
+        "type": "boolean",
+        "title": "Show hours and minutes",
+        "description": "Show hours and minutes next to days.",
+        "default": true
+      },
+      "showProgress": {
+        "type": "boolean",
+        "title": "Show progress",
+        "description": "Show progress from start date to target date when a start date is set.",
+        "default": true
+      },
+      "startDate": {
+        "type": "string",
+        "title": "Start date",
+        "description": "Optional date or date-time used only for progress.",
+        "default": "2026-01-01T00:00:00"
+      },
+      "dateLabel": {
+        "type": "string",
+        "title": "Date label",
+        "description": "Short label printed next to the formatted target date.",
+        "default": "Target"
+      }
+    }
+  },
+  "language": [
+    "en",
+    "de"
+  ]
+}

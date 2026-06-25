@@ -85,6 +85,66 @@ const apps = [
     ],
   },
   {
+    slug: "chore-wheel",
+    variants: [
+      {
+        id: "weekly",
+        values: {
+          color: "light",
+          title: "Chore Wheel",
+          members: "Alex\nSam\nMira\nJonas",
+          chores: "Dishes\nTrash\nVacuum\nBathroom\nPlants",
+          rotation: "weekly",
+          seed: "home",
+          showNext: true,
+        },
+      },
+      {
+        id: "daily-dark",
+        values: {
+          color: "dark",
+          title: "Kitchen Week",
+          members: "Nora, Eli, Fatima, Ben",
+          chores: "Cook dinner\nClear table\nLoad dishwasher\nWipe counters",
+          rotation: "daily",
+          seed: "kitchen",
+          showNext: false,
+        },
+      },
+    ],
+  },
+  {
+    slug: "countdown-card",
+    variants: [
+      {
+        id: "launch",
+        values: {
+          color: "light",
+          title: "Launch Day",
+          targetDate: "2030-01-01T00:00:00",
+          mode: "auto",
+          showTime: true,
+          showProgress: true,
+          startDate: "2026-01-01T00:00:00",
+          dateLabel: "Target",
+        },
+      },
+      {
+        id: "since",
+        values: {
+          color: "dark",
+          title: "Since Opening",
+          targetDate: "2024-05-01T09:00:00",
+          mode: "since",
+          showTime: false,
+          showProgress: false,
+          startDate: "",
+          dateLabel: "Opened",
+        },
+      },
+    ],
+  },
+  {
     slug: "deutsche-bahn-abfahrten",
     variants: [
       {
@@ -394,6 +454,33 @@ const apps = [
           showQrCode: true,
           qrCodeSize: 112,
           maxLinkLength: 36,
+        },
+      },
+    ],
+  },
+  {
+    slug: "moon-phase",
+    variants: [
+      {
+        id: "today",
+        values: {
+          color: "light",
+          title: "Moon Phase",
+          date: "",
+          hemisphere: "northern",
+          showDetails: true,
+          showNextPhase: true,
+        },
+      },
+      {
+        id: "southern-dark",
+        values: {
+          color: "dark",
+          title: "Southern Moon",
+          date: "2026-01-03",
+          hemisphere: "southern",
+          showDetails: true,
+          showNextPhase: false,
         },
       },
     ],

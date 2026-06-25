@@ -1300,7 +1300,7 @@ window.TrainOfTheDayTrains = [
     route: "Express passenger services between...",
     image: "./assets/trains/ns-mat-54.png",
     source: "Wikipedia: NS Mat '54",
-    signature: "historic-train-snippet:ns-mat-54-hondekop",
+    signature: "Its broad Hondekop nose made the Dutch Mat 54 one of the most recognizable postwar EMUs in the Netherlands.",
     historic: true,
   },
   {
@@ -1474,7 +1474,7 @@ window.TrainOfTheDayTrains = [
     route: "Tokaido Shinkansen",
     image: "./assets/trains/shinkansen-0-series.png",
     source: "Wikipedia: 0 Series Shinkansen",
-    signature: "historic-train-snippet:shinkansen-0-series",
+    signature: "The rounded white-and-blue nose introduced the world to regular high-speed rail on the Tokaido Shinkansen.",
     historic: true,
   },
   {
@@ -1677,7 +1677,7 @@ window.TrainOfTheDayTrains = [
     route: "Ogden, Utah to Green River, Wyoming",
     image: "./assets/trains/union-pacific-big-boy.png",
     source: "Wikipedia: Union Pacific Big Boy",
-    signature: "historic-train-snippet:union-pacific-big-boy",
+    signature: "A giant articulated 4-8-8-4 built to haul heavy freight over the Wasatch grades.",
     historic: true,
   },
   {

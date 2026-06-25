@@ -1,0 +1,85 @@
+{
+  "name": "Moon Phase",
+  "version": "0.1.0",
+  "description": "Shows the moon phase, illumination, age, and optional next major phase estimate for a configurable date and hemisphere.",
+  "renderPage": "./render.html",
+  "icon": "./assets/icon.png",
+  "nativeSettings": {
+    "color": "light",
+    "title": "Moon Phase",
+    "date": "",
+    "hemisphere": "northern",
+    "showDetails": true,
+    "showNextPhase": true
+  },
+  "configVariants": [
+    {
+      "color": "light",
+      "title": "Moon Phase",
+      "date": "",
+      "hemisphere": "northern",
+      "showDetails": true,
+      "showNextPhase": true,
+      "screenshots": {
+        "800x480": "./screenshots/moon-phase-today-800x480-landscape.png",
+        "480x800": "./screenshots/moon-phase-today-480x800-portrait.png"
+      }
+    },
+    {
+      "color": "dark",
+      "title": "Southern Moon",
+      "date": "2026-01-03",
+      "hemisphere": "southern",
+      "showDetails": true,
+      "showNextPhase": false,
+      "screenshots": {
+        "800x480": "./screenshots/moon-phase-southern-dark-800x480-landscape.png",
+        "480x800": "./screenshots/moon-phase-southern-dark-480x800-portrait.png"
+      }
+    }
+  ],
+  "formSchema": {
+    "type": "object",
+    "properties": {
+      "title": {
+        "type": "string",
+        "title": "Title",
+        "description": "Heading shown above the moon phase.",
+        "default": "Moon Phase"
+      },
+      "date": {
+        "type": "string",
+        "title": "Date",
+        "description": "Date to calculate. Leave empty to use today.",
+        "format": "date",
+        "default": ""
+      },
+      "hemisphere": {
+        "type": "string",
+        "title": "Hemisphere",
+        "description": "Choose how the lit side is oriented.",
+        "enum": [
+          "northern",
+          "southern"
+        ],
+        "default": "northern"
+      },
+      "showDetails": {
+        "type": "boolean",
+        "title": "Show details",
+        "description": "Show illumination, moon age, and hemisphere.",
+        "default": true
+      },
+      "showNextPhase": {
+        "type": "boolean",
+        "title": "Show next major phase",
+        "description": "Show the estimated next new, quarter, or full moon.",
+        "default": true
+      }
+    }
+  },
+  "language": [
+    "en",
+    "de"
+  ]
+}

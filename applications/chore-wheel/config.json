@@ -1,0 +1,97 @@
+{
+  "name": "Chore Wheel",
+  "version": "0.1.0",
+  "description": "Assigns household chores to members deterministically by day or week.",
+  "renderPage": "./render.html",
+  "icon": "./assets/icon.png",
+  "nativeSettings": {
+    "color": "light",
+    "title": "Chore Wheel",
+    "members": "Alex\nSam\nMira\nJonas",
+    "chores": "Dishes\nTrash\nVacuum\nBathroom\nPlants",
+    "rotation": "weekly",
+    "seed": "home",
+    "showNext": true
+  },
+  "configVariants": [
+    {
+      "color": "light",
+      "title": "Chore Wheel",
+      "members": "Alex\nSam\nMira\nJonas",
+      "chores": "Dishes\nTrash\nVacuum\nBathroom\nPlants",
+      "rotation": "weekly",
+      "seed": "home",
+      "showNext": true,
+      "screenshots": {
+        "800x480": "./screenshots/chore-wheel-weekly-800x480-landscape.png",
+        "480x800": "./screenshots/chore-wheel-weekly-480x800-portrait.png"
+      }
+    },
+    {
+      "color": "dark",
+      "title": "Kitchen Week",
+      "members": "Nora, Eli, Fatima, Ben",
+      "chores": "Cook dinner\nClear table\nLoad dishwasher\nWipe counters",
+      "rotation": "daily",
+      "seed": "kitchen",
+      "showNext": false,
+      "screenshots": {
+        "800x480": "./screenshots/chore-wheel-daily-dark-800x480-landscape.png",
+        "480x800": "./screenshots/chore-wheel-daily-dark-480x800-portrait.png"
+      }
+    }
+  ],
+  "formSchema": {
+    "type": "object",
+    "properties": {
+      "title": {
+        "type": "string",
+        "title": "Title",
+        "description": "Heading shown above the assignments.",
+        "default": "Chore Wheel"
+      },
+      "members": {
+        "type": "string",
+        "title": "Members",
+        "description": "Household members separated by commas or new lines.",
+        "default": "Alex\nSam\nMira\nJonas",
+        "format": "textarea",
+        "rows": 5
+      },
+      "chores": {
+        "type": "string",
+        "title": "Chores",
+        "description": "Chores separated by commas or new lines.",
+        "default": "Dishes\nTrash\nVacuum\nBathroom\nPlants",
+        "format": "textarea",
+        "rows": 7
+      },
+      "rotation": {
+        "type": "string",
+        "title": "Rotation",
+        "description": "Rotate assignments every day or every ISO week.",
+        "enum": [
+          "daily",
+          "weekly"
+        ],
+        "default": "weekly"
+      },
+      "seed": {
+        "type": "string",
+        "title": "Seed",
+        "description": "Change this to reshuffle the deterministic wheel.",
+        "default": "home"
+      },
+      "showNext": {
+        "type": "boolean",
+        "title": "Show next rotation",
+        "description": "Preview who gets each chore in the next day or week.",
+        "default": true
+      }
+    }
+  },
+  "language": [
+    "en",
+    "de"
+  ]
+}

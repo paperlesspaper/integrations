@@ -1,0 +1,575 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="paperless:epd-optimize" content='{"intent":"readable"}' />
+    <title>Moon Phase</title>
+    <link rel="stylesheet" href="/assets/paperless.css" />
+    <script src="/assets/paperless.iife.js"></script>
+    <style>
+      .moon-screen {
+        padding: 28px;
+        gap: 18px;
+      }
+
+      .moon-header {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        gap: 18px;
+        align-items: end;
+        padding-bottom: 13px;
+        border-bottom: 3px solid var(--pp-border);
+      }
+
+      .moon-title {
+        margin: 0;
+        color: var(--pp-accent);
+        font-size: clamp(2rem, 8vh, 4.4rem);
+        line-height: 0.92;
+        font-weight: 950;
+        letter-spacing: 0;
+        overflow-wrap: anywhere;
+      }
+
+      .moon-date {
+        margin: 8px 0 0;
+        color: var(--pp-muted);
+        font-size: 1rem;
+        line-height: 1;
+        font-weight: 780;
+        text-transform: uppercase;
+      }
+
+      .moon-badge {
+        min-width: 144px;
+        padding: 10px 12px;
+        border: 3px solid currentColor;
+        text-align: center;
+      }
+
+      .moon-badge-label {
+        margin: 0 0 5px;
+        color: var(--pp-muted);
+        font-size: 0.72rem;
+        line-height: 1;
+        font-weight: 860;
+        text-transform: uppercase;
+      }
+
+      .moon-badge-value {
+        margin: 0;
+        font-size: 2.1rem;
+        line-height: 0.9;
+        font-weight: 950;
+      }
+
+      .moon-layout {
+        flex: 1;
+        min-height: 0;
+        display: grid;
+        grid-template-columns: minmax(0, 0.94fr) minmax(0, 1.06fr);
+        gap: 24px;
+        align-items: center;
+      }
+
+      .moon-visual-wrap {
+        min-width: 0;
+        display: grid;
+        place-items: center;
+      }
+
+      .moon-visual {
+        width: min(100%, 340px, 61vh);
+        aspect-ratio: 1;
+        display: block;
+      }
+
+      .moon-info {
+        min-width: 0;
+        display: grid;
+        gap: 16px;
+      }
+
+      .moon-phase-name {
+        margin: 0;
+        font-size: clamp(2.3rem, 10vh, 5.7rem);
+        line-height: 0.9;
+        font-weight: 950;
+        letter-spacing: 0;
+        overflow-wrap: anywhere;
+      }
+
+      .moon-details {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        border-top: 2px solid var(--pp-border);
+        border-left: 2px solid var(--pp-border);
+      }
+
+      .moon-detail {
+        min-width: 0;
+        padding: 12px 10px;
+        border-right: 2px solid var(--pp-border);
+        border-bottom: 2px solid var(--pp-border);
+      }
+
+      .moon-detail-label,
+      .moon-next-label {
+        margin: 0 0 6px;
+        color: var(--pp-muted);
+        font-size: 0.72rem;
+        line-height: 1;
+        font-weight: 860;
+        text-transform: uppercase;
+      }
+
+      .moon-detail-value {
+        margin: 0;
+        font-size: 1.34rem;
+        line-height: 1;
+        font-weight: 900;
+        overflow-wrap: anywhere;
+      }
+
+      .moon-next {
+        padding: 13px 15px;
+        border: 3px solid var(--pp-border);
+      }
+
+      .moon-next-value {
+        margin: 0;
+        font-size: 1.5rem;
+        line-height: 1.05;
+        font-weight: 900;
+        overflow-wrap: anywhere;
+      }
+
+      .is-hidden {
+        display: none;
+      }
+
+      @media (orientation: portrait) {
+        .moon-screen {
+          padding: 24px;
+          gap: 16px;
+        }
+
+        .moon-header {
+          grid-template-columns: 1fr;
+          align-items: start;
+          gap: 10px;
+        }
+
+        .moon-badge {
+          width: 100%;
+          display: grid;
+          grid-template-columns: auto 1fr;
+          gap: 12px;
+          align-items: baseline;
+          text-align: left;
+        }
+
+        .moon-badge-label {
+          margin: 0;
+        }
+
+        .moon-layout {
+          grid-template-columns: 1fr;
+          gap: 18px;
+          align-content: center;
+        }
+
+        .moon-visual {
+          width: min(100%, 330px, 43vh);
+        }
+
+        .moon-info {
+          gap: 14px;
+        }
+
+        .moon-phase-name {
+          text-align: center;
+        }
+      }
+
+      @media (max-width: 700px), (max-height: 560px) {
+        .moon-screen {
+          padding: 18px;
+          gap: 12px;
+        }
+
+        .moon-header {
+          padding-bottom: 10px;
+          border-bottom-width: 2px;
+        }
+
+        .moon-title {
+          font-size: clamp(1.9rem, 8vh, 3.6rem);
+        }
+
+        .moon-date {
+          font-size: 0.82rem;
+        }
+
+        .moon-badge {
+          min-width: 116px;
+          padding: 8px 10px;
+          border-width: 2px;
+        }
+
+        .moon-badge-value {
+          font-size: 1.7rem;
+        }
+
+        .moon-layout {
+          gap: 16px;
+        }
+
+        .moon-visual {
+          width: min(100%, 260px, 56vh);
+        }
+
+        .moon-info {
+          gap: 10px;
+        }
+
+        .moon-phase-name {
+          font-size: clamp(2rem, 9vh, 4.4rem);
+        }
+
+        .moon-detail {
+          padding: 9px 8px;
+        }
+
+        .moon-detail-label,
+        .moon-next-label,
+        .moon-badge-label {
+          font-size: 0.65rem;
+        }
+
+        .moon-detail-value {
+          font-size: 1rem;
+        }
+
+        .moon-next {
+          padding: 10px 12px;
+          border-width: 2px;
+        }
+
+        .moon-next-value {
+          font-size: 1.1rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="website-has-loading-element"></div>
+    <main class="pp-screen moon-screen" id="screen">
+      <header class="moon-header">
+        <div>
+          <h1 class="moon-title" id="title">Moon Phase</h1>
+          <p class="moon-date" id="dateLabel"></p>
+        </div>
+        <aside class="moon-badge">
+          <p class="moon-badge-label" id="illuminationTitle">Illumination</p>
+          <p class="moon-badge-value" id="illuminationBadge">0%</p>
+        </aside>
+      </header>
+
+      <section class="moon-layout">
+        <div class="moon-visual-wrap">
+          <canvas class="moon-visual" id="moonCanvas" width="360" height="360" aria-hidden="true"></canvas>
+        </div>
+        <div class="moon-info">
+          <h2 class="moon-phase-name pp-fit" id="phaseName">New Moon</h2>
+          <div class="moon-details" id="details">
+            <article class="moon-detail">
+              <p class="moon-detail-label" id="ageTitle">Age</p>
+              <p class="moon-detail-value" id="ageValue"></p>
+            </article>
+            <article class="moon-detail">
+              <p class="moon-detail-label" id="cycleTitle">Cycle</p>
+              <p class="moon-detail-value" id="cycleValue"></p>
+            </article>
+            <article class="moon-detail">
+              <p class="moon-detail-label" id="hemisphereTitle">Hemisphere</p>
+              <p class="moon-detail-value" id="hemisphereValue"></p>
+            </article>
+          </div>
+          <article class="moon-next" id="nextPhase">
+            <p class="moon-next-label" id="nextTitle">Next major phase</p>
+            <p class="moon-next-value" id="nextValue"></p>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <script>
+      (async function render() {
+        const {
+          waitForPayload,
+          getSettings,
+          getQuerySettings,
+          mergeSettings,
+          loadLanguageJson,
+          applyColorTheme,
+          fitHyphenatedText,
+          fitToScreen,
+          escapeHtml,
+          markReady,
+          markError,
+        } = window.PaperlessOpenIntegration;
+
+        const defaults = {
+          color: "light",
+          title: "Moon Phase",
+          date: "",
+          hemisphere: "northern",
+          showDetails: true,
+          showNextPhase: true,
+        };
+
+        const synodicMonth = 29.530588853;
+        const knownNewMoonJd = 2451550.25972;
+        const phaseKeys = [
+          "newMoon",
+          "waxingCrescent",
+          "firstQuarter",
+          "waxingGibbous",
+          "fullMoon",
+          "waningGibbous",
+          "lastQuarter",
+          "waningCrescent",
+        ];
+
+        const fallbackMessages = {
+          title: "Moon Phase",
+          illuminationTitle: "Illumination",
+          ageTitle: "Age",
+          cycleTitle: "Cycle",
+          hemisphereTitle: "Hemisphere",
+          nextTitle: "Next major phase",
+          today: "Today",
+          dayUnit: "d",
+          northern: "North",
+          southern: "South",
+          onDate: "on",
+          phaseNames: {
+            newMoon: "New Moon",
+            waxingCrescent: "Waxing Crescent",
+            firstQuarter: "First Quarter",
+            waxingGibbous: "Waxing Gibbous",
+            fullMoon: "Full Moon",
+            waningGibbous: "Waning Gibbous",
+            lastQuarter: "Last Quarter",
+            waningCrescent: "Waning Crescent",
+          },
+        };
+
+        function asBoolean(value) {
+          return value === true || value === "true";
+        }
+
+        function normalizeHemisphere(value) {
+          return value === "southern" ? "southern" : "northern";
+        }
+
+        function parseDate(value) {
+          const raw = String(value || "").trim();
+          const dateMatch = raw.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+          if (dateMatch) {
+            const year = Number(dateMatch[1]);
+            const month = Number(dateMatch[2]) - 1;
+            const day = Number(dateMatch[3]);
+            return {
+              date: new Date(Date.UTC(year, month, day, 12, 0, 0)),
+              explicit: true,
+            };
+          }
+
+          if (raw) {
+            const parsed = new Date(raw);
+            if (!Number.isNaN(parsed.getTime())) {
+              return { date: parsed, explicit: true };
+            }
+          }
+
+          return { date: new Date(), explicit: false };
+        }
+
+        function toJulianDate(date) {
+          return date.getTime() / 86400000 + 2440587.5;
+        }
+
+        function positiveModulo(value, divisor) {
+          return ((value % divisor) + divisor) % divisor;
+        }
+
+        function calculateMoon(date) {
+          const jd = toJulianDate(date);
+          const phase = positiveModulo((jd - knownNewMoonJd) / synodicMonth, 1);
+          const age = phase * synodicMonth;
+          const illumination = (1 - Math.cos(2 * Math.PI * phase)) / 2;
+          return { jd, phase, age, illumination };
+        }
+
+        function phaseKeyForAge(age) {
+          const boundaries = [
+            1.84566,
+            5.53699,
+            9.22831,
+            12.91963,
+            16.61096,
+            20.30228,
+            23.99361,
+            27.68493,
+          ];
+          for (let index = 0; index < boundaries.length; index += 1) {
+            if (age < boundaries[index]) {
+              return phaseKeys[index];
+            }
+          }
+          return "newMoon";
+        }
+
+        function nextMajorPhase(phase, date) {
+          const targets = [
+            { phase: 0.25, key: "firstQuarter" },
+            { phase: 0.5, key: "fullMoon" },
+            { phase: 0.75, key: "lastQuarter" },
+            { phase: 1, key: "newMoon" },
+          ];
+          const epsilon = 0.0002;
+          const target = targets.find((item) => phase + epsilon < item.phase) || targets[0];
+          const targetPhase = target.phase === 1 ? 1 : target.phase;
+          const deltaCycles = targetPhase > phase ? targetPhase - phase : 1 + target.phase - phase;
+          const deltaDays = deltaCycles * synodicMonth;
+          return {
+            key: target.key,
+            days: deltaDays,
+            date: new Date(date.getTime() + deltaDays * 86400000),
+          };
+        }
+
+        function formatDate(date, language) {
+          return new Intl.DateTimeFormat(language || "en", {
+            year: "numeric",
+            month: "short",
+            day: "numeric",
+          }).format(date);
+        }
+
+        function getMessage(messages, key) {
+          return typeof messages[key] === "string" ? messages[key] : fallbackMessages[key];
+        }
+
+        function getPhaseName(messages, key) {
+          const phaseMessages = messages.phaseNames || {};
+          return phaseMessages[key] || fallbackMessages.phaseNames[key] || key;
+        }
+
+        function setText(id, value) {
+          document.getElementById(id).textContent = value;
+        }
+
+        function drawMoon(canvas, phase, hemisphere) {
+          const size = canvas.width;
+          const context = canvas.getContext("2d");
+          const image = context.createImageData(size, size);
+          const radius = size * 0.43;
+          const center = size / 2;
+          const angle = 2 * Math.PI * phase;
+          const flip = hemisphere === "southern" ? -1 : 1;
+
+          for (let y = 0; y < size; y += 1) {
+            for (let x = 0; x < size; x += 1) {
+              const dx = (x + 0.5 - center) / radius;
+              const dy = (y + 0.5 - center) / radius;
+              const distance = dx * dx + dy * dy;
+              const offset = (y * size + x) * 4;
+
+              if (distance <= 1) {
+                const z = Math.sqrt(1 - distance);
+                const light = flip * dx * Math.sin(angle) - z * Math.cos(angle) > 0;
+                const value = light ? 255 : 0;
+                image.data[offset] = value;
+                image.data[offset + 1] = value;
+                image.data[offset + 2] = value;
+                image.data[offset + 3] = 255;
+              } else {
+                image.data[offset + 3] = 0;
+              }
+            }
+          }
+
+          context.clearRect(0, 0, size, size);
+          context.putImageData(image, 0, 0);
+          context.beginPath();
+          context.arc(center, center, radius, 0, Math.PI * 2);
+          context.lineWidth = Math.max(4, Math.round(size * 0.015));
+          context.strokeStyle = "#000000";
+          context.stroke();
+        }
+
+        try {
+          const payload = await waitForPayload({ timeout: 300 });
+          const settings = mergeSettings(defaults, getSettings(payload), getQuerySettings());
+          const languageResult = await loadLanguageJson(payload).catch(() => ({ language: "en", messages: {} }));
+          const messages = languageResult.messages || {};
+          const language = languageResult.language || "en";
+          const { date, explicit } = parseDate(settings.date);
+          const hemisphere = normalizeHemisphere(settings.hemisphere);
+          const moon = calculateMoon(date);
+          const phaseKey = phaseKeyForAge(moon.age);
+          const phaseName = getPhaseName(messages, phaseKey);
+          const illuminationPercent = Math.round(moon.illumination * 100);
+          const title = String(settings.title || "").trim() || getMessage(messages, "title");
+          const next = nextMajorPhase(moon.phase, date);
+
+          document.documentElement.lang = language;
+          applyColorTheme(settings.color, { defaultTheme: defaults.color });
+
+          setText("title", title);
+          setText("dateLabel", explicit ? formatDate(date, language) : getMessage(messages, "today"));
+          setText("illuminationTitle", getMessage(messages, "illuminationTitle"));
+          setText("illuminationBadge", `${illuminationPercent}%`);
+          setText("phaseName", phaseName);
+          setText("ageTitle", getMessage(messages, "ageTitle"));
+          setText("cycleTitle", getMessage(messages, "cycleTitle"));
+          setText("hemisphereTitle", getMessage(messages, "hemisphereTitle"));
+          setText("nextTitle", getMessage(messages, "nextTitle"));
+          setText("ageValue", `${moon.age.toFixed(1)} ${getMessage(messages, "dayUnit")}`);
+          setText("cycleValue", `${Math.round(moon.phase * 100)}%`);
+          setText("hemisphereValue", getMessage(messages, hemisphere));
+          setText(
+            "nextValue",
+            `${getPhaseName(messages, next.key)} ${getMessage(messages, "onDate")} ${formatDate(next.date, language)}`,
+          );
+
+          document.getElementById("details").classList.toggle("is-hidden", !asBoolean(settings.showDetails));
+          document.getElementById("nextPhase").classList.toggle("is-hidden", !asBoolean(settings.showNextPhase));
+          drawMoon(document.getElementById("moonCanvas"), moon.phase, hemisphere);
+
+          await document.fonts?.ready;
+          fitHyphenatedText(document.getElementById("phaseName"), {
+            min: 26,
+            max: 92,
+            step: 1,
+            tolerance: 8,
+            lineBreak: "balance",
+          });
+          fitToScreen(document.getElementById("screen"));
+          markReady({
+            phase: phaseKey,
+            illumination: illuminationPercent,
+            age: Number(moon.age.toFixed(2)),
+          });
+        } catch (error) {
+          markError(error);
+          document.body.innerHTML = `<main class="pp-screen"><h1 class="pp-title pp-error">Moon Phase could not load</h1><p>${escapeHtml(error.message)}</p></main>`;
+        }
+      })();
+    </script>
+  </body>
+</html>

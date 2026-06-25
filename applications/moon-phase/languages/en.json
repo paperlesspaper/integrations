@@ -1,0 +1,23 @@
+{
+  "title": "Moon Phase",
+  "illuminationTitle": "Illumination",
+  "ageTitle": "Age",
+  "cycleTitle": "Cycle",
+  "hemisphereTitle": "Hemisphere",
+  "nextTitle": "Next major phase",
+  "today": "Today",
+  "dayUnit": "d",
+  "northern": "North",
+  "southern": "South",
+  "onDate": "on",
+  "phaseNames": {
+    "newMoon": "New Moon",
+    "waxingCrescent": "Waxing Crescent",
+    "firstQuarter": "First Quarter",
+    "waxingGibbous": "Waxing Gibbous",
+    "fullMoon": "Full Moon",
+    "waningGibbous": "Waning Gibbous",
+    "lastQuarter": "Last Quarter",
+    "waningCrescent": "Waning Crescent"
+  }
+}

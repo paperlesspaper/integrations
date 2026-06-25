@@ -1,0 +1,12 @@
+{
+  "untilLabel": "Bis",
+  "sinceLabel": "Seit",
+  "pastTargetLabel": "Ziel ueberschritten",
+  "futureSinceLabel": "Startet in",
+  "daysLabel": "Tage",
+  "hoursLabel": "Stunden",
+  "minutesLabel": "Minuten",
+  "progressLabel": "Fortschritt",
+  "targetDateLabel": "Ziel",
+  "invalidDateMessage": "Bitte ein gueltiges targetDate in den Einstellungen setzen."
+}
