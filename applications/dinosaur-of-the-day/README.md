@@ -1,6 +1,6 @@
 # Dinosaur of the Day
 
-Shows a deterministic daily dinosaur on a paperlesspaper display. The rotation uses Wikipedia-sourced facts and generated side-view silhouette artwork optimized for quick recognition on color eInk.
+Shows a deterministic daily dinosaur on a paperlesspaper display. The rotation uses Wikipedia-sourced facts and generated CAD-like side-view artwork optimized for quick recognition on color eInk.
 
 ## Links
 
@@ -15,36 +15,46 @@ Shows a deterministic daily dinosaur on a paperlesspaper display. The rotation u
 
 ## Artwork
 
-The dinosaur images were generated with the built-in image generation tool, then chroma-keyed locally into transparent PNG assets. The images use this framing:
+The dinosaur images were generated with the built-in image generation tool as non-transparent PNG assets. The images use this framing:
 
 - exact orthographic side view
-- centered full-body dinosaur silhouette
-- dark display-friendly shape with crisp edges
-- transparent background after local chroma-key removal
+- centered full-body dinosaur
+- white studio background
+- high-contrast CAD-like surfaces with crisp edges
 - no text, labels, watermark, environment, or cast shadow
 
 The application icon is stored at [assets/icon.png](./assets/icon.png).
 
 ### Icon Prompt
 
-Use this prompt for icon variants. Replace `YOUR DINOSAUR` with a concise dinosaur description:
+Use this prompt for icon variants. Replace `NAME OF THE DINOSAUR` with a dinosaur name:
 
 ```txt
-A high-resolution 2D digital icon for a Dinosaur of the Day integration for the paperlesspaper eInk display, featuring YOUR DINOSAUR in exact orthographic side view. The dinosaur is fully visible from snout to tail tip, centered with generous padding.
+Erstelle ein gerendertes CAD-ähnliches Bild von dem Dinosaurier NAME OF THE DINOSAUR in exakter orthografischer Seitenansicht, ohne Perspektive. Der Dinosaurier ist vollständig sichtbar. Weißer Hintergrund, Studio-Licht, hoher Kontrast, klare Kanten und saubere technische Flächen.
 
-The icon has a clean minimal silhouette with subtle beveled 3D shading and crisp edges. The background is fully transparent, with no shadows, floor, surrounding elements, text, labels, or watermark, suitable for use as an icon or in UI design.
+Nutze ein öffentliches Referenzbild von Wikipedia als visuelle Vorlage: NAME OF THE DINOSAUR mit den charakteristischen Farben und Form. Das Bild soll keine lesbaren Logos oder Textbeschriftungen enthalten.
+
+Der Dinosaurier soll etwas vereinfacht wirken, wie eine gerenderte CAD-Zeichnung: reduzierte, aber erkennbare Details.
+
+Komposition: exakte Seitenansicht, horizontal von links nach rechts, vollständig sichtbar. Keine perspektivische Verzerrung, keine Umgebung, keine Personen, keine starken Gebrauchsspuren, keine überladenen Details, kein Wasserzeichen, keine Textlabels.
+
+no transparency
 ```
 
 ### Image Prompt
 
-Use this prompt for additional dinosaurs. Replace `NAME OF THE DINOSAUR` and the anatomy hints:
+Use this prompt for additional dinosaurs. Replace `NAME OF THE DINOSAUR`:
 
 ```txt
-Create a display-friendly scientific silhouette of NAME OF THE DINOSAUR in exact orthographic side view, without perspective. The full dinosaur is centered and completely visible from snout to tail tip, with generous padding around the body. Use a dark charcoal silhouette with crisp edges and subtle eInk-friendly edge highlights.
+Erstelle ein gerendertes CAD-ähnliches Bild von dem Dinosaurier NAME OF THE DINOSAUR in exakter orthografischer Seitenansicht, ohne Perspektive. Der Dinosaurier ist vollständig sichtbar. Weißer Hintergrund, Studio-Licht, hoher Kontrast, klare Kanten und saubere technische Flächen.
 
-Use Wikipedia as the factual reference for the dinosaur's recognizable anatomy and proportions: include the characteristic body shape, skull, limbs, tail, plates, horns, sail, crest, claws, or other signature outline details for NAME OF THE DINOSAUR. The image should contain no readable text, logos, labels, watermark, environment, people, ground, cast shadow, or background objects.
+Nutze ein öffentliches Referenzbild von Wikipedia als visuelle Vorlage: NAME OF THE DINOSAUR mit den charakteristischen Farben und Form. Das Bild soll keine lesbaren Logos oder Textbeschriftungen enthalten.
 
-For transparent asset generation with the built-in tool, place the dinosaur on a perfectly flat solid #00ff00 chroma-key background. The background must be one uniform color with no shadows, gradients, texture, reflections, floor plane, or lighting variation, and #00ff00 must not appear inside the dinosaur.
+Der Dinosaurier soll etwas vereinfacht wirken, wie eine gerenderte CAD-Zeichnung: reduzierte, aber erkennbare Details.
+
+Komposition: exakte Seitenansicht, horizontal von links nach rechts, vollständig sichtbar. Keine perspektivische Verzerrung, keine Umgebung, keine Personen, keine starken Gebrauchsspuren, keine überladenen Details, kein Wasserzeichen, keine Textlabels.
+
+no transparency
 ```
 
 ## Settings

@@ -27,7 +27,7 @@ Primary request: simple high-resolution 2D icon showing a clean side-profile bir
 Subject: a compact generic songbird in exact side profile, facing right, with a bright accent breast and simple dark wing shape, readable at small size
 Style/medium: minimal polished semi-realistic icon, slight 3D shading and highlights, clean beveled shape
 Composition/framing: centered bird, fully visible, generous padding, square composition
-Scene/backdrop: plain white background
+Scene/backdrop: transparent background
 Lighting/mood: soft studio lighting, crisp high-contrast edges
 Constraints: no text, no labels, no watermark, no branch, no extra objects, no shadow outside the subject
 ```
