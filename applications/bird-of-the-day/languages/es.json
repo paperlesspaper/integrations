@@ -1,0 +1,19 @@
+{
+  "loading": "Cargando...",
+  "kicker": "Ave del dia",
+  "range": "Distribucion",
+  "wingspan": "Envergadura",
+  "call": "Canto",
+  "diet": "Dieta",
+  "conservation": "Estado",
+  "migration": "Migracion",
+  "scientificName": "Nombre cientifico",
+  "habitat": "Habitat",
+  "size": "Longitud",
+  "nesting": "Nidificacion",
+  "order": "Orden",
+  "source": "Fuente",
+  "selectedFrom": "{count} en rotacion",
+  "signature": "Nota de campo",
+  "errorTitle": "No se pudo cargar el ave"
+}

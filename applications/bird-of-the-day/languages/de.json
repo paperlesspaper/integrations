@@ -1,0 +1,19 @@
+{
+  "loading": "Wird geladen...",
+  "kicker": "Vogel des Tages",
+  "range": "Verbreitung",
+  "wingspan": "Spannweite",
+  "call": "Ruf",
+  "diet": "Nahrung",
+  "conservation": "Status",
+  "migration": "Zugverhalten",
+  "scientificName": "Wissenschaftlicher Name",
+  "habitat": "Lebensraum",
+  "size": "Koerperlaenge",
+  "nesting": "Nest",
+  "order": "Ordnung",
+  "source": "Quelle",
+  "selectedFrom": "{count} in der Rotation",
+  "signature": "Feldnotiz",
+  "errorTitle": "Vogel konnte nicht geladen werden"
+}

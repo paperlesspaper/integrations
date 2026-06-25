@@ -1,0 +1,703 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="paperless:epd-optimize" content='{"palette":"aitjcizeSpectra6Palette","imageAdjustmentOptions":{"toneMapping":{"exposure":0.04,"saturation":0,"contrast":0,"strength":0,"shadowBoost":0,"highlightCompress":0,"midpoint":0.5},"clarity":{"amount":1,"radius":2,"midtone":1.2},"dynamicRangeCompression":{"mode":"display","strength":0.65,"lowPercentile":0.01,"highPercentile":0.99}},"canvasDitherOptions":{"serpentine":true,"errorDiffusionMatrix":"sierra3"}}' />
+    <title>Bird of the Day</title>
+    <link rel="stylesheet" href="/assets/paperless.css" />
+    <script src="/assets/paperless.iife.js"></script>
+    <script src="./data/birds.js"></script>
+    <style>
+      .bird-screen {
+        padding: 0;
+        gap: 0;
+      }
+
+      .bird-shell {
+        width: 100%;
+        height: 100%;
+        min-height: 0;
+        display: grid;
+        grid-template-rows: auto minmax(0, 1fr) auto;
+        background: var(--pp-bg);
+      }
+
+      .hero-header {
+        min-width: 0;
+        display: grid;
+        grid-template-columns: minmax(92px, 0.22fr) minmax(0, 1fr) minmax(92px, 0.22fr);
+        align-items: start;
+        gap: 14px;
+        padding: 15px 22px 6px;
+      }
+
+      .title-area {
+        min-width: 0;
+        text-align: center;
+      }
+
+      .label {
+        margin: 0;
+        color: var(--pp-muted);
+        font-size: 0.67rem;
+        line-height: 1.04;
+        font-weight: 840;
+        text-transform: uppercase;
+      }
+
+      .kicker {
+        margin-bottom: 4px;
+        color: var(--pp-accent);
+      }
+
+      .bird-name {
+        margin: 0;
+        font-size: 4.35rem;
+        line-height: 0.9;
+        font-weight: 920;
+        letter-spacing: 0;
+        overflow-wrap: anywhere;
+      }
+
+      .scientific {
+        margin: 6px 0 0;
+        color: var(--pp-muted);
+        font-size: 1.04rem;
+        line-height: 1.08;
+        font-weight: 760;
+        font-style: italic;
+        overflow-wrap: anywhere;
+      }
+
+      .source-meta {
+        min-width: 0;
+        color: var(--pp-muted);
+        font-size: 0.58rem;
+        line-height: 1.1;
+        font-weight: 780;
+        text-transform: uppercase;
+        overflow-wrap: anywhere;
+      }
+
+      .source-meta p {
+        margin: 0;
+      }
+
+      .source-meta:last-child {
+        text-align: right;
+      }
+
+      .date-line {
+        color: var(--pp-fg);
+        font-size: 0.78rem;
+        font-weight: 870;
+      }
+
+      .rotation-line {
+        margin-top: 5px;
+      }
+
+      .image-stage {
+        min-width: 0;
+        min-height: 0;
+        display: grid;
+        grid-template-rows: minmax(0, 1fr) auto;
+        place-items: center;
+        padding: 0 26px 2px;
+        background: #fff;
+      }
+
+      .bird-image {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        mix-blend-mode: multiply;
+      }
+
+      .signature-line {
+        width: min(92%, 980px);
+        margin: 0 auto 5px;
+        color: #111;
+        font-size: 0.93rem;
+        line-height: 1.08;
+        font-weight: 760;
+        text-align: center;
+        overflow-wrap: anywhere;
+      }
+
+      .fact-grid {
+        min-height: 0;
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 14px;
+        padding: 9px 22px 15px;
+        background: var(--pp-bg);
+      }
+
+      .fact-grid[data-count="1"] {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .fact-grid[data-count="2"] {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .fact-grid[data-count="3"] {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .fact-grid[data-count="4"] {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
+
+      .fact-grid[data-count="5"] {
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+      }
+
+      .fact-grid[data-count="6"] {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .fact-grid[data-count="7"],
+      .fact-grid[data-count="8"],
+      .fact-grid[data-count="9"],
+      .fact-grid[data-count="10"],
+      .fact-grid[data-count="11"] {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 9px 12px;
+      }
+
+      .fact {
+        min-width: 0;
+        min-height: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        gap: 4px;
+        overflow: hidden;
+      }
+
+      .fact .label {
+        font-size: 0.62rem;
+      }
+
+      .value {
+        margin: 0;
+        font-size: 0.98rem;
+        line-height: 1.05;
+        font-weight: 850;
+        overflow-wrap: anywhere;
+      }
+
+      @media (orientation: portrait), (max-width: 700px) {
+        .bird-shell {
+          grid-template-rows: auto minmax(0, 0.9fr) auto;
+        }
+
+        .hero-header {
+          grid-template-columns: minmax(70px, 0.22fr) minmax(0, 1fr) minmax(70px, 0.22fr);
+          gap: 9px;
+          padding: 13px 16px 6px;
+        }
+
+        .source-meta {
+          font-size: 0.48rem;
+        }
+
+        .date-line {
+          font-size: 0.64rem;
+        }
+
+        .bird-name {
+          font-size: 3.05rem;
+        }
+
+        .scientific {
+          font-size: 0.88rem;
+        }
+
+        .image-stage {
+          padding: 0 12px 2px;
+        }
+
+        .signature-line {
+          font-size: 0.78rem;
+          line-height: 1.08;
+          margin-bottom: 4px;
+        }
+
+        .fact-grid,
+        .fact-grid[data-count] {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+          gap: 10px 16px;
+          padding: 8px 16px 14px;
+        }
+
+        .value {
+          font-size: 0.95rem;
+        }
+      }
+
+      @media (max-height: 560px) and (orientation: landscape) {
+        .hero-header {
+          padding: 10px 18px 4px;
+        }
+
+        .bird-name {
+          font-size: 3.2rem;
+        }
+
+        .scientific {
+          margin-top: 4px;
+          font-size: 0.88rem;
+        }
+
+        .source-meta {
+          font-size: 0.5rem;
+        }
+
+        .date-line {
+          font-size: 0.68rem;
+        }
+
+        .image-stage {
+          padding: 0 24px 1px;
+        }
+
+        .signature-line {
+          font-size: 0.76rem;
+          margin-bottom: 3px;
+        }
+
+        .fact-grid {
+          grid-template-columns: repeat(6, minmax(0, 1fr));
+          gap: 6px 12px;
+          padding: 6px 18px 9px;
+        }
+
+        .fact-grid[data-count] {
+          grid-template-columns: repeat(6, minmax(0, 1fr));
+        }
+
+        .fact {
+          gap: 2px;
+        }
+
+        .fact .label {
+          font-size: 0.48rem;
+        }
+
+        .value {
+          font-size: 0.66rem;
+          line-height: 1.03;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="website-has-loading-element"></div>
+    <main class="pp-screen bird-screen">
+      <section class="bird-shell" id="app">
+        <header class="hero-header">
+          <div class="source-meta">
+            <p class="date-line" id="date">----</p>
+            <p class="rotation-line" id="rotation"></p>
+          </div>
+          <div class="title-area">
+            <p class="label kicker" data-i18n="kicker">Bird of the day</p>
+            <h1 class="bird-name pp-fit" id="bird-name" data-i18n="loading">
+              Loading...
+            </h1>
+            <p class="scientific pp-fit" id="scientific"></p>
+          </div>
+          <div class="source-meta">
+            <p data-i18n="source">Source</p>
+            <p id="source"></p>
+          </div>
+        </header>
+
+        <div class="image-stage">
+          <img class="bird-image" id="bird-image" alt="" />
+          <p class="signature-line pp-fit" id="signature"></p>
+        </div>
+
+        <section class="fact-grid" id="facts"></section>
+      </section>
+    </main>
+
+    <script>
+      (async function render() {
+        const {
+          waitForPayload,
+          getSettings,
+          getQuerySettings,
+          mergeSettings,
+          escapeHtml,
+          fitHyphenatedText,
+          fitAllText,
+          fitToScreen,
+          markReady,
+          markError,
+          loadLanguageJson,
+          applyColorTheme,
+        } = window.PaperlessOpenIntegration;
+
+        const birds = Array.isArray(window.BirdOfTheDayBirds)
+          ? window.BirdOfTheDayBirds
+          : [];
+
+        const defaultMessages = {
+          loading: "Loading...",
+          kicker: "Bird of the day",
+          range: "Range",
+          wingspan: "Wingspan",
+          call: "Call",
+          diet: "Diet",
+          conservation: "Status",
+          migration: "Migration",
+          scientificName: "Scientific name",
+          habitat: "Habitat",
+          size: "Body length",
+          nesting: "Nesting",
+          order: "Order",
+          source: "Source",
+          selectedFrom: "{count} in rotation",
+          signature: "Field note",
+          errorTitle: "Bird could not load",
+        };
+        let messages = defaultMessages;
+        let currentLanguage = "en";
+
+        function t(key, values = {}) {
+          const template =
+            typeof messages[key] === "string"
+              ? messages[key]
+              : defaultMessages[key] || key;
+          return template.replace(
+            /\{(\w+)\}/g,
+            (_match, name) => values[name] ?? "",
+          );
+        }
+
+        function applyStaticMessages(root = document) {
+          root.querySelectorAll("[data-i18n]").forEach((element) => {
+            element.textContent = t(element.dataset.i18n);
+          });
+        }
+
+        async function loadMessages(payload) {
+          let result;
+          if (typeof loadLanguageJson === "function") {
+            result = await loadLanguageJson(payload);
+          } else {
+            const requested = String(payload?.meta?.language || "en").trim();
+            const requestedBase = requested.split("-")[0].toLowerCase();
+            const supported = ["en", "de", "fr", "es", "it"];
+            const language = supported.includes(requested)
+              ? requested
+              : supported.includes(requestedBase)
+                ? requestedBase
+                : "en";
+            const response = await fetch(`./languages/${language}.json`, {
+              cache: "no-store",
+            });
+            if (!response.ok) {
+              throw new Error(
+                `Could not load language JSON for ${language}: ${response.status}`,
+              );
+            }
+            result = { language, messages: await response.json() };
+          }
+
+          messages = { ...defaultMessages, ...result.messages };
+          currentLanguage = result.language || "en";
+          document.documentElement.lang = currentLanguage;
+          applyStaticMessages();
+        }
+
+        async function loadBirdTranslations(language) {
+          const requested = String(language || "en")
+            .trim()
+            .toLowerCase();
+          const requestedBase = requested.split("-")[0];
+          const candidates = ["en", requestedBase, requested].filter(
+            (value, index, array) => value && array.indexOf(value) === index,
+          );
+          let translations = {};
+
+          for (const candidate of candidates) {
+            try {
+              const response = await fetch(
+                `./languages/birds/${candidate}.json`,
+                { cache: "no-store" },
+              );
+              if (!response.ok) {
+                continue;
+              }
+              const data = await response.json();
+              if (data && typeof data === "object" && !Array.isArray(data)) {
+                translations = { ...translations, ...data };
+              }
+            } catch (_error) {
+              // Bird metadata translations are optional; base bird data remains usable.
+            }
+          }
+
+          return translations;
+        }
+
+        function applyBirdTranslation(bird, translations) {
+          const translation =
+            translations && typeof translations === "object"
+              ? translations[bird.id]
+              : null;
+          if (
+            !translation ||
+            typeof translation !== "object" ||
+            Array.isArray(translation)
+          ) {
+            return bird;
+          }
+
+          const fields = [
+            "name",
+            "range",
+            "call",
+            "diet",
+            "conservationStatus",
+            "migration",
+            "nesting",
+            "signature",
+            "source",
+          ];
+          const translatedFields = {};
+          fields.forEach((field) => {
+            if (typeof translation[field] === "string") {
+              translatedFields[field] = translation[field];
+            }
+          });
+          return { ...bird, ...translatedFields };
+        }
+
+        function dayKey(date = new Date()) {
+          return date.toISOString().slice(0, 10);
+        }
+
+        function hashString(value) {
+          let hash = 2166136261;
+          for (let index = 0; index < value.length; index += 1) {
+            hash ^= value.charCodeAt(index);
+            hash = Math.imul(hash, 16777619);
+          }
+          return hash >>> 0;
+        }
+
+        function pickBird(settings, key) {
+          const pinned = String(settings.birdId || "")
+            .trim()
+            .toLowerCase();
+          if (pinned) {
+            const match = birds.find((bird) => bird.id === pinned);
+            if (match) {
+              return { bird: match, poolSize: 1 };
+            }
+          }
+
+          const region = String(settings.region || "any");
+          const habitat = String(settings.habitat || "any");
+          const pool = birds.filter((bird) => {
+            const regionMatch =
+              region === "any" ||
+              bird.region === region ||
+              bird.region === "worldwide";
+            const habitatMatch = habitat === "any" || bird.habitat === habitat;
+            return regionMatch && habitatMatch;
+          });
+          const fallbackPool = pool.length ? pool : birds;
+          const seed = String(settings.seed || "");
+          const index =
+            hashString(`${key}|${seed}|${region}|${habitat}`) %
+            fallbackPool.length;
+          return { bird: fallbackPool[index], poolSize: fallbackPool.length };
+        }
+
+        function formatDate(value) {
+          const date = new Date(`${value}T00:00:00Z`);
+          return date.toLocaleDateString(currentLanguage || undefined, {
+            day: "2-digit",
+            month: "short",
+            timeZone: "UTC",
+          });
+        }
+
+        function fact(label, value) {
+          return `
+            <article class="fact">
+              <p class="label">${escapeHtml(label)}</p>
+              <p class="value pp-fit">${escapeHtml(value || "N/A")}</p>
+            </article>
+          `;
+        }
+
+        function waitForImage(image) {
+          if (image.complete && image.naturalWidth > 0) {
+            return Promise.resolve();
+          }
+          return new Promise((resolve, reject) => {
+            image.addEventListener("load", resolve, { once: true });
+            image.addEventListener(
+              "error",
+              () => reject(new Error(`Could not load ${image.src}`)),
+              { once: true },
+            );
+          });
+        }
+
+        try {
+          const defaults = {
+            color: "light",
+            region: "any",
+            habitat: "any",
+            birdId: "",
+            seed: "",
+            showRange: true,
+            showWingspan: true,
+            showCall: true,
+            showDiet: true,
+            showConservation: true,
+            showMigration: true,
+            showScientificName: false,
+            showHabitat: false,
+            showSize: false,
+            showNesting: false,
+            showOrder: false,
+          };
+          const payload = await waitForPayload({ timeout: 300 });
+          await loadMessages(payload);
+          const settings = mergeSettings(
+            defaults,
+            getSettings(payload),
+            getQuerySettings(),
+          );
+          if (typeof applyColorTheme === "function") {
+            applyColorTheme(settings.color, { defaultTheme: defaults.color });
+          }
+          if (!birds.length) {
+            throw new Error("Bird list could not load");
+          }
+
+          const today = dayKey();
+          const { bird: selectedBird, poolSize } = pickBird(settings, today);
+          const birdTranslations = await loadBirdTranslations(currentLanguage);
+          const bird = applyBirdTranslation(selectedBird, birdTranslations);
+          const image = document.getElementById("bird-image");
+          image.src = bird.image;
+          image.alt = bird.name;
+
+          document.getElementById("date").textContent = formatDate(today);
+          document.getElementById("rotation").textContent = t("selectedFrom", {
+            count: poolSize,
+          });
+          document.getElementById("source").textContent = bird.source;
+          document.getElementById("bird-name").innerHTML = escapeHtml(
+            bird.name,
+          );
+          document.getElementById("scientific").innerHTML = escapeHtml(
+            bird.scientificName,
+          );
+          document.getElementById("signature").innerHTML = escapeHtml(
+            bird.signature,
+          );
+
+          const availableFacts = [
+            { setting: "showRange", label: t("range"), value: bird.range },
+            {
+              setting: "showWingspan",
+              label: t("wingspan"),
+              value: bird.wingspan,
+            },
+            { setting: "showCall", label: t("call"), value: bird.call },
+            { setting: "showDiet", label: t("diet"), value: bird.diet },
+            {
+              setting: "showConservation",
+              label: t("conservation"),
+              value: bird.conservationStatus,
+            },
+            {
+              setting: "showMigration",
+              label: t("migration"),
+              value: bird.migration,
+            },
+            {
+              setting: "showScientificName",
+              label: t("scientificName"),
+              value: bird.scientificName,
+            },
+            {
+              setting: "showHabitat",
+              label: t("habitat"),
+              value: bird.habitat,
+            },
+            { setting: "showSize", label: t("size"), value: bird.size },
+            {
+              setting: "showNesting",
+              label: t("nesting"),
+              value: bird.nesting,
+            },
+            { setting: "showOrder", label: t("order"), value: bird.order },
+          ];
+          const selectedFacts = availableFacts.filter(
+            (item) => settings[item.setting] !== false,
+          );
+          const visibleFacts = selectedFacts.length
+            ? selectedFacts
+            : availableFacts.slice(0, 6);
+          const factsElement = document.getElementById("facts");
+          factsElement.dataset.count = String(
+            Math.min(visibleFacts.length, 11),
+          );
+          factsElement.innerHTML = visibleFacts
+            .map((item) => fact(item.label, item.value))
+            .join("");
+
+          await Promise.all([document.fonts?.ready, waitForImage(image)]);
+          const compactLandscape =
+            window.innerWidth > window.innerHeight && window.innerHeight <= 560;
+          fitHyphenatedText(document.getElementById("bird-name"), {
+            min: 28,
+            max: compactLandscape ? 58 : 78,
+            step: 2,
+            tolerance: 6,
+            lineBreak: "balance",
+          });
+          fitHyphenatedText(document.getElementById("scientific"), {
+            min: 10,
+            max: compactLandscape ? 15 : 20,
+            step: 1,
+            lineBreak: true,
+          });
+          fitHyphenatedText(document.getElementById("signature"), {
+            min: 9,
+            max: compactLandscape ? 13 : 17,
+            step: 1,
+            lineBreak: true,
+          });
+          fitAllText(".fact .pp-fit", {
+            min: 8,
+            max: compactLandscape ? 13 : 18,
+            step: 1,
+            tolerance: 4,
+            lineBreak: true,
+          });
+          fitToScreen();
+          markReady({ bird: bird.id, day: today });
+        } catch (error) {
+          markError(error);
+          document.body.innerHTML = `<main class="pp-screen"><h1 class="pp-title pp-error">${escapeHtml(t("errorTitle"))}</h1><p>${escapeHtml(error.message)}</p></main>`;
+        }
+      })();
+    </script>
+  </body>
+</html>

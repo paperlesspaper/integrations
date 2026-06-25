@@ -1,0 +1,18 @@
+{
+  "loading": "Wird geladen...",
+  "kicker": "Dinosaurier des Tages",
+  "period": "Zeitalter",
+  "length": "Länge",
+  "diet": "Ernährung",
+  "fossilLocation": "Fundorte",
+  "nameMeaning": "Name bedeutet",
+  "source": "Quelle",
+  "selectedFrom": "{count} in der Rotation",
+  "groupTheropod": "Theropode",
+  "groupCeratopsian": "Ceratopsier",
+  "groupStegosaur": "Stegosaurier",
+  "groupSauropod": "Sauropode",
+  "groupDromaeosaur": "Dromaeosaurier",
+  "signature": "Silhouettenmerkmal",
+  "errorTitle": "Dinosaurier konnte nicht geladen werden"
+}

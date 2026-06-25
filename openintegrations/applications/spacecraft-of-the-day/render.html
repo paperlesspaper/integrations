@@ -1,0 +1,576 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="paperless:epd-optimize" content='{"palette":"aitjcizeSpectra6Palette","imageAdjustmentOptions":{"toneMapping":{"exposure":0.04,"saturation":0,"contrast":0.05,"strength":0.2,"shadowBoost":0.08,"highlightCompress":0.08,"midpoint":0.5},"clarity":{"amount":0.8,"radius":2,"midtone":1.1},"dynamicRangeCompression":{"mode":"display","strength":0.65,"lowPercentile":0.01,"highPercentile":0.99}},"canvasDitherOptions":{"serpentine":true,"errorDiffusionMatrix":"sierra3"}}' />
+    <title>Spacecraft of the Day</title>
+    <link rel="stylesheet" href="/assets/paperless.css" />
+    <script src="/assets/paperless.iife.js"></script>
+    <script src="./data/spacecraft.js"></script>
+    <style>
+      .spacecraft-screen {
+        padding: 0;
+        gap: 0;
+      }
+
+      .spacecraft-shell {
+        width: 100%;
+        height: 100%;
+        min-height: 0;
+        display: grid;
+        grid-template-rows: auto minmax(0, 1fr) auto;
+        background: var(--pp-bg);
+      }
+
+      .hero-header {
+        min-width: 0;
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 18px;
+        padding: 17px 22px 8px;
+      }
+
+      .title-area {
+        min-width: 0;
+        flex: 1 1 auto;
+      }
+
+      .kicker {
+        margin: 0 0 5px;
+        color: var(--pp-muted);
+        font-size: 0.7rem;
+        line-height: 1.05;
+        font-weight: 850;
+        text-transform: uppercase;
+      }
+
+      .spacecraft-name {
+        margin: 0;
+        font-size: 4.25rem;
+        line-height: 0.9;
+        font-weight: 900;
+        letter-spacing: 0;
+        overflow-wrap: anywhere;
+      }
+
+      .nickname {
+        margin: 7px 0 0;
+        color: var(--pp-muted);
+        font-size: 1rem;
+        line-height: 1.12;
+        font-weight: 780;
+        overflow-wrap: anywhere;
+      }
+
+      .signature-line {
+        max-width: 54vw;
+        margin: 8px 0 0;
+        font-size: 0.93rem;
+        line-height: 1.13;
+        font-weight: 760;
+        overflow-wrap: anywhere;
+      }
+
+      .source-meta {
+        flex: 0 0 168px;
+        text-align: right;
+        color: var(--pp-muted);
+        font-size: 0.58rem;
+        line-height: 1.12;
+        font-weight: 780;
+        text-transform: uppercase;
+        overflow-wrap: anywhere;
+      }
+
+      .source-meta p {
+        margin: 0;
+      }
+
+      .date-line {
+        margin-bottom: 5px;
+        color: var(--pp-fg);
+        font-size: 0.76rem;
+        font-weight: 880;
+      }
+
+      .image-stage {
+        position: relative;
+        min-width: 0;
+        min-height: 0;
+        display: grid;
+        place-items: center;
+        background: #fff;
+        overflow: hidden;
+        padding: 6px 22px;
+      }
+
+      .spacecraft-image {
+        position: absolute;
+        inset: 8px 22px;
+        display: block;
+        width: calc(100% - 44px);
+        height: calc(100% - 16px);
+        max-width: none;
+        max-height: none;
+        object-fit: contain;
+        object-position: center center;
+      }
+
+      .fact-grid {
+        position: relative;
+        z-index: 1;
+        min-height: 0;
+        display: grid;
+        grid-template-columns: repeat(7, minmax(0, 1fr));
+        gap: 12px;
+        background: var(--pp-bg);
+        padding: 10px 22px 17px;
+      }
+
+      .fact-grid[data-count="1"] {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .fact-grid[data-count="2"] {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .fact-grid[data-count="3"] {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .fact-grid[data-count="4"] {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
+
+      .fact-grid[data-count="5"],
+      .fact-grid[data-count="6"] {
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+      }
+
+      .fact {
+        min-width: 0;
+        min-height: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        overflow: hidden;
+      }
+
+      .label {
+        margin: 0;
+        color: var(--pp-muted);
+        font-size: 0.65rem;
+        line-height: 1.06;
+        font-weight: 820;
+        text-transform: uppercase;
+      }
+
+      .value {
+        margin: 0;
+        font-size: 0.98rem;
+        line-height: 1.05;
+        font-weight: 850;
+        overflow-wrap: anywhere;
+      }
+
+      @media (orientation: portrait), (max-width: 700px) {
+        .spacecraft-shell {
+          grid-template-rows: auto minmax(0, 1fr) auto;
+        }
+
+        .hero-header {
+          padding: 15px 16px 7px;
+          gap: 12px;
+        }
+
+        .spacecraft-name {
+          font-size: 3.25rem;
+        }
+
+        .nickname {
+          font-size: 0.92rem;
+        }
+
+        .signature-line {
+          max-width: 100%;
+          font-size: 0.78rem;
+        }
+
+        .source-meta {
+          flex-basis: 126px;
+          font-size: 0.5rem;
+        }
+
+        .date-line {
+          font-size: 0.66rem;
+        }
+
+        .image-stage {
+          padding: 8px 18px;
+        }
+
+        .spacecraft-image {
+          inset: 8px 18px;
+          width: calc(100% - 36px);
+          height: calc(100% - 16px);
+        }
+
+        .fact-grid,
+        .fact-grid[data-count] {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+          gap: 12px 18px;
+          padding: 10px 16px 16px;
+        }
+
+        .value {
+          font-size: 0.95rem;
+        }
+      }
+
+      @media (max-height: 560px) and (orientation: landscape) {
+        .hero-header {
+          padding: 10px 16px 5px;
+        }
+
+        .kicker {
+          margin-bottom: 3px;
+          font-size: 0.58rem;
+        }
+
+        .spacecraft-name {
+          font-size: 3.05rem;
+        }
+
+        .nickname {
+          font-size: 0.82rem;
+        }
+
+        .signature-line {
+          margin-top: 5px;
+          font-size: 0.72rem;
+        }
+
+        .source-meta {
+          flex-basis: 146px;
+          font-size: 0.5rem;
+        }
+
+        .image-stage {
+          padding: 8px 34px;
+        }
+
+        .spacecraft-image {
+          inset: 8px 34px;
+          width: calc(100% - 68px);
+          height: calc(100% - 16px);
+        }
+
+        .fact-grid {
+          gap: 9px 12px;
+          padding: 7px 16px 12px;
+        }
+
+        .label {
+          font-size: 0.54rem;
+        }
+
+        .value {
+          font-size: 0.78rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="website-has-loading-element"></div>
+    <main class="pp-screen spacecraft-screen">
+      <section class="spacecraft-shell" id="app">
+        <header class="hero-header">
+          <div class="title-area">
+            <p class="kicker" id="kicker">Spacecraft of the day</p>
+            <h1 class="spacecraft-name pp-fit" id="spacecraft-name" data-i18n="loading">
+              Loading...
+            </h1>
+            <p class="nickname pp-fit" id="nickname"></p>
+            <p class="signature-line pp-fit" id="signature"></p>
+          </div>
+          <div class="source-meta">
+            <p class="date-line" id="date">----</p>
+            <p id="rotation"></p>
+          </div>
+        </header>
+
+        <div class="image-stage">
+          <img class="spacecraft-image" id="spacecraft-image" alt="" />
+        </div>
+
+        <section class="fact-grid" id="facts"></section>
+      </section>
+    </main>
+
+    <script>
+      (async function render() {
+        const {
+          waitForPayload,
+          getSettings,
+          getQuerySettings,
+          mergeSettings,
+          escapeHtml,
+          fitHyphenatedText,
+          fitAllText,
+          fitToScreen,
+          markReady,
+          markError,
+          loadLanguageJson,
+          applyColorTheme,
+        } = window.PaperlessOpenIntegration;
+
+        const spacecraft = Array.isArray(window.SpacecraftOfTheDayItems)
+          ? window.SpacecraftOfTheDayItems
+          : [];
+
+        const defaultMessages = {
+          loading: "Loading...",
+          kicker: "Spacecraft of the day",
+          mission: "Mission",
+          launchDate: "Launch date",
+          agency: "Agency",
+          destination: "Destination",
+          mass: "Mass",
+          powerSource: "Power source",
+          outcome: "Outcome",
+          vehicleType: "Type",
+          country: "Country",
+          launchVehicle: "Launch vehicle",
+          operationalLife: "Operational life",
+          source: "Source",
+          selectedFrom: "{count} in rotation",
+          typeSatellite: "Satellite",
+          typeProbe: "Probe",
+          typeCapsule: "Capsule",
+          typeRocket: "Rocket",
+          typeLander: "Lander",
+          typeTelescope: "Telescope",
+          typeOrbiter: "Orbiter",
+          errorTitle: "Spacecraft could not load",
+        };
+        let messages = defaultMessages;
+        let currentLanguage = "en";
+
+        function t(key, values = {}) {
+          const template =
+            typeof messages[key] === "string"
+              ? messages[key]
+              : defaultMessages[key] || key;
+          return template.replace(
+            /\{(\w+)\}/g,
+            (_match, name) => values[name] ?? "",
+          );
+        }
+
+        function applyStaticMessages(root = document) {
+          root.querySelectorAll("[data-i18n]").forEach((element) => {
+            element.textContent = t(element.dataset.i18n);
+          });
+          document.getElementById("kicker").textContent = t("kicker");
+        }
+
+        async function loadMessages(payload) {
+          const result = await loadLanguageJson(payload);
+          messages = { ...defaultMessages, ...result.messages };
+          currentLanguage = result.language || "en";
+          document.documentElement.lang = currentLanguage;
+          applyStaticMessages();
+        }
+
+        function dayKey(date = new Date()) {
+          return date.toISOString().slice(0, 10);
+        }
+
+        function hashString(value) {
+          let hash = 2166136261;
+          for (let index = 0; index < value.length; index += 1) {
+            hash ^= value.charCodeAt(index);
+            hash = Math.imul(hash, 16777619);
+          }
+          return hash >>> 0;
+        }
+
+        function pickSpacecraft(settings, key) {
+          const pinned = String(settings.spacecraftId || "")
+            .trim()
+            .toLowerCase();
+          if (pinned) {
+            const match = spacecraft.find((item) => item.id === pinned);
+            if (match) {
+              return { item: match, poolSize: 1 };
+            }
+          }
+
+          const vehicleType = String(settings.vehicleType || "any");
+          const era = String(settings.era || "any");
+          const pool = spacecraft.filter((item) => {
+            const typeMatch = vehicleType === "any" || item.vehicleType === vehicleType;
+            const eraMatch = era === "any" || item.era === era;
+            return typeMatch && eraMatch;
+          });
+          const fallbackPool = pool.length ? pool : spacecraft;
+          const seed = String(settings.seed || "");
+          const index =
+            hashString(`${key}|${seed}|${vehicleType}|${era}`) %
+            fallbackPool.length;
+          return { item: fallbackPool[index], poolSize: fallbackPool.length };
+        }
+
+        function formatDate(value) {
+          const date = new Date(`${value}T00:00:00Z`);
+          return date.toLocaleDateString(currentLanguage || undefined, {
+            day: "2-digit",
+            month: "short",
+            timeZone: "UTC",
+          });
+        }
+
+        function vehicleTypeLabel(value) {
+          const key = `type${String(value || "")
+            .charAt(0)
+            .toUpperCase()}${String(value || "").slice(1)}`;
+          return t(key);
+        }
+
+        function fact(label, value) {
+          return `
+            <article class="fact">
+              <p class="label">${escapeHtml(label)}</p>
+              <p class="value pp-fit">${escapeHtml(value || "N/A")}</p>
+            </article>
+          `;
+        }
+
+        function waitForImage(image) {
+          if (image.complete && image.naturalWidth > 0) {
+            return Promise.resolve();
+          }
+          return new Promise((resolve, reject) => {
+            image.addEventListener("load", resolve, { once: true });
+            image.addEventListener(
+              "error",
+              () => reject(new Error(`Could not load ${image.src}`)),
+              { once: true },
+            );
+          });
+        }
+
+        try {
+          const defaults = {
+            color: "light",
+            vehicleType: "any",
+            era: "any",
+            spacecraftId: "",
+            seed: "",
+            showMission: true,
+            showLaunchDate: true,
+            showAgency: true,
+            showDestination: true,
+            showMass: true,
+            showPowerSource: true,
+            showOutcome: true,
+            showVehicleType: false,
+            showCountry: false,
+            showLaunchVehicle: false,
+            showOperationalLife: false,
+            showSource: false,
+          };
+          const payload = await waitForPayload({ timeoutMs: 500 });
+          await loadMessages(payload);
+          const settings = mergeSettings(
+            defaults,
+            getSettings(payload),
+            getQuerySettings(),
+          );
+          applyColorTheme(settings.color, { defaultTheme: defaults.color });
+          if (!spacecraft.length) {
+            throw new Error("Spacecraft list could not load");
+          }
+
+          const today = dayKey();
+          const { item, poolSize } = pickSpacecraft(settings, today);
+          const image = document.getElementById("spacecraft-image");
+          image.src = item.image;
+          image.alt = item.name;
+
+          document.getElementById("date").textContent = formatDate(today);
+          document.getElementById("rotation").textContent = t("selectedFrom", {
+            count: poolSize,
+          });
+          document.getElementById("spacecraft-name").innerHTML = escapeHtml(item.name);
+          document.getElementById("nickname").innerHTML = escapeHtml(item.nickname);
+          document.getElementById("signature").innerHTML = escapeHtml(item.signature);
+
+          const availableFacts = [
+            { setting: "showMission", label: t("mission"), value: item.mission },
+            { setting: "showLaunchDate", label: t("launchDate"), value: item.launchDate },
+            { setting: "showAgency", label: t("agency"), value: item.agency },
+            { setting: "showDestination", label: t("destination"), value: item.destination },
+            { setting: "showMass", label: t("mass"), value: item.mass },
+            { setting: "showPowerSource", label: t("powerSource"), value: item.powerSource },
+            { setting: "showOutcome", label: t("outcome"), value: item.outcome },
+            { setting: "showVehicleType", label: t("vehicleType"), value: vehicleTypeLabel(item.vehicleType) },
+            { setting: "showCountry", label: t("country"), value: item.country },
+            { setting: "showLaunchVehicle", label: t("launchVehicle"), value: item.launchVehicle },
+            { setting: "showOperationalLife", label: t("operationalLife"), value: item.operationalLife },
+            { setting: "showSource", label: t("source"), value: item.source },
+          ];
+          const selectedFacts = availableFacts.filter(
+            (factItem) => settings[factItem.setting] !== false,
+          );
+          const visibleFacts = selectedFacts.length
+            ? selectedFacts
+            : availableFacts.slice(0, 7);
+          const factsElement = document.getElementById("facts");
+          factsElement.dataset.count = String(Math.min(visibleFacts.length, 12));
+          factsElement.innerHTML = visibleFacts
+            .map((factItem) => fact(factItem.label, factItem.value))
+            .join("");
+
+          await Promise.all([document.fonts?.ready, waitForImage(image)]);
+          const compactLandscape =
+            window.innerWidth > window.innerHeight && window.innerHeight <= 560;
+          fitHyphenatedText(document.getElementById("spacecraft-name"), {
+            min: 28,
+            max: compactLandscape ? 56 : 76,
+            step: 2,
+            tolerance: 6,
+            lineBreak: "balance",
+          });
+          fitHyphenatedText(document.getElementById("nickname"), {
+            min: 11,
+            max: compactLandscape ? 14 : 19,
+            step: 1,
+            lineBreak: true,
+          });
+          fitHyphenatedText(document.getElementById("signature"), {
+            min: 9,
+            max: compactLandscape ? 13 : 17,
+            step: 1,
+            lineBreak: true,
+          });
+          fitAllText(".fact .pp-fit", {
+            min: 8,
+            max: compactLandscape ? 13 : 18,
+            step: 1,
+            tolerance: 4,
+            lineBreak: true,
+          });
+          fitToScreen();
+          markReady({ spacecraft: item.id, day: today });
+        } catch (error) {
+          markError(error);
+          document.body.innerHTML = `<main class="pp-screen"><h1 class="pp-title pp-error">${escapeHtml(t("errorTitle"))}</h1><p>${escapeHtml(error.message)}</p></main>`;
+        }
+      })();
+    </script>
+  </body>
+</html>

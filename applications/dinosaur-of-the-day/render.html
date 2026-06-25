@@ -1,0 +1,599 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="paperless:epd-optimize" content='{"palette":"aitjcizeSpectra6Palette","imageAdjustmentOptions":{"toneMapping":{"exposure":0.05,"saturation":0,"contrast":0,"strength":0},"clarity":{"amount":1,"radius":2,"midtone":1.2}},"canvasDitherOptions":{"serpentine":true,"errorDiffusionMatrix":"sierra3"}}' />
+    <title>Dinosaur of the Day</title>
+    <link rel="stylesheet" href="/assets/paperless.css" />
+    <script src="/assets/paperless.iife.js"></script>
+    <script src="./data/dinosaurs.js"></script>
+    <style>
+      .dino-screen {
+        padding: 0;
+        gap: 0;
+      }
+
+      .dino-shell {
+        width: 100%;
+        height: 100%;
+        min-height: 0;
+        display: grid;
+        grid-template-rows: auto minmax(0, 1fr) auto;
+        background: var(--pp-bg);
+        text-align: center;
+      }
+
+      .hero-header {
+        min-width: 0;
+        padding: 18px 24px 7px;
+      }
+
+      .label {
+        margin: 0;
+        color: var(--pp-muted);
+        font-size: 0.72rem;
+        line-height: 1.06;
+        font-weight: 820;
+        text-transform: uppercase;
+      }
+
+      .dino-name {
+        margin: 2px auto 0;
+        font-size: 4.35rem;
+        line-height: 0.9;
+        font-weight: 900;
+        letter-spacing: 0;
+        overflow-wrap: anywhere;
+      }
+
+      .nickname {
+        margin: 7px auto 0;
+        color: var(--pp-muted);
+        font-size: 1rem;
+        line-height: 1.08;
+        font-weight: 780;
+        overflow-wrap: anywhere;
+      }
+
+      .signature-line {
+        max-width: 82%;
+        margin: 8px auto 0;
+        font-size: 0.94rem;
+        line-height: 1.12;
+        font-weight: 760;
+        overflow-wrap: anywhere;
+      }
+
+      .date-line {
+        margin: 6px 0 0;
+        color: var(--pp-muted);
+        font-size: 0.58rem;
+        line-height: 1.1;
+        font-weight: 800;
+        text-transform: uppercase;
+      }
+
+      .image-stage {
+        min-width: 0;
+        min-height: 0;
+        display: grid;
+        place-items: center;
+        padding: 0 26px;
+      }
+
+      .dino-image {
+        display: block;
+        width: min(86%, 620px);
+        height: 100%;
+        object-fit: contain;
+        transform: translateY(-6%);
+        filter: drop-shadow(0 2px 0 var(--pp-border));
+      }
+
+      .fact-grid {
+        position: relative;
+        z-index: 1;
+        min-height: 0;
+        display: grid;
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+        gap: 15px;
+        padding: 10px 22px 17px;
+      }
+
+      .fact-grid[data-count="1"] {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .fact-grid[data-count="2"] {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .fact-grid[data-count="3"] {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .fact-grid[data-count="4"] {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
+
+      .fact-grid[data-count="6"] {
+        grid-template-columns: repeat(6, minmax(0, 1fr));
+      }
+
+      .fact {
+        min-width: 0;
+        min-height: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        gap: 4px;
+        padding: 0;
+        overflow: hidden;
+      }
+
+      .fact .label {
+        font-size: 0.62rem;
+      }
+
+      .value {
+        margin: 0;
+        font-size: 1rem;
+        line-height: 1.04;
+        font-weight: 850;
+        overflow-wrap: anywhere;
+      }
+
+      @media (orientation: portrait), (max-width: 700px) {
+        .dino-shell {
+          grid-template-rows: auto minmax(0, 0.82fr) auto;
+        }
+
+        .hero-header {
+          padding: 15px 16px 6px;
+        }
+
+        .dino-name {
+          font-size: 3.25rem;
+        }
+
+        .nickname {
+          font-size: 0.92rem;
+        }
+
+        .signature-line {
+          max-width: 92%;
+          font-size: 0.82rem;
+        }
+
+        .image-stage {
+          padding: 0 12px;
+        }
+
+        .dino-image {
+          width: min(96%, 520px);
+          transform: translateY(-2%);
+        }
+
+        .fact-grid,
+        .fact-grid[data-count] {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+          gap: 12px 16px;
+          padding: 10px 16px 16px;
+        }
+
+        .value {
+          font-size: 0.98rem;
+        }
+      }
+
+      @media (max-height: 560px) and (orientation: landscape) {
+        .hero-header {
+          padding: 10px 18px 4px;
+        }
+
+        .dino-name {
+          font-size: 3.05rem;
+        }
+
+        .nickname {
+          font-size: 0.85rem;
+        }
+
+        .signature-line {
+          margin-top: 5px;
+          font-size: 0.76rem;
+        }
+
+        .date-line {
+          margin-top: 4px;
+          font-size: 0.5rem;
+        }
+
+        .fact-grid {
+          gap: 11px;
+          padding: 7px 16px 12px;
+        }
+
+        .value {
+          font-size: 0.84rem;
+        }
+
+        .dino-image {
+          transform: translateY(-24%) scale(0.66);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="website-has-loading-element"></div>
+    <main class="pp-screen dino-screen">
+      <section class="dino-shell" id="app">
+        <header class="hero-header">
+          <p class="label" data-i18n="kicker">Dinosaur of the day</p>
+          <h1 class="dino-name pp-fit" id="dino-name" data-i18n="loading">
+            Loading...
+          </h1>
+          <p class="nickname pp-fit" id="nickname"></p>
+          <p class="signature-line pp-fit" id="signature"></p>
+          <p class="date-line" id="date">----</p>
+        </header>
+
+        <div class="image-stage">
+          <img class="dino-image" id="dino-image" alt="" />
+        </div>
+
+        <section class="fact-grid" id="facts"></section>
+      </section>
+    </main>
+
+    <script>
+      (async function render() {
+        const {
+          waitForPayload,
+          getSettings,
+          getQuerySettings,
+          mergeSettings,
+          escapeHtml,
+          fitHyphenatedText,
+          fitAllText,
+          fitToScreen,
+          markReady,
+          markError,
+          loadLanguageJson,
+          applyColorTheme,
+        } = window.PaperlessOpenIntegration;
+
+        const dinosaurs = Array.isArray(window.DinosaurOfTheDayDinosaurs)
+          ? window.DinosaurOfTheDayDinosaurs
+          : [];
+
+        const defaultMessages = {
+          loading: "Loading...",
+          kicker: "Dinosaur of the day",
+          period: "Period",
+          length: "Length",
+          diet: "Diet",
+          fossilLocation: "Fossil location",
+          nameMeaning: "Name means",
+          source: "Source",
+          selectedFrom: "{count} in rotation",
+          signature: "Silhouette note",
+          errorTitle: "Dinosaur could not load",
+        };
+        let messages = defaultMessages;
+        let currentLanguage = "en";
+
+        function t(key, values = {}) {
+          const template =
+            typeof messages[key] === "string"
+              ? messages[key]
+              : defaultMessages[key] || key;
+          return template.replace(
+            /\{(\w+)\}/g,
+            (_match, name) => values[name] ?? "",
+          );
+        }
+
+        function applyStaticMessages(root = document) {
+          root.querySelectorAll("[data-i18n]").forEach((element) => {
+            element.textContent = t(element.dataset.i18n);
+          });
+        }
+
+        async function loadMessages(payload) {
+          let result;
+          if (typeof loadLanguageJson === "function") {
+            result = await loadLanguageJson(payload);
+          } else {
+            const requested = String(payload?.meta?.language || "en").trim();
+            const requestedBase = requested.split("-")[0].toLowerCase();
+            const supported = ["en", "de"];
+            const language = supported.includes(requested)
+              ? requested
+              : supported.includes(requestedBase)
+                ? requestedBase
+                : "en";
+            const response = await fetch(`./languages/${language}.json`, {
+              cache: "no-store",
+            });
+            if (!response.ok) {
+              throw new Error(
+                `Could not load language JSON for ${language}: ${response.status}`,
+              );
+            }
+            result = { language, messages: await response.json() };
+          }
+
+          messages = { ...defaultMessages, ...result.messages };
+          currentLanguage = result.language || "en";
+          document.documentElement.lang = currentLanguage;
+          applyStaticMessages();
+        }
+
+        async function loadDinosaurTranslations(language) {
+          const requested = String(language || "en")
+            .trim()
+            .toLowerCase();
+          const requestedBase = requested.split("-")[0];
+          const candidates = ["en", requestedBase, requested].filter(
+            (value, index, array) => value && array.indexOf(value) === index,
+          );
+          let translations = {};
+
+          for (const candidate of candidates) {
+            try {
+              const response = await fetch(
+                `./languages/dinosaurs/${candidate}.json`,
+                { cache: "no-store" },
+              );
+              if (!response.ok) {
+                continue;
+              }
+              const data = await response.json();
+              if (data && typeof data === "object" && !Array.isArray(data)) {
+                translations = { ...translations, ...data };
+              }
+            } catch (_error) {
+              // Dinosaur metadata translations are optional; base data remains usable.
+            }
+          }
+
+          return translations;
+        }
+
+        function applyDinosaurTranslation(dinosaur, translations) {
+          const translation =
+            translations && typeof translations === "object"
+              ? translations[dinosaur.id]
+              : null;
+          if (
+            !translation ||
+            typeof translation !== "object" ||
+            Array.isArray(translation)
+          ) {
+            return dinosaur;
+          }
+
+          const fields = [
+            "name",
+            "nickname",
+            "period",
+            "length",
+            "diet",
+            "fossilLocation",
+            "nameMeaning",
+            "source",
+            "signature",
+          ];
+          const translatedFields = {};
+          fields.forEach((field) => {
+            if (typeof translation[field] === "string") {
+              translatedFields[field] = translation[field];
+            }
+          });
+          return { ...dinosaur, ...translatedFields };
+        }
+
+        function dayKey(date = new Date()) {
+          return date.toISOString().slice(0, 10);
+        }
+
+        function hashString(value) {
+          let hash = 2166136261;
+          for (let index = 0; index < value.length; index += 1) {
+            hash ^= value.charCodeAt(index);
+            hash = Math.imul(hash, 16777619);
+          }
+          return hash >>> 0;
+        }
+
+        function pickDinosaur(settings, key) {
+          const pinned = String(settings.dinosaurId || "")
+            .trim()
+            .toLowerCase();
+          if (pinned) {
+            const match = dinosaurs.find((dinosaur) => dinosaur.id === pinned);
+            if (match) {
+              return { dinosaur: match, poolSize: 1 };
+            }
+          }
+
+          const group = String(settings.group || "any");
+          const pool = dinosaurs.filter((dinosaur) => {
+            return group === "any" || dinosaur.group === group;
+          });
+          const fallbackPool = pool.length ? pool : dinosaurs;
+          const seed = String(settings.seed || "");
+          const index =
+            hashString(`${key}|${seed}|${group}`) % fallbackPool.length;
+          return {
+            dinosaur: fallbackPool[index],
+            poolSize: fallbackPool.length,
+          };
+        }
+
+        function formatDate(value) {
+          const date = new Date(`${value}T00:00:00Z`);
+          return date.toLocaleDateString(currentLanguage || undefined, {
+            day: "2-digit",
+            month: "short",
+            timeZone: "UTC",
+          });
+        }
+
+        function fact(label, value) {
+          return `
+            <article class="fact">
+              <p class="label">${escapeHtml(label)}</p>
+              <p class="value pp-fit">${escapeHtml(value || "N/A")}</p>
+            </article>
+          `;
+        }
+
+        function waitForImage(image) {
+          if (image.complete && image.naturalWidth > 0) {
+            return Promise.resolve();
+          }
+          return new Promise((resolve, reject) => {
+            image.addEventListener("load", resolve, { once: true });
+            image.addEventListener(
+              "error",
+              () => reject(new Error(`Could not load ${image.src}`)),
+              { once: true },
+            );
+          });
+        }
+
+        try {
+          const defaults = {
+            color: "light",
+            group: "any",
+            dinosaurId: "",
+            seed: "",
+            showPeriod: true,
+            showLength: true,
+            showDiet: true,
+            showFossilLocation: true,
+            showNameMeaning: true,
+            showSource: false,
+          };
+          const payload = await waitForPayload({ timeout: 300 });
+          await loadMessages(payload);
+          const settings = mergeSettings(
+            defaults,
+            getSettings(payload),
+            getQuerySettings(),
+          );
+          if (typeof applyColorTheme === "function") {
+            applyColorTheme(settings.color, { defaultTheme: defaults.color });
+          }
+          if (!dinosaurs.length) {
+            throw new Error("Dinosaur list could not load");
+          }
+
+          const today = dayKey();
+          const { dinosaur: selectedDinosaur, poolSize } = pickDinosaur(
+            settings,
+            today,
+          );
+          const dinosaurTranslations =
+            await loadDinosaurTranslations(currentLanguage);
+          const dinosaur = applyDinosaurTranslation(
+            selectedDinosaur,
+            dinosaurTranslations,
+          );
+          const image = document.getElementById("dino-image");
+          image.src = dinosaur.image;
+          image.alt = dinosaur.name;
+
+          document.getElementById("date").textContent =
+            `${formatDate(today)} · ${t("selectedFrom", { count: poolSize })}`;
+          document.getElementById("dino-name").innerHTML = escapeHtml(
+            dinosaur.name,
+          );
+          document.getElementById("nickname").innerHTML = escapeHtml(
+            dinosaur.nickname,
+          );
+          document.getElementById("signature").innerHTML = escapeHtml(
+            dinosaur.signature,
+          );
+          const availableFacts = [
+            {
+              setting: "showPeriod",
+              label: t("period"),
+              value: dinosaur.period,
+            },
+            {
+              setting: "showLength",
+              label: t("length"),
+              value: dinosaur.length,
+            },
+            { setting: "showDiet", label: t("diet"), value: dinosaur.diet },
+            {
+              setting: "showFossilLocation",
+              label: t("fossilLocation"),
+              value: dinosaur.fossilLocation,
+            },
+            {
+              setting: "showNameMeaning",
+              label: t("nameMeaning"),
+              value: dinosaur.nameMeaning,
+            },
+            {
+              setting: "showSource",
+              label: t("source"),
+              value: dinosaur.source,
+            },
+          ];
+          const selectedFacts = availableFacts.filter(
+            (item) => settings[item.setting] !== false,
+          );
+          const visibleFacts = selectedFacts.length
+            ? selectedFacts
+            : availableFacts.slice(0, 5);
+          const factsElement = document.getElementById("facts");
+          factsElement.dataset.count = String(Math.min(visibleFacts.length, 6));
+          factsElement.innerHTML = visibleFacts
+            .map((item) => fact(item.label, item.value))
+            .join("");
+
+          await Promise.all([document.fonts?.ready, waitForImage(image)]);
+          const compactLandscape =
+            window.innerWidth > window.innerHeight && window.innerHeight <= 560;
+          fitHyphenatedText(document.getElementById("dino-name"), {
+            min: 28,
+            max: compactLandscape ? 54 : 78,
+            step: 2,
+            tolerance: 6,
+            lineBreak: "balance",
+          });
+          fitHyphenatedText(document.getElementById("nickname"), {
+            min: 12,
+            max: compactLandscape ? 15 : 20,
+            step: 1,
+            lineBreak: true,
+          });
+          fitHyphenatedText(document.getElementById("signature"), {
+            min: 10,
+            max: compactLandscape ? 14 : 18,
+            step: 1,
+            lineBreak: true,
+          });
+          fitAllText(".fact .pp-fit", {
+            min: 8,
+            max: compactLandscape ? 14 : 18,
+            step: 1,
+            tolerance: 4,
+            lineBreak: true,
+          });
+          fitToScreen();
+          markReady({ dinosaur: dinosaur.id, day: today });
+        } catch (error) {
+          markError(error);
+          document.body.innerHTML = `<main class="pp-screen"><h1 class="pp-title pp-error">${escapeHtml(t("errorTitle"))}</h1><p>${escapeHtml(error.message)}</p></main>`;
+        }
+      })();
+    </script>
+  </body>
+</html>

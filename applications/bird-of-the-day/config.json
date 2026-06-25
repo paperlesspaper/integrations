@@ -1,0 +1,156 @@
+{
+  "name": "Bird of the Day",
+  "version": "0.1.0",
+  "description": "Shows one deterministic daily bird with clean side-profile artwork and compact Wikipedia-sourced facts.",
+  "renderPage": "./render.html",
+  "icon": "./assets/icon.png",
+  "nativeSettings": {
+    "color": "light",
+    "region": "any",
+    "habitat": "any",
+    "birdId": "",
+    "seed": "",
+    "showRange": true,
+    "showWingspan": true,
+    "showCall": true,
+    "showDiet": true,
+    "showConservation": true,
+    "showMigration": true,
+    "showScientificName": false,
+    "showHabitat": false,
+    "showSize": false,
+    "showNesting": false,
+    "showOrder": false
+  },
+  "configVariants": [
+    {
+      "color": "light",
+      "region": "any",
+      "habitat": "any",
+      "birdId": "",
+      "seed": "",
+      "showRange": true,
+      "showWingspan": true,
+      "showCall": true,
+      "showDiet": true,
+      "showConservation": true,
+      "showMigration": true,
+      "showScientificName": false,
+      "showHabitat": false,
+      "showSize": false,
+      "showNesting": false,
+      "showOrder": false,
+      "screenshots": {
+        "800x480": "./screenshots/bird-of-the-day-800x480-landscape.png",
+        "480x800": "./screenshots/bird-of-the-day-480x800-portrait.png"
+      }
+    },
+    {
+      "color": "dark",
+      "region": "europe",
+      "habitat": "any",
+      "birdId": "barn-swallow",
+      "seed": "paperlesspaper",
+      "showRange": true,
+      "showWingspan": true,
+      "showCall": true,
+      "showDiet": true,
+      "showConservation": true,
+      "showMigration": true,
+      "showScientificName": false,
+      "showHabitat": false,
+      "showSize": false,
+      "showNesting": false,
+      "showOrder": false,
+      "screenshots": {
+        "800x480": "./screenshots/bird-of-the-day-swallow-800x480-landscape.png",
+        "480x800": "./screenshots/bird-of-the-day-swallow-480x800-portrait.png"
+      }
+    }
+  ],
+  "formSchema": {
+    "type": "object",
+    "properties": {
+      "region": {
+        "type": "string",
+        "title": "Region",
+        "enum": ["any", "europe", "americas", "asia", "oceanic", "worldwide"],
+        "default": "any"
+      },
+      "habitat": {
+        "type": "string",
+        "title": "Habitat",
+        "enum": ["any", "open-country", "coast", "wetland", "forest", "tundra", "urban"],
+        "default": "any"
+      },
+      "birdId": {
+        "type": "string",
+        "title": "Pinned bird",
+        "description": "Optional bird slug, for example barn-swallow, atlantic-puffin, common-kingfisher, snowy-owl, red-crowned-crane, snowy-albatross, european-robin, common-raven, or ruby-throated-hummingbird.",
+        "default": ""
+      },
+      "seed": {
+        "type": "string",
+        "title": "Rotation seed",
+        "description": "Optional text that creates a different daily rotation.",
+        "default": ""
+      },
+      "showRange": {
+        "type": "boolean",
+        "title": "Show range",
+        "default": true
+      },
+      "showWingspan": {
+        "type": "boolean",
+        "title": "Show wingspan",
+        "default": true
+      },
+      "showCall": {
+        "type": "boolean",
+        "title": "Show call",
+        "default": true
+      },
+      "showDiet": {
+        "type": "boolean",
+        "title": "Show diet",
+        "default": true
+      },
+      "showConservation": {
+        "type": "boolean",
+        "title": "Show conservation status",
+        "default": true
+      },
+      "showMigration": {
+        "type": "boolean",
+        "title": "Show migration",
+        "default": true
+      },
+      "showScientificName": {
+        "type": "boolean",
+        "title": "Show scientific name",
+        "default": false
+      },
+      "showHabitat": {
+        "type": "boolean",
+        "title": "Show habitat",
+        "default": false
+      },
+      "showSize": {
+        "type": "boolean",
+        "title": "Show body length",
+        "default": false
+      },
+      "showNesting": {
+        "type": "boolean",
+        "title": "Show nesting",
+        "default": false
+      },
+      "showOrder": {
+        "type": "boolean",
+        "title": "Show bird order",
+        "default": false
+      }
+    }
+  },
+  "language": ["en", "de", "fr", "es", "it"]
+}

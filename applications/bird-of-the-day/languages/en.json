@@ -1,0 +1,19 @@
+{
+  "loading": "Loading...",
+  "kicker": "Bird of the day",
+  "range": "Range",
+  "wingspan": "Wingspan",
+  "call": "Call",
+  "diet": "Diet",
+  "conservation": "Status",
+  "migration": "Migration",
+  "scientificName": "Scientific name",
+  "habitat": "Habitat",
+  "size": "Body length",
+  "nesting": "Nesting",
+  "order": "Order",
+  "source": "Source",
+  "selectedFrom": "{count} in rotation",
+  "signature": "Field note",
+  "errorTitle": "Bird could not load"
+}

@@ -1,0 +1,18 @@
+{
+  "loading": "Loading...",
+  "kicker": "Dinosaur of the day",
+  "period": "Period",
+  "length": "Length",
+  "diet": "Diet",
+  "fossilLocation": "Fossil location",
+  "nameMeaning": "Name means",
+  "source": "Source",
+  "selectedFrom": "{count} in rotation",
+  "groupTheropod": "Theropod",
+  "groupCeratopsian": "Ceratopsian",
+  "groupStegosaur": "Stegosaur",
+  "groupSauropod": "Sauropod",
+  "groupDromaeosaur": "Dromaeosaur",
+  "signature": "Silhouette note",
+  "errorTitle": "Dinosaur could not load"
+}

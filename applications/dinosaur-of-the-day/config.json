@@ -1,0 +1,107 @@
+{
+  "name": "Dinosaur of the Day",
+  "version": "0.1.0",
+  "description": "Shows one deterministic daily dinosaur with display-friendly silhouette artwork and compact Wikipedia-sourced facts.",
+  "renderPage": "./render.html",
+  "icon": "./assets/icon.png",
+  "nativeSettings": {
+    "color": "light",
+    "group": "any",
+    "dinosaurId": "",
+    "seed": "",
+    "showPeriod": true,
+    "showLength": true,
+    "showDiet": true,
+    "showFossilLocation": true,
+    "showNameMeaning": true,
+    "showSource": false
+  },
+  "configVariants": [
+    {
+      "color": "light",
+      "group": "any",
+      "dinosaurId": "",
+      "seed": "",
+      "showPeriod": true,
+      "showLength": true,
+      "showDiet": true,
+      "showFossilLocation": true,
+      "showNameMeaning": true,
+      "showSource": false,
+      "screenshots": {
+        "800x480": "./screenshots/dinosaur-of-the-day-any-800x480-landscape.png",
+        "480x800": "./screenshots/dinosaur-of-the-day-any-480x800-portrait.png"
+      }
+    },
+    {
+      "color": "dark",
+      "group": "theropod",
+      "dinosaurId": "spinosaurus",
+      "seed": "paperlesspaper",
+      "showPeriod": true,
+      "showLength": true,
+      "showDiet": true,
+      "showFossilLocation": true,
+      "showNameMeaning": true,
+      "showSource": true,
+      "screenshots": {
+        "800x480": "./screenshots/dinosaur-of-the-day-spinosaurus-800x480-landscape.png",
+        "480x800": "./screenshots/dinosaur-of-the-day-spinosaurus-480x800-portrait.png"
+      }
+    }
+  ],
+  "formSchema": {
+    "type": "object",
+    "properties": {
+      "group": {
+        "type": "string",
+        "title": "Dinosaur group",
+        "enum": ["any", "theropod", "ceratopsian", "stegosaur", "sauropod", "dromaeosaur"],
+        "default": "any"
+      },
+      "dinosaurId": {
+        "type": "string",
+        "title": "Pinned dinosaur",
+        "description": "Optional dinosaur slug, for example tyrannosaurus-rex, triceratops, stegosaurus, brachiosaurus, velociraptor, or spinosaurus.",
+        "default": ""
+      },
+      "seed": {
+        "type": "string",
+        "title": "Rotation seed",
+        "description": "Optional text that creates a different daily dinosaur rotation.",
+        "default": ""
+      },
+      "showPeriod": {
+        "type": "boolean",
+        "title": "Show period",
+        "default": true
+      },
+      "showLength": {
+        "type": "boolean",
+        "title": "Show length",
+        "default": true
+      },
+      "showDiet": {
+        "type": "boolean",
+        "title": "Show diet",
+        "default": true
+      },
+      "showFossilLocation": {
+        "type": "boolean",
+        "title": "Show fossil location",
+        "default": true
+      },
+      "showNameMeaning": {
+        "type": "boolean",
+        "title": "Show name meaning",
+        "default": true
+      },
+      "showSource": {
+        "type": "boolean",
+        "title": "Show source",
+        "default": false
+      }
+    }
+  },
+  "language": ["en", "de"]
+}

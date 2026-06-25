@@ -1,0 +1,19 @@
+{
+  "loading": "Chargement...",
+  "kicker": "Oiseau du jour",
+  "range": "Aire",
+  "wingspan": "Envergure",
+  "call": "Cri",
+  "diet": "Regime",
+  "conservation": "Statut",
+  "migration": "Migration",
+  "scientificName": "Nom scientifique",
+  "habitat": "Habitat",
+  "size": "Longueur",
+  "nesting": "Nidification",
+  "order": "Ordre",
+  "source": "Source",
+  "selectedFrom": "{count} dans la rotation",
+  "signature": "Note de terrain",
+  "errorTitle": "L'oiseau n'a pas pu etre charge"
+}

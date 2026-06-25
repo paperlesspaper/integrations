@@ -1,0 +1,92 @@
+{
+  "barn-swallow": {
+    "name": "Rauchschwalbe",
+    "range": "Bruetet auf der Nordhalbkugel; ueberwintert in weiten Teilen der Suedhalbkugel",
+    "call": "Froehlich zwitschernder Gesang; scharfe Warnrufe",
+    "diet": "Fliegende Insekten, meist im Flug gefangen",
+    "conservationStatus": "Nicht gefaehrdet",
+    "migration": "Langstreckenzieher zwischen Brut- und Wintergebieten",
+    "nesting": "Lehmnapf-Nester an Gebaeuden, Bruecken und geschuetzten Vorspruengen",
+    "signature": "Lange Schwanzspiesse und ein blau schimmernder Gleitflug machen sie zu einem der vertrautesten Insektenjaeger der Luft."
+  },
+  "atlantic-puffin": {
+    "name": "Papageitaucher",
+    "range": "Kuesten und Inseln des Nordatlantiks; den Winter verbringt er auf See",
+    "call": "Tiefe knurrende oder schnurrende Rufe in Kolonien",
+    "diet": "Kleine Fische, besonders Sandaale, Heringe und Lodden",
+    "conservationStatus": "Gefaerdet",
+    "migration": "Verstreicht ausserhalb der Brutzeit ueber den offenen Nordatlantik",
+    "nesting": "Hoehlen oder Felsspalten in dichten Seevogelkolonien",
+    "signature": "Der grosse gestreifte Schnabel hilft in der Brutzeit beim Fischtransport und beim Signalisieren in engen Kliffkolonien."
+  },
+  "common-kingfisher": {
+    "name": "Eisvogel",
+    "range": "Europa, Nordafrika und grosse Teile Asiens an klaren Suessgewaessern",
+    "call": "Hoher, duenn pfeifender Flugruf",
+    "diet": "Kleine Fische und Wasserinsekten, die im Sturzflug erbeutet werden",
+    "conservationStatus": "Nicht gefaehrdet",
+    "migration": "Meist standorttreu; noerdliche Populationen weichen teils nach Sueden aus",
+    "nesting": "Brutroehre in einer senkrechten Uferboeschung",
+    "signature": "Ein elektrischer blauer Blitz ueber stillem Wasser ist oft zu sehen, kurz bevor der Vogel am Ufer verschwindet."
+  },
+  "snowy-owl": {
+    "name": "Schnee-Eule",
+    "range": "Arktische Tundra Nordamerikas und Eurasiens; im Winter teils bis in gemaessigte Breiten",
+    "call": "Tiefe Rufe, Bellen und raue Warnlaute",
+    "diet": "Lemminge und andere Kleinsaeuger, dazu Voegel",
+    "conservationStatus": "Gefaerdet",
+    "migration": "Invasionsartiger Zug, dessen Suedwaertsbewegungen vom Beuteangebot abhaengen",
+    "nesting": "Flache Bodenmulde in offener Tundra",
+    "signature": "Anders als viele Eulen jagt sie oft am Tag, wo weisses Gefieder in der offenen Tundra zur Tarnung wird."
+  },
+  "red-crowned-crane": {
+    "name": "Mandschurenkranich",
+    "range": "Feuchtgebiete Ostasiens, mit Standvoegeln auf Hokkaido und ziehenden Festlandspopulationen",
+    "call": "Laute trompetende Duette ueber Marschland",
+    "diet": "Pflanzen, Getreide, Fische, Amphibien, Insekten und Kleintiere",
+    "conservationStatus": "Stark gefaehrdet",
+    "migration": "Festlandspopulationen ziehen; die japanische Population ist weitgehend standorttreu",
+    "nesting": "Grosses Feuchtgebietsnest aus Schilf und Sumpfpflanzen",
+    "signature": "Roter Scheitel, weisser Koerper und paarweise Trompetenrufe machten ihn in Ostasien zum Symbol fuer langes Leben."
+  },
+  "snowy-albatross": {
+    "name": "Wanderalbatros",
+    "range": "Suedlicher Ozean; bruetet auf subantarktischen Inseln",
+    "call": "Kraechzen, Pfeifen, Schnabelklappern und Balzrufe an Kolonien",
+    "diet": "Kopffuesser, Fische, Krebstiere, Aas und Fischereiabfaelle",
+    "conservationStatus": "Gefaerdet",
+    "migration": "Hochseevogel, der enorme Strecken ueber den suedlichen Ozeanen zuruecklegt",
+    "nesting": "Grosses Huegelnest auf offenen subantarktischen Inseln",
+    "signature": "Mit einer der groessten Spannweiten aller lebenden Voegel kann er stundenlang mit kaum einem Fluegelschlag im Wind segeln."
+  },
+  "european-robin": {
+    "name": "Rotkehlchen",
+    "range": "Europa, Westsibirien, Nordafrika und Teile des Nahen Ostens",
+    "call": "Duennes Ticken und klarer, floetender Gesang",
+    "diet": "Insekten, Spinnen, Wuermer, Beeren und Samen",
+    "conservationStatus": "Nicht gefaehrdet",
+    "migration": "Teilzieher; viele westliche Voegel bleiben im Revier",
+    "nesting": "Napfnest versteckt in Boeschungen, Mauern, Efeu oder dichter Deckung",
+    "signature": "Orange Gesicht und Brust sind unverwechselbar, doch oft verraet im Wintergarten zuerst der mutige Gesang das Rotkehlchen."
+  },
+  "common-raven": {
+    "name": "Kolkrabe",
+    "range": "Nordhalbkugel in Gebirgen, Kuesten, Waeldern, Wueste, Tundra und Staedten",
+    "call": "Tiefe Kraechzlaute, Klopflaute und vielfaeltige Nachahmungen",
+    "diet": "Allesfresser: Aas, Kleintiere, Eier, Insekten, Getreide, Fruechte und Abfaelle",
+    "conservationStatus": "Nicht gefaehrdet",
+    "migration": "Meist standorttreu; Jungvoegel streifen oft weit umher",
+    "nesting": "Grosses Reisignest an Klippen, Baeumen, Masten oder Gebaeuden",
+    "signature": "Keilschwanz, schwerer Schnabel und resonantes Kraechzen kennzeichnen einen der anpassungsfaehigsten und intelligentesten Singvoegel."
+  },
+  "ruby-throated-hummingbird": {
+    "name": "Rubinkehlkolibri",
+    "range": "Oestliches Nordamerika zur Brutzeit; Winter von Mexiko bis Mittelamerika",
+    "call": "Schnelle Quietsch-, Chip- und Zwitscherlaute",
+    "diet": "Nektar, kleine Insekten und Spinnen",
+    "conservationStatus": "Nicht gefaehrdet",
+    "migration": "Langstreckenzieher, auch mit Ueberquerungen des Golfs von Mexiko",
+    "nesting": "Winziges Napfnest aus Spinnenseide auf einem Ast",
+    "signature": "Die Kehle des Maennchens kann rubinrot aufblitzen oder fast schwarz wirken, je nachdem wie das Licht die irisierenden Federn trifft."
+  }
+}

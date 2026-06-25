@@ -1,0 +1,58 @@
+{
+  "tyrannosaurus-rex": {
+    "nickname": "T. rex",
+    "period": "Späte Kreide, 69-66 Mio. Jahre",
+    "diet": "Fleischfresser",
+    "fossilLocation": "Westliches Nordamerika",
+    "nameMeaning": "Tyrannenechsen-König",
+    "source": "Wikipedia: Tyrannosaurus",
+    "signature": "Massiver Schädel, winzige Arme und ein ausbalancierender Schwanz ergeben eine der klarsten Dinosaurier-Silhouetten."
+  },
+  "triceratops": {
+    "nickname": "Dreihorngesicht",
+    "period": "Späte Kreide, 68-66 Mio. Jahre",
+    "diet": "Pflanzenfresser",
+    "fossilLocation": "Westliches Nordamerika",
+    "nameMeaning": "Dreihorngesicht",
+    "source": "Wikipedia: Triceratops",
+    "signature": "Breiter Nackenschild und drei Hörner bleiben auch auf kleinen Displays sofort lesbar."
+  },
+  "stegosaurus": {
+    "nickname": "Dachechse",
+    "period": "Später Jura, 155-145 Mio. Jahre",
+    "length": "Etwa 7,5 m",
+    "diet": "Pflanzenfresser",
+    "fossilLocation": "Morrison-Formation, westliche USA",
+    "nameMeaning": "Dachechse",
+    "source": "Wikipedia: Stegosaurus",
+    "signature": "Rückenplatten und Stachelschwanz machen den niedrigen Körper zur unverwechselbaren Display-Form."
+  },
+  "brachiosaurus": {
+    "nickname": "Armechse",
+    "period": "Später Jura, 155,6-145,5 Mio. Jahre",
+    "diet": "Pflanzenfresser",
+    "fossilLocation": "Colorado, USA; Morrison-Formation",
+    "nameMeaning": "Armechse",
+    "source": "Wikipedia: Brachiosaurus",
+    "signature": "Hohe Schultern und ein langer aufrechter Hals unterscheiden ihn von niedrigeren Sauropoden."
+  },
+  "velociraptor": {
+    "nickname": "Velociraptor mongoliensis",
+    "period": "Späte Kreide, 75-71 Mio. Jahre",
+    "diet": "Fleischfresser",
+    "fossilLocation": "Mongolei",
+    "nameMeaning": "Schneller Räuber",
+    "source": "Wikipedia: Velociraptor",
+    "signature": "Klein, schnell, befiedert und mit Sichelkralle: eher schlanker Bodenvogel als Filmmonster."
+  },
+  "spinosaurus": {
+    "nickname": "Dornechse",
+    "period": "Späte Kreide, etwa 100-94 Mio. Jahre",
+    "length": "Bis zu 14 m",
+    "diet": "Fisch- und Fleischfresser",
+    "fossilLocation": "Ägypten und Marokko",
+    "nameMeaning": "Dornechse",
+    "source": "Wikipedia: Spinosaurus",
+    "signature": "Krokodilartige Schnauze und hohes Rückensegel geben ihm eine einzigartige Theropoden-Silhouette."
+  }
+}
