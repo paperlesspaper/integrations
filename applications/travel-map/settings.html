@@ -1,0 +1,803 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Travel Map Settings</title>
+    <script src="./assets/vendor/topojson-client.min.js"></script>
+    <script src="./assets/vendor/d3.min.js"></script>
+    <style>
+      :root {
+        color-scheme: light dark;
+        --bg: #f7f7f4;
+        --fg: #111;
+        --muted: #5f6360;
+        --line: #222;
+        --field: #fff;
+        --accent: #d8e7d0;
+        --yellow: #f7cf28;
+        --red: #e83d35;
+        font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--fg);
+      }
+
+      main {
+        display: grid;
+        grid-template-columns: minmax(280px, 0.95fr) minmax(360px, 1.35fr);
+        gap: 14px;
+        padding: 14px;
+      }
+
+      section {
+        min-width: 0;
+        display: grid;
+        gap: 10px;
+        align-content: start;
+      }
+
+      h2 {
+        margin: 0;
+        font-size: 0.78rem;
+        line-height: 1.1;
+        font-weight: 860;
+        text-transform: uppercase;
+      }
+
+      label,
+      .field {
+        display: grid;
+        gap: 6px;
+        min-width: 0;
+        font-size: 0.75rem;
+        font-weight: 760;
+        text-transform: uppercase;
+      }
+
+      select,
+      input[type="text"],
+      input[type="number"] {
+        width: 100%;
+        min-height: 42px;
+        border: 2px solid var(--line);
+        border-radius: 4px;
+        background: var(--field);
+        color: var(--fg);
+        font: inherit;
+        font-size: 0.95rem;
+        font-weight: 560;
+        line-height: 1.25;
+      }
+
+      select {
+        padding: 8px 10px;
+      }
+
+      input {
+        padding: 7px 9px;
+        text-transform: none;
+      }
+
+      .toggle {
+        display: grid;
+        grid-template-columns: auto minmax(0, 1fr);
+        align-items: center;
+        gap: 10px;
+        min-height: 42px;
+        padding: 4px 0;
+        border: 0;
+        border-radius: 0;
+        background: transparent;
+        box-shadow: none;
+        text-transform: none;
+      }
+
+      .toggle input {
+        width: 18px;
+        height: 18px;
+        margin: 0;
+        padding: 0;
+        accent-color: var(--fg);
+      }
+
+      .map-panel {
+        min-height: 420px;
+        border: 2px solid var(--line);
+        border-radius: 4px;
+        background: var(--field);
+        overflow: hidden;
+      }
+
+      svg {
+        display: block;
+        width: 100%;
+        height: 100%;
+        min-height: 420px;
+      }
+
+      .region {
+        fill: var(--bg);
+        stroke: var(--fg);
+        stroke-width: var(--region-stroke, 1.1);
+        vector-effect: non-scaling-stroke;
+        cursor: pointer;
+      }
+
+      .region:hover,
+      .region:focus {
+        fill: var(--accent);
+        outline: none;
+      }
+
+      .region.is-visited {
+        fill: var(--red);
+        stroke-width: var(--visited-stroke, 1.45);
+      }
+
+      .list {
+        display: grid;
+        gap: 6px;
+        max-height: 390px;
+        overflow: auto;
+      }
+
+      .row {
+        display: grid;
+        grid-template-columns: auto minmax(0, 1fr) 92px;
+        align-items: center;
+        gap: 8px;
+        min-height: 44px;
+        padding: 4px 0;
+      }
+
+      .row input[type="checkbox"] {
+        width: 18px;
+        height: 18px;
+        margin: 0;
+        padding: 0;
+        accent-color: var(--fg);
+      }
+
+      .row-name {
+        min-width: 0;
+        font-size: 0.9rem;
+        line-height: 1.15;
+        font-weight: 720;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .row-year {
+        min-height: 34px;
+        font-size: 0.86rem;
+      }
+
+      .status,
+      .hint {
+        margin: 0;
+        color: var(--muted);
+        font-size: 0.78rem;
+        line-height: 1.35;
+      }
+
+      .status {
+        min-height: 1.35em;
+      }
+
+      @media (max-width: 760px) {
+        main {
+          grid-template-columns: 1fr;
+        }
+
+        .map-panel,
+        svg {
+          min-height: 320px;
+        }
+      }
+
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --bg: #111;
+          --fg: #f5f5f0;
+          --muted: #b5b9b4;
+          --line: #f5f5f0;
+          --field: #050505;
+          --accent: #263a32;
+        }
+      }
+    </style>
+    <link rel="stylesheet" href="/assets/settings.css">
+    <script src="/assets/paperless.iife.js"></script>
+  </head>
+  <body>
+    <main>
+      <section>
+        <h2>Display</h2>
+        <label>
+          Title
+          <input id="title" type="text" maxlength="48">
+        </label>
+        <label>
+          Map
+          <select id="mapMode">
+            <option value="countries">Countries</option>
+            <option value="usStates">US states</option>
+            <option value="bundeslaender">Bundesländer</option>
+          </select>
+        </label>
+        <label>
+          Year for map clicks
+          <input id="quickYear" type="number" min="1900" max="2100" placeholder="optional">
+        </label>
+        <label>
+          Color mode
+          <select id="colorMode">
+            <option value="byYear">Color by year</option>
+            <option value="selectedColor">Selected color</option>
+            <option value="shadeByYear">Shade by year</option>
+          </select>
+        </label>
+        <label>
+          Selected color
+          <select id="selectedColor">
+            <option value="black">Black</option>
+            <option value="red">Red</option>
+            <option value="yellow">Yellow</option>
+            <option value="green">Green</option>
+            <option value="blue">Blue</option>
+          </select>
+        </label>
+        <label class="toggle">
+          <input id="showCounter" type="checkbox">
+          <span>Show visited counter</span>
+        </label>
+        <label class="toggle">
+          <input id="showLegend" type="checkbox">
+          <span>Show year legend</span>
+        </label>
+        <p class="hint">Click a region on the map to toggle it. Enter years in the list to color visits by year.</p>
+        <p class="status" id="status">Ready</p>
+      </section>
+
+      <section>
+        <h2>Map selection</h2>
+        <div class="map-panel" id="map"></div>
+      </section>
+
+      <section>
+        <h2>Regions</h2>
+        <label>
+          Search
+          <input id="search" type="text" autocomplete="off" spellcheck="false">
+        </label>
+        <div class="list" id="list"></div>
+      </section>
+    </main>
+
+    <script>
+      const defaults = {
+        mapMode: "countries",
+        title: "Travel Map",
+        visitedRegions: '{"countries":{},"usStates":{},"bundeslaender":{}}',
+        colorMode: "byYear",
+        selectedColor: "black",
+        showCounter: true,
+        showLegend: true,
+      };
+      const usStateIds = new Set([
+        "01",
+        "02",
+        "04",
+        "05",
+        "06",
+        "08",
+        "09",
+        "10",
+        "12",
+        "13",
+        "15",
+        "16",
+        "17",
+        "18",
+        "19",
+        "20",
+        "21",
+        "22",
+        "23",
+        "24",
+        "25",
+        "26",
+        "27",
+        "28",
+        "29",
+        "30",
+        "31",
+        "32",
+        "33",
+        "34",
+        "35",
+        "36",
+        "37",
+        "38",
+        "39",
+        "40",
+        "41",
+        "42",
+        "44",
+        "45",
+        "46",
+        "47",
+        "48",
+        "49",
+        "50",
+        "51",
+        "53",
+        "54",
+        "55",
+        "56",
+      ]);
+
+      const mapDefinitions = {
+        countries: {
+          url: "./assets/maps/countries-110m.json",
+          type: "topojson",
+          objectName: "countries",
+          projection: () => d3.geoNaturalEarth1(),
+        },
+        usStates: {
+          url: "./assets/maps/us-states-10m.json",
+          type: "topojson",
+          objectName: "states",
+          projection: () => d3.geoAlbersUsa(),
+        },
+        bundeslaender: {
+          url: "./assets/maps/de-bundeslaender-low.geo.json",
+          type: "geojson",
+          projection: () => d3.geoMercator(),
+        },
+      };
+      const yearPalette = ["#e83d35", "#f7cf28", "#2c9b4b", "#006bb6", "#111111", "#ffffff"];
+      const selectedColors = {
+        black: "#111111",
+        red: "#e83d35",
+        yellow: "#f7cf28",
+        green: "#2c9b4b",
+        blue: "#006bb6",
+      };
+
+      const settingsKeys = [
+        "mapMode",
+        "title",
+        "visitedRegions",
+        "colorMode",
+        "selectedColor",
+        "showCounter",
+        "showLegend",
+      ];
+      const controls = {
+        mapMode: document.getElementById("mapMode"),
+        title: document.getElementById("title"),
+        quickYear: document.getElementById("quickYear"),
+        colorMode: document.getElementById("colorMode"),
+        selectedColor: document.getElementById("selectedColor"),
+        showCounter: document.getElementById("showCounter"),
+        showLegend: document.getElementById("showLegend"),
+        search: document.getElementById("search"),
+      };
+      const mapElement = document.getElementById("map");
+      const listElement = document.getElementById("list");
+      const statusElement = document.getElementById("status");
+      const settingsBridge = window.PaperlessOpenIntegration || {};
+
+      let settings = { ...defaults };
+      let visited = parseVisited(defaults.visitedRegions);
+      let featuresByMode = {};
+      let activeFeatures = [];
+
+      function isObject(value) {
+        return Boolean(value) && typeof value === "object" && !Array.isArray(value);
+      }
+
+      function pluginSettingsFromPayload(payload) {
+        const meta = isObject(payload?.meta) ? payload.meta : {};
+        return isObject(meta.pluginSettings) ? meta.pluginSettings : {};
+      }
+
+      function parseVisited(value) {
+        if (isObject(value)) {
+          return normalizeVisited(value);
+        }
+        if (typeof value === "string" && value.trim()) {
+          try {
+            return normalizeVisited(JSON.parse(value));
+          } catch (_error) {
+            return normalizeVisited({});
+          }
+        }
+        return normalizeVisited({});
+      }
+
+      function normalizeVisited(value) {
+        return {
+          countries: isObject(value.countries) ? { ...value.countries } : {},
+          usStates: isObject(value.usStates) ? { ...value.usStates } : {},
+          bundeslaender: isObject(value.bundeslaender) ? { ...value.bundeslaender } : {},
+        };
+      }
+
+      function normalizeBool(value) {
+        return value === true || value === "true";
+      }
+
+      function yearValue(value) {
+        const text = String(value ?? "").trim();
+        return /^\d{4}$/.test(text) ? text : "";
+      }
+
+      function normalizeColorMode(value) {
+        return ["byYear", "selectedColor", "shadeByYear"].includes(value) ? value : "byYear";
+      }
+
+      function selectedColorValue(value) {
+        return selectedColors[value] || selectedColors.black;
+      }
+
+      function regionYearMap(regions) {
+        return Object.fromEntries(
+          Object.entries(regions || {}).map(([id, year]) => [String(id), yearValue(year)]),
+        );
+      }
+
+      function colorScale(years) {
+        const sorted = [...years].sort();
+        return Object.fromEntries(sorted.map((year, index) => [year, yearPalette[index % yearPalette.length]]));
+      }
+
+      function shadeScale(years, baseColor) {
+        const sorted = [...years].sort();
+        if (sorted.length <= 1) {
+          return Object.fromEntries(sorted.map((year) => [year, baseColor]));
+        }
+        return Object.fromEntries(
+          sorted.map((year, index) => {
+            const ratio = 0.28 + (index / (sorted.length - 1)) * 0.72;
+            return [year, d3.interpolateRgb("#ffffff", baseColor)(ratio)];
+          }),
+        );
+      }
+
+      function colorForVisit(yearMap, id) {
+        const year = yearMap[id] || "";
+        const years = new Set(Object.values(yearMap).filter(Boolean));
+        const baseColor = selectedColorValue(settings.selectedColor);
+
+        if (settings.colorMode === "selectedColor") {
+          return baseColor;
+        }
+
+        if (settings.colorMode === "shadeByYear") {
+          return year ? shadeScale(years, baseColor)[year] || baseColor : baseColor;
+        }
+
+        return year ? colorScale(years)[year] || baseColor : baseColor;
+      }
+
+      function regionId(feature) {
+        return String(feature.properties?.id || feature.id || "");
+      }
+
+      function regionName(feature) {
+        return String(feature.properties?.name || feature.properties?.NAME || feature.id || "");
+      }
+
+      function visibleFeature(feature, mode) {
+        if (mode === "usStates") {
+          return usStateIds.has(regionId(feature));
+        }
+        return regionName(feature) !== "Antarctica";
+      }
+
+      function escapeHtml(value) {
+        return String(value ?? "").replace(/[&<>"']/g, (char) => ({
+          "&": "&amp;",
+          "<": "&lt;",
+          ">": "&gt;",
+          '"': "&quot;",
+          "'": "&#039;",
+        })[char]);
+      }
+
+      function normalizeSettings(nextSettings) {
+        const normalized = {
+          ...defaults,
+          ...settings,
+          ...nextSettings,
+        };
+        normalized.mapMode = mapDefinitions[normalized.mapMode] ? normalized.mapMode : defaults.mapMode;
+        normalized.title = String(normalized.title || defaults.title).slice(0, 48);
+        normalized.colorMode = normalizeColorMode(normalized.colorMode);
+        normalized.selectedColor = selectedColors[normalized.selectedColor]
+          ? normalized.selectedColor
+          : defaults.selectedColor;
+        normalized.showCounter = normalizeBool(normalized.showCounter);
+        normalized.showLegend = normalizeBool(normalized.showLegend);
+        normalized.visitedRegions = JSON.stringify(visited);
+        return normalized;
+      }
+
+      function contentSize(element, fallbackWidth, fallbackHeight) {
+        const styles = window.getComputedStyle(element);
+        const horizontalPadding = parseFloat(styles.paddingLeft) + parseFloat(styles.paddingRight);
+        const verticalPadding = parseFloat(styles.paddingTop) + parseFloat(styles.paddingBottom);
+        return {
+          width: Math.max(280, Math.round(element.clientWidth - horizontalPadding) || fallbackWidth),
+          height: Math.max(280, Math.round(element.clientHeight - verticalPadding) || fallbackHeight),
+        };
+      }
+
+      function strokeScale(width, height) {
+        const base = Math.min(3.2, Math.max(1.05, Math.min(width, height) / 390));
+        return {
+          region: base.toFixed(2),
+          visited: (base * 1.35).toFixed(2),
+        };
+      }
+
+      async function loadFeatures(mode) {
+        if (featuresByMode[mode]) {
+          return featuresByMode[mode];
+        }
+        const definition = mapDefinitions[mode];
+        const response = await fetch(definition.url, { cache: "no-store" });
+        if (!response.ok) {
+          throw new Error(`Could not load ${mode}`);
+        }
+        const data = await response.json();
+        const features =
+          definition.type === "topojson"
+            ? topojson.feature(data, data.objects[definition.objectName]).features
+            : data.features || [];
+        featuresByMode[mode] = features
+          .filter((feature) => visibleFeature(feature, mode) && regionId(feature) && regionName(feature))
+          .sort((a, b) => regionName(a).localeCompare(regionName(b)));
+        return featuresByMode[mode];
+      }
+
+      function postSettings() {
+        settings = normalizeSettings(readSettingsFromControls());
+        statusElement.textContent = "Updated";
+        if (settingsBridge.postSettingsUpdate) {
+          settingsBridge.postSettingsUpdate(settings);
+        } else {
+          window.parent.postMessage(
+            {
+              type: "paperlesspaper:settings:update",
+              pluginSettings: settings,
+            },
+            "*",
+          );
+        }
+      }
+
+      function readSettingsFromControls() {
+        return {
+          mapMode: controls.mapMode.value,
+          title: controls.title.value.trim(),
+          visitedRegions: JSON.stringify(visited),
+          colorMode: controls.colorMode.value,
+          selectedColor: controls.selectedColor.value,
+          showCounter: controls.showCounter.checked,
+          showLegend: controls.showLegend.checked,
+        };
+      }
+
+      function applyControls() {
+        controls.mapMode.value = settings.mapMode;
+        controls.title.value = settings.title;
+        controls.colorMode.value = settings.colorMode;
+        controls.selectedColor.value = settings.selectedColor;
+        controls.showCounter.checked = settings.showCounter;
+        controls.showLegend.checked = settings.showLegend;
+      }
+
+      function setVisited(id, year) {
+        const mode = settings.mapMode;
+        const regions = visited[mode];
+        if (year === null) {
+          delete regions[id];
+        } else {
+          regions[id] = yearValue(year);
+        }
+        settings.visitedRegions = JSON.stringify(visited);
+      }
+
+      function toggleVisited(id) {
+        const regions = visited[settings.mapMode];
+        if (Object.prototype.hasOwnProperty.call(regions, id)) {
+          setVisited(id, null);
+        } else {
+          setVisited(id, controls.quickYear.value);
+        }
+        renderSelections();
+        postSettings();
+      }
+
+      function renderMap() {
+        const mode = settings.mapMode;
+        const definition = mapDefinitions[mode];
+        const { width, height } = contentSize(mapElement, 900, 480);
+        const strokes = strokeScale(width, height);
+        const collection = {
+          type: "FeatureCollection",
+          features: activeFeatures,
+        };
+        const projection = definition.projection();
+        projection.fitExtent(
+          [
+            [12, 12],
+            [width - 12, height - 12],
+          ],
+          collection,
+        );
+        const path = d3.geoPath(projection);
+        mapElement.innerHTML = `
+          <svg width="${width}" height="${height}" viewBox="0 0 ${width} ${height}" style="--region-stroke:${strokes.region};--visited-stroke:${strokes.visited}" role="img" aria-label="Travel map">
+            ${activeFeatures
+              .map((feature) => {
+                const id = regionId(feature);
+                const name = regionName(feature);
+                return `<path tabindex="0" class="region" data-region-id="${escapeHtml(id)}" d="${path(feature)}"><title>${escapeHtml(name)}</title></path>`;
+              })
+              .join("")}
+          </svg>
+        `;
+        mapElement.querySelectorAll(".region").forEach((pathElement) => {
+          pathElement.addEventListener("click", () => toggleVisited(pathElement.dataset.regionId));
+          pathElement.addEventListener("keydown", (event) => {
+            if (event.key === "Enter" || event.key === " ") {
+              event.preventDefault();
+              toggleVisited(pathElement.dataset.regionId);
+            }
+          });
+        });
+        renderSelections();
+      }
+
+      function renderSelections() {
+        const regions = visited[settings.mapMode];
+        const yearMap = regionYearMap(regions);
+        mapElement.querySelectorAll(".region").forEach((pathElement) => {
+          const isVisited = Object.prototype.hasOwnProperty.call(regions, pathElement.dataset.regionId);
+          pathElement.classList.toggle(
+            "is-visited",
+            isVisited,
+          );
+          pathElement.style.fill = isVisited ? colorForVisit(yearMap, pathElement.dataset.regionId) : "";
+        });
+        renderList();
+      }
+
+      function renderList() {
+        const query = controls.search.value.trim().toLowerCase();
+        const regions = visited[settings.mapMode];
+        const matches = activeFeatures.filter((feature) => {
+          if (!query) {
+            return true;
+          }
+          return regionName(feature).toLowerCase().includes(query) || regionId(feature).toLowerCase().includes(query);
+        });
+        listElement.innerHTML = matches
+          .map((feature) => {
+            const id = regionId(feature);
+            const checked = Object.prototype.hasOwnProperty.call(regions, id);
+            const year = yearValue(regions[id]);
+            return `
+              <label class="row" data-region-id="${escapeHtml(id)}">
+                <input type="checkbox" ${checked ? "checked" : ""} aria-label="${escapeHtml(regionName(feature))}">
+                <span class="row-name" title="${escapeHtml(regionName(feature))}">${escapeHtml(regionName(feature))}</span>
+                <input class="row-year" type="number" min="1900" max="2100" placeholder="Year" value="${escapeHtml(year)}">
+              </label>
+            `;
+          })
+          .join("");
+        listElement.querySelectorAll(".row").forEach((row) => {
+          const id = row.dataset.regionId;
+          const checkbox = row.querySelector('input[type="checkbox"]');
+          const yearInput = row.querySelector(".row-year");
+          checkbox.addEventListener("change", () => {
+            if (checkbox.checked) {
+              setVisited(id, yearInput.value);
+            } else {
+              setVisited(id, null);
+            }
+            renderSelections();
+            postSettings();
+          });
+          yearInput.addEventListener("input", () => {
+            if (yearInput.value.trim()) {
+              setVisited(id, yearInput.value);
+              renderSelections();
+              postSettings();
+            } else if (Object.prototype.hasOwnProperty.call(visited[settings.mapMode], id)) {
+              setVisited(id, "");
+              renderSelections();
+              postSettings();
+            }
+          });
+        });
+      }
+
+      async function refreshMode() {
+        settings = normalizeSettings(readSettingsFromControls());
+        statusElement.textContent = "Loading map...";
+        activeFeatures = await loadFeatures(settings.mapMode);
+        renderMap();
+        statusElement.textContent = `${Object.keys(visited[settings.mapMode]).length}/${activeFeatures.length} selected`;
+      }
+
+      async function applySettings(nextSettings) {
+        visited = parseVisited(nextSettings.visitedRegions ?? settings.visitedRegions);
+        settings = normalizeSettings(nextSettings);
+        applyControls();
+        await refreshMode();
+      }
+
+      function handleMessage(event) {
+        const message = event.data;
+        if (!isObject(message)) {
+          return;
+        }
+        const payload =
+          message.type === "INIT" || message.cmd === "message" ? message.data : message.payload;
+        if (isObject(payload)) {
+          applySettings(pluginSettingsFromPayload(payload));
+        } else if (isObject(message.pluginSettings)) {
+          applySettings(message.pluginSettings);
+        }
+      }
+
+      controls.mapMode.addEventListener("change", async () => {
+        await refreshMode();
+        postSettings();
+      });
+      controls.title.addEventListener("input", postSettings);
+      controls.colorMode.addEventListener("change", () => {
+        settings = normalizeSettings(readSettingsFromControls());
+        renderSelections();
+        postSettings();
+      });
+      controls.selectedColor.addEventListener("change", () => {
+        settings = normalizeSettings(readSettingsFromControls());
+        renderSelections();
+        postSettings();
+      });
+      controls.showCounter.addEventListener("change", postSettings);
+      controls.showLegend.addEventListener("change", postSettings);
+      controls.search.addEventListener("input", renderList);
+      window.addEventListener("resize", () => {
+        if (activeFeatures.length) {
+          renderMap();
+        }
+      });
+      window.addEventListener("message", handleMessage);
+
+      settingsBridge.observeSettingsHeight?.({ minHeight: 160 });
+      applySettings(defaults).then(() => {
+        if (settingsBridge.postSettingsReady) {
+          settingsBridge.postSettingsReady();
+        } else {
+          window.parent.postMessage({ type: "paperlesspaper:settings:ready" }, "*");
+        }
+      });
+    </script>
+  </body>
+</html>

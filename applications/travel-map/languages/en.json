@@ -1,0 +1,12 @@
+{
+  "title": "Travel Map",
+  "countries": "Countries",
+  "usStates": "US states",
+  "bundeslaender": "Bundesländer",
+  "visitedOfTotal": "{visited}/{total} visited",
+  "notVisited": "Not visited",
+  "visitedNoYear": "Visited",
+  "yearLegend": "Years",
+  "visitedLegend": "Visited",
+  "source": "Map data: Natural Earth, U.S. Census, DIVA-GIS"
+}

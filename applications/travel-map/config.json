@@ -1,0 +1,116 @@
+{
+  "name": "Travel Map",
+  "version": "0.1.0",
+  "description": "Shows a personal visited map for countries, US states, or German Bundesländer with year-based coloring.",
+  "renderPage": "./render.html",
+  "settingsPage": "./settings.html",
+  "icon": "./assets/icon.png",
+  "nativeSettings": {
+    "color": "light",
+    "mapMode": "countries",
+    "title": "Travel Map",
+    "visitedRegions": "{\"countries\":{\"250\":\"2016\",\"380\":\"2018\",\"724\":\"2019\",\"276\":\"2020\",\"840\":\"2023\"},\"usStates\":{\"06\":\"2022\",\"36\":\"2023\",\"12\":\"2024\"},\"bundeslaender\":{\"DE-BE\":\"2020\",\"DE-BY\":\"2021\",\"DE-HH\":\"2023\"}}",
+    "colorMode": "byYear",
+    "selectedColor": "black",
+    "showCounter": true,
+    "showLegend": true
+  },
+  "configVariants": [
+    {
+      "color": "light",
+      "mapMode": "countries",
+      "title": "Travel Map",
+      "visitedRegions": "{\"countries\":{\"250\":\"2016\",\"380\":\"2018\",\"724\":\"2019\",\"276\":\"2020\",\"840\":\"2023\",\"392\":\"2025\"},\"usStates\":{},\"bundeslaender\":{}}",
+      "colorMode": "byYear",
+      "selectedColor": "black",
+      "showCounter": true,
+      "showLegend": true,
+      "screenshots": {
+        "800x480": "./screenshots/travel-map-countries-800x480-landscape.png",
+        "480x800": "./screenshots/travel-map-countries-480x800-portrait.png"
+      }
+    },
+    {
+      "color": "dark",
+      "mapMode": "bundeslaender",
+      "title": "Bundesländer",
+      "visitedRegions": "{\"countries\":{},\"usStates\":{},\"bundeslaender\":{\"DE-BE\":\"2020\",\"DE-BY\":\"2021\",\"DE-HH\":\"2023\",\"DE-NW\":\"2024\",\"DE-SN\":\"2025\"}}",
+      "colorMode": "shadeByYear",
+      "selectedColor": "green",
+      "showCounter": true,
+      "showLegend": true,
+      "screenshots": {
+        "800x480": "./screenshots/travel-map-bundeslaender-800x480-landscape.png",
+        "480x800": "./screenshots/travel-map-bundeslaender-480x800-portrait.png"
+      }
+    }
+  ],
+  "formSchema": {
+    "type": "object",
+    "properties": {
+      "mapMode": {
+        "type": "string",
+        "title": "Map",
+        "enum": [
+          "countries",
+          "usStates",
+          "bundeslaender"
+        ],
+        "default": "countries",
+        "inStettingsPage": true
+      },
+      "title": {
+        "type": "string",
+        "title": "Title",
+        "default": "Travel Map",
+        "inStettingsPage": true
+      },
+      "visitedRegions": {
+        "type": "string",
+        "title": "Visited regions",
+        "default": "{\"countries\":{},\"usStates\":{},\"bundeslaender\":{}}",
+        "inStettingsPage": true
+      },
+      "colorMode": {
+        "type": "string",
+        "title": "Color mode",
+        "enum": [
+          "byYear",
+          "selectedColor",
+          "shadeByYear"
+        ],
+        "default": "byYear",
+        "inStettingsPage": true
+      },
+      "selectedColor": {
+        "type": "string",
+        "title": "Selected color",
+        "enum": [
+          "black",
+          "red",
+          "yellow",
+          "green",
+          "blue"
+        ],
+        "default": "black",
+        "inStettingsPage": true
+      },
+      "showCounter": {
+        "type": "boolean",
+        "title": "Show visited counter",
+        "default": true,
+        "inStettingsPage": true
+      },
+      "showLegend": {
+        "type": "boolean",
+        "title": "Show year legend",
+        "default": true,
+        "inStettingsPage": true
+      }
+    }
+  },
+  "language": [
+    "en",
+    "de"
+  ]
+}

@@ -1,0 +1,767 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="paperless:epd-optimize" content='{"palette":"aitjcizeSpectra6Palette","imageAdjustmentOptions":{"toneMapping":{"exposure":0.05,"saturation":0,"contrast":0,"strength":0,"shadowBoost":0,"highlightCompress":0,"midpoint":0.5},"clarity":{"amount":1,"radius":2,"midtone":1.2},"dynamicRangeCompression":{"mode":"display","strength":0.7,"lowPercentile":0.01,"highPercentile":0.99}},"canvasDitherOptions":{"serpentine":true,"errorDiffusionMatrix":"sierra3"}}' />
+    <title>Train of the Day</title>
+    <link rel="stylesheet" href="/assets/paperless.css" />
+    <script src="/assets/paperless.iife.js"></script>
+    <script src="./data/trains.js"></script>
+    <style>
+      .train-screen {
+        padding: 0;
+        gap: 0;
+      }
+
+      .train-shell {
+        width: 100%;
+        height: 100%;
+        min-height: 0;
+        display: grid;
+        grid-template-rows: auto minmax(0, 1fr) auto;
+        background: var(--pp-bg);
+      }
+
+      .hero-header {
+        min-width: 0;
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 18px;
+        padding: 18px 22px 8px;
+      }
+
+      .label {
+        margin: 0;
+        color: var(--pp-muted);
+        font-size: 0.78rem;
+        line-height: 1.06;
+        font-weight: 820;
+        text-transform: uppercase;
+      }
+
+      .title-area {
+        min-width: 0;
+        flex: 1 1 auto;
+      }
+
+      .train-name {
+        margin: 0;
+        font-size: 4.7rem;
+        line-height: 0.9;
+        font-weight: 900;
+        letter-spacing: 0;
+        overflow-wrap: anywhere;
+      }
+
+      .nickname {
+        margin: 7px 0 0;
+        color: var(--pp-muted);
+        font-size: 1rem;
+        line-height: 1.12;
+        font-weight: 760;
+        overflow-wrap: anywhere;
+      }
+
+      .signature-line {
+        max-width: 50vw;
+        margin: 8px 0 0;
+        font-size: 0.95rem;
+        line-height: 1.12;
+        font-weight: 760;
+        overflow-wrap: anywhere;
+      }
+
+      .source-meta {
+        flex: 0 0 170px;
+        text-align: right;
+        color: var(--pp-muted);
+        font-size: 0.58rem;
+        line-height: 1.12;
+        font-weight: 780;
+        text-transform: uppercase;
+        overflow-wrap: anywhere;
+      }
+
+      .source-meta p {
+        margin: 0;
+      }
+
+      .date-line {
+        margin-bottom: 5px;
+        color: var(--pp-fg);
+        font-size: 0.76rem;
+        font-weight: 850;
+      }
+
+      .image-stage {
+        min-width: 0;
+        min-height: 0;
+        display: grid;
+        place-items: center;
+        padding: 0 0 0 18px;
+        background: #fff;
+      }
+
+      .train-image {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        mix-blend-mode: multiply;
+        transform: translateY(-4%);
+      }
+
+      .fact-grid {
+        position: relative;
+        z-index: 1;
+        min-height: 0;
+        display: grid;
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+        gap: 16px;
+        background: var(--pp-bg);
+        padding: 10px 22px 17px;
+      }
+
+      .fact-grid[data-count="1"] {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .fact-grid[data-count="2"] {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .fact-grid[data-count="3"] {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .fact-grid[data-count="4"] {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
+
+      .fact-grid[data-count="6"],
+      .fact-grid[data-count="7"],
+      .fact-grid[data-count="8"],
+      .fact-grid[data-count="9"],
+      .fact-grid[data-count="10"],
+      .fact-grid[data-count="11"],
+      .fact-grid[data-count="12"] {
+        grid-template-columns: repeat(6, minmax(0, 1fr));
+      }
+
+      .fact-grid[data-count="13"],
+      .fact-grid[data-count="14"],
+      .fact-grid[data-count="15"],
+      .fact-grid[data-count="16"],
+      .fact-grid[data-count="17"],
+      .fact-grid[data-count="18"],
+      .fact-grid[data-count="19"] {
+        grid-template-columns: repeat(7, minmax(0, 1fr));
+        gap: 9px 12px;
+      }
+
+      .fact-grid[data-count="13"] .label,
+      .fact-grid[data-count="14"] .label,
+      .fact-grid[data-count="15"] .label,
+      .fact-grid[data-count="16"] .label,
+      .fact-grid[data-count="17"] .label,
+      .fact-grid[data-count="18"] .label,
+      .fact-grid[data-count="19"] .label {
+        font-size: 0.56rem;
+      }
+
+      .fact-grid[data-count="13"] .value,
+      .fact-grid[data-count="14"] .value,
+      .fact-grid[data-count="15"] .value,
+      .fact-grid[data-count="16"] .value,
+      .fact-grid[data-count="17"] .value,
+      .fact-grid[data-count="18"] .value,
+      .fact-grid[data-count="19"] .value {
+        font-size: 0.8rem;
+        line-height: 1.02;
+      }
+
+      .fact {
+        min-width: 0;
+        min-height: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        gap: 4px;
+        padding: 0;
+        border: 0;
+        background: transparent;
+        overflow: hidden;
+      }
+
+      .fact .label {
+        font-size: 0.68rem;
+      }
+
+      .value {
+        margin: 0;
+        font-size: 1.04rem;
+        line-height: 1.05;
+        font-weight: 850;
+        overflow-wrap: anywhere;
+      }
+
+      @media (orientation: portrait), (max-width: 700px) {
+        .train-shell {
+          grid-template-rows: auto minmax(0, 0.82fr) auto;
+        }
+
+        .hero-header {
+          padding: 15px 16px 7px;
+          gap: 12px;
+        }
+
+        .source-meta {
+          flex-basis: 130px;
+          font-size: 0.52rem;
+        }
+
+        .train-name {
+          font-size: 3.4rem;
+        }
+
+        .nickname {
+          font-size: 0.93rem;
+        }
+
+        .signature-line {
+          font-size: 0.82rem;
+        }
+
+        .date-line {
+          font-size: 0.68rem;
+        }
+
+        .image-stage {
+          padding: 0 10px 0 0;
+        }
+
+        .train-image {
+          transform: translateY(-2%);
+        }
+
+        .fact-grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+          gap: 12px 18px;
+          padding: 10px 16px 16px;
+        }
+
+        .fact-grid[data-count] {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .value {
+          font-size: 1.02rem;
+        }
+      }
+
+      @media (max-height: 560px) and (orientation: landscape) {
+        .hero-header {
+          padding: 11px 16px 5px;
+        }
+
+        .train-name {
+          font-size: 3.15rem;
+        }
+
+        .nickname {
+          font-size: 0.88rem;
+        }
+
+        .signature-line {
+          margin-top: 5px;
+          font-size: 0.78rem;
+        }
+
+        .source-meta {
+          flex-basis: 150px;
+          font-size: 0.52rem;
+        }
+
+        .image-stage {
+          padding: 0 0 0 16px;
+        }
+
+        .train-image {
+          transform: translateY(-7%);
+        }
+
+        .fact-grid {
+          gap: 12px;
+          padding: 7px 16px 12px;
+        }
+
+        .fact-grid[data-count="13"],
+        .fact-grid[data-count="14"],
+        .fact-grid[data-count="15"],
+        .fact-grid[data-count="16"],
+        .fact-grid[data-count="17"],
+        .fact-grid[data-count="18"],
+        .fact-grid[data-count="19"] {
+          gap: 7px 10px;
+          padding-bottom: 9px;
+        }
+
+        .value {
+          font-size: 0.86rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="website-has-loading-element"></div>
+    <main class="pp-screen train-screen">
+      <section class="train-shell" id="app">
+        <header class="hero-header">
+          <div class="title-area">
+            <h1 class="train-name pp-fit" id="train-name" data-i18n="loading">
+              Loading...
+            </h1>
+            <p class="nickname pp-fit" id="nickname"></p>
+            <p class="signature-line pp-fit" id="signature"></p>
+          </div>
+          <div class="source-meta">
+            <p class="date-line" id="date">----</p>
+            <p id="source"></p>
+          </div>
+        </header>
+
+        <div class="image-stage">
+          <img class="train-image" id="train-image" alt="" />
+        </div>
+
+        <section class="fact-grid" id="facts"></section>
+      </section>
+    </main>
+
+    <script>
+      (async function render() {
+        const {
+          waitForPayload,
+          getSettings,
+          getQuerySettings,
+          mergeSettings,
+          escapeHtml,
+          fitHyphenatedText,
+          fitAllText,
+          fitToScreen,
+          markReady,
+          markError,
+          loadLanguageJson,
+          applyColorTheme,
+        } = window.PaperlessOpenIntegration;
+
+        const trains = Array.isArray(window.TrainOfTheDayTrains)
+          ? window.TrainOfTheDayTrains
+          : [];
+
+        const defaultMessages = {
+          loading: "Loading...",
+          kicker: "Train of the day",
+          firstVehicle: "First vehicle",
+          origin: "Origin",
+          service: "In service",
+          speed: "Top speed",
+          builder: "Builder",
+          traction: "Type",
+          power: "Drive",
+          source: "Source",
+          operator: "Operator",
+          formation: "Formation",
+          length: "Length",
+          voltage: "Voltage",
+          gauge: "Gauge",
+          family: "Family / class",
+          yearsBuilt: "Years built",
+          unitsBuilt: "Units built",
+          recordSpeed: "Record/test speed",
+          powerOutput: "Power output",
+          capacity: "Seats / capacity",
+          axleArrangement: "Axle arrangement",
+          route: "Main route",
+          typeHighSpeed: "High-speed",
+          typeLocomotive: "Locomotive",
+          typeEmu: "EMU",
+          selectedFrom: "{count} in rotation",
+          signature: "Signature",
+          errorTitle: "Train could not load",
+        };
+        let messages = defaultMessages;
+        let currentLanguage = "en";
+
+        function t(key, values = {}) {
+          const template =
+            typeof messages[key] === "string"
+              ? messages[key]
+              : defaultMessages[key] || key;
+          return template.replace(
+            /\{(\w+)\}/g,
+            (_match, name) => values[name] ?? "",
+          );
+        }
+
+        function applyStaticMessages(root = document) {
+          root.querySelectorAll("[data-i18n]").forEach((element) => {
+            element.textContent = t(element.dataset.i18n);
+          });
+        }
+
+        async function loadMessages(payload) {
+          let result;
+          if (typeof loadLanguageJson === "function") {
+            result = await loadLanguageJson(payload);
+          } else {
+            const requested = String(payload?.meta?.language || "en").trim();
+            const requestedBase = requested.split("-")[0].toLowerCase();
+            const supported = ["en", "de", "fr", "es", "it"];
+            const language = supported.includes(requested)
+              ? requested
+              : supported.includes(requestedBase)
+                ? requestedBase
+                : "en";
+            const response = await fetch(`./languages/${language}.json`, {
+              cache: "no-store",
+            });
+            if (!response.ok) {
+              throw new Error(
+                `Could not load language JSON for ${language}: ${response.status}`,
+              );
+            }
+            result = { language, messages: await response.json() };
+          }
+
+          messages = { ...defaultMessages, ...result.messages };
+          currentLanguage = result.language || "en";
+          document.documentElement.lang = currentLanguage;
+          applyStaticMessages();
+        }
+
+        async function loadTrainTranslations(language) {
+          const requested = String(language || "en")
+            .trim()
+            .toLowerCase();
+          const requestedBase = requested.split("-")[0];
+          const candidates = ["en", requestedBase, requested].filter(
+            (value, index, array) => value && array.indexOf(value) === index,
+          );
+          let translations = {};
+
+          for (const candidate of candidates) {
+            try {
+              const response = await fetch(
+                `./languages/trains/${candidate}.json`,
+                { cache: "no-store" },
+              );
+              if (!response.ok) {
+                continue;
+              }
+              const data = await response.json();
+              if (data && typeof data === "object" && !Array.isArray(data)) {
+                translations = { ...translations, ...data };
+              }
+            } catch (_error) {
+              // Train metadata translations are optional; base train data remains usable.
+            }
+          }
+
+          return translations;
+        }
+
+        function applyTrainTranslation(train, translations) {
+          const translation =
+            translations && typeof translations === "object"
+              ? translations[train.id]
+              : null;
+          if (
+            !translation ||
+            typeof translation !== "object" ||
+            Array.isArray(translation)
+          ) {
+            return train;
+          }
+
+          const fields = ["name", "nickname", "country", "signature", "source"];
+          const translatedFields = {};
+          fields.forEach((field) => {
+            if (typeof translation[field] === "string") {
+              translatedFields[field] = translation[field];
+            }
+          });
+          return { ...train, ...translatedFields };
+        }
+
+        function dayKey(date = new Date()) {
+          return date.toISOString().slice(0, 10);
+        }
+
+        function hashString(value) {
+          let hash = 2166136261;
+          for (let index = 0; index < value.length; index += 1) {
+            hash ^= value.charCodeAt(index);
+            hash = Math.imul(hash, 16777619);
+          }
+          return hash >>> 0;
+        }
+
+        function pickTrain(settings, key) {
+          const pinned = String(settings.trainId || "")
+            .trim()
+            .toLowerCase();
+          if (pinned) {
+            const match = trains.find((train) => train.id === pinned);
+            if (match) {
+              return { train: match, poolSize: 1 };
+            }
+          }
+
+          const region = String(settings.region || "europe");
+          const traction = String(settings.traction || "any");
+          const pool = trains.filter((train) => {
+            const regionMatch = region === "any" || train.region === region;
+            const tractionMatch =
+              traction === "any" || train.traction === traction;
+            return regionMatch && tractionMatch;
+          });
+          const fallbackPool = pool.length ? pool : trains;
+          const seed = String(settings.seed || "");
+          const index =
+            hashString(`${key}|${seed}|${region}|${traction}`) %
+            fallbackPool.length;
+          return { train: fallbackPool[index], poolSize: fallbackPool.length };
+        }
+
+        function formatDate(value) {
+          const date = new Date(`${value}T00:00:00Z`);
+          return date.toLocaleDateString(currentLanguage || undefined, {
+            day: "2-digit",
+            month: "short",
+            timeZone: "UTC",
+          });
+        }
+
+        function fact(label, value) {
+          return `
+            <article class="fact">
+              <p class="label">${escapeHtml(label)}</p>
+              <p class="value pp-fit">${escapeHtml(value || "N/A")}</p>
+            </article>
+          `;
+        }
+
+        function tractionLabel(value) {
+          if (value === "high-speed") {
+            return t("typeHighSpeed");
+          }
+          if (value === "emu") {
+            return t("typeEmu");
+          }
+          return t("typeLocomotive");
+        }
+
+        function waitForImage(image) {
+          if (image.complete && image.naturalWidth > 0) {
+            return Promise.resolve();
+          }
+          return new Promise((resolve, reject) => {
+            image.addEventListener("load", resolve, { once: true });
+            image.addEventListener(
+              "error",
+              () => reject(new Error(`Could not load ${image.src}`)),
+              {
+                once: true,
+              },
+            );
+          });
+        }
+
+        try {
+          const defaults = {
+            color: "light",
+            region: "europe",
+            traction: "any",
+            trainId: "",
+            seed: "",
+            showOrigin: true,
+            showService: true,
+            showSpeed: true,
+            showBuilder: true,
+            showType: true,
+            showOperator: false,
+            showFormation: false,
+            showLength: false,
+            showVoltage: false,
+            showGauge: false,
+            showDrive: false,
+            showFamily: false,
+            showYearsBuilt: false,
+            showUnitsBuilt: false,
+            showRecordSpeed: false,
+            showPowerOutput: false,
+            showCapacity: false,
+            showAxleArrangement: false,
+            showRoute: false,
+          };
+          const payload = await waitForPayload({ timeout: 300 });
+          await loadMessages(payload);
+          const settings = mergeSettings(
+            defaults,
+            getSettings(payload),
+            getQuerySettings(),
+          );
+          if (typeof applyColorTheme === "function") {
+            applyColorTheme(settings.color, { defaultTheme: defaults.color });
+          }
+          if (!trains.length) {
+            throw new Error("Train list could not load");
+          }
+
+          const today = dayKey();
+          const { train: selectedTrain } = pickTrain(settings, today);
+          const trainTranslations = await loadTrainTranslations(currentLanguage);
+          const train = applyTrainTranslation(
+            selectedTrain,
+            trainTranslations,
+          );
+          const image = document.getElementById("train-image");
+          image.src = train.image;
+          image.alt = train.name;
+
+          document.getElementById("date").textContent = formatDate(today);
+          document.getElementById("source").textContent = train.source;
+          document.getElementById("train-name").innerHTML = escapeHtml(
+            train.name,
+          );
+          document.getElementById("nickname").innerHTML = escapeHtml(
+            train.nickname,
+          );
+          document.getElementById("signature").innerHTML = escapeHtml(
+            train.signature,
+          );
+          const availableFacts = [
+            { setting: "showOrigin", label: t("origin"), value: train.country },
+            {
+              setting: "showService",
+              label: t("service"),
+              value: train.service,
+            },
+            { setting: "showSpeed", label: t("speed"), value: train.speed },
+            {
+              setting: "showBuilder",
+              label: t("builder"),
+              value: train.builder,
+            },
+            {
+              setting: "showType",
+              label: t("traction"),
+              value: tractionLabel(train.traction),
+            },
+            {
+              setting: "showOperator",
+              label: t("operator"),
+              value: train.operator,
+            },
+            {
+              setting: "showFormation",
+              label: t("formation"),
+              value: train.formation,
+            },
+            { setting: "showLength", label: t("length"), value: train.length },
+            {
+              setting: "showVoltage",
+              label: t("voltage"),
+              value: train.voltage,
+            },
+            { setting: "showGauge", label: t("gauge"), value: train.gauge },
+            { setting: "showDrive", label: t("power"), value: train.power },
+            { setting: "showFamily", label: t("family"), value: train.family },
+            {
+              setting: "showYearsBuilt",
+              label: t("yearsBuilt"),
+              value: train.yearsBuilt,
+            },
+            {
+              setting: "showUnitsBuilt",
+              label: t("unitsBuilt"),
+              value: train.unitsBuilt,
+            },
+            {
+              setting: "showRecordSpeed",
+              label: t("recordSpeed"),
+              value: train.recordSpeed,
+            },
+            {
+              setting: "showPowerOutput",
+              label: t("powerOutput"),
+              value: train.powerOutput,
+            },
+            {
+              setting: "showCapacity",
+              label: t("capacity"),
+              value: train.capacity,
+            },
+            {
+              setting: "showAxleArrangement",
+              label: t("axleArrangement"),
+              value: train.axleArrangement,
+            },
+            { setting: "showRoute", label: t("route"), value: train.route },
+          ];
+          const selectedFacts = availableFacts.filter(
+            (item) => settings[item.setting] !== false,
+          );
+          const visibleFacts = selectedFacts.length
+            ? selectedFacts
+            : availableFacts.slice(0, 5);
+          const factsElement = document.getElementById("facts");
+          factsElement.dataset.count = String(
+            Math.min(visibleFacts.length, 19),
+          );
+          factsElement.innerHTML = visibleFacts
+            .map((item) => fact(item.label, item.value))
+            .join("");
+
+          await Promise.all([document.fonts?.ready, waitForImage(image)]);
+          const compactLandscape =
+            window.innerWidth > window.innerHeight && window.innerHeight <= 560;
+          fitHyphenatedText(document.getElementById("train-name"), {
+            min: 30,
+            max: compactLandscape ? 58 : 82,
+            step: 2,
+            tolerance: 6,
+            lineBreak: "balance",
+          });
+          fitHyphenatedText(document.getElementById("nickname"), {
+            min: 12,
+            max: compactLandscape ? 15 : 20,
+            step: 1,
+            lineBreak: true,
+          });
+          fitHyphenatedText(document.getElementById("signature"), {
+            min: 10,
+            max: compactLandscape ? 14 : 18,
+            step: 1,
+            lineBreak: true,
+          });
+          fitAllText(".fact .pp-fit", {
+            min: 9,
+            max: compactLandscape ? 14 : 19,
+            step: 1,
+            tolerance: 4,
+            lineBreak: true,
+          });
+          fitToScreen();
+          markReady({ train: train.id, day: today });
+        } catch (error) {
+          markError(error);
+          document.body.innerHTML = `<main class="pp-screen"><h1 class="pp-title pp-error">${escapeHtml(t("errorTitle"))}</h1><p>${escapeHtml(error.message)}</p></main>`;
+        }
+      })();
+    </script>
+  </body>
+</html>

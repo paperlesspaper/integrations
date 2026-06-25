@@ -2,7 +2,7 @@
 slug: weather
 name: Weather
 version: 0.1.0
-description: Shows current weather and a three-day forecast from Open-Meteo.
+description: Shows current weather, hourly forecast, or a compact forecast summary from OpenWeatherMap or Open-Meteo.
 renderPage: ./render.html
 configUrl: /weather/config.json
 apiUrl: /weather/api/data
@@ -19,36 +19,51 @@ screenshots:
 
 # Weather
 
-Plain OpenIntegration dashboard for current conditions and a compact forecast. It uses Open-Meteo, requires no API key, and fits the city title with `fitAllText(...)` before calling `markReady()`.
+Plain OpenIntegration version of the old paperlesspaper weather app. It keeps the old settings and views while using the new no-React structure: `config.json`, `render.html`, localized JSON files, and `api/data.js`.
+
+The API adapter supports OpenWeatherMap and Open-Meteo. OpenWeatherMap is the default and requires `OPENWEATHERMAP_API_KEY` in the server environment; for local one-off tests, `apiKey` can also be passed as a query setting. Open-Meteo can be selected with `dataSource=open-meteo` and does not require an API key for the public endpoint.
 
 ## Links
 
 - [Demo](https://integrations.paperlesspaper.de/weather/run)
 - [config.json](./config.json)
 
-## Screenshots
-
-| Landscape | Portrait |
-| --- | --- |
-| <img src="./screenshots/weather-berlin-800x480-landscape.png" alt="Weather landscape screenshot: Berlin" width="360"> | <img src="./screenshots/weather-berlin-480x800-portrait.png" alt="Weather portrait screenshot: Berlin" width="216"> |
-| <img src="./screenshots/weather-new-york-800x480-landscape.png" alt="Weather landscape screenshot: New York" width="360"> | <img src="./screenshots/weather-new-york-480x800-portrait.png" alt="Weather portrait screenshot: New York" width="216"> |
-
 ## Common URLs
 
 - `/weather/`
-- `/weather/?city=Berlin&latitude=52.52&longitude=13.405`
-- `/weather/?city=New%20York&latitude=40.7128&longitude=-74.0060`
+- `/weather/?location=Berlin&color=light&kind=forecast-summary`
+- `/weather/?dataSource=open-meteo&location=Berlin&color=light&kind=forecast-summary`
+- `/weather/?location=Dresden&color=dark&kind=forecast`
+- `/weather/?location=New%20York&color=light&kind=today-forecast&displayLastUpdated=true`
+- `/weather/?location=Berlin&iconset=glyphs-poly`
+- `/weather/?location=Berlin&iconstyle=openweather`
+- `/weather/?location=Berlin&showDate=true&showSunTimes=true&showMoonPhase=true&showPressure=true`
 - `/weather/config.json`
 - `/weather/api/data`
 
 ## Settings
 
-- `city`: display label for the location
-- `latitude`: forecast latitude
-- `longitude`: forecast longitude
+- `dataSource`: `openweathermap` or `open-meteo`
+- `location`: city or place name passed to the selected data source
+- `color`: global paperlesspaper color theme
+- `kind`: `forecast-summary`, `forecast`, or `today-forecast`
+- `displayLastUpdated`: show the weather timestamp and render timestamp
+- `iconset`: `normal`, `light`, `qweather`, `qweather-line`, `glyphs-poly`, `noto-emoji`, `openmoji`, or `openweather`
+- `showDate`: show the local date for the weather location
+- `showSunTimes`: show sunrise and sunset for the current location
+- `showMoonPhase`: show the current moon phase, calculated locally for the weather date
+- `showPressure`: show current and forecast air pressure
+- `showWindSpeed`: show current and forecast wind speed
+- `showHumidity`: show current and forecast humidity
+
+`iconstyle` is still supported as a URL alias for the old app. `apiKey` is still supported as a URL-only override for OpenWeatherMap.
+
+## Views
+
+- `forecast-summary`: current weather, four near-term forecast slots, and a three-day outlook
+- `forecast`: seven forecast rows with time, weekday, temperature, description, icon, and humidity
+- `today-forecast`: current temperature, description, humidity, and wind speed
 
 ## Language Support
 
-This integration declares `language: ["en", "de", "fr", "es", "it"]` in `config.json` and loads localized fixed UI copy from `languages/<code>.json` using the host-selected `payload.meta.language`.
-
-The language JSON files localize dashboard labels, empty states, update text, and error titles only. Integration settings such as `locale`, `language`, or external API language codes remain separate.
+This integration declares `language: ["en", "de", "fr", "es", "it"]` in `config.json` and loads fixed UI copy from `languages/<code>.json` using the host-selected `payload.meta.language`.

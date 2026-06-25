@@ -36,6 +36,8 @@ var PaperlessOpenIntegration = (() => {
     getPayloadLanguage: () => getPayloadLanguage,
     getQuerySettings: () => getQuerySettings,
     getSettings: () => getSettings,
+    getSettingsFromMessage: () => getSettingsFromMessage,
+    getSettingsPageHeight: () => getSettingsPageHeight,
     hyphenateText: () => hyphenateText,
     hyphenateWord: () => hyphenateWord,
     loadLanguageJson: () => loadLanguageJson,
@@ -44,8 +46,13 @@ var PaperlessOpenIntegration = (() => {
     markReady: () => markReady,
     mergeSettings: () => mergeSettings,
     normalizeColorTheme: () => normalizeColorTheme,
+    observeSettingsHeight: () => observeSettingsHeight,
+    postSettingsHeight: () => postSettingsHeight,
+    postSettingsReady: () => postSettingsReady,
+    postSettingsUpdate: () => postSettingsUpdate,
     prepareHyphenation: () => prepareHyphenation,
     resolveLanguage: () => resolveLanguage,
+    setupSettingsPage: () => setupSettingsPage,
     stripSoftHyphens: () => stripSoftHyphens,
     validateConfig: () => validateConfig,
     waitForPayload: () => waitForPayload
@@ -175,6 +182,7 @@ var PaperlessOpenIntegration = (() => {
   function isRecord2(value) {
     return Boolean(value) && typeof value === "object" && !Array.isArray(value);
   }
+  var pluginMessageSource = "paperlesspaper-plugin";
   function coerceQueryValue(value) {
     if (value === "true") {
       return true;
@@ -207,6 +215,187 @@ var PaperlessOpenIntegration = (() => {
       values[key] = coerceQueryValue(value);
     }
     return mergeSettings(defaults, values);
+  }
+  function targetWindow(target) {
+    if (typeof window === "undefined") {
+      return void 0;
+    }
+    return target ?? window.parent;
+  }
+  function postToParent(message, options = {}) {
+    const target = targetWindow(options.target);
+    if (!target) {
+      return;
+    }
+    target.postMessage(message, options.targetOrigin ?? "*");
+  }
+  function payloadFromSettingsMessage(message) {
+    if (!isRecord2(message)) {
+      return void 0;
+    }
+    if (isRecord2(message.data) && (message.type === "INIT" || message.cmd === "message")) {
+      return message.data;
+    }
+    if (isRecord2(message.payload)) {
+      return message.payload;
+    }
+    return void 0;
+  }
+  function getSettingsFromMessage(message, defaults) {
+    if (!isRecord2(message)) {
+      return void 0;
+    }
+    const payload = payloadFromSettingsMessage(message);
+    if (payload) {
+      return getSettings(payload, defaults);
+    }
+    if (isRecord2(message.pluginSettings)) {
+      return mergeSettings(defaults, message.pluginSettings);
+    }
+    if (isRecord2(message.settings)) {
+      return mergeSettings(defaults, message.settings);
+    }
+    return void 0;
+  }
+  function postSettingsUpdate(settingsPatch, options = {}) {
+    postToParent(
+      {
+        source: pluginMessageSource,
+        type: "UPDATE_SETTINGS",
+        payload: settingsPatch
+      },
+      options
+    );
+    if (options.legacy !== false) {
+      postToParent(
+        {
+          type: "paperlesspaper:settings:update",
+          pluginSettings: settingsPatch
+        },
+        options
+      );
+    }
+  }
+  function postSettingsReady(options = {}) {
+    postToParent(
+      {
+        source: pluginMessageSource,
+        type: "READY"
+      },
+      options
+    );
+    if (options.legacy !== false) {
+      postToParent({ type: "paperlesspaper:settings:ready" }, options);
+    }
+  }
+  function getSettingsPageHeight(root) {
+    if (typeof document === "undefined") {
+      return 0;
+    }
+    const element = root ?? document.documentElement;
+    const body = document.body;
+    const rect = element.getBoundingClientRect();
+    const bodyRect = body?.getBoundingClientRect();
+    return Math.ceil(
+      Math.max(
+        rect.height,
+        element.scrollHeight,
+        element.offsetHeight,
+        bodyRect?.height ?? 0,
+        body?.scrollHeight ?? 0,
+        body?.offsetHeight ?? 0
+      )
+    );
+  }
+  function postSettingsHeight(height = getSettingsPageHeight(), options = {}) {
+    const nextHeight = Math.max(options.minHeight ?? 0, Math.ceil(Number(height)));
+    if (!Number.isFinite(nextHeight) || nextHeight <= 0) {
+      return;
+    }
+    postToParent(
+      {
+        source: pluginMessageSource,
+        type: "SET_HEIGHT",
+        payload: {
+          height: nextHeight
+        }
+      },
+      options
+    );
+    if (options.legacy !== false) {
+      postToParent(
+        {
+          type: "paperlesspaper:settings:height",
+          height: nextHeight
+        },
+        options
+      );
+    }
+  }
+  function observeSettingsHeight(options = {}) {
+    if (typeof window === "undefined" || typeof document === "undefined") {
+      return () => {
+      };
+    }
+    const root = options.root ?? document.documentElement;
+    let frame = 0;
+    let lastHeight = 0;
+    const measure = () => {
+      frame = 0;
+      const height = getSettingsPageHeight(root);
+      if (height !== lastHeight) {
+        lastHeight = height;
+        postSettingsHeight(height, options);
+      }
+    };
+    const schedule = () => {
+      if (frame) {
+        return;
+      }
+      frame = window.requestAnimationFrame(measure);
+    };
+    const resizeObserver = typeof ResizeObserver === "undefined" ? void 0 : new ResizeObserver(schedule);
+    resizeObserver?.observe(root);
+    if (document.body && document.body !== root) {
+      resizeObserver?.observe(document.body);
+    }
+    const mutationObserver = typeof MutationObserver === "undefined" ? void 0 : new MutationObserver(schedule);
+    mutationObserver?.observe(root, {
+      attributes: true,
+      childList: true,
+      subtree: true
+    });
+    window.addEventListener("load", schedule);
+    window.addEventListener("resize", schedule);
+    schedule();
+    return () => {
+      if (frame) {
+        window.cancelAnimationFrame(frame);
+      }
+      resizeObserver?.disconnect();
+      mutationObserver?.disconnect();
+      window.removeEventListener("load", schedule);
+      window.removeEventListener("resize", schedule);
+    };
+  }
+  function setupSettingsPage(options = {}) {
+    const stopObservingHeight = observeSettingsHeight(options);
+    if (typeof window === "undefined") {
+      return stopObservingHeight;
+    }
+    const onMessage = (event) => {
+      const payload = payloadFromSettingsMessage(event.data);
+      if (payload) {
+        options.onPayload?.(payload, event);
+        postSettingsHeight(getSettingsPageHeight(options.root), options);
+      }
+    };
+    window.addEventListener("message", onMessage);
+    postSettingsReady(options);
+    return () => {
+      window.removeEventListener("message", onMessage);
+      stopObservingHeight();
+    };
   }
 
   // src/language.ts

@@ -444,6 +444,7 @@ a {
 .settings-page-frame {
   width: 100%;
   height: 220px;
+  min-height: 160px;
   border: 1px solid var(--line);
   border-radius: 6px;
   background: #FFFFFF;

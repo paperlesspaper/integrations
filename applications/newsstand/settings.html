@@ -86,6 +86,8 @@
         }
       }
     </style>
+    <link rel="stylesheet" href="/assets/settings.css" />
+    <script src="/assets/paperless.iife.js"></script>
   </head>
   <body>
     <main>
@@ -132,6 +134,7 @@
       const filter = document.getElementById("filter");
       const selected = document.getElementById("selected");
       const status = document.getElementById("status");
+      const settingsBridge = window.PaperlessOpenIntegration || {};
 
       function isObject(value) {
         return Boolean(value) && typeof value === "object" && !Array.isArray(value);
@@ -222,13 +225,17 @@
         };
         selected.textContent = settings.newspaper;
 
-        window.parent.postMessage(
-          {
-            type: "paperlesspaper:settings:update",
-            pluginSettings: settings,
-          },
-          "*",
-        );
+        if (settingsBridge.postSettingsUpdate) {
+          settingsBridge.postSettingsUpdate(settings);
+        } else {
+          window.parent.postMessage(
+            {
+              type: "paperlesspaper:settings:update",
+              pluginSettings: settings,
+            },
+            "*",
+          );
+        }
       }
 
       function handleMessage(event) {
@@ -269,7 +276,12 @@
       window.addEventListener("message", handleMessage);
       newspaper.addEventListener("change", postSettings);
       filter.addEventListener("input", renderOptions);
-      window.parent.postMessage({ type: "paperlesspaper:settings:ready" }, "*");
+      settingsBridge.observeSettingsHeight?.({ minHeight: 160 });
+      if (settingsBridge.postSettingsReady) {
+        settingsBridge.postSettingsReady();
+      } else {
+        window.parent.postMessage({ type: "paperlesspaper:settings:ready" }, "*");
+      }
       loadPapers();
       renderOptions();
     </script>

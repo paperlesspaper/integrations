@@ -1,0 +1,422 @@
+{
+  "ice-3": {
+    "name": "DB ICE 3",
+    "nickname": "Classe 403 / 406, famille Velaro",
+    "country": "Allemagne",
+    "source": "Wikipedia: ICE 3",
+    "signature": "Son nez blanc bas, sa bande rouge et sa traction répartie en ont fait le visage international de la grande vitesse allemande."
+  },
+  "tgv-duplex": {
+    "name": "SNCF TGV Duplex",
+    "nickname": "Rame TGV à deux niveaux",
+    "country": "France",
+    "source": "Wikipedia: TGV Duplex",
+    "signature": "Ses voitures à deux niveaux ont permis d'ajouter des places sur les lignes à grande vitesse chargées sans rallonger les quais."
+  },
+  "sbb-re-460": {
+    "name": "SBB Re 460",
+    "nickname": "Lok 2000",
+    "country": "Suisse",
+    "source": "Wikipedia: SBB Re 460",
+    "signature": "Sa caisse fluide influencée par Pininfarina est devenue une icône suisse des services rapides InterCity et InterRegio."
+  },
+  "eurostar-e320": {
+    "name": "Eurostar e320",
+    "nickname": "British Rail Class 374",
+    "country": "Royaume-Uni / Europe",
+    "source": "Wikipedia: British Rail Class 374",
+    "signature": "Un Velaro multisystème conçu pour le tunnel sous la Manche et les circulations directes sur plusieurs réseaux électriques européens."
+  },
+  "frecciarossa-1000": {
+    "name": "Frecciarossa 1000",
+    "nickname": "ETR 1000",
+    "country": "Italie",
+    "source": "Wikipedia: Frecciarossa 1000",
+    "signature": "Son long nez rouge et son bandeau de vitres noir ont transformé le fleuron italien de la grande vitesse en marque roulante."
+  },
+  "obb-taurus": {
+    "name": "OeBB Taurus",
+    "nickname": "Locomotive Railjet classe 1116",
+    "country": "Autriche",
+    "source": "Wikipedia: OeBB Class 1116",
+    "signature": "La plateforme ES64U2 est devenue célèbre sur les services Railjet et a établi un record de vitesse pour locomotive électrique classique."
+  },
+  "intercity-125": {
+    "name": "InterCity 125",
+    "nickname": "British Rail Class 43 HST",
+    "country": "Royaume-Uni",
+    "source": "Wikipedia: InterCity 125",
+    "signature": "Le HST a apporté le service diesel à 125 mph aux grandes lignes non électrifiées britanniques et est resté en première ligne pendant des décennies."
+  },
+  "renfe-ave-s103": {
+    "name": "Renfe AVE S-103",
+    "nickname": "Siemens Velaro E",
+    "country": "Espagne",
+    "source": "Wikipedia: Renfe Class 103",
+    "signature": "Le Velaro E espagnol a relié Madrid et Barcelone avec l'un des services réguliers à grande vitesse les plus rapides d'Europe."
+  },
+  "sbb-giruno": {
+    "name": "SBB Giruno",
+    "nickname": "RABe 501 / Stadler SMILE",
+    "country": "Suisse",
+    "source": "Wikipedia: SBB RABe 501",
+    "signature": "Construit pour le tunnel de base du Saint-Gothard, le Giruno est un train transfrontalier à plancher bas pour la Suisse, l'Italie et l'Allemagne."
+  },
+  "sj-x2000": {
+    "name": "SJ X2000",
+    "nickname": "Train pendulaire X2",
+    "country": "Suède",
+    "source": "Wikipedia: X 2000",
+    "signature": "Son pendulage actif a permis à la Suède d'accélérer les trajets sur des lignes historiques sinueuses sans reconstruire chaque axe principal."
+  },
+  "thalys-pbka": {
+    "name": "Thalys PBKA",
+    "nickname": "Paris-Bruxelles-Cologne-Amsterdam",
+    "country": "France / Belgique",
+    "source": "Wikipedia: Thalys PBKA",
+    "signature": "Les rames PBKA ont été conçues pour quatre pays et quatre systèmes électriques, une véritable variante TGV transfrontalière."
+  },
+  "db-class-103": {
+    "name": "DB Class 103",
+    "nickname": "Locomotive express TEE et InterCity",
+    "country": "Allemagne",
+    "source": "Wikipedia: DB Class 103",
+    "signature": "Fleuron crème et rouge de l'InterCity allemand, la Class 103 est devenue l'une des locomotives électriques les plus reconnaissables d'Europe."
+  },
+  "siemens-vectron": {
+    "name": "Siemens Vectron",
+    "nickname": "Plateforme européenne de locomotive modulaire",
+    "country": "Allemagne / Europe",
+    "source": "Wikipedia: Siemens Vectron",
+    "signature": "Une locomotive d'exportation modulaire destinée au fret et aux voyageurs transfrontaliers dans une grande partie de l'Europe."
+  },
+  "ns-virm": {
+    "name": "NS VIRM",
+    "nickname": "Automotrice néerlandaise à deux niveaux",
+    "country": "Pays-Bas",
+    "source": "Wikipedia: NS VIRM",
+    "signature": "Cette rame jaune à deux niveaux est un pilier familier de l'intercity néerlandais, conçu pour absorber les foules sur les grands axes."
+  },
+  "alfa-pendular": {
+    "name": "Alfa Pendular",
+    "nickname": "CP Series 4000 Pendolino",
+    "country": "Portugal",
+    "source": "Wikipedia: Alfa Pendular",
+    "signature": "Le train pendulaire phare du Portugal relie Lisbonne, Porto et l'Algarve avec une caisse dérivée du Pendolino et une voie ibérique."
+  },
+  "vr-sm3": {
+    "name": "VR Sm3",
+    "nickname": "Pendolino finlandais",
+    "country": "Finlande",
+    "source": "Wikipedia: VR Class Sm3",
+    "signature": "Le Pendolino à voie large de Finlande a apporté le service pendulaire rapide aux longues distances sous conditions nordiques."
+  },
+  "etr-500": {
+    "name": "FS ETR 500",
+    "nickname": "Rame à motrices Frecciarossa",
+    "country": "Italie",
+    "source": "Wikipedia: FS Class ETR 500",
+    "signature": "L'ETR 500 fut le fleuron italien de grande vitesse conçu spécialement avant l'ère de l'ETR 1000."
+  },
+  "sncf-bb-26000": {
+    "name": "SNCF BB 26000",
+    "nickname": "Sybic",
+    "country": "France",
+    "source": "Wikipedia: SNCF Class BB 26000",
+    "signature": "La série Sybic a été conçue comme une locomotive française polyvalente pour les express voyageurs comme pour le fret."
+  },
+  "eurostar-class-373": {
+    "name": "Eurostar Class 373",
+    "nickname": "TransManche Super Train",
+    "country": "Royaume-Uni / France",
+    "source": "Wikipedia: British Rail Class 373",
+    "signature": "Le train originel du tunnel sous la Manche reliait Londres, Paris et Bruxelles avec une longue formation dérivée du TGV."
+  },
+  "renfe-s102": {
+    "name": "Renfe AVE S-102",
+    "nickname": "Talgo 350 Pato",
+    "country": "Espagne",
+    "source": "Wikipedia: Renfe Class 102",
+    "signature": "Surnommé Pato pour son nez en bec de canard, le S-102 associe des voitures Talgo à des motrices à grande vitesse."
+  },
+  "cd-class-680": {
+    "name": "CD Class 680",
+    "nickname": "Pendolino tchèque",
+    "country": "République tchèque",
+    "source": "Wikipedia: CD Class 680",
+    "signature": "Le Pendolino tchèque a apporté le pendulage actif et le fonctionnement multisystème aux lignes express d'Europe centrale."
+  },
+  "pkp-ed250": {
+    "name": "PKP ED250",
+    "nickname": "Pendolino polonais",
+    "country": "Pologne",
+    "source": "Wikipedia: PKP Class ED250",
+    "signature": "Le Pendolino polonais a introduit un service intercity rapide haut de gamme sur des corridors nationaux modernisés."
+  },
+  "sncb-class-18": {
+    "name": "SNCB Class 18",
+    "nickname": "Siemens ES60U3",
+    "country": "Belgique",
+    "source": "Wikipedia: Belgian Railways Class 18",
+    "signature": "La Class 18 belge est une locomotive Siemens multisystème utilisée sur les services intercity et internationaux."
+  },
+  "db-class-218": {
+    "name": "DB Class 218",
+    "nickname": "Classique diesel-hydraulique allemand",
+    "country": "Allemagne",
+    "source": "Wikipedia: DB Class 218",
+    "signature": "La Class 218 est devenue la locomotive diesel principale standard d'Allemagne de l'Ouest pour voyageurs et fret sur lignes non électrifiées."
+  },
+  "ice-1": {
+    "name": "DB ICE 1",
+    "nickname": "Classe 401",
+    "country": "Allemagne",
+    "source": "Wikipedia: ICE 1",
+    "signature": "Le premier ICE de série allemand a introduit l'identité grande vitesse blanche et rouge qui définit encore la marque."
+  },
+  "class-390-pendolino": {
+    "name": "Class 390 Pendolino",
+    "nickname": "Train pendulaire de la West Coast Main Line",
+    "country": "Royaume-Uni",
+    "source": "Wikipedia: British Rail Class 390",
+    "signature": "Son système de pendulation a aidé à relever les vitesses sur la sinueuse West Coast Main Line britannique sans ligne entièrement nouvelle."
+  },
+  "ns-icm-koploper": {
+    "name": "NS Koploper",
+    "nickname": "Intercity Materieel",
+    "country": "Pays-Bas",
+    "source": "Wikipedia: NS Intercity Materieel",
+    "signature": "La cabine surélevée a donné son nom au Koploper et permettait autrefois aux voyageurs de passer entre rames accouplées."
+  },
+  "dsb-ic3": {
+    "name": "DSB IC3",
+    "nickname": "Class MF",
+    "country": "Danemark",
+    "source": "Wikipedia: IC3",
+    "signature": "L'IC3 à face souple peut s'accoupler nez à nez et ouvrir un passage pleine largeur entre les unités."
+  },
+  "coradia-ilint": {
+    "name": "Coradia iLint",
+    "nickname": "Train régional à hydrogène",
+    "country": "Allemagne",
+    "source": "Wikipedia: Alstom Coradia iLint",
+    "signature": "L'iLint est devenu le premier train de voyageurs à pile à combustible hydrogène à entrer en service régulier."
+  },
+  "stadler-flirt": {
+    "name": "Stadler FLIRT",
+    "nickname": "Train intercity et régional rapide et léger",
+    "country": "Suisse / Europe",
+    "source": "Wikipedia: Stadler FLIRT",
+    "signature": "Le FLIRT modulaire à plancher bas est devenu l'une des familles de trains régionaux modernes les plus répandues d'Europe."
+  },
+  "adler": {
+    "name": "Der Adler",
+    "nickname": "The Eagle",
+    "country": "Allemagne",
+    "source": "Wikipedia: Adler locomotive",
+    "signature": "Classique historique depuis 1835 : Der Adler a marque l'histoire ferroviaire en Allemagne."
+  },
+  "amtrak-metroliner": {
+    "name": "Budd Metroliner / Amtrak Metroliner EMU",
+    "nickname": "Metroliner",
+    "country": "Etats-Unis",
+    "source": "Wikipedia: Budd Metroliner",
+    "signature": "Classique historique depuis 1969 : Budd Metroliner / Amtrak Metroliner EMU a marque l'histoire ferroviaire en Etats-Unis."
+  },
+  "bavarian-s3-6": {
+    "name": "Bavarian S 3/6",
+    "nickname": "Bavarian Pacific",
+    "country": "Allemagne",
+    "source": "Wikipedia: Bavarian S 3/6",
+    "signature": "Classique historique depuis 1908 : Bavarian S 3/6 a marque l'histoire ferroviaire en Allemagne."
+  },
+  "belgian-type-12": {
+    "name": "Belgian State Railways/SNCB Type 12",
+    "nickname": "La Douce",
+    "country": "Belgique",
+    "source": "Wikipedia: SNCB Type 12",
+    "signature": "Classique historique depuis 1938 : Belgian State Railways/SNCB Type 12 a marque l'histoire ferroviaire en Belgique."
+  },
+  "budd-rdc": {
+    "name": "Budd Rail Diesel Car (RDC)",
+    "nickname": "Buddliner",
+    "country": "Etats-Unis",
+    "source": "Wikipedia: Budd Rail Diesel Car",
+    "signature": "Classique historique depuis 1949 : Budd Rail Diesel Car (RDC) a marque l'histoire ferroviaire en Etats-Unis."
+  },
+  "db-vt-11-5": {
+    "name": "DB VT 11.5",
+    "nickname": "TEE diesel multiple unit",
+    "country": "Allemagne",
+    "source": "Wikipedia: DB Class VT 11.5",
+    "signature": "Classique historique depuis 1957 : DB VT 11.5 a marque l'histoire ferroviaire en Allemagne."
+  },
+  "drg-class-05": {
+    "name": "DRG Class 05 streamlined express steam locomotive",
+    "nickname": "Streamlined Hudson",
+    "country": "Allemagne",
+    "source": "Wikipedia: DRG Class 05",
+    "signature": "Classique historique depuis 1935 : DRG Class 05 streamlined express steam locomotive a marque l'histoire ferroviaire en Allemagne."
+  },
+  "drg-e18": {
+    "name": "DRG Class E 18 / DB Class 118",
+    "nickname": "Streamlined German express electric",
+    "country": "Allemagne",
+    "source": "Wikipedia: DRG Class E 18",
+    "signature": "Classique historique depuis 1935 : DRG Class E 18 / DB Class 118 a marque l'histoire ferroviaire en Allemagne."
+  },
+  "drg-svt-877-flying-hamburger": {
+    "name": "DRG SVT 877",
+    "nickname": "Flying Hamburger",
+    "country": "Allemagne",
+    "source": "Wikipedia: DRG Class SVT 877",
+    "signature": "Classique historique depuis 1933 : DRG SVT 877 a marque l'histoire ferroviaire en Allemagne."
+  },
+  "flying-scotsman": {
+    "name": "LNER Class A3 4472 Flying Scotsman",
+    "nickname": "Flying Scotsman",
+    "country": "Royaume-Uni",
+    "source": "Wikipedia: Flying Scotsman",
+    "signature": "Classique historique depuis 1923 : LNER Class A3 4472 Flying Scotsman a marque l'histoire ferroviaire en Royaume-Uni."
+  },
+  "fs-e626": {
+    "name": "FS Class E.626",
+    "nickname": "Tuttofare",
+    "country": "Italie",
+    "source": "Wikipedia: FS Class E.626",
+    "signature": "Classique historique depuis 1927 : FS Class E.626 a marque l'histoire ferroviaire en Italie."
+  },
+  "lms-coronation": {
+    "name": "LMS Coronation Class streamlined steam locomotive",
+    "nickname": "Duchess",
+    "country": "Royaume-Uni",
+    "source": "Wikipedia: LMS Coronation Class",
+    "signature": "Classique historique depuis 1937 : LMS Coronation Class streamlined steam locomotive a marque l'histoire ferroviaire en Royaume-Uni."
+  },
+  "mallard": {
+    "name": "LNER Class A4 4468 Mallard",
+    "nickname": "Mallard",
+    "country": "Royaume-Uni",
+    "source": "Wikipedia: LNER Class A4 4468 Mallard",
+    "signature": "Classique historique depuis 1935 : LNER Class A4 4468 Mallard a marque l'histoire ferroviaire en Royaume-Uni."
+  },
+  "mistral-cc-40100": {
+    "name": "SNCF CC 40100",
+    "nickname": "Le Mistral era TEE electric",
+    "country": "France",
+    "source": "Wikipedia: SNCF CC 40100",
+    "signature": "Classique historique depuis 1964 : SNCF CC 40100 a marque l'histoire ferroviaire en France."
+  },
+  "new-york-central-hudson": {
+    "name": "New York Central J-3a Hudson",
+    "nickname": "Dreyfuss Hudson",
+    "country": "Etats-Unis",
+    "source": "Wikipedia: New York Central Hudson",
+    "signature": "Classique historique depuis 1937 : New York Central J-3a Hudson a marque l'histoire ferroviaire en Etats-Unis."
+  },
+  "ns-mat-54": {
+    "name": "NS Mat '54",
+    "nickname": "Hondekop",
+    "country": "Pays-Bas",
+    "source": "Wikipedia: NS Mat '54",
+    "signature": "Classique historique depuis 1956 : NS Mat '54 a marque l'histoire ferroviaire en Pays-Bas."
+  },
+  "pennsylvania-gg1": {
+    "name": "Pennsylvania Railroad GG1 electric locomotive",
+    "nickname": "GG1",
+    "country": "Etats-Unis",
+    "source": "Wikipedia: Pennsylvania Railroad GG1",
+    "signature": "Classique historique depuis 1935 : Pennsylvania Railroad GG1 electric locomotive a marque l'histoire ferroviaire en Etats-Unis."
+  },
+  "prussian-p8": {
+    "name": "Prussian P 8 / DRG Class 38.10-40",
+    "nickname": "P 8",
+    "country": "Allemagne",
+    "source": "Wikipedia: Prussian P 8",
+    "signature": "Classique historique depuis 1906 : Prussian P 8 / DRG Class 38.10-40 a marque l'histoire ferroviaire en Allemagne."
+  },
+  "rheingold-1928": {
+    "name": "Rheingold",
+    "nickname": "Rhinegold",
+    "country": "Allemagne",
+    "source": "Wikipedia: Rheingold",
+    "signature": "Classique historique depuis 1928 : Rheingold a marque l'histoire ferroviaire en Allemagne."
+  },
+  "sbb-crocodile": {
+    "name": "SBB Ce 6/8 II",
+    "nickname": "Swiss Crocodile",
+    "country": "Suisse",
+    "source": "Wikipedia: SBB Ce 6/8 II",
+    "signature": "Classique historique depuis 1919 : SBB Ce 6/8 II a marque l'histoire ferroviaire en Suisse."
+  },
+  "sbb-rae-4-8-churchill": {
+    "name": "SBB RAe 4/8 1021",
+    "nickname": "Churchill Arrow",
+    "country": "Suisse",
+    "source": "Wikipedia: SBB RAe 4/8 1021",
+    "signature": "Classique historique depuis 1939 : SBB RAe 4/8 1021 a marque l'histoire ferroviaire en Suisse."
+  },
+  "shinkansen-0-series": {
+    "name": "0 Series Shinkansen",
+    "nickname": "Bullet Train",
+    "country": "Japon",
+    "source": "Wikipedia: 0 Series Shinkansen",
+    "signature": "Classique historique depuis 1964 : 0 Series Shinkansen a marque l'histoire ferroviaire en Japon."
+  },
+  "sncf-2d2-9100": {
+    "name": "SNCF 2D2 9100",
+    "nickname": "Batteuses; Dragues",
+    "country": "France",
+    "source": "Wikipedia: SNCF 2D2 9100",
+    "signature": "Classique historique depuis 1950 : SNCF 2D2 9100 a marque l'histoire ferroviaire en France."
+  },
+  "sncf-cc-7100": {
+    "name": "SNCF CC 7100",
+    "nickname": "World-record CC",
+    "country": "France",
+    "source": "Wikipedia: SNCF CC 7100",
+    "signature": "Classique historique depuis 1952 : SNCF CC 7100 a marque l'histoire ferroviaire en France."
+  },
+  "southern-railway-schools": {
+    "name": "SR V Class Schools 4-4-0",
+    "nickname": "Schools",
+    "country": "Royaume-Uni",
+    "source": "Wikipedia: SR V class",
+    "signature": "Classique historique depuis 1930 : SR V Class Schools 4-4-0 a marque l'histoire ferroviaire en Royaume-Uni."
+  },
+  "stephensons-rocket": {
+    "name": "Stephenson's Rocket",
+    "nickname": "Rocket",
+    "country": "Royaume-Uni",
+    "source": "Wikipedia: Stephenson's Rocket",
+    "signature": "Classique historique depuis 1829 : Stephenson's Rocket a marque l'histoire ferroviaire en Royaume-Uni."
+  },
+  "tee-rabe": {
+    "name": "SBB-CFF-FFS RAe TEE II",
+    "nickname": "Gottardo; later Grey Mouse",
+    "country": "Suisse",
+    "source": "Wikipedia: SBB RAe TEE II",
+    "signature": "Classique historique depuis 1961 : SBB-CFF-FFS RAe TEE II a marque l'histoire ferroviaire en Suisse."
+  },
+  "tokaido-ef58": {
+    "name": "JNR Class EF58",
+    "nickname": "Gohachi",
+    "country": "Japon",
+    "source": "Wikipedia: JNR Class EF58",
+    "signature": "Classique historique depuis 1946 : JNR Class EF58 a marque l'histoire ferroviaire en Japon."
+  },
+  "union-pacific-big-boy": {
+    "name": "Union Pacific Big Boy 4-8-8-4",
+    "nickname": "Big Boy",
+    "country": "Etats-Unis",
+    "source": "Wikipedia: Union Pacific Big Boy",
+    "signature": "Classique historique depuis 1941 : Union Pacific Big Boy 4-8-8-4 a marque l'histoire ferroviaire en Etats-Unis."
+  },
+  "union-pacific-m10000": {
+    "name": "Union Pacific M-10000",
+    "nickname": "The Streamliner; City of Salina; Tin Worm; Little Zip",
+    "country": "Etats-Unis",
+    "source": "Wikipedia: M-10000",
+    "signature": "Classique historique depuis 1934 : Union Pacific M-10000 a marque l'histoire ferroviaire en Etats-Unis."
+  }
+}

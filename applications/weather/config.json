@@ -1,28 +1,55 @@
 {
   "name": "Weather",
   "version": "0.1.0",
-  "description": "Shows current weather and a three-day forecast from Open-Meteo.",
+  "description": "Shows current weather, hourly forecast, or a compact forecast summary from OpenWeatherMap or Open-Meteo.",
   "renderPage": "./render.html",
   "icon": "./assets/icon.png",
   "nativeSettings": {
-    "city": "Berlin",
-    "latitude": 52.52,
-    "longitude": 13.405
+    "color": "light",
+    "dataSource": "openweathermap",
+    "location": "Berlin",
+    "kind": "forecast-summary",
+    "displayLastUpdated": false,
+    "iconset": "normal",
+    "showDate": false,
+    "showSunTimes": false,
+    "showMoonPhase": false,
+    "showPressure": false,
+    "showWindSpeed": true,
+    "showHumidity": true
   },
   "configVariants": [
     {
-      "city": "Berlin",
-      "latitude": 52.52,
-      "longitude": 13.405,
+      "color": "light",
+      "dataSource": "openweathermap",
+      "location": "Berlin",
+      "kind": "forecast-summary",
+      "displayLastUpdated": false,
+      "iconset": "normal",
+      "showDate": false,
+      "showSunTimes": true,
+      "showMoonPhase": true,
+      "showPressure": false,
+      "showWindSpeed": true,
+      "showHumidity": true,
       "screenshots": {
         "800x480": "./screenshots/weather-berlin-800x480-landscape.png",
         "480x800": "./screenshots/weather-berlin-480x800-portrait.png"
       }
     },
     {
-      "city": "New York",
-      "latitude": 40.7128,
-      "longitude": -74.006,
+      "color": "dark",
+      "dataSource": "openweathermap",
+      "location": "New York",
+      "kind": "forecast",
+      "displayLastUpdated": true,
+      "iconset": "openweather",
+      "showDate": false,
+      "showSunTimes": false,
+      "showMoonPhase": false,
+      "showPressure": true,
+      "showWindSpeed": true,
+      "showHumidity": true,
       "screenshots": {
         "800x480": "./screenshots/weather-new-york-800x480-landscape.png",
         "480x800": "./screenshots/weather-new-york-480x800-portrait.png"
@@ -32,20 +59,83 @@
   "formSchema": {
     "type": "object",
     "properties": {
-      "city": {
+      "dataSource": {
         "type": "string",
-        "title": "City",
+        "title": "Data source",
+        "description": "Weather provider to use. OpenWeatherMap requires OPENWEATHERMAP_API_KEY; Open-Meteo works without an API key.",
+        "enum": [
+          "openweathermap",
+          "open-meteo"
+        ],
+        "default": "openweathermap"
+      },
+      "location": {
+        "type": "string",
+        "title": "Location",
+        "description": "City or place name for the selected data source.",
         "default": "Berlin"
       },
-      "latitude": {
-        "type": "number",
-        "title": "Latitude",
-        "default": 52.52
+      "kind": {
+        "type": "string",
+        "title": "View",
+        "enum": [
+          "forecast-summary",
+          "forecast",
+          "today-forecast"
+        ],
+        "default": "forecast-summary"
       },
-      "longitude": {
-        "type": "number",
-        "title": "Longitude",
-        "default": 13.405
+      "displayLastUpdated": {
+        "type": "boolean",
+        "title": "Display last updated",
+        "default": false
+      },
+      "iconset": {
+        "type": "string",
+        "title": "Icon set",
+        "enum": [
+          "normal",
+          "light",
+          "qweather",
+          "qweather-line",
+          "glyphs-poly",
+          "noto-emoji",
+          "openmoji",
+          "openweather"
+        ],
+        "default": "normal"
+      },
+      "showDate": {
+        "type": "boolean",
+        "title": "Show date",
+        "description": "Show the local date for the weather location.",
+        "default": false
+      },
+      "showSunTimes": {
+        "type": "boolean",
+        "title": "Show sunrise and sunset",
+        "default": false
+      },
+      "showMoonPhase": {
+        "type": "boolean",
+        "title": "Show moon phase",
+        "description": "Calculated locally for the current weather date.",
+        "default": false
+      },
+      "showPressure": {
+        "type": "boolean",
+        "title": "Show air pressure",
+        "default": false
+      },
+      "showWindSpeed": {
+        "type": "boolean",
+        "title": "Show wind speed",
+        "default": true
+      },
+      "showHumidity": {
+        "type": "boolean",
+        "title": "Show humidity",
+        "default": true
       }
     }
   },

@@ -1,13 +1,15 @@
 {
   "loading": "Chargement...",
-  "updated": "Mis a jour",
-  "from": "depuis",
   "errorTitle": "Impossible de charger la meteo",
-  "apiFailed": "Echec de l'API avec {status}",
-  "title": "Meteo",
-  "current": "Actuel",
-  "feelsLike": "Ressenti",
+  "today": "Aujourd'hui",
+  "outlook": "Apercu",
+  "updated": "Mis a jour",
+  "rendered": "Rendu",
+  "date": "Date",
+  "humidity": "Humidite",
   "wind": "Vent",
-  "forecast": "Previsions",
-  "code": "Code"
+  "pressure": "Pression",
+  "sunrise": "Lever",
+  "sunset": "Coucher",
+  "moon": "Lune"
 }

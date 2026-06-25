@@ -208,13 +208,14 @@ function parseStageDetails(html) {
     || "";
   const elevationBlock = html.match(/stageHeader__length__label">D\+<\/span><\/br>\s*([^<]+)/);
   const climbs = [...html.matchAll(/<div class="mountain__item">([\s\S]*?)<\/div>\s*<\/div>/g)]
-    .slice(0, 3)
     .map((match) => ({
       name: stripTags(match[1].match(/<h3[^>]*>([\s\S]*?)<\/h3>/)?.[1] || ""),
       km: stripTags(match[1].match(/<span class="km">([\s\S]*?)<\/span>/)?.[1] || ""),
       detail: stripTags(match[1].match(/<span class="percent">([\s\S]*?)<\/span>/)?.[1] || ""),
+      category: stripTags(match[1].match(/<span class="category">([\s\S]*?)<\/span>/)?.[1] || ""),
     }))
-    .filter((item) => item.name);
+    .map(shapeClimb)
+    .filter((item) => item.name && Number.isFinite(item.kmValue));
 
   return {
     heroImage: officialImageUrl(background),
@@ -222,6 +223,24 @@ function parseStageDetails(html) {
     mapImage: officialImageUrl(map),
     elevation: stripTags(elevationBlock?.[1] || ""),
     climbs,
+  };
+}
+
+function decimalNumber(value = "") {
+  const number = Number(String(value).replace(",", ".").replace(/[^\d.-]/g, ""));
+  return Number.isFinite(number) ? number : null;
+}
+
+function shapeClimb(climb) {
+  const kmMatch = climb.km.match(/Km\s*([\d,.]+)\s*-\s*([\d\s,.]+)\s*m/i);
+  const detailMatch = climb.detail.match(/([\d,.]+)\s*kilometre-long climb at\s*([\d,.]+)%/i);
+
+  return {
+    ...climb,
+    kmValue: decimalNumber(kmMatch?.[1]),
+    elevationMeters: decimalNumber(kmMatch?.[2]),
+    lengthKm: decimalNumber(detailMatch?.[1]),
+    gradientPercent: decimalNumber(detailMatch?.[2]),
   };
 }
 

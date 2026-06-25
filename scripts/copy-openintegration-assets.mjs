@@ -7,6 +7,7 @@ const publicDir = path.join(process.cwd(), 'public');
 const assets = [
   ['paperless.css', 'paperless.css'],
   ['paperless.iife.js', 'paperless.iife.js'],
+  ['settings.css', 'settings.css'],
   ['preview.css', 'runner.css'],
 ];
 

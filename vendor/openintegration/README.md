@@ -93,6 +93,42 @@ paperlesspaper-openintegration render ./applications/example/config.json --viewp
 paperlesspaper-openintegration dev ./applications/example/config.json
 ```
 
+## CLI development
+
+The CLI entry point is `src/cli.ts` and is published as the `paperlesspaper-openintegration` binary from `dist/cli.js`. Build it with:
+
+```sh
+npm run build
+```
+
+During package development, use `npm run dev -- <config.json>` to rebuild and run the local `dev` command in one step. To run another command against the freshly built CLI, call Node directly:
+
+```sh
+npm run build
+node dist/cli.js check ../paperlesspaper-integrations/openintegrations/applications/quote/config.json
+node dist/cli.js render ../paperlesspaper-integrations/openintegrations/applications/quote/config.json --viewport 800x480 --output /tmp/quote.png
+```
+
+The CLI is split across a few small modules:
+
+- `src/cli.ts`: argument parsing, command dispatch, direct `render` output handling.
+- `src/devServer.ts`: local host simulator, static file serving, `api/*.js` handlers, live reload, preview render endpoints.
+- `src/devCheck.ts`: config, page, language, schema, and API handler validation.
+- `src/scaffold.ts`: starter integration templates.
+- `src/puppeteerRender.ts` and `src/epdOptimize.ts`: screenshot capture and production-like Spectra 6 optimization used by preview rendering.
+
+`render` and the preview render buttons need a local Chrome executable. The resolver checks `--chrome-bin`, then `CHROME_BIN`, then `PUPPETEER_EXECUTABLE_PATH`, and on macOS falls back to `/Applications/Google Chrome.app/Contents/MacOS/Google Chrome`.
+
+The dev server exposes internal endpoints under `/__paperless/*`: `/__paperless/preview` for the host simulator, `/__paperless/render` for PNG rendering, `/__paperless/events` for live reload, `/__paperless/health` for probes, and `/__paperless/config-variants/regenerate` for screenshot variants declared in `config.json`.
+
+Before publishing or changing CLI behavior, run:
+
+```sh
+npm run build
+npm test
+npm run typecheck
+```
+
 ## LLM integration contract
 
 When generating a new integration, create a small folder with this shape:

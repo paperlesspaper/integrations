@@ -601,6 +601,7 @@ function createPreviewHtml({
       .settings-page-frame {
         width: 100%;
         height: 220px;
+        min-height: 160px;
         border: 1px solid var(--line);
         border-radius: 6px;
         background: #FFFFFF;
@@ -1729,6 +1730,14 @@ function createPreviewHtml({
           return message.settings;
         }
 
+        if (
+          message.source === "paperlesspaper-plugin" &&
+          message.type === "UPDATE_SETTINGS" &&
+          isObject(message.payload)
+        ) {
+          return message.payload;
+        }
+
         if (isObject(message.data)) {
           if (isObject(message.data.pluginSettings)) {
             return message.data.pluginSettings;
@@ -1750,6 +1759,29 @@ function createPreviewHtml({
         const message = event.data;
 
         if (!isObject(message)) {
+          return;
+        }
+
+        if (
+          message.source === "paperlesspaper-plugin" &&
+          message.type === "SET_HEIGHT"
+        ) {
+          const nextHeight = Number(message.payload?.height);
+
+          if (Number.isFinite(nextHeight) && nextHeight > 0) {
+            settingsFrame.style.height = Math.ceil(nextHeight) + "px";
+          }
+
+          return;
+        }
+
+        if (message.type === "paperlesspaper:settings:height") {
+          const nextHeight = Number(message.height);
+
+          if (Number.isFinite(nextHeight) && nextHeight > 0) {
+            settingsFrame.style.height = Math.ceil(nextHeight) + "px";
+          }
+
           return;
         }
 
@@ -2669,7 +2701,7 @@ async function startDevServer(options) {
         return;
       }
       const assetName = pathName.replace(/^\/assets\//, "/");
-      if (["/paperless.css", "/paperless.js", "/paperless.iife.js"].includes(assetName)) {
+      if (["/paperless.css", "/settings.css", "/paperless.js", "/paperless.iife.js"].includes(assetName)) {
         if (await tryServeFile(response, join(distRoot, assetName), distRoot)) {
           return;
         }

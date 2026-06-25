@@ -5,7 +5,8 @@
   "type": "module",
   "sideEffects": [
     "dist/paperless.css",
-    "dist/preview.css"
+    "dist/preview.css",
+    "dist/settings.css"
   ],
   "bin": {
     "paperlesspaper-openintegration": "./dist/cli.js"
@@ -21,6 +22,7 @@
     },
     "./paperless.css": "./dist/paperless.css",
     "./preview.css": "./dist/preview.css",
+    "./settings.css": "./dist/settings.css",
     "./paperless.js": {
       "types": "./dist/browser.d.ts",
       "import": "./dist/paperless.js"

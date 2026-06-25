@@ -179,6 +179,8 @@
         }
       }
     </style>
+    <link rel="stylesheet" href="/assets/settings.css" />
+    <script src="/assets/paperless.iife.js"></script>
   </head>
   <body>
     <main>
@@ -315,6 +317,7 @@
       );
       const status = document.getElementById("status");
       const preview = document.getElementById("preview");
+      const settingsBridge = window.PaperlessOpenIntegration || {};
 
       let settings = { ...defaults };
 
@@ -409,13 +412,17 @@
         status.textContent = "Updated";
         renderPreview();
 
-        window.parent.postMessage(
-          {
-            type: "paperlesspaper:settings:update",
-            pluginSettings: settings,
-          },
-          "*",
-        );
+        if (settingsBridge.postSettingsUpdate) {
+          settingsBridge.postSettingsUpdate(settings);
+        } else {
+          window.parent.postMessage(
+            {
+              type: "paperlesspaper:settings:update",
+              pluginSettings: settings,
+            },
+            "*",
+          );
+        }
       }
 
       function handleMessage(event) {
@@ -447,8 +454,13 @@
       }
       controls.locale.addEventListener("input", postSettings);
 
+      settingsBridge.observeSettingsHeight?.({ minHeight: 160 });
       applySettings(defaults);
-      window.parent.postMessage({ type: "paperlesspaper:settings:ready" }, "*");
+      if (settingsBridge.postSettingsReady) {
+        settingsBridge.postSettingsReady();
+      } else {
+        window.parent.postMessage({ type: "paperlesspaper:settings:ready" }, "*");
+      }
     </script>
   </body>
 </html>

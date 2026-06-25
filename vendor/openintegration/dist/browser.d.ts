@@ -1,6 +1,7 @@
 export { markError, markLoading, markReady } from "./ready";
 export { waitForPayload } from "./runtime";
-export { getQuerySettings, getSettings, mergeSettings } from "./settings";
+export { getQuerySettings, getSettings, getSettingsFromMessage, getSettingsPageHeight, mergeSettings, observeSettingsHeight, postSettingsHeight, postSettingsReady, postSettingsUpdate, setupSettingsPage } from "./settings";
+export type { PostSettingsMessageOptions, SettingsHeightOptions, SetupSettingsPageOptions } from "./settings";
 export { getPayloadLanguage, loadLanguageJson, resolveLanguage } from "./language";
 export type { LanguageJsonResult, LoadLanguageJsonOptions, ResolveLanguageOptions } from "./language";
 export { COLOR_THEMES, applyColorTheme, applyColorThemeFromQuery, normalizeColorTheme } from "./theme";

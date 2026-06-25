@@ -1,0 +1,12 @@
+{
+  "title": "Reisekarte",
+  "countries": "Länder",
+  "usStates": "US-Bundesstaaten",
+  "bundeslaender": "Bundesländer",
+  "visitedOfTotal": "{visited}/{total} besucht",
+  "notVisited": "Nicht besucht",
+  "visitedNoYear": "Besucht",
+  "yearLegend": "Jahre",
+  "visitedLegend": "Besucht",
+  "source": "Kartendaten: Natural Earth, U.S. Census, DIVA-GIS"
+}

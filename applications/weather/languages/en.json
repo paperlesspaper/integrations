@@ -1,13 +1,15 @@
 {
   "loading": "Loading...",
-  "updated": "Updated",
-  "from": "from",
   "errorTitle": "Weather could not load",
-  "apiFailed": "API failed with {status}",
-  "title": "Weather",
-  "current": "Current",
-  "feelsLike": "Feels like",
+  "today": "Today",
+  "outlook": "Outlook",
+  "updated": "Updated",
+  "rendered": "Rendered",
+  "date": "Date",
+  "humidity": "Humidity",
   "wind": "Wind",
-  "forecast": "Forecast",
-  "code": "Code"
+  "pressure": "Pressure",
+  "sunrise": "Sunrise",
+  "sunset": "Sunset",
+  "moon": "Moon"
 }

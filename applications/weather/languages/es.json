@@ -1,13 +1,15 @@
 {
   "loading": "Cargando...",
-  "updated": "Actualizado",
-  "from": "desde",
   "errorTitle": "No se pudo cargar el tiempo",
-  "apiFailed": "La API fallo con {status}",
-  "title": "Tiempo",
-  "current": "Actual",
-  "feelsLike": "Sensacion",
+  "today": "Hoy",
+  "outlook": "Prevision",
+  "updated": "Actualizado",
+  "rendered": "Renderizado",
+  "date": "Fecha",
+  "humidity": "Humedad",
   "wind": "Viento",
-  "forecast": "Prevision",
-  "code": "Codigo"
+  "pressure": "Presion",
+  "sunrise": "Amanecer",
+  "sunset": "Atardecer",
+  "moon": "Luna"
 }

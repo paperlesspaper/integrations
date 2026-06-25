@@ -1,13 +1,15 @@
 {
   "loading": "Wird geladen...",
-  "updated": "Aktualisiert",
-  "from": "von",
   "errorTitle": "Wetter konnte nicht geladen werden",
-  "apiFailed": "API fehlgeschlagen mit {status}",
-  "title": "Wetter",
-  "current": "Aktuell",
-  "feelsLike": "Gefuehlt",
+  "today": "Heute",
+  "outlook": "Ausblick",
+  "updated": "Aktualisiert",
+  "rendered": "Gerendert",
+  "date": "Datum",
+  "humidity": "Luftfeuchtigkeit",
   "wind": "Wind",
-  "forecast": "Vorhersage",
-  "code": "Code"
+  "pressure": "Druck",
+  "sunrise": "Sonnenaufgang",
+  "sunset": "Sonnenuntergang",
+  "moon": "Mond"
 }

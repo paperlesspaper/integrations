@@ -1,124 +1,670 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="paperless:epd-optimize" content='{"intent":"readable"}' />
     <title>Weather</title>
-    <link rel="stylesheet" href="/assets/paperless.css">
+    <link rel="stylesheet" href="/assets/paperless.css" />
     <script src="/assets/paperless.iife.js"></script>
     <style>
-      .weather-layout {
-        justify-content: space-between;
-        gap: 18px;
+      .weather-screen {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        min-height: 0;
+        display: flex;
+        align-items: stretch;
+        justify-content: center;
+        background: var(--pp-bg);
+        color: var(--pp-fg);
+        --weather-accent: var(--pp-accent);
+        --weather-border: var(--pp-fg);
       }
 
-      .weather-main {
-        flex: 1;
-        align-items: stretch;
-        grid-template-rows: minmax(0, 1.35fr) minmax(0, 0.8fr) minmax(0, 1fr);
+      body.red-dark .weather-screen,
+      body.red-light .weather-screen {
+        --weather-accent: #ff0000;
+      }
+
+      .updated-at {
+        position: absolute;
+        z-index: 4;
+        top: 12px;
+        right: 14px;
+        max-width: 44ch;
+        font-size: 0.9rem;
+        line-height: 1.1;
+        font-weight: 700;
+        text-align: right;
+      }
+
+      .weather-screen.has-updated-at .forecast-view {
+        padding-top: 38px;
+      }
+
+      .current-view,
+      .summary-view,
+      .forecast-view {
+        width: 100%;
+        height: 100%;
+        min-width: 0;
         min-height: 0;
       }
 
-      .weather-detail {
-        font-size: 3rem;
-        margin: 0;
+      .current-view {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 26px;
+      }
+
+      .current-container,
+      .summary-current {
+        width: 100%;
+        height: 100%;
+        min-width: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+      }
+
+      .current-container {
+        width: min(94%, 980px);
+      }
+
+      .current-stack {
+        min-width: 0;
+        width: 100%;
+        max-width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        font-size: 1rem;
         line-height: 1;
-        font-weight: 800;
       }
 
-      .forecast-day {
-        font-size: 1.35rem;
+      .location-block {
+        width: fit-content;
+        max-width: 100%;
+        margin: 0 0 0.625em;
+        min-width: 0;
+        text-align: center;
       }
 
-      .weather-card {
+      .location-name {
+        margin: 0;
+        font-size: 5em;
+        line-height: 0.95;
+        font-weight: 300;
+        letter-spacing: 0;
+        text-transform: uppercase;
+      }
+
+      .location-date {
+        display: block;
+        margin: 0.35em 0 0;
+        color: var(--pp-muted);
+        font-size: 1em;
+        line-height: 1;
+        font-weight: 900;
+        text-transform: none;
+        white-space: nowrap;
+      }
+
+      .temperature {
+        margin: 0;
+        font-size: 10em;
+        line-height: 0.92;
+        font-weight: 900;
+        letter-spacing: 0;
+        white-space: nowrap;
+      }
+
+      .description {
+        margin: 0.2em 0 0.75em;
+        font-size: 2.4em;
+        line-height: 1;
+        font-weight: 700;
+        text-transform: capitalize;
+        white-space: nowrap;
+      }
+
+      .detail-panel {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 0.5em;
+        width: 100%;
+      }
+
+      .current-details {
+        gap: 0.7em;
+        font-size: 1.75em;
+        line-height: 1;
+      }
+
+      .detail-pill {
+        display: inline-flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 0.18em;
+        min-width: 0;
+        padding: 0.4em 0.55em;
+        border: 0.08em solid var(--pp-border);
+        font-weight: 850;
+        text-align: center;
+        white-space: nowrap;
+      }
+
+      .detail-label {
+        color: var(--weather-accent);
+        font-size: 0.58em;
+        line-height: 1;
+        font-weight: 900;
+        text-transform: uppercase;
+      }
+
+      .detail-value {
+        line-height: 1;
+      }
+
+      .summary-detail-panel {
+        margin-top: 0.875em;
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, max-content));
+        align-items: center;
+        justify-content: center;
+        gap: 0.45em 0.9em;
+        width: fit-content;
+        max-width: 100%;
+        font-size: 0.95em;
+      }
+
+      .summary-detail-panel .detail-pill {
+        padding: 0;
+        border: 0;
+      }
+
+      .summary-view {
+        display: grid;
+        grid-template-columns: minmax(0, 0.42fr) minmax(0, 0.58fr);
+        align-items: center;
+        gap: 22px;
+        padding: 24px;
+      }
+
+      .summary-current {
+        overflow: visible;
+      }
+
+      .summary-current .location-name {
+        font-size: 3.5em;
+        font-weight: 650;
+      }
+
+      .summary-current .location-date {
+        font-size: 2em;
+      }
+
+      .summary-current .temperature {
+        font-size: 8.5em;
+      }
+
+      .summary-current .description {
+        margin-bottom: 0;
+        font-size: 2.05em;
+        font-weight: 750;
+      }
+
+      .summary-details {
+        min-width: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 28px;
+        font-size: 1.6rem;
+      }
+
+      .section-title {
+        position: relative;
+        margin: 0 0 18px;
+        color: var(--weather-accent);
+        font-size: 1.3rem;
+        line-height: 1;
+        font-weight: 900;
+        letter-spacing: 0;
+        text-align: center;
+        text-transform: uppercase;
+      }
+
+      .section-title::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 50%;
+        height: 4px;
+        background: var(--weather-accent);
+      }
+
+      .section-title span {
+        position: relative;
+        z-index: 1;
+        display: inline-block;
+        padding: 0 10px;
+        background: var(--pp-bg);
+      }
+
+      .today-grid,
+      .outlook-grid {
+        display: grid;
+        grid-auto-flow: column;
+        grid-template-rows: repeat(3, auto);
+        grid-auto-columns: minmax(70px, 1fr);
+        align-items: center;
+        justify-items: center;
+        text-align: center;
+      }
+
+      .outlook-grid {
+        grid-auto-columns: minmax(100px, 1fr);
+      }
+
+      .summary-time,
+      .summary-day {
+        font-size: 1.15rem;
+        line-height: 1.05;
+        font-weight: 750;
+      }
+
+      .summary-temp {
+        font-size: 1.55rem;
+        line-height: 1;
+        font-weight: 900;
+        white-space: nowrap;
+      }
+
+      .forecast-view {
+        padding: 12px;
+      }
+
+      .forecast-list {
+        width: 100%;
+        height: 100%;
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto auto;
+        align-items: stretch;
+      }
+
+      .forecast-list.has-metrics {
+        grid-template-columns: minmax(0, 1fr) auto auto minmax(88px, auto);
+      }
+
+      .forecast-cell {
         min-width: 0;
         min-height: 0;
         display: flex;
+        align-items: center;
+        padding: 11px;
+        border-bottom: 2px solid var(--weather-border);
+      }
+
+      .forecast-row-last {
+        border-bottom: 0;
+      }
+
+      .forecast-date {
         flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .forecast-time {
+        display: block;
+        margin-bottom: 4px;
+        font-size: 1.95rem;
+        line-height: 0.95;
+        font-weight: 900;
+        white-space: nowrap;
+      }
+
+      .forecast-day {
+        display: block;
+        font-size: 1rem;
+        line-height: 1;
+        font-weight: 650;
+      }
+
+      .forecast-temperature {
+        flex-direction: column;
+        align-items: flex-end;
+        text-align: right;
+      }
+
+      .forecast-temperature-text {
+        display: block;
+        margin-bottom: 4px;
+        font-size: 2rem;
+        line-height: 0.95;
+        font-weight: 900;
+        white-space: nowrap;
+      }
+
+      .forecast-description-text {
+        display: block;
+        max-width: 20ch;
+        font-size: 1rem;
+        line-height: 1;
+        font-weight: 650;
+        text-transform: capitalize;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .forecast-metrics {
+        flex-direction: column;
+        align-items: flex-start;
         justify-content: center;
+        gap: 4px;
+        font-size: 1.03rem;
+        line-height: 1;
+        font-weight: 850;
       }
 
-      .weather-city {
-        max-width: 11ch;
-        font-size: 5rem;
+      .forecast-metric {
+        display: block;
+        white-space: nowrap;
       }
 
-      .weather-current {
-        font-size: 8rem;
+      .forecast-metric-label {
+        color: var(--weather-accent);
+        font-size: 0.7em;
+        font-weight: 900;
+        text-transform: uppercase;
       }
 
-      .weather-forecast {
-        justify-content: start;
+      .weather-icon {
+        display: inline-block;
+        width: 3.2rem;
+        height: 3.2rem;
+        color: var(--weather-accent);
+        vertical-align: middle;
       }
 
-      @media (max-width: 700px), (max-height: 560px) {
-        .weather-layout {
-          padding: 1.25em;
-          gap: 10px;
+      .weather-icon-small {
+        width: 2.8rem;
+        height: 2.8rem;
+      }
+
+      .weather-icon-img {
+        object-fit: contain;
+      }
+
+      .icon-openweather {
+        width: 4rem;
+        height: 4rem;
+        margin: -0.5rem;
+      }
+
+      .icon-monochrome {
+        color: var(--pp-fg);
+      }
+
+      .icon-sun {
+        color: #d9291c;
+      }
+
+      body.dark .icon-sun,
+      body.red-dark .icon-sun,
+      body.blue-dark .icon-sun,
+      body.green-dark .icon-sun {
+        color: #ffde00;
+      }
+
+      .icon-cloud,
+      .icon-rain,
+      .icon-fog,
+      .icon-moon {
+        color: #2454d6;
+      }
+
+      body.dark .icon-cloud,
+      body.dark .icon-rain,
+      body.dark .icon-fog,
+      body.dark .icon-moon,
+      body.red-dark .icon-cloud,
+      body.red-dark .icon-rain,
+      body.red-dark .icon-fog,
+      body.red-dark .icon-moon,
+      body.blue-dark .icon-cloud,
+      body.blue-dark .icon-rain,
+      body.blue-dark .icon-fog,
+      body.blue-dark .icon-moon,
+      body.green-dark .icon-cloud,
+      body.green-dark .icon-rain,
+      body.green-dark .icon-fog,
+      body.green-dark .icon-moon {
+        color: #4c6fff;
+      }
+
+      .icon-thunder {
+        color: #ff0000;
+      }
+
+      .icon-snow {
+        color: var(--pp-fg);
+      }
+
+      body.dark .icon-qweather-fill,
+      body.red-dark .icon-qweather-fill,
+      body.blue-dark .icon-qweather-fill,
+      body.green-dark .icon-qweather-fill {
+        filter: brightness(0) invert(1);
+      }
+
+      .error-screen {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+        padding: 28px;
+        text-align: center;
+      }
+
+      .error-screen h1 {
+        margin: 0;
+        font-size: 3rem;
+        line-height: 1;
+      }
+
+      .error-screen p {
+        margin: 0;
+        max-width: 48ch;
+        font-size: 1.15rem;
+        line-height: 1.2;
+        font-weight: 700;
+      }
+
+      @media (orientation: portrait) {
+        .updated-at {
+          top: 10px;
+          right: 10px;
+          font-size: 0.74rem;
         }
 
-        .weather-main {
-          grid-template-rows: minmax(0, 1.05fr) minmax(0, 0.65fr) minmax(0, 1fr);
-          gap: 10px;
+        .current-view {
+          padding: 22px 18px;
         }
 
-        .weather-card {
-          padding: 12px;
+        .location-name {
+          font-size: 3.6em;
         }
 
-        .weather-city {
-          font-size: 3.2rem;
+        .temperature {
+          font-size: 7.4em;
         }
 
-        .weather-current {
-          font-size: 4.3rem;
+        .description {
+          font-size: 1.85em;
         }
 
-        .weather-detail {
-          font-size: 1.9rem;
+        .current-details {
+          gap: 0.55em;
+          font-size: 1.25em;
         }
 
-        .forecast-day {
-          font-size: 1rem;
+        .detail-pill {
+          padding: 0.38em 0.5em;
+        }
+
+        .summary-detail-panel {
+          margin-top: 2em;
+          font-size: 1.3em;
+        }
+
+        .summary-view {
+          grid-template-columns: 1fr;
+          grid-template-rows: minmax(0, 0.5fr) minmax(0, 0.5fr);
+          gap: 18px;
+          padding: 24px 18px 18px;
+        }
+
+        .summary-current .location-name {
+          font-size: 2.8em;
+        }
+
+        .summary-current .temperature {
+          font-size: 6.5em;
+        }
+
+        .summary-current .description {
+          font-size: 1.55em;
+        }
+
+        .summary-details {
+          gap: 24px;
+          font-size: 1.2rem;
+        }
+
+        .section-title {
+          margin-bottom: 12px;
+          font-size: 1.05rem;
+        }
+
+        .summary-time,
+        .summary-day {
+          font-size: 0.95rem;
+        }
+
+        .summary-temp {
+          font-size: 1.16rem;
+        }
+
+        .weather-icon {
+          width: 2.45rem;
+          height: 2.45rem;
+        }
+
+        .weather-icon-small {
+          width: 2.25rem;
+          height: 2.25rem;
+        }
+
+        .forecast-view {
+          padding: 10px;
+        }
+
+        .forecast-cell {
+          padding: 8px 6px;
+        }
+
+        .forecast-time {
+          font-size: 1.35rem;
+        }
+
+        .forecast-day,
+        .forecast-description-text {
+          font-size: 0.74rem;
+        }
+
+        .forecast-temperature-text {
+          font-size: 1.35rem;
+        }
+
+        .forecast-metrics {
+          font-size: 0.78rem;
+        }
+      }
+
+      @media (max-height: 560px) {
+        .weather-screen.has-updated-at .forecast-view {
+          padding-top: 30px;
+        }
+
+        .summary-view {
+          padding: 18px;
+          gap: 16px;
+        }
+
+        .summary-current .location-name {
+          font-size: 2.8em;
+        }
+
+        .summary-current .temperature {
+          font-size: 6.8em;
+        }
+
+        .summary-current .description {
+          font-size: 1.55em;
+        }
+
+        .summary-details {
+          gap: 18px;
+        }
+
+        .section-title {
+          margin-bottom: 11px;
+          font-size: 1.05rem;
+        }
+
+        .forecast-cell {
+          padding-top: 7px;
+          padding-bottom: 7px;
+        }
+
+        .forecast-time,
+        .forecast-temperature-text {
+          font-size: 1.55rem;
+        }
+
+        .forecast-day,
+        .forecast-description-text {
+          font-size: 0.78rem;
+        }
+
+        .forecast-metrics {
+          font-size: 0.78rem;
+          gap: 2px;
+        }
+
+        .icon-openweather {
+          width: 3.2rem;
+          height: 3.2rem;
         }
       }
     </style>
   </head>
   <body>
-    <main class="pp-screen weather-layout">
-      <header class="pp-header">
-        <div>
-          <p class="pp-subtitle" data-i18n="title">Weather</p>
-          <h1 class="pp-title weather-city pp-fit pp-fit-title" id="city">Berlin</h1>
-        </div>
-        <p class="pp-subtitle" id="weather-code"></p>
-      </header>
-
-      <section class="pp-grid weather-main">
-        <article class="pp-card weather-card">
-          <p class="pp-metric-label" data-i18n="current">Current</p>
-          <p class="pp-metric-value weather-current" id="temperature">--</p>
-        </article>
-
-        <div class="pp-grid pp-grid-2">
-          <article class="pp-card weather-card">
-            <p class="pp-metric-label" data-i18n="feelsLike">Feels like</p>
-            <p class="weather-detail" id="apparent">--</p>
-          </article>
-          <article class="pp-card weather-card">
-            <p class="pp-metric-label" data-i18n="wind">Wind</p>
-            <p class="weather-detail" id="wind">--</p>
-          </article>
-        </div>
-
-        <article class="pp-card weather-card weather-forecast">
-          <p class="pp-metric-label" data-i18n="forecast">Forecast</p>
-          <ul class="pp-list" id="forecast"></ul>
-        </article>
-      </section>
-
-      <footer class="pp-footer" id="updated" data-i18n="updated">Updated</footer>
-    </main>
+    <div id="website-has-loading-element"></div>
+    <main class="weather-screen" id="weather-root"></main>
 
     <script>
       (async function render() {
@@ -127,26 +673,37 @@
           getSettings,
           getQuerySettings,
           mergeSettings,
+          loadLanguageJson,
+          applyColorTheme,
           escapeHtml,
-          fitAllText,
-          fitToScreen,
+          fitText,
           markReady,
           markError,
         } = window.PaperlessOpenIntegration;
 
         const defaultMessages = {
-          "loading": "Loading...",
-          "updated": "Updated",
-          "from": "from",
-          "errorTitle": "Weather could not load",
-          "apiFailed": "API failed with {status}",
-          "title": "Weather",
-          "current": "Current",
-          "feelsLike": "Feels like",
-          "wind": "Wind",
-          "forecast": "Forecast",
-          "code": "Code"
-};
+          loading: "Loading...",
+          errorTitle: "Weather could not load",
+          today: "Today",
+          outlook: "Outlook",
+          updated: "Updated",
+          rendered: "Rendered",
+          date: "Date",
+          humidity: "Humidity",
+          wind: "Wind",
+          pressure: "Pressure",
+          sunrise: "Sunrise",
+          sunset: "Sunset",
+          moon: "Moon",
+          moonNew: "New moon",
+          moonWaxingCrescent: "Waxing crescent",
+          moonFirstQuarter: "First quarter",
+          moonWaxingGibbous: "Waxing gibbous",
+          moonFull: "Full moon",
+          moonWaningGibbous: "Waning gibbous",
+          moonLastQuarter: "Last quarter",
+          moonWaningCrescent: "Waning crescent",
+        };
         let messages = defaultMessages;
         let currentLanguage = "en";
 
@@ -155,91 +712,872 @@
             typeof messages[key] === "string"
               ? messages[key]
               : defaultMessages[key] || key;
-          return template.replace(/\{(\w+)\}/g, (_match, name) =>
-            values[name] ?? "",
+          return template.replace(
+            /\{(\w+)\}/g,
+            (_match, name) => values[name] ?? "",
           );
         }
 
-        function applyStaticMessages(root = document) {
-          root.querySelectorAll("[data-i18n]").forEach((element) => {
-            element.textContent = t(element.dataset.i18n);
-          });
-        }
-
         async function loadMessages(payload) {
-          const loader = window.PaperlessOpenIntegration.loadLanguageJson;
-          let result;
-
-          if (typeof loader === "function") {
-            result = await loader(payload);
-          } else {
-            const requested = String(payload?.meta?.language || "en").trim();
-            const requestedBase = requested.split("-")[0].toLowerCase();
-            const supported = ["en", "de", "fr", "es", "it"];
-            const language = supported.includes(requested)
-              ? requested
-              : supported.includes(requestedBase)
-                ? requestedBase
-                : "en";
-            const response = await fetch(`./languages/${language}.json`, {
-              cache: "no-store",
-            });
-
-            if (!response.ok) {
-              throw new Error(
-                `Could not load language JSON for ${language}: ${response.status}`,
-              );
-            }
-
-            result = {
-              language,
-              messages: await response.json(),
-            };
-          }
-
+          const result = await loadLanguageJson(payload);
           messages = { ...defaultMessages, ...result.messages };
           currentLanguage = result.language || "en";
           document.documentElement.lang = currentLanguage;
-          applyStaticMessages();
-          return result;
         }
 
-        function degrees(value) {
-          return Number.isFinite(Number(value)) ? `${Math.round(Number(value))}°C` : '--';
+        function numberValue(value) {
+          const number = Number(value);
+          return Number.isFinite(number) ? number : null;
+        }
+
+        function rounded(value) {
+          const number = numberValue(value);
+          return number === null ? "--" : String(Math.round(number));
+        }
+
+        function temperature(value) {
+          const valueText = rounded(value);
+          return valueText === "--" ? "--" : `${valueText}°C`;
+        }
+
+        function speed(value) {
+          const valueText = rounded(value);
+          return valueText === "--" ? "--" : `${valueText} m/s`;
+        }
+
+        function percent(value) {
+          const valueText = rounded(value);
+          return valueText === "--" ? "--" : `${valueText}%`;
+        }
+
+        function pressure(value) {
+          const valueText = rounded(value);
+          return valueText === "--" ? "--" : `${valueText} hPa`;
+        }
+
+        function booleanSetting(value, fallback) {
+          if (typeof value === "boolean") {
+            return value;
+          }
+
+          if (typeof value === "number") {
+            return value !== 0;
+          }
+
+          if (typeof value === "string") {
+            const normalized = value.trim().toLowerCase();
+            if (["true", "1", "yes", "on"].includes(normalized)) {
+              return true;
+            }
+            if (["false", "0", "no", "off"].includes(normalized)) {
+              return false;
+            }
+          }
+
+          return fallback;
+        }
+
+        function capitalize(value) {
+          const text = String(value || "").trim();
+          return text ? text.charAt(0).toUpperCase() + text.slice(1) : "";
+        }
+
+        function formatTime(unixSeconds, options) {
+          const timestamp = Number(unixSeconds) * 1000;
+          if (!Number.isFinite(timestamp)) {
+            return "";
+          }
+
+          return new Date(timestamp).toLocaleTimeString(
+            currentLanguage,
+            options,
+          );
+        }
+
+        function formatDate(unixSeconds, options) {
+          const timestamp = Number(unixSeconds) * 1000;
+          if (!Number.isFinite(timestamp)) {
+            return "";
+          }
+
+          return new Date(timestamp).toLocaleDateString(
+            currentLanguage,
+            options,
+          );
+        }
+
+        function formatDateFromKey(dateKey, options) {
+          return new Date(`${dateKey}T12:00:00`).toLocaleDateString(
+            currentLanguage,
+            options,
+          );
+        }
+
+        function formatDateTime(unixSeconds) {
+          const timestamp = Number(unixSeconds) * 1000;
+          if (!Number.isFinite(timestamp)) {
+            return null;
+          }
+
+          try {
+            return new Date(timestamp).toLocaleString(currentLanguage, {
+              dateStyle: "medium",
+              timeStyle: "short",
+            });
+          } catch {
+            return new Date(timestamp).toLocaleString(undefined, {
+              dateStyle: "medium",
+              timeStyle: "short",
+            });
+          }
+        }
+
+        function formatLocationTime(unixSeconds, timezoneOffsetSeconds) {
+          const timestamp =
+            (Number(unixSeconds) + Number(timezoneOffsetSeconds || 0)) * 1000;
+          if (!Number.isFinite(timestamp)) {
+            return "--";
+          }
+
+          return new Date(timestamp).toLocaleTimeString(currentLanguage, {
+            hour: "2-digit",
+            minute: "2-digit",
+            timeZone: "UTC",
+          });
+        }
+
+        function formatLocationDate(unixSeconds, timezoneOffsetSeconds) {
+          const timestamp =
+            (Number(unixSeconds) + Number(timezoneOffsetSeconds || 0)) * 1000;
+          if (!Number.isFinite(timestamp)) {
+            return "--";
+          }
+
+          return new Date(timestamp).toLocaleDateString(currentLanguage, {
+            dateStyle: "medium",
+            timeZone: "UTC",
+          });
+        }
+
+        function moonPhaseLabel(unixSeconds, timezoneOffsetSeconds) {
+          const timestamp =
+            (Number(unixSeconds) + Number(timezoneOffsetSeconds || 0)) * 1000;
+          const date = Number.isFinite(timestamp)
+            ? new Date(timestamp)
+            : new Date();
+          const knownNewMoon = Date.UTC(2000, 0, 6, 18, 14);
+          const synodicMonth = 29.530588853;
+          const daysSinceKnownNewMoon =
+            (date.getTime() - knownNewMoon) / 86400000;
+          const age =
+            ((daysSinceKnownNewMoon % synodicMonth) + synodicMonth) %
+            synodicMonth;
+          const phase = age / synodicMonth;
+
+          if (phase < 0.03 || phase >= 0.97) {
+            return t("moonNew");
+          }
+          if (phase < 0.22) {
+            return t("moonWaxingCrescent");
+          }
+          if (phase < 0.28) {
+            return t("moonFirstQuarter");
+          }
+          if (phase < 0.47) {
+            return t("moonWaxingGibbous");
+          }
+          if (phase < 0.53) {
+            return t("moonFull");
+          }
+          if (phase < 0.72) {
+            return t("moonWaningGibbous");
+          }
+          if (phase < 0.78) {
+            return t("moonLastQuarter");
+          }
+          return t("moonWaningCrescent");
+        }
+
+        function getScreenScale() {
+          const width = Math.max(1, window.innerWidth || 800);
+          const height = Math.max(1, window.innerHeight || 480);
+          const isPortrait = height > width;
+          const baseWidth = isPortrait ? 480 : 800;
+          const baseHeight = isPortrait ? 800 : 480;
+          const scale = Math.min(width / baseWidth, height / baseHeight);
+
+          return Math.max(1, Math.min(2.6, scale));
+        }
+
+        function scaled(value, scale) {
+          return Math.round(value * scale);
+        }
+
+        function fitCurrentStack(
+          element,
+          { baseSize, maxMultiplier = 1.8 } = {},
+        ) {
+          const parent = element.parentElement;
+          if (!parent) {
+            return;
+          }
+
+          const currentBaseSize =
+            baseSize ||
+            Number.parseFloat(window.getComputedStyle(element).fontSize) ||
+            16;
+          element.style.fontSize = `${currentBaseSize}px`;
+          fitText(element, {
+            min: Math.max(8, Math.round(currentBaseSize * 0.55)),
+            max: Math.round(currentBaseSize * maxMultiplier),
+            step: 1,
+            tolerance: 2,
+            fitParent: parent,
+          });
+        }
+
+        const iconMaps = {
+          qweather: {
+            "01d": "100-fill",
+            "01n": "150-fill",
+            "02d": "102-fill",
+            "02n": "152-fill",
+            "03d": "101-fill",
+            "03n": "151-fill",
+            "04d": "104-fill",
+            "04n": "104-fill",
+            "09d": "300-fill",
+            "09n": "300-fill",
+            "10d": "306-fill",
+            "10n": "306-fill",
+            "11d": "302-fill",
+            "11n": "302-fill",
+            "13d": "400-fill",
+            "13n": "400-fill",
+            "50d": "501-fill",
+            "50n": "501-fill",
+          },
+          glyphsPoly: {
+            "01d": "sun",
+            "01n": "moon",
+            "02d": "sunny-mostly",
+            "02n": "cloudy-partly",
+            "03d": "cloud",
+            "03n": "cloud",
+            "04d": "cloudy-mostly",
+            "04n": "cloudy-mostly",
+            "09d": "rain-1",
+            "09n": "rain-1",
+            "10d": "rain",
+            "10n": "rain",
+            "11d": "lightning",
+            "11n": "lightning",
+            "13d": "snow",
+            "13n": "snow",
+            "50d": "fog",
+            "50n": "fog",
+          },
+          emoji: {
+            "01d": "sun",
+            "01n": "crescent-moon",
+            "02d": "sun-behind-small-cloud",
+            "02n": "cloud",
+            "03d": "sun-behind-large-cloud",
+            "03n": "cloud",
+            "04d": "cloud",
+            "04n": "cloud",
+            "09d": "cloud-with-rain",
+            "09n": "cloud-with-rain",
+            "10d": "sun-behind-rain-cloud",
+            "10n": "cloud-with-rain",
+            "11d": "cloud-with-lightning-and-rain",
+            "11n": "cloud-with-lightning-and-rain",
+            "13d": "cloud-with-snow",
+            "13n": "cloud-with-snow",
+            "50d": "fog",
+            "50n": "fog",
+          },
+        };
+
+        function iconKind(iconCode) {
+          const prefix = String(iconCode || "01d").slice(0, 2);
+          if (prefix === "01") {
+            return String(iconCode).endsWith("n") ? "moon" : "sun";
+          }
+          if (prefix === "02") {
+            return "partly";
+          }
+          if (prefix === "03" || prefix === "04") {
+            return "cloud";
+          }
+          if (prefix === "09" || prefix === "10") {
+            return "rain";
+          }
+          if (prefix === "11") {
+            return "thunder";
+          }
+          if (prefix === "13") {
+            return "snow";
+          }
+          if (prefix === "50") {
+            return "fog";
+          }
+          return "sun";
+        }
+
+        function svgIcon(iconCode, iconSet, small) {
+          const kind = iconKind(iconCode);
+          const isLight = ["light", "fontawesome-light", "fa-light"].includes(
+            String(iconSet).toLowerCase(),
+          );
+          const classes = [
+            "weather-icon",
+            small ? "weather-icon-small" : "",
+            isLight
+              ? "icon-monochrome"
+              : `icon-${kind === "partly" ? "cloud" : kind}`,
+          ]
+            .filter(Boolean)
+            .join(" ");
+          const common = `class="${classes}" viewBox="0 0 64 64" aria-hidden="true" focusable="false"`;
+
+          if (kind === "sun") {
+            return `<svg ${common}><circle cx="32" cy="32" r="14" fill="currentColor"></circle><g stroke="currentColor" stroke-width="5" stroke-linecap="round"><line x1="32" y1="5" x2="32" y2="13"></line><line x1="32" y1="51" x2="32" y2="59"></line><line x1="5" y1="32" x2="13" y2="32"></line><line x1="51" y1="32" x2="59" y2="32"></line><line x1="13" y1="13" x2="19" y2="19"></line><line x1="45" y1="45" x2="51" y2="51"></line><line x1="51" y1="13" x2="45" y2="19"></line><line x1="19" y1="45" x2="13" y2="51"></line></g></svg>`;
+          }
+
+          if (kind === "moon") {
+            return `<svg ${common}><path fill="currentColor" d="M44 51c-16 0-29-13-29-29 0-4 1-8 2-11-8 5-13 14-13 24 0 16 13 29 29 29 10 0 19-5 24-13-4 1-8 2-13 0z"></path></svg>`;
+          }
+
+          if (kind === "rain") {
+            return `<svg ${common}><path fill="currentColor" d="M22 46h26c7 0 12-5 12-11s-5-11-11-11h-2C45 15 37 8 27 8 16 8 7 17 7 28c-5 2-8 6-8 11 0 7 5 12 12 12h5z"></path><g stroke="currentColor" stroke-width="4" stroke-linecap="round"><line x1="22" y1="53" x2="18" y2="61"></line><line x1="34" y1="53" x2="30" y2="61"></line><line x1="46" y1="53" x2="42" y2="61"></line></g></svg>`;
+          }
+
+          if (kind === "thunder") {
+            return `<svg ${common}><path fill="currentColor" d="M22 43h25c7 0 12-5 12-11s-5-11-12-11h-1C43 13 36 8 27 8 16 8 8 16 7 27c-5 2-8 6-8 11 0 7 5 12 12 12h8z"></path><path fill="#ff0000" d="M34 31 23 50h10l-5 15 16-24H33l7-10z"></path></svg>`;
+          }
+
+          if (kind === "snow") {
+            return `<svg ${common}><path fill="currentColor" d="M22 45h26c7 0 12-5 12-11s-5-11-11-11h-2C45 14 37 8 27 8 16 8 7 17 7 28c-5 2-8 6-8 11 0 7 5 12 12 12h11z"></path><g stroke="currentColor" stroke-width="4" stroke-linecap="round"><line x1="32" y1="51" x2="32" y2="63"></line><line x1="26" y1="54" x2="38" y2="60"></line><line x1="38" y1="54" x2="26" y2="60"></line></g></svg>`;
+          }
+
+          if (kind === "fog") {
+            return `<svg ${common}><path fill="currentColor" d="M22 35h26c7 0 12-5 12-11S55 13 49 13h-2C45 5 37 0 27 0 16 0 7 9 7 20c-5 2-8 6-8 11 0 7 5 12 12 12h11z" transform="translate(0 8)"></path><g stroke="currentColor" stroke-width="4" stroke-linecap="round"><line x1="8" y1="51" x2="56" y2="51"></line><line x1="14" y1="60" x2="50" y2="60"></line></g></svg>`;
+          }
+
+          if (kind === "partly") {
+            return `<svg ${common}><circle cx="23" cy="24" r="11" fill="currentColor" opacity="0.75"></circle><path fill="currentColor" d="M26 49h25c7 0 12-5 12-11s-5-11-11-11h-2c-3-8-10-13-19-13-11 0-20 9-20 20-5 2-8 6-8 11 0 7 5 12 12 12h11z"></path></svg>`;
+          }
+
+          return `<svg ${common}><path fill="currentColor" d="M22 49h26c7 0 12-5 12-11s-5-11-11-11h-2C45 18 37 11 27 11 16 11 7 20 7 31c-5 2-8 6-8 11 0 7 5 12 12 12h11z"></path></svg>`;
+        }
+
+        function imageIcon(src, className, alt, small) {
+          const classes = [
+            "weather-icon",
+            "weather-icon-img",
+            small ? "weather-icon-small" : "",
+            className,
+          ]
+            .filter(Boolean)
+            .join(" ");
+          return `<img src="${escapeHtml(src)}" alt="${escapeHtml(alt)}" class="${classes}" loading="eager" decoding="async" />`;
+        }
+
+        function weatherIcon(iconCode, iconSet, description, small = false) {
+          const normalized = String(iconSet || "normal").toLowerCase();
+          const code = String(iconCode || "01d");
+          const alt = description || "weather icon";
+
+          if (["qweather", "qweather-fill"].includes(normalized)) {
+            const iconName =
+              iconMaps.qweather[code] || iconMaps.qweather["01d"];
+            return imageIcon(
+              `https://cdn.jsdelivr.net/npm/qweather-icons@1.8.0/icons/${iconName}.svg`,
+              "icon-qweather-fill",
+              alt,
+              small,
+            );
+          }
+
+          if (["qweather-line", "qweather-outline"].includes(normalized)) {
+            const iconName = (
+              iconMaps.qweather[code] || iconMaps.qweather["01d"]
+            ).replace("-fill", "");
+            return imageIcon(
+              `https://cdn.jsdelivr.net/npm/qweather-icons@1.8.0/icons/${iconName}.svg`,
+              "",
+              alt,
+              small,
+            );
+          }
+
+          if (["glyphs-poly", "glyphspoly"].includes(normalized)) {
+            const iconName =
+              iconMaps.glyphsPoly[code] || iconMaps.glyphsPoly["01d"];
+            return imageIcon(
+              `https://api.iconify.design/glyphs-poly/${iconName}.svg`,
+              "",
+              alt,
+              small,
+            );
+          }
+
+          if (["noto-emoji", "noto", "emoji"].includes(normalized)) {
+            const iconName = iconMaps.emoji[code] || iconMaps.emoji["01d"];
+            return imageIcon(
+              `https://api.iconify.design/noto/${iconName}.svg`,
+              "",
+              alt,
+              small,
+            );
+          }
+
+          if (["openmoji", "open-moji"].includes(normalized)) {
+            const iconName = iconMaps.emoji[code] || iconMaps.emoji["01d"];
+            return imageIcon(
+              `https://api.iconify.design/openmoji/${iconName}.svg`,
+              "",
+              alt,
+              small,
+            );
+          }
+
+          if (["openweather", "openweathermap", "owm"].includes(normalized)) {
+            return imageIcon(
+              `https://openweathermap.org/img/wn/${encodeURIComponent(code)}@4x.png`,
+              "icon-openweather",
+              alt,
+              small,
+            );
+          }
+
+          return svgIcon(code, normalized, small);
+        }
+
+        function detailPill(label, value) {
+          return `
+            <div class="detail-pill">
+              <span class="detail-label">${escapeHtml(label)}</span>
+              <span class="detail-value">${escapeHtml(value)}</span>
+            </div>
+          `;
+        }
+
+        function detailPanel(items, className) {
+          if (!items.length) {
+            return "";
+          }
+
+          return `<div class="detail-panel ${className}">${items.map((item) => detailPill(item.label, item.value)).join("")}</div>`;
+        }
+
+        function locationMarkup(currentWeather, settings) {
+          const dateMarkup = settings.showDate
+            ? `<p class="location-date">${escapeHtml(formatLocationDate(currentWeather.dt, currentWeather.timezone))}</p>`
+            : "";
+
+          return `
+            <div class="location-block">
+              <h1 class="location-name">${escapeHtml(currentWeather.name || "")}</h1>
+              ${dateMarkup}
+            </div>
+          `;
+        }
+
+        function currentDetailItems(currentWeather, settings) {
+          const items = [];
+
+          if (settings.showHumidity) {
+            items.push({
+              label: t("humidity"),
+              value: percent(currentWeather.main?.humidity),
+            });
+          }
+
+          if (settings.showWindSpeed) {
+            items.push({
+              label: t("wind"),
+              value: speed(currentWeather.wind?.speed),
+            });
+          }
+
+          if (settings.showPressure) {
+            items.push({
+              label: t("pressure"),
+              value: pressure(currentWeather.main?.pressure),
+            });
+          }
+
+          if (settings.showSunTimes) {
+            items.push({
+              label: t("sunrise"),
+              value: formatLocationTime(
+                currentWeather.sys?.sunrise,
+                currentWeather.timezone,
+              ),
+            });
+            items.push({
+              label: t("sunset"),
+              value: formatLocationTime(
+                currentWeather.sys?.sunset,
+                currentWeather.timezone,
+              ),
+            });
+          }
+
+          if (settings.showMoonPhase) {
+            items.push({
+              label: t("moon"),
+              value: moonPhaseLabel(currentWeather.dt, currentWeather.timezone),
+            });
+          }
+
+          return items;
+        }
+
+        function forecastMetricItems(entry, settings) {
+          const items = [];
+
+          if (settings.showHumidity) {
+            items.push({
+              label: t("humidity"),
+              value: percent(entry.main?.humidity),
+            });
+          }
+
+          if (settings.showWindSpeed) {
+            items.push({ label: t("wind"), value: speed(entry.wind?.speed) });
+          }
+
+          if (settings.showPressure) {
+            items.push({
+              label: t("pressure"),
+              value: pressure(entry.main?.pressure),
+            });
+          }
+
+          return items;
+        }
+
+        function forecastMetricsMarkup(entry, settings, lastClass) {
+          const items = forecastMetricItems(entry, settings);
+          if (!items.length) {
+            return "";
+          }
+
+          return `
+            <div class="forecast-cell forecast-metrics${lastClass}">
+              ${items
+                .map(
+                  (item) => `
+                    <span class="forecast-metric">
+                      <span class="forecast-metric-label">${escapeHtml(item.label)}</span>
+                      ${escapeHtml(item.value)}
+                    </span>
+                  `,
+                )
+                .join("")}
+            </div>
+          `;
+        }
+
+        function currentWeatherMarkup(currentWeather, settings) {
+          const weather = currentWeather.weather?.[0] || {};
+          return `
+            <section class="current-view">
+              <div class="current-container">
+                <div class="current-stack">
+                  ${locationMarkup(currentWeather, settings)}
+                  <p class="temperature">${escapeHtml(temperature(currentWeather.main?.temp))}</p>
+                  <p class="description">${escapeHtml(capitalize(weather.description))}</p>
+                  ${detailPanel(currentDetailItems(currentWeather, settings), "current-details")}
+                </div>
+              </div>
+            </section>
+          `;
+        }
+
+        function summarizeForecast(forecast) {
+          const grouped = new Map();
+
+          for (const entry of forecast.list || []) {
+            const key =
+              String(entry.dt_txt || "").split(" ")[0] ||
+              formatDate(entry.dt, {
+                year: "numeric",
+                month: "2-digit",
+                day: "2-digit",
+              });
+            const temp = numberValue(entry.main?.temp);
+            if (!key || temp === null) {
+              continue;
+            }
+
+            const existing = grouped.get(key);
+            if (!existing) {
+              grouped.set(key, {
+                date: key,
+                minTemp: temp,
+                maxTemp: temp,
+                weatherDescription: entry.weather?.[0]?.description || "",
+                icon: entry.weather?.[0]?.icon || "01d",
+              });
+              continue;
+            }
+
+            existing.minTemp = Math.min(existing.minTemp, temp);
+            existing.maxTemp = Math.max(existing.maxTemp, temp);
+            if (String(entry.dt_txt || "").includes("12:00:00")) {
+              existing.weatherDescription =
+                entry.weather?.[0]?.description || existing.weatherDescription;
+              existing.icon = entry.weather?.[0]?.icon || existing.icon;
+            }
+          }
+
+          return Array.from(grouped.values());
+        }
+
+        function summaryMarkup(weatherData, settings) {
+          const { currentWeather, forecast } = weatherData;
+          const weather = currentWeather.weather?.[0] || {};
+          const todayEntries = (forecast.list || []).slice(0, 4);
+          const outlookEntries = summarizeForecast(forecast).slice(1, 4);
+
+          return `
+            <section class="summary-view">
+              <div class="summary-current">
+                <div class="current-stack">
+                  ${locationMarkup(currentWeather, settings)}
+                  <p class="temperature">${escapeHtml(temperature(currentWeather.main?.temp))}</p>
+                  <p class="description">${escapeHtml(capitalize(weather.description))}</p>
+                  ${detailPanel(currentDetailItems(currentWeather, settings), "summary-detail-panel")}
+                </div>
+              </div>
+              <div class="summary-details">
+                <section class="today-forecast">
+                  <h2 class="section-title"><span>${escapeHtml(t("today"))}</span></h2>
+                  <div class="today-grid">
+                    ${todayEntries
+                      .map((entry) => {
+                        const entryWeather = entry.weather?.[0] || {};
+                        return `
+                          <div class="summary-time">${escapeHtml(formatTime(entry.dt, { hour: "2-digit" }))}</div>
+                          <div>${weatherIcon(entryWeather.icon, settings.iconset, entryWeather.description, true)}</div>
+                          <div class="summary-temp">${escapeHtml(temperature(entry.main?.temp))}</div>
+                        `;
+                      })
+                      .join("")}
+                  </div>
+                </section>
+                <section class="outlook">
+                  <h2 class="section-title"><span>${escapeHtml(t("outlook"))}</span></h2>
+                  <div class="outlook-grid">
+                    ${outlookEntries
+                      .map(
+                        (entry) => `
+                          <div class="summary-day">${escapeHtml(formatDateFromKey(entry.date, { weekday: "long" }))}</div>
+                          <div>${weatherIcon(entry.icon, settings.iconset, entry.weatherDescription, true)}</div>
+                          <div class="summary-temp">${escapeHtml(`${rounded(entry.minTemp)} - ${temperature(entry.maxTemp)}`)}</div>
+                        `,
+                      )
+                      .join("")}
+                  </div>
+                </section>
+              </div>
+            </section>
+          `;
+        }
+
+        function forecastMarkup(weatherData, settings) {
+          const entries = (weatherData.forecast.list || []).slice(0, 7);
+          const hasMetrics =
+            settings.showHumidity ||
+            settings.showWindSpeed ||
+            settings.showPressure;
+
+          return `
+            <section class="forecast-view">
+              <div class="forecast-list${hasMetrics ? " has-metrics" : ""}">
+                ${entries
+                  .map((entry, index) => {
+                    const entryWeather = entry.weather?.[0] || {};
+                    const lastClass =
+                      index === entries.length - 1 ? " forecast-row-last" : "";
+                    return `
+                      <div class="forecast-cell forecast-date${lastClass}">
+                        <span class="forecast-time">${escapeHtml(formatTime(entry.dt, { hour: "2-digit" }))}</span>
+                        <span class="forecast-day">${escapeHtml(formatDate(entry.dt, { weekday: "long" }))}</span>
+                      </div>
+                      <div class="forecast-cell forecast-temperature${lastClass}">
+                        <span class="forecast-temperature-text">${escapeHtml(temperature(entry.main?.temp))}</span>
+                        <span class="forecast-description-text">${escapeHtml(capitalize(entryWeather.description))}</span>
+                      </div>
+                      <div class="forecast-cell${lastClass}">
+                        ${weatherIcon(entryWeather.icon, settings.iconset, entryWeather.description)}
+                      </div>
+                      ${forecastMetricsMarkup(entry, settings, lastClass)}
+                    `;
+                  })
+                  .join("")}
+              </div>
+            </section>
+          `;
+        }
+
+        async function waitForImages(root) {
+          const images = Array.from(root.querySelectorAll("img"));
+          await Promise.all(
+            images.map((image) => {
+              if (image.complete) {
+                return Promise.resolve();
+              }
+              return new Promise((resolve) => {
+                image.addEventListener("load", resolve, { once: true });
+                image.addEventListener("error", resolve, { once: true });
+              });
+            }),
+          );
         }
 
         try {
-          const defaults = { city: 'Berlin', latitude: 52.52, longitude: 13.405 };
-          const payload = await waitForPayload({ timeout: 300 });
-          await loadMessages(payload);
-          const settings = mergeSettings(defaults, getSettings(payload), getQuerySettings());
-          const params = new URLSearchParams(settings);
-          const response = await fetch(`./api/data?${params.toString()}`, { cache: 'no-store' });
+          const root = document.getElementById("weather-root");
+          const screenScale = getScreenScale();
+          document.documentElement.style.fontSize = `${scaled(16, screenScale)}px`;
 
-          if (!response.ok) {
-            throw new Error(`Weather API failed with ${response.status}`);
+          const defaults = {
+            color: "light",
+            dataSource: "openweathermap",
+            location: "Berlin",
+            kind: "forecast-summary",
+            displayLastUpdated: false,
+            iconset: "normal",
+            showDate: false,
+            showSunTimes: false,
+            showMoonPhase: false,
+            showPressure: false,
+            showWindSpeed: true,
+            showHumidity: true,
+          };
+          const payload = await waitForPayload({ timeoutMs: 500 });
+          await loadMessages(payload);
+          const querySettings = getQuerySettings();
+          const settings = mergeSettings(
+            defaults,
+            getSettings(payload),
+            querySettings,
+          );
+          const hasIconsetQuery = new URLSearchParams(
+            window.location.search,
+          ).has("iconset");
+
+          if (!hasIconsetQuery && querySettings.iconstyle) {
+            settings.iconset = querySettings.iconstyle;
           }
 
-          const weather = await response.json();
-          document.getElementById('city').innerHTML = escapeHtml(weather.city);
-          document.getElementById('weather-code').textContent = `${t("code")} ${weather.weatherCode}`;
-          document.getElementById('temperature').textContent = degrees(weather.temperature);
-          document.getElementById('apparent').textContent = degrees(weather.apparentTemperature);
-          document.getElementById('wind').textContent = `${Math.round(Number(weather.windSpeed || 0))} km/h`;
-          document.getElementById('forecast').innerHTML = weather.forecast.map((day) => `
-            <li class="pp-list-item forecast-day">
-              <span>${escapeHtml(day.date)}</span>
-              <strong>${degrees(day.min)} / ${degrees(day.max)}</strong>
-            </li>
-          `).join('');
-          document.getElementById('updated').textContent = `${t("updated")} ${new Date(weather.updatedAt).toLocaleString(currentLanguage || undefined)}`;
+          settings.displayLastUpdated = booleanSetting(
+            settings.displayLastUpdated,
+            defaults.displayLastUpdated,
+          );
+          settings.showDate = booleanSetting(
+            settings.showDate,
+            defaults.showDate,
+          );
+          settings.showSunTimes = booleanSetting(
+            settings.showSunTimes,
+            defaults.showSunTimes,
+          );
+          settings.showMoonPhase = booleanSetting(
+            settings.showMoonPhase,
+            defaults.showMoonPhase,
+          );
+          settings.showPressure = booleanSetting(
+            settings.showPressure,
+            defaults.showPressure,
+          );
+          settings.showWindSpeed = booleanSetting(
+            settings.showWindSpeed,
+            defaults.showWindSpeed,
+          );
+          settings.showHumidity = booleanSetting(
+            settings.showHumidity,
+            defaults.showHumidity,
+          );
 
-          fitAllText('.pp-fit-title', { min: 28, max: 88, step: 2 });
-          fitToScreen();
-          markReady({ city: weather.city });
+          applyColorTheme(settings.color, { defaultTheme: defaults.color });
+
+          const apiParams = new URLSearchParams({
+            dataSource: settings.dataSource || defaults.dataSource,
+            location: settings.location,
+            language: currentLanguage,
+          });
+
+          if (settings.apiKey) {
+            apiParams.set("apiKey", settings.apiKey);
+          }
+
+          const response = await fetch(`./api/data?${apiParams.toString()}`, {
+            cache: "no-store",
+          });
+          if (!response.ok) {
+            let message = `Weather API failed with ${response.status}`;
+            try {
+              const errorData = await response.json();
+              message = errorData?.error || errorData?.message || message;
+            } catch {
+              try {
+                const text = await response.text();
+                message = text.trim() || message;
+              } catch {
+                // Keep the status-based message when the body cannot be read.
+              }
+            }
+            throw new Error(message);
+          }
+
+          const weatherData = await response.json();
+          const updatedAt = formatDateTime(weatherData.currentWeather?.dt);
+          const renderedAt = new Date().toLocaleString(undefined, {
+            dateStyle: "medium",
+            timeStyle: "short",
+          });
+          const updatedMarkup =
+            settings.displayLastUpdated && updatedAt
+              ? `<div class="updated-at">${escapeHtml(updatedAt)} - ${escapeHtml(renderedAt)}</div>`
+              : "";
+
+          const kind = String(settings.kind || defaults.kind);
+          const viewMarkup =
+            kind === "forecast"
+              ? forecastMarkup(weatherData, settings)
+              : kind === "today-forecast"
+                ? currentWeatherMarkup(weatherData.currentWeather, settings)
+                : summaryMarkup(weatherData, settings);
+
+          root.classList.toggle(
+            "has-updated-at",
+            Boolean(settings.displayLastUpdated && updatedAt),
+          );
+          root.innerHTML = `${updatedMarkup}${viewMarkup}`;
+
+          await document.fonts?.ready;
+          await waitForImages(root);
+          document.querySelectorAll(".current-stack").forEach((element) => {
+            fitCurrentStack(element, { baseSize: scaled(16, screenScale) });
+          });
+          markReady({
+            location: weatherData.currentWeather?.name || settings.location,
+            kind,
+          });
         } catch (error) {
           markError(error);
-          document.body.innerHTML = `<main class="pp-screen"><h1 class="pp-title pp-error">${escapeHtml(t("errorTitle"))}</h1><p>${error.message}</p></main>`;
+          const root = document.getElementById("weather-root");
+          root.innerHTML = `
+            <section class="error-screen">
+              <h1>${escapeHtml(t("errorTitle"))}</h1>
+              <p>${escapeHtml(error?.message || String(error))}</p>
+            </section>
+          `;
         }
       })();
     </script>

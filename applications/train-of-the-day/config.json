@@ -1,0 +1,235 @@
+{
+  "name": "Train of the Day",
+  "version": "0.1.0",
+  "description": "Shows one deterministic daily train with first-car artwork and compact facts, focused mostly on European trains with a historic rail rotation.",
+  "renderPage": "./render.html",
+  "icon": "./assets/icon.png",
+  "nativeSettings": {
+    "color": "light",
+    "region": "europe",
+    "traction": "any",
+    "trainId": "",
+    "seed": "",
+    "showOrigin": true,
+    "showService": true,
+    "showSpeed": true,
+    "showBuilder": true,
+    "showType": true,
+    "showOperator": false,
+    "showFormation": false,
+    "showLength": false,
+    "showVoltage": false,
+    "showGauge": false,
+    "showDrive": false,
+    "showFamily": false,
+    "showYearsBuilt": false,
+    "showUnitsBuilt": false,
+    "showRecordSpeed": false,
+    "showPowerOutput": false,
+    "showCapacity": false,
+    "showAxleArrangement": false,
+    "showRoute": false
+  },
+  "configVariants": [
+    {
+      "color": "light",
+      "region": "europe",
+      "traction": "any",
+      "trainId": "",
+      "seed": "",
+      "showOrigin": true,
+      "showService": true,
+      "showSpeed": true,
+      "showBuilder": true,
+      "showType": true,
+      "showOperator": false,
+      "showFormation": false,
+      "showLength": false,
+      "showVoltage": false,
+      "showGauge": false,
+      "showDrive": false,
+      "showFamily": false,
+      "showYearsBuilt": false,
+      "showUnitsBuilt": false,
+      "showRecordSpeed": false,
+      "showPowerOutput": false,
+      "showCapacity": false,
+      "showAxleArrangement": false,
+      "showRoute": false,
+      "screenshots": {
+        "800x480": "./screenshots/train-of-the-day-europe-800x480-landscape.png",
+        "480x800": "./screenshots/train-of-the-day-europe-480x800-portrait.png"
+      }
+    },
+    {
+      "color": "dark",
+      "region": "any",
+      "traction": "high-speed",
+      "trainId": "frecciarossa-1000",
+      "seed": "paperlesspaper",
+      "showOrigin": true,
+      "showService": true,
+      "showSpeed": true,
+      "showBuilder": true,
+      "showType": true,
+      "showOperator": false,
+      "showFormation": false,
+      "showLength": false,
+      "showVoltage": false,
+      "showGauge": false,
+      "showDrive": false,
+      "showFamily": false,
+      "showYearsBuilt": false,
+      "showUnitsBuilt": false,
+      "showRecordSpeed": false,
+      "showPowerOutput": false,
+      "showCapacity": false,
+      "showAxleArrangement": false,
+      "showRoute": false,
+      "screenshots": {
+        "800x480": "./screenshots/train-of-the-day-frecciarossa-800x480-landscape.png",
+        "480x800": "./screenshots/train-of-the-day-frecciarossa-480x800-portrait.png"
+      }
+    }
+  ],
+  "formSchema": {
+    "type": "object",
+    "properties": {
+      "region": {
+        "type": "string",
+        "title": "Region",
+        "enum": [
+          "europe",
+          "worldwide",
+          "any"
+        ],
+        "default": "europe"
+      },
+      "traction": {
+        "type": "string",
+        "title": "Train type",
+        "enum": [
+          "any",
+          "high-speed",
+          "locomotive",
+          "emu"
+        ],
+        "default": "any"
+      },
+      "trainId": {
+        "type": "string",
+        "title": "Pinned train",
+        "description": "Optional train slug, for example ice-3, tgv-duplex, sbb-re-460, eurostar-e320, frecciarossa-1000, obb-taurus, intercity-125, renfe-ave-s103, sbb-giruno, sj-x2000, thalys-pbka, db-class-103, siemens-vectron, ns-virm, alfa-pendular, vr-sm3, etr-500, sncf-bb-26000, eurostar-class-373, renfe-s102, cd-class-680, pkp-ed250, sncb-class-18, db-class-218, ice-1, class-390-pendolino, ns-icm-koploper, dsb-ic3, coradia-ilint, stadler-flirt, adler, amtrak-metroliner, bavarian-s3-6, belgian-type-12, budd-rdc, db-vt-11-5, drg-class-05, drg-e18, drg-svt-877-flying-hamburger, flying-scotsman, fs-e626, lms-coronation, mallard, mistral-cc-40100, new-york-central-hudson, ns-mat-54, pennsylvania-gg1, prussian-p8, rheingold-1928, sbb-crocodile, sbb-rae-4-8-churchill, shinkansen-0-series, sncf-2d2-9100, sncf-cc-7100, southern-railway-schools, stephensons-rocket, tee-rabe, tokaido-ef58, union-pacific-big-boy, or union-pacific-m10000.",
+        "default": ""
+      },
+      "seed": {
+        "type": "string",
+        "title": "Rotation seed",
+        "description": "Optional text that creates a different daily rotation.",
+        "default": ""
+      },
+      "showOrigin": {
+        "type": "boolean",
+        "title": "Show origin",
+        "default": true
+      },
+      "showService": {
+        "type": "boolean",
+        "title": "Show first service year",
+        "default": true
+      },
+      "showSpeed": {
+        "type": "boolean",
+        "title": "Show top speed",
+        "default": true
+      },
+      "showBuilder": {
+        "type": "boolean",
+        "title": "Show builder",
+        "default": true
+      },
+      "showType": {
+        "type": "boolean",
+        "title": "Show train type",
+        "default": true
+      },
+      "showOperator": {
+        "type": "boolean",
+        "title": "Show operator",
+        "default": false
+      },
+      "showFormation": {
+        "type": "boolean",
+        "title": "Show formation",
+        "default": false
+      },
+      "showLength": {
+        "type": "boolean",
+        "title": "Show length",
+        "default": false
+      },
+      "showVoltage": {
+        "type": "boolean",
+        "title": "Show voltage system",
+        "default": false
+      },
+      "showGauge": {
+        "type": "boolean",
+        "title": "Show track gauge",
+        "default": false
+      },
+      "showDrive": {
+        "type": "boolean",
+        "title": "Show drive",
+        "default": false
+      },
+      "showFamily": {
+        "type": "boolean",
+        "title": "Show family or class",
+        "default": false
+      },
+      "showYearsBuilt": {
+        "type": "boolean",
+        "title": "Show years built",
+        "default": false
+      },
+      "showUnitsBuilt": {
+        "type": "boolean",
+        "title": "Show units built",
+        "default": false
+      },
+      "showRecordSpeed": {
+        "type": "boolean",
+        "title": "Show record speed",
+        "default": false
+      },
+      "showPowerOutput": {
+        "type": "boolean",
+        "title": "Show power output",
+        "default": false
+      },
+      "showCapacity": {
+        "type": "boolean",
+        "title": "Show seating or capacity",
+        "default": false
+      },
+      "showAxleArrangement": {
+        "type": "boolean",
+        "title": "Show axle arrangement",
+        "default": false
+      },
+      "showRoute": {
+        "type": "boolean",
+        "title": "Show main route or corridor",
+        "default": false
+      }
+    }
+  },
+  "language": [
+    "en",
+    "de",
+    "fr",
+    "es",
+    "it"
+  ]
+}

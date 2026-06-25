@@ -1,0 +1,422 @@
+{
+  "ice-3": {
+    "name": "DB ICE 3",
+    "nickname": "Class 403 / 406 Velaro family",
+    "country": "Germany",
+    "source": "Wikipedia: ICE 3",
+    "signature": "A low-floor white nose, red waist stripe, and distributed traction made it the international face of German high-speed rail."
+  },
+  "tgv-duplex": {
+    "name": "SNCF TGV Duplex",
+    "nickname": "Double-deck TGV power car",
+    "country": "France",
+    "source": "Wikipedia: TGV Duplex",
+    "signature": "Its two-level passenger cars let France add seats on busy high-speed routes without lengthening station platforms."
+  },
+  "sbb-re-460": {
+    "name": "SBB Re 460",
+    "nickname": "Lok 2000",
+    "country": "Switzerland",
+    "source": "Wikipedia: SBB Re 460",
+    "signature": "The smooth Pininfarina-influenced shell became a Swiss mainline icon for fast InterCity and InterRegio services."
+  },
+  "eurostar-e320": {
+    "name": "Eurostar e320",
+    "nickname": "British Rail Class 374",
+    "country": "United Kingdom / Europe",
+    "source": "Wikipedia: British Rail Class 374",
+    "signature": "A multi-system Velaro built for Channel Tunnel routes and through-running across several European power networks."
+  },
+  "frecciarossa-1000": {
+    "name": "Frecciarossa 1000",
+    "nickname": "ETR 1000",
+    "country": "Italy",
+    "source": "Wikipedia: Frecciarossa 1000",
+    "signature": "The long red nose and black window band turned Italy's flagship high-speed train into a moving brand mark."
+  },
+  "obb-taurus": {
+    "name": "OeBB Taurus",
+    "nickname": "Class 1116 Railjet locomotive",
+    "country": "Austria",
+    "source": "Wikipedia: OeBB Class 1116",
+    "signature": "Its ES64U2 platform became famous on Railjet services and set a conventional electric-locomotive speed record."
+  },
+  "intercity-125": {
+    "name": "InterCity 125",
+    "nickname": "British Rail Class 43 HST",
+    "country": "United Kingdom",
+    "source": "Wikipedia: InterCity 125",
+    "signature": "The HST brought 125 mph diesel service to Britain's non-electrified main lines and stayed in frontline use for decades."
+  },
+  "renfe-ave-s103": {
+    "name": "Renfe AVE S-103",
+    "nickname": "Siemens Velaro E",
+    "country": "Spain",
+    "source": "Wikipedia: Renfe Class 103",
+    "signature": "Spain's Velaro E linked Madrid and Barcelona with one of Europe's fastest regular high-speed services."
+  },
+  "sbb-giruno": {
+    "name": "SBB Giruno",
+    "nickname": "RABe 501 / Stadler SMILE",
+    "country": "Switzerland",
+    "source": "Wikipedia: SBB RABe 501",
+    "signature": "Built for Gotthard Base Tunnel services, the Giruno is a low-floor cross-border train for Switzerland, Italy and Germany."
+  },
+  "sj-x2000": {
+    "name": "SJ X2000",
+    "nickname": "X2 tilting train",
+    "country": "Sweden",
+    "source": "Wikipedia: X 2000",
+    "signature": "Its active tilt let Sweden raise journey speeds on curving legacy routes without rebuilding every main line."
+  },
+  "thalys-pbka": {
+    "name": "Thalys PBKA",
+    "nickname": "Paris-Brussels-Cologne-Amsterdam",
+    "country": "France / Belgium",
+    "source": "Wikipedia: Thalys PBKA",
+    "signature": "The PBKA sets were built for four countries and four power systems, making them a true cross-border TGV variant."
+  },
+  "db-class-103": {
+    "name": "DB Class 103",
+    "nickname": "TEE and InterCity express locomotive",
+    "country": "Germany",
+    "source": "Wikipedia: DB Class 103",
+    "signature": "A cream-and-red flagship of German InterCity service, the Class 103 became one of Europe's most recognizable electric locomotives."
+  },
+  "siemens-vectron": {
+    "name": "Siemens Vectron",
+    "nickname": "European modular locomotive platform",
+    "country": "Germany / Europe",
+    "source": "Wikipedia: Siemens Vectron",
+    "signature": "A modular export locomotive built for cross-border freight and passenger work across much of Europe."
+  },
+  "ns-virm": {
+    "name": "NS VIRM",
+    "nickname": "Dutch double-deck EMU",
+    "country": "Netherlands",
+    "source": "Wikipedia: NS VIRM",
+    "signature": "The yellow double-decker is a familiar Dutch intercity workhorse, built to move crowds on busy main lines."
+  },
+  "alfa-pendular": {
+    "name": "Alfa Pendular",
+    "nickname": "CP Series 4000 Pendolino",
+    "country": "Portugal",
+    "source": "Wikipedia: Alfa Pendular",
+    "signature": "Portugal's flagship tilting train links Lisbon, Porto and the Algarve with a Pendolino-derived body and Iberian-gauge running gear."
+  },
+  "vr-sm3": {
+    "name": "VR Sm3",
+    "nickname": "Finnish Pendolino",
+    "country": "Finland",
+    "source": "Wikipedia: VR Class Sm3",
+    "signature": "Finland's broad-gauge Pendolino brought tilting high-speed service to long-distance routes under Nordic conditions."
+  },
+  "etr-500": {
+    "name": "FS ETR 500",
+    "nickname": "Frecciarossa power-car set",
+    "country": "Italy",
+    "source": "Wikipedia: FS Class ETR 500",
+    "signature": "The ETR 500 was Italy's purpose-built high-speed flagship before the ETR 1000 era."
+  },
+  "sncf-bb-26000": {
+    "name": "SNCF BB 26000",
+    "nickname": "Sybic",
+    "country": "France",
+    "source": "Wikipedia: SNCF Class BB 26000",
+    "signature": "The Sybic class was built as a versatile French locomotive for both passenger expresses and freight."
+  },
+  "eurostar-class-373": {
+    "name": "Eurostar Class 373",
+    "nickname": "TransManche Super Train",
+    "country": "United Kingdom / France",
+    "source": "Wikipedia: British Rail Class 373",
+    "signature": "The original Channel Tunnel train linked London, Paris and Brussels with a long TGV-derived formation."
+  },
+  "renfe-s102": {
+    "name": "Renfe AVE S-102",
+    "nickname": "Talgo 350 Pato",
+    "country": "Spain",
+    "source": "Wikipedia: Renfe Class 102",
+    "signature": "Nicknamed Pato for its duck-bill nose, the S-102 pairs Talgo coaches with high-speed power cars."
+  },
+  "cd-class-680": {
+    "name": "CD Class 680",
+    "nickname": "Czech Pendolino",
+    "country": "Czech Republic",
+    "source": "Wikipedia: CD Class 680",
+    "signature": "The Czech Pendolino brought active tilting and multisystem operation to Central European express routes."
+  },
+  "pkp-ed250": {
+    "name": "PKP ED250",
+    "nickname": "Polish Pendolino",
+    "country": "Poland",
+    "source": "Wikipedia: PKP Class ED250",
+    "signature": "Poland's Pendolino introduced premium high-speed intercity service on upgraded domestic corridors."
+  },
+  "sncb-class-18": {
+    "name": "SNCB Class 18",
+    "nickname": "Siemens ES60U3",
+    "country": "Belgium",
+    "source": "Wikipedia: Belgian Railways Class 18",
+    "signature": "Belgium's Class 18 is a multisystem Siemens locomotive used on intercity and international services."
+  },
+  "db-class-218": {
+    "name": "DB Class 218",
+    "nickname": "German diesel-hydraulic classic",
+    "country": "Germany",
+    "source": "Wikipedia: DB Class 218",
+    "signature": "The Class 218 became the standard West German mainline diesel for passenger and freight work on non-electrified routes."
+  },
+  "ice-1": {
+    "name": "DB ICE 1",
+    "nickname": "Class 401",
+    "country": "Germany",
+    "source": "Wikipedia: ICE 1",
+    "signature": "Germany's first production ICE introduced the white-and-red high-speed look that still defines the brand."
+  },
+  "class-390-pendolino": {
+    "name": "Class 390 Pendolino",
+    "nickname": "West Coast Main Line tilting train",
+    "country": "United Kingdom",
+    "source": "Wikipedia: British Rail Class 390",
+    "signature": "Its tilt system helped raise speeds on Britain's curving West Coast Main Line without a brand-new railway."
+  },
+  "ns-icm-koploper": {
+    "name": "NS Koploper",
+    "nickname": "Intercity Materieel",
+    "country": "Netherlands",
+    "source": "Wikipedia: NS Intercity Materieel",
+    "signature": "The raised cab gave the Koploper its name and once allowed passengers to walk through coupled trainsets."
+  },
+  "dsb-ic3": {
+    "name": "DSB IC3",
+    "nickname": "Class MF",
+    "country": "Denmark",
+    "source": "Wikipedia: IC3",
+    "signature": "The rubber-faced IC3 can couple nose-to-nose and open a full-width gangway between units."
+  },
+  "coradia-ilint": {
+    "name": "Coradia iLint",
+    "nickname": "Hydrogen regional train",
+    "country": "Germany",
+    "source": "Wikipedia: Alstom Coradia iLint",
+    "signature": "The iLint became the first hydrogen fuel-cell passenger train to enter regular service."
+  },
+  "stadler-flirt": {
+    "name": "Stadler FLIRT",
+    "nickname": "Fast Light Intercity and Regional Train",
+    "country": "Switzerland / Europe",
+    "source": "Wikipedia: Stadler FLIRT",
+    "signature": "The modular low-floor FLIRT became one of Europe's most widespread modern regional train families."
+  },
+  "adler": {
+    "name": "Der Adler",
+    "nickname": "The Eagle",
+    "country": "Germany",
+    "source": "Wikipedia: Adler locomotive",
+    "signature": "adler-1835-germany-first-successful-steam"
+  },
+  "amtrak-metroliner": {
+    "name": "Budd Metroliner / Amtrak Metroliner EMU",
+    "nickname": "Metroliner",
+    "country": "United States",
+    "source": "Wikipedia: Budd Metroliner",
+    "signature": "A stainless-steel American EMU that brought modern high-speed branding to the Northeast Corridor before reliability issues pushed Amtrak toward locomotive-hauled Amfleet service."
+  },
+  "bavarian-s3-6": {
+    "name": "Bavarian S 3/6",
+    "nickname": "Bavarian Pacific",
+    "country": "Germany",
+    "source": "Wikipedia: Bavarian S 3/6",
+    "signature": "Long-lived Bavarian compound Pacific known for elegant proportions, efficient express work, and service from the royal railway era into the Bundesbahn age."
+  },
+  "belgian-type-12": {
+    "name": "Belgian State Railways/SNCB Type 12",
+    "nickname": "La Douce",
+    "country": "Belgium",
+    "source": "Wikipedia: SNCB Type 12",
+    "signature": "A rare fully streamlined Belgian Atlantic built for very fast short expresses before World War II."
+  },
+  "budd-rdc": {
+    "name": "Budd Rail Diesel Car (RDC)",
+    "nickname": "Buddliner",
+    "country": "United States",
+    "source": "Wikipedia: Budd Rail Diesel Car",
+    "signature": "Stainless-steel 'train in one car' that kept light passenger services economical."
+  },
+  "db-vt-11-5": {
+    "name": "DB VT 11.5",
+    "nickname": "TEE diesel multiple unit",
+    "country": "Germany",
+    "source": "Wikipedia: DB Class VT 11.5",
+    "signature": "codex-db-vt-11-5-2026-06-25"
+  },
+  "drg-class-05": {
+    "name": "DRG Class 05 streamlined express steam locomotive",
+    "nickname": "Streamlined Hudson",
+    "country": "Germany",
+    "source": "Wikipedia: DRG Class 05",
+    "signature": "codex-2026-06-25-drg-class-05"
+  },
+  "drg-e18": {
+    "name": "DRG Class E 18 / DB Class 118",
+    "nickname": "Streamlined German express electric",
+    "country": "Germany",
+    "source": "Wikipedia: DRG Class E 18",
+    "signature": "historic-train-drg-e18"
+  },
+  "drg-svt-877-flying-hamburger": {
+    "name": "DRG SVT 877",
+    "nickname": "Flying Hamburger",
+    "country": "Germany",
+    "source": "Wikipedia: DRG Class SVT 877",
+    "signature": "codex-flying-hamburger"
+  },
+  "flying-scotsman": {
+    "name": "LNER Class A3 4472 Flying Scotsman",
+    "nickname": "Flying Scotsman",
+    "country": "United Kingdom",
+    "source": "Wikipedia: Flying Scotsman",
+    "signature": "The first steam locomotive officially authenticated at 100 mph."
+  },
+  "fs-e626": {
+    "name": "FS Class E.626",
+    "nickname": "Tuttofare",
+    "country": "Italy",
+    "source": "Wikipedia: FS Class E.626",
+    "signature": "fs-e626-italy-3kv-dc-bo-bo-bo"
+  },
+  "lms-coronation": {
+    "name": "LMS Coronation Class streamlined steam locomotive",
+    "nickname": "Duchess",
+    "country": "United Kingdom",
+    "source": "Wikipedia: LMS Coronation Class",
+    "signature": "codex:lms-coronation:2026-06-25"
+  },
+  "mallard": {
+    "name": "LNER Class A4 4468 Mallard",
+    "nickname": "Mallard",
+    "country": "United Kingdom",
+    "source": "Wikipedia: LNER Class A4 4468 Mallard",
+    "signature": "garter-blue-streamlined-steam-record-holder"
+  },
+  "mistral-cc-40100": {
+    "name": "SNCF CC 40100",
+    "nickname": "Le Mistral era TEE electric",
+    "country": "France",
+    "source": "Wikipedia: SNCF CC 40100",
+    "signature": "Sharp-nosed French quad-voltage TEE locomotive built for fast cross-border prestige trains of the Le Mistral era."
+  },
+  "new-york-central-hudson": {
+    "name": "New York Central J-3a Hudson",
+    "nickname": "Dreyfuss Hudson",
+    "country": "United States",
+    "source": "Wikipedia: New York Central Hudson",
+    "signature": "nyc-j3a-hudson-20th-century-limited"
+  },
+  "ns-mat-54": {
+    "name": "NS Mat '54",
+    "nickname": "Hondekop",
+    "country": "Netherlands",
+    "source": "Wikipedia: NS Mat '54",
+    "signature": "historic-train-snippet:ns-mat-54-hondekop"
+  },
+  "pennsylvania-gg1": {
+    "name": "Pennsylvania Railroad GG1 electric locomotive",
+    "nickname": "GG1",
+    "country": "United States",
+    "source": "Wikipedia: Pennsylvania Railroad GG1",
+    "signature": "prr-gg1-2-c-c-2-electric-1934"
+  },
+  "prussian-p8": {
+    "name": "Prussian P 8 / DRG Class 38.10-40",
+    "nickname": "P 8",
+    "country": "Germany",
+    "source": "Wikipedia: Prussian P 8",
+    "signature": "Economical, widely exported Garbe design with a distinctive gap between the middle and rear coupled axles."
+  },
+  "rheingold-1928": {
+    "name": "Rheingold",
+    "nickname": "Rhinegold",
+    "country": "Germany",
+    "source": "Wikipedia: Rheingold",
+    "signature": "Cream-and-blue Pullman luxury along the Rhine before World War II"
+  },
+  "sbb-crocodile": {
+    "name": "SBB Ce 6/8 II",
+    "nickname": "Swiss Crocodile",
+    "country": "Switzerland",
+    "source": "Wikipedia: SBB Ce 6/8 II",
+    "signature": "Long-nosed articulated Alpine freight electric that became Switzerland's best-known Crocodile."
+  },
+  "sbb-rae-4-8-churchill": {
+    "name": "SBB RAe 4/8 1021",
+    "nickname": "Churchill Arrow",
+    "country": "Switzerland",
+    "source": "Wikipedia: SBB RAe 4/8 1021",
+    "signature": "sbb-rae-4-8-churchill:historic:ch"
+  },
+  "shinkansen-0-series": {
+    "name": "0 Series Shinkansen",
+    "nickname": "Bullet Train",
+    "country": "Japan",
+    "source": "Wikipedia: 0 Series Shinkansen",
+    "signature": "historic-train-snippet:shinkansen-0-series"
+  },
+  "sncf-2d2-9100": {
+    "name": "SNCF 2D2 9100",
+    "nickname": "Batteuses; Dragues",
+    "country": "France",
+    "source": "Wikipedia: SNCF 2D2 9100",
+    "signature": "codex-sncf-2d2-9100"
+  },
+  "sncf-cc-7100": {
+    "name": "SNCF CC 7100",
+    "nickname": "World-record CC",
+    "country": "France",
+    "source": "Wikipedia: SNCF CC 7100",
+    "signature": "A Paul Arzens-styled French DC electric that helped turn SNCF speed research toward the Mistral era and, eventually, the TGV."
+  },
+  "southern-railway-schools": {
+    "name": "SR V Class Schools 4-4-0",
+    "nickname": "Schools",
+    "country": "United Kingdom",
+    "source": "Wikipedia: SR V class",
+    "signature": "The last British 4-4-0 design and among Europe's most powerful of the type, named after English public schools."
+  },
+  "stephensons-rocket": {
+    "name": "Stephenson's Rocket",
+    "nickname": "Rocket",
+    "country": "United Kingdom",
+    "source": "Wikipedia: Stephenson's Rocket",
+    "signature": "stephensons-rocket-1829-rainhill"
+  },
+  "tee-rabe": {
+    "name": "SBB-CFF-FFS RAe TEE II",
+    "nickname": "Gottardo; later Grey Mouse",
+    "country": "Switzerland",
+    "source": "Wikipedia: SBB RAe TEE II",
+    "signature": "Quad-voltage Swiss TEE trainset built to cross European power systems without changing locomotives."
+  },
+  "tokaido-ef58": {
+    "name": "JNR Class EF58",
+    "nickname": "Gohachi",
+    "country": "Japan",
+    "source": "Wikipedia: JNR Class EF58",
+    "signature": "Semi-streamlined brown or blue-and-cream cab-unit profile that became a postwar Tokaido express icon."
+  },
+  "union-pacific-big-boy": {
+    "name": "Union Pacific Big Boy 4-8-8-4",
+    "nickname": "Big Boy",
+    "country": "United States",
+    "source": "Wikipedia: Union Pacific Big Boy",
+    "signature": "historic-train-snippet:union-pacific-big-boy"
+  },
+  "union-pacific-m10000": {
+    "name": "Union Pacific M-10000",
+    "nickname": "The Streamliner; City of Salina; Tin Worm; Little Zip",
+    "country": "United States",
+    "source": "Wikipedia: M-10000",
+    "signature": "historic-train:union-pacific-m10000"
+  }
+}

@@ -35,7 +35,6 @@
         align-items: center;
         gap: 14px;
         padding-bottom: 10px;
-        border-bottom: 4px solid var(--pp-border);
       }
 
       .tdf-brand {
@@ -52,7 +51,6 @@
         height: 34px;
         background: var(--tdf-yellow);
         color: var(--tdf-ink);
-        border: 3px solid var(--tdf-ink);
         font-size: 1.15rem;
         line-height: 1;
         font-weight: 950;
@@ -122,7 +120,6 @@
         padding: 6px 8px;
         background: var(--tdf-yellow);
         color: var(--tdf-ink);
-        border: 2px solid var(--tdf-ink);
       }
 
       .tdf-route {
@@ -148,7 +145,6 @@
       .tdf-metric {
         min-width: 0;
         padding: 10px;
-        border: 3px solid var(--pp-border);
         background: var(--pp-card);
       }
 
@@ -184,11 +180,14 @@
         min-width: 0;
         min-height: 0;
         display: grid;
-        grid-template-rows: auto minmax(0, 1fr);
-        gap: 8px;
-        padding: 10px;
-        border: 3px solid var(--pp-border);
+        grid-template-rows: minmax(0, 1fr);
+        gap: 0;
+        padding: 0;
         background: var(--pp-card);
+      }
+
+      .tdf-visual .tdf-section-title {
+        display: none;
       }
 
       .tdf-section-title {
@@ -227,6 +226,53 @@
         background-repeat: no-repeat;
         background-position: center;
         background-size: contain;
+      }
+
+      .tdf-profile-svg {
+        display: block;
+        width: 100%;
+        height: 100%;
+        background: var(--pp-card);
+      }
+
+      .tdf-profile-axis,
+      .tdf-profile-tick {
+        stroke: var(--pp-border);
+        stroke-width: 4;
+      }
+
+      .tdf-profile-area {
+        fill: var(--pp-fg);
+        opacity: 0.94;
+      }
+
+      .tdf-profile-line {
+        fill: none;
+        stroke: var(--tdf-red);
+        stroke-width: 12;
+        stroke-linejoin: round;
+        stroke-linecap: round;
+      }
+
+      .tdf-profile-marker {
+        fill: var(--tdf-red);
+        stroke: var(--pp-fg);
+        stroke-width: 5;
+      }
+
+      .tdf-profile-label,
+      .tdf-profile-small {
+        fill: var(--pp-fg);
+        font-family: var(--pp-font);
+        font-weight: 950;
+      }
+
+      .tdf-profile-label {
+        font-size: 32px;
+      }
+
+      .tdf-profile-small {
+        font-size: 24px;
       }
 
       body.dark .tdf-profile {
@@ -271,7 +317,6 @@
       .tdf-panel {
         min-width: 0;
         padding: 10px;
-        border: 3px solid var(--pp-border);
         background: var(--pp-card);
       }
 
@@ -417,10 +462,6 @@
           display: none;
         }
 
-        .tdf-profile-bg {
-          background-position: center bottom;
-          background-size: 100% auto;
-        }
       }
 
       @media (max-width: 700px) {
@@ -655,6 +696,135 @@
           note.textContent = t("unavailableRanking");
         }
 
+        function numberFromDistance(value) {
+          const number = Number(String(value || "").replace(",", ".").replace(/[^\d.-]/g, ""));
+          return Number.isFinite(number) && number > 0 ? number : 0;
+        }
+
+        function shortName(value) {
+          return String(value || "")
+            .replace(/\s*\([^)]*\)\s*/g, " ")
+            .replace(/\s+/g, " ")
+            .trim()
+            .slice(0, 24);
+        }
+
+        function compactNumber(value, suffix = "") {
+          if (!Number.isFinite(value)) return "";
+          const rounded = Math.round(value * 10) / 10;
+          return `${String(rounded).replace(/\.0$/, "")}${suffix}`;
+        }
+
+        function climbDetail(climb) {
+          const parts = [
+            compactNumber(climb.lengthKm, " km"),
+            Number.isFinite(climb.gradientPercent) ? `at ${compactNumber(climb.gradientPercent, "%")}` : "",
+          ].filter(Boolean);
+          return parts.length ? parts.join(" ") : climb.detail || "";
+        }
+
+        function clamp(value, min, max) {
+          return Math.min(Math.max(value, min), max);
+        }
+
+        function profileSamples(stage) {
+          const distance = numberFromDistance(stage.distance);
+          const climbs = Array.isArray(stage.climbs)
+            ? stage.climbs.filter((climb) => Number.isFinite(climb.kmValue) && Number.isFinite(climb.elevationMeters))
+            : [];
+
+          if (!distance || climbs.length === 0) {
+            return null;
+          }
+
+          const samples = [{ km: 0, elevation: Math.max(0, climbs[0].elevationMeters - 420), label: "" }];
+
+          climbs.forEach((climb) => {
+            const climbGain = Number.isFinite(climb.lengthKm) && Number.isFinite(climb.gradientPercent)
+              ? climb.lengthKm * climb.gradientPercent * 10
+              : 280;
+            const startKm = clamp(climb.kmValue - (climb.lengthKm || Math.min(8, climb.kmValue)), 0, distance);
+            const baseElevation = Math.max(0, climb.elevationMeters - climbGain);
+
+            samples.push({ km: startKm, elevation: baseElevation, label: "" });
+            samples.push({
+              km: clamp(climb.kmValue, 0, distance),
+              elevation: climb.elevationMeters,
+              label: shortName(climb.name),
+              category: climb.category || "",
+              detail: climbDetail(climb),
+            });
+          });
+
+          const last = climbs[climbs.length - 1];
+          samples.push({
+            km: distance,
+            elevation: last.kmValue >= distance - 0.5 ? last.elevationMeters : Math.max(0, last.elevationMeters - 360),
+            label: "",
+          });
+
+          const sorted = samples
+            .sort((a, b) => a.km - b.km)
+            .filter((sample, index, list) => index === 0 || sample.km !== list[index - 1].km || sample.label);
+
+          return { distance, samples, climbs };
+        }
+
+        function renderGeneratedProfile(stage) {
+          const profile = profileSamples(stage);
+          if (!profile) return false;
+
+          const wrap = document.getElementById("profile-wrap");
+          const isNarrow = window.innerWidth <= 700;
+          const width = isNarrow ? 560 : 1000;
+          const height = isNarrow ? 560 : 360;
+          const left = isNarrow ? 44 : 58;
+          const right = isNarrow ? 28 : 34;
+          const top = isNarrow ? 92 : 42;
+          const bottom = isNarrow ? 72 : 68;
+          const chartWidth = width - left - right;
+          const chartHeight = height - top - bottom;
+          const elevations = profile.samples.map((sample) => sample.elevation);
+          const minElevation = Math.max(0, Math.min(...elevations) - 80);
+          const maxElevation = Math.max(...elevations) + 120;
+          const range = Math.max(1, maxElevation - minElevation);
+          const x = (km) => left + (clamp(km, 0, profile.distance) / profile.distance) * chartWidth;
+          const y = (elevation) => top + ((maxElevation - elevation) / range) * chartHeight;
+          const polyline = profile.samples.map((sample) => `${x(sample.km).toFixed(1)},${y(sample.elevation).toFixed(1)}`).join(" ");
+          const area = `${left},${height - bottom} ${polyline} ${left + chartWidth},${height - bottom}`;
+          const labelSource = isNarrow
+            ? profile.climbs.filter((climb, index, list) => index === list.length - 1 || /HC|1/.test(climb.category || ""))
+            : profile.climbs.filter((climb, index, list) => index === 0 || index === list.length - 1 || /HC|1|2/.test(climb.category || ""));
+          const labels = labelSource
+            .slice(0, isNarrow ? 3 : 5)
+            .map((climb) => {
+              const labelX = x(climb.kmValue);
+              const labelY = Math.max(30, y(climb.elevationMeters) - 28);
+              const anchor = labelX > width - 190 ? "end" : labelX < 190 ? "start" : "middle";
+
+              return `
+                <line class="tdf-profile-tick" x1="${labelX.toFixed(1)}" y1="${labelY + 12}" x2="${labelX.toFixed(1)}" y2="${height - bottom}" opacity="0.55" />
+                <circle class="tdf-profile-marker" cx="${labelX.toFixed(1)}" cy="${y(climb.elevationMeters).toFixed(1)}" r="13" />
+                <text class="tdf-profile-label" x="${labelX.toFixed(1)}" y="${labelY.toFixed(1)}" text-anchor="${anchor}">${escapeHtml(shortName(climb.name))}</text>
+                ${isNarrow ? "" : `<text class="tdf-profile-small" x="${labelX.toFixed(1)}" y="${(labelY + 30).toFixed(1)}" text-anchor="${anchor}">${escapeHtml(climb.detail || "")}</text>`}
+              `;
+            })
+            .join("");
+
+          wrap.innerHTML = `
+            <svg class="tdf-profile-svg" viewBox="0 0 ${width} ${height}" role="img" aria-label="${escapeHtml(stage.route || t("profile"))}" preserveAspectRatio="none">
+              <line class="tdf-profile-axis" x1="${left}" y1="${height - bottom}" x2="${left + chartWidth}" y2="${height - bottom}" />
+              <polygon class="tdf-profile-area" points="${area}" />
+              <polyline class="tdf-profile-line" points="${polyline}" />
+              ${labels}
+              <text class="tdf-profile-small" x="${left}" y="${height - 22}" text-anchor="start">0 km</text>
+              <text class="tdf-profile-small" x="${left + chartWidth}" y="${height - 22}" text-anchor="end">${escapeHtml(stage.distance || `${profile.distance} km`)}</text>
+            </svg>
+          `;
+
+          return true;
+        }
+
         async function loadImage(src, alt) {
           if (!src) return false;
           const wrap = document.getElementById("profile-wrap");
@@ -720,8 +890,11 @@
           document.getElementById("updated").textContent = formatUpdated(data.updatedAt);
 
           const profileSrc = settings.showProfile ? stage.profileImage || stage.mapImage || stage.heroImage : "";
-          const loaded = await loadImage(profileSrc, stage.route);
-          document.getElementById("visual-title").textContent = profileSrc && loaded ? (stage.profileImage ? t("profile") : t("map")) : t("map");
+          let loaded = profileSrc ? await loadImage(profileSrc, stage.route) : false;
+          if (!loaded && settings.showProfile) {
+            loaded = renderGeneratedProfile(stage);
+          }
+          document.getElementById("visual-title").textContent = loaded ? t("profile") : t("map");
 
           renderRankings(data);
           await document.fonts?.ready;

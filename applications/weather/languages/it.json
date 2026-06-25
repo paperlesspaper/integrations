@@ -1,13 +1,15 @@
 {
   "loading": "Caricamento...",
-  "updated": "Aggiornato",
-  "from": "da",
   "errorTitle": "Impossibile caricare il meteo",
-  "apiFailed": "API non riuscita con {status}",
-  "title": "Meteo",
-  "current": "Attuale",
-  "feelsLike": "Percepita",
+  "today": "Oggi",
+  "outlook": "Prospettiva",
+  "updated": "Aggiornato",
+  "rendered": "Renderizzato",
+  "date": "Data",
+  "humidity": "Umidita",
   "wind": "Vento",
-  "forecast": "Previsioni",
-  "code": "Codice"
+  "pressure": "Pressione",
+  "sunrise": "Alba",
+  "sunset": "Tramonto",
+  "moon": "Luna"
 }
