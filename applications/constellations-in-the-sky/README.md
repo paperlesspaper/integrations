@@ -44,6 +44,7 @@ VirtualSky gives the integration a real observer-based sky projection without AP
 - `projection`: stereo, polar, lambert, ortho, mollweide, or planechart.
 - `direction`: facing azimuth in degrees.
 - `magnitude`: faintest star magnitude to display.
+- `starSize`: scale the rendered star dots.
 - `showLabels`: show or hide constellation labels.
 - `showMilkyWay`: draw the Milky Way outline.
 - `showBoundaries`: draw IAU constellation boundaries.
