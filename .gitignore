@@ -7,3 +7,4 @@ output
 # applications/*/screenshots
 public/runner.css
 .playwright-cli/*
+applications/constellations-in-the-sky/assets/virtualsky/

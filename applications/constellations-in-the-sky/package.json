@@ -1,0 +1,14 @@
+{
+  "name": "paperlesspaper-integration-constellations-in-the-sky",
+  "version": "0.2.0",
+  "private": true,
+  "type": "module",
+  "paperlesspaperIntegration": true,
+  "scripts": {
+    "copy:assets": "node scripts/copy-virtualsky-assets.mjs",
+    "postinstall": "npm run copy:assets"
+  },
+  "dependencies": {
+    "@paperlesspaper/virtualsky": "file:./vendor/virtualsky"
+  }
+}

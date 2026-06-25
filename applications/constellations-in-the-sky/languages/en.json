@@ -1,53 +1,21 @@
 {
   "title": "Constellations in the Sky",
   "kicker": "Constellations",
-  "subtitle": "Seasonal sky patterns for an eInk night map",
-  "highlightLabel": "Highlighted",
-  "seasonLabel": "Season",
-  "hemisphereLabel": "Sky",
-  "legendText": "Highlight path",
-  "apiLabel": "API",
-  "apiValue": "Built-in constellation catalogue",
-  "none": "None",
-  "noHighlightNote": "No constellation is highlighted.",
-  "seasons": {
-    "spring": "Spring",
-    "summer": "Summer",
-    "autumn": "Autumn",
-    "winter": "Winter"
-  },
-  "hemispheres": {
-    "north": "North",
-    "south": "South"
-  },
-  "constellations": {
-    "Andromeda": "Andromeda",
-    "Carina": "Carina",
-    "Cassiopeia": "Cassiopeia",
-    "Centaurus": "Centaurus",
-    "Crux": "Crux",
-    "Cygnus": "Cygnus",
-    "Leo": "Leo",
-    "Lyra": "Lyra",
-    "Orion": "Orion",
-    "Pegasus": "Pegasus",
-    "Scorpius": "Scorpius",
-    "Taurus": "Taurus",
-    "Ursa Major": "Ursa Major"
-  },
-  "notes": {
-    "Andromeda": "Mirach points toward the Andromeda galaxy in dark skies.",
-    "Carina": "Carina carries Canopus, one of the brightest stars in the night sky.",
-    "Cassiopeia": "A compact W-shaped guidepost near the northern Milky Way.",
-    "Centaurus": "Alpha Centauri and Hadar point toward the Southern Cross.",
-    "Crux": "The Southern Cross is a small but famous southern landmark.",
-    "Cygnus": "The Northern Cross flies along the bright summer Milky Way.",
-    "Leo": "Regulus and the sickle-shaped head mark this spring constellation.",
-    "Lyra": "Vega anchors this small constellation and the Summer Triangle.",
-    "Orion": "A bright winter pattern with the three belt stars at its center.",
-    "Pegasus": "The Great Square of Pegasus dominates autumn evenings.",
-    "Scorpius": "The curved tail and red Antares make Scorpius easy to spot.",
-    "Taurus": "Aldebaran, the Hyades, and the Pleiades make Taurus rich on eInk.",
-    "Ursa Major": "The Big Dipper is the best-known part of this northern constellation."
+  "subtitle": "Location-aware sky map from real star positions",
+  "viewLabel": "View",
+  "viewNote": "Stars, constellation lines, and optional boundaries rendered locally with VirtualSky.",
+  "locationLabel": "Location",
+  "timeLabel": "Time",
+  "legendText": "Constellation lines",
+  "apiLabel": "Engine",
+  "apiValue": "VirtualSky local catalogue",
+  "now": "Now",
+  "projections": {
+    "stereo": "Stereographic",
+    "polar": "All sky",
+    "lambert": "Lambert",
+    "ortho": "Orthographic",
+    "mollweide": "Mollweide",
+    "planechart": "Plane chart"
   }
 }

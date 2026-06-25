@@ -1,27 +1,41 @@
 {
   "name": "Constellations in the Sky",
-  "version": "0.1.0",
-  "description": "Shows a seasonal constellation sky map with highlighted star patterns and labels.",
+  "version": "0.2.0",
+  "description": "Shows a location-aware constellation sky map powered by VirtualSky.",
   "renderPage": "./render.html",
   "icon": "./assets/icon.png",
   "nativeSettings": {
     "color": "dark",
-    "hemisphere": "north",
-    "season": "auto",
-    "highlight": "daily",
+    "latitude": 52.52,
+    "longitude": 13.405,
+    "timeMode": "tonight",
+    "customDate": "",
+    "customTime": "22:00",
+    "projection": "stereo",
+    "direction": 180,
+    "magnitude": 5.5,
     "showLabels": true,
     "showMilkyWay": true,
-    "density": "balanced"
+    "showBoundaries": false,
+    "showGrid": false,
+    "showPlanets": false
   },
   "configVariants": [
     {
       "color": "dark",
-      "hemisphere": "north",
-      "season": "winter",
-      "highlight": "Orion",
+      "latitude": 52.52,
+      "longitude": 13.405,
+      "timeMode": "tonight",
+      "customDate": "",
+      "customTime": "22:00",
+      "projection": "stereo",
+      "direction": 180,
+      "magnitude": 5.5,
       "showLabels": true,
       "showMilkyWay": true,
-      "density": "balanced",
+      "showBoundaries": false,
+      "showGrid": false,
+      "showPlanets": false,
       "screenshots": {
         "800x480": "./screenshots/constellations-winter-orion-800x480-landscape.png",
         "480x800": "./screenshots/constellations-winter-orion-480x800-portrait.png"
@@ -29,12 +43,19 @@
     },
     {
       "color": "blue-dark",
-      "hemisphere": "south",
-      "season": "auto",
-      "highlight": "daily",
+      "latitude": -33.8688,
+      "longitude": 151.2093,
+      "timeMode": "tonight",
+      "customDate": "",
+      "customTime": "22:00",
+      "projection": "polar",
+      "direction": 180,
+      "magnitude": 6,
       "showLabels": true,
       "showMilkyWay": true,
-      "density": "rich",
+      "showBoundaries": true,
+      "showGrid": false,
+      "showPlanets": false,
       "screenshots": {
         "800x480": "./screenshots/constellations-south-daily-800x480-landscape.png",
         "480x800": "./screenshots/constellations-south-daily-480x800-portrait.png"
@@ -44,74 +65,104 @@
   "formSchema": {
     "type": "object",
     "properties": {
-      "hemisphere": {
-        "type": "string",
-        "title": "Hemisphere",
-        "description": "Choose the sky orientation.",
-        "enum": [
-          "north",
-          "south"
-        ],
-        "default": "north"
+      "latitude": {
+        "type": "number",
+        "title": "Latitude",
+        "description": "Observer latitude in decimal degrees.",
+        "minimum": -90,
+        "maximum": 90,
+        "default": 52.52
       },
-      "season": {
-        "type": "string",
-        "title": "Season",
-        "description": "Use automatic season selection or pin a seasonal sky.",
-        "enum": [
-          "auto",
-          "spring",
-          "summer",
-          "autumn",
-          "winter"
-        ],
-        "default": "auto"
+      "longitude": {
+        "type": "number",
+        "title": "Longitude",
+        "description": "Observer longitude in decimal degrees, east positive.",
+        "minimum": -180,
+        "maximum": 180,
+        "default": 13.405
       },
-      "highlight": {
+      "timeMode": {
         "type": "string",
-        "title": "Highlighted constellation",
-        "description": "Pick a constellation or rotate one daily from the visible scene.",
+        "title": "Time",
+        "description": "Choose the sky time.",
         "enum": [
-          "daily",
-          "none",
-          "Orion",
-          "Ursa Major",
-          "Cassiopeia",
-          "Cygnus",
-          "Lyra",
-          "Scorpius",
-          "Crux",
-          "Leo",
-          "Pegasus",
-          "Taurus",
-          "Andromeda",
-          "Centaurus",
-          "Carina"
+          "now",
+          "tonight",
+          "custom"
         ],
-        "default": "daily"
+        "default": "tonight"
+      },
+      "customDate": {
+        "type": "string",
+        "title": "Custom date",
+        "description": "Optional YYYY-MM-DD date used when Time is custom.",
+        "default": ""
+      },
+      "customTime": {
+        "type": "string",
+        "title": "Display time",
+        "description": "Local HH:MM time used for tonight and custom mode.",
+        "default": "22:00"
+      },
+      "projection": {
+        "type": "string",
+        "title": "Projection",
+        "description": "Choose the map projection.",
+        "enum": [
+          "stereo",
+          "polar",
+          "lambert",
+          "ortho",
+          "mollweide",
+          "planechart"
+        ],
+        "default": "stereo"
+      },
+      "direction": {
+        "type": "number",
+        "title": "Facing direction",
+        "description": "Azimuth in degrees: 0 north, 90 east, 180 south, 270 west.",
+        "minimum": 0,
+        "maximum": 359,
+        "default": 180
+      },
+      "magnitude": {
+        "type": "number",
+        "title": "Star magnitude",
+        "description": "Higher values show fainter stars.",
+        "minimum": 1,
+        "maximum": 6.5,
+        "default": 5.5
       },
       "showLabels": {
         "type": "boolean",
         "title": "Show labels",
-        "description": "Show constellation names on the map.",
+        "description": "Show constellation labels.",
         "default": true
       },
       "showMilkyWay": {
         "type": "boolean",
         "title": "Show Milky Way",
-        "description": "Draw a soft Milky Way band behind the star map.",
+        "description": "Draw the Milky Way outline.",
         "default": true
       },
-      "density": {
-        "type": "string",
-        "title": "Star density",
-        "description": "Choose how many background stars are shown.",
-        "enum": [
-          "minimal",
-          "balanced",
-          "rich"
-        ],
-        "default": "balanced"
+      "showBoundaries": {
+        "type": "boolean",
+        "title": "Show boundaries",
+        "description": "Draw official IAU constellation boundaries.",
+        "default": false
+      },
+      "showGrid": {
+        "type": "boolean",
+        "title": "Show grid",
+        "description": "Draw an azimuth and elevation grid.",
+        "default": false
+      },
+      "showPlanets": {
+        "type": "boolean",
+        "title": "Show planets",
+        "description": "Draw visible planets, Sun, and Moon using VirtualSky's built-in ephemeris plugin.",
+        "default": false
       }
     }
   },

@@ -1,0 +1,19 @@
+{
+  "name": "@paperlesspaper/virtualsky",
+  "version": "0.7.7-paperlesspaper.0",
+  "private": true,
+  "description": "Local npm wrapper for VirtualSky browser planetarium assets used by the paperlesspaper constellation integration.",
+  "homepage": "https://github.com/slowe/VirtualSky",
+  "license": "SEE README.md",
+  "files": [
+    "README.md",
+    "boundaries.json",
+    "galaxy.json",
+    "lang",
+    "lines_latin.json",
+    "stars.json",
+    "stuquery.min.js",
+    "virtualsky-planets.js",
+    "virtualsky.min.js"
+  ]
+}

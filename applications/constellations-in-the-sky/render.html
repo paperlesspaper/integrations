@@ -7,6 +7,9 @@
     <title>Constellations in the Sky</title>
     <link rel="stylesheet" href="/assets/paperless.css">
     <script src="/assets/paperless.iife.js"></script>
+    <script src="./assets/virtualsky/stuquery.min.js"></script>
+    <script src="./assets/virtualsky/virtualsky.min.js"></script>
+    <script src="./assets/virtualsky/virtualsky-planets.js"></script>
     <style>
       .stars-screen {
         padding: 0;
@@ -31,105 +34,25 @@
         color: var(--pp-fg);
       }
 
-      .sky-stage::before {
-        content: "";
-        position: absolute;
-        inset: 0;
-        background: transparent;
-      }
-
-      .sky-map {
-        position: relative;
-        z-index: 1;
+      #virtualSky,
+      #virtualSky canvas {
         width: 100%;
         height: 100%;
         display: block;
       }
 
-      .horizon {
-        fill: none;
-        stroke: #f7cf28;
-        stroke-width: 0.65;
-        stroke-dasharray: 2 2;
-        opacity: 0.72;
+      #virtualSky canvas {
+        image-rendering: pixelated;
       }
 
-      .grid-line {
-        fill: none;
-        stroke: #fff;
-        stroke-width: 0.18;
-        opacity: 0.24;
-      }
-
-      .background-star {
-        fill: var(--pp-fg);
-      }
-
-      .constellation-line {
-        stroke: var(--pp-fg);
-        stroke-width: 0.55;
-        stroke-linecap: round;
-        opacity: 0.74;
-      }
-
-      .constellation-star {
-        fill: var(--pp-fg);
-        stroke: var(--pp-bg);
-        stroke-width: 0.2;
-      }
-
-      .constellation-label {
-        fill: var(--pp-fg);
-        paint-order: stroke;
-        stroke: var(--pp-bg);
-        stroke-width: 0.85;
-        font-size: 3.1px;
-        font-weight: 900;
-        letter-spacing: 0;
-        text-anchor: middle;
-        text-transform: uppercase;
-      }
-
-      .constellation.is-highlight .constellation-line {
-        stroke: #f7cf28;
-        stroke-width: 1.05;
-        opacity: 1;
-      }
-
-      .constellation.is-highlight .constellation-star {
-        fill: #f7cf28;
-        stroke: var(--pp-bg);
-        stroke-width: 0.28;
-      }
-
-      .constellation.is-red .constellation-line,
-      .constellation.is-red.is-highlight .constellation-line {
-        stroke: #e83d35;
-      }
-
-      .constellation.is-red.is-highlight .constellation-star {
-        fill: #e83d35;
-      }
-
-      .constellation.is-blue .constellation-line,
-      .constellation.is-blue.is-highlight .constellation-line {
-        stroke: #5eb3ff;
-      }
-
-      .constellation.is-blue.is-highlight .constellation-star {
-        fill: #5eb3ff;
-      }
-
-      .constellation.is-highlight .constellation-label {
-        fill: #f7cf28;
-      }
-
-      .constellation.is-red.is-highlight .constellation-label {
-        fill: #e83d35;
-      }
-
-      .constellation.is-blue.is-highlight .constellation-label {
-        fill: #5eb3ff;
+      #virtualSky .virtualskybutton,
+      #virtualSky [class$="_btn_help"],
+      #virtualSky [class$="_credit"],
+      #virtualSky [class$="_help"],
+      #virtualSky [class$="_clock"],
+      #virtualSky [class$="_position"],
+      #virtualSky [class$="_projection"] {
+        display: none !important;
       }
 
       .stars-panel {
@@ -328,7 +251,7 @@
     <main class="pp-screen stars-screen" id="screen">
       <section class="stars-shell" id="shell">
         <div class="sky-stage" id="skyStage">
-          <svg class="sky-map" id="skyMap" viewBox="0 0 100 100" role="img" aria-label="Constellation sky map"></svg>
+          <div id="virtualSky" aria-label="Astronomical sky map"></div>
         </div>
         <aside class="stars-panel">
           <header>
@@ -337,28 +260,28 @@
             <p class="stars-subtitle" id="subtitle">Loading sky map...</p>
           </header>
           <section class="highlight-block">
-            <p class="fact-label" id="highlightLabel">Highlighted</p>
-            <h2 class="highlight-name pp-fit" id="highlightName">-</h2>
-            <p class="highlight-note" id="highlightNote"></p>
+            <p class="fact-label" id="viewLabel">View</p>
+            <h2 class="highlight-name pp-fit" id="viewValue">-</h2>
+            <p class="highlight-note" id="viewNote"></p>
           </section>
           <footer class="footer-stack">
             <div class="fact-grid">
               <div class="fact">
-                <p class="fact-label" id="seasonLabel">Season</p>
-                <p class="fact-value" id="seasonValue">-</p>
+                <p class="fact-label" id="locationLabel">Location</p>
+                <p class="fact-value" id="locationValue">-</p>
               </div>
               <div class="fact">
-                <p class="fact-label" id="hemisphereLabel">Sky</p>
-                <p class="fact-value" id="hemisphereValue">-</p>
+                <p class="fact-label" id="timeLabel">Time</p>
+                <p class="fact-value" id="timeValue">-</p>
               </div>
             </div>
             <div class="api-note">
               <div class="legend">
                 <span class="legend-mark"></span>
-                <p class="legend-text" id="legendText">Highlight path</p>
+                <p class="legend-text" id="legendText">Constellation lines</p>
               </div>
-              <p class="api-label" id="apiLabel">API</p>
-              <p class="api-value" id="apiValue">Built-in constellation catalogue</p>
+              <p class="api-label" id="apiLabel">Engine</p>
+              <p class="api-value" id="apiValue">VirtualSky local catalogue</p>
             </div>
           </footer>
         </aside>
@@ -375,103 +298,162 @@
           applyColorTheme,
           fitAllText,
           fitToScreen,
-          escapeHtml,
           markReady,
           markError,
         } = window.PaperlessOpenIntegration;
 
         const defaults = {
           color: "dark",
-          hemisphere: "north",
-          season: "auto",
-          highlight: "daily",
+          latitude: 52.52,
+          longitude: 13.405,
+          timeMode: "tonight",
+          customDate: "",
+          customTime: "22:00",
+          projection: "stereo",
+          direction: 180,
+          magnitude: 5.5,
           showLabels: true,
           showMilkyWay: true,
-          density: "balanced",
+          showBoundaries: false,
+          showGrid: false,
+          showPlanets: false,
         };
 
-        const seasonLabels = {
-          spring: "Spring",
-          summer: "Summer",
-          autumn: "Autumn",
-          winter: "Winter",
-        };
-
-        const hemisphereLabels = {
-          north: "Northern",
-          south: "Southern",
+        const projectionLabels = {
+          stereo: "Stereographic",
+          polar: "All sky",
+          lambert: "Lambert",
+          ortho: "Orthographic",
+          mollweide: "Mollweide",
+          planechart: "Plane chart",
         };
 
         function message(messages, key, fallback) {
           return typeof messages[key] === "string" ? messages[key] : fallback;
         }
 
-        function constellationLabel(messages, name) {
-          const labels = messages.constellations && typeof messages.constellations === "object"
-            ? messages.constellations
-            : {};
-          return typeof labels[name] === "string" ? labels[name] : name;
-        }
-
-        function localizedNote(messages, name, fallback) {
-          const notes = messages.notes && typeof messages.notes === "object" ? messages.notes : {};
-          return typeof notes[name] === "string" ? notes[name] : fallback;
-        }
-
         function boolSetting(value) {
           return value === true || value === "true" || value === "1";
         }
 
-        function svgNumber(value) {
+        function numberSetting(value, fallback, min, max) {
           const number = Number(value);
-          return Number.isFinite(number) ? number.toFixed(2).replace(/\.?0+$/, "") : "0";
+          if (!Number.isFinite(number)) {
+            return fallback;
+          }
+          return Math.min(Math.max(number, min), max);
         }
 
-        function renderSky({ data, messages, showLabels, showMilkyWay }) {
-          const skyStage = document.querySelector("#skyStage");
-          const svg = document.querySelector("#skyMap");
-          skyStage.classList.toggle("no-milky-way", !showMilkyWay);
+        function oneOf(value, allowed, fallback) {
+          return allowed.includes(value) ? value : fallback;
+        }
 
-          const background = data.backgroundStars
-            .map((star) => (
-              `<circle class="background-star" cx="${svgNumber(star.x)}" cy="${svgNumber(star.y)}" r="${svgNumber(star.size)}" opacity="${svgNumber(star.opacity)}"></circle>`
-            ))
-            .join("");
+        function cssVariable(name) {
+          return getComputedStyle(document.body).getPropertyValue(name).trim();
+        }
 
-          const grid = `
-            <ellipse class="horizon" cx="50" cy="51" rx="45" ry="36"></ellipse>
-            <path class="grid-line" d="M9 51 H91"></path>
-            <path class="grid-line" d="M50 14 V88"></path>
-            <ellipse class="grid-line" cx="50" cy="51" rx="26" ry="36"></ellipse>
-          `;
+        function formatCoordinate(value, positiveSuffix, negativeSuffix) {
+          const absolute = Math.abs(value).toFixed(2);
+          return `${absolute}${value < 0 ? negativeSuffix : positiveSuffix}`;
+        }
 
-          const constellations = data.constellations
-            .map((constellation) => {
-              const isHighlight = constellation.name === data.highlight;
-              const lines = constellation.lines
-                .map((line) => (
-                  `<line class="constellation-line" x1="${svgNumber(line.from.x)}" y1="${svgNumber(line.from.y)}" x2="${svgNumber(line.to.x)}" y2="${svgNumber(line.to.y)}"></line>`
-                ))
-                .join("");
-              const stars = constellation.stars
-                .map((star) => (
-                  `<circle class="constellation-star" cx="${svgNumber(star.x)}" cy="${svgNumber(star.y)}" r="${svgNumber(star.size)}"></circle>`
-                ))
-                .join("");
-              const label = showLabels
-                ? `<text class="constellation-label" x="${svgNumber(constellation.x)}" y="${svgNumber(constellation.y - 6)}">${escapeHtml(constellationLabel(messages, constellation.name))}</text>`
-                : "";
-              return `
-                <g class="constellation is-${escapeHtml(constellation.accent)}${isHighlight ? " is-highlight" : ""}">
-                  ${lines}
-                  ${stars}
-                  ${label}
-                </g>
-              `;
-            })
-            .join("");
+        function formatDateTime(date) {
+          return new Intl.DateTimeFormat(undefined, {
+            month: "short",
+            day: "numeric",
+            hour: "2-digit",
+            minute: "2-digit",
+          }).format(date);
+        }
 
-          svg.innerHTML = `${grid}${background}${constellations}`;
+        function timeFromSettings(settings) {
+          const mode = oneOf(settings.timeMode, ["now", "tonight", "custom"], defaults.timeMode);
+          if (mode === "now") {
+            return new Date();
+          }
+
+          const timeMatch = String(settings.customTime || defaults.customTime).match(/^(\d{1,2}):(\d{2})$/);
+          const hours = timeMatch ? Math.min(Number(timeMatch[1]), 23) : 22;
+          const minutes = timeMatch ? Math.min(Number(timeMatch[2]), 59) : 0;
+          const date = mode === "custom" && /^\d{4}-\d{2}-\d{2}$/.test(settings.customDate || "")
+            ? new Date(`${settings.customDate}T00:00:00`)
+            : new Date();
+
+          date.setHours(hours, minutes, 0, 0);
+          return date;
+        }
+
+        async function loadJson(path) {
+          const response = await fetch(path);
+          if (!response.ok) {
+            throw new Error(`Could not load ${path}: ${response.status}`);
+          }
+          return response.json();
+        }
+
+        function applyVirtualSkyPalette(sky) {
+          const foreground = cssVariable("--pp-fg") || "rgb(255,255,255)";
+          const muted = cssVariable("--pp-muted") || foreground;
+          const accent = cssVariable("--pp-accent") || foreground;
+          sky.col.txt = foreground;
+          sky.col.stars = foreground;
+          sky.col.cardinal = foreground;
+          sky.col.constellation = accent;
+          sky.col.constellationboundary = muted;
+          sky.col.galaxy = "rgba(94,179,255,0.72)";
+          sky.col.az = "rgba(255,255,255,0.28)";
+          sky.col.eq = "rgba(247,207,40,0.32)";
+          sky.col.gal = "rgba(94,179,255,0.32)";
+          sky.col.grey = muted;
+          sky.col.sun = "#f7cf28";
+          sky.col.moon = foreground;
+        }
+
+        function addDeepStars(sky, stars) {
+          if (!stars || !Array.isArray(stars.stars)) {
+            return;
+          }
+
+          sky.stars = sky.stars.concat(sky.convertStarsToRadians(stars.stars));
+          sky.starsdeep = true;
+          sky.lookup.star = sky.stars.map((star) => ({
+            ra: star[2],
+            dec: star[3],
+            label: star[0],
+            mag: star[1],
+          }));
+        }
+
+        function renderInfo({ messages, settings, skyTime, projection }) {
+          const latitude = numberSetting(settings.latitude, defaults.latitude, -90, 90);
+          const longitude = numberSetting(settings.longitude, defaults.longitude, -180, 180);
+          const direction = numberSetting(settings.direction, defaults.direction, 0, 359);
+          const magnitude = numberSetting(settings.magnitude, defaults.magnitude, 1, 6.5);
+          const mode = oneOf(settings.timeMode, ["now", "tonight", "custom"], defaults.timeMode);
+
+          document.querySelector("#kicker").textContent = message(messages, "kicker", "Constellations");
+          document.querySelector("#title").textContent = message(messages, "title", "Constellations in the Sky");
+          document.querySelector("#subtitle").textContent = message(messages, "subtitle", "Location-aware sky map from real star positions");
+          document.querySelector("#viewLabel").textContent = message(messages, "viewLabel", "View");
+          const localizedProjection = messages.projections && typeof messages.projections[projection] === "string"
+            ? messages.projections[projection]
+            : projectionLabels[projection] || projection;
+          document.querySelector("#viewValue").textContent =
+            `${localizedProjection} ${Math.round(direction)}°`;
+          document.querySelector("#viewNote").textContent = message(
+            messages,
+            "viewNote",
+            `Stars to magnitude ${magnitude.toFixed(1)} with constellation lines from VirtualSky.`
+          );
+          document.querySelector("#locationLabel").textContent = message(messages, "locationLabel", "Location");
+          document.querySelector("#locationValue").textContent =
+            `${formatCoordinate(latitude, "N", "S")} ${formatCoordinate(longitude, "E", "W")}`;
+          document.querySelector("#timeLabel").textContent = message(messages, "timeLabel", "Time");
+          document.querySelector("#timeValue").textContent =
+            mode === "now" ? message(messages, "now", "Now") : formatDateTime(skyTime);
+          document.querySelector("#legendText").textContent = message(messages, "legendText", "Constellation lines");
+          document.querySelector("#apiLabel").textContent = message(messages, "apiLabel", "Engine");
+          document.querySelector("#apiValue").textContent = message(messages, "apiValue", "VirtualSky local catalogue");
         }
 
         try {
@@ -480,51 +462,83 @@
           const settings = mergeSettings(defaults, getSettings(payload), getQuerySettings());
           applyColorTheme(settings.color, { defaultTheme: defaults.color });
 
-          const url = new URL("./api/data", window.location.href);
-          url.searchParams.set("hemisphere", settings.hemisphere);
-          url.searchParams.set("season", settings.season);
-          url.searchParams.set("highlight", settings.highlight);
-          url.searchParams.set("density", settings.density);
-
-          const response = await fetch(url);
-          if (!response.ok) {
-            throw new Error(`Sky data request failed with ${response.status}`);
+          if (!window.S || typeof window.S.virtualsky !== "function") {
+            throw new Error("VirtualSky failed to load.");
           }
 
-          const data = await response.json();
-          const highlighted = data.constellations.find((item) => item.name === data.highlight);
-          const highlightName = highlighted
-            ? constellationLabel(messages, highlighted.name)
-            : message(messages, "none", "None");
+          const latitude = numberSetting(settings.latitude, defaults.latitude, -90, 90);
+          const longitude = numberSetting(settings.longitude, defaults.longitude, -180, 180);
+          const direction = numberSetting(settings.direction, defaults.direction, 0, 359);
+          const magnitude = numberSetting(settings.magnitude, defaults.magnitude, 1, 6.5);
+          const projection = oneOf(
+            settings.projection,
+            ["stereo", "polar", "lambert", "ortho", "mollweide", "planechart"],
+            defaults.projection
+          );
+          const skyTime = timeFromSettings(settings);
 
-          document.querySelector("#kicker").textContent = message(messages, "kicker", "Constellations");
-          document.querySelector("#title").textContent = message(messages, "title", "Constellations in the Sky");
-          document.querySelector("#subtitle").textContent = message(messages, "subtitle", "Seasonal sky patterns for an eInk night map");
-          document.querySelector("#highlightLabel").textContent = message(messages, "highlightLabel", "Highlighted");
-          document.querySelector("#highlightName").textContent = highlightName;
-          document.querySelector("#highlightNote").textContent = highlighted
-            ? localizedNote(messages, highlighted.name, highlighted.note)
-            : message(messages, "noHighlightNote", "No constellation is highlighted.");
-          document.querySelector("#seasonLabel").textContent = message(messages, "seasonLabel", "Season");
-          document.querySelector("#seasonValue").textContent =
-            (messages.seasons && messages.seasons[data.season]) || seasonLabels[data.season] || data.season;
-          document.querySelector("#hemisphereLabel").textContent = message(messages, "hemisphereLabel", "Sky");
-          document.querySelector("#hemisphereValue").textContent =
-            (messages.hemispheres && messages.hemispheres[data.hemisphere]) || hemisphereLabels[data.hemisphere] || data.hemisphere;
-          document.querySelector("#legendText").textContent = message(messages, "legendText", "Highlight path");
-          document.querySelector("#apiLabel").textContent = message(messages, "apiLabel", "API");
-          document.querySelector("#apiValue").textContent = message(messages, "apiValue", data.source);
+          const [lines, boundaries, galaxy, stars] = await Promise.all([
+            loadJson("./assets/virtualsky/lines_latin.json"),
+            loadJson("./assets/virtualsky/boundaries.json"),
+            loadJson("./assets/virtualsky/galaxy.json"),
+            loadJson("./assets/virtualsky/stars.json"),
+          ]);
 
-          renderSky({
-            data,
-            messages,
-            showLabels: boolSetting(settings.showLabels),
-            showMilkyWay: boolSetting(settings.showMilkyWay),
+          renderInfo({ messages, settings, skyTime, projection });
+
+          const stage = document.querySelector("#skyStage");
+          const sky = window.S.virtualsky({
+            id: "virtualSky",
+            projection,
+            latitude,
+            longitude,
+            clock: skyTime,
+            az: direction,
+            magnitude,
+            constellations: true,
+            constellationlabels: boolSetting(settings.showLabels),
+            constellationboundaries: boolSetting(settings.showBoundaries),
+            constellationwidth: 1.35,
+            constellationboundarieswidth: 0.8,
+            lines: lines.lines,
+            boundaries: boundaries.boundaries,
+            showgalaxy: boolSetting(settings.showMilkyWay),
+            galaxy: galaxy.galaxy,
+            galaxywidth: 1.15,
+            showstars: true,
+            showstarlabels: false,
+            showplanets: boolSetting(settings.showPlanets),
+            showplanetlabels: boolSetting(settings.showPlanets),
+            showdate: false,
+            showposition: false,
+            cardinalpoints: true,
+            gridlines_az: boolSetting(settings.showGrid),
+            gridlines_eq: false,
+            gridlines_gal: false,
+            gridstep: 30,
+            gridlineswidth: 0.7,
+            gradient: false,
+            ground: true,
+            transparent: true,
+            keyboard: false,
+            mouse: false,
+            credit: false,
+            lang: payload.meta?.language === "de" ? "de" : "en",
+            width: Math.max(1, stage.clientWidth),
+            height: Math.max(1, stage.clientHeight),
           });
+
+          addDeepStars(sky, stars);
+          applyVirtualSkyPalette(sky);
+          sky.resize(Math.max(1, stage.clientWidth), Math.max(1, stage.clientHeight));
+          sky.draw();
 
           await document.fonts?.ready;
           fitAllText();
           fitToScreen(document.querySelector("#shell"));
+          sky.resize(Math.max(1, stage.clientWidth), Math.max(1, stage.clientHeight));
+          sky.draw();
+          await new Promise((resolve) => window.requestAnimationFrame(resolve));
           markReady();
         } catch (error) {
           markError(error);
