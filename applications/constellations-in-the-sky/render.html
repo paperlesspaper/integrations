@@ -27,24 +27,15 @@
         min-width: 0;
         min-height: 0;
         overflow: hidden;
-        background: #111;
-        color: #fff;
+        background: var(--pp-bg);
+        color: var(--pp-fg);
       }
 
       .sky-stage::before {
         content: "";
         position: absolute;
         inset: 0;
-        background:
-          linear-gradient(135deg, transparent 0 37%, rgba(247, 207, 40, 0.18) 38% 45%, transparent 46% 100%),
-          radial-gradient(circle at 74% 20%, rgba(232, 61, 53, 0.22), transparent 26%),
-          #111;
-      }
-
-      .sky-stage.no-milky-way::before {
-        background:
-          radial-gradient(circle at 74% 20%, rgba(232, 61, 53, 0.18), transparent 25%),
-          #111;
+        background: transparent;
       }
 
       .sky-map {
@@ -71,26 +62,26 @@
       }
 
       .background-star {
-        fill: #fff;
+        fill: var(--pp-fg);
       }
 
       .constellation-line {
-        stroke: #fff;
+        stroke: var(--pp-fg);
         stroke-width: 0.55;
         stroke-linecap: round;
         opacity: 0.74;
       }
 
       .constellation-star {
-        fill: #fff;
-        stroke: #111;
+        fill: var(--pp-fg);
+        stroke: var(--pp-bg);
         stroke-width: 0.2;
       }
 
       .constellation-label {
-        fill: #fff;
+        fill: var(--pp-fg);
         paint-order: stroke;
-        stroke: #111;
+        stroke: var(--pp-bg);
         stroke-width: 0.85;
         font-size: 3.1px;
         font-weight: 900;
@@ -107,7 +98,7 @@
 
       .constellation.is-highlight .constellation-star {
         fill: #f7cf28;
-        stroke: #111;
+        stroke: var(--pp-bg);
         stroke-width: 0.28;
       }
 
