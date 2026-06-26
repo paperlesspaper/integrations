@@ -13,6 +13,17 @@
   "groupStegosaur": "Stegosaurier",
   "groupSauropod": "Sauropode",
   "groupDromaeosaur": "Dromaeosaurier",
+  "groupAnkylosaur": "Ankylosaurier",
+  "groupHadrosaur": "Hadrosaurier",
+  "groupOrnithopod": "Ornithopode",
+  "groupPachycephalosaur": "Pachycephalosaurier",
+  "groupTherizinosaur": "Therizinosaurier",
+  "groupOrnithomimosaur": "Ornithomimosaurier",
+  "groupOviraptorosaur": "Oviraptorosaurier",
+  "groupTitanosaur": "Titanosaurier",
+  "groupAvialan": "Avialer",
+  "groupNodosaur": "Nodosaurier",
+  "groupSpinosaurid": "Spinosauride",
   "signature": "Silhouettenmerkmal",
   "errorTitle": "Dinosaurier konnte nicht geladen werden"
 }

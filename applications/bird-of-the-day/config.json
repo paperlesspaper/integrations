@@ -74,7 +74,7 @@
       "region": {
         "type": "string",
         "title": "Region",
-        "enum": ["any", "europe", "americas", "asia", "oceanic", "worldwide"],
+        "enum": ["any", "europe", "americas", "asia", "africa", "oceanic", "worldwide"],
         "default": "any"
       },
       "habitat": {
@@ -86,7 +86,7 @@
       "birdId": {
         "type": "string",
         "title": "Pinned bird",
-        "description": "Optional bird slug, for example barn-swallow, atlantic-puffin, common-kingfisher, snowy-owl, red-crowned-crane, snowy-albatross, european-robin, common-raven, or ruby-throated-hummingbird.",
+        "description": "Optional bird slug, for example barn-swallow, bald-eagle, common-ostrich, harpy-eagle, blue-jay, mute-swan, white-stork, or american-white-pelican.",
         "default": ""
       },
       "seed": {

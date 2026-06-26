@@ -1,7 +1,7 @@
 {
   "name": "Dinosaur of the Day",
   "version": "0.1.0",
-  "description": "Shows one deterministic daily dinosaur with display-friendly silhouette artwork and compact Wikipedia-sourced facts.",
+  "description": "Shows one deterministic daily dinosaur with display-friendly CAD-like artwork and compact Wikipedia-sourced facts.",
   "renderPage": "./render.html",
   "icon": "./assets/icon.png",
   "nativeSettings": {
@@ -56,13 +56,13 @@
       "group": {
         "type": "string",
         "title": "Dinosaur group",
-        "enum": ["any", "theropod", "ceratopsian", "stegosaur", "sauropod", "dromaeosaur"],
+        "enum": ["any", "theropod", "ceratopsian", "stegosaur", "sauropod", "dromaeosaur", "ankylosaur", "hadrosaur", "ornithopod", "pachycephalosaur", "therizinosaur", "ornithomimosaur", "oviraptorosaur", "titanosaur", "avialan", "nodosaur", "spinosaurid"],
         "default": "any"
       },
       "dinosaurId": {
         "type": "string",
         "title": "Pinned dinosaur",
-        "description": "Optional dinosaur slug, for example tyrannosaurus-rex, triceratops, stegosaurus, brachiosaurus, velociraptor, or spinosaurus.",
+        "description": "Optional dinosaur slug, for example tyrannosaurus-rex, triceratops, stegosaurus, brachiosaurus, velociraptor, spinosaurus, ankylosaurus, parasaurolophus, allosaurus, diplodocus, iguanodon, pachycephalosaurus, carnotaurus, therizinosaurus, dilophosaurus, gallimimus, apatosaurus, ceratosaurus, deinonychus, edmontosaurus, oviraptor, protoceratops, utahraptor, argentinosaurus, archaeopteryx, compsognathus, corythosaurus, giganotosaurus, kentrosaurus, sauropelta, styracosaurus, or suchomimus.",
         "default": ""
       },
       "seed": {

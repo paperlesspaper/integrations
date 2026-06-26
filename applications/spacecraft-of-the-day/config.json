@@ -1,0 +1,156 @@
+{
+  "name": "Spacecraft of the Day",
+  "version": "0.1.0",
+  "description": "Shows one deterministic daily spacecraft with an upright technical illustration and compact mission facts.",
+  "renderPage": "./render.html",
+  "icon": "./assets/icon.png",
+  "nativeSettings": {
+    "color": "light",
+    "vehicleType": "any",
+    "era": "any",
+    "spacecraftId": "",
+    "seed": "",
+    "showMission": true,
+    "showLaunchDate": true,
+    "showAgency": true,
+    "showDestination": true,
+    "showMass": true,
+    "showPowerSource": true,
+    "showOutcome": true,
+    "showVehicleType": false,
+    "showCountry": false,
+    "showLaunchVehicle": false,
+    "showOperationalLife": false,
+    "showSource": false
+  },
+  "configVariants": [
+    {
+      "color": "light",
+      "vehicleType": "any",
+      "era": "any",
+      "spacecraftId": "",
+      "seed": "",
+      "showMission": true,
+      "showLaunchDate": true,
+      "showAgency": true,
+      "showDestination": true,
+      "showMass": true,
+      "showPowerSource": true,
+      "showOutcome": true,
+      "showVehicleType": false,
+      "showCountry": false,
+      "showLaunchVehicle": false,
+      "showOperationalLife": false,
+      "showSource": false
+    },
+    {
+      "color": "dark",
+      "vehicleType": "probe",
+      "era": "modern",
+      "spacecraftId": "james-webb-space-telescope",
+      "seed": "paperlesspaper",
+      "showMission": true,
+      "showLaunchDate": true,
+      "showAgency": true,
+      "showDestination": true,
+      "showMass": true,
+      "showPowerSource": true,
+      "showOutcome": true,
+      "showVehicleType": true,
+      "showCountry": false,
+      "showLaunchVehicle": false,
+      "showOperationalLife": false,
+      "showSource": false
+    }
+  ],
+  "formSchema": {
+    "type": "object",
+    "properties": {
+      "vehicleType": {
+        "type": "string",
+        "title": "Vehicle type",
+        "enum": ["any", "satellite", "probe", "capsule", "rocket", "lander", "telescope", "orbiter"],
+        "default": "any"
+      },
+      "era": {
+        "type": "string",
+        "title": "Era",
+        "enum": ["any", "historic", "modern"],
+        "default": "any"
+      },
+      "spacecraftId": {
+        "type": "string",
+        "title": "Pinned spacecraft",
+        "description": "Optional spacecraft slug, for example sputnik-1, apollo-command-module, apollo-lunar-module-eagle, saturn-v, viking-1-lander, voyager-1, mariner-10, pioneer-10, skylab, soyuz-ms, mir, space-shuttle-discovery, ariane-5-eca, hubble-space-telescope, chandra-x-ray-observatory, cassini-huygens, rosetta-philae, magellan, galileo-orbiter, mars-pathfinder, near-shoemaker, dawn, ulysses, stardust, deep-impact, messenger, kepler-space-telescope, spitzer-space-telescope, hayabusa2, osiris-rex, bepicolombo, parker-solar-probe, crew-dragon-endeavour, perseverance-rover, or james-webb-space-telescope.",
+        "default": ""
+      },
+      "seed": {
+        "type": "string",
+        "title": "Rotation seed",
+        "description": "Optional text that creates a different daily spacecraft rotation.",
+        "default": ""
+      },
+      "showMission": {
+        "type": "boolean",
+        "title": "Show mission",
+        "default": true
+      },
+      "showLaunchDate": {
+        "type": "boolean",
+        "title": "Show launch date",
+        "default": true
+      },
+      "showAgency": {
+        "type": "boolean",
+        "title": "Show agency",
+        "default": true
+      },
+      "showDestination": {
+        "type": "boolean",
+        "title": "Show destination",
+        "default": true
+      },
+      "showMass": {
+        "type": "boolean",
+        "title": "Show mass",
+        "default": true
+      },
+      "showPowerSource": {
+        "type": "boolean",
+        "title": "Show power source",
+        "default": true
+      },
+      "showOutcome": {
+        "type": "boolean",
+        "title": "Show outcome",
+        "default": true
+      },
+      "showVehicleType": {
+        "type": "boolean",
+        "title": "Show vehicle type",
+        "default": false
+      },
+      "showCountry": {
+        "type": "boolean",
+        "title": "Show country",
+        "default": false
+      },
+      "showLaunchVehicle": {
+        "type": "boolean",
+        "title": "Show launch vehicle",
+        "default": false
+      },
+      "showOperationalLife": {
+        "type": "boolean",
+        "title": "Show operational life",
+        "default": false
+      },
+      "showSource": {
+        "type": "boolean",
+        "title": "Show source",
+        "default": false
+      }
+    }
+  },
+  "language": ["en", "de"]
+}

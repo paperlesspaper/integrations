@@ -88,5 +88,305 @@
     "migration": "Langstreckenzieher, auch mit Ueberquerungen des Golfs von Mexiko",
     "nesting": "Winziges Napfnest aus Spinnenseide auf einem Ast",
     "signature": "Die Kehle des Maennchens kann rubinrot aufblitzen oder fast schwarz wirken, je nachdem wie das Licht die irisierenden Federn trifft."
+  },
+  "bald-eagle": {
+    "name": "Weisskopfseeadler",
+    "range": "Nordamerika, besonders an Kuesten, Seen, Fluessen und Feuchtgebieten",
+    "call": "Duenne, hohe Pfeif- und Zwitscherlaute",
+    "diet": "Vor allem Fische, dazu Voegel, Saeugetiere, Aas und erbeutete Beute",
+    "conservationStatus": "Nicht gefaehrdet",
+    "migration": "Teilzieher; noerdliche Voegel ziehen suedwaerts, wenn Gewaesser zufrieren",
+    "nesting": "Riesige Reisignester in grossen Baeumen, an Klippen oder anderen hohen Plaetzen",
+    "signature": "Weisser Kopf, gelber Schnabel und breite dunkle Fluegel machen diesen Fischadler zu einer klaren Silhouette Nordamerikas."
+  },
+  "greater-flamingo": {
+    "name": "Rosaflamingo",
+    "range": "Afrika, Suedeuropa, Naher Osten und Suedasien in flachen Feuchtgebieten",
+    "call": "Gaenseartiges Hupen und nasale Schwarmrufe",
+    "diet": "Kleine Organismen, die aus Wasser und Schlamm gefiltert werden, darunter Krebstiere und Algen",
+    "conservationStatus": "Nicht gefaehrdet",
+    "migration": "Nomadisch oder Teilzieher, je nach Wasserstand und Nahrung",
+    "nesting": "Kegelfoermiger Schlammhuegel als Nest in Kolonien im Flachwasser",
+    "signature": "Der blassrosa Koerper, der schwarzspitzige Schnabel und die langen Beine machen Feuchtgebiete zur grafischen Linienzeichnung."
+  },
+  "emperor-penguin": {
+    "name": "Kaiserpinguin",
+    "range": "Antarktisches Meereis und umliegende Gewaesser des Suedlichen Ozeans",
+    "call": "Trompetende und iahende Rufe zur Erkennung von Partner und Kueken",
+    "diet": "Fische, Krill und Tintenfische, erbeutet bei tiefen Tauchgaengen",
+    "conservationStatus": "Stark gefaehrdet",
+    "migration": "Saisonale Bewegungen zwischen Brutkolonien und Nahrungsgebieten",
+    "nesting": "Kein Nest; das Ei wird auf den Fuessen unter einer Brutfalte gewaermt",
+    "signature": "Der groesste Pinguin uebersteht den antarktischen Winter, indem er ein einzelnes Ei ueber dem Eis balanciert."
+  },
+  "keel-billed-toucan": {
+    "name": "Fischertukan",
+    "range": "Tropische Waelder von Suedmexiko ueber Mittelamerika bis Kolumbien und Venezuela",
+    "call": "Froschartiges Kraechzen und jaulende Rufe",
+    "diet": "Vor allem Fruechte, dazu Insekten, Eier, Nestlinge und kleine Wirbeltiere",
+    "conservationStatus": "Potenziell gefaehrdet",
+    "migration": "Standvogel mit lokalen Bewegungen nach Nahrungsangebot",
+    "nesting": "Baumhoehlen, oft alte Spechthoehlen",
+    "signature": "Der Regenbogenschnabel wirkt uebergross, doch seine leichte Struktur hilft, Fruechte ausser Reichweite der Fuesse zu erreichen."
+  },
+  "great-hornbill": {
+    "name": "Doppelhornvogel",
+    "range": "Indischer Subkontinent und Suedostasien in reifen immergruenen und feuchten Waeldern",
+    "call": "Laute Kok-Rufe, Brullen und Bellen in weit tragenden Duetten",
+    "diet": "Vor allem Fruechte, besonders Feigen, dazu kleine Saeugetiere, Voegel, Reptilien und Insekten",
+    "conservationStatus": "Gefaerdet",
+    "migration": "Meist standorttreu, mit taeglichen Fluegen zwischen Nahrung und Schlafplaetzen",
+    "nesting": "Das Weibchen mauert sich waehrend der Brut in eine grosse Baumhoehle ein",
+    "signature": "Ein massiver gelber Helm ueber dem Schnabel laesst diesen Regenwaldvogel im Profil fast zeremoniell wirken."
+  },
+  "secretarybird": {
+    "name": "Sekretaer",
+    "range": "Grasland, Savannen und offene Ebenen suedlich der Sahara",
+    "call": "Meist stumm; kraechzende Balzrufe und Schnabelklappern am Nest",
+    "diet": "Insekten, kleine Saeugetiere, Reptilien, Voegel, Eier und Schlangen",
+    "conservationStatus": "Stark gefaehrdet",
+    "migration": "Meist standorttreu oder nomadisch mit lokalen Bewegungen nach Regen",
+    "nesting": "Grosses Reisignest in einem flachkronigen Dornbaum oder anderen niedrigen Baum",
+    "signature": "Lange Beine, Federkiele am Kopf und ein hakenfoermiger Raubvogelschnabel ergeben eine Silhouette wie bei keinem anderen Vogel."
+  },
+  "scarlet-macaw": {
+    "name": "Hellroter Ara",
+    "range": "Suedostmexiko ueber Mittelamerika bis ins noerdliche Suedamerika und Amazonasbecken",
+    "call": "Laute kehlig-kraechzende Rufe, Quietschen, Schreie und raue Hupflaute",
+    "diet": "Fruechte, Nuesse, Samen, Blueten, Nektar und gelegentlich Insekten oder Schnecken",
+    "conservationStatus": "Nicht gefaehrdet",
+    "migration": "Meist standorttreu; kein regelmaessiger Zug beschrieben",
+    "nesting": "Grosse Baumhoehle, meist mit zwei bis drei Eiern",
+    "signature": "Ein grosser scharlachroter, gelber und blauer Tropenpapagei, dessen Rufe weit durch die Regenwaldkronen tragen."
+  },
+  "eurasian-hoopoe": {
+    "name": "Wiedehopf",
+    "range": "Europa, Asien, Nordafrika und noerdliches Subsahara-Afrika",
+    "call": "Weiches oop-oop-oop, dazu raue Kraechz- und Zischlaute",
+    "diet": "Vor allem Insekten, dazu kleine Reptilien, Froesche, Samen und Beeren",
+    "conservationStatus": "Nicht gefaehrdet",
+    "migration": "Europaeische und nordasiatische Voegel ziehen nach Sueden; viele afrikanische Voegel bleiben standorttreu",
+    "nesting": "Hoehle in Baum, Mauer, Felswand, Nistkasten, Heuhaufen oder Bau",
+    "signature": "Ein zimtfarbener Vogel offener Landschaften, beruehmt fuer seinen schmetterlingsartigen Flug und den weichen Dreitonruf."
+  },
+  "victoria-crowned-pigeon": {
+    "name": "Faechertaube",
+    "range": "Tiefland- und Sumpfwaelder im Norden Neuguineas und auf nahen Inseln",
+    "call": "Tiefe hupende Rufe und leise Kontaktrufe",
+    "diet": "Fallobst, Samen und gelegentlich Wirbellose",
+    "conservationStatus": "Potenziell gefaehrdet",
+    "migration": "Standvogel; kein regelmaessiger Zug beschrieben",
+    "nesting": "Ein weisses Ei in einem Baumnest aus Staengeln, Zweigen und Palmwedeln",
+    "signature": "Eine riesige blau-graue Bodentaube mit spitzenartiger Haube und resonantem Hupfruf."
+  },
+  "roseate-spoonbill": {
+    "name": "Rosaloeffler",
+    "range": "Golfkueste, Karibik, Mittelamerika und Suedamerika meist oestlich der Anden",
+    "call": "Im Wikipedia-Artikel nicht aufgefuehrt",
+    "diet": "Krebstiere, Wasserinsekten, Weichtiere, Froesche, Molche, kleine Fische und Samen",
+    "conservationStatus": "Nicht gefaehrdet",
+    "migration": "Meist Standvogel, mit Nichtbrutzeit-Bewegungen in Teilen des Verbreitungsgebiets",
+    "nesting": "Straeucher oder Baeume, oft Mangroven, mit zwei bis fuenf Eiern",
+    "signature": "Ein rosafarbener Watvogel, der seinen loeffelfoermigen Schnabel durch flaches Wasser schwenkt."
+  },
+  "northern-cardinal": {
+    "name": "Rotkardinal",
+    "range": "Suedostkanada, oestliche und zentrale USA, Mexiko, Belize und Guatemala",
+    "call": "Klare Pfeifgesaenge und ein scharfer metallischer Chip-Ruf",
+    "diet": "Vor allem Samen, Koerner und Fruechte, dazu Insekten und Schnecken",
+    "conservationStatus": "Nicht gefaehrdet",
+    "migration": "Nicht ziehend im ganzjaehrigen Verbreitungsgebiet",
+    "nesting": "Napfnest in dichtem Gebuesch oder niedrigen Baeumen, meist ein bis drei Meter hoch",
+    "signature": "Ein vertrauter rotgehaubter Singvogel aus Gaerten, Gebueschen und Wohngebietsraendern."
+  },
+  "resplendent-quetzal": {
+    "name": "Quetzal",
+    "range": "Nebelwaelder von Suedmexiko bis Westpanama",
+    "call": "Volltoenende, weiche, verschliffene Rufe wie keow und kowee",
+    "diet": "Vor allem Lorbeerfruechte, dazu Insekten, Echsen, Froesche und Schnecken",
+    "conservationStatus": "Potenziell gefaehrdet",
+    "migration": "Hoehenwanderer innerhalb montaner Waelder",
+    "nesting": "Hoehle in morschen Baeumen oder alte Spechthoehlen",
+    "signature": "Ein Trogon der Nebelwaelder mit irisierend gruenem Gefieder und aussergewoehnlich langen Schwanzdecken des Maennchens."
+  },
+  "shoebill": {
+    "name": "Schuhschnabel",
+    "range": "Suesswassersuempfe im zentralen tropischen Afrika",
+    "call": "Meist stumm; Schnabelklappern am Nest, dazu Muhen, Winseln, Kraechzen und Bettelrufe",
+    "diet": "Vor allem Fische, dazu Froesche, Wasserschlangen, Warane, junge Krokodile und andere Sumpfbeute",
+    "conservationStatus": "Gefaerdet",
+    "migration": "Nicht ziehend, mit begrenzten saisonalen Bewegungen je nach Wasserstand und Nahrung",
+    "nesting": "Grosse schwimmende Plattform aus Wasserpflanzen, meist mit ein bis drei Eiern",
+    "signature": "Ein regloser Sumpfjaeger mit riesigem schuhfoermigem Schnabel fuer Lungenfische und Welse."
+  },
+  "kakapo": {
+    "name": "Kakapo",
+    "range": "Endemisch in Neuseeland; heute vor allem auf raubtierfreien Inseln betreut",
+    "call": "Tiefe Boom-Rufe und metallische Ching-Laute der Maennchen an Balzplaetzen",
+    "diet": "Rein pflanzlich: Fruechte, Samen, Blaetter, Staengel und Rhizome",
+    "conservationStatus": "Vom Aussterben bedroht",
+    "migration": "Nicht ziehend; flugunfaehig und meist laufend zwischen Revieren und Balzplaetzen",
+    "nesting": "Bodennest unter Pflanzen oder in Hoehlen; Weibchen legt ein bis vier Eier",
+    "signature": "Der einzige flugunfaehige Papagei der Welt macht moosgruene Tarnung und naechtliches Boomen zum Naturschutzsymbol."
+  },
+  "andean-condor": {
+    "name": "Andenkondor",
+    "range": "Anden und angrenzende Pazifikkuesten im westlichen Suedamerika",
+    "call": "Zischen, Zungenklicken und Glucksen waehrend der Balz",
+    "diet": "Vor allem Aas, besonders grosse Kadaver und angeschwemmte Meeressaeuger",
+    "conservationStatus": "Gefaerdet",
+    "migration": "Kein regelmaessiger Zug; streift weit auf der Suche nach Aas",
+    "nesting": "Karges Nest auf unzugaenglichen Felsbaendern oder Kliffspalten, meist mit einem Ei",
+    "signature": "Ein Segler der Hochanden, dessen gewaltige Fluegel Gebirge fast ohne Fluegelschlag queren."
+  },
+  "superb-lyrebird": {
+    "name": "Prachtleierschwanz",
+    "range": "Waelder im Suedosten Australiens, mit eingefuehrter Population auf Tasmanien",
+    "call": "Aufwendiger Gesang und sehr genaue Nachahmung anderer Arten",
+    "diet": "Wirbellose des Waldbodens wie Regenwuermer und Insekten, dazu Pilze",
+    "conservationStatus": "Nicht gefaehrdet",
+    "migration": "Standvogel und wenig mobil, oft lebenslang im selben Gebiet",
+    "nesting": "Grosses kuppelfoermiges Reisignest auf erhoehter Erdplattform, meist mit einem Ei",
+    "signature": "Ein Waldboden-Singvogel, dessen leierfoermiger Schwanz und erstaunliche Nachahmung Balz zur Buehne machen."
+  },
+  "mandarin-duck": {
+    "name": "Mandarinente",
+    "range": "Heimisch in Ost- und Nordostasien, mit eingefuehrten Populationen in Europa und Nordamerika",
+    "call": "Im Wikipedia-Artikel nicht aufgefuehrt",
+    "diet": "Pflanzen, Samen, Eicheln, Bucheckern, Schnecken, Insekten und kleine Fische",
+    "conservationStatus": "Nicht gefaehrdet",
+    "migration": "Asiatische Populationen ziehen ins oestliche China und suedliche Japan",
+    "nesting": "Baumhoehlen in Wassernaehe, meist mit neun bis zwoelf Eiern",
+    "signature": "Eine kleine Baumente, deren maennliches Prachtkleid auf Waldteichen fast gemalt wirkt."
+  },
+  "southern-cassowary": {
+    "name": "Helmkasuar",
+    "range": "Indonesien, Papua-Neuguinea und Nordostaustralien, vor allem tropischer Regenwald",
+    "call": "Donnernde Rufe in der Paarungszeit, sonst Zischen und dumpfes Grollen",
+    "diet": "Fallobst und Samen, dazu Pilze, Insekten, kleine Wirbeltiere, Eier und Aas",
+    "conservationStatus": "Nicht gefaehrdet",
+    "migration": "Kein regelmaessiger Zug; ausserhalb der Brutzeit einzelgaengerisch und standorttreu",
+    "nesting": "Vom Maennchen gebautes Bodennest; das Maennchen bruetet drei oder vier Eier und fuehrt die Kueken",
+    "signature": "Ein Regenwald-Laufvogel mit hornartigem Helm, leuchtenden Kehllappen und kraftvollen Beinen fuer dichten Tropenwald."
+  },
+  "common-ostrich": {
+    "name": "Afrikanischer Strauss",
+    "range": "In Teilen Afrikas heimisch; historisch auch in Arabien",
+    "call": "Boomende und zischende Rufe",
+    "diet": "Pflanzenmaterial, dazu Wirbellose und kleine Reptilien",
+    "conservationStatus": "Nicht gefaehrdet",
+    "migration": "Nomadisch, aber kein echter Zugvogel",
+    "nesting": "Gemeinschaftliches Bodennest, eine vom Maennchen gescharrte Mulde",
+    "signature": "Der groesste lebende Vogel der Welt ist fuer Tempo auf offenem afrikanischem Boden gebaut."
+  },
+  "indian-peafowl": {
+    "name": "Blauer Pfau",
+    "range": "Indischer Subkontinent, besonders Indien und Sri Lanka; eingefuehrte Populationen anderswo",
+    "call": "Laute pia-ow- und may-awe-Rufe, dazu Alarm- und Hupflaute",
+    "diet": "Allesfresser: Samen, Fruechte, Insekten, kleine Reptilien und Nahrung nahe Menschen",
+    "conservationStatus": "Nicht gefaehrdet",
+    "migration": "Standvogel",
+    "nesting": "Flache Bodenmulde, mit Blaettern und Zweigen ausgelegt",
+    "signature": "Ein Schausteller der Waldrandzonen, dessen schimmernde Schleppe Balz zur Buehne macht."
+  },
+  "harpy-eagle": {
+    "name": "Harpyie",
+    "range": "Von Suedmexiko ueber Mittelamerika bis Suedamerika nach Nordargentinien",
+    "call": "Abseits des Nests meist stumm; nahe am Nest schwache Schreie, Zwitschern und gaenseartige Rufe",
+    "diet": "Vor allem baumbewohnende Saeugetiere, besonders Faultiere und Affen, dazu andere Saeugetiere und Voegel",
+    "conservationStatus": "Gefaerdet",
+    "migration": "Meist standorttreu, mit moeglichen Bewegungen in einigen Atlantikwald-Nachweisen",
+    "nesting": "Grosses Nest hoch in herausragenden Regenwaldbauemen",
+    "signature": "Ein Spitzenraeuber des Regenwalds mit gewaltigen Krallen und erstaunlich wendigen Fluegeln."
+  },
+  "great-blue-heron": {
+    "name": "Kanadareiher",
+    "range": "Grosse Teile Nord- und Mittelamerikas, Karibik, Galapagos und aeusserster Nordwesten Suedamerikas",
+    "call": "Im Wikipedia-Artikel nicht knapp aufgefuehrt",
+    "diet": "Vor allem Fische, dazu Amphibien, Reptilien, Krebstiere, Insekten, Kleinsaeuger und Voegel",
+    "conservationStatus": "Nicht gefaehrdet",
+    "migration": "Teilzieher; noerdliche und oestliche Voegel ziehen oft suedwaerts",
+    "nesting": "Kolonien mit grossen Reisignestern in Baeumen oder Bueschen nahe Wasser",
+    "signature": "Ein geduldiger Jaeger der Feuchtgebiete, der Flachwasser mit speerartiger Praezision abschreitet."
+  },
+  "blue-jay": {
+    "name": "Blauhaeher",
+    "range": "Oestliches und zentrales Nordamerika, von Suedkanada bis in die oestlichen und zentralen USA",
+    "call": "Vielfaeltige Rufe, darunter laute Alarmschreie und Habicht-Nachahmungen",
+    "diet": "Samen, Eicheln, Fruechte, Gliederfuesser und gelegentlich kleine Wirbeltiere oder Nestinhalt",
+    "conservationStatus": "Nicht gefaehrdet",
+    "migration": "Teilzieher mit unregelmaessigem Zug",
+    "nesting": "Offenes Napfnest in Baumzweigen, von beiden Geschlechtern gebaut",
+    "signature": "Ein kluger, lauter Rabenvogel, dessen blaue Haube seine Stimmung verraten kann."
+  },
+  "rainbow-lorikeet": {
+    "name": "Allfarblori",
+    "range": "Ostaustralien, von Nordqueensland bis Suedaustralien",
+    "call": "Laute Schwaerme; keine genaue Rufumschreibung im Wikipedia-Artikel",
+    "diet": "Vor allem Fruechte, Pollen und Nektar, dazu Feldfruechte und Futterstellen",
+    "conservationStatus": "Nicht gefaehrdet",
+    "migration": "Meist standorttreu, mit lokalen Bewegungen",
+    "nesting": "Baumhoehlen, Palmstaemme, Felsueberhaenge und teils Erdloecher auf raubtierfreien Inselchen",
+    "signature": "Ein pinselzuengiger Papagei, wie gemalt fuer nektarreiche australische Waelder und Gaerten."
+  },
+  "mute-swan": {
+    "name": "Hoeckerschwan",
+    "range": "Heimisch in weiten Teilen Europas und Teilen Asiens; anderswo eingefuehrt",
+    "call": "Weniger ruffreudig als andere Schwaene; Fluegelschlaege sind ein auffaelliges Geraeusch",
+    "diet": "Vor allem Wasserpflanzen, dazu kleine Wassertiere",
+    "conservationStatus": "Nicht gefaehrdet",
+    "migration": "Westliche und zentrale Voegel oft standorttreu; oestliche und noerdliche ziehen im Winter suedwaerts",
+    "nesting": "Grosser Huegel aus Ufervegetation im Flachwasser oder an See- und Inselraendern",
+    "signature": "Ein schwerer weisser Wasservogel, dessen stille Praesenz von kraftvollen Fluegelschlaegen getragen wird."
+  },
+  "north-island-brown-kiwi": {
+    "name": "Nordstreifenkiwi",
+    "range": "Noerdliche zwei Drittel der neuseelaendischen Nordinsel sowie Insel- und Schutzgebietspopulationen",
+    "call": "Markante Pfeifrufe, einzeln oder im Duett",
+    "diet": "Vor allem Wirbellose wie Wuermer und Spinnen, dazu etwas Pflanzenmaterial",
+    "conservationStatus": "Gefaerdet",
+    "migration": "Nicht ziehender Standvogel",
+    "nesting": "Erdhoehlen, Felsspalten oder hohle Staemme und Wurzeln",
+    "signature": "Ein nachtaktiver Spezialist des Waldbodens, der den Boden mit Geruch und Tastsinn absucht."
+  },
+  "grey-crowned-crane": {
+    "name": "Grauhals-Kronenkranich",
+    "range": "Subsahara-Afrika, besonders Savannen, Marschen, Kulturland und Grasland nahe Wasser",
+    "call": "Droehnende Rufe mit aufgeblasenem rotem Kehlsack, dazu Hupen",
+    "diet": "Pflanzen, Samen, Getreide, Insekten, Froesche, Wuermer, Schlangen, kleine Fische und Wassereier",
+    "conservationStatus": "Stark gefaehrdet",
+    "migration": "Kein fester Zug; lokale saisonale Bewegungen in trockeneren Gebieten",
+    "nesting": "Grosse Plattform aus Gras und Pflanzen in hoher Feuchtgebietsvegetation",
+    "signature": "Ein goldgekroenter Savannenkranich, beruehmt fuer Tanz, Verbeugungen und droehnende Rufe."
+  },
+  "eurasian-eagle-owl": {
+    "name": "Uhu",
+    "range": "Weit ueber Eurasien verbreitet, von Europa ueber Russland, Zentralasien und Teile Asiens",
+    "call": "Tiefer territorialer Uhu-Ruf des Maennchens",
+    "diet": "Vielfaeltige Wirbeltierbeute, besonders Saeugetiere und Voegel",
+    "conservationStatus": "Nicht gefaehrdet",
+    "migration": "Standvogel",
+    "nesting": "Meist Fels- oder Kliffbaender, Bodenstellen oder alte Nester je nach Lebensraum",
+    "signature": "Eine der groessten Eulen der Welt, ein standorttreuer Nachtjaeger felsiger eurasischer Landschaften."
+  },
+  "white-stork": {
+    "name": "Weissstorch",
+    "range": "Bruetet in Europa, Nordwestafrika, Westasien und Suedafrika",
+    "call": "Lautes Schnabelklappern; Altvoegel sonst nur mit schwachem Zischen",
+    "diet": "Insekten, Regenwuermer, Amphibien, Reptilien, Fische, Kleinsaeuger, kleine Voegel und andere Beute",
+    "conservationStatus": "Nicht gefaehrdet",
+    "migration": "Langstreckenzieher auf oestlichen und westlichen Afrika-Europa-Routen",
+    "nesting": "Grosses wiederverwendetes Reisignest in Baeumen, auf Gebaeuden oder Plattformen nahe Menschen",
+    "signature": "Ein Langstreckenzieher, dessen Dachnester Ikonen europaeischer Agrarlandschaften sind."
+  },
+  "american-white-pelican": {
+    "name": "Nashornpelikan",
+    "range": "Bruetet im Binnenland Nordamerikas; ueberwintert suedlich bis an Kuesten und nach Costa Rica",
+    "call": "Im Wikipedia-Artikel nicht aufgefuehrt",
+    "diet": "Beim Schwimmen gefangene Fische, dazu Flusskrebse, Amphibien und Salamanderlarven",
+    "conservationStatus": "Nicht gefaehrdet",
+    "migration": "Zugvogel, mit Suedwaertszug bis September oder Oktober",
+    "nesting": "Kolonialer Bodenbrueter in flachen ausgescharrten Mulden mit Zweigen, Schilf und Resten",
+    "signature": "Ein riesiger Binnenland-Pelikan, der auf breiten weiss-schwarzen Fluegeln nach Sueden segelt."
   }
 }

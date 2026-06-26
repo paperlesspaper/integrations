@@ -54,5 +54,249 @@
     "nameMeaning": "Dornechse",
     "source": "Wikipedia: Spinosaurus",
     "signature": "Krokodilartige Schnauze und hohes Rückensegel geben ihm eine einzigartige Theropoden-Silhouette."
+  },
+  "ankylosaurus": {
+    "nickname": "Ankylosaurus magniventris",
+    "period": "Späte Kreide, 70-66 Mio. Jahre",
+    "diet": "Pflanzenfresser",
+    "fossilLocation": "Westliches Nordamerika",
+    "nameMeaning": "Versteifte Echse",
+    "source": "Wikipedia: Ankylosaurus",
+    "signature": "Niedrige Panzerplatten und eine schwere Schwanzkeule lassen ihn wie ein gepanzertes Fahrzeug wirken."
+  },
+  "parasaurolophus": {
+    "nickname": "Nahe Kamm-Echse",
+    "period": "Späte Kreide, 76,5-73 Mio. Jahre",
+    "length": "Über 9 m",
+    "diet": "Pflanzenfresser",
+    "fossilLocation": "Alberta, New Mexico, Utah",
+    "nameMeaning": "Nahe Kamm-Echse",
+    "source": "Wikipedia: Parasaurolophus",
+    "signature": "Der lange nach hinten gerichtete Röhrenkamm macht diesen Entenschnabel-Dinosaurier unverwechselbar."
+  },
+  "allosaurus": {
+    "nickname": "Allosaurus fragilis",
+    "period": "Später Jura, 155-143 Mio. Jahre",
+    "diet": "Fleischfresser",
+    "fossilLocation": "Morrison-Formation; Portugal",
+    "nameMeaning": "Andere Echse",
+    "source": "Wikipedia: Allosaurus",
+    "signature": "Ein ausgewogener Jäger mit Brauenkämmen, langen Armen und leichterem Körperbau als T. rex."
+  },
+  "diplodocus": {
+    "nickname": "Doppelbalken",
+    "period": "Später Jura, 152,07-149,1 Mio. Jahre",
+    "diet": "Pflanzenfresser",
+    "fossilLocation": "Morrison-Formation, Nordamerika",
+    "nameMeaning": "Doppelbalken",
+    "source": "Wikipedia: Diplodocus",
+    "signature": "Ein niedriger horizontaler Hals und eine peitschenartige Rute strecken ihn zu einer langen eleganten Linie."
+  },
+  "iguanodon": {
+    "nickname": "Iguanodon bernissartensis",
+    "period": "Frühe Kreide, 126-122 Mio. Jahre",
+    "diet": "Pflanzenfresser",
+    "fossilLocation": "Belgien, Deutschland, England, Spanien",
+    "nameMeaning": "Leguanzahn",
+    "source": "Wikipedia: Iguanodon",
+    "signature": "Daumenstachel und kräftiger Ornithopoden-Stand machen ihn zu einem Klassiker früher Dinosaurierfunde."
+  },
+  "pachycephalosaurus": {
+    "nickname": "Dickkopfechse",
+    "period": "Späte Kreide, 70-66 Mio. Jahre",
+    "length": "Etwa 4,5 m",
+    "diet": "Pflanzenfresser",
+    "fossilLocation": "Montana, South Dakota, Wyoming, Alberta",
+    "nameMeaning": "Dickkopfechse",
+    "source": "Wikipedia: Pachycephalosaurus",
+    "signature": "Ein gerundeter Kuppelschädel macht den kompakten Zweibeiner sofort erkennbar."
+  },
+  "carnotaurus": {
+    "nickname": "Carnotaurus sastrei",
+    "period": "Späte Kreide, 69-66 Mio. Jahre",
+    "diet": "Fleischfresser",
+    "fossilLocation": "Provinz Chubut, Argentinien",
+    "nameMeaning": "Fleischfressender Stier",
+    "source": "Wikipedia: Carnotaurus",
+    "signature": "Stierartige Brauenhörner und winzige Arme machen diesen südlichen Jäger sofort unterscheidbar."
+  },
+  "therizinosaurus": {
+    "nickname": "Therizinosaurus cheloniformis",
+    "period": "Späte Kreide, Maastrichtium",
+    "diet": "Pflanzenfresser",
+    "fossilLocation": "Nemegt-Formation, Mongolei",
+    "nameMeaning": "Sensenechse",
+    "source": "Wikipedia: Therizinosaurus",
+    "signature": "Riesige sichelartige Krallen und ein hoher befiederter Körper ergeben eine wunderbar seltsame Silhouette."
+  },
+  "dilophosaurus": {
+    "nickname": "Dilophosaurus wetherilli",
+    "period": "Früher Jura, 195,2-183,7 Mio. Jahre",
+    "length": "Etwa 7 m",
+    "diet": "Fleischfresser",
+    "fossilLocation": "Kayenta-Formation, Arizona",
+    "nameMeaning": "Zweikammechse",
+    "source": "Wikipedia: Dilophosaurus",
+    "signature": "Zwei Schädelkämme und lange Arme unterscheiden ihn von späteren schwereren Theropoden."
+  },
+  "gallimimus": {
+    "nickname": "Gallimimus bullatus",
+    "period": "Späte Kreide, Maastrichtium",
+    "length": "Etwa 6 m",
+    "diet": "Alles- oder Pflanzenfresser",
+    "fossilLocation": "Nemegt-Formation, Mongolei",
+    "nameMeaning": "Hühnernachahmer",
+    "source": "Wikipedia: Gallimimus",
+    "signature": "Lange Beine, kleiner Kopf und straußenartiger Körperbau wirken wie für Geschwindigkeit gemacht."
+  },
+  "apatosaurus": {
+    "nickname": "Trügerische Echse",
+    "period": "Später Jura, 152-151 Mio. Jahre",
+    "diet": "Pflanzenfresser",
+    "fossilLocation": "Morrison-Formation, westliche USA",
+    "nameMeaning": "Trügerische Echse",
+    "source": "Wikipedia: Apatosaurus",
+    "signature": "Ein schwerer diplodocider Körper, langer Hals und Peitschenschwanz machen ihn zum kräftigeren Diplodocus-Verwandten."
+  },
+  "ceratosaurus": {
+    "nickname": "Ceratosaurus nasicornis",
+    "period": "Später Jura, 153-148 Mio. Jahre",
+    "diet": "Fleischfresser",
+    "fossilLocation": "Morrison-Formation; Portugal; Tansania",
+    "nameMeaning": "Gehörnte Echse",
+    "source": "Wikipedia: Ceratosaurus",
+    "signature": "Nasenhorn, Brauenhöcker und Rücken-Osteodermen heben ihn von glatteren Theropoden ab."
+  },
+  "deinonychus": {
+    "nickname": "Deinonychus antirrhopus",
+    "period": "Frühe Kreide, 115-108 Mio. Jahre",
+    "length": "Bis zu 3,4 m",
+    "diet": "Fleischfresser",
+    "fossilLocation": "Montana, Wyoming, Oklahoma",
+    "nameMeaning": "Schreckliche Klaue",
+    "source": "Wikipedia: Deinonychus",
+    "signature": "Die erhobene Sichelkralle und der ausbalancierte befiederte Körper prägten das moderne Bild aktiver Dinosaurier."
+  },
+  "edmontosaurus": {
+    "nickname": "Edmonton-Echse",
+    "period": "Späte Kreide, 73-66 Mio. Jahre",
+    "diet": "Pflanzenfresser",
+    "fossilLocation": "Westliches Nordamerika",
+    "nameMeaning": "Edmonton-Echse",
+    "source": "Wikipedia: Edmontosaurus",
+    "signature": "Breiter Entenschnabel und langer gerader Rücken geben diesem kammfreien Hadrosaurier ein ruhiges Profil."
+  },
+  "oviraptor": {
+    "nickname": "Oviraptor philoceratops",
+    "period": "Späte Kreide, 75-71 Mio. Jahre",
+    "diet": "Allesfresser",
+    "fossilLocation": "Djadokhta-Formation, Mongolei",
+    "nameMeaning": "Eierdieb",
+    "source": "Wikipedia: Oviraptor",
+    "signature": "Zahnloser Schnabel, kompakter Körper und Fächerschwanz machen diesen brütenden Oviraptoriden leicht erkennbar."
+  },
+  "protoceratops": {
+    "nickname": "Protoceratops andrewsi",
+    "period": "Späte Kreide, 75-71 Mio. Jahre",
+    "length": "Etwa 1,8 m",
+    "diet": "Pflanzenfresser",
+    "fossilLocation": "Mongolei und nördliches China",
+    "nameMeaning": "Erstes Horngesicht",
+    "source": "Wikipedia: Protoceratops",
+    "signature": "Kleiner Schnabelkörper und Nackenschild zeigen die Ceratopsier-Form ohne riesige Triceratops-Hörner."
+  },
+  "utahraptor": {
+    "nickname": "Utahraptor ostrommaysi",
+    "period": "Frühe Kreide, 139-135 Mio. Jahre",
+    "length": "6-7 m",
+    "diet": "Fleischfresser",
+    "fossilLocation": "Cedar-Mountain-Formation, Utah",
+    "nameMeaning": "Utah-Räuber",
+    "source": "Wikipedia: Utahraptor",
+    "signature": "Eine größere, schwerere Raptor-Silhouette mit übergroßen Sichelklauen und kräftigem befiedertem Körper."
+  },
+  "argentinosaurus": {
+    "nickname": "Argentinosaurus huinculensis",
+    "period": "Späte Kreide, 96-92 Mio. Jahre",
+    "diet": "Pflanzenfresser",
+    "fossilLocation": "Huincul-Formation, Argentinien",
+    "nameMeaning": "Argentinische Echse",
+    "source": "Wikipedia: Argentinosaurus",
+    "signature": "Riesiger Titanosaurier-Körper und säulenartige Beine lassen die Anzeige schon vor den Fakten groß wirken."
+  },
+  "archaeopteryx": {
+    "nickname": "Archaeopteryx lithographica",
+    "period": "Später Jura, 150,8-148,5 Mio. Jahre",
+    "length": "Etwa 0,5 m",
+    "diet": "Fleisch- oder Insektenfresser",
+    "fossilLocation": "Solnhofener Plattenkalk, Deutschland",
+    "nameMeaning": "Alter Flügel",
+    "source": "Wikipedia: Archaeopteryx",
+    "signature": "Federflügel, Krallen, Zähne und langer knöcherner Schwanz verbinden Dinosaurier- und Vogelform."
+  },
+  "compsognathus": {
+    "nickname": "Compsognathus longipes",
+    "period": "Später Jura, etwa 150 Mio. Jahre",
+    "diet": "Fleischfresser",
+    "fossilLocation": "Deutschland und Frankreich",
+    "nameMeaning": "Eleganter Kiefer",
+    "source": "Wikipedia: Compsognathus",
+    "signature": "Ein winziger schlanker Jäger mit langen Beinen und Schwanz bringt Miniatur-Predator-Energie in die Rotation."
+  },
+  "corythosaurus": {
+    "nickname": "Corythosaurus casuarius",
+    "period": "Späte Kreide, 77-75,7 Mio. Jahre",
+    "length": "Etwa 9 m",
+    "diet": "Pflanzenfresser",
+    "fossilLocation": "Alberta, Kanada",
+    "nameMeaning": "Helmechse",
+    "source": "Wikipedia: Corythosaurus",
+    "signature": "Der hohe helmartige Kamm ergänzt die Hadrosaurier um eine ganz andere Kopfform."
+  },
+  "giganotosaurus": {
+    "nickname": "Giganotosaurus carolinii",
+    "period": "Späte Kreide, 99,6-95 Mio. Jahre",
+    "diet": "Fleischfresser",
+    "fossilLocation": "Candeleros-Formation, Argentinien",
+    "nameMeaning": "Riesige südliche Echse",
+    "source": "Wikipedia: Giganotosaurus",
+    "signature": "Ein langer niedriger Schädel und die fließende Körperlinie unterscheiden diesen südlichen Riesen von T. rex."
+  },
+  "kentrosaurus": {
+    "nickname": "Kentrosaurus aethiopicus",
+    "period": "Später Jura, etwa 152 Mio. Jahre",
+    "diet": "Pflanzenfresser",
+    "fossilLocation": "Tendaguru-Formation, Tansania",
+    "nameMeaning": "Stachelechse",
+    "source": "Wikipedia: Kentrosaurus",
+    "signature": "Vordere Platten, hintere Stacheln und Schulterdornen machen ihn zum spitzeren Stegosaurus-Verwandten."
+  },
+  "sauropelta": {
+    "nickname": "Sauropelta edwardsorum",
+    "period": "Frühe Kreide, etwa 108,5 Mio. Jahre",
+    "length": "Etwa 5,2 m",
+    "diet": "Pflanzenfresser",
+    "fossilLocation": "Cloverly-Formation, USA",
+    "nameMeaning": "Echsen-Schild",
+    "source": "Wikipedia: Sauropelta",
+    "signature": "Lange Schulterstacheln und fehlende Schwanzkeule trennen diesen Nodosaurier klar von Ankylosaurus."
+  },
+  "styracosaurus": {
+    "nickname": "Styracosaurus albertensis",
+    "period": "Späte Kreide, 75,5-74,5 Mio. Jahre",
+    "diet": "Pflanzenfresser",
+    "fossilLocation": "Dinosaur-Park-Formation, Alberta",
+    "nameMeaning": "Stachelechse",
+    "source": "Wikipedia: Styracosaurus",
+    "signature": "Riesiges Nasenhorn und stacheliger Nackenschild machen diesen Ceratopsier dramatischer als Triceratops."
+  },
+  "suchomimus": {
+    "nickname": "Suchomimus tenerensis",
+    "period": "Frühe Kreide, 125-112 Mio. Jahre",
+    "diet": "Fisch- und Fleischfresser",
+    "fossilLocation": "Elrhaz-Formation, Niger",
+    "nameMeaning": "Krokodil-Nachahmer",
+    "source": "Wikipedia: Suchomimus",
+    "signature": "Krokodilartige Schnauze und große Handklauen zeigen den Spinosauriden-Look ohne riesiges Rückensegel."
   }
 }

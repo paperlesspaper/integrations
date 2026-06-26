@@ -12,6 +12,32 @@ Shows a deterministic daily dinosaur on a paperlesspaper display. The rotation u
   - [Brachiosaurus](https://en.wikipedia.org/wiki/Brachiosaurus)
   - [Velociraptor](https://en.wikipedia.org/wiki/Velociraptor)
   - [Spinosaurus](https://en.wikipedia.org/wiki/Spinosaurus)
+  - [Ankylosaurus](https://en.wikipedia.org/wiki/Ankylosaurus)
+  - [Parasaurolophus](https://en.wikipedia.org/wiki/Parasaurolophus)
+  - [Allosaurus](https://en.wikipedia.org/wiki/Allosaurus)
+  - [Diplodocus](https://en.wikipedia.org/wiki/Diplodocus)
+  - [Iguanodon](https://en.wikipedia.org/wiki/Iguanodon)
+  - [Pachycephalosaurus](https://en.wikipedia.org/wiki/Pachycephalosaurus)
+  - [Carnotaurus](https://en.wikipedia.org/wiki/Carnotaurus)
+  - [Therizinosaurus](https://en.wikipedia.org/wiki/Therizinosaurus)
+  - [Dilophosaurus](https://en.wikipedia.org/wiki/Dilophosaurus)
+  - [Gallimimus](https://en.wikipedia.org/wiki/Gallimimus)
+  - [Apatosaurus](https://en.wikipedia.org/wiki/Apatosaurus)
+  - [Ceratosaurus](https://en.wikipedia.org/wiki/Ceratosaurus)
+  - [Deinonychus](https://en.wikipedia.org/wiki/Deinonychus)
+  - [Edmontosaurus](https://en.wikipedia.org/wiki/Edmontosaurus)
+  - [Oviraptor](https://en.wikipedia.org/wiki/Oviraptor)
+  - [Protoceratops](https://en.wikipedia.org/wiki/Protoceratops)
+  - [Utahraptor](https://en.wikipedia.org/wiki/Utahraptor)
+  - [Argentinosaurus](https://en.wikipedia.org/wiki/Argentinosaurus)
+  - [Archaeopteryx](https://en.wikipedia.org/wiki/Archaeopteryx)
+  - [Compsognathus](https://en.wikipedia.org/wiki/Compsognathus)
+  - [Corythosaurus](https://en.wikipedia.org/wiki/Corythosaurus)
+  - [Giganotosaurus](https://en.wikipedia.org/wiki/Giganotosaurus)
+  - [Kentrosaurus](https://en.wikipedia.org/wiki/Kentrosaurus)
+  - [Sauropelta](https://en.wikipedia.org/wiki/Sauropelta)
+  - [Styracosaurus](https://en.wikipedia.org/wiki/Styracosaurus)
+  - [Suchomimus](https://en.wikipedia.org/wiki/Suchomimus)
 
 ## Artwork
 
@@ -60,7 +86,7 @@ no transparency
 ## Settings
 
 - `group`: show all dinosaurs or filter by a broad dinosaur group.
-- `dinosaurId`: pin a dinosaur by slug. The catalog includes `tyrannosaurus-rex`, `triceratops`, `stegosaurus`, `brachiosaurus`, `velociraptor`, and `spinosaurus`.
+- `dinosaurId`: pin a dinosaur by slug. The catalog includes `tyrannosaurus-rex`, `triceratops`, `stegosaurus`, `brachiosaurus`, `velociraptor`, `spinosaurus`, `ankylosaurus`, `parasaurolophus`, `allosaurus`, `diplodocus`, `iguanodon`, `pachycephalosaurus`, `carnotaurus`, `therizinosaurus`, `dilophosaurus`, `gallimimus`, `apatosaurus`, `ceratosaurus`, `deinonychus`, `edmontosaurus`, `oviraptor`, `protoceratops`, `utahraptor`, `argentinosaurus`, `archaeopteryx`, `compsognathus`, `corythosaurus`, `giganotosaurus`, `kentrosaurus`, `sauropelta`, `styracosaurus`, and `suchomimus`.
 - `seed`: optional text that creates a different daily rotation.
 - `showPeriod`, `showLength`, `showDiet`, `showFossilLocation`, `showNameMeaning`: default fact checkboxes.
 - `showSource`: optional Wikipedia source label.

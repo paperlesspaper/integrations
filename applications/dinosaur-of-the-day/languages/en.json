@@ -13,6 +13,17 @@
   "groupStegosaur": "Stegosaur",
   "groupSauropod": "Sauropod",
   "groupDromaeosaur": "Dromaeosaur",
+  "groupAnkylosaur": "Ankylosaur",
+  "groupHadrosaur": "Hadrosaur",
+  "groupOrnithopod": "Ornithopod",
+  "groupPachycephalosaur": "Pachycephalosaur",
+  "groupTherizinosaur": "Therizinosaur",
+  "groupOrnithomimosaur": "Ornithomimosaur",
+  "groupOviraptorosaur": "Oviraptorosaur",
+  "groupTitanosaur": "Titanosaur",
+  "groupAvialan": "Avialan",
+  "groupNodosaur": "Nodosaur",
+  "groupSpinosaurid": "Spinosaurid",
   "signature": "Silhouette note",
   "errorTitle": "Dinosaur could not load"
 }
