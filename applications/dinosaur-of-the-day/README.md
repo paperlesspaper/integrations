@@ -38,6 +38,22 @@ Shows a deterministic daily dinosaur on a paperlesspaper display. The rotation u
   - [Sauropelta](https://en.wikipedia.org/wiki/Sauropelta)
   - [Styracosaurus](https://en.wikipedia.org/wiki/Styracosaurus)
   - [Suchomimus](https://en.wikipedia.org/wiki/Suchomimus)
+  - [Albertosaurus](https://en.wikipedia.org/wiki/Albertosaurus)
+  - [Baryonyx](https://en.wikipedia.org/wiki/Baryonyx)
+  - [Camarasaurus](https://en.wikipedia.org/wiki/Camarasaurus)
+  - [Chasmosaurus](https://en.wikipedia.org/wiki/Chasmosaurus)
+  - [Dryosaurus](https://en.wikipedia.org/wiki/Dryosaurus)
+  - [Euoplocephalus](https://en.wikipedia.org/wiki/Euoplocephalus)
+  - [Lambeosaurus](https://en.wikipedia.org/wiki/Lambeosaurus)
+  - [Megalosaurus](https://en.wikipedia.org/wiki/Megalosaurus)
+  - [Maiasaura](https://en.wikipedia.org/wiki/Maiasaura)
+  - [Plateosaurus](https://en.wikipedia.org/wiki/Plateosaurus)
+  - [Coelophysis](https://en.wikipedia.org/wiki/Coelophysis)
+  - [Mononykus](https://en.wikipedia.org/wiki/Mononykus)
+  - [Psittacosaurus](https://en.wikipedia.org/wiki/Psittacosaurus)
+  - [Acrocanthosaurus](https://en.wikipedia.org/wiki/Acrocanthosaurus)
+  - [Mamenchisaurus](https://en.wikipedia.org/wiki/Mamenchisaurus)
+  - [Pachyrhinosaurus](https://en.wikipedia.org/wiki/Pachyrhinosaurus)
 
 ## Artwork
 
@@ -86,7 +102,7 @@ no transparency
 ## Settings
 
 - `group`: show all dinosaurs or filter by a broad dinosaur group.
-- `dinosaurId`: pin a dinosaur by slug. The catalog includes `tyrannosaurus-rex`, `triceratops`, `stegosaurus`, `brachiosaurus`, `velociraptor`, `spinosaurus`, `ankylosaurus`, `parasaurolophus`, `allosaurus`, `diplodocus`, `iguanodon`, `pachycephalosaurus`, `carnotaurus`, `therizinosaurus`, `dilophosaurus`, `gallimimus`, `apatosaurus`, `ceratosaurus`, `deinonychus`, `edmontosaurus`, `oviraptor`, `protoceratops`, `utahraptor`, `argentinosaurus`, `archaeopteryx`, `compsognathus`, `corythosaurus`, `giganotosaurus`, `kentrosaurus`, `sauropelta`, `styracosaurus`, and `suchomimus`.
+- `dinosaurId`: pin a dinosaur by slug. The catalog includes `true`, `maiasaura`, `plateosaurus`, `coelophysis`, `mononykus`, `psittacosaurus`, `acrocanthosaurus`, `mamenchisaurus`, and `pachyrhinosaurus`.
 - `seed`: optional text that creates a different daily rotation.
 - `showPeriod`, `showLength`, `showDiet`, `showFossilLocation`, `showNameMeaning`: default fact checkboxes.
 - `showSource`: optional Wikipedia source label.

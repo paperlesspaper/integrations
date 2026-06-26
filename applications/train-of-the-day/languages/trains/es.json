@@ -418,5 +418,47 @@
     "country": "Estados Unidos",
     "source": "Wikipedia: M-10000",
     "signature": "Clasico historico desde 1934: Union Pacific M-10000 marco la historia ferroviaria en Estados Unidos."
+  },
+  "ice-t": {
+    "name": "DB ICE T",
+    "nickname": "Class 411 / 415 tilting ICE",
+    "country": "Alemania",
+    "source": "Wikipedia: ICE T",
+    "signature": "DB ICE T es un tren europeo destacado para German curving ICE routes."
+  },
+  "tgv-pos": {
+    "name": "SNCF TGV POS",
+    "nickname": "Paris-Ostfrankreich-Sueddeutschland",
+    "country": "Francia",
+    "source": "Wikipedia: TGV POS",
+    "signature": "SNCF TGV POS es un tren europeo destacado para LGV Est / France-Switzerland."
+  },
+  "renfe-s130": {
+    "name": "Renfe Class 130",
+    "nickname": "Talgo 250 / Patito",
+    "country": "Espana",
+    "source": "Wikipedia: Renfe Class 130",
+    "signature": "Renfe Class 130 es un tren europeo destacado para Spanish mixed-gauge corridors."
+  },
+  "sbb-icn": {
+    "name": "SBB ICN",
+    "nickname": "RABDe 500 tilting train",
+    "country": "Suiza",
+    "source": "Wikipedia: SBB RABDe 500",
+    "signature": "SBB ICN es un tren europeo destacado para Swiss InterCity Neigezug routes."
+  },
+  "db-class-101": {
+    "name": "DB Class 101",
+    "nickname": "InterCity electric locomotive",
+    "country": "Alemania",
+    "source": "Wikipedia: DB Class 101",
+    "signature": "DB Class 101 es un tren europeo destacado para German InterCity main lines."
+  },
+  "sncf-cc-72000": {
+    "name": "SNCF CC 72000",
+    "nickname": "French mainline diesel locomotive",
+    "country": "Francia",
+    "source": "Wikipedia: SNCF Class CC 72000",
+    "signature": "SNCF CC 72000 es un tren europeo destacado para French non-electrified main lines."
   }
 }

@@ -418,5 +418,47 @@
     "country": "United States",
     "source": "Wikipedia: M-10000",
     "signature": "historic-train:union-pacific-m10000"
+  },
+  "ice-t": {
+    "name": "DB ICE T",
+    "nickname": "Class 411 / 415 tilting ICE",
+    "country": "Germany",
+    "source": "Wikipedia: ICE T",
+    "signature": "Its active tilt brought ICE branding to faster services over Germany's curving conventional main lines."
+  },
+  "tgv-pos": {
+    "name": "SNCF TGV POS",
+    "nickname": "Paris-Ostfrankreich-Sueddeutschland",
+    "country": "France",
+    "source": "Wikipedia: TGV POS",
+    "signature": "The POS sets linked eastern France with Germany and Switzerland and supplied the power cars for the 2007 speed record."
+  },
+  "renfe-s130": {
+    "name": "Renfe Class 130",
+    "nickname": "Talgo 250 / Patito",
+    "country": "Spain",
+    "source": "Wikipedia: Renfe Class 130",
+    "signature": "Its variable-gauge Talgo coaches let one train bridge Spanish high-speed and Iberian-gauge networks."
+  },
+  "sbb-icn": {
+    "name": "SBB ICN",
+    "nickname": "RABDe 500 tilting train",
+    "country": "Switzerland",
+    "source": "Wikipedia: SBB RABDe 500",
+    "signature": "The ICN used active tilt to shorten Swiss InterCity journeys on winding main lines."
+  },
+  "db-class-101": {
+    "name": "DB Class 101",
+    "nickname": "InterCity electric locomotive",
+    "country": "Germany",
+    "source": "Wikipedia: DB Class 101",
+    "signature": "The red Class 101 became the standard electric face of German InterCity services after the Class 103 era."
+  },
+  "sncf-cc-72000": {
+    "name": "SNCF CC 72000",
+    "nickname": "French mainline diesel locomotive",
+    "country": "France",
+    "source": "Wikipedia: SNCF Class CC 72000",
+    "signature": "A powerful blue diesel icon for French mainline expresses beyond the wires."
   }
 }

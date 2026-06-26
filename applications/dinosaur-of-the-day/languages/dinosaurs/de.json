@@ -298,5 +298,159 @@
     "nameMeaning": "Krokodil-Nachahmer",
     "source": "Wikipedia: Suchomimus",
     "signature": "Krokodilartige Schnauze und große Handklauen zeigen den Spinosauriden-Look ohne riesiges Rückensegel."
+  },
+  "albertosaurus": {
+    "nickname": "Albertosaurus sarcophagus",
+    "period": "Späte Kreide, etwa 71 Mio. Jahre",
+    "diet": "Fleischfresser",
+    "fossilLocation": "Alberta, Kanada",
+    "nameMeaning": "Alberta-Echse",
+    "source": "Wikipedia: Albertosaurus",
+    "signature": "Ein schlankerer Tyrannosauride, bekannt aus einem ungewöhnlich reichen Knochenbett in Alberta."
+  },
+  "baryonyx": {
+    "nickname": "Baryonyx walkeri",
+    "period": "Frühe Kreide, 130-125 Mio. Jahre",
+    "diet": "Fisch- und Fleischfresser",
+    "fossilLocation": "Smokejack Clay Pit, Surrey, England",
+    "nameMeaning": "Schwere Klaue",
+    "source": "Wikipedia: Baryonyx",
+    "signature": "Ein fischfressender Spinosauride mit krokodilartiger Schnauze und riesiger Daumenkralle."
+  },
+  "camarasaurus": {
+    "nickname": "Kammerechse",
+    "period": "Später Jura, 155-145 Mio. Jahre",
+    "diet": "Pflanzenfresser",
+    "fossilLocation": "Morrison-Formation, westliches Nordamerika",
+    "nameMeaning": "Kammerechse",
+    "source": "Wikipedia: Camarasaurus",
+    "signature": "Ein robuster Morrison-Sauropode mit gekammerten Wirbeln und boxigem Schädel."
+  },
+  "chasmosaurus": {
+    "nickname": "Öffnungsechse",
+    "period": "Späte Kreide, 77-74 Mio. Jahre",
+    "diet": "Pflanzenfresser",
+    "fossilLocation": "Dinosaur-Park-Formation, Alberta, Kanada",
+    "nameMeaning": "Öffnungsechse",
+    "source": "Wikipedia: Chasmosaurus",
+    "signature": "Ein mittelgroßer Horndinosaurier mit breitem Nackenschild und großen Öffnungen darin."
+  },
+  "dryosaurus": {
+    "nickname": "Baumechse",
+    "period": "Später Jura, 155-145 Mio. Jahre",
+    "length": "Bis zu 3 m",
+    "diet": "Pflanzenfresser",
+    "fossilLocation": "Morrison-Formation, westliche USA",
+    "nameMeaning": "Baumechse",
+    "source": "Wikipedia: Dryosaurus",
+    "signature": "Ein kleiner langbeiniger Pflanzenfresser, gebaut für schnelle Bewegung über Jura-Flusslandschaften."
+  },
+  "euoplocephalus": {
+    "nickname": "Gut gepanzerter Kopf",
+    "period": "Späte Kreide, 76,4-75,6 Mio. Jahre",
+    "length": "Etwa 5,3 m",
+    "diet": "Pflanzenfresser",
+    "fossilLocation": "Alberta, Kanada",
+    "nameMeaning": "Gut gepanzerter Kopf",
+    "source": "Wikipedia: Euoplocephalus",
+    "signature": "Ein schwer gepanzerter Pflanzenfresser mit breitem Körper und defensiver Schwanzkeule."
+  },
+  "lambeosaurus": {
+    "nickname": "Lambes Echse",
+    "period": "Späte Kreide, 76,47-74,44 Mio. Jahre",
+    "length": "7-7,7 m",
+    "diet": "Pflanzenfresser",
+    "fossilLocation": "Dinosaur-Park-Formation, Alberta, Kanada",
+    "nameMeaning": "Lambes Echse",
+    "source": "Wikipedia: Lambeosaurus",
+    "signature": "Ein Hadrosaurier mit hohlem Kopfkamm, der vermutlich Rufe verstärken konnte."
+  },
+  "megalosaurus": {
+    "nickname": "Große Echse",
+    "period": "Mittlerer Jura, 166-165 Mio. Jahre",
+    "length": "Etwa 6 m",
+    "diet": "Fleischfresser",
+    "fossilLocation": "Oxfordshire, südliches England",
+    "nameMeaning": "Große Echse",
+    "source": "Wikipedia: Megalosaurus",
+    "signature": "Ein robuster Jura-Jäger und die erste gültig benannte Dinosaurier-Gattung."
+  },
+  "maiasaura": {
+    "nickname": "Maiasaura peeblesorum",
+    "period": "Späte Kreide, 86,3-70,6 Mio. Jahre",
+    "length": "Etwa 9 m",
+    "diet": "Pflanzenfresser",
+    "fossilLocation": "Montana und Alberta",
+    "nameMeaning": "Gute-Mutter-Echse",
+    "source": "Wikipedia: Maiasaura",
+    "signature": "Gerundete Schnauze, hoher Rücken und berühmte Nistplätze geben diesem Hadrosaurier eine ungewöhnlich fürsorgliche Note."
+  },
+  "plateosaurus": {
+    "nickname": "Plateosaurus trossingensis",
+    "period": "Späte Trias, 227-204 Mio. Jahre",
+    "length": "4,8-10 m",
+    "diet": "Pflanzenfresser",
+    "fossilLocation": "Mittel- und Nordeuropa",
+    "nameMeaning": "Breite Echse",
+    "source": "Wikipedia: Plateosaurus",
+    "signature": "Langer Hals, greifende Hände und kräftige Hinterbeine zeigen einen frühen Schritt hin zur Sauropoden-Größe."
+  },
+  "coelophysis": {
+    "nickname": "Coelophysis bauri",
+    "period": "Späte Trias, 215-201,4 Mio. Jahre",
+    "length": "Bis 3 m",
+    "diet": "Fleischfresser",
+    "fossilLocation": "Südwesten der USA, besonders Ghost Ranch",
+    "nameMeaning": "Hohle Form",
+    "source": "Wikipedia: Coelophysis",
+    "signature": "Schmaler Kopf, lange Beine und peitschenartiger Schwanz geben diesem frühen Theropoden ein leichtes Läuferprofil."
+  },
+  "mononykus": {
+    "nickname": "Mononykus olecranus",
+    "period": "Späte Kreide, Maastrichtium",
+    "diet": "Wahrscheinlich Insektenfresser",
+    "fossilLocation": "Nemegt-Formation, Mongolei",
+    "nameMeaning": "Eine Klaue",
+    "source": "Wikipedia: Mononykus",
+    "signature": "Winzige Arme mit einer übergroßen Einzelklaue machen diesen vogelartigen Dinosaurier sofort erkennbar."
+  },
+  "psittacosaurus": {
+    "nickname": "Psittacosaurus mongoliensis",
+    "period": "Frühe Kreide, 125-105 Mio. Jahre",
+    "length": "Bis 2 m",
+    "diet": "Pflanzenfresser",
+    "fossilLocation": "China, Mongolei, Russland und Thailand",
+    "nameMeaning": "Papageienechse",
+    "source": "Wikipedia: Psittacosaurus",
+    "signature": "Papageienartiger Schnabel und Schwanzborsten zeigen die Ceratopsier-Linie vor riesigen Hörnern und Nackenschilden."
+  },
+  "acrocanthosaurus": {
+    "nickname": "Acrocanthosaurus atokensis",
+    "period": "Frühe bis späte Kreide, 125-99,6 Mio. Jahre",
+    "diet": "Fleischfresser",
+    "fossilLocation": "Oklahoma, Texas, Wyoming und Maryland",
+    "nameMeaning": "Hochstachel-Echse",
+    "source": "Wikipedia: Acrocanthosaurus",
+    "signature": "Hohe Wirbeldornen heben die ganze Rückenlinie hinter einem langen Großtheropoden-Schädel an."
+  },
+  "mamenchisaurus": {
+    "nickname": "Mamenchisaurus constructus",
+    "period": "Später Jura bis frühe Kreide, 161-114,4 Mio. Jahre",
+    "length": "Etwa 15-26 m",
+    "diet": "Pflanzenfresser",
+    "fossilLocation": "Sichuan-Becken und Yunnan, China",
+    "nameMeaning": "Mamenchi-Echse",
+    "source": "Wikipedia: Mamenchisaurus",
+    "signature": "Extrem langer Hals, kleiner Kopf und langer Schwanz strecken diesen Sauropoden über die ganze Anzeige."
+  },
+  "pachyrhinosaurus": {
+    "nickname": "Pachyrhinosaurus canadensis",
+    "period": "Späte Kreide, 73,5-71 Mio. Jahre",
+    "length": "6-8 m",
+    "diet": "Pflanzenfresser",
+    "fossilLocation": "Alberta und Alaska",
+    "nameMeaning": "Dicknasige Echse",
+    "source": "Wikipedia: Pachyrhinosaurus",
+    "signature": "Abgeflachter Nasenbuckel und gehörntes Nackenschild unterscheiden ihn klar von Triceratops."
   }
 }

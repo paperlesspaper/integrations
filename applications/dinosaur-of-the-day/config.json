@@ -56,13 +56,13 @@
       "group": {
         "type": "string",
         "title": "Dinosaur group",
-        "enum": ["any", "theropod", "ceratopsian", "stegosaur", "sauropod", "dromaeosaur", "ankylosaur", "hadrosaur", "ornithopod", "pachycephalosaur", "therizinosaur", "ornithomimosaur", "oviraptorosaur", "titanosaur", "avialan", "nodosaur", "spinosaurid"],
+        "enum": ["any", "theropod", "ceratopsian", "stegosaur", "sauropod", "dromaeosaur", "ankylosaur", "hadrosaur", "ornithopod", "pachycephalosaur", "therizinosaur", "ornithomimosaur", "oviraptorosaur", "titanosaur", "avialan", "nodosaur", "spinosaurid", "sauropodomorph", "alvarezsaurid"],
         "default": "any"
       },
       "dinosaurId": {
         "type": "string",
         "title": "Pinned dinosaur",
-        "description": "Optional dinosaur slug, for example tyrannosaurus-rex, triceratops, stegosaurus, brachiosaurus, velociraptor, spinosaurus, ankylosaurus, parasaurolophus, allosaurus, diplodocus, iguanodon, pachycephalosaurus, carnotaurus, therizinosaurus, dilophosaurus, gallimimus, apatosaurus, ceratosaurus, deinonychus, edmontosaurus, oviraptor, protoceratops, utahraptor, argentinosaurus, archaeopteryx, compsognathus, corythosaurus, giganotosaurus, kentrosaurus, sauropelta, styracosaurus, or suchomimus.",
+        "description": "Optional dinosaur slug, for example true, maiasaura, plateosaurus, coelophysis, mononykus, psittacosaurus, acrocanthosaurus, mamenchisaurus, or pachyrhinosaurus.",
         "default": ""
       },
       "seed": {

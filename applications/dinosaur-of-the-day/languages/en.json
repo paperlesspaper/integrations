@@ -25,5 +25,7 @@
   "groupNodosaur": "Nodosaur",
   "groupSpinosaurid": "Spinosaurid",
   "signature": "Silhouette note",
-  "errorTitle": "Dinosaur could not load"
+  "errorTitle": "Dinosaur could not load",
+  "groupSauropodomorph": "Sauropodomorph",
+  "groupAlvarezsaurid": "Alvarezsaurid"
 }

@@ -25,5 +25,7 @@
   "groupNodosaur": "Nodosaurier",
   "groupSpinosaurid": "Spinosauride",
   "signature": "Silhouettenmerkmal",
-  "errorTitle": "Dinosaurier konnte nicht geladen werden"
+  "errorTitle": "Dinosaurier konnte nicht geladen werden",
+  "groupSauropodomorph": "Sauropodomorph",
+  "groupAlvarezsaurid": "Alvarezsauride"
 }

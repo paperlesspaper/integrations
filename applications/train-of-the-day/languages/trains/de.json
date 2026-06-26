@@ -418,5 +418,47 @@
     "country": "Vereinigte Staaten",
     "source": "Wikipedia: M-10000",
     "signature": "Historischer Klassiker seit 1934: Union Pacific M-10000 prägte die Eisenbahngeschichte in den Vereinigten Staaten."
+  },
+  "ice-t": {
+    "name": "DB ICE T",
+    "nickname": "Class 411 / 415 tilting ICE",
+    "country": "Deutschland",
+    "source": "Wikipedia: ICE T",
+    "signature": "DB ICE T ist ein praegender europaeischer Zug fuer German curving ICE routes."
+  },
+  "tgv-pos": {
+    "name": "SNCF TGV POS",
+    "nickname": "Paris-Ostfrankreich-Sueddeutschland",
+    "country": "Frankreich",
+    "source": "Wikipedia: TGV POS",
+    "signature": "SNCF TGV POS ist ein praegender europaeischer Zug fuer LGV Est / France-Switzerland."
+  },
+  "renfe-s130": {
+    "name": "Renfe Class 130",
+    "nickname": "Talgo 250 / Patito",
+    "country": "Spanien",
+    "source": "Wikipedia: Renfe Class 130",
+    "signature": "Renfe Class 130 ist ein praegender europaeischer Zug fuer Spanish mixed-gauge corridors."
+  },
+  "sbb-icn": {
+    "name": "SBB ICN",
+    "nickname": "RABDe 500 tilting train",
+    "country": "Schweiz",
+    "source": "Wikipedia: SBB RABDe 500",
+    "signature": "SBB ICN ist ein praegender europaeischer Zug fuer Swiss InterCity Neigezug routes."
+  },
+  "db-class-101": {
+    "name": "DB Class 101",
+    "nickname": "InterCity electric locomotive",
+    "country": "Deutschland",
+    "source": "Wikipedia: DB Class 101",
+    "signature": "DB Class 101 ist ein praegender europaeischer Zug fuer German InterCity main lines."
+  },
+  "sncf-cc-72000": {
+    "name": "SNCF CC 72000",
+    "nickname": "French mainline diesel locomotive",
+    "country": "Frankreich",
+    "source": "Wikipedia: SNCF Class CC 72000",
+    "signature": "SNCF CC 72000 ist ein praegender europaeischer Zug fuer French non-electrified main lines."
   }
 }
