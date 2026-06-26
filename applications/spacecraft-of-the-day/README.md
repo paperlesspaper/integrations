@@ -1,6 +1,6 @@
 # Spacecraft of the Day
 
-Shows a deterministic daily spacecraft on a paperlesspaper display. The rotation includes 35 satellites, probes, capsules, rockets, landers, orbiters, and space telescopes. Each entry combines a centered portrait-mode spacecraft image with compact facts: mission, launch date, agency, destination, mass, power source, and outcome.
+Shows a deterministic daily spacecraft on a paperlesspaper display. The rotation includes satellites, probes, capsules, rockets, landers, and space telescopes. Each entry combines a centered portrait-mode spacecraft image with compact facts: mission, launch date, agency, destination, mass, power source, and outcome.
 
 ## Links
 
