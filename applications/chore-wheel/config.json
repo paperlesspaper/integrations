@@ -1,6 +1,7 @@
 {
   "name": "Chore Wheel",
   "version": "0.1.0",
+  "status": "alpha",
   "description": "Assigns household chores to members deterministically by day or week.",
   "renderPage": "./render.html",
   "icon": "./assets/icon.png",

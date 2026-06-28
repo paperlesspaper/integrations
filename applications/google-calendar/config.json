@@ -1,0 +1,112 @@
+{
+  "name": "Google Calendar",
+  "version": "0.1.0",
+  "status": "alpha",
+  "description": "Displays upcoming Google Calendar events from host-provided calendar data.",
+  "renderPage": "./render.html",
+  "icon": "./assets/icon.png",
+  "requiredPermissions": [
+    "googleCalendar"
+  ],
+  "nativeSettings": {
+    "color": "light",
+    "view": "agenda",
+    "language": "de-DE",
+    "dayRange": 3,
+    "maxEvents": 50,
+    "highlightToday": false,
+    "highlightScale": 1.35
+  },
+  "configVariants": [
+    {
+      "color": "light",
+      "view": "agenda",
+      "language": "de-DE",
+      "dayRange": 3,
+      "maxEvents": 8,
+      "highlightToday": false,
+      "screenshots": {
+        "800x480": "./screenshots/google-calendar-light-800x480-landscape.png",
+        "480x800": "./screenshots/google-calendar-light-480x800-portrait.png"
+      }
+    },
+    {
+      "color": "red-light",
+      "view": "week",
+      "language": "en-US",
+      "dayRange": 7,
+      "maxEvents": 10,
+      "highlightToday": true,
+      "highlightScale": 1.35,
+      "screenshots": {
+        "800x480": "./screenshots/google-calendar-highlight-800x480-landscape.png",
+        "480x800": "./screenshots/google-calendar-highlight-480x800-portrait.png"
+      }
+    }
+  ],
+  "formSchema": {
+    "type": "object",
+    "properties": {
+      "view": {
+        "type": "string",
+        "title": "View",
+        "enum": [
+          "agenda",
+          "day",
+          "three-days",
+          "week",
+          "year"
+        ],
+        "enumNames": [
+          "Agenda",
+          "Day",
+          "3 Days",
+          "Week",
+          "Year"
+        ],
+        "default": "agenda"
+      },
+      "language": {
+        "type": "string",
+        "title": "Language",
+        "enum": [
+          "de-DE",
+          "en-US",
+          "en",
+          "de"
+        ],
+        "default": "de-DE"
+      },
+      "dayRange": {
+        "type": "number",
+        "title": "Day range",
+        "minimum": 1,
+        "maximum": 100,
+        "default": 3
+      },
+      "maxEvents": {
+        "type": "number",
+        "title": "Max events",
+        "minimum": 1,
+        "maximum": 200,
+        "default": 50
+      },
+      "highlightToday": {
+        "type": "boolean",
+        "title": "Highlight today",
+        "default": false
+      },
+      "highlightScale": {
+        "type": "number",
+        "title": "Highlight scale",
+        "minimum": 1,
+        "maximum": 3,
+        "default": 1.35
+      }
+    }
+  },
+  "language": [
+    "en",
+    "de"
+  ]
+}

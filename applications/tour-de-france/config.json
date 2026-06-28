@@ -1,6 +1,7 @@
 {
   "name": "Tour de France",
   "version": "0.1.0",
+  "status": "alpha",
   "description": "Shows the current or selected Tour de France 2026 stage with route details, profile imagery, and best-effort official ranking data.",
   "renderPage": "./render.html",
   "icon": "./assets/icon.png",

@@ -1,6 +1,7 @@
 {
   "name": "Countdown Card",
   "version": "0.1.0",
+  "status": "alpha",
   "description": "Shows days, hours, and minutes until or since a configurable target date.",
   "renderPage": "./render.html",
   "icon": "./assets/icon.png",

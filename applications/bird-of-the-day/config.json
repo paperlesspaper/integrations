@@ -1,6 +1,7 @@
 {
   "name": "Bird of the Day",
   "version": "0.1.0",
+  "status": "alpha",
   "description": "Shows one deterministic daily bird with clean side-profile artwork and compact Wikipedia-sourced facts.",
   "renderPage": "./render.html",
   "icon": "./assets/icon.png",
@@ -74,13 +75,29 @@
       "region": {
         "type": "string",
         "title": "Region",
-        "enum": ["any", "europe", "americas", "asia", "africa", "oceanic", "worldwide"],
+        "enum": [
+          "any",
+          "europe",
+          "americas",
+          "asia",
+          "africa",
+          "oceanic",
+          "worldwide"
+        ],
         "default": "any"
       },
       "habitat": {
         "type": "string",
         "title": "Habitat",
-        "enum": ["any", "open-country", "coast", "wetland", "forest", "tundra", "urban"],
+        "enum": [
+          "any",
+          "open-country",
+          "coast",
+          "wetland",
+          "forest",
+          "tundra",
+          "urban"
+        ],
         "default": "any"
       },
       "birdId": {
@@ -152,5 +169,11 @@
       }
     }
   },
-  "language": ["en", "de", "fr", "es", "it"]
+  "language": [
+    "en",
+    "de",
+    "fr",
+    "es",
+    "it"
+  ]
 }

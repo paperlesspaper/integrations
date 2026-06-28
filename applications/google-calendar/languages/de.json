@@ -1,0 +1,8 @@
+{
+  "allDay": "Ganztagig",
+  "empty": "Keine Termine",
+  "errorTitle": "Google Kalender konnte nicht geladen werden",
+  "loading": "Kalender wird geladen...",
+  "moreEvents": "+{count} weitere",
+  "untitled": "Termin ohne Titel"
+}

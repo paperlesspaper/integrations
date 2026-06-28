@@ -1,6 +1,7 @@
 {
   "name": "Losung",
   "version": "0.1.0",
+  "status": "beta",
   "description": "Shows the daily Losung and Lehrtext from losungen.de.",
   "renderPage": "./render.html",
   "icon": "./assets/icon.png",

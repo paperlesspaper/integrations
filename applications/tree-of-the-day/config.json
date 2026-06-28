@@ -1,6 +1,7 @@
 {
   "name": "Tree of the Day",
   "version": "0.1.0",
+  "status": "alpha",
   "description": "Shows one deterministic daily tree with generated botanical artwork and compact Wikipedia-sourced facts.",
   "renderPage": "./render.html",
   "icon": "./assets/icon.png",
@@ -88,7 +89,11 @@
       "category": {
         "type": "string",
         "title": "Tree set",
-        "enum": ["any", "species", "individual"],
+        "enum": [
+          "any",
+          "species",
+          "individual"
+        ],
         "default": "any"
       },
       "treeId": {
@@ -160,5 +165,8 @@
       }
     }
   },
-  "language": ["en", "de"]
+  "language": [
+    "en",
+    "de"
+  ]
 }

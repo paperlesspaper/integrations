@@ -1,0 +1,83 @@
+{
+  "name": "Your Life in Weeks",
+  "version": "0.1.0",
+  "status": "alpha",
+  "description": "Shows a visual week-by-week map of a lifetime from a configurable birth date.",
+  "renderPage": "./render.html",
+  "icon": "./assets/icon.png",
+  "nativeSettings": {
+    "color": "light",
+    "title": "Your Life in Weeks",
+    "birthDate": "1990-01-01",
+    "lifeExpectancy": 90,
+    "showAge": true,
+    "showLegend": true
+  },
+  "configVariants": [
+    {
+      "color": "light",
+      "title": "Your Life in Weeks",
+      "birthDate": "1990-01-01",
+      "lifeExpectancy": 90,
+      "showAge": true,
+      "showLegend": true,
+      "screenshots": {
+        "800x480": "./screenshots/your-life-in-weeks-default-800x480-landscape.png",
+        "480x800": "./screenshots/your-life-in-weeks-default-480x800-portrait.png"
+      }
+    },
+    {
+      "color": "dark",
+      "title": "Life Calendar",
+      "birthDate": "1976-04-11",
+      "lifeExpectancy": 85,
+      "showAge": true,
+      "showLegend": false,
+      "screenshots": {
+        "800x480": "./screenshots/your-life-in-weeks-85-800x480-landscape.png",
+        "480x800": "./screenshots/your-life-in-weeks-85-480x800-portrait.png"
+      }
+    }
+  ],
+  "formSchema": {
+    "type": "object",
+    "properties": {
+      "title": {
+        "type": "string",
+        "title": "Title",
+        "description": "Heading shown above the lifetime grid.",
+        "default": "Your Life in Weeks"
+      },
+      "birthDate": {
+        "type": "string",
+        "title": "Birth date",
+        "description": "Your birth date in YYYY-MM-DD format.",
+        "default": "1990-01-01"
+      },
+      "lifeExpectancy": {
+        "type": "number",
+        "title": "Life expectancy",
+        "description": "Number of years to draw in the week grid.",
+        "default": 90,
+        "minimum": 1,
+        "maximum": 120
+      },
+      "showAge": {
+        "type": "boolean",
+        "title": "Show age",
+        "description": "Show age and progress numbers next to the grid.",
+        "default": true
+      },
+      "showLegend": {
+        "type": "boolean",
+        "title": "Show legend",
+        "description": "Show lived, current, and remaining week labels.",
+        "default": true
+      }
+    }
+  },
+  "language": [
+    "en",
+    "de"
+  ]
+}

@@ -1,6 +1,7 @@
 {
   "name": "Opening Hours",
   "version": "0.1.0",
+  "status": "alpha",
   "description": "Shows current opening status, today's hours, and the weekly schedule for a place.",
   "renderPage": "./render.html",
   "icon": "./assets/icon.png",

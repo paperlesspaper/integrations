@@ -235,6 +235,16 @@
           </select>
         </label>
         <label>
+          Projection
+          <select id="projectionMode">
+            <option value="auto">Automatic</option>
+            <option value="naturalEarth">Natural Earth</option>
+            <option value="equalEarth">Equal Earth</option>
+            <option value="mercator">Mercator</option>
+            <option value="equirectangular">Equirectangular</option>
+          </select>
+        </label>
+        <label>
           Year for map clicks
           <input id="quickYear" type="number" min="1900" max="2100" placeholder="optional">
         </label>
@@ -286,6 +296,7 @@
     <script>
       const defaults = {
         mapMode: "countries",
+        projectionMode: "auto",
         title: "Travel Map",
         visitedRegions: '{"countries":{},"usStates":{},"bundeslaender":{}}',
         colorMode: "byYear",
@@ -351,20 +362,29 @@
           url: "./assets/maps/countries-110m.json",
           type: "topojson",
           objectName: "countries",
-          projection: () => d3.geoNaturalEarth1(),
+          defaultProjection: "naturalEarth",
         },
         usStates: {
           url: "./assets/maps/us-states-10m.json",
           type: "topojson",
           objectName: "states",
-          projection: () => d3.geoAlbersUsa(),
+          defaultProjection: "albersUsa",
         },
         bundeslaender: {
           url: "./assets/maps/de-bundeslaender-low.geo.json",
           type: "geojson",
-          projection: () => d3.geoMercator(),
+          defaultProjection: "mercator",
         },
       };
+
+      const projectionDefinitions = {
+        naturalEarth: () => d3.geoNaturalEarth1(),
+        equalEarth: () => d3.geoEqualEarth(),
+        mercator: () => d3.geoMercator(),
+        equirectangular: () => d3.geoEquirectangular(),
+        albersUsa: () => d3.geoAlbersUsa(),
+      };
+
       const yearPalette = ["#e83d35", "#f7cf28", "#2c9b4b", "#006bb6", "#111111", "#ffffff"];
       const selectedColors = {
         black: "#111111",
@@ -376,6 +396,7 @@
 
       const settingsKeys = [
         "mapMode",
+        "projectionMode",
         "title",
         "visitedRegions",
         "colorMode",
@@ -385,6 +406,7 @@
       ];
       const controls = {
         mapMode: document.getElementById("mapMode"),
+        projectionMode: document.getElementById("projectionMode"),
         title: document.getElementById("title"),
         quickYear: document.getElementById("quickYear"),
         colorMode: document.getElementById("colorMode"),
@@ -445,6 +467,16 @@
 
       function normalizeColorMode(value) {
         return ["byYear", "selectedColor", "shadeByYear"].includes(value) ? value : "byYear";
+      }
+
+      function normalizeProjectionMode(value) {
+        return projectionDefinitions[value] ? value : "auto";
+      }
+
+      function projectionFor(definition, projectionMode) {
+        const mode = normalizeProjectionMode(projectionMode);
+        const projectionKey = mode === "auto" ? definition.defaultProjection : mode;
+        return (projectionDefinitions[projectionKey] || projectionDefinitions.naturalEarth)();
       }
 
       function selectedColorValue(value) {
@@ -523,6 +555,7 @@
           ...nextSettings,
         };
         normalized.mapMode = mapDefinitions[normalized.mapMode] ? normalized.mapMode : defaults.mapMode;
+        normalized.projectionMode = normalizeProjectionMode(normalized.projectionMode);
         normalized.title = String(normalized.title || defaults.title).slice(0, 48);
         normalized.colorMode = normalizeColorMode(normalized.colorMode);
         normalized.selectedColor = selectedColors[normalized.selectedColor]
@@ -591,6 +624,7 @@
       function readSettingsFromControls() {
         return {
           mapMode: controls.mapMode.value,
+          projectionMode: controls.projectionMode.value,
           title: controls.title.value.trim(),
           visitedRegions: JSON.stringify(visited),
           colorMode: controls.colorMode.value,
@@ -602,6 +636,7 @@
 
       function applyControls() {
         controls.mapMode.value = settings.mapMode;
+        controls.projectionMode.value = settings.projectionMode;
         controls.title.value = settings.title;
         controls.colorMode.value = settings.colorMode;
         controls.selectedColor.value = settings.selectedColor;
@@ -640,7 +675,7 @@
           type: "FeatureCollection",
           features: activeFeatures,
         };
-        const projection = definition.projection();
+        const projection = projectionFor(definition, settings.projectionMode);
         projection.fitExtent(
           [
             [12, 12],
@@ -655,7 +690,11 @@
               .map((feature) => {
                 const id = regionId(feature);
                 const name = regionName(feature);
-                return `<path tabindex="0" class="region" data-region-id="${escapeHtml(id)}" d="${path(feature)}"><title>${escapeHtml(name)}</title></path>`;
+                const pathData = path(feature);
+                if (!pathData) {
+                  return "";
+                }
+                return `<path tabindex="0" class="region" data-region-id="${escapeHtml(id)}" d="${pathData}"><title>${escapeHtml(name)}</title></path>`;
               })
               .join("")}
           </svg>
@@ -767,6 +806,11 @@
 
       controls.mapMode.addEventListener("change", async () => {
         await refreshMode();
+        postSettings();
+      });
+      controls.projectionMode.addEventListener("change", () => {
+        settings = normalizeSettings(readSettingsFromControls());
+        renderMap();
         postSettings();
       });
       controls.title.addEventListener("input", postSettings);

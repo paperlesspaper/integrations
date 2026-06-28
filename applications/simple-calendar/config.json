@@ -1,6 +1,7 @@
 {
   "name": "Simple Calendar",
   "version": "0.1.0",
+  "status": "beta",
   "description": "Shows a configurable monthly calendar inspired by the TRMNL Simple Calendar recipe.",
   "renderPage": "./render.html",
   "settingsPage": "./settings.html",

@@ -1,6 +1,7 @@
 {
   "name": "Bike Commute Card",
   "version": "0.1.0",
+  "status": "alpha",
   "description": "Shows rain window, wind, route status, and air quality for a bike commute.",
   "renderPage": "./render.html",
   "icon": "./assets/icon.png",

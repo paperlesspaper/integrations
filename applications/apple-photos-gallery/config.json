@@ -1,6 +1,7 @@
 {
   "name": "Apple Photos Gallery",
   "version": "0.1.0",
+  "status": "alpha",
   "description": "Shows a random or numbered image from a public Apple Photos shared album.",
   "renderPage": "./render.html",
   "icon": "./assets/icon.png",

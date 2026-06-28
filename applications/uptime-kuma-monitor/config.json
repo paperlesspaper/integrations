@@ -1,6 +1,7 @@
 {
   "name": "Uptime Kuma Monitor",
   "version": "0.1.0",
+  "status": "alpha",
   "description": "Shows a public Uptime Kuma status page with monitor states, 24-hour uptime, heartbeat history, incidents, and maintenance.",
   "renderPage": "./render.html",
   "icon": "./assets/icon.png",

@@ -1,6 +1,7 @@
 {
   "name": "World Cup 2026",
   "version": "0.1.0",
+  "status": "alpha",
   "description": "Shows World Cup 2026 results, fixtures, and the group table for a favorite team.",
   "renderPage": "./render.html",
   "icon": "./assets/icon.png",

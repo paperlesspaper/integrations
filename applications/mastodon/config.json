@@ -1,6 +1,7 @@
 {
   "name": "Mastodon",
   "version": "0.1.0",
+  "status": "beta",
   "description": "Shows a Mastodon home timeline, hashtag stream, or profile feed.",
   "renderPage": "./render.html",
   "icon": "./assets/icon.png",

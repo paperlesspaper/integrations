@@ -1,6 +1,7 @@
 {
   "name": "Google Sheet Table",
   "version": "0.1.0",
+  "status": "beta",
   "description": "Shows a public Google Sheet as an eInk-friendly table, with optional filtered summary mode.",
   "icon": "./assets/icon.png",
   "renderPage": "./render.html",

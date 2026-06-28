@@ -1,6 +1,7 @@
 {
   "name": "Constellations in the Sky",
   "version": "0.2.0",
+  "status": "alpha",
   "description": "Shows a location-aware constellation sky map powered by VirtualSky.",
   "renderPage": "./render.html",
   "icon": "./assets/icon.png",

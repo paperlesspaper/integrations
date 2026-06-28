@@ -1,9 +1,11 @@
 {
   "name": "Duden Wort des Tages",
   "version": "0.1.0",
+  "status": "alpha",
   "description": "Shows Duden's German word of the day with meaning, usage, origin, type, and frequency.",
   "renderPage": "./render.html",
   "icon": "./assets/icon.png",
+  "requiredPermissions": ["googleCalendar"],
   "nativeSettings": {
     "wordPath": ""
   },
@@ -27,11 +29,5 @@
       }
     }
   },
-  "language": [
-    "en",
-    "de",
-    "fr",
-    "es",
-    "it"
-  ]
+  "language": ["en", "de", "fr", "es", "it"]
 }

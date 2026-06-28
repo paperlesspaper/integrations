@@ -1,0 +1,8 @@
+{
+  "allDay": "All day",
+  "empty": "No events to show",
+  "errorTitle": "Google Calendar could not load",
+  "loading": "Loading calendar...",
+  "moreEvents": "+{count} more",
+  "untitled": "Untitled event"
+}

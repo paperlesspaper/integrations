@@ -1,6 +1,7 @@
 {
   "name": "Airtable",
   "version": "0.1.0",
+  "status": "alpha",
   "description": "Shows one or more Airtable tables as compact eInk-friendly data views.",
   "renderPage": "./render.html",
   "icon": "./assets/icon.png",

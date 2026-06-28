@@ -1,0 +1,536 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="paperless:epd-optimize" content='{"intent":"readable"}' />
+    <title>Your Life in Weeks</title>
+    <link rel="stylesheet" href="/assets/paperless.css" />
+    <script src="/assets/paperless.iife.js"></script>
+    <style>
+      .life-screen {
+        --life-lived: var(--pp-accent);
+        --life-current: #d23b2d;
+        --life-future: var(--pp-card);
+        --life-soft: color-mix(in srgb, var(--pp-accent) 14%, var(--pp-card));
+        display: grid;
+        grid-template-rows: auto minmax(0, 1fr) auto;
+        gap: 14px;
+        padding: 22px;
+      }
+
+      .life-header {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        gap: 18px;
+        align-items: end;
+        padding-bottom: 12px;
+        border-bottom: 3px solid var(--pp-border);
+      }
+
+      .life-title {
+        margin: 0;
+        font-size: clamp(2rem, 7.8vh, 4.4rem);
+        line-height: 0.92;
+        font-weight: 960;
+        letter-spacing: 0;
+        overflow-wrap: anywhere;
+      }
+
+      .life-subtitle {
+        margin: 8px 0 0;
+        color: var(--pp-muted);
+        font-size: clamp(0.85rem, 2.2vh, 1.05rem);
+        line-height: 1.05;
+        font-weight: 780;
+      }
+
+      .life-stats {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(88px, 1fr));
+        gap: 8px;
+        min-width: 312px;
+      }
+
+      .stat {
+        min-width: 0;
+        padding: 10px 11px;
+        border: 2px solid var(--pp-border);
+        background: var(--life-soft);
+      }
+
+      .stat-label {
+        margin: 0 0 6px;
+        color: var(--pp-muted);
+        font-size: 0.66rem;
+        line-height: 1;
+        font-weight: 850;
+        text-transform: uppercase;
+      }
+
+      .stat-value {
+        margin: 0;
+        font-size: clamp(1.15rem, 4.6vh, 2rem);
+        line-height: 0.95;
+        font-weight: 930;
+        overflow-wrap: anywhere;
+      }
+
+      .life-map-wrap {
+        min-height: 0;
+        display: grid;
+        grid-template-columns: 34px minmax(0, 1fr);
+        gap: 9px;
+        align-items: stretch;
+      }
+
+      .year-rail {
+        min-height: 0;
+        display: grid;
+        color: var(--pp-muted);
+        font-size: 0.58rem;
+        line-height: 1;
+        font-weight: 850;
+      }
+
+      .year-label {
+        align-self: center;
+        text-align: right;
+      }
+
+      .weeks-grid {
+        min-width: 0;
+        min-height: 0;
+        display: grid;
+        grid-template-columns: repeat(52, minmax(0, 1fr));
+        gap: 2px;
+        padding: 7px;
+        border: 3px solid var(--pp-border);
+        background: var(--pp-bg);
+      }
+
+      .week {
+        min-width: 0;
+        min-height: 0;
+        border: 1px solid color-mix(in srgb, var(--pp-border) 74%, var(--pp-bg));
+        background: var(--life-future);
+      }
+
+      .week.is-lived {
+        border-color: var(--pp-fg);
+        background: var(--life-lived);
+      }
+
+      .week.is-current {
+        border-color: var(--pp-fg);
+        background: var(--life-current);
+        outline: 2px solid var(--pp-fg);
+        outline-offset: -2px;
+      }
+
+      .life-footer {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        gap: 14px;
+        align-items: center;
+        min-height: 28px;
+      }
+
+      .life-note {
+        margin: 0;
+        color: var(--pp-muted);
+        font-size: 0.86rem;
+        line-height: 1.1;
+        font-weight: 720;
+        overflow-wrap: anywhere;
+      }
+
+      .legend {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+        gap: 10px;
+        font-size: 0.72rem;
+        line-height: 1;
+        font-weight: 850;
+        text-transform: uppercase;
+      }
+
+      .legend-item {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        white-space: nowrap;
+      }
+
+      .legend-swatch {
+        width: 13px;
+        height: 13px;
+        border: 1px solid var(--pp-fg);
+        background: var(--life-future);
+      }
+
+      .legend-swatch.lived {
+        background: var(--life-lived);
+      }
+
+      .legend-swatch.current {
+        background: var(--life-current);
+        outline: 1px solid var(--pp-fg);
+      }
+
+      .is-hidden {
+        display: none;
+      }
+
+      @media (orientation: portrait) {
+        .life-screen {
+          gap: 13px;
+          padding: 20px;
+        }
+
+        .life-header {
+          grid-template-columns: minmax(0, 1fr);
+          gap: 12px;
+          align-items: start;
+        }
+
+        .life-stats {
+          width: 100%;
+          min-width: 0;
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+
+        .life-map-wrap {
+          grid-template-columns: 30px minmax(0, 1fr);
+          gap: 7px;
+        }
+
+        .weeks-grid {
+          gap: 2px;
+          padding: 6px;
+        }
+
+        .life-footer {
+          grid-template-columns: minmax(0, 1fr);
+          gap: 9px;
+        }
+
+        .legend {
+          justify-content: flex-start;
+        }
+      }
+
+      @media (max-width: 700px), (max-height: 560px) {
+        .life-screen {
+          gap: 10px;
+          padding: 15px;
+        }
+
+        .life-header {
+          gap: 11px;
+          padding-bottom: 9px;
+          border-bottom-width: 2px;
+        }
+
+        .life-title {
+          font-size: clamp(1.65rem, 7.4vh, 3.25rem);
+        }
+
+        .life-subtitle {
+          margin-top: 5px;
+          font-size: 0.75rem;
+        }
+
+        .life-stats {
+          gap: 6px;
+          min-width: 276px;
+        }
+
+        .stat {
+          padding: 8px;
+          border-width: 2px;
+        }
+
+        .stat-label {
+          font-size: 0.56rem;
+        }
+
+        .stat-value {
+          font-size: clamp(0.96rem, 4.4vh, 1.55rem);
+        }
+
+        .life-map-wrap {
+          grid-template-columns: 28px minmax(0, 1fr);
+          gap: 6px;
+        }
+
+        .year-rail {
+          font-size: 0.5rem;
+        }
+
+        .weeks-grid {
+          gap: 1px;
+          padding: 5px;
+          border-width: 2px;
+        }
+
+        .week {
+          border-width: 0;
+        }
+
+        .week.is-current {
+          outline-width: 1px;
+          outline-offset: -1px;
+        }
+
+        .life-note {
+          font-size: 0.68rem;
+        }
+
+        .legend {
+          gap: 7px;
+          font-size: 0.58rem;
+        }
+
+        .legend-swatch {
+          width: 10px;
+          height: 10px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="website-has-loading-element"></div>
+    <main class="pp-screen life-screen" id="screen">
+      <header class="life-header">
+        <div>
+          <h1 class="life-title pp-fit" id="title">Your Life in Weeks</h1>
+          <p class="life-subtitle" id="subtitle">A dot for every week.</p>
+        </div>
+        <section class="life-stats" id="stats" aria-label="Life statistics">
+          <article class="stat">
+            <p class="stat-label" id="ageLabel">Age</p>
+            <p class="stat-value pp-fit" id="ageValue">0</p>
+          </article>
+          <article class="stat">
+            <p class="stat-label" id="weeksLivedLabel">Weeks lived</p>
+            <p class="stat-value pp-fit" id="weeksLivedValue">0</p>
+          </article>
+          <article class="stat">
+            <p class="stat-label" id="progressLabel">Progress</p>
+            <p class="stat-value pp-fit" id="progressValue">0%</p>
+          </article>
+        </section>
+      </header>
+
+      <section class="life-map-wrap">
+        <div class="year-rail" id="yearRail" aria-hidden="true"></div>
+        <div class="weeks-grid" id="weeksGrid" role="img" aria-label="Lifetime week grid"></div>
+      </section>
+
+      <footer class="life-footer">
+        <p class="life-note" id="note"></p>
+        <div class="legend" id="legend" aria-label="Legend">
+          <span class="legend-item"><span class="legend-swatch lived"></span><span id="livedLegend">Lived</span></span>
+          <span class="legend-item"><span class="legend-swatch current"></span><span id="currentLegend">This week</span></span>
+          <span class="legend-item"><span class="legend-swatch"></span><span id="futureLegend">Remaining</span></span>
+        </div>
+      </footer>
+    </main>
+
+    <script>
+      (async function render() {
+        const {
+          waitForPayload,
+          getSettings,
+          getQuerySettings,
+          mergeSettings,
+          loadLanguageJson,
+          applyColorTheme,
+          fitHyphenatedText,
+          fitToScreen,
+          escapeHtml,
+          markReady,
+          markError,
+        } = window.PaperlessOpenIntegration;
+
+        const defaults = {
+          color: "light",
+          title: "Your Life in Weeks",
+          birthDate: "1990-01-01",
+          lifeExpectancy: 90,
+          showAge: true,
+          showLegend: true,
+        };
+
+        const fallbackMessages = {
+          subtitle: "A dot for every week.",
+          ageLabel: "Age",
+          weeksLivedLabel: "Weeks lived",
+          remainingLabel: "Weeks left",
+          progressLabel: "Progress",
+          livedLabel: "Lived",
+          currentLabel: "This week",
+          futureLabel: "Remaining",
+          yearLabel: "Year",
+          footerTemplate: "Born {birthDate}. Grid assumes {years} years.",
+          invalidBirthDateTitle: "Invalid birth date",
+          invalidBirthDateMessage: "Set birthDate as YYYY-MM-DD.",
+          futureBirthDateMessage: "Birth date must not be in the future.",
+        };
+
+        const weekMs = 7 * 24 * 60 * 60 * 1000;
+
+        function asBoolean(value, fallback) {
+          if (value === true || value === "true") return true;
+          if (value === false || value === "false") return false;
+          return fallback;
+        }
+
+        function clamp(value, min, max) {
+          return Math.min(max, Math.max(min, value));
+        }
+
+        function parseBirthDate(value) {
+          const match = String(value || "").trim().match(/^(\d{4})-(\d{2})-(\d{2})$/);
+          if (!match) return null;
+          const date = new Date(Number(match[1]), Number(match[2]) - 1, Number(match[3]), 12, 0, 0, 0);
+          if (
+            Number.isNaN(date.getTime()) ||
+            date.getFullYear() !== Number(match[1]) ||
+            date.getMonth() !== Number(match[2]) - 1 ||
+            date.getDate() !== Number(match[3])
+          ) {
+            return null;
+          }
+          return date;
+        }
+
+        function formatDate(date, language) {
+          return new Intl.DateTimeFormat(language || "en", {
+            year: "numeric",
+            month: "short",
+            day: "2-digit",
+          }).format(date);
+        }
+
+        function calculateAgeYears(birthDate, now) {
+          let years = now.getFullYear() - birthDate.getFullYear();
+          const birthdayThisYear = new Date(now.getFullYear(), birthDate.getMonth(), birthDate.getDate(), 12, 0, 0, 0);
+          if (now < birthdayThisYear) years -= 1;
+          return Math.max(0, years);
+        }
+
+        function setText(id, value) {
+          document.getElementById(id).textContent = value;
+        }
+
+        function renderYearRail(years) {
+          const rail = document.getElementById("yearRail");
+          rail.style.gridTemplateRows = `repeat(${years}, minmax(0, 1fr))`;
+          rail.innerHTML = "";
+          for (let year = 0; year <= years; year += 10) {
+            const label = document.createElement("span");
+            label.className = "year-label";
+            label.style.gridRow = `${Math.min(year + 1, years)} / span 1`;
+            label.textContent = String(year);
+            rail.appendChild(label);
+          }
+        }
+
+        function renderWeeksGrid(years, weeksLived, currentWeekIndex) {
+          const grid = document.getElementById("weeksGrid");
+          const totalWeeks = years * 52;
+          grid.style.gridTemplateRows = `repeat(${years}, minmax(0, 1fr))`;
+          grid.innerHTML = "";
+
+          const fragment = document.createDocumentFragment();
+          for (let index = 0; index < totalWeeks; index += 1) {
+            const cell = document.createElement("span");
+            cell.className = "week";
+            if (index < weeksLived) cell.classList.add("is-lived");
+            if (index === currentWeekIndex) cell.classList.add("is-current");
+            fragment.appendChild(cell);
+          }
+          grid.appendChild(fragment);
+        }
+
+        try {
+          const payload = await waitForPayload({ timeoutMs: 500 });
+          const settings = mergeSettings(defaults, getSettings(payload), getQuerySettings());
+          const languageResult = await loadLanguageJson(payload).catch(() => ({ language: "en", messages: {} }));
+          const messages = { ...fallbackMessages, ...(languageResult.messages || {}) };
+          const language = languageResult.language || "en";
+          document.documentElement.lang = language;
+          applyColorTheme(settings.color, { defaultTheme: defaults.color });
+
+          const birthDate = parseBirthDate(settings.birthDate);
+          if (!birthDate) {
+            throw new Error(messages.invalidBirthDateMessage);
+          }
+
+          const now = new Date();
+          if (birthDate > now) {
+            throw new Error(messages.futureBirthDateMessage);
+          }
+
+          const years = clamp(Math.round(Number(settings.lifeExpectancy) || defaults.lifeExpectancy), 1, 120);
+          const totalWeeks = years * 52;
+          const elapsedWeeks = Math.floor((now.getTime() - birthDate.getTime()) / weekMs);
+          const weeksLived = clamp(elapsedWeeks, 0, totalWeeks);
+          const currentWeekIndex = clamp(elapsedWeeks, 0, totalWeeks - 1);
+          const weeksRemaining = Math.max(0, totalWeeks - weeksLived);
+          const progress = Math.round((weeksLived / totalWeeks) * 1000) / 10;
+          const ageYears = calculateAgeYears(birthDate, now);
+          const showAge = asBoolean(settings.showAge, defaults.showAge);
+          const showLegend = asBoolean(settings.showLegend, defaults.showLegend);
+          const formattedBirthDate = formatDate(birthDate, language);
+
+          setText("title", String(settings.title || defaults.title).trim() || defaults.title);
+          setText("subtitle", messages.subtitle);
+          setText("ageLabel", messages.ageLabel);
+          setText("weeksLivedLabel", messages.weeksLivedLabel);
+          setText("progressLabel", messages.progressLabel);
+          setText("ageValue", String(ageYears));
+          setText("weeksLivedValue", String(weeksLived));
+          setText("progressValue", `${progress}%`);
+          setText("livedLegend", messages.livedLabel);
+          setText("currentLegend", messages.currentLabel);
+          setText("futureLegend", messages.futureLabel);
+          setText(
+            "note",
+            messages.footerTemplate
+              .replace("{birthDate}", formattedBirthDate)
+              .replace("{years}", String(years))
+          );
+
+          document.getElementById("stats").classList.toggle("is-hidden", !showAge);
+          document.getElementById("legend").classList.toggle("is-hidden", !showLegend);
+          renderYearRail(years);
+          renderWeeksGrid(years, weeksLived, currentWeekIndex);
+          document.getElementById("weeksGrid").setAttribute(
+            "aria-label",
+            `${messages.weeksLivedLabel}: ${weeksLived}. ${messages.remainingLabel}: ${weeksRemaining}.`
+          );
+
+          await document.fonts?.ready;
+          fitHyphenatedText(document.getElementById("title"), { min: 20, max: 76, step: 1, tolerance: 8 });
+          document.querySelectorAll(".stat-value").forEach((element) => {
+            fitHyphenatedText(element, { min: 14, max: 36, step: 1, tolerance: 5 });
+          });
+          fitToScreen(document.getElementById("screen"));
+          markReady({ weeksLived, weeksRemaining, years });
+        } catch (error) {
+          markError(error);
+          document.body.innerHTML = `
+            <main class="pp-screen life-screen">
+              <h1 class="life-title pp-error">${escapeHtml(fallbackMessages.invalidBirthDateTitle)}</h1>
+              <p>${escapeHtml(error.message || fallbackMessages.invalidBirthDateMessage)}</p>
+            </main>
+          `;
+        }
+      })();
+    </script>
+  </body>
+</html>

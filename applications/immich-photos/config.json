@@ -1,6 +1,7 @@
 {
   "name": "Immich Photos",
   "version": "0.1.0",
+  "status": "alpha",
   "description": "Shows a random, newest, or oldest photo from an Immich server.",
   "renderPage": "./render.html",
   "icon": "./assets/icon.png",

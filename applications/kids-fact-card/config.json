@@ -1,6 +1,7 @@
 {
   "name": "Kids Fact Card",
   "version": "0.1.0",
+  "status": "alpha",
   "description": "Shows a kid-friendly dinosaur, space, or animal fact of the day with a small thinking prompt.",
   "renderPage": "./render.html",
   "icon": "./assets/icon.png",

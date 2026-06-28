@@ -1,6 +1,7 @@
 {
   "name": "Quote",
   "version": "0.1.0",
+  "status": "alpha",
   "description": "Shows a deterministic daily quote.",
   "renderPage": "./render.html",
   "icon": "./assets/icon.png",

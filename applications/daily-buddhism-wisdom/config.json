@@ -1,6 +1,7 @@
 {
   "name": "Daily Buddhism Wisdom",
   "version": "0.1.0",
+  "status": "alpha",
   "description": "Shows the daily quote from Buddha API.",
   "renderPage": "./render.html",
   "icon": "./assets/icon.png",

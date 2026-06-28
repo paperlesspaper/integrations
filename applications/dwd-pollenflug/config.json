@@ -1,6 +1,7 @@
 {
   "name": "DWD Pollenflug",
   "version": "0.1.0",
+  "status": "alpha",
   "description": "Shows current DWD pollen forecasts for a German forecast region.",
   "renderPage": "./render.html",
   "icon": "./assets/icon.png",

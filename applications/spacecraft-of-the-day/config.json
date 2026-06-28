@@ -1,6 +1,7 @@
 {
   "name": "Spacecraft of the Day",
   "version": "0.1.0",
+  "status": "beta",
   "description": "Shows one deterministic daily spacecraft with an upright technical illustration and compact mission facts.",
   "renderPage": "./render.html",
   "icon": "./assets/icon.png",
@@ -69,13 +70,26 @@
       "vehicleType": {
         "type": "string",
         "title": "Vehicle type",
-        "enum": ["any", "satellite", "probe", "capsule", "rocket", "lander", "telescope", "orbiter"],
+        "enum": [
+          "any",
+          "satellite",
+          "probe",
+          "capsule",
+          "rocket",
+          "lander",
+          "telescope",
+          "orbiter"
+        ],
         "default": "any"
       },
       "era": {
         "type": "string",
         "title": "Era",
-        "enum": ["any", "historic", "modern"],
+        "enum": [
+          "any",
+          "historic",
+          "modern"
+        ],
         "default": "any"
       },
       "spacecraftId": {
@@ -152,5 +166,8 @@
       }
     }
   },
-  "language": ["en", "de"]
+  "language": [
+    "en",
+    "de"
+  ]
 }

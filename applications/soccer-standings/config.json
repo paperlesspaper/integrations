@@ -1,6 +1,7 @@
 {
   "name": "Soccer Standings",
   "version": "0.1.0",
+  "status": "alpha",
   "description": "Shows European soccer league standings with optional favorite-team focus, crests, and a markdown note.",
   "renderPage": "./render.html",
   "icon": "./assets/icon.png",

@@ -1,6 +1,7 @@
 {
   "name": "Bible Verses",
   "version": "0.1.0",
+  "status": "alpha",
   "description": "Shows a random Bible verse or a curated verse of the day.",
   "renderPage": "./render.html",
   "icon": "./assets/icon.png",
@@ -50,28 +51,46 @@
         "type": "string",
         "title": "Mode",
         "description": "Choose random verses or the curated DailyVerses.net verse of the day.",
-        "enum": ["random", "daily"],
+        "enum": [
+          "random",
+          "daily"
+        ],
         "default": "random"
       },
       "source": {
         "type": "string",
         "title": "Source",
         "description": "Choose the random verse API source. Daily mode uses DailyVerses.net.",
-        "enum": ["bible-api", "bolls"],
+        "enum": [
+          "bible-api",
+          "bolls"
+        ],
         "default": "bible-api"
       },
       "version": {
         "type": "string",
         "title": "Version",
         "description": "Pick a Bible translation. Daily mode uses matching DailyVerses.net translations where available, otherwise WEB or LUT.",
-        "enum": ["asv", "kjv", "web", "lut", "elb", "sch", "mb"],
+        "enum": [
+          "asv",
+          "kjv",
+          "web",
+          "lut",
+          "elb",
+          "sch",
+          "mb"
+        ],
         "default": "web"
       },
       "scope": {
         "type": "string",
         "title": "Books",
         "description": "Choose where the random verse is selected from.",
-        "enum": ["all", "ot", "nt"],
+        "enum": [
+          "all",
+          "ot",
+          "nt"
+        ],
         "default": "all"
       },
       "showHeader": {

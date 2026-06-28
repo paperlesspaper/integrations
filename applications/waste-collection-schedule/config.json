@@ -1,6 +1,7 @@
 {
   "name": "Waste Collection Schedule",
   "version": "0.1.0",
+  "status": "alpha",
   "description": "Shows the next waste collection dates from an ICS/iCal feed or manual recurring schedules.",
   "renderPage": "./render.html",
   "icon": "./assets/icon.png",

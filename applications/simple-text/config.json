@@ -1,6 +1,7 @@
 {
   "name": "Simple Text",
   "version": "0.1.0",
+  "status": "alpha",
   "description": "Displays configurable plain text or markdown.",
   "renderPage": "./render.html",
   "icon": "./assets/icon.png",

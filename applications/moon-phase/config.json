@@ -1,6 +1,7 @@
 {
   "name": "Moon Phase",
   "version": "0.1.0",
+  "status": "alpha",
   "description": "Shows the moon phase, illumination, age, and optional next major phase estimate for a configurable date and hemisphere.",
   "renderPage": "./render.html",
   "icon": "./assets/icon.png",

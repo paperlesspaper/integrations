@@ -1,0 +1,15 @@
+{
+  "subtitle": "Ein Punkt fuer jede Woche.",
+  "ageLabel": "Alter",
+  "weeksLivedLabel": "Gelebte Wochen",
+  "remainingLabel": "Wochen uebrig",
+  "progressLabel": "Fortschritt",
+  "livedLabel": "Gelebt",
+  "currentLabel": "Diese Woche",
+  "futureLabel": "Uebrig",
+  "yearLabel": "Jahr",
+  "footerTemplate": "Geboren am {birthDate}. Raster rechnet mit {years} Jahren.",
+  "invalidBirthDateTitle": "Ungueltiges Geburtsdatum",
+  "invalidBirthDateMessage": "Bitte birthDate als YYYY-MM-DD setzen.",
+  "futureBirthDateMessage": "Das Geburtsdatum darf nicht in der Zukunft liegen."
+}

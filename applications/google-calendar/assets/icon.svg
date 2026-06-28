@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Google Calendar integration icon">
+  <defs>
+    <linearGradient id="top" x1="96" y1="57" x2="415" y2="135" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#5d9af6"/>
+      <stop offset="1" stop-color="#4c85ed"/>
+    </linearGradient>
+    <linearGradient id="paper" x1="113" y1="160" x2="376" y2="397" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#fffdf9"/>
+      <stop offset="1" stop-color="#f3eee5"/>
+    </linearGradient>
+    <filter id="shadow" x="56" y="41" width="400" height="400" color-interpolation-filters="sRGB" filterUnits="userSpaceOnUse">
+      <feDropShadow dx="0" dy="2" stdDeviation="2.5" flood-color="#000000" flood-opacity=".22"/>
+    </filter>
+    <clipPath id="cardClip">
+      <rect x="78" y="57" width="324" height="366" rx="31"/>
+    </clipPath>
+  </defs>
+  <rect width="512" height="512" fill="none"/>
+  <g filter="url(#shadow)">
+    <rect x="78" y="57" width="324" height="366" rx="31" fill="url(#paper)" stroke="#1f2937" stroke-width="1.5"/>
+    <g clip-path="url(#cardClip)">
+      <rect x="78" y="57" width="324" height="79" fill="url(#top)"/>
+      <path d="M78 136h324" stroke="#2d5fbf" stroke-opacity=".45" stroke-width="1"/>
+    </g>
+  </g>
+  <text x="240" y="240" fill="#4c85ed" font-family="Arial, Helvetica, sans-serif" font-size="86" font-weight="700" text-anchor="middle">G</text>
+  <text x="240" y="369" fill="#2f3b4a" font-family="Arial, Helvetica, sans-serif" font-size="152" font-weight="500" text-anchor="middle">31</text>
+</svg>

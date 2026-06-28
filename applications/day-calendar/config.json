@@ -1,6 +1,7 @@
 {
   "name": "Day Calendar",
   "version": "0.1.0",
+  "status": "alpha",
   "description": "Shows the current day with optional demotivational quotes or funny facts from the paperlesspaper DayCalendar app.",
   "renderPage": "./render.html",
   "icon": "./assets/icon.png",

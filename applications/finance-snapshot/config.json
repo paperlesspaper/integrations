@@ -1,6 +1,7 @@
 {
   "name": "Finance Snapshot",
   "version": "0.1.0",
+  "status": "alpha",
   "description": "Shows a compact snapshot of markets, commodities, crypto, currencies, energy, and selected stocks.",
   "renderPage": "./render.html",
   "icon": "./assets/icon.png",

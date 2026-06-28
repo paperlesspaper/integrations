@@ -1,6 +1,7 @@
 {
   "name": "NFL Scoreboard",
   "version": "0.1.0",
+  "status": "alpha",
   "description": "Shows NFL scores, fixtures, live status, favorite-team highlights, and league leaders from ESPN.",
   "icon": "./assets/icon.png",
   "renderPage": "./render.html",

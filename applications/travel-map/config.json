@@ -1,6 +1,7 @@
 {
   "name": "Travel Map",
   "version": "0.1.0",
+  "status": "alpha",
   "description": "Shows a personal visited map for countries, US states, or German Bundesländer with year-based coloring.",
   "renderPage": "./render.html",
   "settingsPage": "./settings.html",
@@ -8,6 +9,7 @@
   "nativeSettings": {
     "color": "light",
     "mapMode": "countries",
+    "projectionMode": "auto",
     "title": "Travel Map",
     "visitedRegions": "{\"countries\":{\"250\":\"2016\",\"380\":\"2018\",\"724\":\"2019\",\"276\":\"2020\",\"840\":\"2023\"},\"usStates\":{\"06\":\"2022\",\"36\":\"2023\",\"12\":\"2024\"},\"bundeslaender\":{\"DE-BE\":\"2020\",\"DE-BY\":\"2021\",\"DE-HH\":\"2023\"}}",
     "colorMode": "byYear",
@@ -19,6 +21,7 @@
     {
       "color": "light",
       "mapMode": "countries",
+      "projectionMode": "equalEarth",
       "title": "Travel Map",
       "visitedRegions": "{\"countries\":{\"250\":\"2016\",\"380\":\"2018\",\"724\":\"2019\",\"276\":\"2020\",\"840\":\"2023\",\"392\":\"2025\"},\"usStates\":{},\"bundeslaender\":{}}",
       "colorMode": "byYear",
@@ -33,6 +36,7 @@
     {
       "color": "dark",
       "mapMode": "bundeslaender",
+      "projectionMode": "auto",
       "title": "Bundesländer",
       "visitedRegions": "{\"countries\":{},\"usStates\":{},\"bundeslaender\":{\"DE-BE\":\"2020\",\"DE-BY\":\"2021\",\"DE-HH\":\"2023\",\"DE-NW\":\"2024\",\"DE-SN\":\"2025\"}}",
       "colorMode": "shadeByYear",
@@ -57,6 +61,19 @@
           "bundeslaender"
         ],
         "default": "countries",
+        "inStettingsPage": true
+      },
+      "projectionMode": {
+        "type": "string",
+        "title": "Projection",
+        "enum": [
+          "auto",
+          "naturalEarth",
+          "equalEarth",
+          "mercator",
+          "equirectangular"
+        ],
+        "default": "auto",
         "inStettingsPage": true
       },
       "title": {

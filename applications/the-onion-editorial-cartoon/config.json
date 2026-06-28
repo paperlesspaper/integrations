@@ -1,6 +1,7 @@
 {
   "name": "The Onion - Editorial Cartoon",
   "version": "0.1.0",
+  "status": "alpha",
   "description": "Shows a recent editorial cartoon from The Onion's Cartoons section.",
   "renderPage": "./render.html",
   "icon": "./assets/icon.png",

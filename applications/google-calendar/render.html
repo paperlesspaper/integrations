@@ -1,0 +1,1353 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="paperless:epd-optimize" content='{"intent":"readable"}' />
+    <title>Google Calendar</title>
+    <link rel="stylesheet" href="/assets/paperless.css" />
+    <script src="/assets/paperless.iife.js"></script>
+    <style>
+      .calendar-screen {
+        --calendar-bg: #000;
+        --calendar-fg: #fff;
+        --calendar-highlight: #0000ff;
+        height: 100vh;
+        display: flex;
+        align-items: stretch;
+        justify-content: stretch;
+        background: var(--calendar-bg);
+        color: var(--calendar-fg);
+        font-family: var(--pp-font);
+        -webkit-font-smoothing: none;
+        overflow: hidden;
+      }
+
+      .calendar-screen.theme-light {
+        --calendar-bg: #fff;
+        --calendar-fg: #000;
+        --calendar-highlight: #0000ff;
+      }
+
+      .calendar-screen.theme-red-dark {
+        --calendar-bg: #000;
+        --calendar-fg: #fff;
+        --calendar-highlight: #ff0000;
+      }
+
+      .calendar-screen.theme-red-light {
+        --calendar-bg: #fff;
+        --calendar-fg: #000;
+        --calendar-highlight: #ff0000;
+      }
+
+      .calendar-screen.theme-blue-dark {
+        --calendar-bg: #000;
+        --calendar-fg: #fff;
+        --calendar-highlight: #0000ff;
+      }
+
+      .calendar-screen.theme-blue-light {
+        --calendar-bg: #fff;
+        --calendar-fg: #000;
+        --calendar-highlight: #0000ff;
+      }
+
+      .calendar-screen.theme-green-dark {
+        --calendar-bg: #000;
+        --calendar-fg: #fff;
+        --calendar-highlight: #00ff00;
+      }
+
+      .calendar-screen.theme-green-light {
+        --calendar-bg: #fff;
+        --calendar-fg: #000;
+        --calendar-highlight: #00ff00;
+      }
+
+      .today-banner {
+        width: calc(100% + 2em);
+        margin: 0 -1em;
+        padding: 1em 2em;
+        background: var(--calendar-highlight);
+        color: var(--calendar-bg);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        font-weight: 800;
+        overflow: hidden;
+      }
+
+      .today-weekday {
+        margin-top: 0.2em;
+        font-size: 4em;
+        line-height: 0.95;
+        font-weight: 100;
+        overflow-wrap: anywhere;
+      }
+
+      .today-date {
+        margin-top: -0.1em;
+        font-size: 4em;
+        line-height: 0.95;
+        overflow-wrap: anywhere;
+      }
+
+      .calendar-content {
+        width: 100%;
+        flex: 1;
+        min-width: 0;
+        min-height: 0;
+        overflow: hidden;
+      }
+
+      .calendar-inside {
+        height: 100%;
+        padding: 1em;
+        overflow: hidden;
+      }
+
+      .today-banner + .calendar-content {
+        margin-top: 0.3em;
+      }
+
+      .day-group + .day-group {
+        margin-top: 0.3em;
+      }
+
+      .day-header {
+        padding: 0.3em;
+        background: var(--calendar-fg);
+        color: var(--calendar-bg);
+        font-size: 1.25em;
+        font-weight: 700;
+        line-height: 1.1;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        overflow-wrap: anywhere;
+      }
+
+      .event-card {
+        width: calc(100% + 0.4em);
+        margin: 0 -0.2em;
+        padding: 0.2em 0.2em 0.7em;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        border-bottom: 2px solid var(--calendar-fg);
+        overflow: hidden;
+      }
+
+      .event-card:last-child {
+        border-bottom-width: 0;
+      }
+
+      .event-time {
+        margin: 0 0.3em 0.1em 0;
+        font-size: 2em;
+        line-height: 1;
+        font-weight: 900;
+        overflow-wrap: anywhere;
+      }
+
+      .event-title {
+        margin: 0;
+        font-size: 1.4em;
+        line-height: 1.15;
+        font-weight: 400;
+        overflow-wrap: anywhere;
+      }
+
+      .empty {
+        margin-top: 2em;
+        font-size: 1.25em;
+        line-height: 1.2;
+        text-align: center;
+        opacity: 0.8;
+      }
+
+      .calendar-inside.view-agenda,
+      .calendar-inside.view-day,
+      .calendar-inside.view-three-days,
+      .calendar-inside.view-week,
+      .calendar-inside.view-year {
+        display: flex;
+        flex-direction: column;
+        gap: 0.55em;
+      }
+
+      .range-title {
+        margin: 0;
+        padding: 0.22em 0.35em;
+        background: var(--calendar-fg);
+        color: var(--calendar-bg);
+        font-size: 1.65em;
+        line-height: 1;
+        font-weight: 900;
+        overflow-wrap: anywhere;
+      }
+
+      .range-grid {
+        flex: 1;
+        min-height: 0;
+        display: grid;
+        gap: 0;
+      }
+
+      .range-grid.days-1 {
+        grid-template-columns: 1fr;
+      }
+
+      .range-grid.days-3 {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .range-grid.days-7 {
+        grid-template-columns: repeat(7, minmax(0, 1fr));
+      }
+
+      .calendar-column,
+      .week-cell,
+      .month-card {
+        min-width: 0;
+        min-height: 0;
+        border: 2px solid var(--calendar-fg);
+        overflow: hidden;
+      }
+
+      .calendar-column {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .calendar-column + .calendar-column {
+        border-left-width: 0;
+      }
+
+      .column-head,
+      .month-head {
+        padding: 0.35em 0.45em;
+        background: var(--calendar-fg);
+        color: var(--calendar-bg);
+        font-weight: 900;
+        line-height: 1;
+      }
+
+      .column-weekday {
+        display: block;
+        font-size: 1.1em;
+        text-transform: uppercase;
+      }
+
+      .column-date {
+        display: block;
+        margin-top: 0.12em;
+        font-size: 1.9em;
+        font-weight: 400;
+      }
+
+      .compact-events {
+        flex: 1;
+        min-height: 0;
+        padding: 0.35em 0.45em;
+        overflow: hidden;
+      }
+
+      .compact-event {
+        padding-bottom: 0.35em;
+        border-bottom: 1px solid var(--calendar-fg);
+      }
+
+      .compact-event + .compact-event {
+        padding-top: 0.35em;
+      }
+
+      .compact-event:last-child {
+        border-bottom-width: 0;
+      }
+
+      .compact-time {
+        margin: 0 0 0.1em;
+        font-size: 1.05em;
+        line-height: 1;
+        font-weight: 900;
+        overflow-wrap: anywhere;
+      }
+
+      .compact-title {
+        margin: 0;
+        font-size: 1.1em;
+        line-height: 1.08;
+        font-weight: 500;
+        overflow-wrap: anywhere;
+      }
+
+      .week-grid {
+        flex: 1;
+        min-height: 0;
+        display: grid;
+        grid-template-columns: repeat(7, minmax(0, 1fr));
+        grid-template-rows: 1fr;
+        gap: 0;
+      }
+
+      .week-cell {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .week-cell + .week-cell {
+        border-left-width: 0;
+      }
+
+      .week-date {
+        padding: 0.3em 0.35em;
+        background: var(--calendar-fg);
+        color: var(--calendar-bg);
+        font-size: 1.1em;
+        line-height: 1;
+        font-weight: 900;
+      }
+
+      .week-events {
+        flex: 1;
+        min-height: 0;
+        padding: 0.28em;
+        overflow: hidden;
+      }
+
+      .week-event {
+        margin-bottom: 0.28em;
+        padding: 0.18em 0.22em;
+        border-left: 0.22em solid var(--calendar-highlight);
+        font-size: 0.9em;
+        line-height: 1.05;
+        font-weight: 700;
+        overflow-wrap: anywhere;
+      }
+
+      .more-events {
+        margin-top: 0.2em;
+        font-size: 0.82em;
+        line-height: 1;
+        font-weight: 900;
+      }
+
+      .year-grid {
+        flex: 1;
+        min-height: 0;
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        grid-template-rows: repeat(3, minmax(0, 1fr));
+        gap: 0.35em;
+      }
+
+      .month-card {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .month-head {
+        font-size: 0.92em;
+        text-transform: uppercase;
+      }
+
+      .month-weekdays,
+      .month-days {
+        display: grid;
+        grid-template-columns: repeat(7, minmax(0, 1fr));
+      }
+
+      .month-weekdays {
+        padding: 0.2em 0.28em 0;
+        font-size: 0.52em;
+        line-height: 1;
+        font-weight: 900;
+        opacity: 0.85;
+      }
+
+      .month-days {
+        flex: 1;
+        min-height: 0;
+        padding: 0.14em 0.28em 0.28em;
+        gap: 0.08em;
+      }
+
+      .month-day {
+        min-width: 0;
+        min-height: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        font-size: 0.68em;
+        line-height: 1;
+        font-weight: 700;
+      }
+
+      .month-day.outside {
+        opacity: 0.18;
+      }
+
+      .month-day.has-events {
+        color: var(--calendar-bg);
+        background: var(--calendar-highlight);
+      }
+
+      .month-day.today {
+        outline: 2px solid var(--calendar-fg);
+        outline-offset: -2px;
+      }
+
+      @media (orientation: landscape) {
+        .calendar-screen {
+          flex-direction: column;
+        }
+      }
+
+      @media (orientation: portrait) {
+        .today-banner {
+          width: 45%;
+          min-width: 45%;
+          max-width: 45%;
+          margin-right: 0;
+          font-size: 0.7em;
+        }
+
+        .today-banner + .calendar-content {
+          margin-top: 0;
+        }
+
+        .week-grid {
+          grid-template-columns: 1fr;
+          grid-template-rows: repeat(7, minmax(0, 1fr));
+        }
+
+        .week-cell {
+          flex-direction: row;
+        }
+
+        .week-cell + .week-cell {
+          border-left-width: 2px;
+          border-top-width: 0;
+        }
+
+        .week-date {
+          width: 28%;
+          min-width: 28%;
+          display: flex;
+          align-items: center;
+        }
+
+        .week-events {
+          display: flex;
+          align-items: flex-start;
+          gap: 0.3em;
+        }
+
+        .week-event {
+          min-width: 0;
+          flex: 1;
+        }
+      }
+
+      @media (max-width: 700px), (max-height: 560px) {
+        .calendar-inside {
+          padding: 0.75em;
+        }
+
+        .today-banner {
+          padding: 0.75em 1.4em;
+        }
+
+        .day-header {
+          font-size: 1.05em;
+        }
+
+        .event-time {
+          font-size: 1.65em;
+        }
+
+        .event-title {
+          font-size: 1.22em;
+        }
+
+        .range-title {
+          font-size: 1.25em;
+        }
+
+        .column-date {
+          font-size: 1.35em;
+        }
+
+        .compact-time {
+          font-size: 0.95em;
+        }
+
+        .compact-title {
+          font-size: 0.95em;
+        }
+
+        .week-event {
+          font-size: 0.72em;
+        }
+
+        .month-head {
+          font-size: 0.72em;
+        }
+
+        .month-day {
+          font-size: 0.52em;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="website-has-loading-element"></div>
+    <main class="calendar-screen theme-dark" id="screen">
+      <section class="calendar-content" id="content">
+        <div class="calendar-inside pp-fit" id="calendar">
+          <div class="empty" id="initial-loading">Loading calendar...</div>
+        </div>
+      </section>
+    </main>
+    <script>
+      (function boot() {
+        const {
+          waitForPayload,
+          getSettings,
+          getQuerySettings,
+          mergeSettings,
+          applyColorTheme,
+          escapeHtml,
+          fitText,
+          fitToScreen,
+          markReady,
+          markError,
+        } = window.PaperlessOpenIntegration;
+
+        const DEFAULT_DAY_RANGE = 3;
+        const DEFAULT_MAX_EVENTS = 50;
+        const DEFAULT_HIGHLIGHT_SCALE = 1.35;
+        const defaults = {
+          color: "light",
+          view: "agenda",
+          language: "de-DE",
+          dayRange: DEFAULT_DAY_RANGE,
+          maxEvents: DEFAULT_MAX_EVENTS,
+          highlightToday: false,
+          highlightScale: DEFAULT_HIGHLIGHT_SCALE,
+        };
+        const fallbackMessages = {
+          allDay: "All day",
+          empty: "No events to show",
+          errorTitle: "Google Calendar could not load",
+          loading: "Loading calendar...",
+          moreEvents: "+{count} more",
+          untitled: "Untitled event",
+        };
+        const localizedMessages = {
+          de: {
+            allDay: "Ganztagig",
+            empty: "Keine Termine",
+            errorTitle: "Google Kalender konnte nicht geladen werden",
+            loading: "Kalender wird geladen...",
+            moreEvents: "+{count} weitere",
+            untitled: "Termin ohne Titel",
+          },
+          en: fallbackMessages,
+        };
+        const screen = document.getElementById("screen");
+        const calendar = document.getElementById("calendar");
+        let currentSettings = { ...defaults };
+        let currentMessages = fallbackMessages;
+        let eventsData = buildSampleEvents(new Date());
+        let hasReceivedCalendarData = false;
+
+        function isRecord(value) {
+          return Boolean(value) && typeof value === "object" && !Array.isArray(value);
+        }
+
+        function clampNumber(value, options) {
+          const number = Number(value);
+          if (!Number.isFinite(number)) {
+            return options.fallback;
+          }
+          return Math.min(Math.max(number, options.min), options.max);
+        }
+
+        function parseInteger(value, options) {
+          return Math.round(clampNumber(value, options));
+        }
+
+        function parseFloatValue(value, options) {
+          return clampNumber(value, options);
+        }
+
+        function parseBoolean(value, fallback) {
+          if (typeof value === "boolean") {
+            return value;
+          }
+          if (typeof value === "number") {
+            return value !== 0;
+          }
+          if (typeof value !== "string") {
+            return fallback;
+          }
+          const normalized = value.trim().toLowerCase();
+          if (["1", "true", "yes", "on"].includes(normalized)) {
+            return true;
+          }
+          if (["0", "false", "no", "off"].includes(normalized)) {
+            return false;
+          }
+          return fallback;
+        }
+
+        function normalizeSettings(settings) {
+          const view = normalizeView(settings.view || settings.calendarView);
+          return {
+            ...defaults,
+            ...settings,
+            color: String(settings.color || defaults.color),
+            view,
+            language: String(settings.language || defaults.language),
+            dayRange: parseInteger(settings.dayRange, {
+              min: 1,
+              max: 100,
+              fallback: DEFAULT_DAY_RANGE,
+            }),
+            maxEvents: parseInteger(settings.maxEvents, {
+              min: 1,
+              max: 200,
+              fallback: DEFAULT_MAX_EVENTS,
+            }),
+            highlightToday: parseBoolean(settings.highlightToday, false),
+            highlightScale: parseFloatValue(settings.highlightScale, {
+              min: 1,
+              max: 3,
+              fallback: DEFAULT_HIGHLIGHT_SCALE,
+            }),
+          };
+        }
+
+        function normalizeView(value) {
+          const normalized = String(value || defaults.view).trim().toLowerCase();
+          const aliases = {
+            agenda: "agenda",
+            list: "agenda",
+            default: "agenda",
+            "1": "day",
+            "1-day": "day",
+            "one-day": "day",
+            "3": "three-days",
+            "3-day": "three-days",
+            "3-days": "three-days",
+            "three-day": "three-days",
+            "three-days": "three-days",
+            day: "day",
+            week: "week",
+            year: "year",
+          };
+          return aliases[normalized] || defaults.view;
+        }
+
+        function normalizeLanguage(value) {
+          const language = String(value || "en").toLowerCase();
+          return language.startsWith("de") ? "de" : "en";
+        }
+
+        async function loadMessages(language) {
+          const base = normalizeLanguage(language);
+          try {
+            const response = await fetch(`./languages/${base}.json`, { cache: "no-store" });
+            if (response.ok) {
+              const messages = await response.json();
+              if (isRecord(messages)) {
+                return { ...fallbackMessages, ...localizedMessages[base], ...messages };
+              }
+            }
+          } catch (error) {
+            console.warn("Could not load calendar language file", error);
+          }
+          return { ...fallbackMessages, ...localizedMessages[base] };
+        }
+
+        function toDate(value) {
+          if (!value) {
+            return null;
+          }
+          const parsed = new Date(value);
+          return Number.isNaN(parsed.getTime()) ? null : parsed;
+        }
+
+        function padDatePart(value) {
+          return String(value).padStart(2, "0");
+        }
+
+        function toDateKey(date, timeZone) {
+          const formatter = new Intl.DateTimeFormat("en-US", {
+            year: "numeric",
+            month: "2-digit",
+            day: "2-digit",
+            timeZone,
+          });
+          const parts = formatter.formatToParts(date);
+          const year = parts.find((part) => part.type === "year")?.value;
+          const month = parts.find((part) => part.type === "month")?.value;
+          const day = parts.find((part) => part.type === "day")?.value;
+          return year && month && day ? `${year}-${month}-${day}` : "";
+        }
+
+        function toFixedOffsetDateKey(date, offsetMinutes) {
+          const shiftedDate = new Date(date.getTime() + offsetMinutes * 60000);
+          return [
+            shiftedDate.getUTCFullYear(),
+            padDatePart(shiftedDate.getUTCMonth() + 1),
+            padDatePart(shiftedDate.getUTCDate()),
+          ].join("-");
+        }
+
+        function dateKeyFromDateTime(value) {
+          const match = value?.match(/^(\d{4})-(\d{2})-(\d{2})/);
+          return match?.[0] || null;
+        }
+
+        function offsetMinutesFromDateTime(value) {
+          const match = value?.match(/(?:Z|([+-])(\d{2}):?(\d{2}))$/);
+          if (!match) {
+            return null;
+          }
+          if (match[0] === "Z") {
+            return 0;
+          }
+          const sign = match[1] === "-" ? -1 : 1;
+          return sign * (Number(match[2]) * 60 + Number(match[3]));
+        }
+
+        function dateKeyToUtcDay(dateKey) {
+          const [year, month, day] = String(dateKey).split("-").map(Number);
+          if (!year || !month || !day) {
+            return null;
+          }
+          return Math.floor(Date.UTC(year, month - 1, day) / 86400000);
+        }
+
+        function dateFromDateKey(dateKey) {
+          const [year, month, day] = String(dateKey).split("-").map(Number);
+          if (!year || !month || !day) {
+            return null;
+          }
+          return new Date(year, month - 1, day, 12);
+        }
+
+        function isDateKeyInRange(dateKey, startDateKey, dayRange) {
+          const dateDay = dateKeyToUtcDay(dateKey);
+          const startDay = dateKeyToUtcDay(startDateKey);
+          if (dateDay === null || startDay === null) {
+            return true;
+          }
+          return dateDay >= startDay && dateDay < startDay + dayRange;
+        }
+
+        function getEventTimeZone(event) {
+          return event.start?.timeZone || event.end?.timeZone;
+        }
+
+        function buildDateKey(event, eventStart) {
+          if (event.start?.date) {
+            return event.start.date;
+          }
+          if (!eventStart) {
+            return "undated";
+          }
+          const timeZone = getEventTimeZone(event);
+          if (timeZone) {
+            return toDateKey(eventStart, timeZone);
+          }
+          return dateKeyFromDateTime(event.start?.dateTime) || toDateKey(eventStart);
+        }
+
+        function buildCurrentDateKeyForEvent(event, now) {
+          const timeZone = getEventTimeZone(event);
+          if (timeZone) {
+            return toDateKey(now, timeZone);
+          }
+          const offsetMinutes = offsetMinutesFromDateTime(event.start?.dateTime);
+          if (offsetMinutes !== null) {
+            return toFixedOffsetDateKey(now, offsetMinutes);
+          }
+          return toDateKey(now);
+        }
+
+        function formatDateLabel(event, eventStart, locale) {
+          const timeZone = getEventTimeZone(event);
+          const formatter = new Intl.DateTimeFormat(locale, {
+            weekday: "long",
+            month: "long",
+            day: "numeric",
+            timeZone,
+          });
+          if (event.start?.date) {
+            const allDayDate = dateFromDateKey(event.start.date);
+            const allDayFormatter = new Intl.DateTimeFormat(locale, {
+              weekday: "long",
+              month: "long",
+              day: "numeric",
+            });
+            return allDayDate ? allDayFormatter.format(allDayDate) : event.start.date;
+          }
+          return eventStart ? formatter.format(eventStart) : "";
+        }
+
+        function formatTime(event, dateTime) {
+          if (!dateTime) {
+            return "";
+          }
+          return new Date(dateTime).toLocaleTimeString(currentSettings.language, {
+            hour: "2-digit",
+            minute: "2-digit",
+            timeZone: getEventTimeZone(event),
+          });
+        }
+
+        function dateKeyFromLocalDate(date) {
+          return [
+            date.getFullYear(),
+            padDatePart(date.getMonth() + 1),
+            padDatePart(date.getDate()),
+          ].join("-");
+        }
+
+        function startOfDay(date) {
+          return new Date(date.getFullYear(), date.getMonth(), date.getDate());
+        }
+
+        function addDays(date, days) {
+          return new Date(date.getFullYear(), date.getMonth(), date.getDate() + days);
+        }
+
+        function startOfWeek(date) {
+          const dayOffset = (date.getDay() + 6) % 7;
+          return addDays(startOfDay(date), -dayOffset);
+        }
+
+        function dateKeysBetween(startDate, endDate) {
+          const keys = [];
+          for (let date = startOfDay(startDate); date < endDate; date = addDays(date, 1)) {
+            keys.push(dateKeyFromLocalDate(date));
+          }
+          return keys;
+        }
+
+        function buildVisibleRange(settings, now = new Date()) {
+          if (settings.view === "year") {
+            const startDate = new Date(now.getFullYear(), 0, 1);
+            const endDate = new Date(now.getFullYear() + 1, 0, 1);
+            return {
+              dateKeys: dateKeysBetween(startDate, endDate),
+              endDate,
+              startDate,
+              view: "year",
+            };
+          }
+
+          if (settings.view === "week") {
+            const startDate = startOfWeek(now);
+            const endDate = addDays(startDate, 7);
+            return {
+              dateKeys: dateKeysBetween(startDate, endDate),
+              endDate,
+              startDate,
+              view: "week",
+            };
+          }
+
+          const dayCount =
+            settings.view === "agenda"
+              ? settings.dayRange
+              : settings.view === "day"
+                ? 1
+                : 3;
+          const startDate = startOfDay(now);
+          const endDate = addDays(startDate, dayCount);
+          return {
+            dateKeys: dateKeysBetween(startDate, endDate),
+            endDate,
+            startDate,
+            view: settings.view,
+          };
+        }
+
+        function isDateKeyInDateRange(dateKey, startDate, endDate) {
+          const dateDay = dateKeyToUtcDay(dateKey);
+          const startDay = dateKeyToUtcDay(dateKeyFromLocalDate(startDate));
+          const endDay = dateKeyToUtcDay(dateKeyFromLocalDate(endDate));
+          if (dateDay === null || startDay === null || endDay === null) {
+            return true;
+          }
+          return dateDay >= startDay && dateDay < endDay;
+        }
+
+        function formatRangeTitle(range) {
+          if (range.view === "year") {
+            return String(range.startDate.getFullYear());
+          }
+
+          if (range.view === "day") {
+            return new Intl.DateTimeFormat(currentSettings.language, {
+              weekday: "long",
+              month: "long",
+              day: "numeric",
+            }).format(range.startDate);
+          }
+
+          const endInclusive = addDays(range.endDate, -1);
+          const formatter = new Intl.DateTimeFormat(currentSettings.language, {
+            month: "short",
+            day: "numeric",
+          });
+          return `${formatter.format(range.startDate)} - ${formatter.format(endInclusive)}`;
+        }
+
+        function formatColumnHead(date) {
+          return {
+            date: new Intl.DateTimeFormat(currentSettings.language, {
+              month: "short",
+              day: "numeric",
+            }).format(date),
+            weekday: new Intl.DateTimeFormat(currentSettings.language, {
+              weekday: "short",
+            }).format(date),
+          };
+        }
+
+        function formatMonthName(date) {
+          return new Intl.DateTimeFormat(currentSettings.language, {
+            month: "long",
+          }).format(date);
+        }
+
+        function formatWeekdayNarrow(date) {
+          return new Intl.DateTimeFormat(currentSettings.language, {
+            weekday: "narrow",
+          }).format(date);
+        }
+
+        function moreEventsLabel(count) {
+          return String(currentMessages.moreEvents || "+{count} more").replace("{count}", count);
+        }
+
+        function extractEventsFromPayload(payload) {
+          if (Array.isArray(payload)) {
+            return payload;
+          }
+          if (!isRecord(payload)) {
+            return null;
+          }
+          if (isRecord(payload.calendarData) && Array.isArray(payload.calendarData.events)) {
+            return payload.calendarData.events;
+          }
+          if (isRecord(payload.meta)) {
+            const metaCalendarData = payload.meta.calendarData;
+            if (isRecord(metaCalendarData) && Array.isArray(metaCalendarData.events)) {
+              return metaCalendarData.events;
+            }
+          }
+          if (Array.isArray(payload.events)) {
+            return payload.events;
+          }
+          return null;
+        }
+
+        function extractEventsFromMessageData(data) {
+          if (isRecord(data) && data.cmd === "message") {
+            return extractEventsFromPayload(data.data);
+          }
+          if (isRecord(data) && data.type === "INIT") {
+            return extractEventsFromPayload(data.data);
+          }
+          return extractEventsFromPayload(data);
+        }
+
+        function getEventStartTime(item) {
+          return item.eventStart?.getTime() ?? Number.MAX_SAFE_INTEGER;
+        }
+
+        function processEvents(events, settings) {
+          const now = new Date();
+          const range = buildVisibleRange(settings, now);
+          return (Array.isArray(events) ? events : [])
+            .map((event) => {
+              const eventStart = toDate(event.start?.dateTime) || toDate(event.start?.date);
+              const eventDateKey = buildDateKey(event, eventStart);
+              const isWithinRange =
+                eventDateKey === "undated" ||
+                isDateKeyInDateRange(eventDateKey, range.startDate, range.endDate);
+              return { event, eventDateKey, eventStart, isWithinRange };
+            })
+            .filter((item) => item.isWithinRange)
+            .sort((a, b) => getEventStartTime(a) - getEventStartTime(b))
+            .map(({ event, eventDateKey, eventStart }) => ({ event, eventDateKey, eventStart }));
+        }
+
+        function groupEvents(processedEvents, language) {
+          const buckets = new Map();
+          for (const item of processedEvents) {
+            const key = buildDateKey(item.event, item.eventStart);
+            if (!buckets.has(key)) {
+              buckets.set(key, {
+                key,
+                label: formatDateLabel(item.event, item.eventStart, language),
+                items: [],
+              });
+            }
+            buckets.get(key).items.push(item);
+          }
+          return Array.from(buckets.values()).sort((a, b) => a.key.localeCompare(b.key));
+        }
+
+        function eventTimeText(event) {
+          if (event.start?.date) {
+            return currentMessages.allDay;
+          }
+          if (event.end?.dateTime) {
+            return `${formatTime(event, event.start?.dateTime)} - ${formatTime(event, event.end.dateTime)}`;
+          }
+          return formatTime(event, event.start?.dateTime);
+        }
+
+        function renderEvent(event) {
+          const time = eventTimeText(event);
+          const title = String(event.summary || currentMessages.untitled);
+          return `
+            <article class="event-card">
+              <p class="event-time">${escapeHtml(time)}</p>
+              <h2 class="event-title">${escapeHtml(title)}</h2>
+            </article>
+          `;
+        }
+
+        function renderCompactEvent(event) {
+          const time = eventTimeText(event);
+          const title = String(event.summary || currentMessages.untitled);
+          return `
+            <article class="compact-event">
+              <p class="compact-time">${escapeHtml(time)}</p>
+              <h3 class="compact-title">${escapeHtml(title)}</h3>
+            </article>
+          `;
+        }
+
+        function eventsByDate(processedEvents) {
+          const map = new Map();
+          for (const item of processedEvents) {
+            if (!map.has(item.eventDateKey)) {
+              map.set(item.eventDateKey, []);
+            }
+            map.get(item.eventDateKey).push(item);
+          }
+          return map;
+        }
+
+        function renderTodayBanner() {
+          if (!currentSettings.highlightToday) {
+            return "";
+          }
+          const now = new Date();
+          const weekdayFormatter = new Intl.DateTimeFormat(currentSettings.language, { weekday: "long" });
+          const dateFormatter = new Intl.DateTimeFormat(currentSettings.language, {
+            month: "long",
+            day: "numeric",
+          });
+          return `
+            <section class="today-banner" style="font-size:${escapeHtml(String(currentSettings.highlightScale))}em">
+              <span class="today-weekday">${escapeHtml(weekdayFormatter.format(now))}</span>
+              <time class="today-date" datetime="${escapeHtml(now.toISOString())}">
+                ${escapeHtml(dateFormatter.format(now))}
+              </time>
+            </section>
+          `;
+        }
+
+        function renderAgendaContent(processedEvents, range) {
+          const groupedEvents = groupEvents(processedEvents.slice(0, currentSettings.maxEvents), currentSettings.language);
+          const showDayHeaders = groupedEvents.length > 1;
+          return `
+            <h1 class="range-title">${escapeHtml(formatRangeTitle(range))}</h1>
+            ${
+              groupedEvents.length === 0
+                ? `<div class="empty">${escapeHtml(currentMessages.empty)}</div>`
+                : groupedEvents
+                    .map((group) => {
+                      const header =
+                        showDayHeaders && group.label
+                          ? `<div class="day-header">${escapeHtml(group.label)}</div>`
+                          : "";
+                      return `
+                        <section class="day-group">
+                          ${header}
+                          ${group.items.map((item) => renderEvent(item.event)).join("")}
+                        </section>
+                      `;
+                    })
+                    .join("")
+            }
+          `;
+        }
+
+        function renderDayColumns(processedEvents, range) {
+          const byDate = eventsByDate(processedEvents);
+          const dayCount = range.dateKeys.length;
+          return `
+            <h1 class="range-title">${escapeHtml(formatRangeTitle(range))}</h1>
+            <section class="range-grid days-${dayCount}">
+              ${range.dateKeys
+                .map((dateKey, index) => {
+                  const date = addDays(range.startDate, index);
+                  const head = formatColumnHead(date);
+                  const items = (byDate.get(dateKey) || []).slice(0, currentSettings.maxEvents);
+                  return `
+                    <section class="calendar-column">
+                      <header class="column-head">
+                        <span class="column-weekday">${escapeHtml(head.weekday)}</span>
+                        <span class="column-date">${escapeHtml(head.date)}</span>
+                      </header>
+                      <div class="compact-events">
+                        ${
+                          items.length === 0
+                            ? `<div class="empty">${escapeHtml(currentMessages.empty)}</div>`
+                            : items.map((item) => renderCompactEvent(item.event)).join("")
+                        }
+                      </div>
+                    </section>
+                  `;
+                })
+                .join("")}
+            </section>
+          `;
+        }
+
+        function renderWeekView(processedEvents, range) {
+          const byDate = eventsByDate(processedEvents);
+          return `
+            <h1 class="range-title">${escapeHtml(formatRangeTitle(range))}</h1>
+            <section class="week-grid">
+              ${range.dateKeys
+                .map((dateKey, index) => {
+                  const date = addDays(range.startDate, index);
+                  const head = formatColumnHead(date);
+                  const items = byDate.get(dateKey) || [];
+                  const visible = items.slice(0, 4);
+                  const hidden = Math.max(0, items.length - visible.length);
+                  return `
+                    <section class="week-cell">
+                      <header class="week-date">${escapeHtml(head.weekday)} ${escapeHtml(head.date)}</header>
+                      <div class="week-events">
+                        ${visible
+                          .map((item) => {
+                            const title = String(item.event.summary || currentMessages.untitled);
+                            return `<div class="week-event">${escapeHtml(eventTimeText(item.event))}<br>${escapeHtml(title)}</div>`;
+                          })
+                          .join("")}
+                        ${hidden > 0 ? `<div class="more-events">${escapeHtml(moreEventsLabel(hidden))}</div>` : ""}
+                      </div>
+                    </section>
+                  `;
+                })
+                .join("")}
+            </section>
+          `;
+        }
+
+        function renderYearView(processedEvents, range) {
+          const byDate = eventsByDate(processedEvents);
+          const todayKey = dateKeyFromLocalDate(new Date());
+          const firstWeek = Array.from({ length: 7 }, (_value, index) => addDays(startOfWeek(new Date(2026, 0, 5)), index));
+          return `
+            <h1 class="range-title">${escapeHtml(formatRangeTitle(range))}</h1>
+            <section class="year-grid">
+              ${Array.from({ length: 12 }, (_value, monthIndex) => {
+                const monthDate = new Date(range.startDate.getFullYear(), monthIndex, 1);
+                const monthStart = startOfWeek(monthDate);
+                const days = Array.from({ length: 42 }, (_dayValue, dayIndex) => addDays(monthStart, dayIndex));
+                return `
+                  <section class="month-card">
+                    <header class="month-head">${escapeHtml(formatMonthName(monthDate))}</header>
+                    <div class="month-weekdays">
+                      ${firstWeek.map((date) => `<span>${escapeHtml(formatWeekdayNarrow(date))}</span>`).join("")}
+                    </div>
+                    <div class="month-days">
+                      ${days
+                        .map((date) => {
+                          const dateKey = dateKeyFromLocalDate(date);
+                          const eventCount = (byDate.get(dateKey) || []).length;
+                          const classes = [
+                            "month-day",
+                            date.getMonth() === monthIndex ? "" : "outside",
+                            eventCount > 0 ? "has-events" : "",
+                            dateKey === todayKey ? "today" : "",
+                          ]
+                            .filter(Boolean)
+                            .join(" ");
+                          return `<span class="${classes}" title="${escapeHtml(String(eventCount))}">${escapeHtml(String(date.getDate()))}</span>`;
+                        })
+                        .join("")}
+                    </div>
+                  </section>
+                `;
+              }).join("")}
+            </section>
+          `;
+        }
+
+        function renderCalendar() {
+          const range = buildVisibleRange(currentSettings);
+          const processedEvents = processEvents(eventsData, currentSettings);
+          const content =
+            currentSettings.view === "year"
+              ? renderYearView(processedEvents, range)
+              : currentSettings.view === "week"
+                ? renderWeekView(processedEvents, range)
+                : currentSettings.view === "three-days"
+                  ? renderDayColumns(processedEvents, range)
+                  : currentSettings.view === "day"
+                    ? renderDayColumns(processedEvents, range)
+                    : renderAgendaContent(processedEvents, range);
+
+          screen.className = `calendar-screen theme-${currentSettings.color}`;
+          screen.innerHTML = `
+            ${renderTodayBanner()}
+            <section class="calendar-content" id="content">
+              <div class="calendar-inside pp-fit view-${currentSettings.view}" id="calendar">
+                ${content}
+              </div>
+            </section>
+          `;
+
+          const nextCalendar = document.getElementById("calendar");
+          const fitOptions =
+            currentSettings.view === "year"
+              ? { min: 5, max: 12, step: 0.5, tolerance: 10, checkHeight: true }
+              : currentSettings.view === "week"
+                ? { min: 7, max: 14, step: 0.5, tolerance: 8, checkHeight: true }
+                : { min: 9, max: 17, step: 0.5, tolerance: 8, checkHeight: true };
+          fitText(nextCalendar, fitOptions);
+          fitToScreen(screen);
+        }
+
+        function applyCalendarTheme(color) {
+          const theme = applyColorTheme(color, { defaultTheme: defaults.color });
+          currentSettings.color = theme;
+          screen.classList.remove(
+            "theme-dark",
+            "theme-light",
+            "theme-red-dark",
+            "theme-red-light",
+            "theme-blue-dark",
+            "theme-blue-light",
+            "theme-green-dark",
+            "theme-green-light",
+          );
+          screen.classList.add(`theme-${theme}`);
+        }
+
+        function handleEvents(events) {
+          hasReceivedCalendarData = true;
+          eventsData = events;
+          renderCalendar();
+          markReady();
+        }
+
+        function handleMessage(event) {
+          const nextEvents = extractEventsFromMessageData(event.data);
+          if (!nextEvents) {
+            return;
+          }
+          handleEvents(nextEvents);
+        }
+
+        function buildSampleEvents(now) {
+          const year = now.getFullYear();
+          const month = now.getMonth();
+          const day = now.getDate();
+          const toLocalIso = (date) => {
+            const offset = -date.getTimezoneOffset();
+            const sign = offset >= 0 ? "+" : "-";
+            const absolute = Math.abs(offset);
+            return `${date.getFullYear()}-${padDatePart(date.getMonth() + 1)}-${padDatePart(date.getDate())}T${padDatePart(date.getHours())}:${padDatePart(date.getMinutes())}:00${sign}${padDatePart(Math.floor(absolute / 60))}:${padDatePart(absolute % 60)}`;
+          };
+          const timedEvent = (id, summary, startHour, startMinute, durationMinutes, dayOffset) => {
+            const start = new Date(year, month, day + dayOffset, startHour, startMinute);
+            const end = new Date(start.getTime() + durationMinutes * 60000);
+            const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+            return {
+              kind: "calendar#event",
+              id,
+              summary,
+              start: { dateTime: toLocalIso(start), timeZone },
+              end: { dateTime: toLocalIso(end), timeZone },
+            };
+          };
+          return [
+            timedEvent("sample-standup", "Team standup", 9, 30, 30, 0),
+            timedEvent("sample-planning", "Sprint planning", 14, 0, 90, 0),
+            {
+              kind: "calendar#event",
+              id: "sample-focus",
+              summary: "Focus day",
+              start: {
+                date: dateKeyFromLocalDate(addDays(startOfDay(now), 1)),
+              },
+              end: {
+                date: dateKeyFromLocalDate(addDays(startOfDay(now), 2)),
+              },
+            },
+            timedEvent("sample-review", "Project review", 11, 0, 60, 2),
+            timedEvent("sample-retro", "Retrospective", 15, 30, 45, 7),
+            timedEvent("sample-dentist", "Dentist", 8, 15, 45, 31),
+            timedEvent("sample-trip", "City trip", 10, 0, 120, 92),
+            timedEvent("sample-renewal", "Subscription renewal", 12, 0, 30, 183),
+          ];
+        }
+
+        async function start() {
+          try {
+            window.addEventListener("message", handleMessage);
+            const payload = await waitForPayload({ timeoutMs: 500, fallback: {} });
+            const payloadLanguage = isRecord(payload.meta) && payload.meta.language ? payload.meta.language : undefined;
+            currentSettings = normalizeSettings(
+              mergeSettings(defaults, getSettings(payload), payloadLanguage ? { language: payloadLanguage } : {}, getQuerySettings()),
+            );
+            currentMessages = await loadMessages(currentSettings.language);
+            document.documentElement.lang = normalizeLanguage(currentSettings.language);
+            applyCalendarTheme(currentSettings.color);
+
+            if (!hasReceivedCalendarData) {
+              const payloadEvents = extractEventsFromPayload(payload);
+              if (payloadEvents) {
+                eventsData = payloadEvents;
+                hasReceivedCalendarData = true;
+              }
+            }
+
+            renderCalendar();
+            await document.fonts?.ready;
+            renderCalendar();
+            markReady();
+          } catch (error) {
+            markError(error);
+            document.body.innerHTML = `
+              <main class="pp-screen">
+                <h1 class="pp-title pp-error">${escapeHtml(currentMessages.errorTitle)}</h1>
+                <p>${escapeHtml(error?.message || String(error))}</p>
+              </main>
+            `;
+          }
+        }
+
+        start();
+      })();
+    </script>
+  </body>
+</html>

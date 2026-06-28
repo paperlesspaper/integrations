@@ -1,6 +1,7 @@
 {
   "name": "Formula 1 Races",
   "version": "0.1.0",
+  "status": "alpha",
   "description": "Shows the upcoming Formula 1 Grand Prix with circuit details, date, session times, and a track image.",
   "renderPage": "./render.html",
   "icon": "./assets/icon.png",

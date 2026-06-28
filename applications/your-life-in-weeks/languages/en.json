@@ -1,0 +1,15 @@
+{
+  "subtitle": "A dot for every week.",
+  "ageLabel": "Age",
+  "weeksLivedLabel": "Weeks lived",
+  "remainingLabel": "Weeks left",
+  "progressLabel": "Progress",
+  "livedLabel": "Lived",
+  "currentLabel": "This week",
+  "futureLabel": "Remaining",
+  "yearLabel": "Year",
+  "footerTemplate": "Born {birthDate}. Grid assumes {years} years.",
+  "invalidBirthDateTitle": "Invalid birth date",
+  "invalidBirthDateMessage": "Set birthDate as YYYY-MM-DD.",
+  "futureBirthDateMessage": "Birth date must not be in the future."
+}

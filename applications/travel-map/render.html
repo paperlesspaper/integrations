@@ -241,6 +241,7 @@
         const defaults = {
           color: "light",
           mapMode: "countries",
+          projectionMode: "auto",
           title: "Travel Map",
           visitedRegions: '{"countries":{},"usStates":{},"bundeslaender":{}}',
           colorMode: "byYear",
@@ -255,21 +256,29 @@
             url: "./assets/maps/countries-110m.json",
             type: "topojson",
             objectName: "countries",
-            projection: () => d3.geoNaturalEarth1(),
+            defaultProjection: "naturalEarth",
           },
           usStates: {
             labelKey: "usStates",
             url: "./assets/maps/us-states-10m.json",
             type: "topojson",
             objectName: "states",
-            projection: () => d3.geoAlbersUsa(),
+            defaultProjection: "albersUsa",
           },
           bundeslaender: {
             labelKey: "bundeslaender",
             url: "./assets/maps/de-bundeslaender-low.geo.json",
             type: "geojson",
-            projection: () => d3.geoMercator(),
+            defaultProjection: "mercator",
           },
+        };
+
+        const projectionDefinitions = {
+          naturalEarth: () => d3.geoNaturalEarth1(),
+          equalEarth: () => d3.geoEqualEarth(),
+          mercator: () => d3.geoMercator(),
+          equirectangular: () => d3.geoEquirectangular(),
+          albersUsa: () => d3.geoAlbersUsa(),
         };
 
         const palette = ["#e83d35", "#f7cf28", "#2c9b4b", "#006bb6", "#111111", "#ffffff"];
@@ -407,6 +416,16 @@
           return ["byYear", "selectedColor", "shadeByYear"].includes(value) ? value : "byYear";
         }
 
+        function normalizeProjectionMode(value) {
+          return projectionDefinitions[value] ? value : "auto";
+        }
+
+        function projectionFor(definition, projectionMode) {
+          const mode = normalizeProjectionMode(projectionMode);
+          const projectionKey = mode === "auto" ? definition.defaultProjection : mode;
+          return (projectionDefinitions[projectionKey] || projectionDefinitions.naturalEarth)();
+        }
+
         function selectedColorValue(value) {
           return selectedColors[value] || selectedColors.black;
         }
@@ -480,7 +499,7 @@
           return (data.features || []).filter((feature) => visibleFeature(feature, mode));
         }
 
-        function renderMap({ features, definition, visited, colorMode, selectedColor }) {
+        function renderMap({ features, definition, visited, colorMode, selectedColor, projectionMode }) {
           const stage = document.getElementById("map-stage");
           const { width, height } = contentSize(stage, 900, 430);
           const strokes = strokeScale(width, height);
@@ -488,7 +507,7 @@
             type: "FeatureCollection",
             features,
           };
-          const projection = definition.projection();
+          const projection = projectionFor(definition, projectionMode);
           projection.fitExtent(
             [
               [12, 12],
@@ -513,7 +532,11 @@
               const classes = ["region", selected ? "is-visited" : "", selected && !year ? "no-year" : ""]
                 .filter(Boolean)
                 .join(" ");
-              return `<path class="${classes}" data-region-id="${escapeHtml(id)}" data-region-name="${escapeHtml(name)}" d="${path(feature)}"${fill}><title>${escapeHtml(name)}${year ? ` ${escapeHtml(year)}` : ""}</title></path>`;
+              const pathData = path(feature);
+              if (!pathData) {
+                return "";
+              }
+              return `<path class="${classes}" data-region-id="${escapeHtml(id)}" data-region-name="${escapeHtml(name)}" d="${pathData}"${fill}><title>${escapeHtml(name)}${year ? ` ${escapeHtml(year)}` : ""}</title></path>`;
             })
             .join("");
 
@@ -585,6 +608,7 @@
             visited: visited[mode],
             colorMode: settings.colorMode,
             selectedColor: settings.selectedColor,
+            projectionMode: settings.projectionMode,
           });
 
           document.getElementById("counter").textContent = t("visitedOfTotal", {

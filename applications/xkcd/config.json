@@ -1,6 +1,7 @@
 {
   "name": "XKCD",
   "version": "0.1.0",
+  "status": "alpha",
   "description": "Shows the latest, random, or offset XKCD comic.",
   "renderPage": "./render.html",
   "icon": "./assets/icon.png",
