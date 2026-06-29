@@ -1,0 +1,18 @@
+{
+  "loading": "Loading...",
+  "kicker": "Fish of the day",
+  "period": "Period",
+  "length": "Length",
+  "diet": "Diet",
+  "fossilLocation": "Fossil location",
+  "nameMeaning": "Name means",
+  "source": "Source",
+  "selectedFrom": "{count} in rotation",
+  "groupPlacoderm": "Placoderm",
+  "groupLobeFinned": "Lobe-finned fish",
+  "groupRayFinned": "Ray-finned fish",
+  "groupCartilaginous": "Cartilaginous fish",
+  "groupJawless": "Jawless fish",
+  "signature": "Silhouette note",
+  "errorTitle": "Fish could not load"
+}

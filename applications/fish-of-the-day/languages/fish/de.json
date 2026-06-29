@@ -1,0 +1,81 @@
+{
+  "dunkleosteus": {
+    "nickname": "Dunkles Knochen",
+    "period": "Spaetes Devon, etwa 382-358 Mio. Jahre",
+    "length": "Geschaetzt 3,4-4,1 m",
+    "diet": "Fleischfresser",
+    "fossilLocation": "Nordamerika, Europa und Marokko",
+    "nameMeaning": "Dunkles Knochen",
+    "source": "Wikipedia: Dunkleosteus",
+    "signature": "Knochenpanzer am Kopf und riesige Scherkiefer machen diesen Placoderm zu einem schwimmenden Schild."
+  },
+  "tiktaalik": {
+    "period": "Spaetes Devon, etwa 375 Mio. Jahre",
+    "length": "Etwa 1,25-2,75 m",
+    "diet": "Raeuberischer Fisch und kleine Tiere",
+    "fossilLocation": "Ellesmere Island, Nunavut, Kanada",
+    "nameMeaning": "Grosser Suesswasserfisch",
+    "source": "Wikipedia: Tiktaalik",
+    "signature": "Flacher Kopf, halsartige Schulterregion und gliedmassenartige Flossen geben ihm sein beruehmtes Fast-Landtier-Profil."
+  },
+  "xiphactinus": {
+    "nickname": "Schwertstrahl",
+    "period": "Spaete Kreide, etwa 112-66 Mio. Jahre",
+    "length": "Etwa 4,5-6 m",
+    "diet": "Grosser Raubfisch",
+    "fossilLocation": "Nordamerika, Europa und Australien",
+    "nameMeaning": "Schwertstrahl",
+    "source": "Wikipedia: Xiphactinus",
+    "signature": "Tiefe Torpedoform und uebergrosse aufwaerts gerichtete Kiefer ergeben eine klare Kreidezeit-Raeubersilhouette."
+  },
+  "leedsichthys": {
+    "nickname": "Leeds Fisch",
+    "period": "Mittlerer Jura, etwa 165-161 Mio. Jahre",
+    "length": "Ungefaehr 9-16,5 m",
+    "diet": "Plankton filtrierender Fisch",
+    "fossilLocation": "England, Frankreich, Deutschland und Chile",
+    "nameMeaning": "Leeds Fisch",
+    "source": "Wikipedia: Leedsichthys",
+    "signature": "Die riesige, ruhige Form besteht aus breitem Maul, tiefem Koerper und langem Filterfresser-Massstab."
+  },
+  "helicoprion": {
+    "nickname": "Spiralsaege",
+    "period": "Perm bis fruehe Trias, etwa 290-250 Mio. Jahre",
+    "length": "Geschaetzt 4-7,5 m",
+    "diet": "Weichkoerperige Meerestiere",
+    "fossilLocation": "Idaho, Ural, Australien und Asien",
+    "nameMeaning": "Spiralsaege",
+    "source": "Wikipedia: Helicoprion",
+    "signature": "Die kreisfoermige Zahnspirale verwandelt einen haiartigen Koerper in eine fast unmoegliche Fossilform."
+  },
+  "stethacanthus": {
+    "nickname": "Bruststachel",
+    "period": "Spaetes Devon bis fruehes Karbon",
+    "length": "Etwa 0,7-2 m",
+    "diet": "Kleine Fische und Meerestiere",
+    "fossilLocation": "Nordamerika und Europa",
+    "nameMeaning": "Bruststachel",
+    "source": "Wikipedia: Stethacanthus",
+    "signature": "Ein seltsamer ambossfoermiger Rueckenstachel gibt diesem kompakten Hai ein Profil ohne moderne Entsprechung."
+  },
+  "pteraspis": {
+    "nickname": "Fluegelschild",
+    "period": "Fruehes Devon, etwa 415-398 Mio. Jahre",
+    "length": "Etwa 20 cm",
+    "diet": "Kleine organische Partikel",
+    "fossilLocation": "Grossbritannien, Belgien und Ukraine",
+    "nameMeaning": "Fluegelschild",
+    "source": "Wikipedia: Pteraspis",
+    "signature": "Ein spitzer gepanzerter Kopfschild und ein winziger Koerper lassen diesen kieferlosen Fisch wie einen kleinen lebenden Pfeil wirken."
+  },
+  "bothriolepis": {
+    "nickname": "Grubige Schuppe",
+    "period": "Mittleres bis spaetes Devon, etwa 387-360 Mio. Jahre",
+    "length": "Meist etwa 30 cm",
+    "diet": "Bodennahe Detritus- und Kleintiernahrung",
+    "fossilLocation": "Devonische Fundstellen weltweit",
+    "nameMeaning": "Grubige Schuppe",
+    "source": "Wikipedia: Bothriolepis",
+    "signature": "Kastenfoermige Panzerung und lange gelenkige Brustanhaenge geben diesem kleinen Placoderm ein mechanisches Profil."
+  }
+}

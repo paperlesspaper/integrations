@@ -1,0 +1,18 @@
+{
+  "loading": "Wird geladen...",
+  "kicker": "Fisch des Tages",
+  "period": "Zeitalter",
+  "length": "Laenge",
+  "diet": "Ernaehrung",
+  "fossilLocation": "Fundorte",
+  "nameMeaning": "Name bedeutet",
+  "source": "Quelle",
+  "selectedFrom": "{count} in der Rotation",
+  "groupPlacoderm": "Placoderm",
+  "groupLobeFinned": "Fleischflosser",
+  "groupRayFinned": "Strahlenflosser",
+  "groupCartilaginous": "Knorpelfisch",
+  "groupJawless": "Kieferloser Fisch",
+  "signature": "Silhouettenmerkmal",
+  "errorTitle": "Fisch konnte nicht geladen werden"
+}

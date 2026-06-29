@@ -1,0 +1,110 @@
+{
+  "name": "Fish of the Day",
+  "version": "0.1.0",
+  "status": "alpha",
+  "description": "Shows one deterministic daily prehistoric fish with generated CAD-like artwork and compact Wikipedia-sourced fossil facts.",
+  "renderPage": "./render.html",
+  "icon": "./assets/icon.png",
+  "nativeSettings": {
+    "color": "light",
+    "group": "any",
+    "fishId": "",
+    "seed": "",
+    "showPeriod": true,
+    "showLength": true,
+    "showDiet": true,
+    "showFossilLocation": true,
+    "showNameMeaning": true,
+    "showSource": false
+  },
+  "configVariants": [
+    {
+      "color": "light",
+      "group": "any",
+      "fishId": "",
+      "seed": "",
+      "showPeriod": true,
+      "showLength": true,
+      "showDiet": true,
+      "showFossilLocation": true,
+      "showNameMeaning": true,
+      "showSource": false
+    },
+    {
+      "color": "dark",
+      "group": "placoderm",
+      "fishId": "dunkleosteus",
+      "seed": "paperlesspaper",
+      "showPeriod": true,
+      "showLength": true,
+      "showDiet": true,
+      "showFossilLocation": true,
+      "showNameMeaning": true,
+      "showSource": true
+    }
+  ],
+  "formSchema": {
+    "type": "object",
+    "properties": {
+      "group": {
+        "type": "string",
+        "title": "Fish group",
+        "enum": [
+          "any",
+          "placoderm",
+          "lobe-finned",
+          "ray-finned",
+          "cartilaginous",
+          "jawless"
+        ],
+        "default": "any"
+      },
+      "fishId": {
+        "type": "string",
+        "title": "Pinned fish",
+        "description": "Optional fish slug, for example dunkleosteus, tiktaalik, xiphactinus, leedsichthys, helicoprion, stethacanthus, pteraspis, or bothriolepis.",
+        "default": ""
+      },
+      "seed": {
+        "type": "string",
+        "title": "Rotation seed",
+        "description": "Optional text that creates a different daily fish rotation.",
+        "default": ""
+      },
+      "showPeriod": {
+        "type": "boolean",
+        "title": "Show period",
+        "default": true
+      },
+      "showLength": {
+        "type": "boolean",
+        "title": "Show length",
+        "default": true
+      },
+      "showDiet": {
+        "type": "boolean",
+        "title": "Show diet",
+        "default": true
+      },
+      "showFossilLocation": {
+        "type": "boolean",
+        "title": "Show fossil location",
+        "default": true
+      },
+      "showNameMeaning": {
+        "type": "boolean",
+        "title": "Show name meaning",
+        "default": true
+      },
+      "showSource": {
+        "type": "boolean",
+        "title": "Show source",
+        "default": false
+      }
+    }
+  },
+  "language": [
+    "en",
+    "de"
+  ]
+}
