@@ -460,5 +460,47 @@
     "country": "France",
     "source": "Wikipedia: SNCF Class CC 72000",
     "signature": "A powerful blue diesel icon for French mainline expresses beyond the wires."
+  },
+  "amtrak-acela": {
+    "name": "Amtrak Acela",
+    "nickname": "Northeast Corridor high-speed train",
+    "country": "United States",
+    "source": "Wikipedia: Acela",
+    "signature": "Acela brought dedicated high-speed branding to the Northeast Corridor between Boston, New York and Washington."
+  },
+  "crh380a": {
+    "name": "China Railways CRH380A",
+    "nickname": "Chinese high-speed EMU",
+    "country": "China",
+    "source": "Wikipedia: China Railways CRH380A",
+    "signature": "The CRH380A became one of the signature trainsets of China's fast-growing high-speed network."
+  },
+  "vande-bharat": {
+    "name": "Vande Bharat Express",
+    "nickname": "Train 18",
+    "country": "India",
+    "source": "Wikipedia: Vande Bharat Express",
+    "signature": "Vande Bharat is India's domestically built semi-high-speed EMU for premium intercity services."
+  },
+  "gautrain": {
+    "name": "Gautrain",
+    "nickname": "Bombardier Electrostar",
+    "country": "South Africa",
+    "source": "Wikipedia: Gautrain",
+    "signature": "Gautrain links Johannesburg, Pretoria and OR Tambo Airport with a modern rapid-rail service."
+  },
+  "queensland-tilt-train": {
+    "name": "Queensland Electric Tilt Train",
+    "nickname": "QR electric tilting train",
+    "country": "Australia",
+    "source": "Wikipedia: Electric Tilt Train",
+    "signature": "Queensland's electric tilt train set an Australian rail speed record and still serves the coastal corridor."
+  },
+  "sarmiento-csr-emu": {
+    "name": "Sarmiento Line CSR EMU",
+    "nickname": "Argentinian suburban EMU",
+    "country": "Argentina",
+    "source": "Wikipedia: Sarmiento Line",
+    "signature": "The CSR EMUs modernized Buenos Aires commuter service with high-capacity electric trainsets."
   }
 }

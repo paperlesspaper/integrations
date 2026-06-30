@@ -95,7 +95,7 @@
       "spacecraftId": {
         "type": "string",
         "title": "Pinned spacecraft",
-        "description": "Optional spacecraft slug, for example sputnik-1, apollo-command-module, apollo-lunar-module-eagle, saturn-v, viking-1-lander, voyager-1, mariner-10, pioneer-10, skylab, soyuz-ms, mir, space-shuttle-discovery, ariane-5-eca, hubble-space-telescope, chandra-x-ray-observatory, cassini-huygens, rosetta-philae, magellan, galileo-orbiter, mars-pathfinder, near-shoemaker, dawn, ulysses, stardust, deep-impact, messenger, kepler-space-telescope, spitzer-space-telescope, hayabusa2, osiris-rex, bepicolombo, parker-solar-probe, crew-dragon-endeavour, perseverance-rover, or james-webb-space-telescope.",
+        "description": "Optional spacecraft slug, for example sputnik-1, apollo-command-module, apollo-lunar-module-eagle, saturn-v, viking-1-lander, voyager-1, mariner-10, pioneer-10, skylab, soyuz-ms, mir, space-shuttle-discovery, ariane-5-eca, hubble-space-telescope, chandra-x-ray-observatory, cassini-huygens, rosetta-philae, magellan, galileo-orbiter, mars-pathfinder, near-shoemaker, dawn, ulysses, stardust, deep-impact, mars-reconnaissance-orbiter, new-horizons, messenger, kepler-space-telescope, lunar-reconnaissance-orbiter, juno, spitzer-space-telescope, hayabusa2, osiris-rex, bepicolombo, parker-solar-probe, crew-dragon-endeavour, perseverance-rover, james-webb-space-telescope, or europa-clipper.",
         "default": ""
       },
       "seed": {

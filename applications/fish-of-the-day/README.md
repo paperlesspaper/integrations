@@ -14,6 +14,26 @@ Shows a deterministic daily prehistoric fish on a paperlesspaper display. The ro
   - [Stethacanthus](https://en.wikipedia.org/wiki/Stethacanthus)
   - [Pteraspis](https://en.wikipedia.org/wiki/Pteraspis)
   - [Bothriolepis](https://en.wikipedia.org/wiki/Bothriolepis)
+  - [Megalodon](https://en.wikipedia.org/wiki/Megalodon)
+  - [Cretoxyrhina](https://en.wikipedia.org/wiki/Cretoxyrhina)
+  - [Cladoselache](https://en.wikipedia.org/wiki/Cladoselache)
+  - [Hyneria](https://en.wikipedia.org/wiki/Hyneria)
+  - [Eusthenopteron](https://en.wikipedia.org/wiki/Eusthenopteron)
+  - [Rhizodus](https://en.wikipedia.org/wiki/Rhizodus)
+  - [Onychodus](https://en.wikipedia.org/wiki/Onychodus)
+  - [Mawsonia](https://en.wikipedia.org/wiki/Mawsonia)
+  - [Materpiscis](https://en.wikipedia.org/wiki/Materpiscis)
+  - [Entelognathus](https://en.wikipedia.org/wiki/Entelognathus)
+  - [Asterolepis](https://en.wikipedia.org/wiki/Asterolepis_(fish))
+  - [Cephalaspis](https://en.wikipedia.org/wiki/Cephalaspis)
+  - [Arandaspis](https://en.wikipedia.org/wiki/Arandaspis)
+  - [Haikouichthys](https://en.wikipedia.org/wiki/Haikouichthys)
+  - [Saurichthys](https://en.wikipedia.org/wiki/Saurichthys)
+  - [Aspidorhynchus](https://en.wikipedia.org/wiki/Aspidorhynchus)
+  - [Enchodus](https://en.wikipedia.org/wiki/Enchodus)
+  - [Cheirolepis](https://en.wikipedia.org/wiki/Cheirolepis)
+  - [Pycnodus](https://en.wikipedia.org/wiki/Pycnodus)
+  - [Coccosteus](https://en.wikipedia.org/wiki/Coccosteus)
 
 ## Artwork
 
@@ -62,7 +82,7 @@ no transparency
 ## Settings
 
 - `group`: show all fish or filter by broad fossil fish group.
-- `fishId`: pin a fish by slug. The catalog includes `dunkleosteus`, `tiktaalik`, `xiphactinus`, `leedsichthys`, `helicoprion`, `stethacanthus`, `pteraspis`, and `bothriolepis`.
+- `fishId`: pin a fish by slug. The catalog includes 28 fish, including `dunkleosteus`, `tiktaalik`, `megalodon`, `cretoxyrhina`, `hyneria`, `mawsonia`, `entelognathus`, `cephalaspis`, `saurichthys`, `enchodus`, `pycnodus`, and `coccosteus`.
 - `seed`: optional text that creates a different daily fish rotation.
 - `showPeriod`, `showLength`, `showDiet`, `showFossilLocation`, `showNameMeaning`: default fact checkboxes.
 - `showSource`: optional Wikipedia source label.

@@ -103,7 +103,7 @@
       "birdId": {
         "type": "string",
         "title": "Pinned bird",
-        "description": "Optional bird slug, for example barn-swallow, bald-eagle, common-ostrich, harpy-eagle, blue-jay, mute-swan, white-stork, or american-white-pelican.",
+        "description": "Optional bird slug, for example barn-swallow, bald-eagle, golden-pheasant, bearded-vulture, black-skimmer, burrowing-owl, sandhill-crane, or superb-starling.",
         "default": ""
       },
       "seed": {

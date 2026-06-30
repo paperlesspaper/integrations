@@ -452,5 +452,85 @@
     "nameMeaning": "Dicknasige Echse",
     "source": "Wikipedia: Pachyrhinosaurus",
     "signature": "Abgeflachter Nasenbuckel und gehörntes Nackenschild unterscheiden ihn klar von Triceratops."
+  },
+  "amargasaurus": {
+    "nickname": "Amargasaurus cazaui",
+    "period": "Frühe Kreide, 130-120 Mio. Jahre",
+    "length": "9-13 m",
+    "diet": "Pflanzenfresser",
+    "fossilLocation": "La-Amarga-Formation, Argentinien",
+    "nameMeaning": "La-Amarga-Echse",
+    "source": "Wikipedia: Amargasaurus",
+    "signature": "Zwei Reihen hoher Hals- und Rückenstacheln machen aus einem kurzhalsigen Sauropoden eine gezackte Display-Silhouette."
+  },
+  "nigersaurus": {
+    "nickname": "Nigersaurus taqueti",
+    "period": "Frühe Kreide, 115-105 Mio. Jahre",
+    "length": "9-14,1 m",
+    "diet": "Pflanzenfresser",
+    "fossilLocation": "Elrhaz-Formation, Niger",
+    "nameMeaning": "Niger-Reptil",
+    "source": "Wikipedia: Nigersaurus",
+    "signature": "Breite rechtwinklige Schnauze und niedriger Weidekopf geben diesem Sauropoden ein herrlich seltsames Profil."
+  },
+  "ouranosaurus": {
+    "nickname": "Ouranosaurus nigeriensis",
+    "period": "Frühe Kreide, Aptium-Albium",
+    "length": "7-8,3 m",
+    "diet": "Pflanzenfresser",
+    "fossilLocation": "Niger und Kamerun",
+    "nameMeaning": "Mutige Echse aus Niger",
+    "source": "Wikipedia: Ouranosaurus",
+    "signature": "Ein Iguanodont-Körper mit langem Rückensegel ergänzt die Ornithopoden um eine dramatische Kammform."
+  },
+  "shantungosaurus": {
+    "nickname": "Shantungosaurus giganteus",
+    "period": "Späte Kreide, etwa 77,3-71 Mio. Jahre",
+    "length": "15-17 m",
+    "diet": "Pflanzenfresser",
+    "fossilLocation": "Wangshi-Gruppe, Shandong, China",
+    "nameMeaning": "Shandong-Echse",
+    "source": "Wikipedia: Shantungosaurus",
+    "signature": "Riesiger Entenschnabel-Körper, tiefer Rumpf und langer schwerer Schwanz lassen die Hadrosaurier-Form gewaltig wirken."
+  },
+  "tarbosaurus": {
+    "nickname": "Tarbosaurus bataar",
+    "period": "Späte Kreide, Maastrichtium",
+    "length": "Etwa 10 m",
+    "diet": "Fleischfresser",
+    "fossilLocation": "Nemegt-Formation, Mongolei",
+    "nameMeaning": "Alarmierende Echse",
+    "source": "Wikipedia: Tarbosaurus",
+    "signature": "Tiefer Tyrannosaurier-Schädel und winzige zweifingrige Arme ergeben ein vertrautes, aber eigenes asiatisches Räuberprofil."
+  },
+  "herrerasaurus": {
+    "nickname": "Herrerasaurus ischigualastensis",
+    "period": "Späte Trias, 231,4-228,91 Mio. Jahre",
+    "length": "Etwa 6 m",
+    "diet": "Fleischfresser",
+    "fossilLocation": "Ischigualasto-Formation, Argentinien",
+    "nameMeaning": "Herreras Echse",
+    "source": "Wikipedia: Herrerasaurus",
+    "signature": "Langer Schwanz, niedriger Schädel, kräftige Hinterbeine und Greifhände zeigen einen frühen Räuberbauplan."
+  },
+  "minmi": {
+    "nickname": "Minmi paravertebra",
+    "period": "Frühe Kreide, 120-112 Mio. Jahre",
+    "length": "Etwa 3 m",
+    "diet": "Pflanzenfresser",
+    "fossilLocation": "Bungil-Formation, Queensland, Australien",
+    "nameMeaning": "Benannt nach Minmi Crossing",
+    "source": "Wikipedia: Minmi paravertebra",
+    "signature": "Ein kleiner gepanzerter Vierbeiner mit langen Gliedmaßen und niedrigem plattenbesetztem Körper ergänzt die Ankylosaurier leichter."
+  },
+  "concavenator": {
+    "nickname": "Concavenator corcovatus",
+    "period": "Frühe Kreide, etwa 125 Mio. Jahre",
+    "length": "5-6 m",
+    "diet": "Fleischfresser",
+    "fossilLocation": "Las Hoyas, Cuenca, Spanien",
+    "nameMeaning": "Cuenca-Jäger",
+    "source": "Wikipedia: Concavenator",
+    "signature": "Ein mittelgroßer Theropode mit erhobenem Rückenbuckel unterbricht die sonst glatte Räuberlinie."
   }
 }

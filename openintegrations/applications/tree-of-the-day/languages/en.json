@@ -1,0 +1,20 @@
+{
+  "loading": "Loading...",
+  "kicker": "Tree of the day",
+  "species": "Species",
+  "range": "Range",
+  "height": "Height",
+  "age": "Age",
+  "leafType": "Leaf type",
+  "fruitSeed": "Fruit / seed",
+  "culturalRole": "Cultural role",
+  "family": "Family",
+  "habitat": "Habitat",
+  "conservation": "Conservation",
+  "category": "Entry",
+  "categorySpecies": "Species",
+  "categoryIndividual": "Famous tree",
+  "source": "Source",
+  "selectedFrom": "{count} in rotation",
+  "errorTitle": "Tree could not load"
+}

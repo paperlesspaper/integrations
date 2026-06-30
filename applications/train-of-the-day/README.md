@@ -45,9 +45,9 @@ Komposition: exakte Seitenansicht, horizontal von links nach rechts, erster Wage
 
 ## Settings
 
-- `region`: use European trains only, worldwide historic entries, or all curated trains.
+- `region`: filter by continent (`europe`, `asia`, `africa`, `north-america`, `south-america`, `oceania`) or use `any` for the full catalog.
 - `traction`: show any train, high-speed trains, or locomotives.
-- `trainId`: pin a train by slug. The catalog contains 66 trains, including newer additions such as `ice-t`, `tgv-pos`, `renfe-s130`, `sbb-icn`, `db-class-101`, and `sncf-cc-72000`, plus historic examples such as `stephensons-rocket`, `mallard`, `sbb-crocodile`, and `union-pacific-big-boy`.
+- `trainId`: pin a train by slug. The catalog contains 72 trains, including worldwide additions such as `amtrak-acela`, `crh380a`, `vande-bharat`, `gautrain`, `queensland-tilt-train`, and `sarmiento-csr-emu`, plus historic examples such as `stephensons-rocket`, `mallard`, `sbb-crocodile`, and `union-pacific-big-boy`.
 - `seed`: optional text that creates a different daily rotation.
 - `showOrigin`, `showService`, `showSpeed`, `showBuilder`, `showType`: default fact checkboxes.
 - `showOperator`, `showFormation`, `showLength`, `showVoltage`, `showGauge`, `showDrive`: optional extra fact checkboxes.

@@ -460,5 +460,47 @@
     "country": "France",
     "source": "Wikipedia: SNCF Class CC 72000",
     "signature": "SNCF CC 72000 est un train europeen marquant pour French non-electrified main lines."
+  },
+  "amtrak-acela": {
+    "name": "Amtrak Acela",
+    "nickname": "Northeast Corridor high-speed train",
+    "country": "Etats-Unis",
+    "source": "Wikipedia: Acela",
+    "signature": "Amtrak Acela elargit la rotation avec un train de Etats-Unis."
+  },
+  "crh380a": {
+    "name": "China Railways CRH380A",
+    "nickname": "Chinese high-speed EMU",
+    "country": "Chine",
+    "source": "Wikipedia: China Railways CRH380A",
+    "signature": "China Railways CRH380A elargit la rotation avec un train de Chine."
+  },
+  "vande-bharat": {
+    "name": "Vande Bharat Express",
+    "nickname": "Train 18",
+    "country": "Inde",
+    "source": "Wikipedia: Vande Bharat Express",
+    "signature": "Vande Bharat Express elargit la rotation avec un train de Inde."
+  },
+  "gautrain": {
+    "name": "Gautrain",
+    "nickname": "Bombardier Electrostar",
+    "country": "Afrique du Sud",
+    "source": "Wikipedia: Gautrain",
+    "signature": "Gautrain elargit la rotation avec un train de Afrique du Sud."
+  },
+  "queensland-tilt-train": {
+    "name": "Queensland Electric Tilt Train",
+    "nickname": "QR electric tilting train",
+    "country": "Australie",
+    "source": "Wikipedia: Electric Tilt Train",
+    "signature": "Queensland Electric Tilt Train elargit la rotation avec un train de Australie."
+  },
+  "sarmiento-csr-emu": {
+    "name": "Sarmiento Line CSR EMU",
+    "nickname": "Argentinian suburban EMU",
+    "country": "Argentine",
+    "source": "Wikipedia: Sarmiento Line",
+    "signature": "Sarmiento Line CSR EMU elargit la rotation avec un train de Argentine."
   }
 }

@@ -388,5 +388,125 @@
     "migration": "Zugvogel, mit Suedwaertszug bis September oder Oktober",
     "nesting": "Kolonialer Bodenbrueter in flachen ausgescharrten Mulden mit Zweigen, Schilf und Resten",
     "signature": "Ein riesiger Binnenland-Pelikan, der auf breiten weiss-schwarzen Fluegeln nach Sueden segelt."
+  },
+  "golden-pheasant": {
+    "name": "Goldfasan",
+    "range": "Bergwaelder im Westen Chinas, mit verwilderten Populationen anderswo",
+    "call": "Metallischer Ruf in der Brutzeit",
+    "diet": "Getreide, Blaetter, Wirbellose, Beeren, Engerlinge und Samen",
+    "conservationStatus": "Nicht gefaehrdet",
+    "migration": "Meist standorttreu und bodenlebend; kein regelmaessiger Zug beschrieben",
+    "nesting": "Bodennest mit acht bis zwoelf Eiern",
+    "signature": "Ein schillernder Waldfasan, dessen goldene Haube und faecherartiger oranger Kragen das Maennchen unverwechselbar machen."
+  },
+  "bearded-vulture": {
+    "name": "Bartgeier",
+    "range": "Hochgebirge Suedeuropas, Ostafrikas, des Kaukasus, des indischen Subkontinents, Tibets und Chinas",
+    "call": "Meist stumm, mit schrillen Pfiffen und Balzrufen nahe am Nest",
+    "diet": "Vor allem Knochen, dazu Aas und gelegentlich lebende Beute",
+    "conservationStatus": "Potenziell gefaehrdet",
+    "migration": "Meist standorttreu; kein regelmaessiger Langstreckenzug beschrieben",
+    "nesting": "Felswaende und Kliffbaender, meist mit ein oder zwei Eiern im Winter",
+    "signature": "Ein Gebirgsgeier, spezialisiert auf Knochen und beruehmt dafuer, sie zum Aufbrechen fallen zu lassen."
+  },
+  "black-skimmer": {
+    "name": "Schwarzmantel-Scherenschnabel",
+    "range": "Kuesten und grosse Fluesse Nord- und Suedamerikas",
+    "call": "Bellende kak-kak-kak-Rufe",
+    "diet": "Kleine Fische, Insekten, Krebstiere und Weichtiere",
+    "conservationStatus": "Nicht gefaehrdet",
+    "migration": "Noerdliche Voegel ueberwintern an karibischen sowie tropischen Pazifik- und Atlantikkuesten",
+    "nesting": "Lockere Kolonien auf Sandbaenken und Straenden, meist mit drei bis sieben Eiern",
+    "signature": "Ein seeschwalbenartiger Kuestenvogel, der mit uebergrossem Unterschnabel die Wasseroberflaeche schneidet."
+  },
+  "common-loon": {
+    "name": "Eistaucher",
+    "range": "Bruetet in Kanada, noerdlichen USA, Alaska, Suedgroenland und Island; ueberwintert an Kuesten",
+    "call": "Tremolo-, Jodel-, Klagelaut- und Huh-Rufe",
+    "diet": "Fische, Krebstiere, Insektenlarven, Weichtiere und etwas Wasserpflanzen",
+    "conservationStatus": "Nicht gefaehrdet",
+    "migration": "Zugvogel, der Brutseen vor dem Zufrieren verlaesst",
+    "nesting": "Huegel aus Sumpfpflanzen an bewachsenen Seeufern, meist mit ein oder zwei Eiern",
+    "signature": "Ein schwarz-weisser Taucher noerdlicher Seen mit eindringlichen Revierrufen."
+  },
+  "american-robin": {
+    "name": "Wanderdrossel",
+    "range": "Weit verbreitet in Nordamerika, ueberwintert suedlich bis Zentralmexiko und an der Pazifikkueste",
+    "call": "Froehlich klingender Gesang, dazu Warnrufe",
+    "diet": "Wirbellose, Fruechte und Beeren",
+    "conservationStatus": "Nicht gefaehrdet",
+    "migration": "Die meisten ueberwintern suedlich Kanadas und kehren ab Februar oder Maerz nach Norden zurueck",
+    "nesting": "Mit Lehm ausgekleidetes Gras- und Zweignest, meist mit drei bis fuenf blauen Eiern",
+    "signature": "Eine vertraute orangebruestige Drossel, die Morgengesang auf Rasenflaechen und Stadtbaeume bringt."
+  },
+  "eurasian-magpie": {
+    "name": "Elster",
+    "range": "Gemaessigtes Eurasien von Westeuropa bis Kamtschatka",
+    "call": "Schnatternde tschack-tschack-Rufe",
+    "diet": "Allesfresser: Insekten, Eier, Jungvoegel, Kleinsaeuger, Aas, Abfaelle, Eicheln und Getreide",
+    "conservationStatus": "Nicht gefaehrdet",
+    "migration": "Meist standorttreu; noerdliche Voegel koennen bei hartem Wetter suedwaerts ausweichen",
+    "nesting": "Grosses ueberdachtes Reisignest in hohen Baeumen oder Bueschen",
+    "signature": "Ein scharf gezeichneter schwarz-weisser Rabenvogel, bekannt fuer Intelligenz, Geschwaetz und langen irisierenden Schwanz."
+  },
+  "burrowing-owl": {
+    "name": "Kanincheneule",
+    "range": "Offene trockene Landschaften von Westkanada und den USA bis Mittel- und Suedamerika",
+    "call": "Rasselnde und zischende Warnrufe sowie Eulenlaute",
+    "diet": "Grosse Insekten, kleine Nagetiere und andere Wirbeltiere, dazu etwas Fruechte und Samen",
+    "conservationStatus": "Nicht gefaehrdet",
+    "migration": "Meist standorttreu; noerdliche Brutvoegel ueberwintern meist weiter suedlich",
+    "nesting": "Erdbaue, oft alte Saeugetierbaue, mit vier bis zwoelf Eiern",
+    "signature": "Eine langbeinige Tageseule, die in offenen Graslandschaften unter der Erde bruetet."
+  },
+  "california-quail": {
+    "name": "Schopfwachtel",
+    "range": "Westliches Nordamerika, mit eingefuehrten Populationen anderswo",
+    "call": "Soziale chicago-Rufe, Kontakt- und Warnpiepen sowie Squill-Rufe der Maennchen",
+    "diet": "Samen, Blaetter, Beeren und Insekten",
+    "conservationStatus": "Nicht gefaehrdet",
+    "migration": "Ganzjaehriger Standvogel",
+    "nesting": "Flache Bodenmulde unter Straeuchern oder Deckung, meist mit zwoelf bis sechzehn Eiern",
+    "signature": "Ein rundlicher Schwarmvogel mit baumelnder Kopfhaube und explosiven Kurzfluegen."
+  },
+  "great-frigatebird": {
+    "name": "Bindenfregattvogel",
+    "range": "Tropische Inseln des Pazifiks und Indischen Ozeans, mit kleiner Suedatlantik-Population",
+    "call": "Balzrufe der Maennchen; keine knappe Rufumschreibung aufgefuehrt",
+    "diet": "Fliegende Fische, andere Fische, Tintenfische, Seevogeljunge, Schildkroetenschluepflinge, Abfaelle und gestohlene Nahrung",
+    "conservationStatus": "Nicht gefaehrdet",
+    "migration": "Regelmaessige Bewegungen tropischer Meere und weite Verstreuung",
+    "nesting": "Kolonien in Bueschen, Baeumen oder am Boden, meist mit einem Ei",
+    "signature": "Ein tropischer Seevogel mit riesigen Fluegeln, dessen Maennchen zur Balz einen roten Kehlsack aufblaeht."
+  },
+  "sandhill-crane": {
+    "name": "Kanadakranich",
+    "range": "Nordamerika und aeusserstes nordoestliches Sibirien",
+    "call": "Laute trompetende Rollrufe und Unisono-Duette von Paaren",
+    "diet": "Samen, Getreide, Beeren, Kleinsaeuger, Insekten, Schnecken, Reptilien und Amphibien",
+    "conservationStatus": "Nicht gefaehrdet",
+    "migration": "Noerdliche Populationen ueberwintern suedlich; einige suedliche Unterarten sind standorttreu",
+    "nesting": "Pflanzennest in Marschen, Mooren oder Senken, meist mit ein bis drei Eiern",
+    "signature": "Ein hoher grauer Kranich, dessen rollende Rufe ueber Feuchtgebiete und Zugschwaerme tragen."
+  },
+  "european-green-woodpecker": {
+    "name": "Gruenspecht",
+    "range": "Weite Teile Europas und der westlichen Palaearktis bis nach Westasien",
+    "call": "Laute lachende Rufe und wiederholter klu-Gesang",
+    "diet": "Vor allem Ameisen, dazu andere Insekten und kleine Reptilien",
+    "conservationStatus": "Nicht gefaehrdet",
+    "migration": "Sehr standorttreu, bewegt sich selten weit zwischen Brutzeiten",
+    "nesting": "Selbst gezimmerte Baumhoehle, meist mit vier bis sechs Eiern",
+    "signature": "Ein gruener, rotgescheitelter Specht, der haeufiger lachend zu hoeren als zu sehen ist."
+  },
+  "superb-starling": {
+    "name": "Dreifarben-Glanzstar",
+    "range": "Ostafrika, darunter Somalia, Uganda, Kenia, Suedsudan, Aethiopien und Tansania",
+    "call": "Laute Triller, Schwatzen und raue Kreischrufe",
+    "diet": "Insekten, Beeren, kleine Fruechte, Samen, Aas und Sisal-Nektar",
+    "conservationStatus": "Nicht gefaehrdet",
+    "migration": "Kein regelmaessiger Zug beschrieben; lokale Bewegungen nach Nahrung und Wasser wahrscheinlich",
+    "nesting": "Dornbaeume, Buesche, Baumhoehlen, Klippen oder Felsspalten, meist mit drei bis vier Eiern",
+    "signature": "Ein glaenzender ostafrikanischer Star mit blaugruenem Gefieder, weissem Brustband und orangem Bauch."
   }
 }

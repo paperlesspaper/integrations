@@ -54,6 +54,14 @@ Shows a deterministic daily dinosaur on a paperlesspaper display. The rotation u
   - [Acrocanthosaurus](https://en.wikipedia.org/wiki/Acrocanthosaurus)
   - [Mamenchisaurus](https://en.wikipedia.org/wiki/Mamenchisaurus)
   - [Pachyrhinosaurus](https://en.wikipedia.org/wiki/Pachyrhinosaurus)
+  - [Amargasaurus](https://en.wikipedia.org/wiki/Amargasaurus)
+  - [Nigersaurus](https://en.wikipedia.org/wiki/Nigersaurus)
+  - [Ouranosaurus](https://en.wikipedia.org/wiki/Ouranosaurus)
+  - [Shantungosaurus](https://en.wikipedia.org/wiki/Shantungosaurus)
+  - [Tarbosaurus](https://en.wikipedia.org/wiki/Tarbosaurus)
+  - [Herrerasaurus](https://en.wikipedia.org/wiki/Herrerasaurus)
+  - [Minmi](https://en.wikipedia.org/wiki/Minmi_paravertebra)
+  - [Concavenator](https://en.wikipedia.org/wiki/Concavenator)
 
 ## Artwork
 
@@ -102,7 +110,7 @@ no transparency
 ## Settings
 
 - `group`: show all dinosaurs or filter by a broad dinosaur group.
-- `dinosaurId`: pin a dinosaur by slug. The catalog includes `true`, `maiasaura`, `plateosaurus`, `coelophysis`, `mononykus`, `psittacosaurus`, `acrocanthosaurus`, `mamenchisaurus`, and `pachyrhinosaurus`.
+- `dinosaurId`: pin a dinosaur by slug. The catalog includes `true`, `maiasaura`, `plateosaurus`, `coelophysis`, `mononykus`, `psittacosaurus`, `acrocanthosaurus`, `mamenchisaurus`, `pachyrhinosaurus`, `amargasaurus`, `nigersaurus`, `ouranosaurus`, `shantungosaurus`, `tarbosaurus`, `herrerasaurus`, `minmi`, and `concavenator`.
 - `seed`: optional text that creates a different daily rotation.
 - `showPeriod`, `showLength`, `showDiet`, `showFossilLocation`, `showNameMeaning`: default fact checkboxes.
 - `showSource`: optional Wikipedia source label.

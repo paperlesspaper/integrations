@@ -2,7 +2,7 @@
   "name": "Train of the Day",
   "version": "0.1.0",
   "status": "alpha",
-  "description": "Shows one deterministic daily train with first-car artwork and compact facts, focused mostly on European trains with a historic rail rotation.",
+  "description": "Shows one deterministic daily train with first-car artwork and compact facts, with European, historic, and worldwide continent-filtered rail rotations.",
   "renderPage": "./render.html",
   "icon": "./assets/icon.png",
   "nativeSettings": {
@@ -101,10 +101,15 @@
         "title": "Region",
         "enum": [
           "europe",
-          "worldwide",
+          "asia",
+          "africa",
+          "north-america",
+          "south-america",
+          "oceania",
           "any"
         ],
-        "default": "europe"
+        "default": "europe",
+        "description": "Filter the daily rotation by continent, or choose any for the full catalog."
       },
       "traction": {
         "type": "string",
@@ -120,7 +125,7 @@
       "trainId": {
         "type": "string",
         "title": "Pinned train",
-        "description": "Optional train slug, for example ice-3, tgv-duplex, sbb-re-460, eurostar-e320, frecciarossa-1000, obb-taurus, intercity-125, renfe-ave-s103, sbb-giruno, sj-x2000, thalys-pbka, db-class-103, siemens-vectron, ns-virm, alfa-pendular, vr-sm3, etr-500, sncf-bb-26000, eurostar-class-373, renfe-s102, cd-class-680, pkp-ed250, sncb-class-18, db-class-218, ice-1, class-390-pendolino, ns-icm-koploper, dsb-ic3, coradia-ilint, stadler-flirt, adler, amtrak-metroliner, bavarian-s3-6, belgian-type-12, budd-rdc, db-vt-11-5, drg-class-05, drg-e18, drg-svt-877-flying-hamburger, flying-scotsman, fs-e626, lms-coronation, mallard, mistral-cc-40100, new-york-central-hudson, ns-mat-54, pennsylvania-gg1, prussian-p8, rheingold-1928, sbb-crocodile, sbb-rae-4-8-churchill, shinkansen-0-series, sncf-2d2-9100, sncf-cc-7100, southern-railway-schools, stephensons-rocket, tee-rabe, tokaido-ef58, union-pacific-big-boy, union-pacific-m10000, ice-t, tgv-pos, renfe-s130, sbb-icn, db-class-101, or sncf-cc-72000.",
+        "description": "Optional train slug, for example ice-3, tgv-duplex, sbb-re-460, eurostar-e320, frecciarossa-1000, obb-taurus, intercity-125, renfe-ave-s103, sbb-giruno, sj-x2000, thalys-pbka, db-class-103, siemens-vectron, ns-virm, alfa-pendular, vr-sm3, etr-500, sncf-bb-26000, eurostar-class-373, renfe-s102, cd-class-680, pkp-ed250, sncb-class-18, db-class-218, ice-1, class-390-pendolino, ns-icm-koploper, dsb-ic3, coradia-ilint, stadler-flirt, adler, amtrak-metroliner, bavarian-s3-6, belgian-type-12, budd-rdc, db-vt-11-5, drg-class-05, drg-e18, drg-svt-877-flying-hamburger, flying-scotsman, fs-e626, lms-coronation, mallard, mistral-cc-40100, new-york-central-hudson, ns-mat-54, pennsylvania-gg1, prussian-p8, rheingold-1928, sbb-crocodile, sbb-rae-4-8-churchill, shinkansen-0-series, sncf-2d2-9100, sncf-cc-7100, southern-railway-schools, stephensons-rocket, tee-rabe, tokaido-ef58, union-pacific-big-boy, union-pacific-m10000, ice-t, tgv-pos, renfe-s130, sbb-icn, db-class-101, sncf-cc-72000, amtrak-acela, crh380a, vande-bharat, gautrain, queensland-tilt-train, or sarmiento-csr-emu.",
         "default": ""
       },
       "seed": {

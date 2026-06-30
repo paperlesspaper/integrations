@@ -62,7 +62,7 @@
       "fishId": {
         "type": "string",
         "title": "Pinned fish",
-        "description": "Optional fish slug, for example dunkleosteus, tiktaalik, xiphactinus, leedsichthys, helicoprion, stethacanthus, pteraspis, or bothriolepis.",
+        "description": "Optional fish slug, for example dunkleosteus, tiktaalik, megalodon, cretoxyrhina, hyneria, mawsonia, entelognathus, cephalaspis, saurichthys, enchodus, pycnodus, or coccosteus.",
         "default": ""
       },
       "seed": {
