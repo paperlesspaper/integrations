@@ -1,0 +1,21 @@
+{
+  "loading": "Loading...",
+  "kicker": "Hebrew calendar",
+  "defaultTitle": "Jewish Date",
+  "hebrewLabel": "Hebrew",
+  "transliterationLabel": "Transliteration",
+  "gregorianLabel": "Gregorian",
+  "weekdayLabel": "Weekday",
+  "dayLabel": "Day",
+  "monthYearLabel": "Month / year",
+  "noteLabel": "Today",
+  "afterSunsetLabel": "Sunset mode",
+  "afterSunsetOn": "After sunset: next Hebrew day",
+  "afterSunsetOff": "Civil day",
+  "roshChodesh": "Rosh Chodesh",
+  "omerDay": "Omer day {day}",
+  "ordinaryDay": "Regular day",
+  "todayNote": "Using today's date",
+  "fixedDateNote": "Pinned date",
+  "errorTitle": "Jewish date could not load"
+}

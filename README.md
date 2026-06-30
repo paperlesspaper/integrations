@@ -105,6 +105,14 @@ For local development, use `http://localhost:3000/<slug>/config.json`.
 | <img src="applications/your-life-in-weeks/assets/icon.png" alt="" width="200" height="200">                | [Your Life in Weeks](applications/your-life-in-weeks/README.md)                     | [run](https://integrations.paperlesspaper.de/your-life-in-weeks/run)          | [config](https://integrations.paperlesspaper.de/your-life-in-weeks/config.json)          | Shows a week-by-week lifetime grid from a configurable birth date, with age, progress, and current-week markers.                             |
 | <img src="applications/xkcd/assets/icon.png" alt="" width="200" height="200">                              | [XKCD](applications/xkcd/README.md)                                                 | [run](https://integrations.paperlesspaper.de/xkcd/run)                        | [config](https://integrations.paperlesspaper.de/xkcd/config.json)                        | Shows the latest, random, or offset XKCD comic.                                                                                              |
 
+## OpenIntegration Applications
+
+These newer integrations live in `openintegrations/applications/<slug>/` and can be validated or rendered directly with `@paperlesspaper/openintegration`.
+
+| Icon                                                                                         | Integration                                                         | Manifest                                                                 | Description                                                                                              |
+| -------------------------------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------- |
+| <img src="openintegrations/applications/jewish-date/assets/icon.png" alt="" width="200" height="200"> | [Jewish Date](openintegrations/applications/jewish-date/README.md) | [config](openintegrations/applications/jewish-date/config.json) | Shows the current Jewish/Hebrew calendar date with Hebrew typography, transliteration, and compact daily details. |
+
 ## Development
 
 Use the render URL while building an integration:

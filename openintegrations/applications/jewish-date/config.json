@@ -1,0 +1,65 @@
+{
+  "name": "Jewish Date",
+  "version": "0.1.0",
+  "description": "Shows the current Jewish/Hebrew calendar date with optional transliteration, Gregorian date, and compact daily details.",
+  "renderPage": "./render.html",
+  "icon": "./assets/icon.png",
+  "nativeSettings": {
+    "color": "light",
+    "title": "Jewish Date",
+    "date": "",
+    "displayStyle": "both",
+    "afterSunset": false,
+    "showGregorian": true,
+    "showWeekday": true,
+    "showDetails": true
+  },
+  "formSchema": {
+    "type": "object",
+    "properties": {
+      "title": {
+        "type": "string",
+        "title": "Title",
+        "description": "Heading shown above the Hebrew calendar date.",
+        "default": "Jewish Date"
+      },
+      "date": {
+        "type": "string",
+        "title": "Date",
+        "description": "Date to convert. Leave empty to use today.",
+        "format": "date",
+        "default": ""
+      },
+      "displayStyle": {
+        "type": "string",
+        "title": "Display style",
+        "description": "Choose Hebrew, transliteration, or both.",
+        "enum": ["both", "hebrew", "transliterated"],
+        "default": "both"
+      },
+      "afterSunset": {
+        "type": "boolean",
+        "title": "After sunset",
+        "description": "Use the next Hebrew date after local sunset.",
+        "default": false
+      },
+      "showGregorian": {
+        "type": "boolean",
+        "title": "Show Gregorian date",
+        "default": true
+      },
+      "showWeekday": {
+        "type": "boolean",
+        "title": "Show weekday",
+        "default": true
+      },
+      "showDetails": {
+        "type": "boolean",
+        "title": "Show details",
+        "description": "Show Hebrew day, month/year, Omer or Rosh Chodesh notes, and sunset mode.",
+        "default": true
+      }
+    }
+  },
+  "language": ["en", "de"]
+}

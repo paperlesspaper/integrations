@@ -1,0 +1,797 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="paperless:epd-optimize" content='{"intent":"readable"}' />
+    <title>Jewish Date</title>
+    <link rel="stylesheet" href="/assets/paperless.css" />
+    <script src="/assets/paperless.iife.js"></script>
+    <style>
+      .jewish-date-screen {
+        padding: 24px;
+        gap: 18px;
+      }
+
+      .top-line {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        gap: 18px;
+        align-items: end;
+        padding-bottom: 14px;
+        border-bottom: 3px solid var(--pp-border);
+      }
+
+      .title-wrap {
+        min-width: 0;
+      }
+
+      .kicker,
+      .detail-label,
+      .small-label {
+        margin: 0;
+        color: var(--pp-muted);
+        font-size: 0.72rem;
+        line-height: 1;
+        font-weight: 860;
+        text-transform: uppercase;
+      }
+
+      .title {
+        margin: 6px 0 0;
+        color: var(--pp-accent);
+        font-size: 3.5rem;
+        line-height: 0.9;
+        font-weight: 950;
+        letter-spacing: 0;
+        overflow-wrap: anywhere;
+      }
+
+      .source-mark {
+        min-width: 124px;
+        display: grid;
+        place-items: center;
+        gap: 5px;
+        padding: 9px 12px;
+        border: 3px solid currentColor;
+        text-align: center;
+      }
+
+      .source-symbol {
+        font-family: "SF Hebrew Rounded", "Arial Hebrew", "Noto Sans Hebrew",
+          Arial, sans-serif;
+        font-size: 1.85rem;
+        line-height: 0.9;
+        font-weight: 900;
+        direction: rtl;
+      }
+
+      .content {
+        flex: 1;
+        min-height: 0;
+        display: grid;
+        grid-template-columns: minmax(0, 1.12fr) minmax(224px, 0.88fr);
+        gap: 24px;
+        align-items: stretch;
+      }
+
+      .date-panel,
+      .details {
+        min-width: 0;
+      }
+
+      .date-panel {
+        display: grid;
+        align-content: center;
+        gap: 16px;
+      }
+
+      .label-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        align-items: center;
+      }
+
+      .label-pill {
+        padding: 5px 8px 4px;
+        border: 2px solid var(--pp-border);
+        color: var(--pp-muted);
+        font-size: 0.72rem;
+        line-height: 1;
+        font-weight: 850;
+        text-transform: uppercase;
+      }
+
+        .primary-date {
+          margin: 0;
+        font-size: 5rem;
+        line-height: 0.94;
+        font-weight: 950;
+        letter-spacing: 0;
+        overflow-wrap: anywhere;
+      }
+
+      .primary-date[dir="rtl"] {
+        font-family: "Noto Sans Hebrew", "Arial Hebrew", "Arial", sans-serif;
+      }
+
+      .secondary-date {
+        margin: 0;
+        color: var(--pp-muted);
+        font-size: 1.6rem;
+        line-height: 1.05;
+        font-weight: 850;
+        overflow-wrap: anywhere;
+      }
+
+      .calendar-leaf {
+        display: grid;
+        grid-template-rows: auto minmax(0, 1fr);
+        border: 3px solid var(--pp-fg);
+        background: var(--pp-card);
+        min-height: 0;
+      }
+
+      .calendar-binding {
+        min-height: 54px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 42px;
+        align-items: center;
+        justify-items: center;
+        border-bottom: 3px solid var(--pp-fg);
+        background: var(--pp-accent);
+      }
+
+      .ring {
+        width: 28px;
+        height: 28px;
+        border: 6px solid var(--pp-bg);
+        background: var(--pp-fg);
+      }
+
+      .calendar-body {
+        min-width: 0;
+        min-height: 0;
+        display: grid;
+        align-content: center;
+        justify-items: center;
+        gap: 10px;
+        padding: 18px;
+        text-align: center;
+      }
+
+      .calendar-day {
+        margin: 0;
+        font-size: 5rem;
+        line-height: 0.9;
+        font-weight: 950;
+        direction: rtl;
+      }
+
+      .calendar-month {
+        margin: 0;
+        font-size: 1.35rem;
+        line-height: 1.05;
+        font-weight: 900;
+        direction: rtl;
+        overflow-wrap: anywhere;
+      }
+
+      .calendar-year {
+        margin: 0;
+        color: var(--pp-muted);
+        font-size: 1rem;
+        line-height: 1;
+        font-weight: 850;
+        direction: rtl;
+      }
+
+      .details {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        align-content: end;
+        gap: 12px;
+      }
+
+      .detail {
+        min-width: 0;
+        padding: 12px 10px;
+        border: 2px solid var(--pp-border);
+      }
+
+      .detail-value {
+        margin: 7px 0 0;
+        font-size: 1.16rem;
+        line-height: 1.04;
+        font-weight: 900;
+        overflow-wrap: anywhere;
+      }
+
+      .is-hidden {
+        display: none;
+      }
+
+      @media (orientation: portrait) {
+        .jewish-date-screen {
+          padding: 22px;
+          gap: 16px;
+        }
+
+        .top-line {
+          grid-template-columns: 1fr;
+          gap: 12px;
+          align-items: start;
+        }
+
+        .source-mark {
+          width: 100%;
+          min-width: 0;
+          grid-template-columns: auto 1fr;
+          justify-items: start;
+          text-align: left;
+        }
+
+        .content {
+          grid-template-columns: 1fr;
+          grid-template-rows: auto;
+          gap: 17px;
+        }
+
+        .date-panel {
+          align-content: start;
+          gap: 12px;
+        }
+
+        .primary-date {
+          font-size: 4.35rem;
+        }
+
+        .secondary-date {
+          font-size: 1.35rem;
+        }
+
+        .calendar-leaf {
+          display: none;
+        }
+
+        .details {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+          align-content: start;
+        }
+      }
+
+      @media (max-width: 700px), (max-height: 560px) {
+        .jewish-date-screen {
+          padding: 16px;
+          gap: 12px;
+        }
+
+        .top-line {
+          padding-bottom: 10px;
+          border-bottom-width: 2px;
+        }
+
+        .kicker,
+        .detail-label,
+        .small-label,
+        .label-pill {
+          font-size: 0.6rem;
+        }
+
+        .title {
+          font-size: 2.7rem;
+        }
+
+        .source-mark {
+          min-width: 98px;
+          padding: 7px 9px;
+          border-width: 2px;
+        }
+
+        .source-symbol {
+          font-size: 1.9rem;
+        }
+
+        .content {
+          gap: 16px;
+          grid-template-columns: minmax(0, 1.15fr) minmax(190px, 0.85fr);
+        }
+
+        .primary-date {
+          font-size: 3.55rem;
+        }
+
+        .secondary-date {
+          font-size: 1.15rem;
+        }
+
+        .calendar-binding {
+          min-height: 43px;
+          gap: 30px;
+          border-bottom-width: 2px;
+        }
+
+        .calendar-leaf {
+          border-width: 2px;
+        }
+
+        .ring {
+          width: 22px;
+          height: 22px;
+          border-width: 5px;
+        }
+
+        .calendar-body {
+          padding: 12px;
+          gap: 7px;
+        }
+
+        .calendar-day {
+          font-size: 3.9rem;
+        }
+
+        .calendar-month {
+          font-size: 1.04rem;
+        }
+
+        .calendar-year {
+          font-size: 0.82rem;
+        }
+
+        .details {
+          gap: 8px;
+        }
+
+        .detail {
+          padding: 8px 7px;
+        }
+
+        .detail-value {
+          margin-top: 5px;
+          font-size: 0.9rem;
+        }
+      }
+
+      @media (max-height: 560px) and (orientation: landscape) {
+        .date-panel {
+          gap: 10px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="website-has-loading-element"></div>
+    <main class="pp-screen jewish-date-screen">
+      <header class="top-line">
+        <div class="title-wrap">
+          <p class="kicker" data-i18n="kicker">Hebrew calendar</p>
+          <h1 class="title pp-fit" id="title" data-i18n="loading">Loading...</h1>
+        </div>
+        <div class="source-mark" aria-hidden="true">
+          <div class="source-symbol">עברי</div>
+          <p class="small-label" id="mode-label">Hebrew</p>
+        </div>
+      </header>
+
+      <section class="content" id="app">
+        <section class="date-panel">
+          <div class="label-row" id="date-labels"></div>
+          <p class="primary-date pp-fit" id="primary-date"></p>
+          <p class="secondary-date pp-fit" id="secondary-date"></p>
+          <div class="details" id="details"></div>
+        </section>
+
+        <aside class="calendar-leaf">
+          <div class="calendar-binding">
+            <span class="ring"></span>
+            <span class="ring"></span>
+          </div>
+          <div class="calendar-body">
+            <p class="calendar-day" id="calendar-day"></p>
+            <p class="calendar-month pp-fit" id="calendar-month"></p>
+            <p class="calendar-year" id="calendar-year"></p>
+          </div>
+        </aside>
+      </section>
+    </main>
+
+    <script>
+      (async function render() {
+        const {
+          waitForPayload,
+          getSettings,
+          getQuerySettings,
+          mergeSettings,
+          escapeHtml,
+          fitHyphenatedText,
+          fitAllText,
+          fitToScreen,
+          markReady,
+          markError,
+          loadLanguageJson,
+          applyColorTheme,
+        } = window.PaperlessOpenIntegration;
+
+        const defaultMessages = {
+          loading: "Loading...",
+          kicker: "Hebrew calendar",
+          defaultTitle: "Jewish Date",
+          hebrewLabel: "Hebrew",
+          transliterationLabel: "Transliteration",
+          gregorianLabel: "Gregorian",
+          weekdayLabel: "Weekday",
+          dayLabel: "Day",
+          monthYearLabel: "Month / year",
+          noteLabel: "Today",
+          afterSunsetLabel: "Sunset mode",
+          afterSunsetOn: "After sunset: next Hebrew day",
+          afterSunsetOff: "Civil day",
+          roshChodesh: "Rosh Chodesh",
+          omerDay: "Omer day {day}",
+          ordinaryDay: "Regular day",
+          todayNote: "Using today's date",
+          fixedDateNote: "Pinned date",
+          errorTitle: "Jewish date could not load",
+        };
+        let messages = defaultMessages;
+        let currentLanguage = "en";
+
+        function t(key, values = {}) {
+          const template =
+            typeof messages[key] === "string"
+              ? messages[key]
+              : defaultMessages[key] || key;
+          return template.replace(
+            /\{(\w+)\}/g,
+            (_match, name) => values[name] ?? "",
+          );
+        }
+
+        function applyStaticMessages(root = document) {
+          root.querySelectorAll("[data-i18n]").forEach((element) => {
+            element.textContent = t(element.dataset.i18n);
+          });
+        }
+
+        async function loadMessages(payload) {
+          let result;
+          if (typeof loadLanguageJson === "function") {
+            result = await loadLanguageJson(payload);
+          } else {
+            const requested = String(payload?.meta?.language || "en").trim();
+            const language = requested.toLowerCase().startsWith("de")
+              ? "de"
+              : "en";
+            const response = await fetch(`./languages/${language}.json`, {
+              cache: "no-store",
+            });
+            if (!response.ok) {
+              throw new Error(`Could not load language JSON: ${response.status}`);
+            }
+            result = { language, messages: await response.json() };
+          }
+
+          messages = { ...defaultMessages, ...result.messages };
+          currentLanguage = result.language || "en";
+          document.documentElement.lang = currentLanguage;
+          applyStaticMessages();
+        }
+
+        function localeForLanguage(language) {
+          return String(language || "en").toLowerCase().startsWith("de")
+            ? "de-DE"
+            : "en-US";
+        }
+
+        function parseDateInput(value) {
+          const text = String(value || "").trim();
+          const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(text);
+          if (!match) {
+            return new Date();
+          }
+          const year = Number(match[1]);
+          const month = Number(match[2]);
+          const day = Number(match[3]);
+          return new Date(Date.UTC(year, month - 1, day, 12, 0, 0));
+        }
+
+        function addDays(date, count) {
+          return new Date(date.getTime() + count * 24 * 60 * 60 * 1000);
+        }
+
+        function isoDate(date) {
+          return date.toISOString().slice(0, 10);
+        }
+
+        function formatGregorian(date, language) {
+          return new Intl.DateTimeFormat(localeForLanguage(language), {
+            day: "2-digit",
+            month: "long",
+            year: "numeric",
+          }).format(date);
+        }
+
+        function formatGregorianWeekday(date, language) {
+          return new Intl.DateTimeFormat(localeForLanguage(language), {
+            weekday: "long",
+          }).format(date);
+        }
+
+        function hebrewParts(date, locale = "en-u-ca-hebrew") {
+          const parts = new Intl.DateTimeFormat(locale, {
+            day: "numeric",
+            month: "long",
+            year: "numeric",
+          }).formatToParts(date);
+          const value = (type) =>
+            parts.find((part) => part.type === type)?.value || "";
+          return {
+            day: Number(value("day").replace(/[^\d]/g, "")),
+            month: value("month"),
+            year: Number(value("year").replace(/[^\d]/g, "")),
+          };
+        }
+
+        function hebrewDateText(date) {
+          return new Intl.DateTimeFormat("he-u-ca-hebrew", {
+            day: "numeric",
+            month: "long",
+            year: "numeric",
+          }).format(date);
+        }
+
+        function transliteratedDateText(date) {
+          return new Intl.DateTimeFormat("en-u-ca-hebrew", {
+            day: "numeric",
+            month: "long",
+            year: "numeric",
+          }).format(date);
+        }
+
+        function hebrewMonthText(date) {
+          return new Intl.DateTimeFormat("he-u-ca-hebrew", {
+            month: "long",
+          }).format(date);
+        }
+
+        function punctuateHebrewNumber(letters) {
+          if (letters.length <= 1) {
+            return `${letters}\u05F3`;
+          }
+          return `${letters.slice(0, -1)}\u05F4${letters.slice(-1)}`;
+        }
+
+        function hebrewNumber(value) {
+          let number = Number(value);
+          if (!Number.isFinite(number) || number <= 0) {
+            return "";
+          }
+          number %= 1000;
+          const hundreds = ["", "ק", "ר", "ש", "ת"];
+          const tens = ["", "י", "כ", "ל", "מ", "נ", "ס", "ע", "פ", "צ"];
+          const ones = ["", "א", "ב", "ג", "ד", "ה", "ו", "ז", "ח", "ט"];
+          let letters = "";
+
+          while (number >= 400) {
+            letters += "ת";
+            number -= 400;
+          }
+          if (number >= 100) {
+            const count = Math.floor(number / 100);
+            letters += hundreds[count];
+            number %= 100;
+          }
+          if (number === 15) {
+            letters += "טו";
+            number = 0;
+          } else if (number === 16) {
+            letters += "טז";
+            number = 0;
+          }
+          if (number >= 10) {
+            const count = Math.floor(number / 10);
+            letters += tens[count];
+            number %= 10;
+          }
+          if (number > 0) {
+            letters += ones[number];
+          }
+
+          return punctuateHebrewNumber(letters);
+        }
+
+        function omerDay(parts) {
+          const month = String(parts.month || "").toLowerCase();
+          if (month === "nisan" && parts.day >= 16) {
+            return parts.day - 15;
+          }
+          if (month === "iyar") {
+            return 15 + parts.day;
+          }
+          if (month === "sivan" && parts.day <= 5) {
+            return 44 + parts.day;
+          }
+          return null;
+        }
+
+        function dayNote(parts) {
+          const omer = omerDay(parts);
+          if (omer) {
+            return t("omerDay", { day: omer });
+          }
+          if (parts.day === 1 || parts.day === 30) {
+            return t("roshChodesh");
+          }
+          return t("ordinaryDay");
+        }
+
+        function detail(label, value) {
+          return `
+            <article class="detail">
+              <p class="detail-label">${escapeHtml(label)}</p>
+              <p class="detail-value pp-fit">${escapeHtml(value || "")}</p>
+            </article>
+          `;
+        }
+
+        function label(text) {
+          return `<span class="label-pill">${escapeHtml(text)}</span>`;
+        }
+
+        try {
+          const defaults = {
+            color: "light",
+            title: "Jewish Date",
+            date: "",
+            displayStyle: "both",
+            afterSunset: false,
+            showGregorian: true,
+            showWeekday: true,
+            showDetails: true,
+          };
+          const payload = await waitForPayload({ timeoutMs: 500 });
+          await loadMessages(payload);
+          const settings = mergeSettings(
+            defaults,
+            getSettings(payload),
+            getQuerySettings(),
+          );
+          if (typeof applyColorTheme === "function") {
+            applyColorTheme(settings.color, { defaultTheme: defaults.color });
+          }
+
+          const requestedDate = parseDateInput(settings.date);
+          const effectiveDate = settings.afterSunset
+            ? addDays(requestedDate, 1)
+            : requestedDate;
+          const parts = hebrewParts(effectiveDate);
+          const displayStyle = String(settings.displayStyle || "both");
+          const transliteratedText = transliteratedDateText(effectiveDate);
+          const hebrewDay = hebrewNumber(parts.day);
+          const hebrewYear = hebrewNumber(parts.year);
+          const hebrewMonth = hebrewMonthText(effectiveDate);
+          const hebrewText = `${hebrewDay} ב${hebrewMonth} ${hebrewYear}`;
+
+          const title = String(settings.title || "").trim() || t("defaultTitle");
+          document.getElementById("title").textContent = title;
+          document.getElementById("mode-label").textContent =
+            displayStyle === "transliterated"
+              ? t("transliterationLabel")
+              : t("hebrewLabel");
+
+          const primaryElement = document.getElementById("primary-date");
+          const secondaryElement = document.getElementById("secondary-date");
+
+          if (displayStyle === "transliterated") {
+            primaryElement.textContent = transliteratedText;
+            primaryElement.dir = "ltr";
+            secondaryElement.classList.add("is-hidden");
+          } else {
+            primaryElement.textContent = hebrewText;
+            primaryElement.dir = "rtl";
+            if (displayStyle === "hebrew") {
+              secondaryElement.classList.add("is-hidden");
+            } else {
+              secondaryElement.textContent = transliteratedText;
+            }
+          }
+
+          const labels = [label(t("hebrewLabel"))];
+          if (displayStyle !== "hebrew") {
+            labels.push(label(t("transliterationLabel")));
+          }
+          document.getElementById("date-labels").innerHTML = labels.join("");
+
+          document.getElementById("calendar-day").textContent = hebrewDay;
+          document.getElementById("calendar-month").textContent = hebrewMonth;
+          document.getElementById("calendar-year").textContent = hebrewYear;
+
+          const details = [];
+          if (settings.showGregorian !== false) {
+            details.push(
+              detail(t("gregorianLabel"), formatGregorian(requestedDate, currentLanguage)),
+            );
+          }
+          if (settings.showWeekday !== false) {
+            details.push(
+              detail(
+                t("weekdayLabel"),
+                formatGregorianWeekday(requestedDate, currentLanguage),
+              ),
+            );
+          }
+          if (settings.showDetails !== false) {
+            details.push(detail(t("dayLabel"), hebrewDay));
+            details.push(
+              detail(t("monthYearLabel"), `${hebrewMonth} ${hebrewYear}`),
+            );
+            details.push(detail(t("noteLabel"), dayNote(parts)));
+            details.push(
+              detail(
+                t("afterSunsetLabel"),
+                settings.afterSunset ? t("afterSunsetOn") : t("afterSunsetOff"),
+              ),
+            );
+          }
+          if (!details.length) {
+            details.push(
+              detail(
+                t("noteLabel"),
+                String(settings.date || "").trim()
+                  ? t("fixedDateNote")
+                  : t("todayNote"),
+              ),
+            );
+          }
+          document.getElementById("details").innerHTML = details.join("");
+
+          await document.fonts?.ready;
+          const compactLandscape =
+            window.innerWidth > window.innerHeight && window.innerHeight <= 560;
+          fitHyphenatedText(document.getElementById("title"), {
+            min: 22,
+            max: compactLandscape ? 48 : 64,
+            step: 2,
+            lineBreak: true,
+          });
+          fitHyphenatedText(primaryElement, {
+            min: 30,
+            max: compactLandscape ? 78 : 104,
+            step: 2,
+            lineBreak: true,
+          });
+          fitHyphenatedText(secondaryElement, {
+            min: 12,
+            max: compactLandscape ? 22 : 30,
+            step: 1,
+            lineBreak: true,
+          });
+          fitHyphenatedText(document.getElementById("calendar-month"), {
+            min: 12,
+            max: compactLandscape ? 20 : 28,
+            step: 1,
+            lineBreak: true,
+          });
+          fitAllText(".detail .pp-fit", {
+            min: 8,
+            max: compactLandscape ? 15 : 19,
+            step: 1,
+            tolerance: 4,
+            lineBreak: true,
+          });
+          fitToScreen();
+          markReady({
+            date: isoDate(requestedDate),
+            effectiveDate: isoDate(effectiveDate),
+            hebrewDate: transliteratedText,
+          });
+        } catch (error) {
+          markError(error);
+          document.body.innerHTML = `<main class="pp-screen"><h1 class="pp-title pp-error">${escapeHtml(t("errorTitle"))}</h1><p>${escapeHtml(error.message)}</p></main>`;
+        }
+      })();
+    </script>
+  </body>
+</html>
