@@ -1,0 +1,1017 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="paperless:epd-optimize" content='{"intent":"readable"}'>
+    <title>Memo Medication Times</title>
+    <link rel="stylesheet" href="/assets/paperless.css">
+    <script src="/assets/paperless.iife.js"></script>
+    <style>
+      :root {
+        --memo-blue: #0000ff;
+        --memo-row-bg: var(--pp-bg);
+        --memo-row-fg: var(--pp-fg);
+        --memo-soft: #f2f2f2;
+        --memo-line: var(--pp-border);
+      }
+
+      body.dark {
+        --memo-soft: #111;
+      }
+
+      .med-screen {
+        width: 100vw;
+        height: 100vh;
+        overflow: hidden;
+        background: var(--pp-bg);
+        color: var(--pp-fg);
+        font-family: var(--pp-font);
+      }
+
+      .schedule-view {
+        display: grid;
+        grid-template-rows: auto minmax(0, 1fr);
+      }
+
+      .date-band {
+        min-height: 226px;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        gap: 12px;
+        padding: 28px 24px 22px;
+        background: var(--memo-blue);
+        color: #fff;
+      }
+
+      .top-line {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        align-items: start;
+        gap: 16px;
+      }
+
+      .greeting,
+      .updated-at,
+      .section-title,
+      .empty-copy,
+      .alert-date,
+      .alert-updated {
+        margin: 0;
+        letter-spacing: 0;
+      }
+
+      .greeting {
+        min-width: 0;
+        font-size: 1.55rem;
+        line-height: 1.12;
+        font-weight: 520;
+        overflow-wrap: anywhere;
+      }
+
+      .updated-at {
+        max-width: 18ch;
+        font-size: 0.74rem;
+        line-height: 1.15;
+        font-weight: 700;
+        text-align: right;
+        text-transform: uppercase;
+      }
+
+      .date-title {
+        display: grid;
+        gap: 2px;
+        margin: 0;
+        line-height: 0.92;
+        letter-spacing: 0;
+      }
+
+      .weekday {
+        font-size: 4rem;
+        font-weight: 300;
+      }
+
+      .date-line {
+        font-size: 4.2rem;
+        font-weight: 900;
+      }
+
+      .schedule-body {
+        min-height: 0;
+        display: grid;
+        grid-template-rows: auto minmax(0, 1fr);
+        gap: 12px;
+        padding: 22px 24px 20px;
+        background: var(--pp-bg);
+        color: var(--pp-fg);
+      }
+
+      .section-title {
+        font-size: 1.05rem;
+        line-height: 1;
+        font-weight: 900;
+        text-transform: uppercase;
+      }
+
+      .intake-list {
+        min-height: 0;
+        display: grid;
+        align-content: start;
+        gap: 0;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        overflow: hidden;
+      }
+
+      .intake-row {
+        min-height: 94px;
+        display: grid;
+        grid-template-columns: 24px minmax(0, 1fr);
+        align-items: center;
+        gap: 22px;
+        padding: 14px 0;
+        border-top: 3px solid var(--memo-line);
+      }
+
+      .intake-row:last-child {
+        border-bottom: 3px solid var(--memo-line);
+      }
+
+      .intake-row.is-current {
+        background: var(--memo-soft);
+        box-shadow: inset 8px 0 0 var(--med-color, var(--memo-blue));
+      }
+
+      .color-cell {
+        align-self: stretch;
+        display: grid;
+        place-items: center;
+      }
+
+      .med-color-swatch {
+        width: 18px;
+        min-height: 62px;
+        display: block;
+        border: 3px solid var(--memo-line);
+        border-radius: 999px;
+        background: var(--med-color, transparent);
+      }
+
+      .med-color-swatch.is-empty {
+        background:
+          linear-gradient(135deg, transparent 43%, var(--memo-line) 45%, var(--memo-line) 55%, transparent 57%),
+          transparent;
+      }
+
+      .row-content {
+        min-width: 0;
+        display: grid;
+        gap: 3px;
+      }
+
+      .time-line {
+        min-width: 0;
+        font-size: 3.15rem;
+        line-height: 0.92;
+        font-weight: 900;
+        letter-spacing: 0;
+        white-space: nowrap;
+      }
+
+      .med-name {
+        min-width: 0;
+        font-size: 2.1rem;
+        line-height: 1;
+        font-weight: 520;
+        letter-spacing: 0;
+        overflow-wrap: anywhere;
+      }
+
+      .med-detail {
+        min-width: 0;
+        font-size: 0.95rem;
+        line-height: 1.15;
+        font-weight: 720;
+        text-transform: uppercase;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .empty-state {
+        min-height: 0;
+        display: grid;
+        place-items: center;
+        border-top: 3px solid var(--memo-line);
+        border-bottom: 3px solid var(--memo-line);
+        text-align: center;
+      }
+
+      .empty-copy {
+        max-width: 28ch;
+        font-size: 2rem;
+        line-height: 1.05;
+        font-weight: 900;
+      }
+
+      .alert-view {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 24px;
+        padding: 30px 24px;
+        background: var(--memo-blue);
+        color: #fff;
+      }
+
+      .alert-top {
+        position: absolute;
+        top: 24px;
+        left: 24px;
+        right: 24px;
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        gap: 16px;
+        align-items: start;
+      }
+
+      .alert-date {
+        min-width: 0;
+        font-size: 1rem;
+        line-height: 1.15;
+        font-weight: 760;
+        overflow-wrap: anywhere;
+      }
+
+      .alert-updated {
+        max-width: 24ch;
+        font-size: 0.7rem;
+        line-height: 1.15;
+        font-weight: 800;
+        text-align: right;
+        text-transform: uppercase;
+      }
+
+      .alert-icon {
+        width: 132px;
+        height: 132px;
+        display: grid;
+        place-items: center;
+        margin-top: 42px;
+      }
+
+      .alert-icon svg {
+        width: 128px;
+        height: 128px;
+        display: block;
+      }
+
+      .alert-title {
+        max-width: 100%;
+        margin: 0;
+        font-size: 3.65rem;
+        line-height: 0.95;
+        font-weight: 900;
+        letter-spacing: 0;
+        overflow-wrap: normal;
+        hyphens: manual;
+      }
+
+      .alert-copy {
+        max-width: 14ch;
+        margin: 0;
+        font-size: 2.7rem;
+        line-height: 1.18;
+        font-weight: 420;
+        letter-spacing: 0;
+      }
+
+      .alert-meds {
+        display: grid;
+        gap: 5px;
+        max-width: 34ch;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+      }
+
+      .alert-meds li {
+        min-width: 0;
+        display: grid;
+        grid-template-columns: 16px minmax(0, 1fr);
+        align-items: center;
+        gap: 10px;
+        font-size: 1.25rem;
+        line-height: 1.15;
+        font-weight: 820;
+      }
+
+      .alert-med-text {
+        min-width: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .alert-color-swatch {
+        width: 16px;
+        height: 16px;
+        display: block;
+        border: 2px solid currentColor;
+        border-radius: 999px;
+        background: var(--med-color, transparent);
+      }
+
+      .alert-color-swatch.is-empty {
+        background:
+          linear-gradient(135deg, transparent 41%, currentColor 43%, currentColor 57%, transparent 59%),
+          transparent;
+      }
+
+      .error-screen {
+        width: 100vw;
+        height: 100vh;
+        display: grid;
+        place-items: center;
+        padding: 28px;
+        text-align: center;
+        background: var(--pp-bg);
+        color: var(--pp-fg);
+      }
+
+      .error-screen h1 {
+        margin: 0 0 12px;
+        font-size: 2.3rem;
+        line-height: 1.05;
+        letter-spacing: 0;
+      }
+
+      .error-screen p {
+        max-width: 42ch;
+        margin: 0 auto;
+        font-size: 1.1rem;
+        line-height: 1.35;
+      }
+
+      @media (orientation: landscape) {
+        .schedule-view {
+          grid-template-columns: minmax(0, 0.38fr) minmax(0, 0.62fr);
+          grid-template-rows: 1fr;
+        }
+
+        .date-band {
+          min-height: 0;
+          height: 100%;
+          padding: 24px 22px;
+        }
+
+        .top-line {
+          grid-template-columns: 1fr;
+          gap: 8px;
+        }
+
+        .updated-at {
+          max-width: 100%;
+          text-align: left;
+        }
+
+        .weekday {
+          font-size: 3.05rem;
+        }
+
+        .date-line {
+          font-size: 3.2rem;
+        }
+
+        .schedule-body {
+          padding: 20px 24px 18px;
+        }
+
+        .intake-row {
+          min-height: 82px;
+          grid-template-columns: 22px minmax(0, 1fr);
+          gap: 18px;
+          padding: 10px 0;
+        }
+
+        .med-color-swatch {
+          width: 16px;
+          min-height: 54px;
+        }
+
+        .time-line {
+          font-size: 2.75rem;
+        }
+
+        .med-name {
+          font-size: 1.7rem;
+        }
+
+        .alert-view {
+          padding: 34px 48px;
+          gap: 18px;
+        }
+
+        .alert-icon {
+          width: 110px;
+          height: 110px;
+          margin-top: 20px;
+        }
+
+        .alert-icon svg {
+          width: 106px;
+          height: 106px;
+        }
+
+        .alert-title {
+          max-width: 100%;
+          font-size: 3.7rem;
+        }
+
+        .alert-copy {
+          max-width: 24ch;
+          font-size: 2.05rem;
+        }
+      }
+
+      @media (max-width: 560px) {
+        .date-band {
+          min-height: 220px;
+          padding: 28px 22px 22px;
+        }
+
+        .greeting {
+          font-size: 1.52rem;
+        }
+
+        .weekday {
+          font-size: 3.65rem;
+        }
+
+        .date-line {
+          font-size: 3.85rem;
+        }
+
+        .schedule-body {
+          padding: 20px 24px;
+        }
+
+        .intake-row {
+          min-height: 98px;
+          grid-template-columns: 24px minmax(0, 1fr);
+          gap: 22px;
+        }
+
+        .time-line {
+          font-size: 2.9rem;
+        }
+
+        .med-name {
+          font-size: 1.95rem;
+        }
+      }
+
+      @media (max-height: 520px) {
+        .date-band {
+          padding: 20px;
+        }
+
+        .greeting {
+          font-size: 1.08rem;
+        }
+
+        .updated-at {
+          font-size: 0.62rem;
+        }
+
+        .weekday {
+          font-size: 2.6rem;
+        }
+
+        .date-line {
+          font-size: 2.85rem;
+        }
+
+        .schedule-body {
+          gap: 8px;
+          padding: 16px 20px;
+        }
+
+        .section-title {
+          font-size: 0.85rem;
+        }
+
+        .intake-row {
+          min-height: 72px;
+          grid-template-columns: 18px minmax(0, 1fr);
+          gap: 14px;
+          padding: 8px 0;
+          border-top-width: 2px;
+        }
+
+        .intake-row:last-child {
+          border-bottom-width: 2px;
+        }
+
+        .med-color-swatch {
+          width: 14px;
+          min-height: 46px;
+          border-width: 2px;
+        }
+
+        .time-line {
+          font-size: 2.25rem;
+        }
+
+        .med-name {
+          font-size: 1.35rem;
+        }
+
+        .med-detail {
+          font-size: 0.72rem;
+        }
+
+        .alert-title {
+          font-size: 3rem;
+        }
+
+        .alert-copy {
+          font-size: 1.6rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="website-has-loading-element"></div>
+    <main class="med-screen schedule-view" id="app"></main>
+
+    <script>
+      (async function render() {
+        const {
+          waitForPayload,
+          getSettings,
+          getQuerySettings,
+          mergeSettings,
+          applyColorTheme,
+          escapeHtml,
+          fitText,
+          markReady,
+          markError,
+        } = window.PaperlessOpenIntegration;
+
+        const defaultMessages = {
+          loading: "Loading...",
+          errorTitle: "Memo could not load",
+          nextTitle: "Next medication times",
+          noEntries: "No upcoming intake times",
+          lastUpdated: "Updated",
+          goodMorning: "Good morning",
+          goodDay: "Hello",
+          goodEvening: "Good evening",
+          today: "Today",
+          tomorrow: "Tomorrow",
+          medication: "Medication",
+          medications: "Medications",
+          alertTitle: "{time} medications",
+          alertSingle: "It is time for {name}.",
+          alertMany: "It is time for your medications.",
+          emptyStomach: "Empty stomach",
+          morning: "Morning",
+          noon: "Noon",
+          afternoon: "Afternoon",
+          night: "Night",
+          sampleSource: "Sample data",
+        };
+
+        let messages = defaultMessages;
+        let currentLanguage = "en";
+
+        function t(key, values = {}) {
+          const template =
+            typeof messages[key] === "string"
+              ? messages[key]
+              : defaultMessages[key] || key;
+          return template.replace(/\{(\w+)\}/g, (_match, name) =>
+            values[name] ?? "",
+          );
+        }
+
+        async function loadMessages(payload, settings) {
+          const requested = String(
+            settings.language || settings.locale || payload?.meta?.language || "en",
+          ).trim();
+          const requestedBase = requested.split("-")[0].toLowerCase();
+          const supported = ["en", "de"];
+          const language = supported.includes(requested)
+            ? requested
+            : supported.includes(requestedBase)
+              ? requestedBase
+              : "en";
+          const response = await fetch(`./languages/${language}.json`, {
+            cache: "no-store",
+          });
+
+          if (!response.ok) {
+            throw new Error(`Could not load language JSON for ${language}: ${response.status}`);
+          }
+
+          messages = { ...defaultMessages, ...(await response.json()) };
+          currentLanguage = language;
+          document.documentElement.lang = currentLanguage;
+        }
+
+        function booleanSetting(value, fallback) {
+          if (value === undefined || value === null || value === "") {
+            return fallback;
+          }
+          if (typeof value === "boolean") {
+            return value;
+          }
+          return ["1", "true", "yes", "on"].includes(
+            String(value).trim().toLowerCase(),
+          );
+        }
+
+        function numberSetting(value, fallback, min, max) {
+          const number = Number(value);
+          if (!Number.isFinite(number)) {
+            return fallback;
+          }
+          return Math.min(max, Math.max(min, number));
+        }
+
+        function validDate(value) {
+          const date = new Date(value);
+          return Number.isNaN(date.getTime()) ? null : date;
+        }
+
+        function localeFor(settings) {
+          return settings.locale || currentLanguage || undefined;
+        }
+
+        function hourInTimezone(date, settings) {
+          const parts = new Intl.DateTimeFormat("en-US", {
+            timeZone: settings.timezone,
+            hour: "numeric",
+            hourCycle: "h23",
+          }).formatToParts(date);
+          return Number(parts.find((part) => part.type === "hour")?.value || 12);
+        }
+
+        function greeting(settings, now) {
+          if (settings.greeting) {
+            return settings.greeting;
+          }
+          const hour = hourInTimezone(now, settings);
+          const base = hour < 11 ? t("goodMorning") : hour < 18 ? t("goodDay") : t("goodEvening");
+          return settings.displayName ? `${base}, ${settings.displayName}` : base;
+        }
+
+        function dateParts(settings, date = new Date()) {
+          const locale = localeFor(settings);
+          return {
+            weekday: new Intl.DateTimeFormat(locale, {
+              timeZone: settings.timezone,
+              weekday: "long",
+            }).format(date),
+            dateLine: new Intl.DateTimeFormat(locale, {
+              timeZone: settings.timezone,
+              day: "numeric",
+              month: "long",
+            }).format(date),
+            compact: new Intl.DateTimeFormat(locale, {
+              timeZone: settings.timezone,
+              weekday: "short",
+              day: "numeric",
+              month: "short",
+            }).format(date),
+          };
+        }
+
+        function ymd(date, settings) {
+          const parts = new Intl.DateTimeFormat("en-CA", {
+            timeZone: settings.timezone,
+            year: "numeric",
+            month: "2-digit",
+            day: "2-digit",
+          }).formatToParts(date);
+          const values = Object.fromEntries(parts.map((part) => [part.type, part.value]));
+          return `${values.year}-${values.month}-${values.day}`;
+        }
+
+        function relativeDay(date, settings) {
+          const now = new Date();
+          const tomorrow = new Date(now.getTime() + 24 * 60 * 60 * 1000);
+          if (ymd(date, settings) === ymd(now, settings)) {
+            return t("today");
+          }
+          if (ymd(date, settings) === ymd(tomorrow, settings)) {
+            return t("tomorrow");
+          }
+          return new Intl.DateTimeFormat(localeFor(settings), {
+            timeZone: settings.timezone,
+            weekday: "long",
+          }).format(date);
+        }
+
+        function isGerman(settings) {
+          return String(localeFor(settings)).toLowerCase().startsWith("de");
+        }
+
+        function formatTime(date, settings) {
+          let value = new Intl.DateTimeFormat(localeFor(settings), {
+            timeZone: settings.timezone,
+            hour: "numeric",
+            minute: "2-digit",
+            hourCycle: "h23",
+          }).format(date);
+
+          if (isGerman(settings)) {
+            value = value.replace(":", ".");
+            return `${value} Uhr`;
+          }
+
+          return value;
+        }
+
+        function updatedLabel(value, settings) {
+          const date = validDate(value);
+          if (!date) {
+            return "";
+          }
+          return `${t("lastUpdated")} ${formatTime(date, settings)}`;
+        }
+
+        function categoryLabel(value) {
+          const key = String(value || "").trim();
+          return key && messages[key] ? t(key) : key;
+        }
+
+        function uniqueParts(parts) {
+          const seen = new Set();
+          return parts
+            .map((part) => String(part || "").trim())
+            .filter(Boolean)
+            .filter((part) => {
+              const key = part.toLowerCase();
+              if (seen.has(key)) {
+                return false;
+              }
+              seen.add(key);
+              return true;
+            });
+        }
+
+        function doseText(entry) {
+          const amount = entry.amount === 0 || entry.amount ? String(entry.amount).trim() : "";
+          const unit = String(entry.unit || "").trim();
+          return amount && unit ? `${amount} ${unit}` : amount || unit;
+        }
+
+        function detailText(entry) {
+          return uniqueParts([
+            doseText(entry),
+            entry.medicationSubtitle,
+            categoryLabel(entry.timeCategory),
+            entry.emptyStomach ? t("emptyStomach") : "",
+            entry.instruction,
+          ]).join(" - ");
+        }
+
+        function hexColor(value) {
+          const raw = String(value || "").trim();
+          if (/^#[0-9a-f]{3,8}$/i.test(raw)) {
+            return raw;
+          }
+          if (/^[0-9a-f]{3,8}$/i.test(raw)) {
+            return `#${raw}`;
+          }
+          return "";
+        }
+
+        function medicationColor(entry) {
+          return hexColor(entry.medicationColor);
+        }
+
+        function medicationColorStyle(entry) {
+          const color = medicationColor(entry);
+          return color ? ` style="--med-color: ${color}"` : "";
+        }
+
+        function swatchClass(entry, base) {
+          return `${base}${medicationColor(entry) ? "" : " is-empty"}`;
+        }
+
+        function bellIcon() {
+          return `
+            <svg viewBox="0 0 96 96" role="img" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M24 74h48c4 0 6-5 3-8-7-7-8-16-8-27 0-12-8-22-19-22S29 27 29 39c0 11-1 20-8 27-3 3-1 8 3 8Z" />
+              <path d="M40 82c2 4 5 6 8 6s6-2 8-6" />
+              <path d="M48 9v8" />
+              <path d="M20 17c-7 6-11 14-12 24" />
+              <path d="M76 17c7 6 11 14 12 24" />
+            </svg>
+          `;
+        }
+
+        function currentWindowContains(entry, data, settings) {
+          const date = validDate(entry.date);
+          const now = validDate(data.now) || new Date();
+          if (!date) {
+            return false;
+          }
+          return Math.abs(date.getTime() - now.getTime()) <= settings.intakeWindowMinutes * 60 * 1000;
+        }
+
+        function rowMarkup(entry, data, settings) {
+          const date = validDate(entry.date);
+          const isCurrent = currentWindowContains(entry, data, settings);
+          const detail = detailText(entry);
+          return `
+            <li class="intake-row${isCurrent ? " is-current" : ""}"${medicationColorStyle(entry)}>
+              <div class="color-cell"><span class="${swatchClass(entry, "med-color-swatch")}" aria-hidden="true"></span></div>
+              <div class="row-content">
+                <div class="time-line">${escapeHtml(formatTime(date, settings))}</div>
+                <div class="med-name pp-fit">${escapeHtml(entry.medicationName || t("medication"))}</div>
+                <div class="med-detail">${escapeHtml(uniqueParts([relativeDay(date, settings), detail]).join(" - "))}</div>
+              </div>
+            </li>
+          `;
+        }
+
+        function scheduleMarkup(data, settings) {
+          const now = validDate(data.now) || new Date();
+          const parts = dateParts(settings, now);
+          const updated = settings.showLastUpdated ? updatedLabel(data.updatedAt, settings) : "";
+          const rows = (data.entries || []).map((entry) => rowMarkup(entry, data, settings)).join("");
+
+          return `
+            <header class="date-band">
+              <div class="top-line">
+                <p class="greeting">${escapeHtml(greeting(settings, now))}</p>
+                ${updated ? `<p class="updated-at">${escapeHtml(updated)}</p>` : ""}
+              </div>
+              <h1 class="date-title">
+                <span class="weekday">${escapeHtml(parts.weekday)}</span>
+                <span class="date-line">${escapeHtml(parts.dateLine)}</span>
+              </h1>
+            </header>
+            <section class="schedule-body">
+              <h2 class="section-title">${escapeHtml(t("nextTitle"))}</h2>
+              ${
+                rows
+                  ? `<ol class="intake-list">${rows}</ol>`
+                  : `<div class="empty-state"><p class="empty-copy">${escapeHtml(t("noEntries"))}</p></div>`
+              }
+            </section>
+          `;
+        }
+
+        function alertMarkup(data, settings) {
+          const entries = data.currentEntries || [];
+          const firstDate = validDate(entries[0]?.date) || new Date();
+          const now = validDate(data.now) || new Date();
+          const parts = dateParts(settings, now);
+          const updated = settings.showLastUpdated ? updatedLabel(data.updatedAt, settings) : "";
+          const primaryName = entries[0] ? uniqueParts([entries[0].medicationName, detailText(entries[0])]).join(" - ") : t("medications");
+          const copy =
+            entries.length === 1
+              ? t("alertSingle", { name: primaryName })
+              : t("alertMany", { count: entries.length });
+          const list = entries
+            .slice(0, 5)
+            .map((entry) => {
+              const text = uniqueParts([entry.medicationName, detailText(entry)]).join(" - ");
+              return `<li${medicationColorStyle(entry)}><span class="${swatchClass(entry, "alert-color-swatch")}" aria-hidden="true"></span><span class="alert-med-text">${escapeHtml(text)}</span></li>`;
+            })
+            .join("");
+
+          return `
+            <div class="alert-top">
+              <p class="alert-date">${escapeHtml(parts.compact)}</p>
+              ${updated ? `<p class="alert-updated">${escapeHtml(updated)}</p>` : ""}
+            </div>
+            <div class="alert-icon">${bellIcon()}</div>
+            <h1 class="alert-title">${escapeHtml(t("alertTitle", { time: formatTime(firstDate, settings) }))}</h1>
+            <p class="alert-copy">${escapeHtml(copy)}</p>
+            ${list ? `<ul class="alert-meds">${list}</ul>` : ""}
+          `;
+        }
+
+        async function readApiError(response) {
+          const text = await response.text();
+          if (!text) {
+            return `Memo API failed with ${response.status}`;
+          }
+          try {
+            const parsed = JSON.parse(text);
+            return parsed.error || parsed.message || text;
+          } catch {
+            return text.split("\n")[0].replace(/^Error:\s*/, "");
+          }
+        }
+
+        function appendParam(params, key, value) {
+          if (value !== undefined && value !== null && value !== "") {
+            params.set(key, String(value));
+          }
+        }
+
+        try {
+          const root = document.getElementById("app");
+          root.innerHTML = `<section class="error-screen"><div><h1>${escapeHtml(t("loading"))}</h1></div></section>`;
+
+          const defaults = {
+            color: "light",
+            apiBaseUrl: "",
+            apiKey: "",
+            patientId: "",
+            organizationId: "",
+            displayName: "",
+            greeting: "",
+            locale: "de-DE",
+            timezone: "Europe/Berlin",
+            lookaheadDays: 7,
+            maxEntries: 6,
+            intakeWindowMinutes: 20,
+            fullscreenAlert: true,
+            showLastUpdated: true,
+            showTakenEntries: false,
+            forceSample: false,
+            sampleMode: "schedule",
+          };
+
+          const payload = await waitForPayload({ timeoutMs: 500 });
+          const settings = mergeSettings(defaults, getSettings(payload), getQuerySettings());
+          await loadMessages(payload, settings);
+
+          settings.lookaheadDays = numberSetting(settings.lookaheadDays, defaults.lookaheadDays, 1, 60);
+          settings.maxEntries = numberSetting(settings.maxEntries, defaults.maxEntries, 1, 20);
+          settings.intakeWindowMinutes = numberSetting(settings.intakeWindowMinutes, defaults.intakeWindowMinutes, 1, 240);
+          settings.fullscreenAlert = booleanSetting(settings.fullscreenAlert, defaults.fullscreenAlert);
+          settings.showLastUpdated = booleanSetting(settings.showLastUpdated, defaults.showLastUpdated);
+          settings.showTakenEntries = booleanSetting(settings.showTakenEntries, defaults.showTakenEntries);
+          settings.forceSample = booleanSetting(settings.forceSample, defaults.forceSample);
+
+          applyColorTheme(settings.color, { defaultTheme: defaults.color });
+
+          const apiParams = new URLSearchParams();
+          [
+            "apiBaseUrl",
+            "apiKey",
+            "patientId",
+            "organizationId",
+            "timezone",
+            "lookaheadDays",
+            "maxEntries",
+            "intakeWindowMinutes",
+            "showTakenEntries",
+            "forceSample",
+            "sampleMode",
+          ].forEach((key) => appendParam(apiParams, key, settings[key]));
+
+          const response = await fetch(`./api/data?${apiParams.toString()}`, {
+            cache: "no-store",
+          });
+          if (!response.ok) {
+            throw new Error(await readApiError(response));
+          }
+
+          const data = await response.json();
+          const useAlert =
+            settings.fullscreenAlert &&
+            Array.isArray(data.currentEntries) &&
+            data.currentEntries.length > 0;
+
+          root.className = `med-screen ${useAlert ? "alert-view" : "schedule-view"}`;
+          root.innerHTML = useAlert ? alertMarkup(data, settings) : scheduleMarkup(data, settings);
+
+          await document.fonts?.ready;
+          document.querySelectorAll(".pp-fit").forEach((element) => {
+            fitText(element, { min: 14, step: 1, tolerance: 2, lineBreak: "balance", fitParent: true });
+          });
+          markReady({
+            source: data.source,
+            entries: data.entries?.length || 0,
+            currentEntries: data.currentEntries?.length || 0,
+          });
+        } catch (error) {
+          markError(error);
+          const root = document.getElementById("app");
+          root.className = "med-screen";
+          root.innerHTML = `
+            <section class="error-screen">
+              <div>
+                <h1>${escapeHtml(t("errorTitle"))}</h1>
+                <p>${escapeHtml(error?.message || String(error))}</p>
+              </div>
+            </section>
+          `;
+        }
+      })();
+    </script>
+  </body>
+</html>

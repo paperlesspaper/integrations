@@ -1,0 +1,23 @@
+{
+  "loading": "Laden...",
+  "errorTitle": "Memo konnte nicht geladen werden",
+  "nextTitle": "N\u00e4chste Einnahmen",
+  "noEntries": "Keine anstehenden Einnahmen",
+  "lastUpdated": "Aktualisiert",
+  "goodMorning": "Guten Morgen",
+  "goodDay": "Guten Tag",
+  "goodEvening": "Guten Abend",
+  "today": "Heute",
+  "tomorrow": "Morgen",
+  "medication": "Medikament",
+  "medications": "Medikamente",
+  "alertTitle": "{time} Medikamente",
+  "alertSingle": "Es ist Zeit f\u00fcr {name}.",
+  "alertMany": "Es ist Zeit f\u00fcr Ihre Medikamente.",
+  "emptyStomach": "N\u00fcchtern",
+  "morning": "Morgens",
+  "noon": "Mittags",
+  "afternoon": "Nachmittags",
+  "night": "Abends",
+  "sampleSource": "Beispieldaten"
+}

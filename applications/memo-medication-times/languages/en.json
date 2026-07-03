@@ -1,0 +1,23 @@
+{
+  "loading": "Loading...",
+  "errorTitle": "Memo could not load",
+  "nextTitle": "Next medication times",
+  "noEntries": "No upcoming intake times",
+  "lastUpdated": "Updated",
+  "goodMorning": "Good morning",
+  "goodDay": "Hello",
+  "goodEvening": "Good evening",
+  "today": "Today",
+  "tomorrow": "Tomorrow",
+  "medication": "Medication",
+  "medications": "Medications",
+  "alertTitle": "{time} medications",
+  "alertSingle": "It is time for {name}.",
+  "alertMany": "It is time for your medications.",
+  "emptyStomach": "Empty stomach",
+  "morning": "Morning",
+  "noon": "Noon",
+  "afternoon": "Afternoon",
+  "night": "Night",
+  "sampleSource": "Sample data"
+}

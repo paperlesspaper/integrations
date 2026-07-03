@@ -1,0 +1,168 @@
+{
+  "name": "Memo Medication Times",
+  "version": "0.1.0",
+  "status": "alpha",
+  "description": "Shows upcoming Memo medication intake times and switches to a full-screen reminder during intake windows.",
+  "renderPage": "./render.html",
+  "settingsPage": "./settings.html",
+  "icon": "./assets/icon.png",
+  "nativeSettings": {
+    "color": "light",
+    "apiBaseUrl": "",
+    "apiKey": "",
+    "patientId": "",
+    "organizationId": "",
+    "displayName": "",
+    "greeting": "",
+    "locale": "de-DE",
+    "timezone": "Europe/Berlin",
+    "lookaheadDays": 7,
+    "maxEntries": 6,
+    "intakeWindowMinutes": 20,
+    "fullscreenAlert": true,
+    "showLastUpdated": true,
+    "showTakenEntries": false
+  },
+  "configVariants": [
+    {
+      "color": "light",
+      "apiBaseUrl": "",
+      "apiKey": "",
+      "patientId": "",
+      "organizationId": "",
+      "displayName": "Eveline",
+      "greeting": "",
+      "locale": "de-DE",
+      "timezone": "Europe/Berlin",
+      "lookaheadDays": 7,
+      "maxEntries": 5,
+      "intakeWindowMinutes": 20,
+      "fullscreenAlert": true,
+      "showLastUpdated": true,
+      "showTakenEntries": false,
+      "forceSample": true,
+      "sampleMode": "schedule",
+      "screenshots": {
+        "800x480": "./screenshots/memo-medication-times-schedule-800x480-landscape.png",
+        "480x800": "./screenshots/memo-medication-times-schedule-480x800-portrait.png"
+      }
+    },
+    {
+      "color": "light",
+      "apiBaseUrl": "",
+      "apiKey": "",
+      "patientId": "",
+      "organizationId": "",
+      "displayName": "Eveline",
+      "greeting": "",
+      "locale": "de-DE",
+      "timezone": "Europe/Berlin",
+      "lookaheadDays": 7,
+      "maxEntries": 5,
+      "intakeWindowMinutes": 20,
+      "fullscreenAlert": true,
+      "showLastUpdated": true,
+      "showTakenEntries": false,
+      "forceSample": true,
+      "sampleMode": "alert",
+      "screenshots": {
+        "800x480": "./screenshots/memo-medication-times-alert-800x480-landscape.png",
+        "480x800": "./screenshots/memo-medication-times-alert-480x800-portrait.png"
+      }
+    }
+  ],
+  "formSchema": {
+    "type": "object",
+    "properties": {
+      "apiBaseUrl": {
+        "type": "string",
+        "title": "Memo API base URL",
+        "description": "Memo API URL with or without /v1. Leave blank to use MEMO_API_BASE_URL from the provider environment.",
+        "default": ""
+      },
+      "apiKey": {
+        "type": "string",
+        "title": "Memo API key",
+        "description": "API key with permission to read Memo calendar or medication data. Leave blank to use MEMO_API_API_KEY, MEMO_API_KEY, or PAPERLESSPAPER_API_KEY from the provider environment.",
+        "default": ""
+      },
+      "patientId": {
+        "type": "string",
+        "title": "Patient ID",
+        "description": "Memo patient ObjectId. Recommended because calendar entries contain the actual intake times.",
+        "default": ""
+      },
+      "organizationId": {
+        "type": "string",
+        "title": "Organization ID",
+        "description": "Selected Memo organization used by the settings page to load patient choices.",
+        "default": ""
+      },
+      "displayName": {
+        "type": "string",
+        "title": "Display name",
+        "description": "Optional name shown in the date header.",
+        "default": ""
+      },
+      "greeting": {
+        "type": "string",
+        "title": "Greeting override",
+        "description": "Optional custom greeting. Leave blank for automatic morning/day/evening text.",
+        "default": ""
+      },
+      "locale": {
+        "type": "string",
+        "title": "Locale",
+        "description": "BCP 47 locale used for dates and times, such as de-DE or en-US.",
+        "default": "de-DE"
+      },
+      "timezone": {
+        "type": "string",
+        "title": "Timezone",
+        "description": "IANA timezone used for rendering dates and times.",
+        "default": "Europe/Berlin"
+      },
+      "lookaheadDays": {
+        "type": "number",
+        "title": "Lookahead days",
+        "minimum": 1,
+        "maximum": 60,
+        "default": 7
+      },
+      "maxEntries": {
+        "type": "number",
+        "title": "Maximum entries",
+        "minimum": 1,
+        "maximum": 20,
+        "default": 6
+      },
+      "intakeWindowMinutes": {
+        "type": "number",
+        "title": "Intake alert window",
+        "description": "Minutes before or after a scheduled intake time that should count as the current intake window.",
+        "minimum": 1,
+        "maximum": 240,
+        "default": 20
+      },
+      "fullscreenAlert": {
+        "type": "boolean",
+        "title": "Show full-screen intake alert",
+        "default": true
+      },
+      "showLastUpdated": {
+        "type": "boolean",
+        "title": "Show last updated",
+        "default": true
+      },
+      "showTakenEntries": {
+        "type": "boolean",
+        "title": "Show already taken entries",
+        "default": false
+      }
+    }
+  },
+  "language": [
+    "en",
+    "de"
+  ]
+}

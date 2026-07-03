@@ -1,0 +1,587 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Memo Medication Times Settings</title>
+    <style>
+      :root {
+        color-scheme: light dark;
+        --bg: #f7f7f4;
+        --fg: #111;
+        --muted: #5f6360;
+        --line: #222;
+        --field: #fff;
+        --accent: #0000ff;
+        font-family:
+          Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", sans-serif;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--fg);
+      }
+
+      main {
+        display: grid;
+        gap: 14px;
+        padding: 14px;
+      }
+
+      section {
+        display: grid;
+        gap: 10px;
+        padding-bottom: 14px;
+        border-bottom: 2px solid var(--line);
+      }
+
+      section:last-child {
+        padding-bottom: 0;
+        border-bottom: 0;
+      }
+
+      h2 {
+        margin: 0;
+        font-size: 0.78rem;
+        line-height: 1.1;
+        font-weight: 860;
+        text-transform: uppercase;
+      }
+
+      label,
+      .field {
+        display: grid;
+        gap: 6px;
+        min-width: 0;
+        font-size: 0.75rem;
+        font-weight: 760;
+        text-transform: uppercase;
+      }
+
+      select,
+      input[type="text"],
+      input[type="password"],
+      input[type="number"] {
+        width: 100%;
+        min-height: 42px;
+        border: 2px solid var(--line);
+        border-radius: 4px;
+        background: var(--field);
+        color: var(--fg);
+        font: inherit;
+        font-size: 0.95rem;
+        font-weight: 560;
+        line-height: 1.25;
+      }
+
+      select {
+        padding: 8px 10px;
+      }
+
+      input[type="text"],
+      input[type="password"],
+      input[type="number"] {
+        padding: 7px 9px;
+        text-transform: none;
+      }
+
+      button {
+        min-height: 42px;
+        border: 2px solid var(--line);
+        border-radius: 4px;
+        background: var(--fg);
+        color: var(--bg);
+        font: inherit;
+        font-size: 0.82rem;
+        font-weight: 850;
+        line-height: 1;
+        text-transform: uppercase;
+        cursor: pointer;
+      }
+
+      button:disabled,
+      select:disabled {
+        opacity: 0.48;
+        cursor: not-allowed;
+      }
+
+      .toggle {
+        display: grid;
+        grid-template-columns: auto minmax(0, 1fr);
+        align-items: center;
+        gap: 10px;
+        min-height: 42px;
+        padding: 8px 10px;
+        border: 2px solid var(--line);
+        border-radius: 4px;
+        background: var(--field);
+        text-transform: none;
+      }
+
+      .toggle input {
+        width: 18px;
+        height: 18px;
+        margin: 0;
+        accent-color: var(--accent);
+      }
+
+      .toggle span {
+        min-width: 0;
+        font-size: 0.9rem;
+        font-weight: 680;
+        line-height: 1.2;
+      }
+
+      .grid-2 {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px;
+      }
+
+      .status,
+      .hint {
+        margin: 0;
+        color: var(--muted);
+        font-size: 0.78rem;
+        line-height: 1.35;
+      }
+
+      .status {
+        min-height: 1.35em;
+      }
+
+      .status.is-error {
+        color: #b00000;
+        font-weight: 760;
+      }
+
+      @media (min-width: 620px) {
+        main {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+          align-items: start;
+        }
+
+        .span-all {
+          grid-column: 1 / -1;
+        }
+      }
+
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --bg: #111;
+          --fg: #f5f5f0;
+          --muted: #b5b9b4;
+          --line: #f5f5f0;
+          --field: #050505;
+        }
+      }
+    </style>
+    <link rel="stylesheet" href="/assets/settings.css">
+    <script src="/assets/paperless.iife.js"></script>
+  </head>
+  <body>
+    <main>
+      <section class="span-all">
+        <h2>Memo connection</h2>
+        <label>
+          API base URL
+          <input id="apiBaseUrl" type="text" autocomplete="url" spellcheck="false" placeholder="Uses MEMO_API_BASE_URL when blank">
+        </label>
+        <label>
+          API key
+          <input id="apiKey" type="password" autocomplete="off" spellcheck="false" placeholder="Uses MEMO_API_API_KEY when blank">
+        </label>
+        <button id="loadOptions" type="button">Load organizations</button>
+        <p class="status" id="status">Ready</p>
+      </section>
+
+      <section>
+        <h2>Account</h2>
+        <label>
+          Organization
+          <select id="organizationId"></select>
+        </label>
+        <label>
+          Patient
+          <select id="patientId"></select>
+        </label>
+        <p class="hint">The selected IDs are saved into the integration settings.</p>
+      </section>
+
+      <section>
+        <h2>Display</h2>
+        <label>
+          Display name
+          <input id="displayName" type="text" autocomplete="name">
+        </label>
+        <label>
+          Greeting override
+          <input id="greeting" type="text">
+        </label>
+        <div class="grid-2">
+          <label>
+            Locale
+            <input id="locale" type="text" autocomplete="language">
+          </label>
+          <label>
+            Timezone
+            <input id="timezone" type="text" autocomplete="off" spellcheck="false">
+          </label>
+        </div>
+      </section>
+
+      <section>
+        <h2>Intake window</h2>
+        <div class="grid-2">
+          <label>
+            Lookahead days
+            <input id="lookaheadDays" type="number" min="1" max="60" step="1">
+          </label>
+          <label>
+            Maximum entries
+            <input id="maxEntries" type="number" min="1" max="20" step="1">
+          </label>
+        </div>
+        <label>
+          Alert window minutes
+          <input id="intakeWindowMinutes" type="number" min="1" max="240" step="1">
+        </label>
+      </section>
+
+      <section class="span-all">
+        <h2>Behavior</h2>
+        <div class="grid-2">
+          <label class="toggle">
+            <input id="fullscreenAlert" type="checkbox">
+            <span>Full-screen intake alert</span>
+          </label>
+          <label class="toggle">
+            <input id="showLastUpdated" type="checkbox">
+            <span>Show last updated</span>
+          </label>
+          <label class="toggle">
+            <input id="showTakenEntries" type="checkbox">
+            <span>Show taken entries</span>
+          </label>
+        </div>
+      </section>
+    </main>
+
+    <script>
+      const bridge = window.PaperlessOpenIntegration || {};
+
+      const defaults = {
+        apiBaseUrl: "",
+        apiKey: "",
+        organizationId: "",
+        patientId: "",
+        displayName: "",
+        greeting: "",
+        locale: "de-DE",
+        timezone: "Europe/Berlin",
+        lookaheadDays: 7,
+        maxEntries: 6,
+        intakeWindowMinutes: 20,
+        fullscreenAlert: true,
+        showLastUpdated: true,
+        showTakenEntries: false,
+      };
+
+      const controls = Object.fromEntries(
+        Object.keys(defaults).map((key) => [key, document.getElementById(key)]),
+      );
+      const loadButton = document.getElementById("loadOptions");
+      const status = document.getElementById("status");
+      let settings = { ...defaults };
+      let organizations = [];
+      let patients = [];
+      let applying = false;
+
+      function isObject(value) {
+        return Boolean(value) && typeof value === "object" && !Array.isArray(value);
+      }
+
+      function textValue(value, fallback = "") {
+        return String(value ?? fallback).trim();
+      }
+
+      function boolValue(value, fallback = false) {
+        if (value === undefined || value === null || value === "") {
+          return fallback;
+        }
+        if (typeof value === "boolean") {
+          return value;
+        }
+        return ["1", "true", "yes", "on"].includes(String(value).trim().toLowerCase());
+      }
+
+      function numberValue(value, fallback, min, max) {
+        const number = Number(value);
+        if (!Number.isFinite(number)) {
+          return fallback;
+        }
+        return Math.min(max, Math.max(min, number));
+      }
+
+      function normalizeSettings(next) {
+        return {
+          ...defaults,
+          ...next,
+          apiBaseUrl: textValue(next.apiBaseUrl),
+          apiKey: textValue(next.apiKey),
+          organizationId: textValue(next.organizationId),
+          patientId: textValue(next.patientId),
+          displayName: textValue(next.displayName),
+          greeting: textValue(next.greeting),
+          locale: textValue(next.locale, defaults.locale),
+          timezone: textValue(next.timezone, defaults.timezone),
+          lookaheadDays: numberValue(next.lookaheadDays, defaults.lookaheadDays, 1, 60),
+          maxEntries: numberValue(next.maxEntries, defaults.maxEntries, 1, 20),
+          intakeWindowMinutes: numberValue(next.intakeWindowMinutes, defaults.intakeWindowMinutes, 1, 240),
+          fullscreenAlert: boolValue(next.fullscreenAlert, defaults.fullscreenAlert),
+          showLastUpdated: boolValue(next.showLastUpdated, defaults.showLastUpdated),
+          showTakenEntries: boolValue(next.showTakenEntries, defaults.showTakenEntries),
+        };
+      }
+
+      function pluginSettingsFromPayload(payload) {
+        if (isObject(payload?.meta?.pluginSettings)) {
+          return payload.meta.pluginSettings;
+        }
+        if (isObject(payload?.pluginSettings)) {
+          return payload.pluginSettings;
+        }
+        return {};
+      }
+
+      function setStatus(message, isError = false) {
+        status.textContent = message;
+        status.classList.toggle("is-error", isError);
+      }
+
+      function fillSelect(select, items, placeholder) {
+        const current = select.value;
+        select.innerHTML = "";
+
+        const empty = document.createElement("option");
+        empty.value = "";
+        empty.textContent = placeholder;
+        select.append(empty);
+
+        for (const item of items) {
+          const option = document.createElement("option");
+          option.value = item.id;
+          option.textContent = item.label;
+          select.append(option);
+        }
+
+        if (items.some((item) => item.id === current)) {
+          select.value = current;
+        }
+      }
+
+      function setControlValues() {
+        applying = true;
+        for (const [key, control] of Object.entries(controls)) {
+          if (!control) {
+            continue;
+          }
+          if (control.type === "checkbox") {
+            control.checked = Boolean(settings[key]);
+          } else {
+            control.value = settings[key] ?? "";
+          }
+        }
+        fillSelect(controls.organizationId, organizations, "Select organization");
+        fillSelect(controls.patientId, patients, "Select patient");
+        controls.organizationId.value = settings.organizationId;
+        controls.patientId.value = settings.patientId;
+        controls.organizationId.disabled = organizations.length === 0;
+        controls.patientId.disabled = patients.length === 0;
+        applying = false;
+      }
+
+      function readSettingsFromControls() {
+        return normalizeSettings({
+          ...settings,
+          apiBaseUrl: controls.apiBaseUrl.value,
+          apiKey: controls.apiKey.value,
+          organizationId: controls.organizationId.value,
+          patientId: controls.patientId.value,
+          displayName: controls.displayName.value,
+          greeting: controls.greeting.value,
+          locale: controls.locale.value,
+          timezone: controls.timezone.value,
+          lookaheadDays: controls.lookaheadDays.value,
+          maxEntries: controls.maxEntries.value,
+          intakeWindowMinutes: controls.intakeWindowMinutes.value,
+          fullscreenAlert: controls.fullscreenAlert.checked,
+          showLastUpdated: controls.showLastUpdated.checked,
+          showTakenEntries: controls.showTakenEntries.checked,
+        });
+      }
+
+      function postSettings() {
+        if (applying) {
+          return;
+        }
+        settings = readSettingsFromControls();
+
+        if (bridge.postSettingsUpdate) {
+          bridge.postSettingsUpdate(settings);
+        } else {
+          window.parent.postMessage(
+            {
+              type: "paperlesspaper:settings:update",
+              pluginSettings: settings,
+            },
+            "*",
+          );
+        }
+      }
+
+      function applySettings(next) {
+        settings = normalizeSettings({ ...settings, ...next });
+        setControlValues();
+      }
+
+      function selectedPatient() {
+        return patients.find((patient) => patient.id === controls.patientId.value);
+      }
+
+      function applySelectedPatientDefaults() {
+        const patient = selectedPatient();
+        if (!patient) {
+          return;
+        }
+        if (!controls.displayName.value && patient.name) {
+          controls.displayName.value = patient.name;
+        }
+        if (patient.timezone) {
+          controls.timezone.value = patient.timezone;
+        }
+      }
+
+      async function loadOptions() {
+        const current = readSettingsFromControls();
+
+        loadButton.disabled = true;
+        controls.organizationId.disabled = true;
+        controls.patientId.disabled = true;
+        setStatus("Loading Memo data...");
+
+        try {
+          const params = new URLSearchParams();
+          if (current.apiBaseUrl) {
+            params.set("apiBaseUrl", current.apiBaseUrl);
+          }
+          if (current.apiKey) {
+            params.set("apiKey", current.apiKey);
+          }
+          if (current.organizationId) {
+            params.set("organizationId", current.organizationId);
+          }
+
+          const response = await fetch(`./api/options?${params.toString()}`, {
+            cache: "no-store",
+          });
+          const text = await response.text();
+          let data;
+          try {
+            data = text ? JSON.parse(text) : {};
+          } catch {
+            throw new Error(text || `Request failed with ${response.status}`);
+          }
+          if (!response.ok) {
+            throw new Error(data.error || data.message || `Request failed with ${response.status}`);
+          }
+
+          organizations = Array.isArray(data.organizations) ? data.organizations : [];
+          patients = Array.isArray(data.patients) ? data.patients : [];
+          settings = normalizeSettings({
+            ...current,
+            organizationId: current.organizationId || data.selectedOrganizationId || "",
+          });
+          if (!settings.patientId && patients.length === 1) {
+            settings.patientId = patients[0].id;
+          }
+          setControlValues();
+          applySelectedPatientDefaults();
+          postSettings();
+          setStatus(
+            `${organizations.length} organization${organizations.length === 1 ? "" : "s"}, ${patients.length} patient${patients.length === 1 ? "" : "s"}.`,
+          );
+        } catch (error) {
+          setStatus(error?.message || String(error), true);
+          setControlValues();
+        } finally {
+          loadButton.disabled = false;
+        }
+      }
+
+      function handlePayload(payload) {
+        applySettings(pluginSettingsFromPayload(payload));
+      }
+
+      function handleMessage(event) {
+        const message = event.data;
+        if (!isObject(message)) {
+          return;
+        }
+        const payload =
+          message.type === "INIT" || message.cmd === "message"
+            ? message.data
+            : message.payload;
+        if (isObject(payload)) {
+          handlePayload(payload);
+        } else if (isObject(message.pluginSettings)) {
+          applySettings(message.pluginSettings);
+        }
+      }
+
+      for (const control of Object.values(controls)) {
+        if (!control) {
+          continue;
+        }
+        control.addEventListener("change", () => {
+          if (control === controls.patientId) {
+            applySelectedPatientDefaults();
+          }
+          postSettings();
+        });
+        if (control.tagName === "INPUT" && control.type !== "checkbox") {
+          control.addEventListener("input", postSettings);
+        }
+      }
+
+      controls.organizationId.addEventListener("change", () => {
+        patients = [];
+        settings = readSettingsFromControls();
+        settings.patientId = "";
+        setControlValues();
+        loadOptions();
+      });
+      controls.patientId.addEventListener("change", () => {
+        applySelectedPatientDefaults();
+        postSettings();
+      });
+      loadButton.addEventListener("click", loadOptions);
+
+      window.addEventListener("message", handleMessage);
+      bridge.setupSettingsPage?.({ onPayload: handlePayload, minHeight: 240 });
+      bridge.observeSettingsHeight?.({ minHeight: 240 });
+      setControlValues();
+      if (bridge.postSettingsReady) {
+        bridge.postSettingsReady();
+      } else {
+        window.parent.postMessage({ type: "paperlesspaper:settings:ready" }, "*");
+      }
+    </script>
+  </body>
+</html>
