@@ -1,0 +1,48 @@
+{
+  "loading": "Loading...",
+  "title": "Prayer Times",
+  "kicker": "Islamic prayer schedule",
+  "nextPrayer": "Next prayer",
+  "today": "Today",
+  "tomorrow": "Tomorrow",
+  "countdownNow": "now",
+  "countdownIn": "in {value}",
+  "hourShort": "h",
+  "minuteShort": "m",
+  "iqamah": "Iqamah",
+  "hijriDate": "Hijri date",
+  "method": "Method",
+  "school": "School",
+  "timezone": "Timezone",
+  "coordinates": "Coordinates",
+  "tomorrowFajr": "Tomorrow Fajr",
+  "calculationNote": "Calculated locally from solar angles",
+  "errorTitle": "Prayer times could not load",
+  "schools": {
+    "standard": "Standard",
+    "hanafi": "Hanafi"
+  },
+  "prayers": {
+    "fajr": "Fajr",
+    "sunrise": "Sunrise",
+    "dhuhr": "Dhuhr",
+    "asr": "Asr",
+    "maghrib": "Maghrib",
+    "isha": "Isha"
+  },
+  "methods": {
+    "mwl": "Muslim World League",
+    "isna": "ISNA",
+    "egypt": "Egyptian Survey",
+    "makkah": "Umm al-Qura",
+    "karachi": "Karachi",
+    "tehran": "Tehran",
+    "diyanet": "Diyanet",
+    "singapore": "Singapore",
+    "kuwait": "Kuwait",
+    "qatar": "Qatar",
+    "france": "France",
+    "russia": "Russia",
+    "dubai": "Dubai"
+  }
+}

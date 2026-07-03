@@ -1,0 +1,268 @@
+{
+  "name": "Islamic Prayer Times",
+  "version": "0.1.0",
+  "status": "alpha",
+  "description": "Shows daily Islamic prayer times, the next prayer, optional iqamah timing, and Hijri date for any configured location.",
+  "renderPage": "./render.html",
+  "icon": "./assets/icon.png",
+  "nativeSettings": {
+    "color": "light",
+    "title": "Prayer Times",
+    "locationName": "Berlin",
+    "latitude": 52.52,
+    "longitude": 13.405,
+    "elevation": 34,
+    "timeZone": "Europe/Berlin",
+    "date": "",
+    "calculationMethod": "diyanet",
+    "asrSchool": "standard",
+    "highLatitudeRule": "angle-based",
+    "timeFormat": "24h",
+    "layout": "auto",
+    "showSunrise": true,
+    "showHijriDate": true,
+    "showCountdown": true,
+    "showIqamah": false,
+    "iqamahMinutes": 10,
+    "showTomorrow": true,
+    "fajrOffset": 0,
+    "sunriseOffset": 0,
+    "dhuhrOffset": 0,
+    "asrOffset": 0,
+    "maghribOffset": 0,
+    "ishaOffset": 0
+  },
+  "configVariants": [
+    {
+      "color": "light",
+      "title": "Prayer Times",
+      "locationName": "Berlin",
+      "latitude": 52.52,
+      "longitude": 13.405,
+      "elevation": 34,
+      "timeZone": "Europe/Berlin",
+      "date": "",
+      "calculationMethod": "diyanet",
+      "asrSchool": "standard",
+      "highLatitudeRule": "angle-based",
+      "timeFormat": "24h",
+      "layout": "auto",
+      "showSunrise": true,
+      "showHijriDate": true,
+      "showCountdown": true,
+      "showIqamah": false,
+      "iqamahMinutes": 10,
+      "showTomorrow": true,
+      "fajrOffset": 0,
+      "sunriseOffset": 0,
+      "dhuhrOffset": 0,
+      "asrOffset": 0,
+      "maghribOffset": 0,
+      "ishaOffset": 0,
+      "screenshots": {
+        "800x480": "./screenshots/islamic-prayer-times-berlin-diyanet-800x480-landscape.png",
+        "480x800": "./screenshots/islamic-prayer-times-berlin-diyanet-480x800-portrait.png"
+      }
+    },
+    {
+      "color": "dark",
+      "title": "Waktu Shalat",
+      "locationName": "Jakarta",
+      "latitude": -6.2088,
+      "longitude": 106.8456,
+      "elevation": 8,
+      "timeZone": "Asia/Jakarta",
+      "date": "",
+      "calculationMethod": "mwl",
+      "asrSchool": "standard",
+      "highLatitudeRule": "none",
+      "timeFormat": "24h",
+      "layout": "vertical",
+      "showSunrise": true,
+      "showHijriDate": true,
+      "showCountdown": true,
+      "showIqamah": true,
+      "iqamahMinutes": 10,
+      "showTomorrow": false,
+      "fajrOffset": -2,
+      "sunriseOffset": 0,
+      "dhuhrOffset": 2,
+      "asrOffset": 1,
+      "maghribOffset": 3,
+      "ishaOffset": 2,
+      "screenshots": {
+        "800x480": "./screenshots/islamic-prayer-times-jakarta-iqamah-800x480-landscape.png",
+        "480x800": "./screenshots/islamic-prayer-times-jakarta-iqamah-480x800-portrait.png"
+      }
+    }
+  ],
+  "formSchema": {
+    "type": "object",
+    "properties": {
+      "title": {
+        "type": "string",
+        "title": "Title",
+        "default": "Prayer Times"
+      },
+      "locationName": {
+        "type": "string",
+        "title": "Location name",
+        "default": "Berlin"
+      },
+      "latitude": {
+        "type": "number",
+        "title": "Latitude",
+        "default": 52.52
+      },
+      "longitude": {
+        "type": "number",
+        "title": "Longitude",
+        "default": 13.405
+      },
+      "elevation": {
+        "type": "number",
+        "title": "Elevation",
+        "description": "Meters above sea level. Used for the sunrise/sunset horizon correction.",
+        "default": 34
+      },
+      "timeZone": {
+        "type": "string",
+        "title": "Timezone",
+        "description": "IANA timezone, for example Europe/Berlin, Asia/Jakarta, or America/New_York.",
+        "default": "Europe/Berlin"
+      },
+      "date": {
+        "type": "string",
+        "title": "Date",
+        "description": "Leave empty to use today in the configured timezone.",
+        "format": "date",
+        "default": ""
+      },
+      "calculationMethod": {
+        "type": "string",
+        "title": "Calculation method",
+        "enum": [
+          "mwl",
+          "isna",
+          "egypt",
+          "makkah",
+          "karachi",
+          "tehran",
+          "diyanet",
+          "singapore",
+          "kuwait",
+          "qatar",
+          "france",
+          "russia",
+          "dubai"
+        ],
+        "default": "diyanet"
+      },
+      "asrSchool": {
+        "type": "string",
+        "title": "Asr school",
+        "enum": [
+          "standard",
+          "hanafi"
+        ],
+        "default": "standard"
+      },
+      "highLatitudeRule": {
+        "type": "string",
+        "title": "High latitude rule",
+        "enum": [
+          "none",
+          "middle-of-night",
+          "one-seventh",
+          "angle-based"
+        ],
+        "default": "angle-based"
+      },
+      "timeFormat": {
+        "type": "string",
+        "title": "Time format",
+        "enum": [
+          "24h",
+          "12h"
+        ],
+        "default": "24h"
+      },
+      "layout": {
+        "type": "string",
+        "title": "Layout",
+        "enum": [
+          "auto",
+          "vertical",
+          "horizontal"
+        ],
+        "default": "auto"
+      },
+      "showSunrise": {
+        "type": "boolean",
+        "title": "Show sunrise",
+        "default": true
+      },
+      "showHijriDate": {
+        "type": "boolean",
+        "title": "Show Hijri date",
+        "default": true
+      },
+      "showCountdown": {
+        "type": "boolean",
+        "title": "Show countdown",
+        "default": true
+      },
+      "showIqamah": {
+        "type": "boolean",
+        "title": "Show iqamah",
+        "description": "Adds a small iqamah time for the next prayer.",
+        "default": false
+      },
+      "iqamahMinutes": {
+        "type": "number",
+        "title": "Iqamah minutes",
+        "default": 10
+      },
+      "showTomorrow": {
+        "type": "boolean",
+        "title": "Show tomorrow Fajr",
+        "default": true
+      },
+      "fajrOffset": {
+        "type": "number",
+        "title": "Fajr offset",
+        "description": "Minutes added after calculation. Negative values are allowed.",
+        "default": 0
+      },
+      "sunriseOffset": {
+        "type": "number",
+        "title": "Sunrise offset",
+        "default": 0
+      },
+      "dhuhrOffset": {
+        "type": "number",
+        "title": "Dhuhr offset",
+        "default": 0
+      },
+      "asrOffset": {
+        "type": "number",
+        "title": "Asr offset",
+        "default": 0
+      },
+      "maghribOffset": {
+        "type": "number",
+        "title": "Maghrib offset",
+        "default": 0
+      },
+      "ishaOffset": {
+        "type": "number",
+        "title": "Isha offset",
+        "default": 0
+      }
+    }
+  },
+  "language": [
+    "en",
+    "de"
+  ]
+}

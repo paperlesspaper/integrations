@@ -1,0 +1,1442 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="paperless:epd-optimize" content='{"intent":"vivid","palette":"spectra6OriginalPalette","canvasDitherOptions":{"ditheringType":"quantizationOnly"}}' />
+    <title>Islamic Prayer Times</title>
+    <link rel="stylesheet" href="/assets/paperless.css" />
+    <script src="/assets/paperless.iife.js"></script>
+    <style>
+      .prayer-screen {
+        --next-prayer-color: var(--pp-accent);
+        padding: 24px;
+        gap: 16px;
+        background: var(--pp-bg);
+        color: var(--pp-fg);
+      }
+
+      .prayer-screen.next-fajr,
+      .prayer-screen.next-isha {
+        --next-prayer-color: var(--pp-blue);
+      }
+
+      .prayer-screen.next-dhuhr {
+        --next-prayer-color: var(--pp-green);
+      }
+
+      .prayer-screen.next-asr,
+      .prayer-screen.next-maghrib {
+        --next-prayer-color: var(--pp-red);
+      }
+
+      .prayer-header {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(176px, auto);
+        gap: 18px;
+        align-items: end;
+        padding-bottom: 14px;
+        border-bottom: 3px solid var(--next-prayer-color);
+      }
+
+      .kicker,
+      .meta-label,
+      .next-label,
+      .row-label,
+      .detail-label {
+        margin: 0;
+        color: var(--pp-muted);
+        font-size: 0.72rem;
+        line-height: 1;
+        font-weight: 860;
+        letter-spacing: 0;
+        text-transform: uppercase;
+      }
+
+      .title {
+        margin: 6px 0 0;
+        color: var(--next-prayer-color);
+        font-size: 4rem;
+        line-height: 0.9;
+        font-weight: 950;
+        letter-spacing: 0;
+        overflow-wrap: anywhere;
+      }
+
+      .date-block {
+        min-width: 0;
+        padding: 10px 12px;
+        border: 3px solid var(--pp-fg);
+        border-left: 12px solid var(--next-prayer-color);
+        text-align: right;
+      }
+
+      .date-main {
+        margin: 0;
+        font-size: 1.45rem;
+        line-height: 1.02;
+        font-weight: 920;
+        overflow-wrap: anywhere;
+      }
+
+      .date-sub {
+        margin: 6px 0 0;
+        color: var(--pp-muted);
+        font-size: 0.9rem;
+        line-height: 1.1;
+        font-weight: 760;
+        overflow-wrap: anywhere;
+      }
+
+      .content {
+        flex: 1;
+        min-height: 0;
+        display: grid;
+        grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+        gap: 22px;
+        align-items: stretch;
+      }
+
+      .prayer-screen.layout-vertical .content {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto minmax(0, 1fr);
+      }
+
+      .prayer-screen.layout-horizontal .content {
+        grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+      }
+
+      .next-panel,
+      .schedule-panel {
+        min-width: 0;
+        min-height: 0;
+      }
+
+      .next-panel {
+        display: grid;
+        align-content: center;
+        gap: 14px;
+        padding-right: 22px;
+        border-right: 3px solid var(--next-prayer-color);
+      }
+
+      .prayer-screen.layout-vertical .next-panel {
+        padding-right: 0;
+        padding-bottom: 16px;
+        border-right: 0;
+        border-bottom: 3px solid var(--next-prayer-color);
+      }
+
+      .next-card {
+        min-width: 0;
+        display: grid;
+        gap: 10px;
+        padding-left: 16px;
+        border-left: 12px solid var(--next-prayer-color);
+      }
+
+      .next-name {
+        margin: 0;
+        font-size: 5.6rem;
+        line-height: 0.9;
+        font-weight: 950;
+        letter-spacing: 0;
+        overflow-wrap: anywhere;
+      }
+
+      .next-time {
+        margin: 0;
+        color: var(--next-prayer-color);
+        font-size: 4.4rem;
+        line-height: 0.92;
+        font-weight: 950;
+        letter-spacing: 0;
+        white-space: nowrap;
+      }
+
+      .next-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        align-items: center;
+      }
+
+      .pill {
+        display: inline-flex;
+        align-items: center;
+        min-width: 0;
+        min-height: 28px;
+        padding: 5px 8px 4px;
+        border: 2px solid var(--pp-border);
+        font-size: 0.86rem;
+        line-height: 1;
+        font-weight: 840;
+        overflow-wrap: anywhere;
+      }
+
+      .pill.is-accent {
+        border-color: var(--next-prayer-color);
+        color: var(--pp-fg);
+      }
+
+      .details-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 9px;
+      }
+
+      .detail {
+        min-width: 0;
+        padding: 10px 9px;
+        border: 2px solid var(--pp-border);
+      }
+
+      .detail-value {
+        margin: 6px 0 0;
+        font-size: 1rem;
+        line-height: 1.05;
+        font-weight: 880;
+        overflow-wrap: anywhere;
+      }
+
+      .schedule-panel {
+        display: grid;
+        grid-template-rows: auto minmax(0, 1fr) auto;
+        gap: 10px;
+      }
+
+      .schedule-title {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 12px;
+      }
+
+      .schedule-title h2 {
+        margin: 0;
+        font-size: 1.4rem;
+        line-height: 1;
+        font-weight: 920;
+        letter-spacing: 0;
+      }
+
+      .schedule-title p {
+        margin: 0;
+        color: var(--pp-muted);
+        font-size: 0.78rem;
+        line-height: 1;
+        font-weight: 820;
+        text-align: right;
+        text-transform: uppercase;
+      }
+
+      .schedule-list {
+        min-height: 0;
+        display: grid;
+        gap: 8px;
+        align-content: stretch;
+      }
+
+      .prayer-row {
+        min-width: 0;
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        gap: 12px;
+        align-items: center;
+        min-height: 54px;
+        padding: 9px 12px;
+        border: 2px solid var(--pp-border);
+        border-left: 10px solid var(--pp-border);
+        background: var(--pp-card);
+      }
+
+      .prayer-row.is-next {
+        border-width: 4px;
+        border-color: var(--pp-fg);
+        border-left-width: 16px;
+        border-left-color: var(--next-prayer-color);
+      }
+
+      .prayer-row.is-next .row-label,
+      .prayer-row.is-next .row-time {
+        color: var(--next-prayer-color);
+      }
+
+      .row-name {
+        margin: 4px 0 0;
+        font-size: 1.45rem;
+        line-height: 1;
+        font-weight: 920;
+        overflow-wrap: anywhere;
+      }
+
+      .row-time {
+        margin: 0;
+        font-size: 1.95rem;
+        line-height: 1;
+        font-weight: 950;
+        white-space: nowrap;
+      }
+
+      .tomorrow-line {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        gap: 10px;
+        align-items: center;
+        padding-top: 9px;
+        border-top: 2px solid var(--pp-border);
+      }
+
+      .tomorrow-label {
+        margin: 0;
+        color: var(--pp-muted);
+        font-size: 0.86rem;
+        line-height: 1.05;
+        font-weight: 840;
+        text-transform: uppercase;
+      }
+
+      .tomorrow-time {
+        margin: 0;
+        font-size: 1.2rem;
+        line-height: 1;
+        font-weight: 900;
+        white-space: nowrap;
+      }
+
+      .is-hidden {
+        display: none;
+      }
+
+      @media (orientation: portrait) {
+        .prayer-screen {
+          padding: 22px;
+          gap: 15px;
+        }
+
+        .prayer-header {
+          grid-template-columns: 1fr;
+          gap: 12px;
+          align-items: start;
+        }
+
+        .date-block {
+          width: 100%;
+          text-align: left;
+        }
+
+        .content {
+          grid-template-columns: 1fr;
+          grid-template-rows: auto minmax(0, 1fr);
+          gap: 16px;
+        }
+
+        .next-panel {
+          padding-right: 0;
+          padding-bottom: 15px;
+          border-right: 0;
+          border-bottom: 3px solid var(--pp-border);
+        }
+
+        .next-card {
+          grid-template-columns: minmax(0, 1fr) auto;
+          align-items: end;
+          gap: 12px;
+        }
+
+        .next-label {
+          grid-column: 1 / -1;
+        }
+
+        .next-name {
+          font-size: 4.3rem;
+        }
+
+        .next-time {
+          font-size: 3.25rem;
+        }
+
+        .next-meta {
+          grid-column: 1 / -1;
+        }
+      }
+
+      @media (max-width: 700px), (max-height: 560px) {
+        .prayer-screen {
+          padding: 16px;
+          gap: 11px;
+        }
+
+        .prayer-header {
+          padding-bottom: 10px;
+          border-bottom-width: 2px;
+        }
+
+        .title {
+          font-size: 3rem;
+        }
+
+        .kicker,
+        .meta-label,
+        .next-label,
+        .row-label,
+        .detail-label {
+          font-size: 0.62rem;
+        }
+
+        .date-block {
+          min-width: 136px;
+          padding: 8px 10px;
+          border-width: 2px;
+          border-left-width: 10px;
+        }
+
+        .date-main {
+          font-size: 1.08rem;
+        }
+
+        .date-sub {
+          font-size: 0.74rem;
+        }
+
+        .content {
+          gap: 15px;
+        }
+
+        .next-panel {
+          gap: 10px;
+          padding-right: 15px;
+          border-right-width: 2px;
+        }
+
+        .prayer-screen.layout-vertical .next-panel {
+          padding-right: 0;
+          padding-bottom: 12px;
+          border-right: 0;
+          border-bottom-width: 2px;
+        }
+
+        .next-name {
+          font-size: 3.8rem;
+        }
+
+        .next-time {
+          font-size: 3.15rem;
+        }
+
+        .pill {
+          min-height: 24px;
+          padding: 4px 7px 3px;
+          border-width: 2px;
+          font-size: 0.72rem;
+        }
+
+        .details-grid {
+          gap: 7px;
+        }
+
+        .detail {
+          padding: 8px 7px;
+        }
+
+        .detail-value {
+          margin-top: 5px;
+          font-size: 0.82rem;
+        }
+
+        .schedule-panel {
+          gap: 8px;
+        }
+
+        .schedule-title h2 {
+          font-size: 1.1rem;
+        }
+
+        .schedule-title p {
+          font-size: 0.66rem;
+        }
+
+        .schedule-list {
+          gap: 5px;
+        }
+
+        .prayer-row {
+          min-height: 40px;
+          gap: 8px;
+          padding: 4px 8px;
+          border-width: 2px;
+          border-left-width: 10px;
+          border-left-color: var(--pp-border);
+        }
+
+        .prayer-row.is-next {
+          border-width: 3px;
+          border-left-width: 13px;
+          border-left-color: var(--next-prayer-color);
+        }
+
+        .row-name {
+          margin-top: 2px;
+          font-size: 0.88rem;
+        }
+
+        .row-time {
+          font-size: 1.16rem;
+        }
+
+        .tomorrow-line {
+          padding-top: 7px;
+        }
+
+        .tomorrow-label {
+          font-size: 0.7rem;
+        }
+
+        .tomorrow-time {
+          font-size: 0.95rem;
+        }
+      }
+
+      @media (max-height: 560px) and (orientation: landscape) {
+        .title {
+          font-size: 2.72rem;
+        }
+
+        .next-name {
+          font-size: 3.5rem;
+        }
+
+        .next-time {
+          font-size: 2.95rem;
+        }
+
+        .details-grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+      }
+
+      @media (orientation: portrait) and (max-width: 560px) {
+        .schedule-list {
+          gap: 5px;
+        }
+
+        .prayer-row {
+          min-height: 40px;
+        }
+
+        .row-name {
+          font-size: 0.9rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="website-has-loading-element"></div>
+    <main class="pp-screen prayer-screen" id="screen">
+      <header class="prayer-header">
+        <div>
+          <p class="kicker" id="kicker">Islamic prayer schedule</p>
+          <h1 class="title pp-fit" id="title">Prayer Times</h1>
+        </div>
+        <aside class="date-block">
+          <p class="date-main pp-fit" id="dateMain"></p>
+          <p class="date-sub pp-fit" id="dateSub"></p>
+        </aside>
+      </header>
+
+      <section class="content">
+        <section class="next-panel">
+          <div class="next-card">
+            <p class="next-label" id="nextLabel">Next prayer</p>
+            <h2 class="next-name pp-fit" id="nextName"></h2>
+            <p class="next-time" id="nextTime"></p>
+            <div class="next-meta" id="nextMeta"></div>
+          </div>
+          <div class="details-grid" id="details"></div>
+        </section>
+
+        <section class="schedule-panel">
+          <div class="schedule-title">
+            <h2 id="scheduleTitle">Today</h2>
+            <p id="scheduleNote">Calculated locally</p>
+          </div>
+          <div class="schedule-list" id="scheduleList"></div>
+          <div class="tomorrow-line" id="tomorrowLine">
+            <p class="tomorrow-label" id="tomorrowLabel">Tomorrow Fajr</p>
+            <p class="tomorrow-time" id="tomorrowTime"></p>
+          </div>
+        </section>
+      </section>
+    </main>
+
+    <script>
+      (async function render() {
+        const bridge = window.PaperlessOpenIntegration || {};
+        const {
+          waitForPayload,
+          getSettings,
+          getQuerySettings,
+          mergeSettings,
+          loadLanguageJson,
+          applyColorTheme,
+          fitHyphenatedText,
+          fitAllText,
+          fitToScreen,
+          escapeHtml,
+          markReady,
+          markError,
+        } = bridge;
+
+        const defaults = {
+          color: "light",
+          title: "Prayer Times",
+          locationName: "Berlin",
+          latitude: 52.52,
+          longitude: 13.405,
+          elevation: 34,
+          timeZone: "Europe/Berlin",
+          date: "",
+          calculationMethod: "diyanet",
+          asrSchool: "standard",
+          highLatitudeRule: "angle-based",
+          timeFormat: "24h",
+          layout: "auto",
+          showSunrise: true,
+          showHijriDate: true,
+          showCountdown: true,
+          showIqamah: false,
+          iqamahMinutes: 10,
+          showTomorrow: true,
+          fajrOffset: 0,
+          sunriseOffset: 0,
+          dhuhrOffset: 0,
+          asrOffset: 0,
+          maghribOffset: 0,
+          ishaOffset: 0,
+        };
+
+        const fallbackMessages = {
+          loading: "Loading...",
+          title: "Prayer Times",
+          kicker: "Islamic prayer schedule",
+          nextPrayer: "Next prayer",
+          today: "Today",
+          tomorrow: "Tomorrow",
+          countdownNow: "now",
+          countdownIn: "in {value}",
+          hourShort: "h",
+          minuteShort: "m",
+          iqamah: "Iqamah",
+          hijriDate: "Hijri date",
+          method: "Method",
+          school: "School",
+          timezone: "Timezone",
+          coordinates: "Coordinates",
+          tomorrowFajr: "Tomorrow Fajr",
+          calculationNote: "Calculated locally from solar angles",
+          errorTitle: "Prayer times could not load",
+          schools: {
+            standard: "Standard",
+            hanafi: "Hanafi",
+          },
+          prayers: {
+            fajr: "Fajr",
+            sunrise: "Sunrise",
+            dhuhr: "Dhuhr",
+            asr: "Asr",
+            maghrib: "Maghrib",
+            isha: "Isha",
+          },
+          methods: {
+            mwl: "Muslim World League",
+            isna: "ISNA",
+            egypt: "Egyptian Survey",
+            makkah: "Umm al-Qura",
+            karachi: "Karachi",
+            tehran: "Tehran",
+            diyanet: "Diyanet",
+            singapore: "Singapore",
+            kuwait: "Kuwait",
+            qatar: "Qatar",
+            france: "France",
+            russia: "Russia",
+            dubai: "Dubai",
+          },
+        };
+
+        const methodSettings = {
+          mwl: { fajr: 18, isha: 17 },
+          isna: { fajr: 15, isha: 15 },
+          egypt: { fajr: 19.5, isha: 17.5 },
+          makkah: { fajr: 18.5, isha: { minutes: 90 } },
+          karachi: { fajr: 18, isha: 18 },
+          tehran: { fajr: 17.7, maghrib: 4.5, isha: 14 },
+          diyanet: { fajr: 18, isha: 17 },
+          singapore: { fajr: 20, isha: 18 },
+          kuwait: { fajr: 18, isha: 17.5 },
+          qatar: { fajr: 18, isha: { minutes: 90 } },
+          france: { fajr: 12, isha: 12 },
+          russia: { fajr: 16, isha: 15 },
+          dubai: { fajr: 18.2, isha: 18.2 },
+        };
+
+        const prayerOrder = ["fajr", "sunrise", "dhuhr", "asr", "maghrib", "isha"];
+        const nextPrayerOrder = ["fajr", "dhuhr", "asr", "maghrib", "isha"];
+
+        let messages = fallbackMessages;
+        let language = "en";
+
+        function html(value) {
+          return typeof escapeHtml === "function"
+            ? escapeHtml(value)
+            : String(value ?? "").replace(/[&<>"']/g, (char) => {
+                const map = { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" };
+                return map[char];
+              });
+        }
+
+        function isPlainObject(value) {
+          return Boolean(value) && typeof value === "object" && !Array.isArray(value);
+        }
+
+        function deepMerge(base, extra) {
+          const output = { ...base };
+          if (!isPlainObject(extra)) {
+            return output;
+          }
+          for (const [key, value] of Object.entries(extra)) {
+            output[key] =
+              isPlainObject(value) && isPlainObject(output[key])
+                ? deepMerge(output[key], value)
+                : value;
+          }
+          return output;
+        }
+
+        function messageAt(key) {
+          return key.split(".").reduce((value, part) => value?.[part], messages);
+        }
+
+        function t(key, values = {}) {
+          const fallback = key
+            .split(".")
+            .reduce((value, part) => value?.[part], fallbackMessages);
+          const template = messageAt(key) ?? fallback ?? key;
+          return String(template).replace(/\{(\w+)\}/g, (_match, name) => values[name] ?? "");
+        }
+
+        function numberSetting(value, fallback, min = -Infinity, max = Infinity) {
+          const number = Number(value);
+          if (!Number.isFinite(number)) {
+            return fallback;
+          }
+          return Math.min(max, Math.max(min, number));
+        }
+
+        function booleanSetting(value, fallback = false) {
+          if (value === true || value === "true" || value === 1 || value === "1") {
+            return true;
+          }
+          if (value === false || value === "false" || value === 0 || value === "0") {
+            return false;
+          }
+          return fallback;
+        }
+
+        function choiceSetting(value, allowed, fallback) {
+          return allowed.includes(value) ? value : fallback;
+        }
+
+        function safeTimeZone(value, fallback) {
+          const timeZone = String(value || "").trim();
+          try {
+            new Intl.DateTimeFormat("en", { timeZone }).format(new Date());
+            return timeZone;
+          } catch {
+            return fallback;
+          }
+        }
+
+        function normalizeSettings(raw) {
+          const methodKeys = Object.keys(methodSettings);
+          return {
+            color: String(raw.color || defaults.color),
+            title: String(raw.title || "").trim() || t("title"),
+            locationName: String(raw.locationName || "").trim() || defaults.locationName,
+            latitude: numberSetting(raw.latitude, defaults.latitude, -90, 90),
+            longitude: numberSetting(raw.longitude, defaults.longitude, -180, 180),
+            elevation: numberSetting(raw.elevation, defaults.elevation, -500, 9000),
+            timeZone: safeTimeZone(raw.timeZone, defaults.timeZone),
+            date: String(raw.date || "").trim(),
+            calculationMethod: choiceSetting(raw.calculationMethod, methodKeys, defaults.calculationMethod),
+            asrSchool: choiceSetting(raw.asrSchool, ["standard", "hanafi"], defaults.asrSchool),
+            highLatitudeRule: choiceSetting(
+              raw.highLatitudeRule,
+              ["none", "middle-of-night", "one-seventh", "angle-based"],
+              defaults.highLatitudeRule,
+            ),
+            timeFormat: choiceSetting(raw.timeFormat, ["24h", "12h"], defaults.timeFormat),
+            layout: choiceSetting(raw.layout, ["auto", "vertical", "horizontal"], defaults.layout),
+            showSunrise: booleanSetting(raw.showSunrise, defaults.showSunrise),
+            showHijriDate: booleanSetting(raw.showHijriDate, defaults.showHijriDate),
+            showCountdown: booleanSetting(raw.showCountdown, defaults.showCountdown),
+            showIqamah: booleanSetting(raw.showIqamah, defaults.showIqamah),
+            iqamahMinutes: numberSetting(raw.iqamahMinutes, defaults.iqamahMinutes, 0, 120),
+            showTomorrow: booleanSetting(raw.showTomorrow, defaults.showTomorrow),
+            fajrOffset: numberSetting(raw.fajrOffset, 0, -120, 120),
+            sunriseOffset: numberSetting(raw.sunriseOffset, 0, -120, 120),
+            dhuhrOffset: numberSetting(raw.dhuhrOffset, 0, -120, 120),
+            asrOffset: numberSetting(raw.asrOffset, 0, -120, 120),
+            maghribOffset: numberSetting(raw.maghribOffset, 0, -120, 120),
+            ishaOffset: numberSetting(raw.ishaOffset, 0, -120, 120),
+          };
+        }
+
+        function degToRad(value) {
+          return (Math.PI / 180) * value;
+        }
+
+        function radToDeg(value) {
+          return (180 / Math.PI) * value;
+        }
+
+        function sinDeg(value) {
+          return Math.sin(degToRad(value));
+        }
+
+        function cosDeg(value) {
+          return Math.cos(degToRad(value));
+        }
+
+        function tanDeg(value) {
+          return Math.tan(degToRad(value));
+        }
+
+        function asinDeg(value) {
+          return radToDeg(Math.asin(value));
+        }
+
+        function acosDeg(value) {
+          if (value < -1 || value > 1) {
+            return Number.NaN;
+          }
+          return radToDeg(Math.acos(value));
+        }
+
+        function atan2Deg(y, x) {
+          return radToDeg(Math.atan2(y, x));
+        }
+
+        function arccotDeg(value) {
+          return radToDeg(Math.atan(1 / value));
+        }
+
+        function fix(value, range) {
+          return ((value % range) + range) % range;
+        }
+
+        function fixHour(value) {
+          return fix(value, 24);
+        }
+
+        function timeDiff(a, b) {
+          return fixHour(b - a);
+        }
+
+        function julianDate(year, month, day) {
+          let y = year;
+          let m = month;
+          if (m <= 2) {
+            y -= 1;
+            m += 12;
+          }
+          const a = Math.floor(y / 100);
+          const b = 2 - a + Math.floor(a / 4);
+          return (
+            Math.floor(365.25 * (y + 4716)) +
+            Math.floor(30.6001 * (m + 1)) +
+            day +
+            b -
+            1524.5
+          );
+        }
+
+        function sunPosition(julian) {
+          const d = julian - 2451545.0;
+          const g = fix(357.529 + 0.98560028 * d, 360);
+          const q = fix(280.459 + 0.98564736 * d, 360);
+          const l = fix(q + 1.915 * sinDeg(g) + 0.02 * sinDeg(2 * g), 360);
+          const e = 23.439 - 0.00000036 * d;
+          const rightAscension = fix(atan2Deg(cosDeg(e) * sinDeg(l), cosDeg(l)) / 15, 24);
+          const declination = asinDeg(sinDeg(e) * sinDeg(l));
+          const equation = q / 15 - rightAscension;
+          return { declination, equation };
+        }
+
+        function zonedParts(date, timeZone) {
+          const parts = new Intl.DateTimeFormat("en-US", {
+            timeZone,
+            hour12: false,
+            year: "numeric",
+            month: "2-digit",
+            day: "2-digit",
+            hour: "2-digit",
+            minute: "2-digit",
+            second: "2-digit",
+          }).formatToParts(date);
+          const value = (type) => Number(parts.find((part) => part.type === type)?.value || 0);
+          const hour = value("hour");
+          return {
+            year: value("year"),
+            month: value("month"),
+            day: value("day"),
+            hour: hour === 24 ? 0 : hour,
+            minute: value("minute"),
+            second: value("second"),
+          };
+        }
+
+        function getTimeZoneOffsetMinutes(date, timeZone) {
+          const parts = zonedParts(date, timeZone);
+          const utcLike = Date.UTC(
+            parts.year,
+            parts.month - 1,
+            parts.day,
+            parts.hour,
+            parts.minute,
+            parts.second,
+          );
+          return (utcLike - date.getTime()) / 60000;
+        }
+
+        function localDateTimeToUtc(parts, timeZone, hour = 12, minute = 0, second = 0) {
+          let timestamp = Date.UTC(parts.year, parts.month - 1, parts.day, hour, minute, second);
+          for (let index = 0; index < 3; index += 1) {
+            const offset = getTimeZoneOffsetMinutes(new Date(timestamp), timeZone);
+            timestamp = Date.UTC(parts.year, parts.month - 1, parts.day, hour, minute, second) - offset * 60000;
+          }
+          return new Date(timestamp);
+        }
+
+        function parseDateInput(value, timeZone) {
+          const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(String(value || "").trim());
+          if (match) {
+            return {
+              explicit: true,
+              parts: {
+                year: Number(match[1]),
+                month: Number(match[2]),
+                day: Number(match[3]),
+              },
+            };
+          }
+          const nowParts = zonedParts(new Date(), timeZone);
+          return {
+            explicit: false,
+            parts: {
+              year: nowParts.year,
+              month: nowParts.month,
+              day: nowParts.day,
+            },
+          };
+        }
+
+        function addDays(parts, count) {
+          const date = new Date(Date.UTC(parts.year, parts.month - 1, parts.day + count, 12, 0, 0));
+          return {
+            year: date.getUTCFullYear(),
+            month: date.getUTCMonth() + 1,
+            day: date.getUTCDate(),
+          };
+        }
+
+        function isoDate(parts) {
+          return `${parts.year}-${String(parts.month).padStart(2, "0")}-${String(parts.day).padStart(2, "0")}`;
+        }
+
+        function compareDateParts(a, b) {
+          return isoDate(a).localeCompare(isoDate(b));
+        }
+
+        function formatDate(parts, timeZone, locale) {
+          return new Intl.DateTimeFormat(locale, {
+            timeZone,
+            weekday: "short",
+            year: "numeric",
+            month: "short",
+            day: "numeric",
+          }).format(localDateTimeToUtc(parts, timeZone, 12));
+        }
+
+        function formatHijriDate(parts, timeZone, locale) {
+          try {
+            return new Intl.DateTimeFormat(`${locale}-u-ca-islamic`, {
+              timeZone,
+              year: "numeric",
+              month: "long",
+              day: "numeric",
+            }).format(localDateTimeToUtc(parts, timeZone, 12));
+          } catch {
+            return "";
+          }
+        }
+
+        function timeZoneName(timeZone, parts) {
+          const values = new Intl.DateTimeFormat("en-US", {
+            timeZone,
+            hour: "2-digit",
+            minute: "2-digit",
+            timeZoneName: "short",
+          }).formatToParts(localDateTimeToUtc(parts, timeZone, 12));
+          return values.find((part) => part.type === "timeZoneName")?.value || timeZone;
+        }
+
+        function riseSetAngle(elevationMeters) {
+          return 0.833 + 0.0347 * Math.sqrt(Math.max(0, elevationMeters));
+        }
+
+        function isMinutesParam(value) {
+          return isPlainObject(value) && Number.isFinite(Number(value.minutes));
+        }
+
+        function paramAngle(value) {
+          return Number(value);
+        }
+
+        function calculatePrayerTimes(dateParts, settings) {
+          const params = methodSettings[settings.calculationMethod] || methodSettings.mwl;
+          const noonInstant = localDateTimeToUtc(dateParts, settings.timeZone, 12);
+          const timeZoneHours = getTimeZoneOffsetMinutes(noonInstant, settings.timeZone) / 60;
+          const jDate =
+            julianDate(dateParts.year, dateParts.month, dateParts.day) -
+            settings.longitude / (15 * 24);
+          const horizonAngle = riseSetAngle(settings.elevation);
+
+          function midDay(time) {
+            const equation = sunPosition(jDate + time).equation;
+            return fixHour(12 - equation);
+          }
+
+          function sunAngleTime(angle, time, direction = "cw") {
+            const declination = sunPosition(jDate + time).declination;
+            const noon = midDay(time);
+            const numerator =
+              -sinDeg(angle) -
+              sinDeg(declination) * sinDeg(settings.latitude);
+            const denominator = cosDeg(declination) * cosDeg(settings.latitude);
+            const delta = acosDeg(numerator / denominator) / 15;
+            return noon + (direction === "ccw" ? -delta : delta);
+          }
+
+          function asrTime(factor, time) {
+            const declination = sunPosition(jDate + time).declination;
+            const angle = -arccotDeg(factor + tanDeg(Math.abs(settings.latitude - declination)));
+            return sunAngleTime(angle, time);
+          }
+
+          function dayPortion(times) {
+            return Object.fromEntries(
+              Object.entries(times).map(([key, value]) => [key, value / 24]),
+            );
+          }
+
+          function computeRaw(times) {
+            const portion = dayPortion(times);
+            const sunset = sunAngleTime(horizonAngle, portion.sunset);
+            const maghrib = isMinutesParam(params.maghrib)
+              ? sunset + Number(params.maghrib.minutes) / 60
+              : Number.isFinite(paramAngle(params.maghrib))
+                ? sunAngleTime(paramAngle(params.maghrib), portion.maghrib)
+                : sunset;
+            const isha = isMinutesParam(params.isha)
+              ? maghrib + Number(params.isha.minutes) / 60
+              : sunAngleTime(paramAngle(params.isha), portion.isha);
+
+            return {
+              fajr: sunAngleTime(paramAngle(params.fajr), portion.fajr, "ccw"),
+              sunrise: sunAngleTime(horizonAngle, portion.sunrise, "ccw"),
+              dhuhr: midDay(portion.dhuhr),
+              asr: asrTime(settings.asrSchool === "hanafi" ? 2 : 1, portion.asr),
+              sunset,
+              maghrib,
+              isha,
+            };
+          }
+
+          let times = {
+            fajr: 5,
+            sunrise: 6,
+            dhuhr: 12,
+            asr: 13,
+            sunset: 18,
+            maghrib: 18,
+            isha: 18,
+          };
+          for (let index = 0; index < 2; index += 1) {
+            times = computeRaw(times);
+          }
+
+          for (const key of Object.keys(times)) {
+            times[key] += timeZoneHours - settings.longitude / 15;
+          }
+
+          if (!Number.isFinite(times.sunrise) || !Number.isFinite(times.sunset)) {
+            const fallbackNoon = Number.isFinite(times.dhuhr) ? times.dhuhr : 12;
+            times.sunrise = fallbackNoon - 6;
+            times.sunset = fallbackNoon + 6;
+            if (!Number.isFinite(times.maghrib)) {
+              times.maghrib = times.sunset;
+            }
+          }
+
+          if (settings.highLatitudeRule !== "none") {
+            adjustHighLatitudeTimes(times, params, settings);
+          }
+
+          const offsets = {
+            fajr: settings.fajrOffset,
+            sunrise: settings.sunriseOffset,
+            dhuhr: settings.dhuhrOffset,
+            asr: settings.asrOffset,
+            maghrib: settings.maghribOffset,
+            isha: settings.ishaOffset,
+          };
+
+          const minutes = {};
+          for (const key of prayerOrder) {
+            const value = times[key];
+            const offset = Number(offsets[key]) || 0;
+            minutes[key] = Number.isFinite(value)
+              ? fix(Math.round(value * 60 + offset), 24 * 60)
+              : null;
+          }
+          return minutes;
+        }
+
+        function nightPortion(angle, settings) {
+          if (settings.highLatitudeRule === "middle-of-night") {
+            return 0.5;
+          }
+          if (settings.highLatitudeRule === "one-seventh") {
+            return 1 / 7;
+          }
+          return Math.min(0.5, Math.abs(Number(angle) || 0) / 60);
+        }
+
+        function adjustHighLatitudeTimes(times, params, settings) {
+          const night = timeDiff(times.sunset, times.sunrise);
+
+          function adjust(time, base, angle, direction) {
+            const portion = nightPortion(angle, settings) * night;
+            const delta =
+              direction === "ccw" ? timeDiff(time, base) : timeDiff(base, time);
+            if (!Number.isFinite(time) || delta > portion) {
+              return direction === "ccw" ? base - portion : base + portion;
+            }
+            return time;
+          }
+
+          times.fajr = adjust(times.fajr, times.sunrise, params.fajr, "ccw");
+          if (!isMinutesParam(params.isha)) {
+            times.isha = adjust(times.isha, times.sunset, params.isha, "cw");
+          }
+          if (Number.isFinite(paramAngle(params.maghrib))) {
+            times.maghrib = adjust(times.maghrib, times.sunset, params.maghrib, "cw");
+          }
+        }
+
+        function formatClock(minutes, settings) {
+          const normalized = fix(Math.round(minutes), 24 * 60);
+          const hour = Math.floor(normalized / 60);
+          const minute = normalized % 60;
+          if (settings.timeFormat === "12h") {
+            const suffix = hour >= 12 ? "PM" : "AM";
+            const hour12 = hour % 12 || 12;
+            return `${hour12}:${String(minute).padStart(2, "0")} ${suffix}`;
+          }
+          return `${String(hour).padStart(2, "0")}:${String(minute).padStart(2, "0")}`;
+        }
+
+        function countdownLabel(diffMinutes) {
+          if (diffMinutes <= 0) {
+            return t("countdownNow");
+          }
+          const hours = Math.floor(diffMinutes / 60);
+          const minutes = diffMinutes % 60;
+          const parts = [];
+          if (hours > 0) {
+            parts.push(`${hours}${t("hourShort")}`);
+          }
+          if (minutes > 0 || parts.length === 0) {
+            parts.push(`${minutes}${t("minuteShort")}`);
+          }
+          return t("countdownIn", { value: parts.join(" ") });
+        }
+
+        function rowLabel(key) {
+          return t(`prayers.${key}`);
+        }
+
+        function scheduleFor(settings, minutes) {
+          return prayerOrder
+            .filter((key) => settings.showSunrise || key !== "sunrise")
+            .filter((key) => minutes[key] !== null)
+            .map((key) => ({
+              key,
+              label: rowLabel(key),
+              minutes: minutes[key],
+              time: formatClock(minutes[key], settings),
+              isPrayer: nextPrayerOrder.includes(key),
+            }));
+        }
+
+        function findNextPrayer(settings, todayParts, selectedParts, todaySchedule, tomorrowMinutes) {
+          const now = new Date();
+          const nowParts = zonedParts(now, settings.timeZone);
+          const currentDate = {
+            year: nowParts.year,
+            month: nowParts.month,
+            day: nowParts.day,
+          };
+          const comparison = compareDateParts(selectedParts, currentDate);
+          const nowMinutes =
+            comparison === 0
+              ? nowParts.hour * 60 + nowParts.minute
+              : comparison > 0
+                ? -1
+                : 24 * 60 + 1;
+          const prayers = todaySchedule.filter((item) => item.isPrayer);
+          const nextToday = prayers.find((item) => item.minutes >= nowMinutes);
+
+          if (nextToday) {
+            return {
+              ...nextToday,
+              dayOffset: comparison === 0 ? 0 : null,
+              countdownMinutes: comparison === 0 ? nextToday.minutes - nowMinutes : null,
+            };
+          }
+
+          const tomorrowFajr = tomorrowMinutes.fajr;
+          if (Number.isFinite(tomorrowFajr)) {
+            const diff = comparison === 0 ? 24 * 60 - nowMinutes + tomorrowFajr : null;
+            return {
+              key: "fajr",
+              label: rowLabel("fajr"),
+              minutes: tomorrowFajr,
+              time: formatClock(tomorrowFajr, settings),
+              isPrayer: true,
+              dayOffset: 1,
+              countdownMinutes: diff,
+            };
+          }
+
+          return prayers[0] || todaySchedule[0];
+        }
+
+        function detail(label, value) {
+          return `
+            <article class="detail">
+              <p class="detail-label">${html(label)}</p>
+              <p class="detail-value pp-fit">${html(value)}</p>
+            </article>
+          `;
+        }
+
+        function pill(text, accent = false) {
+          return `<span class="pill ${accent ? "is-accent" : ""}">${html(text)}</span>`;
+        }
+
+        async function loadMessages(payload) {
+          try {
+            const result =
+              typeof loadLanguageJson === "function"
+                ? await loadLanguageJson(payload)
+                : { language: "en", messages: {} };
+            language = result.language || "en";
+            messages = deepMerge(fallbackMessages, result.messages || {});
+          } catch {
+            language = "en";
+            messages = fallbackMessages;
+          }
+          document.documentElement.lang = language;
+        }
+
+        function localeForLanguage(languageCode) {
+          const lower = String(languageCode || "en").toLowerCase();
+          if (lower.startsWith("de")) {
+            return "de-DE";
+          }
+          return "en-US";
+        }
+
+        function applyLayoutClass(settings) {
+          const screen = document.getElementById("screen");
+          const isPortrait = window.innerHeight > window.innerWidth;
+          const layout =
+            settings.layout === "auto"
+              ? isPortrait
+                ? "vertical"
+                : "horizontal"
+              : settings.layout === "vertical" && !isPortrait
+                ? "horizontal"
+              : settings.layout;
+          screen.classList.add(`layout-${layout}`);
+        }
+
+        function applyNextPrayerColor(next) {
+          const screen = document.getElementById("screen");
+          for (const key of prayerOrder) {
+            screen.classList.remove(`next-${key}`);
+          }
+          screen.classList.add(`next-${next.key}`);
+        }
+
+        function renderSchedule(schedule, next) {
+          document.getElementById("scheduleList").innerHTML = schedule
+            .map(
+              (item) => `
+                <article class="prayer-row prayer-${item.key} ${item.key === next.key && next.dayOffset !== 1 ? "is-next" : ""}">
+                  <div>
+                    <p class="row-label">${html(item.key === next.key && next.dayOffset !== 1 ? t("nextPrayer") : t("today"))}</p>
+                    <p class="row-name pp-fit">${html(item.label)}</p>
+                  </div>
+                  <p class="row-time">${html(item.time)}</p>
+                </article>
+              `,
+            )
+            .join("");
+        }
+
+        try {
+          const payload =
+            typeof waitForPayload === "function"
+              ? await waitForPayload({ timeoutMs: 500 })
+              : {};
+          await loadMessages(payload);
+          const merged =
+            typeof mergeSettings === "function"
+              ? mergeSettings(defaults, getSettings(payload), getQuerySettings())
+              : { ...defaults };
+          const settings = normalizeSettings(merged);
+
+          if (typeof applyColorTheme === "function") {
+            applyColorTheme(settings.color, { defaultTheme: defaults.color });
+          }
+          applyLayoutClass(settings);
+
+          const locale = localeForLanguage(language);
+          const parsedDate = parseDateInput(settings.date, settings.timeZone);
+          const selectedParts = parsedDate.parts;
+          const tomorrowParts = addDays(selectedParts, 1);
+          const selectedMinutes = calculatePrayerTimes(selectedParts, settings);
+          const tomorrowMinutes = calculatePrayerTimes(tomorrowParts, settings);
+          const schedule = scheduleFor(settings, selectedMinutes);
+          const next = findNextPrayer(settings, selectedParts, selectedParts, schedule, tomorrowMinutes);
+          const selectedDateText = formatDate(selectedParts, settings.timeZone, locale);
+          const hijriText = settings.showHijriDate
+            ? formatHijriDate(selectedParts, settings.timeZone, locale)
+            : "";
+          const timezoneText = `${settings.timeZone} (${timeZoneName(settings.timeZone, selectedParts)})`;
+          const methodText = t(`methods.${settings.calculationMethod}`);
+          const schoolText = t(`schools.${settings.asrSchool}`);
+          const coordinatesText = `${settings.latitude.toFixed(3)}, ${settings.longitude.toFixed(3)}`;
+          const iqamahText =
+            settings.showIqamah && next.isPrayer
+              ? `${t("iqamah")} ${formatClock(next.minutes + settings.iqamahMinutes, settings)}`
+              : "";
+          applyNextPrayerColor(next);
+
+          document.title = settings.title;
+          document.getElementById("kicker").textContent = t("kicker");
+          document.getElementById("title").textContent = settings.title;
+          document.getElementById("dateMain").textContent = selectedDateText;
+          document.getElementById("dateSub").textContent = hijriText || timezoneText;
+          document.getElementById("nextLabel").textContent = t("nextPrayer");
+          document.getElementById("nextName").textContent = next.label;
+          document.getElementById("nextTime").textContent = next.time;
+          document.getElementById("scheduleTitle").textContent = settings.locationName;
+          document.getElementById("scheduleNote").textContent = t("calculationNote");
+          document.getElementById("tomorrowLabel").textContent = t("tomorrowFajr");
+          document.getElementById("tomorrowTime").textContent = formatClock(tomorrowMinutes.fajr, settings);
+          document.getElementById("tomorrowLine").classList.toggle(
+            "is-hidden",
+            settings.showTomorrow === false || !Number.isFinite(tomorrowMinutes.fajr),
+          );
+
+          const meta = [];
+          if (settings.showCountdown && next.countdownMinutes !== null && next.countdownMinutes !== undefined) {
+            meta.push(pill(countdownLabel(Math.max(0, Math.round(next.countdownMinutes))), true));
+          }
+          if (next.dayOffset === 1) {
+            meta.push(pill(t("tomorrow")));
+          } else {
+            meta.push(pill(t("today")));
+          }
+          if (iqamahText) {
+            meta.push(pill(iqamahText));
+          }
+          document.getElementById("nextMeta").innerHTML = meta.join("");
+
+          document.getElementById("details").innerHTML = [
+            detail(t("method"), methodText),
+            detail(t("school"), schoolText),
+            detail(t("timezone"), timezoneText),
+            detail(t("coordinates"), coordinatesText),
+          ].join("");
+
+          renderSchedule(schedule, next);
+
+          await document.fonts?.ready;
+          fitHyphenatedText?.(document.getElementById("title"), {
+            min: 24,
+            max: window.innerHeight <= 560 ? 50 : 70,
+            step: 2,
+            lineBreak: true,
+          });
+          fitHyphenatedText?.(document.getElementById("nextName"), {
+            min: 30,
+            max: window.innerHeight <= 560 ? 70 : 100,
+            step: 2,
+            lineBreak: true,
+          });
+          const compactRows = window.innerWidth <= 560 || window.innerHeight <= 560;
+          fitAllText?.(".row-name", {
+            min: 10,
+            max: compactRows ? 16 : 26,
+            step: 1,
+            tolerance: 3,
+            lineBreak: true,
+          });
+          fitAllText?.(".detail .pp-fit, .date-block .pp-fit", {
+            min: 8,
+            max: 18,
+            step: 1,
+            tolerance: 3,
+            lineBreak: true,
+          });
+          fitToScreen?.();
+          if (typeof markReady === "function") {
+            markReady({
+              date: isoDate(selectedParts),
+              location: settings.locationName,
+              calculationMethod: settings.calculationMethod,
+              nextPrayer: next.key,
+              nextTime: next.time,
+            });
+          } else {
+            const ready = document.createElement("div");
+            ready.id = "website-has-loaded";
+            ready.textContent = "ready";
+            document.body.appendChild(ready);
+          }
+        } catch (error) {
+          const message = error instanceof Error ? error.message : String(error);
+          if (typeof markError === "function") {
+            markError(error);
+          }
+          document.body.innerHTML = `<main class="pp-screen"><h1 class="pp-title pp-error">${html(t("errorTitle"))}</h1><p>${html(message)}</p></main>`;
+        }
+      })();
+    </script>
+  </body>
+</html>

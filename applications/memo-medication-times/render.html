@@ -99,16 +99,22 @@
 
       .schedule-body {
         min-height: 0;
-        display: grid;
-        grid-template-rows: auto minmax(0, 1fr);
-        gap: 12px;
+        overflow: hidden;
         padding: 22px 24px 20px;
         background: var(--pp-bg);
         color: var(--pp-fg);
       }
 
+      .schedule-fit {
+        min-width: 0;
+        display: grid;
+        align-content: start;
+        gap: 0.75em;
+        font-size: 16px;
+      }
+
       .section-title {
-        font-size: 1.05rem;
+        font-size: 1.05em;
         line-height: 1;
         font-weight: 900;
         text-transform: uppercase;
@@ -122,26 +128,22 @@
         margin: 0;
         padding: 0;
         list-style: none;
-        overflow: hidden;
+        overflow: visible;
       }
 
       .intake-row {
-        min-height: 94px;
+        min-height: 5.875em;
         display: grid;
-        grid-template-columns: 24px minmax(0, 1fr);
+        grid-template-columns: 1.5em minmax(0, 1fr);
         align-items: center;
-        gap: 22px;
-        padding: 14px 0;
-        border-top: 3px solid var(--memo-line);
-      }
-
-      .intake-row:last-child {
-        border-bottom: 3px solid var(--memo-line);
+        gap: 1.375em;
+        padding: 0.875em 0;
+        border-top: 0.1875em solid var(--memo-line);
       }
 
       .intake-row.is-current {
         background: var(--memo-soft);
-        box-shadow: inset 8px 0 0 var(--med-color, var(--memo-blue));
+        box-shadow: inset 0.5em 0 0 var(--med-color, var(--memo-blue));
       }
 
       .color-cell {
@@ -151,10 +153,10 @@
       }
 
       .med-color-swatch {
-        width: 18px;
-        min-height: 62px;
+        width: 1.125em;
+        min-height: 3.875em;
         display: block;
-        border: 3px solid var(--memo-line);
+        border: 0.1875em solid var(--memo-line);
         border-radius: 999px;
         background: var(--med-color, transparent);
       }
@@ -168,12 +170,12 @@
       .row-content {
         min-width: 0;
         display: grid;
-        gap: 3px;
+        gap: 0.1875em;
       }
 
       .time-line {
         min-width: 0;
-        font-size: 3.15rem;
+        font-size: 3.15em;
         line-height: 0.92;
         font-weight: 900;
         letter-spacing: 0;
@@ -182,16 +184,18 @@
 
       .med-name {
         min-width: 0;
-        font-size: 2.1rem;
+        font-size: 2.1em;
         line-height: 1;
         font-weight: 520;
         letter-spacing: 0;
-        overflow-wrap: anywhere;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
       }
 
       .med-detail {
         min-width: 0;
-        font-size: 0.95rem;
+        font-size: 0.95em;
         line-height: 1.15;
         font-weight: 720;
         text-transform: uppercase;
@@ -204,14 +208,14 @@
         min-height: 0;
         display: grid;
         place-items: center;
-        border-top: 3px solid var(--memo-line);
-        border-bottom: 3px solid var(--memo-line);
+        border-top: 0.1875em solid var(--memo-line);
+        border-bottom: 0.1875em solid var(--memo-line);
         text-align: center;
       }
 
       .empty-copy {
         max-width: 28ch;
-        font-size: 2rem;
+        font-size: 2em;
         line-height: 1.05;
         font-weight: 900;
       }
@@ -390,24 +394,28 @@
           padding: 20px 24px 18px;
         }
 
+        .schedule-fit {
+          gap: 0.75em;
+        }
+
         .intake-row {
-          min-height: 82px;
-          grid-template-columns: 22px minmax(0, 1fr);
-          gap: 18px;
-          padding: 10px 0;
+          min-height: 5.125em;
+          grid-template-columns: 1.375em minmax(0, 1fr);
+          gap: 1.125em;
+          padding: 0.625em 0;
         }
 
         .med-color-swatch {
-          width: 16px;
-          min-height: 54px;
+          width: 1em;
+          min-height: 3.375em;
         }
 
         .time-line {
-          font-size: 2.75rem;
+          font-size: 2.75em;
         }
 
         .med-name {
-          font-size: 1.7rem;
+          font-size: 1.7em;
         }
 
         .alert-view {
@@ -460,17 +468,17 @@
         }
 
         .intake-row {
-          min-height: 98px;
-          grid-template-columns: 24px minmax(0, 1fr);
-          gap: 22px;
+          min-height: 6.125em;
+          grid-template-columns: 1.5em minmax(0, 1fr);
+          gap: 1.375em;
         }
 
         .time-line {
-          font-size: 2.9rem;
+          font-size: 2.9em;
         }
 
         .med-name {
-          font-size: 1.95rem;
+          font-size: 1.95em;
         }
       }
 
@@ -496,42 +504,41 @@
         }
 
         .schedule-body {
-          gap: 8px;
           padding: 16px 20px;
         }
 
+        .schedule-fit {
+          gap: 0.5em;
+        }
+
         .section-title {
-          font-size: 0.85rem;
+          font-size: 0.85em;
         }
 
         .intake-row {
-          min-height: 72px;
-          grid-template-columns: 18px minmax(0, 1fr);
-          gap: 14px;
-          padding: 8px 0;
-          border-top-width: 2px;
-        }
-
-        .intake-row:last-child {
-          border-bottom-width: 2px;
+          min-height: 4.5em;
+          grid-template-columns: 1.125em minmax(0, 1fr);
+          gap: 0.875em;
+          padding: 0.5em 0;
+          border-top-width: 0.125em;
         }
 
         .med-color-swatch {
-          width: 14px;
-          min-height: 46px;
-          border-width: 2px;
+          width: 0.875em;
+          min-height: 2.875em;
+          border-width: 0.125em;
         }
 
         .time-line {
-          font-size: 2.25rem;
+          font-size: 2.25em;
         }
 
         .med-name {
-          font-size: 1.35rem;
+          font-size: 1.35em;
         }
 
         .med-detail {
-          font-size: 0.72rem;
+          font-size: 0.72em;
         }
 
         .alert-title {
@@ -557,7 +564,6 @@
           mergeSettings,
           applyColorTheme,
           escapeHtml,
-          fitText,
           markReady,
           markError,
         } = window.PaperlessOpenIntegration;
@@ -805,6 +811,29 @@
           return `${base}${medicationColor(entry) ? "" : " is-empty"}`;
         }
 
+        function scheduleBodyOverflows(body) {
+          return body.scrollWidth - body.clientWidth > 1 || body.scrollHeight - body.clientHeight > 1;
+        }
+
+        function fitScheduleBody() {
+          const body = document.querySelector(".schedule-body");
+          const content = body?.querySelector(".schedule-fit");
+          if (!body || !content) {
+            return;
+          }
+
+          const max = 16;
+          const min = 7;
+          const step = 0.25;
+          let size = max;
+          content.style.fontSize = `${size}px`;
+
+          while (size > min && scheduleBodyOverflows(body)) {
+            size = Math.max(min, size - step);
+            content.style.fontSize = `${size}px`;
+          }
+        }
+
         function bellIcon() {
           return `
             <svg viewBox="0 0 96 96" role="img" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="round" stroke-linejoin="round">
@@ -835,7 +864,7 @@
               <div class="color-cell"><span class="${swatchClass(entry, "med-color-swatch")}" aria-hidden="true"></span></div>
               <div class="row-content">
                 <div class="time-line">${escapeHtml(formatTime(date, settings))}</div>
-                <div class="med-name pp-fit">${escapeHtml(entry.medicationName || t("medication"))}</div>
+                <div class="med-name">${escapeHtml(entry.medicationName || t("medication"))}</div>
                 <div class="med-detail">${escapeHtml(uniqueParts([relativeDay(date, settings), detail]).join(" - "))}</div>
               </div>
             </li>
@@ -860,12 +889,14 @@
               </h1>
             </header>
             <section class="schedule-body">
-              <h2 class="section-title">${escapeHtml(t("nextTitle"))}</h2>
-              ${
-                rows
-                  ? `<ol class="intake-list">${rows}</ol>`
-                  : `<div class="empty-state"><p class="empty-copy">${escapeHtml(t("noEntries"))}</p></div>`
-              }
+              <div class="schedule-fit">
+                <h2 class="section-title">${escapeHtml(t("nextTitle"))}</h2>
+                ${
+                  rows
+                    ? `<ol class="intake-list">${rows}</ol>`
+                    : `<div class="empty-state"><p class="empty-copy">${escapeHtml(t("noEntries"))}</p></div>`
+                }
+              </div>
             </section>
           `;
         }
@@ -990,9 +1021,7 @@
           root.innerHTML = useAlert ? alertMarkup(data, settings) : scheduleMarkup(data, settings);
 
           await document.fonts?.ready;
-          document.querySelectorAll(".pp-fit").forEach((element) => {
-            fitText(element, { min: 14, step: 1, tolerance: 2, lineBreak: "balance", fitParent: true });
-          });
+          fitScheduleBody();
           markReady({
             source: data.source,
             entries: data.entries?.length || 0,
