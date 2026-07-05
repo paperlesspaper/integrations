@@ -1,0 +1,17 @@
+{
+  "loading": "Loading...",
+  "kicker": "Daily word",
+  "title": "Vocabulary",
+  "tagline": "Expand your vocabulary",
+  "wordOfTheDay": "Word of the day",
+  "definitionLabel": "Definition",
+  "syllables": "Syllables",
+  "rotation": "Rotation",
+  "related": "Related",
+  "promptPrefix": "Practice",
+  "sourcePrefix": "Source",
+  "wordCount": "{index} of {total}",
+  "noSyllables": "Unknown",
+  "errorTitle": "Vocabulary could not load",
+  "apiFailed": "API failed with {status}"
+}

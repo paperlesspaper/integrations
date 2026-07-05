@@ -1,0 +1,143 @@
+{
+  "name": "Vocabulary",
+  "version": "0.1.0",
+  "status": "alpha",
+  "description": "Expand your vocabulary with a new word daily.",
+  "renderPage": "./render.html",
+  "icon": "./assets/icon.png",
+  "nativeSettings": {
+    "color": "light",
+    "selection": "daily",
+    "customWord": "",
+    "offset": 0,
+    "seed": "",
+    "layout": "daily",
+    "showPronunciation": true,
+    "showExample": true,
+    "showRelated": true,
+    "showPrompt": true,
+    "showSource": true,
+    "dateFormat": "long"
+  },
+  "configVariants": [
+    {
+      "color": "light",
+      "selection": "daily",
+      "customWord": "",
+      "offset": 0,
+      "seed": "",
+      "layout": "daily",
+      "showPronunciation": true,
+      "showExample": true,
+      "showRelated": true,
+      "showPrompt": true,
+      "showSource": true,
+      "dateFormat": "long",
+      "screenshots": {
+        "800x480": "./screenshots/vocabulary-daily-800x480-landscape.png",
+        "480x800": "./screenshots/vocabulary-daily-480x800-portrait.png"
+      }
+    },
+    {
+      "color": "dark",
+      "selection": "daily",
+      "customWord": "",
+      "offset": 12,
+      "seed": "compact",
+      "layout": "compact",
+      "showPronunciation": true,
+      "showExample": false,
+      "showRelated": true,
+      "showPrompt": true,
+      "showSource": false,
+      "dateFormat": "short",
+      "screenshots": {
+        "800x480": "./screenshots/vocabulary-compact-800x480-landscape.png",
+        "480x800": "./screenshots/vocabulary-compact-480x800-portrait.png"
+      }
+    }
+  ],
+  "formSchema": {
+    "type": "object",
+    "properties": {
+      "selection": {
+        "type": "string",
+        "title": "Word selection",
+        "enum": [
+          "daily",
+          "random",
+          "custom"
+        ],
+        "default": "daily"
+      },
+      "customWord": {
+        "type": "string",
+        "title": "Custom word",
+        "default": ""
+      },
+      "offset": {
+        "type": "number",
+        "title": "Day offset",
+        "default": 0,
+        "minimum": -365,
+        "maximum": 365
+      },
+      "seed": {
+        "type": "string",
+        "title": "Rotation seed",
+        "default": ""
+      },
+      "layout": {
+        "type": "string",
+        "title": "Layout",
+        "enum": [
+          "daily",
+          "compact"
+        ],
+        "default": "daily"
+      },
+      "showPronunciation": {
+        "type": "boolean",
+        "title": "Show pronunciation",
+        "default": true
+      },
+      "showExample": {
+        "type": "boolean",
+        "title": "Show example",
+        "default": true
+      },
+      "showRelated": {
+        "type": "boolean",
+        "title": "Show related words",
+        "default": true
+      },
+      "showPrompt": {
+        "type": "boolean",
+        "title": "Show practice prompt",
+        "default": true
+      },
+      "showSource": {
+        "type": "boolean",
+        "title": "Show source",
+        "default": true
+      },
+      "dateFormat": {
+        "type": "string",
+        "title": "Date format",
+        "enum": [
+          "long",
+          "short",
+          "none"
+        ],
+        "default": "long"
+      }
+    }
+  },
+  "language": [
+    "en",
+    "de",
+    "fr",
+    "es",
+    "it"
+  ]
+}

@@ -479,6 +479,45 @@ const apps = [
     ],
   },
   {
+    slug: "vocabulary",
+    variants: [
+      {
+        id: "daily",
+        values: {
+          color: "light",
+          selection: "daily",
+          customWord: "",
+          offset: 0,
+          seed: "",
+          layout: "daily",
+          showPronunciation: true,
+          showExample: true,
+          showRelated: true,
+          showPrompt: true,
+          showSource: true,
+          dateFormat: "long",
+        },
+      },
+      {
+        id: "compact",
+        values: {
+          color: "dark",
+          selection: "daily",
+          customWord: "",
+          offset: 12,
+          seed: "compact",
+          layout: "compact",
+          showPronunciation: true,
+          showExample: false,
+          showRelated: true,
+          showPrompt: true,
+          showSource: false,
+          dateFormat: "short",
+        },
+      },
+    ],
+  },
+  {
     slug: "mastodon",
     variants: [
       {

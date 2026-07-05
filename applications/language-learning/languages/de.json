@@ -1,0 +1,13 @@
+{
+  "loading": "Wird geladen...",
+  "kicker": "Wort des Tages",
+  "translation": "Bedeutung",
+  "pronunciation": "Aussprache",
+  "example": "Beispiel",
+  "practice": "Heute ueben",
+  "memory": "Merktipp",
+  "source": "Taegliche Rotation",
+  "errorTitle": "Language Learning konnte nicht geladen werden",
+  "noExample": "Beispiel ausgeblendet",
+  "notAvailable": "Keine Angabe"
+}

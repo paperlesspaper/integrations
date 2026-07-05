@@ -1,0 +1,90 @@
+{
+  "name": "Language Learning",
+  "version": "0.1.0",
+  "status": "alpha",
+  "description": "Shows a deterministic foreign-language word of the day with pronunciation, translation, example, and a small practice prompt.",
+  "renderPage": "./render.html",
+  "icon": "./assets/icon.png",
+  "nativeSettings": {
+    "color": "light",
+    "targetLanguage": "French",
+    "translationLanguage": "en",
+    "showExample": true,
+    "showPractice": true,
+    "seed": ""
+  },
+  "configVariants": [
+    {
+      "color": "light",
+      "targetLanguage": "French",
+      "translationLanguage": "en",
+      "showExample": true,
+      "showPractice": true,
+      "seed": "bonjour"
+    },
+    {
+      "color": "blue-light",
+      "targetLanguage": "Japanese",
+      "translationLanguage": "de",
+      "showExample": true,
+      "showPractice": true,
+      "seed": "tokyo"
+    }
+  ],
+  "formSchema": {
+    "type": "object",
+    "properties": {
+      "targetLanguage": {
+        "type": "string",
+        "title": "Language",
+        "description": "What language do you want to learn?",
+        "enum": [
+          "Brazilian Portuguese",
+          "Danish",
+          "Dutch",
+          "English",
+          "French",
+          "German",
+          "Greek",
+          "Italian",
+          "Japanese",
+          "Korean",
+          "Spanish",
+          "Swedish",
+          "Turkish"
+        ],
+        "default": "French"
+      },
+      "translationLanguage": {
+        "type": "string",
+        "title": "Translation language",
+        "description": "Language used for translations and practice copy.",
+        "enum": [
+          "en",
+          "de"
+        ],
+        "default": "en"
+      },
+      "showExample": {
+        "type": "boolean",
+        "title": "Show example sentence",
+        "default": true
+      },
+      "showPractice": {
+        "type": "boolean",
+        "title": "Show practice prompt",
+        "default": true
+      },
+      "seed": {
+        "type": "string",
+        "title": "Rotation seed",
+        "description": "Optional text that creates a different daily rotation.",
+        "default": ""
+      }
+    }
+  },
+  "language": [
+    "en",
+    "de"
+  ]
+}

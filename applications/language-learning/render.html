@@ -1,0 +1,614 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="paperless:epd-optimize" content='{"intent":"readable"}' />
+    <title>Language Learning</title>
+    <link rel="stylesheet" href="/assets/paperless.css" />
+    <script src="/assets/paperless.iife.js"></script>
+    <style>
+      .language-screen {
+        padding: 18px;
+      }
+
+      .lesson-shell {
+        width: 100%;
+        height: 100%;
+        min-height: 0;
+        display: grid;
+        grid-template-rows: auto minmax(0, 1fr) minmax(104px, 0.38fr);
+        border: 3px solid var(--pp-border);
+        background: var(--pp-card);
+        overflow: hidden;
+      }
+
+      .lesson-shell.no-footer {
+        grid-template-rows: auto minmax(0, 1fr);
+      }
+
+      .lesson-header {
+        min-width: 0;
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        align-items: center;
+        gap: 18px;
+        padding: 18px 22px 16px;
+        border-bottom: 3px solid var(--pp-border);
+      }
+
+      .kicker,
+      .label,
+      .date-label,
+      .meta-pill {
+        margin: 0;
+        font-size: 0.78rem;
+        line-height: 1;
+        font-weight: 860;
+        text-transform: uppercase;
+      }
+
+      .kicker,
+      .label,
+      .date-label {
+        color: var(--pp-muted);
+      }
+
+      .language-name {
+        margin: 6px 0 0;
+        color: var(--pp-accent);
+        font-size: 2.25rem;
+        line-height: 0.92;
+        font-weight: 950;
+        letter-spacing: 0;
+        overflow-wrap: anywhere;
+      }
+
+      .date-box {
+        min-width: 110px;
+        display: grid;
+        gap: 5px;
+        justify-items: end;
+        padding-left: 18px;
+        border-left: 3px solid var(--pp-border);
+        text-align: right;
+      }
+
+      .date-value {
+        margin: 0;
+        font-size: 1.25rem;
+        line-height: 1;
+        font-weight: 930;
+        white-space: nowrap;
+      }
+
+      .lesson-main {
+        min-width: 0;
+        min-height: 0;
+        display: grid;
+        grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+        overflow: hidden;
+      }
+
+      .word-panel,
+      .meaning-panel {
+        min-width: 0;
+        min-height: 0;
+        display: grid;
+        overflow: hidden;
+      }
+
+      .word-panel {
+        grid-template-rows: auto minmax(0, 1fr) auto;
+        gap: 12px;
+        padding: 22px;
+        border-right: 3px solid var(--pp-border);
+        border-top: 12px solid var(--pp-accent);
+      }
+
+      .meaning-panel {
+        grid-template-rows: auto minmax(0, 1fr) minmax(0, 0.92fr);
+        gap: 12px;
+        padding: 22px 24px;
+      }
+
+      .meta-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        align-items: center;
+        min-height: 24px;
+      }
+
+      .meta-pill {
+        padding: 5px 8px 4px;
+        border: 2px solid var(--pp-border);
+      }
+
+      .meta-pill.level {
+        border-color: var(--pp-accent);
+        background: var(--pp-accent);
+        color: var(--pp-bg);
+      }
+
+      .word-wrap {
+        min-width: 0;
+        min-height: 0;
+        display: grid;
+        align-content: center;
+      }
+
+      .word {
+        margin: 0;
+        font-size: 6.3rem;
+        line-height: 0.88;
+        font-weight: 950;
+        letter-spacing: 0;
+        overflow: hidden;
+        overflow-wrap: anywhere;
+        text-wrap: balance;
+      }
+
+      .pronunciation {
+        margin: 0;
+        padding-top: 12px;
+        border-top: 3px solid var(--pp-border);
+        font-size: 1.25rem;
+        line-height: 1.08;
+        font-weight: 760;
+        overflow-wrap: anywhere;
+      }
+
+      .translation {
+        min-height: 0;
+        margin: 0;
+        align-self: center;
+        font-size: 3rem;
+        line-height: 1.02;
+        font-weight: 900;
+        overflow: hidden;
+        overflow-wrap: anywhere;
+        text-wrap: balance;
+      }
+
+      .note {
+        min-height: 0;
+        margin: 0;
+        padding-top: 12px;
+        border-top: 3px solid var(--pp-border);
+        font-size: 1.22rem;
+        line-height: 1.15;
+        font-weight: 720;
+        overflow: hidden;
+        overflow-wrap: anywhere;
+      }
+
+      .lesson-footer {
+        min-width: 0;
+        min-height: 0;
+        display: grid;
+        grid-template-columns: minmax(0, 1.22fr) minmax(0, 0.78fr);
+        border-top: 3px solid var(--pp-border);
+        overflow: hidden;
+      }
+
+      .lesson-footer.single {
+        grid-template-columns: 1fr;
+      }
+
+      .footer-panel {
+        min-width: 0;
+        min-height: 0;
+        display: grid;
+        grid-template-rows: auto minmax(0, 1fr);
+        gap: 8px;
+        padding: 14px 18px;
+        overflow: hidden;
+      }
+
+      .footer-panel + .footer-panel {
+        border-left: 3px solid var(--pp-border);
+      }
+
+      .footer-panel.practice {
+        border-left-color: var(--pp-accent);
+        border-left-width: 8px;
+      }
+
+      .example-text,
+      .practice-text {
+        min-height: 0;
+        margin: 0;
+        font-size: 1.24rem;
+        line-height: 1.1;
+        font-weight: 780;
+        overflow: hidden;
+        overflow-wrap: anywhere;
+      }
+
+      .example-translation {
+        display: block;
+        margin-top: 5px;
+        font-size: 0.82em;
+        font-weight: 660;
+      }
+
+      .is-hidden {
+        display: none;
+      }
+
+      @media (orientation: portrait), (max-width: 700px) {
+        .language-screen {
+          padding: 16px;
+        }
+
+        .lesson-shell {
+          grid-template-rows: auto minmax(0, 1fr) minmax(172px, auto);
+        }
+
+        .lesson-header {
+          grid-template-columns: 1fr;
+          align-items: start;
+          gap: 10px;
+          padding: 16px 18px 14px;
+        }
+
+        .language-name {
+          font-size: 2rem;
+        }
+
+        .date-box {
+          width: 100%;
+          min-width: 0;
+          grid-template-columns: auto 1fr;
+          justify-items: start;
+          align-items: center;
+          gap: 10px;
+          padding: 10px 0 0;
+          border-left: 0;
+          border-top: 3px solid var(--pp-border);
+          text-align: left;
+        }
+
+        .lesson-main {
+          grid-template-columns: 1fr;
+          grid-template-rows: minmax(0, 0.93fr) minmax(0, 1.07fr);
+        }
+
+        .word-panel {
+          gap: 9px;
+          padding: 18px;
+          border-right: 0;
+          border-bottom: 3px solid var(--pp-border);
+          border-top-width: 10px;
+        }
+
+        .meaning-panel {
+          gap: 9px;
+          padding: 18px;
+        }
+
+        .word {
+          font-size: 5.1rem;
+        }
+
+        .translation {
+          font-size: 2.45rem;
+        }
+
+        .note {
+          font-size: 1.02rem;
+        }
+
+        .lesson-footer {
+          grid-template-columns: 1fr;
+          grid-template-rows: repeat(2, minmax(0, 1fr));
+        }
+
+        .lesson-footer.single {
+          grid-template-rows: 1fr;
+        }
+
+        .footer-panel {
+          padding: 12px 16px;
+        }
+
+        .footer-panel + .footer-panel {
+          border-left: 0;
+          border-top: 3px solid var(--pp-border);
+        }
+
+        .footer-panel.practice {
+          border-left: 0;
+          border-top: 8px solid var(--pp-accent);
+        }
+
+        .example-text,
+        .practice-text {
+          font-size: 1.05rem;
+        }
+      }
+
+      @media (max-height: 560px) and (orientation: landscape) {
+        .language-screen {
+          padding: 14px;
+        }
+
+        .lesson-shell {
+          grid-template-rows: auto minmax(0, 1fr) minmax(96px, 0.36fr);
+        }
+
+        .lesson-header {
+          padding: 13px 18px 12px;
+        }
+
+        .language-name {
+          font-size: 1.75rem;
+          margin-top: 4px;
+        }
+
+        .word-panel,
+        .meaning-panel {
+          padding: 16px 18px;
+          gap: 9px;
+        }
+
+        .word {
+          font-size: 4.65rem;
+        }
+
+        .pronunciation {
+          padding-top: 9px;
+          font-size: 1.02rem;
+        }
+
+        .translation {
+          font-size: 3.2rem;
+        }
+
+        .note {
+          padding-top: 9px;
+          font-size: 0.98rem;
+        }
+
+        .footer-panel {
+          padding: 11px 15px;
+          gap: 6px;
+        }
+
+        .example-text,
+        .practice-text {
+          font-size: 0.94rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="website-has-loading-element"></div>
+    <main class="pp-screen language-screen">
+      <article class="lesson-shell" id="shell">
+        <header class="lesson-header">
+          <div>
+            <p class="kicker" data-i18n="kicker">Word of the day</p>
+            <h1 class="language-name" id="language-name">Language Learning</h1>
+          </div>
+          <aside class="date-box">
+            <p class="date-label" data-i18n="source">Daily rotation</p>
+            <p class="date-value" id="date-value">----</p>
+          </aside>
+        </header>
+
+        <section class="lesson-main">
+          <section class="word-panel">
+            <div class="meta-row">
+              <span class="meta-pill level" id="level">A1</span>
+              <span class="meta-pill" id="part-of-speech">noun</span>
+              <span class="meta-pill" id="theme">daily</span>
+            </div>
+
+            <div class="word-wrap">
+              <h2 class="word pp-fit" id="word" dir="auto" data-i18n="loading">Loading...</h2>
+            </div>
+
+            <p class="pronunciation" id="pronunciation"></p>
+          </section>
+
+          <section class="meaning-panel">
+            <p class="label" data-i18n="translation">Meaning</p>
+            <p class="translation pp-fit" id="translation"></p>
+            <p class="note pp-fit" id="note"></p>
+          </section>
+        </section>
+
+        <footer class="lesson-footer" id="footer">
+          <section class="footer-panel" id="example-panel">
+            <p class="label" data-i18n="example">Example</p>
+            <p class="example-text pp-fit" id="example" dir="auto"></p>
+          </section>
+
+          <section class="footer-panel practice" id="practice-panel">
+            <p class="label" data-i18n="practice">Try it today</p>
+            <p class="practice-text pp-fit" id="practice"></p>
+          </section>
+        </footer>
+      </article>
+    </main>
+
+    <script>
+      (async function render() {
+        const {
+          waitForPayload,
+          getSettings,
+          getQuerySettings,
+          mergeSettings,
+          escapeHtml,
+          fitAllText,
+          fitHyphenatedText,
+          fitToScreen,
+          markReady,
+          markError,
+          applyColorTheme,
+          loadLanguageJson,
+        } = window.PaperlessOpenIntegration;
+
+        const defaultMessages = {
+          loading: "Loading...",
+          kicker: "Word of the day",
+          translation: "Meaning",
+          pronunciation: "Pronunciation",
+          example: "Example",
+          practice: "Try it today",
+          memory: "Memory hook",
+          source: "Daily rotation",
+          errorTitle: "Language Learning could not load",
+          noExample: "Example hidden",
+          notAvailable: "N/A",
+        };
+        let messages = defaultMessages;
+        let currentLanguage = "en";
+
+        function t(key, values = {}) {
+          const template =
+            typeof messages[key] === "string"
+              ? messages[key]
+              : defaultMessages[key] || key;
+          return template.replace(/\{(\w+)\}/g, (_match, name) => values[name] ?? "");
+        }
+
+        function applyStaticMessages(root = document) {
+          root.querySelectorAll("[data-i18n]").forEach((element) => {
+            element.textContent = t(element.dataset.i18n);
+          });
+        }
+
+        async function loadMessages(payload) {
+          let result;
+          if (typeof loadLanguageJson === "function") {
+            result = await loadLanguageJson(payload);
+          } else {
+            const requested = String(payload?.meta?.language || "en").trim();
+            const requestedBase = requested.split("-")[0].toLowerCase();
+            const language = ["en", "de"].includes(requestedBase) ? requestedBase : "en";
+            const response = await fetch(`./languages/${language}.json`, { cache: "no-store" });
+            if (!response.ok) {
+              throw new Error(`Could not load language JSON for ${language}: ${response.status}`);
+            }
+            result = { language, messages: await response.json() };
+          }
+
+          messages = { ...defaultMessages, ...result.messages };
+          currentLanguage = result.language || "en";
+          document.documentElement.lang = currentLanguage;
+          applyStaticMessages();
+        }
+
+        function formatDate(dayKey) {
+          const date = new Date(`${dayKey}T00:00:00Z`);
+          return date.toLocaleDateString(currentLanguage || undefined, {
+            day: "2-digit",
+            month: "short",
+            timeZone: "UTC",
+          });
+        }
+
+        function renderFooter(settings, data) {
+          const footer = document.getElementById("footer");
+          const shell = document.getElementById("shell");
+          const examplePanel = document.getElementById("example-panel");
+          const practicePanel = document.getElementById("practice-panel");
+
+          if (!settings.showExample) {
+            examplePanel.remove();
+          } else {
+            document.getElementById("example").innerHTML = `${escapeHtml(data.example)}<span class="example-translation">${escapeHtml(data.exampleTranslation)}</span>`;
+          }
+
+          if (!settings.showPractice) {
+            practicePanel.remove();
+          } else {
+            document.getElementById("practice").innerHTML = escapeHtml(data.practice);
+          }
+
+          const panels = footer.querySelectorAll(".footer-panel");
+          if (panels.length === 0) {
+            footer.remove();
+            shell.classList.add("no-footer");
+          } else if (panels.length === 1) {
+            footer.classList.add("single");
+          }
+        }
+
+        try {
+          const defaults = {
+            color: "light",
+            targetLanguage: "French",
+            translationLanguage: "en",
+            showExample: true,
+            showPractice: true,
+            seed: "",
+          };
+          const payload = await waitForPayload({ timeout: 300 });
+          await loadMessages(payload);
+          const settings = mergeSettings(defaults, getSettings(payload), getQuerySettings());
+          if (typeof applyColorTheme === "function") {
+            applyColorTheme(settings.color, { defaultTheme: defaults.color });
+          }
+
+          const params = new URLSearchParams({
+            targetLanguage: settings.targetLanguage,
+            translationLanguage: settings.translationLanguage,
+            seed: settings.seed,
+          });
+          const response = await fetch(`./api/data?${params.toString()}`, { cache: "no-store" });
+          if (!response.ok) {
+            throw new Error(`Language Learning API failed with ${response.status}`);
+          }
+
+          const data = await response.json();
+          document.getElementById("language-name").textContent =
+            `${data.targetLanguage} / ${data.targetLanguageNativeName}`;
+          document.getElementById("date-value").textContent = formatDate(data.dayKey);
+          document.getElementById("level").textContent = data.level || t("notAvailable");
+          document.getElementById("part-of-speech").textContent = data.partOfSpeech || t("notAvailable");
+          document.getElementById("theme").textContent = data.theme || "";
+
+          const word = document.getElementById("word");
+          word.textContent = data.word;
+          word.lang = data.targetLanguageCode;
+
+          const pronunciation = document.getElementById("pronunciation");
+          pronunciation.innerHTML = `<span class="label">${escapeHtml(t("pronunciation"))}</span> ${escapeHtml(data.pronunciation || t("notAvailable"))}`;
+          document.getElementById("translation").textContent = data.translation;
+          document.getElementById("note").innerHTML = `<span class="label">${escapeHtml(t("memory"))}</span> ${escapeHtml(data.note)}`;
+          renderFooter(settings, data);
+
+          fitHyphenatedText(word, {
+            min: 30,
+            max: 126,
+            step: 2,
+            tolerance: 8,
+            lineBreak: "balance",
+            fitParent: document.querySelector(".word-wrap"),
+          });
+          fitHyphenatedText(document.getElementById("translation"), {
+            min: 18,
+            step: 2,
+            tolerance: 8,
+            lineBreak: "balance",
+          });
+          fitAllText(".note.pp-fit, .example-text.pp-fit, .practice-text.pp-fit", {
+            min: 11,
+            step: 1,
+            tolerance: 4,
+            lineBreak: true,
+          });
+          fitToScreen();
+          markReady({ word: data.word, language: data.targetLanguageCode });
+        } catch (error) {
+          markError(error);
+          document.body.innerHTML = `<main class="pp-screen"><h1 class="pp-title pp-error">${escapeHtml(t("errorTitle"))}</h1><p>${escapeHtml(error.message)}</p></main>`;
+        }
+      })();
+    </script>
+  </body>
+</html>

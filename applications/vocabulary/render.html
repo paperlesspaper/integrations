@@ -1,0 +1,682 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="paperless:epd-optimize" content='{"intent":"readable"}' />
+    <title>Vocabulary</title>
+    <link rel="stylesheet" href="/assets/paperless.css" />
+    <script src="/assets/paperless.iife.js"></script>
+    <style>
+      .vocabulary-screen {
+        --vocab-yellow: #ffe45c;
+        --vocab-red: #d9342b;
+        --vocab-soft: color-mix(in srgb, var(--pp-accent) 12%, var(--pp-bg));
+        background: var(--pp-bg);
+        color: var(--pp-fg);
+        gap: 14px;
+        padding: 22px;
+      }
+
+      .vocab-header {
+        align-items: end;
+        border-bottom: 4px solid var(--pp-border);
+        display: grid;
+        gap: 16px;
+        grid-template-columns: minmax(0, 1fr) auto;
+        padding-bottom: 10px;
+      }
+
+      .brand {
+        align-items: end;
+        display: flex;
+        gap: 14px;
+        min-width: 0;
+      }
+
+      .mark {
+        align-items: center;
+        background: var(--vocab-yellow);
+        border: 3px solid var(--pp-border);
+        color: #111;
+        display: flex;
+        flex: 0 0 auto;
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: 2rem;
+        font-weight: 900;
+        height: 58px;
+        justify-content: center;
+        line-height: 1;
+        width: 72px;
+      }
+
+      .kicker,
+      .date-label,
+      .section-label,
+      .source {
+        color: var(--pp-muted);
+        font-size: 0.74rem;
+        font-weight: 850;
+        letter-spacing: 0;
+        line-height: 1;
+        margin: 0;
+        text-transform: uppercase;
+      }
+
+      .title {
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: 2.7rem;
+        font-weight: 900;
+        line-height: 0.95;
+        margin: 2px 0 0;
+      }
+
+      .date-block {
+        text-align: right;
+      }
+
+      .date-value {
+        font-size: 1rem;
+        font-weight: 850;
+        line-height: 1.08;
+        margin: 5px 0 0;
+        white-space: nowrap;
+      }
+
+      .vocab-layout {
+        display: grid;
+        flex: 1;
+        gap: 14px;
+        grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr);
+        min-height: 0;
+      }
+
+      .word-panel,
+      .definition-panel {
+        border: 3px solid var(--pp-border);
+        min-height: 0;
+        overflow: hidden;
+      }
+
+      .word-panel {
+        display: grid;
+        gap: 12px;
+        grid-template-rows: minmax(0, 1fr) auto;
+        padding: 16px;
+      }
+
+      .word-core {
+        align-content: center;
+        display: grid;
+        gap: 10px;
+        min-height: 0;
+      }
+
+      .word {
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: 4.7rem;
+        font-weight: 900;
+        line-height: 0.92;
+        margin: 0;
+        overflow-wrap: anywhere;
+      }
+
+      .pronunciation {
+        color: var(--pp-muted);
+        font-size: 1.25rem;
+        font-weight: 800;
+        line-height: 1.05;
+        margin: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .part {
+        align-self: start;
+        background: var(--vocab-red);
+        color: #fff;
+        display: inline-flex;
+        font-size: 0.9rem;
+        font-weight: 900;
+        justify-self: start;
+        line-height: 1;
+        padding: 7px 9px;
+        text-transform: uppercase;
+      }
+
+      .stats {
+        border-top: 2px solid var(--pp-border);
+        display: grid;
+        gap: 8px;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        padding-top: 10px;
+      }
+
+      .stat {
+        min-width: 0;
+      }
+
+      .stat-label {
+        color: var(--pp-muted);
+        font-size: 0.65rem;
+        font-weight: 850;
+        line-height: 1;
+        margin: 0 0 4px;
+        text-transform: uppercase;
+      }
+
+      .stat-value {
+        font-size: 0.92rem;
+        font-weight: 850;
+        line-height: 1.05;
+        margin: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .definition-panel {
+        display: grid;
+        gap: 12px;
+        grid-template-rows: auto minmax(0, 1fr) auto;
+        padding: 16px;
+      }
+
+      .definition {
+        align-self: center;
+        display: -webkit-box;
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: 2.15rem;
+        font-weight: 900;
+        line-height: 1.02;
+        margin: 0;
+        min-height: 0;
+        overflow: hidden;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 5;
+      }
+
+      .example {
+        border-left: 8px solid var(--vocab-yellow);
+        display: -webkit-box;
+        font-size: 1.15rem;
+        font-weight: 720;
+        line-height: 1.15;
+        margin: 0;
+        max-height: 4.8em;
+        overflow: hidden;
+        padding-left: 12px;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 4;
+      }
+
+      .related {
+        align-items: center;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 7px;
+        min-height: 0;
+      }
+
+      .pill {
+        border: 2px solid var(--pp-border);
+        font-size: 0.78rem;
+        font-weight: 850;
+        line-height: 1;
+        max-width: 100%;
+        overflow: hidden;
+        padding: 5px 7px;
+        text-overflow: ellipsis;
+        text-transform: uppercase;
+        white-space: nowrap;
+      }
+
+      .pill.primary {
+        background: var(--vocab-yellow);
+        color: #111;
+      }
+
+      .footer {
+        align-items: center;
+        border-top: 2px solid var(--pp-border);
+        display: flex;
+        gap: 12px;
+        justify-content: space-between;
+        min-height: 32px;
+        padding-top: 8px;
+      }
+
+      .prompt {
+        font-size: 0.88rem;
+        font-weight: 850;
+        line-height: 1.1;
+        margin: 0;
+        min-width: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .source {
+        flex: 0 0 auto;
+      }
+
+      .layout-compact .vocab-layout {
+        grid-template-columns: minmax(0, 1fr) minmax(0, 0.92fr);
+      }
+
+      .layout-compact .word {
+        font-size: 4.45rem;
+      }
+
+      .layout-compact .definition {
+        font-size: 1.85rem;
+        -webkit-line-clamp: 6;
+      }
+
+      .layout-compact .example {
+        display: none;
+      }
+
+      .is-hidden {
+        display: none;
+      }
+
+      @media (orientation: portrait) {
+        .vocabulary-screen {
+          gap: 13px;
+          padding: 20px;
+        }
+
+        .vocab-header {
+          align-items: start;
+          grid-template-columns: 1fr;
+          gap: 10px;
+        }
+
+        .date-block {
+          text-align: left;
+        }
+
+        .date-value {
+          white-space: normal;
+        }
+
+        .vocab-layout,
+        .layout-compact .vocab-layout {
+          grid-template-columns: 1fr;
+          grid-template-rows: minmax(0, 0.86fr) minmax(0, 1fr);
+        }
+
+        .word {
+          font-size: 3.85rem;
+        }
+
+        .definition {
+          font-size: 1.85rem;
+          -webkit-line-clamp: 5;
+        }
+
+        .example {
+          font-size: 1rem;
+          -webkit-line-clamp: 3;
+        }
+
+        .footer {
+          align-items: start;
+          flex-direction: column;
+          gap: 6px;
+        }
+
+        .prompt {
+          white-space: normal;
+        }
+      }
+
+      @media (max-width: 700px), (max-height: 560px) {
+        .vocabulary-screen {
+          gap: 10px;
+          padding: 16px;
+        }
+
+        .mark {
+          font-size: 1.55rem;
+          height: 46px;
+          width: 58px;
+        }
+
+        .title {
+          font-size: 2rem;
+        }
+
+        .kicker,
+        .date-label,
+        .section-label,
+        .source {
+          font-size: 0.64rem;
+        }
+
+        .word-panel,
+        .definition-panel {
+          padding: 12px;
+        }
+
+        .word {
+          font-size: 3.05rem;
+        }
+
+        .pronunciation {
+          font-size: 0.98rem;
+        }
+
+        .part {
+          font-size: 0.72rem;
+          padding: 5px 7px;
+        }
+
+        .definition {
+          font-size: 1.52rem;
+        }
+
+        .example {
+          font-size: 0.9rem;
+        }
+
+        .pill {
+          font-size: 0.64rem;
+          padding: 4px 6px;
+        }
+
+        .prompt {
+          font-size: 0.72rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="website-has-loading-element"></div>
+    <main class="pp-screen vocabulary-screen" id="app">
+      <header class="vocab-header">
+        <div class="brand">
+          <div class="mark">Aa</div>
+          <div>
+            <p class="kicker" data-i18n="kicker">Daily word</p>
+            <h1 class="title pp-fit" data-i18n="title">Vocabulary</h1>
+          </div>
+        </div>
+        <div class="date-block" id="date-block">
+          <p class="date-label" data-i18n="tagline">Expand your vocabulary</p>
+          <p class="date-value" id="date-value"></p>
+        </div>
+      </header>
+
+      <section class="vocab-layout">
+        <article class="word-panel">
+          <div class="word-core">
+            <p class="section-label" data-i18n="wordOfTheDay">Word of the day</p>
+            <h2 class="word pp-fit" id="word">...</h2>
+            <p class="pronunciation" id="pronunciation"></p>
+            <span class="part" id="part"></span>
+          </div>
+          <div class="stats">
+            <div class="stat" id="syllable-stat">
+              <p class="stat-label" data-i18n="syllables">Syllables</p>
+              <p class="stat-value" id="syllables"></p>
+            </div>
+            <div class="stat">
+              <p class="stat-label" data-i18n="rotation">Rotation</p>
+              <p class="stat-value" id="rotation"></p>
+            </div>
+          </div>
+        </article>
+
+        <article class="definition-panel">
+          <p class="section-label" data-i18n="definitionLabel">Definition</p>
+          <p class="definition pp-fit" id="definition"></p>
+          <p class="example" id="example"></p>
+          <div class="related" id="related"></div>
+        </article>
+      </section>
+
+      <footer class="footer">
+        <p class="prompt" id="prompt"></p>
+        <p class="source" id="source"></p>
+      </footer>
+    </main>
+
+    <script>
+      (async function render() {
+        const {
+          waitForPayload,
+          getSettings,
+          getQuerySettings,
+          mergeSettings,
+          applyColorTheme,
+          escapeHtml,
+          fitText,
+          fitToScreen,
+          markReady,
+          markError,
+        } = window.PaperlessOpenIntegration;
+
+        const defaultMessages = {
+          "loading": "Loading...",
+          "kicker": "Daily word",
+          "title": "Vocabulary",
+          "tagline": "Expand your vocabulary",
+          "wordOfTheDay": "Word of the day",
+          "definitionLabel": "Definition",
+          "syllables": "Syllables",
+          "rotation": "Rotation",
+          "related": "Related",
+          "promptPrefix": "Practice",
+          "sourcePrefix": "Source",
+          "wordCount": "{index} of {total}",
+          "noSyllables": "Unknown",
+          "errorTitle": "Vocabulary could not load",
+          "apiFailed": "API failed with {status}"
+        };
+        let messages = defaultMessages;
+        let currentLanguage = "en";
+
+        function t(key, values = {}) {
+          const template =
+            typeof messages[key] === "string"
+              ? messages[key]
+              : defaultMessages[key] || key;
+          return template.replace(/\{(\w+)\}/g, (_match, name) =>
+            values[name] ?? "",
+          );
+        }
+
+        function applyStaticMessages(root = document) {
+          root.querySelectorAll("[data-i18n]").forEach((element) => {
+            element.textContent = t(element.dataset.i18n);
+          });
+        }
+
+        async function loadMessages(payload) {
+          const loader = window.PaperlessOpenIntegration.loadLanguageJson;
+          let result;
+
+          if (typeof loader === "function") {
+            result = await loader(payload);
+          } else {
+            const requested = String(payload?.meta?.language || "en").trim();
+            const requestedBase = requested.split("-")[0].toLowerCase();
+            const supported = ["en", "de", "fr", "es", "it"];
+            const language = supported.includes(requested)
+              ? requested
+              : supported.includes(requestedBase)
+                ? requestedBase
+                : "en";
+            const response = await fetch(`./languages/${language}.json`, {
+              cache: "no-store",
+            });
+
+            if (!response.ok) {
+              throw new Error(
+                `Could not load language JSON for ${language}: ${response.status}`,
+              );
+            }
+
+            result = {
+              language,
+              messages: await response.json(),
+            };
+          }
+
+          messages = { ...defaultMessages, ...result.messages };
+          currentLanguage = result.language || "en";
+          document.documentElement.lang = currentLanguage;
+          applyStaticMessages();
+        }
+
+        const defaults = {
+          color: "light",
+          selection: "daily",
+          customWord: "",
+          offset: 0,
+          seed: "",
+          layout: "daily",
+          showPronunciation: true,
+          showExample: true,
+          showRelated: true,
+          showPrompt: true,
+          showSource: true,
+          dateFormat: "long",
+        };
+
+        function bool(value) {
+          return value === true || value === "true" || value === "1" || value === 1;
+        }
+
+        function formatDate(value, style) {
+          if (style === "none") return "";
+          const date = new Date(`${value}T12:00:00Z`);
+          if (Number.isNaN(date.getTime())) return "";
+          return date.toLocaleDateString(currentLanguage || undefined, {
+            weekday: style === "long" ? "long" : undefined,
+            month: style === "long" ? "long" : "short",
+            day: "numeric",
+            year: style === "long" ? "numeric" : undefined,
+          });
+        }
+
+        function sourceHost(url) {
+          try {
+            return new URL(url).hostname.replace(/^www\./, "");
+          } catch {
+            return "";
+          }
+        }
+
+        function fitDynamicText() {
+          const portrait = window.matchMedia("(orientation: portrait)").matches;
+          fitText(document.getElementById("word"), {
+            min: 28,
+            max: portrait ? 62 : 70,
+            step: 1,
+            tolerance: 3,
+            lineBreak: "balance",
+            fitParent: true,
+          });
+          fitText(document.getElementById("definition"), {
+            min: 16,
+            max: portrait ? 31 : 36,
+            step: 1,
+            tolerance: 4,
+            lineBreak: "balance",
+            fitParent: true,
+          });
+        }
+
+        try {
+          const payload = await waitForPayload({ timeout: 300 });
+          await loadMessages(payload);
+          const settings = mergeSettings(
+            defaults,
+            getSettings(payload),
+            getQuerySettings(),
+          );
+          applyColorTheme(settings.color, { defaultTheme: defaults.color });
+          document.getElementById("app").classList.toggle(
+            "layout-compact",
+            settings.layout === "compact",
+          );
+
+          const params = new URLSearchParams({
+            selection: settings.selection,
+            customWord: settings.customWord,
+            offset: settings.offset,
+            seed: settings.seed,
+          });
+          const response = await fetch(`./api/data?${params.toString()}`, {
+            cache: "no-store",
+          });
+
+          if (!response.ok) {
+            throw new Error(t("apiFailed", { status: response.status }));
+          }
+
+          const data = await response.json();
+          document.getElementById("word").textContent = data.word || "";
+          document.getElementById("definition").textContent = data.definition || "";
+          document.getElementById("part").textContent = data.partOfSpeech || "";
+          document.getElementById("pronunciation").textContent = data.pronunciation || "";
+          document.getElementById("syllables").textContent =
+            data.syllables || t("noSyllables");
+          document.getElementById("rotation").textContent =
+            data.index >= 0
+              ? t("wordCount", { index: data.index + 1, total: data.totalWords })
+              : "Custom";
+
+          const dateValue = formatDate(data.date, settings.dateFormat);
+          document.getElementById("date-value").textContent = dateValue;
+          document.getElementById("date-block").classList.toggle("is-hidden", !dateValue);
+
+          const example = document.getElementById("example");
+          example.textContent = data.example ? `"${data.example}"` : "";
+          example.classList.toggle("is-hidden", !bool(settings.showExample) || !data.example);
+
+          const related = document.getElementById("related");
+          const relatedWords = Array.isArray(data.related) ? data.related.slice(0, 5) : [];
+          related.innerHTML = [
+            `<span class="pill primary">${escapeHtml(t("related"))}</span>`,
+            ...relatedWords.map((word) => `<span class="pill">${escapeHtml(word)}</span>`),
+          ].join("");
+          related.classList.toggle("is-hidden", !bool(settings.showRelated) || !relatedWords.length);
+
+          document
+            .getElementById("pronunciation")
+            .classList.toggle("is-hidden", !bool(settings.showPronunciation) || !data.pronunciation);
+
+          document.getElementById("prompt").textContent = data.prompt
+            ? `${t("promptPrefix")}: ${data.prompt}`
+            : "";
+          document
+            .getElementById("prompt")
+            .classList.toggle("is-hidden", !bool(settings.showPrompt) || !data.prompt);
+
+          const source = document.getElementById("source");
+          const host = sourceHost(data.sourceUrl);
+          source.textContent = host
+            ? `${t("sourcePrefix")}: ${host}`
+            : data.sourceName
+              ? `${t("sourcePrefix")}: ${data.sourceName}`
+              : "";
+          source.classList.toggle("is-hidden", !bool(settings.showSource) || !source.textContent);
+
+          await document.fonts?.ready;
+          fitDynamicText();
+          fitToScreen();
+          markReady({ word: data.word, source: data.sourceName });
+        } catch (error) {
+          document.body.innerHTML = `<main class="pp-screen"><h1 class="pp-title pp-error">${escapeHtml(t("errorTitle"))}</h1><p>${escapeHtml(error.message)}</p></main>`;
+          markError(error);
+        }
+      })();
+    </script>
+  </body>
+</html>
