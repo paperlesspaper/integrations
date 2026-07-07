@@ -3,5 +3,7 @@
   "loading": "লোড হচ্ছে...",
   "fallback": "অফলাইন পদ",
   "source": "উৎস",
-  "errorTitle": "পদ লোড করা যায়নি"
+  "errorTitle": "পদ লোড করা যায়নি",
+  "qrAlt": "উৎস পদটির জন্য QR কোড",
+  "apiFailed": "API ব্যর্থ হয়েছে, স্থিতি {status}"
 }

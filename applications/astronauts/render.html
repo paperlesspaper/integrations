@@ -681,7 +681,7 @@
           });
 
           if (!response.ok) {
-            throw new Error(`Astronauts API failed with ${response.status}`);
+            throw new Error(t("apiFailed", { status: response.status }));
           }
 
           const data = await response.json();

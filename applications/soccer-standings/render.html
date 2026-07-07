@@ -438,13 +438,30 @@
           noFocus: 'No focus team',
           markdownTitle: 'Note',
           errorTitle: 'Soccer standings could not load',
+          apiFailed: 'API failed with {status}',
+          defaultHeadline: 'League table',
+          team: 'Team',
+          wins: 'W',
+          draws: 'D',
+          losses: 'L',
+          matchday: 'Matchday {value}',
+          teams: 'Teams',
+          areaGermany: 'Germany',
+          areaEngland: 'England',
+          areaSpain: 'Spain',
+          areaItaly: 'Italy',
+          areaFrance: 'France',
+          areaNetherlands: 'Netherlands',
+          areaPortugal: 'Portugal',
+          areaEurope: 'Europe',
         };
 
         let messages = defaultMessages;
         let currentLanguage = 'en';
 
-        function t(key) {
-          return typeof messages[key] === 'string' ? messages[key] : defaultMessages[key] || key;
+        function t(key, values = {}) {
+          const template = typeof messages[key] === 'string' ? messages[key] : defaultMessages[key] || key;
+          return String(template).replace(/\{(\w+)\}/g, (_match, name) => values[name] ?? '');
         }
 
         async function loadMessages(payload) {
@@ -477,6 +494,17 @@
 
         function text(value) {
           return escapeHtml(value == null ? '' : String(value));
+        }
+
+        function formatMessage(key, values = {}) {
+          return t(key).replace(/\{(\w+)\}/g, (_match, name) => values[name] ?? '');
+        }
+
+        function localizeArea(value) {
+          const raw = String(value || '');
+          const key = `area${raw.replace(/[^A-Za-z0-9]/g, '')}`;
+          const localized = t(key);
+          return localized === key ? raw : localized;
         }
 
         function safeUrl(value) {
@@ -609,11 +637,11 @@
             <div class="soccer-row is-head">
               <p class="soccer-cell soccer-number">#</p>
               <span></span>
-              <p class="soccer-cell">Team</p>
+              <p class="soccer-cell">${text(t('team'))}</p>
               <p class="soccer-cell soccer-number">${text(t('played'))}</p>
-              <p class="soccer-cell soccer-number optional-column">W</p>
-              <p class="soccer-cell soccer-number optional-column">D</p>
-              <p class="soccer-cell soccer-number optional-column">L</p>
+              <p class="soccer-cell soccer-number optional-column">${text(t('wins'))}</p>
+              <p class="soccer-cell soccer-number optional-column">${text(t('draws'))}</p>
+              <p class="soccer-cell soccer-number optional-column">${text(t('losses'))}</p>
               <p class="soccer-cell soccer-number">${text(t('goalDifference'))}</p>
               <p class="soccer-cell soccer-number">${text(t('points'))}</p>
             </div>
@@ -665,7 +693,7 @@
 
           const response = await fetch(apiUrl(settings), { cache: 'no-store' });
           if (!response.ok) {
-            throw new Error(`API failed with ${response.status}`);
+            throw new Error(t('apiFailed', { status: response.status }));
           }
 
           const data = await response.json();
@@ -676,15 +704,21 @@
           const warnings = [data.warning, data.remoteMarkdownWarning].filter(Boolean);
           const subtitleParts = [
             data.competition?.name,
-            data.competition?.area,
-            data.season?.currentMatchday ? `Matchday ${data.season.currentMatchday}` : '',
+            localizeArea(data.competition?.area),
+            data.season?.currentMatchday
+              ? formatMessage('matchday', { value: data.season.currentMatchday })
+              : '',
           ].filter(Boolean);
+          const headline =
+            settings.headline && settings.headline !== defaults.headline
+              ? settings.headline
+              : data.competition?.name || t('defaultHeadline');
 
           app.classList.toggle('is-compact', settings.compact);
           app.innerHTML = `
             <section class="soccer-topbar">
               <div>
-                <h1 class="soccer-title pp-fit">${text(settings.headline || data.competition?.name || 'Soccer')}</h1>
+                <h1 class="soccer-title pp-fit">${text(headline)}</h1>
                 <p class="soccer-subtitle">${text(subtitleParts.join(' / '))}</p>
               </div>
               <div class="soccer-meta-stack">
@@ -697,7 +731,7 @@
             <section class="soccer-layout">
               <section class="soccer-table-wrap">
                 <div class="soccer-table-headline">
-                  <p class="soccer-focus">${text(data.table.length)} / ${text(data.fullTableSize || data.table.length)} Teams</p>
+                  <p class="soccer-focus">${text(data.table.length)} / ${text(data.fullTableSize || data.table.length)} ${text(t('teams'))}</p>
                   <p class="soccer-source">${text(data.competition?.code || settings.competition)}</p>
                 </div>
                 <div class="soccer-table">

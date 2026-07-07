@@ -6,5 +6,6 @@
   "apiFailed": "Immich request failed with {status}",
   "title": "Immich Photos",
   "fallbackCaption": "Immich photo",
-  "imageFailed": "Resolved Immich image could not be loaded."
+  "imageFailed": "Resolved Immich image could not be loaded.",
+  "photoDetailsLabel": "Photo details"
 }

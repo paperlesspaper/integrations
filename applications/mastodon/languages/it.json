@@ -10,5 +10,6 @@
   "tag": "tag {host}",
   "boostedBy": "Boostato da @{acct}",
   "noPosts": "Nessun post",
-  "noPostsHint": "Nessun contenuto corrisponde a questo feed."
+  "noPostsHint": "Nessun contenuto corrisponde a questo feed.",
+  "qrAlt": "Codice QR del post"
 }

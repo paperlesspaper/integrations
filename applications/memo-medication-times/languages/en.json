@@ -19,5 +19,6 @@
   "noon": "Noon",
   "afternoon": "Afternoon",
   "night": "Night",
-  "sampleSource": "Sample data"
+  "sampleSource": "Sample data",
+  "apiFailed": "Memo API failed with {status}"
 }

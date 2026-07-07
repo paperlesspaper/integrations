@@ -1,7 +1,7 @@
 {
   "loading": "Cargando...",
-  "kicker": "Pais del dia",
-  "region": "Region",
+  "kicker": "País del día",
+  "region": "Región",
   "capital": "Capital",
   "area": "Superficie",
   "languages": "Idiomas",
@@ -11,14 +11,15 @@
   "callingCode": "Prefijo",
   "unMember": "Miembro ONU",
   "independent": "Independiente",
-  "geography": "Geografia",
+  "geography": "Geografía",
   "landlocked": "Sin litoral",
   "coastline": "Costa",
-  "yes": "Si",
+  "yes": "Sí",
   "no": "No",
   "noBorders": "Sin fronteras terrestres",
   "more": "+{count}",
-  "selectedFrom": "{count} en rotacion",
+  "selectedFrom": "{count} en rotación",
   "source": "Datos",
-  "errorTitle": "No se pudo cargar el pais"
+  "errorTitle": "No se pudo cargar el país",
+  "apiFailed": "La API falló con {status}"
 }

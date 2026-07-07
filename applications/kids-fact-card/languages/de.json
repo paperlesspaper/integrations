@@ -1,11 +1,12 @@
 {
-  "loading": "Laedt...",
+  "loading": "Lädt...",
   "kicker": "Fakt des Tages",
-  "forKids": "Fuer neugierige Kinder",
+  "forKids": "Für neugierige Kinder",
   "tinyExtra": "Mini-Extra",
-  "thinkAboutIt": "Denk mal drueber nach",
+  "thinkAboutIt": "Denk mal drüber nach",
   "dinosaurs": "Dinosaurier",
   "space": "Weltraum",
   "animals": "Tiere",
-  "errorTitle": "Fakt konnte nicht geladen werden"
+  "errorTitle": "Fakt konnte nicht geladen werden",
+  "apiFailed": "API-Aufruf fehlgeschlagen ({status})"
 }

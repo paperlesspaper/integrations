@@ -6,10 +6,19 @@
   "updated": "Aggiornato",
   "rendered": "Renderizzato",
   "date": "Data",
-  "humidity": "Umidita",
+  "humidity": "Umidità",
   "wind": "Vento",
   "pressure": "Pressione",
   "sunrise": "Alba",
   "sunset": "Tramonto",
-  "moon": "Luna"
+  "moon": "Luna",
+  "moonNew": "Luna nuova",
+  "moonWaxingCrescent": "Luna crescente",
+  "moonFirstQuarter": "Primo quarto",
+  "moonWaxingGibbous": "Luna gibbosa crescente",
+  "moonFull": "Luna piena",
+  "moonWaningGibbous": "Luna gibbosa calante",
+  "moonLastQuarter": "Ultimo quarto",
+  "moonWaningCrescent": "Luna calante",
+  "apiFailed": "API meteo non riuscita con stato {status}"
 }

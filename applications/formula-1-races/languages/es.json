@@ -3,7 +3,7 @@
   "updated": "Actualizado",
   "from": "desde",
   "errorTitle": "No se pudo cargar la carrera de Formula 1",
-  "apiFailed": "La API fallo con {status}",
+  "apiFailed": "La API falló con {status}",
   "brand": "Carreras de Formula 1",
   "grandPrix": "Gran Premio",
   "circuitMap": "Mapa del circuito",

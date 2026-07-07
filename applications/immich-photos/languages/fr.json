@@ -1,10 +1,11 @@
 {
   "loading": "Chargement...",
-  "updated": "Mis a jour",
+  "updated": "Mis à jour",
   "from": "depuis",
   "errorTitle": "Impossible de charger Immich",
-  "apiFailed": "Requete Immich echouee avec {status}",
+  "apiFailed": "Requête Immich échouée avec {status}",
   "title": "Photos Immich",
   "fallbackCaption": "Photo Immich",
-  "imageFailed": "L'image Immich resolue n'a pas pu etre chargee."
+  "imageFailed": "L'image Immich résolue n'a pas pu être chargée.",
+  "photoDetailsLabel": "Détails de la photo"
 }

@@ -22,5 +22,6 @@
   "aqiGood": "Good",
   "aqiFair": "Fair",
   "aqiModerate": "Moderate",
-  "aqiPoor": "Poor"
+  "aqiPoor": "Poor",
+  "apiFailed": "API failed with {status}"
 }

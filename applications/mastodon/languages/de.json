@@ -3,12 +3,13 @@
   "updated": "Aktualisiert",
   "from": "von",
   "errorTitle": "Mastodon konnte nicht geladen werden",
-  "apiFailed": "API fehlgeschlagen mit {status}",
-  "title": "Timeline",
+  "apiFailed": "API-Aufruf fehlgeschlagen ({status})",
+  "title": "Zeitleiste",
   "home": "Startseite",
   "profile": "Profil",
   "tag": "{host} Tag",
   "boostedBy": "Geboostet von @{acct}",
-  "noPosts": "Keine Beitraege",
-  "noPostsHint": "Nichts passt zu diesem Feed."
+  "noPosts": "Keine Beiträge",
+  "noPostsHint": "Nichts passt zu diesem Feed.",
+  "qrAlt": "QR-Code zum Beitrag"
 }

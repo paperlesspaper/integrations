@@ -3,5 +3,5 @@
   "updated": "Actualizado",
   "from": "desde",
   "errorTitle": "No se pudo cargar la cita",
-  "apiFailed": "La API fallo con {status}"
+  "apiFailed": "La API falló con {status}"
 }

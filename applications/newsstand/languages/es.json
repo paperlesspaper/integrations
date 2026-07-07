@@ -3,7 +3,7 @@
   "updated": "Actualizado",
   "from": "desde",
   "errorTitle": "Newsstand no se pudo cargar",
-  "apiFailed": "La API fallo con {status}",
+  "apiFailed": "La API falló con {status}",
   "title": "Quiosco",
   "papers": "{count} periodicos",
   "imageAlt": "Portada de {name} para {date}",

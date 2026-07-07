@@ -293,6 +293,7 @@
           "profile": "Profile",
           "tag": "{host} tag",
           "boostedBy": "Boosted by @{acct}",
+          "qrAlt": "QR code for post",
           "noPosts": "No posts",
           "noPostsHint": "Nothing matched this feed."
 };
@@ -501,7 +502,7 @@
               `).join("")}</div>`
             : "";
           const qr = bool(settings.showQrCode) && item.qrCodeUrl
-            ? `<img class="mastodon-qr" src="${escapeHtml(item.qrCodeUrl)}" alt="QR code for post">`
+            ? `<img class="mastodon-qr" src="${escapeHtml(item.qrCodeUrl)}" alt="${escapeHtml(t("qrAlt"))}">`
             : "";
 
           return `
@@ -533,7 +534,7 @@
           const params = new URLSearchParams(settings);
           const response = await fetch(`./api/data?${params.toString()}`, { cache: "no-store" });
           if (!response.ok) {
-            throw new Error(`Mastodon API failed with ${response.status}`);
+            throw new Error(t("apiFailed", { status: response.status }));
           }
 
           const data = await response.json();

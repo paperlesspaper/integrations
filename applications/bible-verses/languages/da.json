@@ -1,7 +1,9 @@
 {
   "title": "Bibelvers",
-  "loading": "Indlaeser...",
+  "loading": "Indlæser...",
   "fallback": "Offline vers",
   "source": "Kilde",
-  "errorTitle": "Verset kunne ikke indlaeses"
+  "errorTitle": "Verset kunne ikke indlæses",
+  "qrAlt": "QR-kode til kildeverset",
+  "apiFailed": "API mislykkedes med status {status}"
 }

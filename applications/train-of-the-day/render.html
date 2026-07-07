@@ -52,7 +52,9 @@
         line-height: 0.9;
         font-weight: 900;
         letter-spacing: 0;
-        overflow-wrap: anywhere;
+        overflow-wrap: normal;
+        word-break: normal;
+        text-wrap: balance;
       }
 
       .nickname {
@@ -207,6 +209,42 @@
         overflow-wrap: anywhere;
       }
 
+      @media (min-width: 1400px) and (min-height: 1000px) {
+        .hero-header {
+          padding: 20px 28px 8px;
+        }
+
+        .nickname {
+          font-size: 1.12rem;
+        }
+
+        .signature-line {
+          font-size: 1.06rem;
+        }
+
+        .source-meta {
+          flex-basis: 190px;
+          font-size: 0.64rem;
+        }
+
+        .date-line {
+          font-size: 0.84rem;
+        }
+
+        .fact-grid {
+          gap: 18px;
+          padding: 12px 28px 19px;
+        }
+
+        .fact .label {
+          font-size: 0.72rem;
+        }
+
+        .value {
+          font-size: 1.12rem;
+        }
+      }
+
       @media (orientation: portrait), (max-width: 700px) {
         .train-shell {
           grid-template-rows: auto minmax(0, 0.82fr) auto;
@@ -323,7 +361,7 @@
             <h1 class="train-name pp-fit" id="train-name" data-i18n="loading">
               Loading...
             </h1>
-            <p class="nickname pp-fit" id="nickname"></p>
+            <p class="nickname" id="nickname"></p>
             <p class="signature-line pp-fit" id="signature"></p>
           </div>
           <div class="source-meta">
@@ -348,8 +386,8 @@
           getQuerySettings,
           mergeSettings,
           escapeHtml,
+          fitText,
           fitHyphenatedText,
-          fitAllText,
           fitToScreen,
           markReady,
           markError,
@@ -486,7 +524,7 @@
             return train;
           }
 
-          const fields = ["name", "nickname", "country", "signature", "source"];
+          const fields = ["name", "nickname", "country", "signature", "source", "route"];
           const translatedFields = {};
           fields.forEach((field) => {
             if (typeof translation[field] === "string") {
@@ -549,7 +587,7 @@
           return `
             <article class="fact">
               <p class="label">${escapeHtml(label)}</p>
-              <p class="value pp-fit">${escapeHtml(value || "N/A")}</p>
+              <p class="value">${escapeHtml(value || "N/A")}</p>
             </article>
           `;
         }
@@ -572,7 +610,7 @@
             image.addEventListener("load", resolve, { once: true });
             image.addEventListener(
               "error",
-              () => reject(new Error(`Could not load ${image.src}`)),
+              () => reject(new Error(t("imageFailed"))),
               {
                 once: true,
               },
@@ -618,7 +656,7 @@
             applyColorTheme(settings.color, { defaultTheme: defaults.color });
           }
           if (!trains.length) {
-            throw new Error("Train list could not load");
+            throw new Error(t("listFailed"));
           }
 
           const today = dayKey();
@@ -729,30 +767,19 @@
           await Promise.all([document.fonts?.ready, waitForImage(image)]);
           const compactLandscape =
             window.innerWidth > window.innerHeight && window.innerHeight <= 560;
-          fitHyphenatedText(document.getElementById("train-name"), {
+          const roomyLandscape =
+            window.innerWidth >= 1400 && window.innerHeight >= 1000;
+          fitText(document.getElementById("train-name"), {
             min: 30,
-            max: compactLandscape ? 58 : 82,
+            max: compactLandscape ? 58 : roomyLandscape ? 108 : 82,
             step: 2,
             tolerance: 6,
             lineBreak: "balance",
           });
-          fitHyphenatedText(document.getElementById("nickname"), {
-            min: 12,
-            max: compactLandscape ? 15 : 20,
-            step: 1,
-            lineBreak: true,
-          });
           fitHyphenatedText(document.getElementById("signature"), {
             min: 10,
-            max: compactLandscape ? 14 : 18,
+            max: compactLandscape ? 14 : roomyLandscape ? 21 : 18,
             step: 1,
-            lineBreak: true,
-          });
-          fitAllText(".fact .pp-fit", {
-            min: 9,
-            max: compactLandscape ? 14 : 19,
-            step: 1,
-            tolerance: 4,
             lineBreak: true,
           });
           fitToScreen();

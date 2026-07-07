@@ -1,8 +1,8 @@
 {
-  "loading": "Laedt...",
+  "loading": "Lädt...",
   "title": "Gebetszeiten",
   "kicker": "Islamischer Gebetsplan",
-  "nextPrayer": "Naechstes Gebet",
+  "nextPrayer": "Nächstes Gebet",
   "today": "Heute",
   "tomorrow": "Morgen",
   "countdownNow": "jetzt",
@@ -31,9 +31,9 @@
     "isha": "Isha"
   },
   "methods": {
-    "mwl": "Muslim World League",
+    "mwl": "Islamische Weltliga",
     "isna": "ISNA",
-    "egypt": "Egyptian Survey",
+    "egypt": "Ägyptische Vermessungsbehörde",
     "makkah": "Umm al-Qura",
     "karachi": "Karachi",
     "tehran": "Teheran",

@@ -14,5 +14,7 @@
   "sourceIcs": "ICS calendar",
   "sourceAuto": "Auto source",
   "errorTitle": "Waste schedule could not load",
-  "weekTitle": "Next 14 days"
+  "weekTitle": "Next 14 days",
+  "sampleAddress": "Sample Street 12",
+  "apiFailed": "Waste collection API failed with {status}"
 }

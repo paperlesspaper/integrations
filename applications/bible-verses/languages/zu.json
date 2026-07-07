@@ -3,5 +3,7 @@
   "loading": "Iyalayisha...",
   "fallback": "Ivesi elingaxhunyiwe",
   "source": "Umthombo",
-  "errorTitle": "Ivesi alikwazanga ukulayishwa"
+  "errorTitle": "Ivesi alikwazanga ukulayishwa",
+  "qrAlt": "Ikhodi ye-QR yevesi yomthombo",
+  "apiFailed": "I-API yehlulekile ngesimo {status}"
 }

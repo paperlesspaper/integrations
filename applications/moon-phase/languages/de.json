@@ -19,5 +19,6 @@
     "waningGibbous": "Abnehmender Mond",
     "lastQuarter": "Letztes Viertel",
     "waningCrescent": "Abnehmende Sichel"
-  }
+  },
+  "errorTitle": "Mondphase konnte nicht geladen werden"
 }

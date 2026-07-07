@@ -14,5 +14,7 @@
   "groupCartilaginous": "Cartilaginous fish",
   "groupJawless": "Jawless fish",
   "signature": "Silhouette note",
-  "errorTitle": "Fish could not load"
+  "errorTitle": "Fish could not load",
+  "imageFailed": "Fish image could not load.",
+  "listFailed": "Fish list could not load."
 }

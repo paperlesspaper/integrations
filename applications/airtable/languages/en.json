@@ -7,5 +7,6 @@
   "rows": "rows",
   "fields": "fields",
   "errorTitle": "Airtable could not load",
-  "source": "Source"
+  "source": "Source",
+  "apiFailed": "API failed with {status}"
 }

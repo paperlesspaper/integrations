@@ -21,5 +21,7 @@
   "typeLander": "Lander",
   "typeTelescope": "Telescope",
   "typeOrbiter": "Orbiter",
-  "errorTitle": "Spacecraft could not load"
+  "errorTitle": "Spacecraft could not load",
+  "imageFailed": "Spacecraft image could not load.",
+  "listFailed": "Spacecraft list could not load."
 }

@@ -221,6 +221,7 @@
           fitHyphenatedText,
           fitToScreen,
           escapeHtml,
+          markLoading,
           markReady,
           markError,
         } = window.PaperlessOpenIntegration;
@@ -286,6 +287,10 @@
         function normalizeChoice(value, allowed, fallback) {
           const normalized = String(value ?? "").trim();
           return allowed.has(normalized) ? normalized : fallback;
+        }
+
+        function message(key, fallback) {
+          return typeof messages[key] === "string" ? messages[key] : fallback;
         }
 
         function escapeAttribute(value) {
@@ -412,82 +417,97 @@
           return blocks.join("");
         }
 
-        try {
-          const payload = await waitForPayload({ timeout: 300 });
-          const settings = mergeSettings(defaults, getSettings(payload), getQuerySettings());
-          const languageResult = await loadLanguageJson(payload).catch(() => ({ language: "en", messages: {} }));
-          const messages = languageResult.messages || {};
-          document.documentElement.lang = languageResult.language || "en";
+        let messages = {};
 
-          applyColorTheme(settings.color, { defaultTheme: defaults.color });
+        async function renderPayload(payload) {
+          try {
+            markLoading();
+            const settings = mergeSettings(defaults, getSettings(payload), getQuerySettings());
+            const languageResult = await loadLanguageJson(payload).catch(() => ({ language: "en", messages: {} }));
+            messages = languageResult.messages || {};
+            document.documentElement.lang = languageResult.language || "en";
 
-          const screen = document.getElementById("screen");
-          const panel = document.getElementById("panel");
-          const title = document.getElementById("title");
-          const content = document.getElementById("content");
-          const textAlign = normalizeChoice(settings.textAlign, alignments, defaults.textAlign);
-          const verticalAlign = normalizeChoice(
-            settings.verticalAlign,
-            verticalAlignments,
-            defaults.verticalAlign,
-          );
-          const fontFamily = fontFamilies[settings.fontFamily] || fontFamilies.system;
-          const fontSize = fontSizes[settings.fontSize] || fontSizes.large;
-          const fontWeight = normalizeChoice(settings.fontWeight, fontWeights, defaults.fontWeight);
-          const fontStyle = normalizeChoice(settings.fontStyle, fontStyles, defaults.fontStyle);
-          const lineHeight = normalizeChoice(settings.lineHeight, lineHeights, defaults.lineHeight);
-          const format = settings.format === "plain" ? "plain" : "markdown";
-          const rawContent = String(settings.content || "").trim();
-          const fallbackContent =
-            typeof messages.emptyContent === "string" ? messages.emptyContent : "Add text in settings.";
+            applyColorTheme(settings.color, { defaultTheme: defaults.color });
 
-          screen.classList.remove("align-top", "align-center", "align-bottom");
-          screen.classList.add(`align-${verticalAlign}`);
-          screen.classList.toggle("has-frame", settings.showFrame === true || settings.showFrame === "true");
-          panel.style.setProperty("--simple-text-font", fontFamily);
-          panel.style.setProperty("--simple-text-size", fontSize);
-          panel.style.setProperty("--simple-text-style", fontStyle);
-          panel.style.setProperty("--simple-text-weight", fontWeight);
-          panel.style.setProperty("--simple-text-align", textAlign);
-          panel.style.setProperty("--simple-text-line", lineHeight);
+            const screen = document.getElementById("screen");
+            const panel = document.getElementById("panel");
+            const title = document.getElementById("title");
+            const content = document.getElementById("content");
+            const textAlign = normalizeChoice(settings.textAlign, alignments, defaults.textAlign);
+            const verticalAlign = normalizeChoice(
+              settings.verticalAlign,
+              verticalAlignments,
+              defaults.verticalAlign,
+            );
+            const fontFamily = fontFamilies[settings.fontFamily] || fontFamilies.system;
+            const fontSize = fontSizes[settings.fontSize] || fontSizes.large;
+            const fontWeight = normalizeChoice(settings.fontWeight, fontWeights, defaults.fontWeight);
+            const fontStyle = normalizeChoice(settings.fontStyle, fontStyles, defaults.fontStyle);
+            const lineHeight = normalizeChoice(settings.lineHeight, lineHeights, defaults.lineHeight);
+            const format = settings.format === "plain" ? "plain" : "markdown";
+            const configuredContent = String(settings.content || "").trim();
+            const rawContent =
+              configuredContent === defaults.content
+                ? message("defaultContent", defaults.content)
+                : configuredContent === "This is a plain text note.\nLine breaks are preserved."
+                  ? message("noticeContent", configuredContent)
+                  : configuredContent;
+            const fallbackContent = message("emptyContent", "Add text in settings.");
 
-          const titleText = String(settings.title || "").trim();
-          title.hidden = !titleText;
-          title.textContent = titleText;
+            screen.classList.remove("align-top", "align-center", "align-bottom");
+            screen.classList.add(`align-${verticalAlign}`);
+            screen.classList.toggle("has-frame", settings.showFrame === true || settings.showFrame === "true");
+            panel.style.setProperty("--simple-text-font", fontFamily);
+            panel.style.setProperty("--simple-text-size", fontSize);
+            panel.style.setProperty("--simple-text-style", fontStyle);
+            panel.style.setProperty("--simple-text-weight", fontWeight);
+            panel.style.setProperty("--simple-text-align", textAlign);
+            panel.style.setProperty("--simple-text-line", lineHeight);
 
-          if (format === "plain") {
-            content.textContent = rawContent || fallbackContent;
-            content.style.whiteSpace = "pre-wrap";
-          } else {
-            content.innerHTML = renderMarkdown(rawContent || fallbackContent);
-            content.style.whiteSpace = "normal";
+            const configuredTitle = String(settings.title || "").trim();
+            const titleText =
+              configuredTitle === "Notice" ? message("noticeTitle", configuredTitle) : configuredTitle;
+            title.hidden = !titleText;
+            title.textContent = titleText;
+
+            if (format === "plain") {
+              content.textContent = rawContent || fallbackContent;
+              content.style.whiteSpace = "pre-wrap";
+            } else {
+              content.innerHTML = renderMarkdown(rawContent || fallbackContent);
+              content.style.whiteSpace = "normal";
+            }
+
+            await document.fonts?.ready;
+            const panelStyle = window.getComputedStyle(panel);
+            const gap = Number.parseFloat(panelStyle.rowGap || panelStyle.gap) || 0;
+            const reservedTitleHeight = title.hidden
+              ? 0
+              : Math.ceil(title.getBoundingClientRect().height + gap);
+            const contentMaxHeight = Math.max(48, panel.clientHeight - reservedTitleHeight);
+            content.style.maxHeight = `${contentMaxHeight}px`;
+            content.style.maxWidth = `${panel.clientWidth}px`;
+
+            const bounds = fitBounds[settings.fontSize] || fitBounds.large;
+            fitHyphenatedText(content, {
+              min: bounds.min,
+              max: bounds.max,
+              step: 1,
+              tolerance: 12,
+              lineBreak: "balance",
+              fitParent: content,
+            });
+            fitToScreen(screen);
+            markReady({ format });
+          } catch (error) {
+            markError(error);
+            const title = messages.errorTitle || "Simple Text could not load";
+            document.body.innerHTML = `<main class="pp-screen"><h1 class="pp-title pp-error">${escapeHtml(title)}</h1><p>${escapeHtml(error.message)}</p></main>`;
           }
-
-          await document.fonts?.ready;
-          const panelStyle = window.getComputedStyle(panel);
-          const gap = Number.parseFloat(panelStyle.rowGap || panelStyle.gap) || 0;
-          const reservedTitleHeight = title.hidden
-            ? 0
-            : Math.ceil(title.getBoundingClientRect().height + gap);
-          const contentMaxHeight = Math.max(48, panel.clientHeight - reservedTitleHeight);
-          content.style.maxHeight = `${contentMaxHeight}px`;
-          content.style.maxWidth = `${panel.clientWidth}px`;
-
-          const bounds = fitBounds[settings.fontSize] || fitBounds.large;
-          fitHyphenatedText(content, {
-            min: bounds.min,
-            max: bounds.max,
-            step: 1,
-            tolerance: 12,
-            lineBreak: "balance",
-            fitParent: content,
-          });
-          fitToScreen(screen);
-          markReady({ format });
-        } catch (error) {
-          markError(error);
-          document.body.innerHTML = `<main class="pp-screen"><h1 class="pp-title pp-error">Simple Text could not load</h1><p>${escapeHtml(error.message)}</p></main>`;
         }
+
+        const payload = await waitForPayload({ timeout: 300, onUpdate: renderPayload });
+        await renderPayload(payload);
       })();
     </script>
   </body>

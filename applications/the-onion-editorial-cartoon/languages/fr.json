@@ -1,11 +1,11 @@
 {
   "loading": "Chargement...",
-  "updated": "Mis a jour",
+  "updated": "Mis à jour",
   "from": "depuis",
   "errorTitle": "Impossible de charger le dessin The Onion",
-  "apiFailed": "Echec de l'API avec {status}",
+  "apiFailed": "Échec de l'API avec {status}",
   "source": "The Onion",
-  "section": "Dessin editorial",
+  "section": "Dessin éditorial",
   "credit": "theonion.com",
   "imageFailed": "Impossible de charger l'image du dessin"
 }

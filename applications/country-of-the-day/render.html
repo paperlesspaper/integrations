@@ -97,7 +97,9 @@
         font-size: 4.5rem;
         line-height: 0.92;
         font-weight: 900;
-        overflow-wrap: anywhere;
+        overflow-wrap: normal;
+        word-break: normal;
+        text-wrap: balance;
       }
 
       .official-name {
@@ -177,6 +179,58 @@
         line-height: 1.08;
         font-weight: 820;
         overflow-wrap: anywhere;
+      }
+
+      @media (min-width: 1400px) and (min-height: 1000px) {
+        .country-shell {
+          grid-template-columns: minmax(360px, 0.72fr) minmax(0, 1.55fr);
+        }
+
+        .hero {
+          padding: 34px 28px;
+        }
+
+        .kicker,
+        .meta,
+        .label {
+          font-size: 0.95rem;
+        }
+
+        .date-pill {
+          font-size: 0.92rem;
+        }
+
+        .flag {
+          font-size: 15rem;
+        }
+
+        .country-code {
+          font-size: 3.4rem;
+        }
+
+        .title-block {
+          padding: 26px 28px 20px;
+        }
+
+        .official-name {
+          font-size: 1.35rem;
+        }
+
+        .fact {
+          padding: 18px 22px;
+        }
+
+        .value {
+          font-size: 1.78rem;
+        }
+
+        .status {
+          padding: 13px 16px;
+        }
+
+        .status-value {
+          font-size: 1.12rem;
+        }
       }
 
       @media (orientation: portrait), (max-width: 700px) {
@@ -335,8 +389,8 @@
           getQuerySettings,
           mergeSettings,
           escapeHtml,
+          fitText,
           fitHyphenatedText,
-          fitAllText,
           fitToScreen,
           markReady,
           markError,
@@ -367,6 +421,7 @@
           selectedFrom: '{count} in rotation',
           source: 'Data',
           errorTitle: 'Country could not load',
+          apiFailed: 'API failed with {status}',
         };
         let messages = defaultMessages;
         let currentLanguage = 'en';
@@ -456,7 +511,7 @@
           return `
             <article class="fact">
               <p class="label">${escapeHtml(label)}</p>
-              <p class="value pp-fit">${escapeHtml(value || 'N/A')}</p>
+              <p class="value">${escapeHtml(value || 'N/A')}</p>
             </article>
           `;
         }
@@ -490,7 +545,7 @@
           const response = await fetch(`./api/data?${params.toString()}`, { cache: 'no-store' });
 
           if (!response.ok) {
-            throw new Error(`Country API failed with ${response.status}`);
+            throw new Error(t('apiFailed', { status: response.status }));
           }
 
           const country = await response.json();
@@ -521,20 +576,23 @@
             status(t('source'), country.source),
           ].join('');
 
-          fitHyphenatedText(document.getElementById('country-name'), {
+          const compactLandscape =
+            window.innerWidth > window.innerHeight && window.innerHeight <= 560;
+          const roomyLandscape =
+            window.innerWidth >= 1400 && window.innerHeight >= 1000;
+          fitText(document.getElementById('country-name'), {
             min: 26,
-            max: 82,
+            max: compactLandscape ? 60 : roomyLandscape ? 108 : 82,
             step: 2,
             tolerance: 8,
             lineBreak: 'balance',
           });
           fitHyphenatedText(document.getElementById('official-name'), {
             min: 12,
-            max: 22,
+            max: compactLandscape ? 18 : roomyLandscape ? 28 : 22,
             step: 1,
             lineBreak: true,
           });
-          fitAllText('.fact .pp-fit', { min: 12, max: 24, step: 1, tolerance: 4, lineBreak: true });
           fitToScreen();
           markReady({ country: country.cca3, day: country.dayKey });
         } catch (error) {

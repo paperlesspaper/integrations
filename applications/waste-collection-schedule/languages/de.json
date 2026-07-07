@@ -14,5 +14,7 @@
   "sourceIcs": "ICS-Kalender",
   "sourceAuto": "Automatische Quelle",
   "errorTitle": "Abfallkalender konnte nicht geladen werden",
-  "weekTitle": "Nächste 14 Tage"
+  "weekTitle": "Nächste 14 Tage",
+  "sampleAddress": "Musterstraße 12",
+  "apiFailed": "Abfallkalender-API-Aufruf fehlgeschlagen ({status})"
 }

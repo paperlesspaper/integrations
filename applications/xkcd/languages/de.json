@@ -3,6 +3,6 @@
   "updated": "Aktualisiert",
   "from": "von",
   "errorTitle": "XKCD konnte nicht geladen werden",
-  "apiFailed": "API fehlgeschlagen mit {status}",
+  "apiFailed": "API-Aufruf fehlgeschlagen ({status})",
   "title": "XKCD"
 }

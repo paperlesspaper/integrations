@@ -451,6 +451,7 @@
           updated: "Updated",
           from: "from",
           record: "Record",
+          apiFailed: "API failed with {status}",
         };
         let messages = defaultMessages;
 
@@ -661,7 +662,7 @@
 
           const params = new URLSearchParams(settings);
           const response = await fetch(`./api/data?${params.toString()}`, { cache: "no-store" });
-          if (!response.ok) throw new Error(`NFL data failed with ${response.status}`);
+          if (!response.ok) throw new Error(t("apiFailed", { status: response.status }));
 
           const data = await response.json();
           const isPortrait = window.innerHeight > window.innerWidth;

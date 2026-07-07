@@ -561,8 +561,10 @@
           sourceManual: "Manual schedule",
           sourceIcs: "ICS calendar",
           sourceAuto: "Auto source",
+          sampleAddress: "Sample Street 12",
           errorTitle: "Waste schedule could not load",
           weekTitle: "Next 14 days",
+          apiFailed: "Waste collection API failed with {status}",
         };
         let messages = defaultMessages;
         let currentLanguage = "en";
@@ -805,17 +807,19 @@
           if (!response.ok) {
             const text = await response.text();
             throw new Error(
-              text || `Waste collection API failed with ${response.status}`,
+              text || t("apiFailed", { status: response.status }),
             );
           }
 
           const data = await response.json();
-          document.getElementById("title").innerHTML = escapeHtml(
-            data.title || settings.title,
-          );
-          document.getElementById("address-label").innerHTML = escapeHtml(
-            data.addressLabel || "",
-          );
+          const displayTitle =
+            !data.title || data.title === defaults.title ? t("kicker") : data.title;
+          const displayAddress =
+            data.addressLabel === defaults.addressLabel
+              ? t("sampleAddress")
+              : data.addressLabel || "";
+          document.getElementById("title").innerHTML = escapeHtml(displayTitle);
+          document.getElementById("address-label").innerHTML = escapeHtml(displayAddress);
           document.getElementById("source-label").textContent = sourceLabel(
             data.source,
             data.sourceMode,

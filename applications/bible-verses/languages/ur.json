@@ -3,5 +3,7 @@
   "loading": "لوڈ ہو رہا ہے...",
   "fallback": "آف لائن آیت",
   "source": "ماخذ",
-  "errorTitle": "آیت لوڈ نہیں ہو سکی"
+  "errorTitle": "آیت لوڈ نہیں ہو سکی",
+  "qrAlt": "ماخذ آیت کے لیے QR کوڈ",
+  "apiFailed": "API حالت {status} کے ساتھ ناکام ہو گیا"
 }

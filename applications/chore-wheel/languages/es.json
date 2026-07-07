@@ -6,5 +6,7 @@
   "nextWeekLabel": "Semana siguiente",
   "emptyMembers": "Añade miembros del hogar en los ajustes.",
   "emptyChores": "Añade tareas en los ajustes.",
-  "errorTitle": "No se pudo cargar la rueda de tareas"
+  "errorTitle": "No se pudo cargar la rueda de tareas",
+  "title": "Rueda de tareas",
+  "defaultChores": "Vajilla\nBasura\nAspirar\nBaño\nPlantas"
 }

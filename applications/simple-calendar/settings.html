@@ -320,6 +320,98 @@
       const settingsBridge = window.PaperlessOpenIntegration || {};
 
       let settings = { ...defaults };
+      let currentLanguage = "en";
+      const germanText = new Map([
+        ["Simple Calendar Settings", "Kalender-Einstellungen"],
+        ["Calendar", "Kalender"],
+        ["Locale", "Gebietsschema"],
+        ["BCP 47 format, for example en-US, de-DE, fr-FR, or ja-JP.", "BCP-47-Format, zum Beispiel en-US, de-DE, fr-FR oder ja-JP."],
+        ["Week", "Woche"],
+        ["Week starts on", "Woche beginnt am"],
+        ["Weekly holiday", "Wöchentlicher Ruhetag"],
+        ["Weekday labels", "Wochentagsbeschriftungen"],
+        ["Auto", "Automatisch"],
+        ["Show", "Anzeigen"],
+        ["Hide", "Ausblenden"],
+        ["Regions", "Regionen"],
+        ["Public holidays", "Gesetzliche Feiertage"],
+        ["Alternate calendar", "Alternativer Kalender"],
+        ["Style", "Stil"],
+        ["Font", "Schrift"],
+        ["System", "System"],
+        ["Serif", "Serif"],
+        ["Mono", "Mono"],
+        ["Font size", "Schriftgröße"],
+        ["Compact", "Kompakt"],
+        ["Regular", "Normal"],
+        ["Large", "Groß"],
+        ["Hide title bar", "Titelleiste ausblenden"],
+        ["Short month label", "Kurzer Monatsname"],
+        ["Preview", "Vorschau"],
+        ["Ready", "Bereit"],
+        ["Updated", "Aktualisiert"],
+        ["Sunday", "Sonntag"],
+        ["Monday", "Montag"],
+        ["Tuesday", "Dienstag"],
+        ["Wednesday", "Mittwoch"],
+        ["Thursday", "Donnerstag"],
+        ["Friday", "Freitag"],
+        ["Saturday", "Samstag"],
+        ["Off", "Aus"],
+        ["Germany", "Deutschland"],
+        ["Austria", "Österreich"],
+        ["Switzerland", "Schweiz"],
+        ["United States", "Vereinigte Staaten"],
+        ["England", "England"],
+        ["France", "Frankreich"],
+        ["Spain", "Spanien"],
+        ["Italy", "Italien"],
+        ["Netherlands", "Niederlande"],
+        ["Canada", "Kanada"],
+        ["Australia", "Australien"],
+        ["Buddhist", "Buddhistisch"],
+        ["Chinese", "Chinesisch"],
+        ["Hebrew", "Hebräisch"],
+        ["Indian", "Indisch"],
+        ["Islamic", "Islamisch"],
+        ["Japanese", "Japanisch"],
+        ["Persian", "Persisch"],
+      ]);
+
+      function languageFromPayload(payload) {
+        return String(payload?.meta?.language || navigator.language || "en")
+          .split("-")[0]
+          .toLowerCase();
+      }
+
+      function tr(text) {
+        return currentLanguage === "de" ? germanText.get(text) || text : text;
+      }
+
+      function translateStaticText(root = document.body) {
+        if (currentLanguage !== "de") {
+          return;
+        }
+        document.title = tr(document.title);
+        const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+        let node;
+        while ((node = walker.nextNode())) {
+          const text = node.nodeValue.trim();
+          const translated = text ? germanText.get(text) : "";
+          if (translated) {
+            node.nodeValue = node.nodeValue.replace(text, translated);
+          }
+        }
+        document.querySelectorAll("option").forEach((option) => {
+          option.textContent = tr(option.textContent.trim());
+        });
+      }
+
+      function setSettingsLanguage(payload) {
+        currentLanguage = languageFromPayload(payload);
+        document.documentElement.lang = currentLanguage;
+        translateStaticText();
+      }
 
       function isObject(value) {
         return Boolean(value) && typeof value === "object" && !Array.isArray(value);
@@ -327,7 +419,7 @@
 
       function fillOptions(select, options) {
         select.innerHTML = options
-          .map(([value, label]) => `<option value="${value}">${label}</option>`)
+          .map(([value, label]) => `<option value="${value}">${tr(label)}</option>`)
           .join("");
       }
 
@@ -356,7 +448,7 @@
         const ordered = orderedWeekdays(settings.weekStart);
         const labels = ordered.map(([value, label]) => ({
           value,
-          label: label.slice(0, 2),
+          label: tr(label).slice(0, 2),
         }));
         const days = labels.map((weekday, index) => ({
           value: weekday.value,
@@ -387,7 +479,7 @@
           }
         }
 
-        status.textContent = "Ready";
+        status.textContent = tr("Ready");
         renderPreview();
       }
 
@@ -409,7 +501,7 @@
 
       function postSettings() {
         settings = readSettingsFromControls();
-        status.textContent = "Updated";
+        status.textContent = tr("Updated");
         renderPreview();
 
         if (settingsBridge.postSettingsUpdate) {
@@ -437,12 +529,14 @@
             : message.payload;
 
         if (isObject(payload)) {
+          setSettingsLanguage(payload);
           applySettings(pluginSettingsFromPayload(payload));
         } else if (isObject(message.pluginSettings)) {
           applySettings(message.pluginSettings);
         }
       }
 
+      setSettingsLanguage();
       fillOptions(controls.weekStart, weekdays);
       fillOptions(controls.weeklyHoliday, [["off", "Off"], ...weekdays]);
       fillOptions(controls.holidayRegion, holidayRegions);

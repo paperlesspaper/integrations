@@ -10,6 +10,6 @@
   "weekendSchedule": "Programma del weekend",
   "nextUp": "Prossimo",
   "circuit": "Circuito",
-  "round": "Round {round}",
-  "seasonRound": "Stagione {season} / round {round} di {total}"
+  "round": "Gara {round}",
+  "seasonRound": "Stagione {season} / gara {round} di {total}"
 }

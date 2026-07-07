@@ -7,5 +7,6 @@
   "title": "Apple Photos",
   "imageFailed": "Impossibile caricare l'URL immagine risolto.",
   "imageAlt": "Immagine Apple Photos {index} di {total}",
-  "photoCount": "Foto {index} / {total}"
+  "photoCount": "Foto {index} / {total}",
+  "photoDetailsLabel": "Dettagli della foto"
 }

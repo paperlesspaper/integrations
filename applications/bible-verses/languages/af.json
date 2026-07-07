@@ -3,5 +3,7 @@
   "loading": "Laai...",
   "fallback": "Vanlyn vers",
   "source": "Bron",
-  "errorTitle": "Vers kon nie gelaai word nie"
+  "errorTitle": "Vers kon nie gelaai word nie",
+  "qrAlt": "QR-kode vir bronvers",
+  "apiFailed": "API het misluk met status {status}"
 }

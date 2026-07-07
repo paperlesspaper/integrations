@@ -3,19 +3,19 @@ const facts = [
     topic: "dinosaurs",
     title: {
       en: "Birds Are Living Dinosaurs",
-      de: "Voegel sind lebende Dinosaurier",
+      de: "Vögel sind lebende Dinosaurier",
     },
     fact: {
       en: "Every sparrow, penguin, and eagle belongs to the dinosaur family tree. Scientists call birds avian dinosaurs.",
-      de: "Jeder Spatz, Pinguin und Adler gehoert zum Stammbaum der Dinosaurier. Forschende nennen Voegel aviale Dinosaurier.",
+      de: "Jeder Spatz, Pinguin und Adler gehört zum Stammbaum der Dinosaurier. Forschende nennen Vögel aviale Dinosaurier.",
     },
     detail: {
       en: "Feathers first helped some dinosaurs stay warm, show off, or glide before powered flight became common.",
-      de: "Federn halfen manchen Dinosauriern zuerst beim Warmbleiben, Auffallen oder Gleiten, bevor aktiver Flug haeufig wurde.",
+      de: "Federn halfen manchen Dinosauriern zuerst beim Warmbleiben, Auffallen oder Gleiten, bevor aktiver Flug häufig wurde.",
     },
     question: {
       en: "Which bird near you looks most dinosaur-like?",
-      de: "Welcher Vogel in deiner Naehe sieht am meisten wie ein Dinosaurier aus?",
+      de: "Welcher Vogel in deiner Nähe sieht am meisten wie ein Dinosaurier aus?",
     },
   },
   {
@@ -26,15 +26,15 @@ const facts = [
     },
     fact: {
       en: "A real Velociraptor was about the size of a turkey, with feathers and a long stiff tail for balance.",
-      de: "Ein echter Velociraptor war etwa so gross wie ein Truthahn, hatte Federn und einen langen steifen Schwanz fuer Balance.",
+      de: "Ein echter Velociraptor war etwa so groß wie ein Truthahn, hatte Federn und einen langen steifen Schwanz für Balance.",
     },
     detail: {
       en: "The huge movie raptors were closer in size to a different dinosaur called Deinonychus.",
-      de: "Die riesigen Film-Raptoren waren eher so gross wie ein anderer Dinosaurier namens Deinonychus.",
+      de: "Die riesigen Film-Raptoren waren eher so groß wie ein anderer Dinosaurier namens Deinonychus.",
     },
     question: {
       en: "Would a small fast dinosaur be harder to spot than a huge one?",
-      de: "Waere ein kleiner schneller Dinosaurier schwerer zu entdecken als ein riesiger?",
+      de: "Wäre ein kleiner schneller Dinosaurier schwerer zu entdecken als ein riesiger?",
     },
   },
   {
@@ -45,34 +45,34 @@ const facts = [
     },
     fact: {
       en: "Triceratops had hundreds of teeth packed in rows. Worn teeth were replaced like a slow conveyor belt.",
-      de: "Triceratops hatte Hunderte Zaehne in Reihen. Abgenutzte Zaehne wurden wie auf einem langsamen Foerderband ersetzt.",
+      de: "Triceratops hatte Hunderte Zähne in Reihen. Abgenutzte Zähne wurden wie auf einem langsamen Förderband ersetzt.",
     },
     detail: {
       en: "That helped it grind tough plants with its powerful beak and jaws.",
-      de: "So konnte er mit seinem kraeftigen Schnabel und Kiefer zaehe Pflanzen zerkleinern.",
+      de: "So konnte er mit seinem kräftigen Schnabel und Kiefer zähe Pflanzen zerkleinern.",
     },
     question: {
       en: "What kind of plants would need super-strong teeth?",
-      de: "Welche Pflanzen brauchen besonders starke Zaehne?",
+      de: "Welche Pflanzen brauchen besonders starke Zähne?",
     },
   },
   {
     topic: "dinosaurs",
     title: {
       en: "Footprints Tell Stories",
-      de: "Fussspuren erzaehlen Geschichten",
+      de: "Fußspuren erzählen Geschichten",
     },
     fact: {
       en: "Fossil footprints can show how fast a dinosaur moved, whether it traveled in groups, and even where mud was soft.",
-      de: "Versteinerte Fussspuren zeigen, wie schnell ein Dinosaurier lief, ob er in Gruppen unterwegs war und wo Schlamm weich war.",
+      de: "Versteinerte Fußspuren zeigen, wie schnell ein Dinosaurier lief, ob er in Gruppen unterwegs war und wo Schlamm weich war.",
     },
     detail: {
       en: "A trail of prints is called a trackway.",
-      de: "Eine Spur aus vielen Abdruecken nennt man Faehrte.",
+      de: "Eine Spur aus vielen Abdrücken nennt man Fährte.",
     },
     question: {
       en: "What would your footprints say about your morning?",
-      de: "Was wuerden deine Fussspuren ueber deinen Morgen verraten?",
+      de: "Was würden deine Fußspuren über deinen Morgen verraten?",
     },
   },
   {
@@ -102,15 +102,15 @@ const facts = [
     },
     fact: {
       en: "Some sauropod dinosaurs had necks longer than a school bus, letting them browse plants like living cranes.",
-      de: "Manche Sauropoden hatten Haelse länger als ein Schulbus und konnten Pflanzen wie lebende Kräne erreichen.",
+      de: "Manche Sauropoden hatten Hälse länger als ein Schulbus und konnten Pflanzen wie lebende Kräne erreichen.",
     },
     detail: {
       en: "Their bones had air spaces that helped keep the neck lighter.",
-      de: "Ihre Knochen hatten Luftraeume, die den Hals leichter machten.",
+      de: "Ihre Knochen hatten Lufträume, die den Hals leichter machten.",
     },
     question: {
       en: "What would be easy if your neck were that long?",
-      de: "Was waere leicht, wenn dein Hals so lang waere?",
+      de: "Was wäre leicht, wenn dein Hals so lang wäre?",
     },
   },
   {
@@ -121,15 +121,15 @@ const facts = [
     },
     fact: {
       en: "Stegosaurus was as long as a small bus, but its head was only about the size of a large dog head.",
-      de: "Stegosaurus war so lang wie ein kleiner Bus, aber sein Kopf war nur etwa so gross wie der Kopf eines grossen Hundes.",
+      de: "Stegosaurus war so lang wie ein kleiner Bus, aber sein Kopf war nur etwa so groß wie der Kopf eines großen Hundes.",
     },
     detail: {
       en: "Its famous back plates may have helped with display, recognition, or body temperature.",
-      de: "Seine beruehmten Rueckenplatten halfen vielleicht beim Auffallen, Erkennen oder bei der Koerpertemperatur.",
+      de: "Seine berühmten Rückenplatten halfen vielleicht beim Auffallen, Erkennen oder bei der Körpertemperatur.",
     },
     question: {
       en: "Why might bright plates be useful?",
-      de: "Warum könnten auffaellige Platten nuetzlich sein?",
+      de: "Warum könnten auffällige Platten nützlich sein?",
     },
   },
   {
@@ -144,11 +144,11 @@ const facts = [
     },
     detail: {
       en: "Venus also spins backward compared with most planets.",
-      de: "Venus dreht sich ausserdem im Vergleich zu den meisten Planeten rueckwaerts.",
+      de: "Venus dreht sich außerdem im Vergleich zu den meisten Planeten rückwärts.",
     },
     question: {
       en: "What would you do with a day longer than a year?",
-      de: "Was wuerdest du mit einem Tag machen, der länger als ein Jahr ist?",
+      de: "Was würdest du mit einem Tag machen, der länger als ein Jahr ist?",
     },
   },
   {
@@ -167,7 +167,7 @@ const facts = [
     },
     question: {
       en: "What else reaches you after a delay?",
-      de: "Was kommt bei dir noch mit Verzoegerung an?",
+      de: "Was kommt bei dir noch mit Verzögerung an?",
     },
   },
   {
@@ -178,15 +178,15 @@ const facts = [
     },
     fact: {
       en: "The Moon moves about 3.8 centimeters farther from Earth each year, roughly the width of a small cookie.",
-      de: "Der Mond entfernt sich jedes Jahr etwa 3,8 Zentimeter von der Erde, ungefaehr so breit wie ein kleiner Keks.",
+      de: "Der Mond entfernt sich jedes Jahr etwa 3,8 Zentimeter von der Erde, ungefähr so breit wie ein kleiner Keks.",
     },
     detail: {
       en: "Astronauts left reflectors on the Moon so scientists can measure the distance with lasers.",
-      de: "Astronauten liessen Reflektoren auf dem Mond, damit Forschende die Entfernung mit Lasern messen können.",
+      de: "Astronauten ließen Reflektoren auf dem Mond, damit Forschende die Entfernung mit Lasern messen können.",
     },
     question: {
       en: "How would nights change if the Moon looked smaller?",
-      de: "Wie wuerden Naechte aussehen, wenn der Mond kleiner wirkte?",
+      de: "Wie würden Nächte aussehen, wenn der Mond kleiner wirkte?",
     },
   },
   {
@@ -197,15 +197,15 @@ const facts = [
     },
     fact: {
       en: "Olympus Mons on Mars is the tallest known volcano in the Solar System, about three times the height of Mount Everest.",
-      de: "Olympus Mons auf dem Mars ist der hoechste bekannte Vulkan im Sonnensystem, etwa dreimal so hoch wie der Mount Everest.",
+      de: "Olympus Mons auf dem Mars ist der höchste bekannte Vulkan im Sonnensystem, etwa dreimal so hoch wie der Mount Everest.",
     },
     detail: {
       en: "Its base is so wide that it would cover a large country-sized area.",
-      de: "Seine Basis ist so breit, dass sie ein sehr grosses Gebiet bedecken wuerde.",
+      de: "Seine Basis ist so breit, dass sie ein sehr großes Gebiet bedecken würde.",
     },
     question: {
       en: "Would you rather climb a tall mountain or explore a wide one?",
-      de: "Wuerdest du lieber einen hohen oder einen sehr breiten Berg erkunden?",
+      de: "Würdest du lieber einen hohen oder einen sehr breiten Berg erkunden?",
     },
   },
   {
@@ -224,14 +224,14 @@ const facts = [
     },
     question: {
       en: "How would you communicate without sound?",
-      de: "Wie wuerdest du dich ohne Schall verständigen?",
+      de: "Wie würdest du dich ohne Schall verständigen?",
     },
   },
   {
     topic: "space",
     title: {
       en: "Saturn Is Light For Its Size",
-      de: "Saturn ist fuer seine Groesse leicht",
+      de: "Saturn ist für seine Größe leicht",
     },
     fact: {
       en: "Saturn is made mostly of hydrogen and helium, so its average density is lower than water.",
@@ -239,11 +239,11 @@ const facts = [
     },
     detail: {
       en: "It is still huge: more than 700 Earths could fit inside its volume.",
-      de: "Trotzdem ist er riesig: In sein Volumen wuerden mehr als 700 Erden passen.",
+      de: "Trotzdem ist er riesig: In sein Volumen würden mehr als 700 Erden passen.",
     },
     question: {
       en: "Can something be enormous and still light for its size?",
-      de: "Kann etwas riesig und fuer seine Groesse trotzdem leicht sein?",
+      de: "Kann etwas riesig und für seine Größe trotzdem leicht sein?",
     },
   },
   {
@@ -254,15 +254,15 @@ const facts = [
     },
     fact: {
       en: "Footprints on the Moon can last for a very long time because there is no wind or rain to wash them away.",
-      de: "Fussspuren auf dem Mond können sehr lange bleiben, weil es dort keinen Wind und keinen Regen gibt, der sie wegwischt.",
+      de: "Fußspuren auf dem Mond können sehr lange bleiben, weil es dort keinen Wind und keinen Regen gibt, der sie wegwischt.",
     },
     detail: {
       en: "Tiny space rocks can still slowly disturb the surface.",
-      de: "Winzige Weltraumsteine können die Oberflaeche aber langsam verändern.",
+      de: "Winzige Weltraumsteine können die Oberfläche aber langsam verändern.",
     },
     question: {
       en: "Where would you leave a message that lasts?",
-      de: "Wo wuerdest du eine Botschaft hinterlassen, die lange bleibt?",
+      de: "Wo würdest du eine Botschaft hinterlassen, die lange bleibt?",
     },
   },
   {
@@ -277,7 +277,7 @@ const facts = [
     },
     detail: {
       en: "Their blood uses copper-rich hemocyanin instead of iron-rich hemoglobin.",
-      de: "Ihr Blut nutzt kupferreiches Haemocyanin statt eisenreichem Haemoglobin.",
+      de: "Ihr Blut nutzt kupferreiches Hämocyanin statt eisenreichem Hämoglobin.",
     },
     question: {
       en: "Why might ocean animals need special tricks?",
@@ -300,7 +300,7 @@ const facts = [
     },
     question: {
       en: "Could you invent a dance that points to breakfast?",
-      de: "Kannst du einen Tanz erfinden, der zum Fruehstueck zeigt?",
+      de: "Kannst du einen Tanz erfinden, der zum Frühstück zeigt?",
     },
   },
   {
@@ -315,18 +315,18 @@ const facts = [
     },
     detail: {
       en: "Their streamlined bodies help them turn quickly.",
-      de: "Ihre stromlinienfoermigen Koerper helfen ihnen, schnell die Richtung zu wechseln.",
+      de: "Ihre stromlinienförmigen Körper helfen ihnen, schnell die Richtung zu wechseln.",
     },
     question: {
       en: "Would swimming feel different if your arms were wings?",
-      de: "Wuerde Schwimmen anders sein, wenn deine Arme Flügel waeren?",
+      de: "Würde Schwimmen anders sein, wenn deine Arme Flügel wären?",
     },
   },
   {
     topic: "animals",
     title: {
       en: "Elephants Hear Rumbles",
-      de: "Elefanten hoeren Rumpeln",
+      de: "Elefanten hören Rumpeln",
     },
     fact: {
       en: "Elephants can use very low rumbles that travel far through air and even through the ground.",
@@ -334,11 +334,11 @@ const facts = [
     },
     detail: {
       en: "Their sensitive feet and trunks help them notice vibrations.",
-      de: "Ihre empfindlichen Fuesse und Ruessel helfen ihnen, Schwingungen zu bemerken.",
+      de: "Ihre empfindlichen Füße und Rüssel helfen ihnen, Schwingungen zu bemerken.",
     },
     question: {
       en: "What would you listen for with your feet?",
-      de: "Worauf wuerdest du mit deinen Fuessen lauschen?",
+      de: "Worauf würdest du mit deinen Füßen lauschen?",
     },
   },
   {
@@ -349,34 +349,34 @@ const facts = [
     },
     fact: {
       en: "A giraffe tongue can be about 45 centimeters long and is dark, which may help protect it from the Sun.",
-      de: "Eine Giraffenzunge kann etwa 45 Zentimeter lang sein und ist dunkel, was sie vielleicht vor Sonne schuetzt.",
+      de: "Eine Giraffenzunge kann etwa 45 Zentimeter lang sein und ist dunkel, was sie vielleicht vor Sonne schützt.",
     },
     detail: {
       en: "The tongue helps pull leaves from thorny branches.",
-      de: "Die Zunge hilft, Blaetter von dornigen Zweigen zu ziehen.",
+      de: "Die Zunge hilft, Blätter von dornigen Zweigen zu ziehen.",
     },
     question: {
       en: "What snack would be easier with a super-long tongue?",
-      de: "Welcher Snack waere mit einer superlangen Zunge leichter?",
+      de: "Welcher Snack wäre mit einer superlangen Zunge leichter?",
     },
   },
   {
     topic: "animals",
     title: {
       en: "Arctic Terns Travel Far",
-      de: "Kuestenseeschwalben reisen weit",
+      de: "Küstenseeschwalben reisen weit",
     },
     fact: {
       en: "Arctic terns migrate between the Arctic and Antarctic, seeing more daylight than almost any other animal.",
-      de: "Kuestenseeschwalben ziehen zwischen Arktis und Antarktis und erleben mehr Tageslicht als fast jedes andere Tier.",
+      de: "Küstenseeschwalben ziehen zwischen Arktis und Antarktis und erleben mehr Tageslicht als fast jedes andere Tier.",
     },
     detail: {
       en: "Their round-trip journey can span tens of thousands of kilometers.",
-      de: "Ihre Hin- und Rueckreise kann Zehntausende Kilometer lang sein.",
+      de: "Ihre Hin- und Rückreise kann Zehntausende Kilometer lang sein.",
     },
     question: {
       en: "What would you pack for a pole-to-pole trip?",
-      de: "Was wuerdest du fuer eine Reise von Pol zu Pol einpacken?",
+      de: "Was würdest du für eine Reise von Pol zu Pol einpacken?",
     },
   },
   {
@@ -387,7 +387,7 @@ const facts = [
     },
     fact: {
       en: "Sea otters can use rocks like tools to crack open shellfish while floating on their backs.",
-      de: "Seeotter können Steine wie Werkzeuge benutzen, um Muscheln zu knacken, waehrend sie auf dem Ruecken treiben.",
+      de: "Seeotter können Steine wie Werkzeuge benutzen, um Muscheln zu knacken, während sie auf dem Rücken treiben.",
     },
     detail: {
       en: "Some even keep a favorite rock tucked in a loose skin pouch.",
@@ -395,7 +395,7 @@ const facts = [
     },
     question: {
       en: "What tool would you keep in a pocket all day?",
-      de: "Welches Werkzeug wuerdest du den ganzen Tag in einer Tasche tragen?",
+      de: "Welches Werkzeug würdest du den ganzen Tag in einer Tasche tragen?",
     },
   },
 ];

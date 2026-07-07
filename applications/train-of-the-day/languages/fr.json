@@ -13,13 +13,13 @@
   "formation": "Composition",
   "length": "Longueur",
   "voltage": "Alimentation",
-  "gauge": "Ecartement",
-  "family": "Famille / serie",
-  "yearsBuilt": "Annees construites",
-  "unitsBuilt": "Unites construites",
+  "gauge": "Écartement",
+  "family": "Famille / série",
+  "yearsBuilt": "Années construites",
+  "unitsBuilt": "Unités construites",
   "recordSpeed": "Vitesse d'essai",
   "powerOutput": "Puissance",
-  "capacity": "Places / capacite",
+  "capacity": "Places / capacité",
   "axleArrangement": "Disposition des essieux",
   "route": "Axe principal",
   "typeHighSpeed": "Grande vitesse",
@@ -27,5 +27,7 @@
   "typeEmu": "Automotrice",
   "selectedFrom": "{count} dans la rotation",
   "signature": "Signe distinctif",
-  "errorTitle": "Le train n'a pas pu être chargé"
+  "errorTitle": "Le train n'a pas pu être chargé",
+  "imageFailed": "L'image du train n'a pas pu être chargée.",
+  "listFailed": "La liste des trains n'a pas pu être chargée."
 }

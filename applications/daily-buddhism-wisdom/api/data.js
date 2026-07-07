@@ -8,7 +8,7 @@ const fallbackEntries = [
     },
     text: {
       en: "Radiate boundless love towards the entire world.",
-      de: "Radiate boundless love towards the entire world.",
+      de: "Strahle grenzenlose Liebe auf die ganze Welt aus.",
     },
   },
   {
@@ -18,7 +18,7 @@ const fallbackEntries = [
     },
     text: {
       en: "Time is already existence, and all existence is time.",
-      de: "Time is already existence, and all existence is time.",
+      de: "Zeit ist bereits Existenz, und alle Existenz ist Zeit.",
     },
   },
   {
@@ -28,7 +28,7 @@ const fallbackEntries = [
     },
     text: {
       en: "Life is available only in the present moment.",
-      de: "Life is available only in the present moment.",
+      de: "Das Leben ist nur im gegenwärtigen Augenblick verfügbar.",
     },
   },
 ];
@@ -65,17 +65,22 @@ function pickAuthor(value) {
   return supportedAuthors.has(author) ? author : "";
 }
 
-function fallbackEntry(dayOfYear, language) {
+function fallbackEntry(dayOfYear, language, source = "fallback") {
   const entry = fallbackEntries[(dayOfYear - 1) % fallbackEntries.length];
+  const isLocal = source === "local";
 
   return {
     title: entry.title[language] || entry.title.en,
     text: entry.text[language] || entry.text.en,
     attribution:
       language === "de"
-        ? "Offline-Fallback nach Buddha API"
-        : "Offline fallback after Buddha API",
-    source: "fallback",
+        ? isLocal
+          ? "Lokale Weisheitssammlung"
+          : "Offline-Fallback nach Buddha API"
+        : isLocal
+          ? "Local wisdom collection"
+          : "Offline fallback after Buddha API",
+    source,
   };
 }
 
@@ -137,11 +142,15 @@ export default async function handler({ query }) {
   const dayOfYear = getDayOfYear();
   let entry;
 
-  try {
-    entry = await fetchDailyQuote(author);
-  } catch (error) {
-    entry = fallbackEntry(dayOfYear, language);
-    entry.error = error.message;
+  if (language === "de") {
+    entry = fallbackEntry(dayOfYear, language, "local");
+  } else {
+    try {
+      entry = await fetchDailyQuote(author);
+    } catch (error) {
+      entry = fallbackEntry(dayOfYear, language);
+      entry.error = error.message;
+    }
   }
 
   return {

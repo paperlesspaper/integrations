@@ -1,5 +1,5 @@
 {
-  "loading": "Cargando clasificacion...",
+  "loading": "Cargando clasificación...",
   "played": "PJ",
   "goalDifference": "DG",
   "points": "Pts",
@@ -9,5 +9,21 @@
   "focus": "Enfoque",
   "noFocus": "Sin equipo destacado",
   "markdownTitle": "Nota",
-  "errorTitle": "No se pudo cargar la clasificacion"
+  "errorTitle": "No se pudo cargar la clasificación",
+  "defaultHeadline": "Clasificación",
+  "team": "Equipo",
+  "wins": "G",
+  "draws": "E",
+  "losses": "P",
+  "matchday": "Jornada {value}",
+  "teams": "Equipos",
+  "areaGermany": "Alemania",
+  "areaEngland": "Inglaterra",
+  "areaSpain": "España",
+  "areaItaly": "Italia",
+  "areaFrance": "Francia",
+  "areaNetherlands": "Países Bajos",
+  "areaPortugal": "Portugal",
+  "areaEurope": "Europa",
+  "apiFailed": "La API falló con {status}"
 }

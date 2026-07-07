@@ -6,5 +6,7 @@
   "nextWeekLabel": "Settimana prossima",
   "emptyMembers": "Aggiungi i membri della casa nelle impostazioni.",
   "emptyChores": "Aggiungi le faccende nelle impostazioni.",
-  "errorTitle": "Impossibile caricare la ruota delle faccende"
+  "errorTitle": "Impossibile caricare la ruota delle faccende",
+  "title": "Ruota dei compiti",
+  "defaultChores": "Piatti\nSpazzatura\nAspirapolvere\nBagno\nPiante"
 }

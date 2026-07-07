@@ -27,5 +27,7 @@
   "typeEmu": "EMU",
   "selectedFrom": "{count} in rotation",
   "signature": "Signature",
-  "errorTitle": "Train could not load"
+  "errorTitle": "Train could not load",
+  "imageFailed": "Train image could not load.",
+  "listFailed": "Train list could not load."
 }

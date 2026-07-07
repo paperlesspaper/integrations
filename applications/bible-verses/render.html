@@ -270,7 +270,7 @@
         <p id="translation"></p>
         <p class="verse-source" id="source"></p>
       </footer>
-      <img class="verse-qr" id="qr" alt="QR code for source verse" hidden />
+      <img class="verse-qr" id="qr" alt="" hidden />
     </main>
     <script>
       (async function render() {
@@ -293,7 +293,9 @@
           loading: "Loading...",
           fallback: "Offline verse",
           source: "Source",
+          qrAlt: "QR code for source verse",
           errorTitle: "Verse could not load",
+          apiFailed: "API failed with {status}",
         };
         let messages = defaultMessages;
 
@@ -427,6 +429,7 @@
           const showQrCode = booleanSetting(settings.showQrCode, defaults.showQrCode);
           const screen = document.querySelector(".verse-screen");
           const qrImage = document.getElementById("qr");
+          qrImage.alt = t("qrAlt");
 
           document.getElementById("header").hidden = !showHeader;
           document.getElementById("footer").hidden = !showFooter;
@@ -445,7 +448,7 @@
           });
 
           if (!response.ok) {
-            throw new Error(`Bible verse API failed with ${response.status}`);
+            throw new Error(t("apiFailed", { status: response.status }));
           }
 
           const data = await response.json();

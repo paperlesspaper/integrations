@@ -5,15 +5,17 @@
   "wingspan": "Spannweite",
   "call": "Ruf",
   "diet": "Nahrung",
-  "conservation": "Status",
+  "conservation": "Schutzstatus",
   "migration": "Zugverhalten",
   "scientificName": "Wissenschaftlicher Name",
   "habitat": "Lebensraum",
-  "size": "Koerperlaenge",
+  "size": "Körperlänge",
   "nesting": "Nest",
   "order": "Ordnung",
   "source": "Quelle",
   "selectedFrom": "{count} in der Rotation",
   "signature": "Feldnotiz",
-  "errorTitle": "Vogel konnte nicht geladen werden"
+  "errorTitle": "Vogel konnte nicht geladen werden",
+  "imageFailed": "Vogelbild konnte nicht geladen werden.",
+  "listFailed": "Vogelliste konnte nicht geladen werden."
 }

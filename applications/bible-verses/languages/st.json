@@ -3,5 +3,7 @@
   "loading": "E kenya...",
   "fallback": "Temana ya offline",
   "source": "Mohlodi",
-  "errorTitle": "Temana ha e a kgona ho kenngwa"
+  "errorTitle": "Temana ha e a kgona ho kenngwa",
+  "qrAlt": "Khoutu ea QR bakeng sa temana ea mohloli",
+  "apiFailed": "API e hlolehile ka boemo {status}"
 }

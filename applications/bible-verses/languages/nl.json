@@ -3,5 +3,7 @@
   "loading": "Laden...",
   "fallback": "Offline vers",
   "source": "Bron",
-  "errorTitle": "Vers kon niet worden geladen"
+  "errorTitle": "Vers kon niet worden geladen",
+  "qrAlt": "QR-code voor het bronvers",
+  "apiFailed": "API mislukt met status {status}"
 }

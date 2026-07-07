@@ -11,5 +11,10 @@
   "noData": "Keine Kurse verfügbar",
   "high": "Hoch",
   "low": "Tief",
-  "range": "Zeitraum"
+  "range": "Zeitraum",
+  "value": "Wert",
+  "price": "Preis",
+  "change": "Änderung",
+  "unit": "Einheit",
+  "apiFailed": "API-Aufruf fehlgeschlagen ({status})"
 }

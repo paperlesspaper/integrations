@@ -11,5 +11,10 @@
   "noData": "Nessuna quotazione disponibile",
   "high": "Massimo",
   "low": "Minimo",
-  "range": "Periodo"
+  "range": "Periodo",
+  "value": "Valore",
+  "price": "Prezzo",
+  "change": "Variazione",
+  "unit": "Unità",
+  "apiFailed": "API non riuscita con stato {status}"
 }

@@ -409,6 +409,8 @@
         };
 
         const fallbackMessages = {
+          title: "Chore Wheel",
+          defaultChores: "Dishes\nTrash\nVacuum\nBathroom\nPlants",
           assignmentsTitle: "Assignments",
           todayLabel: "Today",
           thisWeekLabel: "This week",
@@ -564,15 +566,22 @@
 
           const rotation = settings.rotation === "daily" ? "daily" : "weekly";
           const members = parseList(settings.members);
-          const chores = parseList(settings.chores);
+          const choreInput =
+            settings.chores === defaults.chores
+              ? messages.defaultChores || defaults.chores
+              : settings.chores;
+          const chores = parseList(choreInput);
           const seed = String(settings.seed || defaults.seed).trim();
           const now = new Date();
           const period = getPeriod(now, rotation);
           const nextDate = getNextDate(now, rotation);
           const showNext = isTrue(settings.showNext);
 
+          const configuredTitle = String(settings.title || "").trim();
           document.getElementById("title").textContent =
-            String(settings.title || defaults.title).trim() || defaults.title;
+            !configuredTitle || configuredTitle === defaults.title
+              ? messages.title || defaults.title
+              : configuredTitle;
           document.getElementById("assignmentsTitle").textContent = messages.assignmentsTitle;
           document.getElementById("periodLabel").textContent =
             rotation === "daily" ? messages.todayLabel : messages.thisWeekLabel;

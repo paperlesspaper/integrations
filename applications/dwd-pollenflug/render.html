@@ -324,7 +324,7 @@
   <body>
     <div id="website-has-loading-element"></div>
     <main id="app" class="pp-screen pollen-screen">
-      <p>Loading...</p>
+      <p data-i18n="loading">Loading...</p>
     </main>
 
     <script>
@@ -345,6 +345,7 @@
 
         const app = document.querySelector("#app");
         const defaultMessages = {
+          loading: "Loading...",
           title: "DWD Pollen",
           subtitle: "Pollen load forecast",
           highest: "Highest today",
@@ -355,6 +356,7 @@
           nextUpdate: "Next",
           noLoad: "No relevant pollen load",
           errorTitle: "Pollen forecast could not load",
+          apiFailed: "API failed with {status}",
           source: "Source",
           regionId: "Region ID",
           valueDescriptions: {
@@ -382,10 +384,12 @@
         };
         let messages = defaultMessages;
 
-        function t(key) {
-          return typeof messages[key] === "string"
-            ? messages[key]
-            : defaultMessages[key] || key;
+        function t(key, values = {}) {
+          const template =
+            typeof messages[key] === "string"
+              ? messages[key]
+              : defaultMessages[key] || key;
+          return String(template).replace(/\{(\w+)\}/g, (_match, name) => values[name] ?? "");
         }
 
         async function loadMessages(payload) {
@@ -403,6 +407,9 @@
             },
           };
           document.documentElement.lang = result.language || "en";
+          app.querySelectorAll("[data-i18n]").forEach((element) => {
+            element.textContent = t(element.dataset.i18n);
+          });
         }
 
         function pollenName(key) {
@@ -566,7 +573,7 @@
           const response = await fetch(`./api/data?${params.toString()}`, { cache: "no-store" });
 
           if (!response.ok) {
-            throw new Error(`DWD API failed with ${response.status}`);
+            throw new Error(t("apiFailed", { status: response.status }));
           }
 
           const data = await response.json();

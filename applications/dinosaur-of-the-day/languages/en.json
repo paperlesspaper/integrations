@@ -27,5 +27,7 @@
   "signature": "Silhouette note",
   "errorTitle": "Dinosaur could not load",
   "groupSauropodomorph": "Sauropodomorph",
-  "groupAlvarezsaurid": "Alvarezsaurid"
+  "groupAlvarezsaurid": "Alvarezsaurid",
+  "imageFailed": "Dinosaur image could not load.",
+  "listFailed": "Dinosaur list could not load."
 }

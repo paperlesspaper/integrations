@@ -3,5 +3,7 @@
   "loading": "Mampiditra...",
   "fallback": "Andininy an-toerana",
   "source": "Loharano",
-  "errorTitle": "Tsy afaka nampiditra ny andininy"
+  "errorTitle": "Tsy afaka nampiditra ny andininy",
+  "qrAlt": "Kaody QR ho anʼny andinin-teny loharano",
+  "apiFailed": "Tsy nahomby ny API tamin'ny sata {status}"
 }

@@ -6,5 +6,7 @@
   "nextWeekLabel": "Next week",
   "emptyMembers": "Add household members in settings.",
   "emptyChores": "Add chores in settings.",
-  "errorTitle": "Chore Wheel could not load"
+  "errorTitle": "Chore Wheel could not load",
+  "title": "Chore Wheel",
+  "defaultChores": "Dishes\nTrash\nVacuum\nBathroom\nPlants"
 }

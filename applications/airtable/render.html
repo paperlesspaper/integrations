@@ -242,6 +242,7 @@
           rows: "rows",
           fields: "fields",
           errorTitle: "Airtable could not load",
+          apiFailed: "API failed with {status}",
           source: "Source"
         };
         let messages = defaultMessages;
@@ -361,7 +362,7 @@
 
           const response = await fetch(`./api/data?${params.toString()}`, { cache: "no-store" });
           if (!response.ok) {
-            throw new Error(`API failed with ${response.status}`);
+            throw new Error(t("apiFailed", { status: response.status }));
           }
 
           const data = await response.json();

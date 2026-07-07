@@ -7,5 +7,6 @@
   "rows": "lignes",
   "fields": "champs",
   "errorTitle": "Impossible de charger Airtable",
-  "source": "Source"
+  "source": "Source",
+  "apiFailed": "Échec de l'API avec {status}"
 }

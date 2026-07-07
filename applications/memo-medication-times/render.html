@@ -590,6 +590,7 @@
           afternoon: "Afternoon",
           night: "Night",
           sampleSource: "Sample data",
+          apiFailed: "Memo API failed with {status}",
         };
 
         let messages = defaultMessages;
@@ -935,7 +936,7 @@
         async function readApiError(response) {
           const text = await response.text();
           if (!text) {
-            return `Memo API failed with ${response.status}`;
+            return t("apiFailed", { status: response.status });
           }
           try {
             const parsed = JSON.parse(text);

@@ -3,12 +3,13 @@
   "updated": "Actualizado",
   "from": "desde",
   "errorTitle": "Mastodon no se pudo cargar",
-  "apiFailed": "La API fallo con {status}",
-  "title": "Linea temporal",
+  "apiFailed": "La API falló con {status}",
+  "title": "Línea temporal",
   "home": "Inicio",
   "profile": "Perfil",
   "tag": "etiqueta de {host}",
   "boostedBy": "Impulsado por @{acct}",
   "noPosts": "Sin publicaciones",
-  "noPostsHint": "Nada coincide con este feed."
+  "noPostsHint": "Nada coincide con este feed.",
+  "qrAlt": "Código QR de la publicación"
 }

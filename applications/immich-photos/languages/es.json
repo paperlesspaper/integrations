@@ -3,8 +3,9 @@
   "updated": "Actualizado",
   "from": "desde",
   "errorTitle": "Immich no se pudo cargar",
-  "apiFailed": "La solicitud de Immich fallo con {status}",
+  "apiFailed": "La solicitud de Immich falló con {status}",
   "title": "Fotos de Immich",
   "fallbackCaption": "Foto de Immich",
-  "imageFailed": "No se pudo cargar la imagen resuelta de Immich."
+  "imageFailed": "No se pudo cargar la imagen resuelta de Immich.",
+  "photoDetailsLabel": "Detalles de la foto"
 }

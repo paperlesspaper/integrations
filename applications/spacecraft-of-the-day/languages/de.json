@@ -10,7 +10,7 @@
   "outcome": "Ergebnis",
   "vehicleType": "Typ",
   "country": "Land",
-  "launchVehicle": "Tragerrakete",
+  "launchVehicle": "Trägerrakete",
   "operationalLife": "Einsatzdauer",
   "source": "Quelle",
   "selectedFrom": "{count} in Rotation",
@@ -21,5 +21,7 @@
   "typeLander": "Lander",
   "typeTelescope": "Teleskop",
   "typeOrbiter": "Orbiter",
-  "errorTitle": "Raumfahrzeug konnte nicht geladen werden"
+  "errorTitle": "Raumfahrzeug konnte nicht geladen werden",
+  "imageFailed": "Raumfahrzeugbild konnte nicht geladen werden.",
+  "listFailed": "Raumfahrzeugliste konnte nicht geladen werden."
 }

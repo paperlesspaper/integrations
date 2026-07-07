@@ -1,7 +1,7 @@
 {
   "loading": "Caricamento...",
   "kicker": "Parola del giorno",
-  "title": "Vocabulary",
+  "title": "Vocabolario",
   "tagline": "Amplia il tuo vocabolario",
   "wordOfTheDay": "Parola del giorno",
   "definitionLabel": "Definizione",
@@ -12,6 +12,6 @@
   "sourcePrefix": "Fonte",
   "wordCount": "{index} di {total}",
   "noSyllables": "Sconosciuto",
-  "errorTitle": "Impossibile caricare Vocabulary",
+  "errorTitle": "Impossibile caricare il vocabolario",
   "apiFailed": "API non riuscita con {status}"
 }

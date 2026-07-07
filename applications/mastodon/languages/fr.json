@@ -1,14 +1,15 @@
 {
   "loading": "Chargement...",
-  "updated": "Mis a jour",
+  "updated": "Mis à jour",
   "from": "depuis",
   "errorTitle": "Impossible de charger Mastodon",
-  "apiFailed": "Echec de l'API avec {status}",
+  "apiFailed": "Échec de l'API avec {status}",
   "title": "Fil",
   "home": "Accueil",
   "profile": "Profil",
-  "tag": "mot-cle {host}",
-  "boostedBy": "Boost par @{acct}",
+  "tag": "mot-clé {host}",
+  "boostedBy": "Boosté par @{acct}",
   "noPosts": "Aucun message",
-  "noPostsHint": "Rien ne correspond a ce fil."
+  "noPostsHint": "Rien ne correspond à ce fil.",
+  "qrAlt": "Code QR de la publication"
 }

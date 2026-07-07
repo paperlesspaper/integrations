@@ -7,5 +7,6 @@
   "dinosaurs": "Dinosaurs",
   "space": "Space",
   "animals": "Animals",
-  "errorTitle": "Fact could not load"
+  "errorTitle": "Fact could not load",
+  "apiFailed": "API failed with {status}"
 }

@@ -1,7 +1,9 @@
 {
   "title": "Bibliai versek",
-  "loading": "Betoltes...",
+  "loading": "Betöltés...",
   "fallback": "Offline igevers",
-  "source": "Forras",
-  "errorTitle": "Az igevers nem toltheto be"
+  "source": "Forrás",
+  "errorTitle": "Az igevers nem tölthető be",
+  "qrAlt": "QR-kód a forrásvershez",
+  "apiFailed": "Az API {status} állapottal meghiúsult"
 }

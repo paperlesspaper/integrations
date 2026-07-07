@@ -7,9 +7,11 @@
   "profile": "Profil",
   "map": "Karte",
   "generalRanking": "Gesamtwertung",
-  "nextStage": "Naechste Etappe",
-  "unavailableRanking": "Die Wertungen fuer 2026 erscheinen, sobald offizielle Rennklassifikationen verfuegbar sind.",
+  "nextStage": "Nächste Etappe",
+  "unavailableRanking": "Die Wertungen für 2026 erscheinen, sobald offizielle Rennklassifikationen verfügbar sind.",
   "updated": "Aktualisiert",
   "source": "Quelle",
-  "errorTitle": "Tour de France konnte nicht geladen werden"
+  "errorTitle": "Tour de France konnte nicht geladen werden",
+  "apiFailed": "API-Aufruf fehlgeschlagen ({status})",
+  "atGradient": "bei {value}"
 }

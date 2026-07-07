@@ -3,9 +3,9 @@
   "kicker": "Land des Tages",
   "region": "Region",
   "capital": "Hauptstadt",
-  "area": "Flaeche",
+  "area": "Fläche",
   "languages": "Sprachen",
-  "currency": "Waehrung",
+  "currency": "Währung",
   "borders": "Nachbarn",
   "coordinates": "Koordinaten",
   "callingCode": "Vorwahl",
@@ -13,12 +13,13 @@
   "independent": "Unabhängig",
   "geography": "Geografie",
   "landlocked": "Binnenland",
-  "coastline": "Kuestenlinie",
+  "coastline": "Küstenlinie",
   "yes": "Ja",
   "no": "Nein",
   "noBorders": "Keine Landgrenzen",
   "more": "+{count}",
   "selectedFrom": "{count} in der Rotation",
   "source": "Daten",
-  "errorTitle": "Land konnte nicht geladen werden"
+  "errorTitle": "Land konnte nicht geladen werden",
+  "apiFailed": "API-Aufruf fehlgeschlagen ({status})"
 }

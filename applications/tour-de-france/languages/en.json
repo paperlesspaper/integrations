@@ -11,5 +11,7 @@
   "unavailableRanking": "2026 rankings will appear when official race classifications are available.",
   "updated": "Updated",
   "source": "Source",
-  "errorTitle": "Tour de France could not load"
+  "errorTitle": "Tour de France could not load",
+  "apiFailed": "API failed with {status}",
+  "atGradient": "at {value}"
 }

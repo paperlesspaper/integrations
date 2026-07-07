@@ -308,7 +308,7 @@
           <h1 class="life-title pp-fit" id="title">Your Life in Weeks</h1>
           <p class="life-subtitle" id="subtitle">A dot for every week.</p>
         </div>
-        <section class="life-stats" id="stats" aria-label="Life statistics">
+        <section class="life-stats" id="stats" aria-label="">
           <article class="stat">
             <p class="stat-label" id="ageLabel">Age</p>
             <p class="stat-value pp-fit" id="ageValue">0</p>
@@ -326,12 +326,12 @@
 
       <section class="life-map-wrap">
         <div class="year-rail" id="yearRail" aria-hidden="true"></div>
-        <div class="weeks-grid" id="weeksGrid" role="img" aria-label="Lifetime week grid"></div>
+        <div class="weeks-grid" id="weeksGrid" role="img" aria-label=""></div>
       </section>
 
       <footer class="life-footer">
         <p class="life-note" id="note"></p>
-        <div class="legend" id="legend" aria-label="Legend">
+        <div class="legend" id="legend" aria-label="">
           <span class="legend-item"><span class="legend-swatch lived"></span><span id="livedLegend">Lived</span></span>
           <span class="legend-item"><span class="legend-swatch current"></span><span id="currentLegend">This week</span></span>
           <span class="legend-item"><span class="legend-swatch"></span><span id="futureLegend">Remaining</span></span>
@@ -365,6 +365,8 @@
         };
 
         const fallbackMessages = {
+          title: "Your Life in Weeks",
+          lifeCalendarTitle: "Life Calendar",
           subtitle: "A dot for every week.",
           ageLabel: "Age",
           weeksLivedLabel: "Weeks lived",
@@ -375,6 +377,9 @@
           futureLabel: "Remaining",
           yearLabel: "Year",
           footerTemplate: "Born {birthDate}. Grid assumes {years} years.",
+          lifeStatsLabel: "Life statistics",
+          weeksGridLabel: "Lifetime week grid",
+          legendLabel: "Legend",
           invalidBirthDateTitle: "Invalid birth date",
           invalidBirthDateMessage: "Set birthDate as YYYY-MM-DD.",
           futureBirthDateMessage: "Birth date must not be in the future.",
@@ -456,11 +461,13 @@
           grid.appendChild(fragment);
         }
 
+        let messages = fallbackMessages;
+
         try {
           const payload = await waitForPayload({ timeoutMs: 500 });
           const settings = mergeSettings(defaults, getSettings(payload), getQuerySettings());
           const languageResult = await loadLanguageJson(payload).catch(() => ({ language: "en", messages: {} }));
-          const messages = { ...fallbackMessages, ...(languageResult.messages || {}) };
+          messages = { ...fallbackMessages, ...(languageResult.messages || {}) };
           const language = languageResult.language || "en";
           document.documentElement.lang = language;
           applyColorTheme(settings.color, { defaultTheme: defaults.color });
@@ -487,7 +494,18 @@
           const showLegend = asBoolean(settings.showLegend, defaults.showLegend);
           const formattedBirthDate = formatDate(birthDate, language);
 
-          setText("title", String(settings.title || defaults.title).trim() || defaults.title);
+          document.getElementById("stats").setAttribute("aria-label", messages.lifeStatsLabel);
+          document.getElementById("weeksGrid").setAttribute("aria-label", messages.weeksGridLabel);
+          document.getElementById("legend").setAttribute("aria-label", messages.legendLabel);
+
+          const configuredTitle = String(settings.title || "").trim();
+          const title =
+            !configuredTitle || configuredTitle === defaults.title
+              ? messages.title || defaults.title
+              : configuredTitle === "Life Calendar"
+                ? messages.lifeCalendarTitle || configuredTitle
+                : configuredTitle;
+          setText("title", title);
           setText("subtitle", messages.subtitle);
           setText("ageLabel", messages.ageLabel);
           setText("weeksLivedLabel", messages.weeksLivedLabel);
@@ -525,8 +543,8 @@
           markError(error);
           document.body.innerHTML = `
             <main class="pp-screen life-screen">
-              <h1 class="life-title pp-error">${escapeHtml(fallbackMessages.invalidBirthDateTitle)}</h1>
-              <p>${escapeHtml(error.message || fallbackMessages.invalidBirthDateMessage)}</p>
+              <h1 class="life-title pp-error">${escapeHtml(messages.invalidBirthDateTitle)}</h1>
+              <p>${escapeHtml(error.message || messages.invalidBirthDateMessage)}</p>
             </main>
           `;
         }

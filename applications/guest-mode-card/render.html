@@ -573,6 +573,13 @@
         };
 
         const fallbackMessages = {
+          defaultPlaceName: "The Paperless Loft",
+          defaultWelcomeLine: "Welcome home. Everything important is right here.",
+          defaultWifiName: "Paperless Guest",
+          defaultCheckoutNote: "Leave keys on the kitchen table and pull the door closed.",
+          defaultHouseRules: "Quiet hours after 22:00\nNo smoking indoors\nPlease separate recycling",
+          defaultNearbyCafes: "Milo Coffee - 3 min walk\nCorner Bakery - opens 07:30\nNorthside Espresso - best flat white",
+          defaultSmartHomeInstructions: "Say: Hey Home, set living room to warm\nThermostat: turn the dial gently\nLights: long press the wall switch to dim",
           wifiTitle: "Wi-Fi",
           wifiSubtitle: "Scan to join",
           networkLabel: "Network",
@@ -586,6 +593,8 @@
           emptyRules: "Add house rules in settings.",
           emptyCafes: "Add nearby cafes in settings.",
           emptySmartHome: "Add smart-home instructions in settings.",
+          errorTitle: "Guest Mode Card could not load",
+          qrPayloadTooLong: "Wi-Fi QR payload is too long for this card.",
         };
 
         const qrVersion = 6;
@@ -608,6 +617,12 @@
 
         function setText(id, value) {
           document.getElementById(id).textContent = value;
+        }
+
+        function localizedDefault(settings, key, messageKey) {
+          return settings[key] === defaults[key]
+            ? messages[messageKey] || defaults[key]
+            : settings[key];
         }
 
         function renderList(id, lines) {
@@ -637,7 +652,7 @@
         function makeQrBytes(value) {
           const bytes = Array.from(new TextEncoder().encode(value || ""));
           if (bytes.length > qrMaxPayloadBytes) {
-            throw new Error("Wi-Fi QR payload is too long for this card.");
+            throw new Error(messages.qrPayloadTooLong);
           }
 
           const bits = [0, 1, 0, 0];
@@ -864,6 +879,8 @@
           }
         }
 
+        let messages = fallbackMessages;
+
         try {
           const payload = await waitForPayload({ timeout: 300 });
           const settings = mergeSettings(
@@ -875,7 +892,7 @@
             language: "en",
             messages: {},
           }));
-          const messages = {
+          messages = {
             ...fallbackMessages,
             ...(languageResult.messages || {}),
           };
@@ -883,14 +900,23 @@
 
           applyColorTheme(settings.color, { defaultTheme: defaults.color });
 
-          setText(
-            "placeName",
-            String(settings.placeName || defaults.placeName).trim(),
-          );
-          setText(
-            "welcomeLine",
-            String(settings.welcomeLine || defaults.welcomeLine).trim(),
-          );
+          const localizedSettings = {
+            ...settings,
+            placeName: localizedDefault(settings, "placeName", "defaultPlaceName"),
+            welcomeLine: localizedDefault(settings, "welcomeLine", "defaultWelcomeLine"),
+            wifiName: localizedDefault(settings, "wifiName", "defaultWifiName"),
+            checkoutNote: localizedDefault(settings, "checkoutNote", "defaultCheckoutNote"),
+            houseRules: localizedDefault(settings, "houseRules", "defaultHouseRules"),
+            nearbyCafes: localizedDefault(settings, "nearbyCafes", "defaultNearbyCafes"),
+            smartHomeInstructions: localizedDefault(
+              settings,
+              "smartHomeInstructions",
+              "defaultSmartHomeInstructions",
+            ),
+          };
+
+          setText("placeName", String(localizedSettings.placeName || "").trim());
+          setText("welcomeLine", String(localizedSettings.welcomeLine || "").trim());
           setText("checkoutTitle", messages.checkoutTitle);
           setText(
             "checkoutTime",
@@ -906,7 +932,7 @@
           setText("contactTitle", messages.contactTitle);
           setText(
             "wifiName",
-            String(settings.wifiName || defaults.wifiName).trim(),
+            String(localizedSettings.wifiName || defaults.wifiName).trim(),
           );
           setText(
             "wifiPassword",
@@ -917,7 +943,7 @@
           );
           setText(
             "checkoutNote",
-            String(settings.checkoutNote || defaults.checkoutNote).trim(),
+            String(localizedSettings.checkoutNote || defaults.checkoutNote).trim(),
           );
           setText(
             "emergencyContact",
@@ -932,27 +958,27 @@
 
           renderList(
             "houseRules",
-            normalizeLines(settings.houseRules, messages.emptyRules),
+            normalizeLines(localizedSettings.houseRules, messages.emptyRules),
           );
           renderList(
             "nearbyCafes",
-            normalizeLines(settings.nearbyCafes, messages.emptyCafes),
+            normalizeLines(localizedSettings.nearbyCafes, messages.emptyCafes),
           );
           renderList(
             "smartHomeInstructions",
             normalizeLines(
-              settings.smartHomeInstructions,
+              localizedSettings.smartHomeInstructions,
               messages.emptySmartHome,
             ),
           );
-          drawQr(document.getElementById("qr"), buildWifiPayload(settings));
+          drawQr(document.getElementById("qr"), buildWifiPayload(localizedSettings));
 
           await document.fonts?.ready;
           fitToScreen(document.getElementById("screen"));
           markReady();
         } catch (error) {
           markError(error);
-          document.body.innerHTML = `<main class="pp-screen"><h1 class="pp-title pp-error">Guest Mode Card could not load</h1><p>${escapeHtml(error.message)}</p></main>`;
+          document.body.innerHTML = `<main class="pp-screen"><h1 class="pp-title pp-error">${escapeHtml(messages.errorTitle)}</h1><p>${escapeHtml(error.message)}</p></main>`;
         }
       })();
     </script>

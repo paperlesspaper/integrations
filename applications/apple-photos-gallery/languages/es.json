@@ -3,9 +3,10 @@
   "updated": "Actualizado",
   "from": "desde",
   "errorTitle": "Apple Photos no se pudo cargar",
-  "apiFailed": "La API de Apple Photos fallo con {status}",
+  "apiFailed": "La API de Apple Photos falló con {status}",
   "title": "Apple Photos",
   "imageFailed": "No se pudo cargar la URL de imagen resuelta.",
   "imageAlt": "Imagen de Apple Photos {index} de {total}",
-  "photoCount": "Foto {index} / {total}"
+  "photoCount": "Foto {index} / {total}",
+  "photoDetailsLabel": "Detalles de la foto"
 }

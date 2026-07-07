@@ -10,5 +10,6 @@
   "tag": "{host} tag",
   "boostedBy": "Boosted by @{acct}",
   "noPosts": "No posts",
-  "noPostsHint": "Nothing matched this feed."
+  "noPostsHint": "Nothing matched this feed.",
+  "qrAlt": "QR code for post"
 }

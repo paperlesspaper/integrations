@@ -9,5 +9,21 @@
   "focus": "Focus",
   "noFocus": "No focus team",
   "markdownTitle": "Note",
-  "errorTitle": "Soccer standings could not load"
+  "errorTitle": "Soccer standings could not load",
+  "defaultHeadline": "League table",
+  "team": "Team",
+  "wins": "W",
+  "draws": "D",
+  "losses": "L",
+  "matchday": "Matchday {value}",
+  "teams": "Teams",
+  "areaGermany": "Germany",
+  "areaEngland": "England",
+  "areaSpain": "Spain",
+  "areaItaly": "Italy",
+  "areaFrance": "France",
+  "areaNetherlands": "Netherlands",
+  "areaPortugal": "Portugal",
+  "areaEurope": "Europe",
+  "apiFailed": "API failed with {status}"
 }

@@ -355,6 +355,7 @@
           northern: "North",
           southern: "South",
           onDate: "on",
+          errorTitle: "Moon Phase could not load",
           phaseNames: {
             newMoon: "New Moon",
             waxingCrescent: "Waxing Crescent",
@@ -512,11 +513,13 @@
           context.stroke();
         }
 
+        let messages = fallbackMessages;
+
         try {
           const payload = await waitForPayload({ timeout: 300 });
           const settings = mergeSettings(defaults, getSettings(payload), getQuerySettings());
           const languageResult = await loadLanguageJson(payload).catch(() => ({ language: "en", messages: {} }));
-          const messages = languageResult.messages || {};
+          messages = { ...fallbackMessages, ...(languageResult.messages || {}) };
           const language = languageResult.language || "en";
           const { date, explicit } = parseDate(settings.date);
           const hemisphere = normalizeHemisphere(settings.hemisphere);
@@ -524,7 +527,11 @@
           const phaseKey = phaseKeyForAge(moon.age);
           const phaseName = getPhaseName(messages, phaseKey);
           const illuminationPercent = Math.round(moon.illumination * 100);
-          const title = String(settings.title || "").trim() || getMessage(messages, "title");
+          const configuredTitle = String(settings.title || "").trim();
+          const title =
+            !configuredTitle || configuredTitle === defaults.title
+              ? getMessage(messages, "title")
+              : configuredTitle;
           const next = nextMajorPhase(moon.phase, date);
 
           document.documentElement.lang = language;
@@ -567,7 +574,7 @@
           });
         } catch (error) {
           markError(error);
-          document.body.innerHTML = `<main class="pp-screen"><h1 class="pp-title pp-error">Moon Phase could not load</h1><p>${escapeHtml(error.message)}</p></main>`;
+          document.body.innerHTML = `<main class="pp-screen"><h1 class="pp-title pp-error">${escapeHtml(getMessage(messages, "errorTitle"))}</h1><p>${escapeHtml(error.message)}</p></main>`;
         }
       })();
     </script>

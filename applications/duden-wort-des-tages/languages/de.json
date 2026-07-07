@@ -3,12 +3,12 @@
   "updated": "Aktualisiert",
   "from": "von",
   "errorTitle": "Duden konnte nicht geladen werden",
-  "apiFailed": "API fehlgeschlagen mit {status}",
+  "apiFailed": "API-Aufruf fehlgeschlagen ({status})",
   "kicker": "Wort des Tages",
   "meaning": "Bedeutung",
   "usage": "Gebrauch",
   "type": "Typ",
   "origin": "Herkunft",
-  "frequency": "Haeufigkeit",
+  "frequency": "Häufigkeit",
   "notAvailable": "k. A."
 }

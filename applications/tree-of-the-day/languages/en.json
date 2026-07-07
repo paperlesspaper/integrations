@@ -16,5 +16,7 @@
   "categoryIndividual": "Famous tree",
   "source": "Source",
   "selectedFrom": "{count} in rotation",
-  "errorTitle": "Tree could not load"
+  "errorTitle": "Tree could not load",
+  "imageFailed": "Tree image could not load.",
+  "listFailed": "Tree list could not load."
 }

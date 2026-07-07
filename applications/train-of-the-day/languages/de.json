@@ -10,7 +10,7 @@
   "power": "Antrieb",
   "source": "Quelle",
   "operator": "Betreiber",
-  "formation": "Formation",
+  "formation": "Zugbildung",
   "length": "Länge",
   "voltage": "Stromsystem",
   "gauge": "Spurweite",
@@ -27,5 +27,7 @@
   "typeEmu": "Triebzug",
   "selectedFrom": "{count} in der Rotation",
   "signature": "Merkmal",
-  "errorTitle": "Zug konnte nicht geladen werden"
+  "errorTitle": "Zug konnte nicht geladen werden",
+  "imageFailed": "Zugbild konnte nicht geladen werden.",
+  "listFailed": "Zugliste konnte nicht geladen werden."
 }

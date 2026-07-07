@@ -14,11 +14,12 @@
   "geography": "Geografia",
   "landlocked": "Senza sbocco",
   "coastline": "Costa",
-  "yes": "Si",
+  "yes": "Sì",
   "no": "No",
   "noBorders": "Nessun confine terrestre",
   "more": "+{count}",
   "selectedFrom": "{count} in rotazione",
   "source": "Dati",
-  "errorTitle": "Impossibile caricare il paese"
+  "errorTitle": "Impossibile caricare il paese",
+  "apiFailed": "API non riuscita con {status}"
 }

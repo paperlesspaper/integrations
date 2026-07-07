@@ -9,5 +9,6 @@
   "source": "Daily rotation",
   "errorTitle": "Language Learning could not load",
   "noExample": "Example hidden",
-  "notAvailable": "N/A"
+  "notAvailable": "N/A",
+  "apiFailed": "API failed with {status}"
 }

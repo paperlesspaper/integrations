@@ -324,6 +324,9 @@
         };
 
         const fallbackMessages = {
+          defaultTitle: "Launch Day",
+          sinceOpeningTitle: "Since Opening",
+          openedDateLabel: "Opened",
           untilLabel: "Until",
           sinceLabel: "Since",
           pastTargetLabel: "Past target",
@@ -335,6 +338,7 @@
           targetDateLabel: "Target",
           invalidDateTitle: "Invalid target date",
           invalidDateMessage: "Set a valid targetDate in settings.",
+          errorTitle: "Countdown Card could not load",
         };
 
         function asBoolean(value, fallback) {
@@ -383,15 +387,25 @@
           document.getElementById(id).textContent = value;
         }
 
+        function localizedSetting(value, defaultValue, translatedDefault, translations = {}) {
+          const text = String(value || "").trim();
+          if (!text || text === defaultValue) {
+            return translatedDefault || defaultValue;
+          }
+          return translations[text] || text;
+        }
+
         function clamp(value, min, max) {
           return Math.min(max, Math.max(min, value));
         }
+
+        let messages = fallbackMessages;
 
         try {
           const payload = await waitForPayload({ timeout: 300 });
           const settings = mergeSettings(defaults, getSettings(payload), getQuerySettings());
           const languageResult = await loadLanguageJson(payload).catch(() => ({ language: "en", messages: {} }));
-          const messages = { ...fallbackMessages, ...(languageResult.messages || {}) };
+          messages = { ...fallbackMessages, ...(languageResult.messages || {}) };
           const language = languageResult.language || "en";
           document.documentElement.lang = language;
 
@@ -415,8 +429,12 @@
           const showTime = asBoolean(settings.showTime, defaults.showTime);
           const showProgress = asBoolean(settings.showProgress, defaults.showProgress);
 
-          const title = String(settings.title || defaults.title).trim() || defaults.title;
-          const dateLabel = String(settings.dateLabel || messages.targetDateLabel).trim() || messages.targetDateLabel;
+          const title = localizedSetting(settings.title, defaults.title, messages.defaultTitle, {
+            "Since Opening": messages.sinceOpeningTitle,
+          });
+          const dateLabel = localizedSetting(settings.dateLabel, defaults.dateLabel, messages.targetDateLabel, {
+            Opened: messages.openedDateLabel,
+          });
           const stateLabel = effectiveMode === "until"
             ? (crossed ? messages.pastTargetLabel : messages.untilLabel)
             : (crossed ? messages.futureSinceLabel : messages.sinceLabel);
@@ -461,7 +479,7 @@
           markReady({ mode: effectiveMode, showTime, showProgress: !progressCard.classList.contains("is-hidden") });
         } catch (error) {
           markError(error);
-          document.body.innerHTML = `<main class="pp-screen"><h1 class="pp-title pp-error">Countdown Card could not load</h1><p>${escapeHtml(error.message)}</p></main>`;
+          document.body.innerHTML = `<main class="pp-screen"><h1 class="pp-title pp-error">${escapeHtml(messages.errorTitle)}</h1><p>${escapeHtml(error.message)}</p></main>`;
         }
       })();
     </script>

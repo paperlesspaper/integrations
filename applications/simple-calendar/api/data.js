@@ -15,6 +15,85 @@ const regionNames = {
   AU: 'Australia',
 };
 
+const localizedRegionNames = {
+  de: {
+    off: 'Aus',
+    DE: 'Deutschland',
+    'DE-BE': 'Berlin',
+    AT: 'Österreich',
+    CH: 'Schweiz',
+    US: 'Vereinigte Staaten',
+    'GB-ENG': 'England',
+    FR: 'Frankreich',
+    ES: 'Spanien',
+    IT: 'Italien',
+    NL: 'Niederlande',
+    CA: 'Kanada',
+    AU: 'Australien',
+  },
+};
+
+const localizedHolidayNames = {
+  de: {
+    'All Saints': 'Allerheiligen',
+    'Anzac Day': 'Anzac Day',
+    Armistice: 'Waffenstillstandstag',
+    'Ascension Day': 'Christi Himmelfahrt',
+    Assumption: 'Mariä Himmelfahrt',
+    'Australia Day': 'Australia Day',
+    'Bastille Day': 'Französischer Nationalfeiertag',
+    'Boxing Day': '2. Weihnachtstag',
+    'Canada Day': 'Canada Day',
+    'Christmas Day': '1. Weihnachtstag',
+    'Columbus Day': 'Columbus Day',
+    'Constitution Day': 'Tag der Verfassung',
+    'Corpus Christi': 'Fronleichnam',
+    'Early May Bank Holiday': 'Maifeiertag',
+    'Easter Monday': 'Ostermontag',
+    'Easter Tuesday': 'Osterdienstag',
+    Epiphany: 'Heilige Drei Könige',
+    Ferragosto: 'Ferragosto',
+    'German Unity Day': 'Tag der Deutschen Einheit',
+    'Good Friday': 'Karfreitag',
+    'Immaculate Conception': 'Mariä Empfängnis',
+    'Independence Day': 'Unabhängigkeitstag',
+    Juneteenth: 'Juneteenth',
+    "King's Day": 'Königstag',
+    'Labor Day': 'Labor Day',
+    'Labour Day': 'Tag der Arbeit',
+    'Liberation Day': 'Tag der Befreiung',
+    'Memorial Day': 'Memorial Day',
+    'MLK Day': 'Martin Luther King Day',
+    'National Day': 'Nationalfeiertag',
+    'New Year': 'Neujahr',
+    'Presidents Day': 'Presidents Day',
+    'Remembrance Day': 'Remembrance Day',
+    'Republic Day': 'Tag der Republik',
+    'Spring Bank Holiday': 'Frühlings-Bankfeiertag',
+    'St Stephen': 'Stephanstag',
+    'Summer Bank Holiday': 'Sommer-Bankfeiertag',
+    Thanksgiving: 'Thanksgiving',
+    'Veterans Day': 'Veterans Day',
+    'Victory Day': 'Tag des Sieges',
+    'Whit Monday': 'Pfingstmontag',
+    "Women's Day": 'Frauentag',
+  },
+};
+
+function localeLanguage(locale) {
+  return String(locale || '').split('-')[0].toLowerCase();
+}
+
+function localizeRegionName(region, locale) {
+  const language = localeLanguage(locale);
+  return localizedRegionNames[language]?.[region] || regionNames[region];
+}
+
+function localizeHolidayName(name, locale) {
+  const language = localeLanguage(locale);
+  return localizedHolidayNames[language]?.[name] || name;
+}
+
 function toInteger(value, fallback) {
   const number = Number(value);
   return Number.isFinite(number) ? Math.trunc(number) : fallback;
@@ -299,7 +378,7 @@ export default async function handler({ query }) {
       inMonth: date.getMonth() === month,
       isToday: key === todayKey,
       isWeeklyHoliday: date.getDay() === weeklyHoliday,
-      holiday: monthHolidays.get(key) || '',
+      holiday: localizeHolidayName(monthHolidays.get(key) || '', locale),
       alternateDay: alternateDayLabel(date, locale, alternateCalendar),
     };
   });
@@ -316,7 +395,7 @@ export default async function handler({ query }) {
       weekStart: weekStartName,
       weeklyHoliday: weeklyHolidayName,
       holidayRegion,
-      holidayRegionName: regionNames[holidayRegion],
+      holidayRegionName: localizeRegionName(holidayRegion, locale),
       alternateCalendar,
     },
     updatedAt: now.toISOString(),

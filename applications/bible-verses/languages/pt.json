@@ -1,7 +1,9 @@
 {
-  "title": "Versiculos biblicos",
+  "title": "Versículos bíblicos",
   "loading": "Carregando...",
-  "fallback": "Versiculo offline",
+  "fallback": "Versículo offline",
   "source": "Fonte",
-  "errorTitle": "Nao foi possivel carregar o versiculo"
+  "errorTitle": "Não foi possível carregar o versículo",
+  "qrAlt": "Código QR do versículo de origem",
+  "apiFailed": "A API falhou com o estado {status}"
 }

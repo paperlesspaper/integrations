@@ -1,14 +1,14 @@
 {
   "loading": "Chargement...",
-  "updated": "Mis a jour",
+  "updated": "Mis à jour",
   "from": "depuis",
   "errorTitle": "Impossible de charger Duden",
-  "apiFailed": "Echec de l'API avec {status}",
+  "apiFailed": "Échec de l'API avec {status}",
   "kicker": "Mot du jour",
   "meaning": "Signification",
   "usage": "Usage",
   "type": "Type",
   "origin": "Origine",
-  "frequency": "Frequence",
+  "frequency": "Fréquence",
   "notAvailable": "N/D"
 }

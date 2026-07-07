@@ -302,7 +302,7 @@
           if (!response.ok) {
             const text = await response.text();
             throw new Error(
-              text || `Newsstand API failed with ${response.status}`,
+              text || t("apiFailed", { status: response.status }),
             );
           }
 

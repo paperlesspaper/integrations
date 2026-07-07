@@ -11,5 +11,10 @@
   "footerTemplate": "Born {birthDate}. Grid assumes {years} years.",
   "invalidBirthDateTitle": "Invalid birth date",
   "invalidBirthDateMessage": "Set birthDate as YYYY-MM-DD.",
-  "futureBirthDateMessage": "Birth date must not be in the future."
+  "futureBirthDateMessage": "Birth date must not be in the future.",
+  "lifeStatsLabel": "Life statistics",
+  "weeksGridLabel": "Lifetime week grid",
+  "legendLabel": "Legend",
+  "title": "Your Life in Weeks",
+  "lifeCalendarTitle": "Life Calendar"
 }

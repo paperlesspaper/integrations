@@ -20,5 +20,6 @@
   "more": "+{count}",
   "selectedFrom": "{count} in rotation",
   "source": "Data",
-  "errorTitle": "Country could not load"
+  "errorTitle": "Country could not load",
+  "apiFailed": "API failed with {status}"
 }

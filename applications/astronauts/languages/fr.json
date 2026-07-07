@@ -1,9 +1,9 @@
 {
   "loading": "Chargement...",
-  "updated": "Mis a jour",
+  "updated": "Mis à jour",
   "from": "depuis",
   "errorTitle": "Impossible de charger Astronauts",
-  "apiFailed": "Echec de l'API avec {status}",
+  "apiFailed": "Échec de l'API avec {status}",
   "peopleInSpace": "Personnes dans l'espace",
   "loadingRoster": "Chargement de l'equipage",
   "crewRoster": "Liste de l'equipage",

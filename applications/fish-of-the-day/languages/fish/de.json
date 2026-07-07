@@ -1,81 +1,310 @@
 {
   "dunkleosteus": {
     "nickname": "Dunkles Knochen",
-    "period": "Spaetes Devon, etwa 382-358 Mio. Jahre",
-    "length": "Geschaetzt 3,4-4,1 m",
+    "period": "Spätes Devon, etwa 382-358 Mio. Jahre",
+    "length": "Geschätzt 3,4-4,1 m",
     "diet": "Fleischfresser",
     "fossilLocation": "Nordamerika, Europa und Marokko",
     "nameMeaning": "Dunkles Knochen",
     "source": "Wikipedia: Dunkleosteus",
-    "signature": "Knochenpanzer am Kopf und riesige Scherkiefer machen diesen Placoderm zu einem schwimmenden Schild."
+    "signature": "Knochenpanzer am Kopf und riesige Scherkiefer machen diesen Panzerfisch zu einem schwimmenden Schild.",
+    "name": "Dunkleosteus"
   },
   "tiktaalik": {
-    "period": "Spaetes Devon, etwa 375 Mio. Jahre",
+    "period": "Spätes Devon, etwa 375 Mio. Jahre",
     "length": "Etwa 1,25-2,75 m",
-    "diet": "Raeuberischer Fisch und kleine Tiere",
+    "diet": "Räuberischer Fisch und kleine Tiere",
     "fossilLocation": "Ellesmere Island, Nunavut, Kanada",
-    "nameMeaning": "Grosser Suesswasserfisch",
+    "nameMeaning": "Großer Süßwasserfisch",
     "source": "Wikipedia: Tiktaalik",
-    "signature": "Flacher Kopf, halsartige Schulterregion und gliedmassenartige Flossen geben ihm sein beruehmtes Fast-Landtier-Profil."
+    "signature": "Flacher Kopf, halsartige Schulterregion und gliedmaßenartige Flossen geben ihm sein berühmtes Fast-Landtier-Profil.",
+    "name": "Tiktaalik",
+    "nickname": "Tiktaalik roseae"
   },
   "xiphactinus": {
     "nickname": "Schwertstrahl",
-    "period": "Spaete Kreide, etwa 112-66 Mio. Jahre",
+    "period": "Späte Kreide, etwa 112-66 Mio. Jahre",
     "length": "Etwa 4,5-6 m",
-    "diet": "Grosser Raubfisch",
+    "diet": "Großer Raubfisch",
     "fossilLocation": "Nordamerika, Europa und Australien",
     "nameMeaning": "Schwertstrahl",
     "source": "Wikipedia: Xiphactinus",
-    "signature": "Tiefe Torpedoform und uebergrosse aufwaerts gerichtete Kiefer ergeben eine klare Kreidezeit-Raeubersilhouette."
+    "signature": "Tiefe Torpedoform und übergroße aufwärts gerichtete Kiefer ergeben eine klare Kreidezeit-Räubersilhouette.",
+    "name": "Xiphactinus"
   },
   "leedsichthys": {
     "nickname": "Leeds Fisch",
     "period": "Mittlerer Jura, etwa 165-161 Mio. Jahre",
-    "length": "Ungefaehr 9-16,5 m",
+    "length": "Ungefähr 9-16,5 m",
     "diet": "Plankton filtrierender Fisch",
     "fossilLocation": "England, Frankreich, Deutschland und Chile",
     "nameMeaning": "Leeds Fisch",
     "source": "Wikipedia: Leedsichthys",
-    "signature": "Die riesige, ruhige Form besteht aus breitem Maul, tiefem Koerper und langem Filterfresser-Massstab."
+    "signature": "Die riesige, ruhige Form besteht aus breitem Maul, tiefem Körper und langem Filterfresser-Maßstab.",
+    "name": "Leedsichthys"
   },
   "helicoprion": {
-    "nickname": "Spiralsaege",
-    "period": "Perm bis fruehe Trias, etwa 290-250 Mio. Jahre",
-    "length": "Geschaetzt 4-7,5 m",
-    "diet": "Weichkoerperige Meerestiere",
+    "nickname": "Spiralsäge",
+    "period": "Perm bis frühe Trias, etwa 290-250 Mio. Jahre",
+    "length": "Geschätzt 4-7,5 m",
+    "diet": "Weichkörperige Meerestiere",
     "fossilLocation": "Idaho, Ural, Australien und Asien",
-    "nameMeaning": "Spiralsaege",
+    "nameMeaning": "Spiralsäge",
     "source": "Wikipedia: Helicoprion",
-    "signature": "Die kreisfoermige Zahnspirale verwandelt einen haiartigen Koerper in eine fast unmoegliche Fossilform."
+    "signature": "Die kreisförmige Zahnspirale verwandelt einen haiartigen Körper in eine fast unmögliche Fossilform.",
+    "name": "Helicoprion"
   },
   "stethacanthus": {
     "nickname": "Bruststachel",
-    "period": "Spaetes Devon bis fruehes Karbon",
+    "period": "Spätes Devon bis frühes Karbon",
     "length": "Etwa 0,7-2 m",
     "diet": "Kleine Fische und Meerestiere",
     "fossilLocation": "Nordamerika und Europa",
     "nameMeaning": "Bruststachel",
     "source": "Wikipedia: Stethacanthus",
-    "signature": "Ein seltsamer ambossfoermiger Rueckenstachel gibt diesem kompakten Hai ein Profil ohne moderne Entsprechung."
+    "signature": "Ein seltsamer ambossförmiger Rückenstachel gibt diesem kompakten Hai ein Profil ohne moderne Entsprechung.",
+    "name": "Stethacanthus"
   },
   "pteraspis": {
-    "nickname": "Fluegelschild",
-    "period": "Fruehes Devon, etwa 415-398 Mio. Jahre",
+    "nickname": "Flügelschild",
+    "period": "Frühes Devon, etwa 415-398 Mio. Jahre",
     "length": "Etwa 20 cm",
     "diet": "Kleine organische Partikel",
-    "fossilLocation": "Grossbritannien, Belgien und Ukraine",
-    "nameMeaning": "Fluegelschild",
+    "fossilLocation": "Großbritannien, Belgien und Ukraine",
+    "nameMeaning": "Flügelschild",
     "source": "Wikipedia: Pteraspis",
-    "signature": "Ein spitzer gepanzerter Kopfschild und ein winziger Koerper lassen diesen kieferlosen Fisch wie einen kleinen lebenden Pfeil wirken."
+    "signature": "Ein spitzer gepanzerter Kopfschild und ein winziger Körper lassen diesen kieferlosen Fisch wie einen kleinen lebenden Pfeil wirken.",
+    "name": "Pteraspis"
   },
   "bothriolepis": {
     "nickname": "Grubige Schuppe",
-    "period": "Mittleres bis spaetes Devon, etwa 387-360 Mio. Jahre",
+    "period": "Mittleres bis spätes Devon, etwa 387-360 Mio. Jahre",
     "length": "Meist etwa 30 cm",
     "diet": "Bodennahe Detritus- und Kleintiernahrung",
     "fossilLocation": "Devonische Fundstellen weltweit",
     "nameMeaning": "Grubige Schuppe",
     "source": "Wikipedia: Bothriolepis",
-    "signature": "Kastenfoermige Panzerung und lange gelenkige Brustanhaenge geben diesem kleinen Placoderm ein mechanisches Profil."
+    "signature": "Kastenförmige Panzerung und lange gelenkige Brustanhänge geben diesem kleinen Panzerfisch ein mechanisches Profil.",
+    "name": "Bothriolepis"
+  },
+  "megalodon": {
+    "nickname": "Otodus megalodon",
+    "period": "Frühes Miozän bis Pliozän, etwa 23-3,6 Mio. Jahre",
+    "length": "Geschätzt bis 15-20 m",
+    "diet": "Große Meeressäuger",
+    "fossilLocation": "Weltweite warme Meeresablagerungen",
+    "nameMeaning": "Großer Zahn",
+    "source": "Wikipedia: Megalodon",
+    "signature": "Riesige dreieckige Zähne und ein weißhaiähnlicher Körper lassen diesen ausgestorbenen Hai sofort nach Ozeanmaßstab wirken.",
+    "name": "Megalodon"
+  },
+  "cretoxyrhina": {
+    "nickname": "Ginsu-Hai",
+    "period": "Späte Kreide, etwa 107-73 Mio. Jahre",
+    "length": "Etwa 6-8 m",
+    "diet": "Meeresreptilien und große Fische",
+    "fossilLocation": "Nordamerika und Europa",
+    "nameMeaning": "Kreidezeitliche Scharfnase",
+    "source": "Wikipedia: Cretoxyrhina",
+    "signature": "Eine stromlinienförmige Haiform und schneidende Zähne passen zu den offenen Meeren der Kreidezeit.",
+    "name": "Cretoxyrhina"
+  },
+  "cladoselache": {
+    "nickname": "Früher Hai",
+    "period": "Spätes Devon, etwa 385-359 Mio. Jahre",
+    "length": "Etwa 1,8 m",
+    "diet": "Fische und kleine Meerestiere",
+    "fossilLocation": "Cleveland Shale, Ohio",
+    "nameMeaning": "Verzweigter Zahn",
+    "source": "Wikipedia: Cladoselache",
+    "signature": "Breite Flossen und ein klarer früher Haikörper zeigen, wie alt die Hai-Silhouette wirklich ist.",
+    "name": "Cladoselache"
+  },
+  "hyneria": {
+    "nickname": "Hyneria lindae",
+    "period": "Spätes Devon, etwa 365 Mio. Jahre",
+    "length": "Bis etwa 3-4 m",
+    "diet": "Großer Süßwasser-Räuber",
+    "fossilLocation": "Catskill-Formation, Pennsylvania",
+    "nameMeaning": "Aus Hyner, Pennsylvania",
+    "source": "Wikipedia: Hyneria",
+    "signature": "Massiver Kopf und muskulöse Fleischflossen lassen ihn wie für devonische Flüsse gebaut wirken.",
+    "name": "Hyneria"
+  },
+  "eusthenopteron": {
+    "nickname": "Eusthenopteron foordi",
+    "period": "Spätes Devon, etwa 385 Mio. Jahre",
+    "length": "Etwa 1,5-1,8 m",
+    "diet": "Fische und kleine Wassertiere",
+    "fossilLocation": "Miguasha, Québec, Kanada",
+    "nameMeaning": "Starke Flosse",
+    "source": "Wikipedia: Eusthenopteron",
+    "signature": "Gepaarte Fleischflossen und ein zulaufender Körper machen ihn zur klassischen Tetrapodomorphen-Silhouette.",
+    "name": "Eusthenopteron"
+  },
+  "rhizodus": {
+    "nickname": "Rhizodont-Fisch",
+    "period": "Karbon, etwa 336-300 Mio. Jahre",
+    "length": "Bis etwa 7 m",
+    "diet": "Großer Süßwasser-Räuber",
+    "fossilLocation": "Schottland und Irland",
+    "nameMeaning": "Wurzelzahn",
+    "source": "Wikipedia: Rhizodus",
+    "signature": "Ein langer schwerer Körper und riesige Fangzähne geben diesem Rhizodonten die Präsenz eines krokodilgroßen Fisches.",
+    "name": "Rhizodus"
+  },
+  "onychodus": {
+    "nickname": "Krallenzahn-Fisch",
+    "period": "Mittleres bis spätes Devon",
+    "length": "Etwa 2-4 m",
+    "diet": "Raubfisch",
+    "fossilLocation": "Nordamerika, Europa und Australien",
+    "nameMeaning": "Krallenzahn",
+    "source": "Wikipedia: Onychodus",
+    "signature": "Unterkiefer-Hauer und ein langer Körper machen das Maul zum unverwechselbaren Merkmal.",
+    "name": "Onychodus"
+  },
+  "mawsonia": {
+    "nickname": "Riesen-Quastenflosser",
+    "period": "Später Jura bis Kreide",
+    "length": "Bis etwa 3,5-6 m",
+    "diet": "Fische und Wassertiere",
+    "fossilLocation": "Südamerika und Afrika",
+    "nameMeaning": "Benannt nach dem Geologen Joseph Mawson",
+    "source": "Wikipedia: Mawsonia",
+    "signature": "Quastenflossen und ein dreilappiger Schwanz geben ihm einen tief urzeitlichen Eindruck.",
+    "name": "Mawsonia"
+  },
+  "materpiscis": {
+    "nickname": "Mutterfisch",
+    "period": "Spätes Devon, etwa 380 Mio. Jahre",
+    "length": "Etwa 25-30 cm",
+    "diet": "Hartschalige Beute",
+    "fossilLocation": "Gogo-Formation, Western Australia",
+    "nameMeaning": "Mutterfisch",
+    "source": "Wikipedia: Materpiscis",
+    "signature": "Ein kompakter Panzerkörper und der berühmte fossile Embryo machen diesen kleinen Panzerfisch einprägsam.",
+    "name": "Materpiscis"
+  },
+  "entelognathus": {
+    "nickname": "Entelognathus primordialis",
+    "period": "Spätes Silur, etwa 419 Mio. Jahre",
+    "length": "Etwa 20 cm",
+    "diet": "Kleine Meerestiere",
+    "fossilLocation": "Yunnan, China",
+    "nameMeaning": "Vollständiger Kiefer",
+    "source": "Wikipedia: Entelognathus",
+    "signature": "Ein kleiner gepanzerter Körper mit unerwartet modernen Kieferknochen macht ihn wichtiger als seine Größe.",
+    "name": "Entelognathus"
+  },
+  "asterolepis": {
+    "nickname": "Sternschuppe",
+    "period": "Mittleres bis spätes Devon",
+    "length": "Etwa 1-2 m",
+    "diet": "Bodenbewohnende Kleintiere",
+    "fossilLocation": "Europa, Nordamerika und Russland",
+    "nameMeaning": "Sternschuppe",
+    "source": "Wikipedia: Asterolepis",
+    "signature": "Kastenförmige Antiarch-Panzerung und gelenkige Brustanhänge geben ihm eine robuste mechanische Kontur.",
+    "name": "Asterolepis"
+  },
+  "cephalaspis": {
+    "nickname": "Kopfschild",
+    "period": "Frühes Devon",
+    "length": "Etwa 35 cm",
+    "diet": "Bodennaher Detritus und kleine Organismen",
+    "fossilLocation": "Großbritannien und Europa",
+    "nameMeaning": "Kopfschild",
+    "source": "Wikipedia: Cephalaspis",
+    "signature": "Der breite hufeisenförmige Kopfschild lässt diesen kieferlosen Fisch wie eine winzige gepanzerte Schaufel wirken.",
+    "name": "Cephalaspis"
+  },
+  "arandaspis": {
+    "nickname": "Aranda-Schild",
+    "period": "Ordovizium, etwa 480-470 Mio. Jahre",
+    "length": "Etwa 15 cm",
+    "diet": "Kleine organische Partikel",
+    "fossilLocation": "Alice Springs, Australien",
+    "nameMeaning": "Aranda-Schild",
+    "source": "Wikipedia: Arandaspis",
+    "signature": "Ein sehr früher gepanzerter Körper und einfacher Schwanz bringen die Rotation nahe an die Wurzeln der Fische.",
+    "name": "Arandaspis"
+  },
+  "haikouichthys": {
+    "nickname": "Fisch aus Haikou",
+    "period": "Kambrium, etwa 518 Mio. Jahre",
+    "length": "Etwa 2,5 cm",
+    "diet": "Winzige Meeresteilchen",
+    "fossilLocation": "Chengjiang, Yunnan, China",
+    "nameMeaning": "Fisch aus Haikou",
+    "source": "Wikipedia: Haikouichthys",
+    "signature": "Winzig und schlicht ergänzt er einen der frühesten fischähnlichen Körperpläne der Anzeige.",
+    "name": "Haikouichthys"
+  },
+  "saurichthys": {
+    "nickname": "Echsenfisch",
+    "period": "Spätes Perm bis mittlerer Jura",
+    "length": "Häufig etwa 0,5-1 m",
+    "diet": "Schneller Raubfisch",
+    "fossilLocation": "Europa, Asien und Nordamerika",
+    "nameMeaning": "Echsenfisch",
+    "source": "Wikipedia: Saurichthys",
+    "signature": "Nadelartige Kiefer und weit hinten sitzende Flossen erzeugen eine scharfe, schnelle Lauerjäger-Silhouette.",
+    "name": "Saurichthys"
+  },
+  "aspidorhynchus": {
+    "nickname": "Schildschnauze",
+    "period": "Später Jura bis späte Kreide",
+    "length": "Etwa 60 cm",
+    "diet": "Kleine Fische",
+    "fossilLocation": "Europa, Nordamerika und Antarktika",
+    "nameMeaning": "Schildschnauze",
+    "source": "Wikipedia: Aspidorhynchus",
+    "signature": "Ein langes spitzes Rostrum und schlanker Körper lassen ihn wie einen urzeitlichen Knochenhecht wirken.",
+    "name": "Aspidorhynchus"
+  },
+  "enchodus": {
+    "nickname": "Säbelzahn-Hering",
+    "period": "Späte Kreide bis Eozän",
+    "length": "Bis etwa 1,5 m",
+    "diet": "Kleine Fische und tintenfischartige Beute",
+    "fossilLocation": "Weltweite Meeresablagerungen",
+    "nameMeaning": "Speerzahn",
+    "source": "Wikipedia: Enchodus",
+    "signature": "Übergroße Fangzähne geben diesem schlanken Fisch seinen Spitznamen Säbelzahn-Hering.",
+    "name": "Enchodus"
+  },
+  "cheirolepis": {
+    "nickname": "Handschuppe",
+    "period": "Mittleres Devon",
+    "length": "Etwa 55 cm",
+    "diet": "Kleine Fische und Wirbellose",
+    "fossilLocation": "Schottland und Kanada",
+    "nameMeaning": "Handschuppe",
+    "source": "Wikipedia: Cheirolepis",
+    "signature": "Kleine rhombische Schuppen und ein leichter Körper zeigen einen frühen Bauplan der Strahlenflosser.",
+    "name": "Cheirolepis"
+  },
+  "pycnodus": {
+    "nickname": "Dichter Zahn",
+    "period": "Jura bis Eozän",
+    "length": "Etwa 20-30 cm",
+    "diet": "Hartschalige Beute",
+    "fossilLocation": "Europa und Nordafrika",
+    "nameMeaning": "Dichter Zahn",
+    "source": "Wikipedia: Pycnodus",
+    "signature": "Ein tiefer scheibenartiger Körper und Mahlzähne lassen ihn eher wie einen Rifffisch als einen Flussräuber wirken.",
+    "name": "Pycnodus"
+  },
+  "coccosteus": {
+    "nickname": "Samenknochen",
+    "period": "Mittleres Devon",
+    "length": "Etwa 20-40 cm",
+    "diet": "Kleine Beute",
+    "fossilLocation": "Schottland und Estland",
+    "nameMeaning": "Samenknochen",
+    "source": "Wikipedia: Coccosteus",
+    "signature": "Kurzer Kopfpanzer, ein bewegliches Körpergelenk und ein zulaufender Schwanz ergeben ein kompaktes Panzerfischprofil.",
+    "name": "Coccosteus"
   }
 }

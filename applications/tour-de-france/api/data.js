@@ -102,6 +102,72 @@ function normalizeTimeZone(value) {
   return typeof value === "string" && value.trim() ? value.trim() : "Europe/Berlin";
 }
 
+function languageFromLocale(locale) {
+  return String(locale || "en").split("-")[0].toLowerCase() === "de" ? "de" : "en";
+}
+
+const stageTypeTranslations = {
+  de: {
+    "Team Time-Trial": "Mannschaftszeitfahren",
+    "Individual time-trial": "Einzelzeitfahren",
+    "Rest Day": "Ruhetag",
+    Flat: "Flach",
+    Hilly: "Hügelig",
+    Mountain: "Berg",
+  },
+};
+
+function localizeStageType(type, language) {
+  return stageTypeTranslations[language]?.[type] || type || "";
+}
+
+function stageLabel(entry, language) {
+  if (entry?.stage) {
+    return language === "de" ? `Etappe ${entry.stage}` : `Stage ${entry.stage}`;
+  }
+  if (entry?.rest) {
+    return language === "de" ? `Ruhetag ${entry.rest}` : `Rest ${entry.rest}`;
+  }
+  return "";
+}
+
+function localizeStageEntry(entry, language) {
+  return entry
+    ? {
+        ...entry,
+        type: localizeStageType(entry.type, language),
+      }
+    : null;
+}
+
+function sourceNoteText(key, language) {
+  const labels = {
+    officialRoute: {
+      de: "Offizielle Tour-de-France-Streckenseite",
+      en: "Official Tour de France route page",
+    },
+    embeddedFallback: {
+      de: "Eingebettete Route 2026",
+      en: "Embedded 2026 route fallback",
+    },
+  };
+  return labels[key]?.[language] || labels[key]?.en || "";
+}
+
+function rankingsLabel(key, language) {
+  const labels = {
+    disabled: {
+      de: "Deaktiviert",
+      en: "Disabled",
+    },
+    unavailable: {
+      de: "Wertungen nicht verfügbar",
+      en: "Rankings not available",
+    },
+  };
+  return labels[key]?.[language] || labels[key]?.en || "";
+}
+
 function localDayNumber(value, timeZone) {
   const date = new Date(value);
   if (Number.isNaN(date.getTime())) return null;
@@ -140,20 +206,20 @@ function daysUntil(date, nowMs, timeZone) {
   return stageDay - today;
 }
 
-function statusFor(entry, nowMs, timeZone) {
+function statusFor(entry, nowMs, timeZone, language) {
   const days = daysUntil(entry.date, nowMs, timeZone);
 
   if (entry.rest) {
-    if (days === 0) return "Rest day";
-    if (days < 0) return "Rest complete";
-    return `Rest in ${days}d`;
+    if (days === 0) return language === "de" ? "Ruhetag" : "Rest day";
+    if (days < 0) return language === "de" ? "Ruhetag abgeschlossen" : "Rest complete";
+    return language === "de" ? `Ruhetag in ${days} T.` : `Rest in ${days}d`;
   }
 
   if (days === null) return "";
-  if (days < 0) return "Stage complete";
-  if (days === 0) return "Stage day";
-  if (days === 1) return "Tomorrow";
-  return `In ${days} days`;
+  if (days < 0) return language === "de" ? "Etappe abgeschlossen" : "Stage complete";
+  if (days === 0) return language === "de" ? "Etappentag" : "Stage day";
+  if (days === 1) return language === "de" ? "Morgen" : "Tomorrow";
+  return language === "de" ? `In ${days} Tagen` : `In ${days} days`;
 }
 
 function selectRouteEntry(route, settings, nowMs) {
@@ -244,12 +310,12 @@ function shapeClimb(climb) {
   };
 }
 
-function parseRankings(html) {
+function parseRankings(html, language) {
   const yearLabel = stripTags(html.match(/<div class="ranking__header-title">([\s\S]*?)<\/div>/)?.[1] || "");
   if (!/\b2026\b/.test(yearLabel)) {
     return {
       available: false,
-      label: yearLabel || "Rankings not available",
+      label: yearLabel || rankingsLabel("unavailable", language),
       riders: [],
     };
   }
@@ -282,18 +348,18 @@ function parseRankings(html) {
   };
 }
 
-async function getRoute() {
+async function getRoute(language) {
   try {
     const html = await fetchText(routeUrl);
     const route = parseRoute(html);
     if (route.length) {
-      return { route, routeSource: "Official Tour de France route page" };
+      return { route, routeSource: sourceNoteText("officialRoute", language) };
     }
   } catch {
     // Fallback below keeps the integration renderable when ASO changes markup.
   }
 
-  return { route: fallbackRoute, routeSource: "Embedded 2026 route fallback" };
+  return { route: fallbackRoute, routeSource: sourceNoteText("embeddedFallback", language) };
 }
 
 async function getStageDetails(entry) {
@@ -306,15 +372,15 @@ async function getStageDetails(entry) {
   }
 }
 
-async function getRankings(enabled) {
+async function getRankings(enabled, language) {
   if (!enabled) {
-    return { available: false, label: "Disabled", riders: [] };
+    return { available: false, label: rankingsLabel("disabled", language), riders: [] };
   }
 
   try {
-    return parseRankings(await fetchText(rankingsUrl));
+    return parseRankings(await fetchText(rankingsUrl), language);
   } catch {
-    return { available: false, label: "Rankings not available", riders: [] };
+    return { available: false, label: rankingsLabel("unavailable", language), riders: [] };
   }
 }
 
@@ -328,13 +394,14 @@ export default async function handler({ query }) {
     timeZone: normalizeTimeZone(query.timeZone),
     showRankings: toBoolean(query.showRankings, true),
   };
+  const language = languageFromLocale(settings.locale);
 
-  const { route, routeSource } = await getRoute();
+  const { route, routeSource } = await getRoute(language);
   const selected = selectRouteEntry(route, settings, nowMs);
   const stageRows = route.filter((entry) => Number.isFinite(entry.stage));
   const selectedStageIndex = stageRows.findIndex((entry) => entry.stage === selected.stage);
   const details = await getStageDetails(selected);
-  const rankings = await getRankings(settings.showRankings);
+  const rankings = await getRankings(settings.showRankings, language);
 
   return {
     source: "letour.fr",
@@ -344,16 +411,16 @@ export default async function handler({ query }) {
     updatedAt: new Date().toISOString(),
     selection: settings.selection,
     stage: {
-      ...selected,
-      label: selected.stage ? `Stage ${selected.stage}` : `Rest ${selected.rest}`,
+      ...localizeStageEntry(selected, language),
+      label: stageLabel(selected, language),
       dateLabel: formatDate(selected.date, settings.locale, settings.timeZone),
-      status: statusFor(selected, nowMs, settings.timeZone),
+      status: statusFor(selected, nowMs, settings.timeZone, language),
       startsAt: `${selected.date}T13:00:00+02:00`,
       ...details,
     },
-    previous: selectedStageIndex > 0 ? stageRows[selectedStageIndex - 1] : null,
-    next: selectedStageIndex >= 0 && selectedStageIndex < stageRows.length - 1 ? stageRows[selectedStageIndex + 1] : null,
-    route: stageRows,
+    previous: selectedStageIndex > 0 ? localizeStageEntry(stageRows[selectedStageIndex - 1], language) : null,
+    next: selectedStageIndex >= 0 && selectedStageIndex < stageRows.length - 1 ? localizeStageEntry(stageRows[selectedStageIndex + 1], language) : null,
+    route: stageRows.map((entry) => localizeStageEntry(entry, language)),
     rankings,
   };
 }

@@ -6,13 +6,14 @@
   "pregame": "Previo",
   "halftime": "Descanso",
   "final": "Final",
-  "finalOvertime": "Final OT",
-  "overtime": "OT",
-  "quarter": "Q{period}",
+  "finalOvertime": "Final prórroga",
+  "overtime": "Prórroga",
+  "quarter": "{period}. cuarto",
   "favorite": "Favorito",
-  "leaders": "Lideres",
-  "noGames": "No se encontraron partidos NFL para esta seleccion.",
+  "leaders": "Líderes",
+  "noGames": "No se encontraron partidos NFL para esta selección.",
   "updated": "Actualizado",
   "from": "fuente",
-  "record": "Marca"
+  "record": "Marca",
+  "apiFailed": "La API falló con {status}"
 }

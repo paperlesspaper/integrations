@@ -424,6 +424,83 @@
       let visited = parseVisited(defaults.visitedRegions);
       let featuresByMode = {};
       let activeFeatures = [];
+      let currentLanguage = "en";
+      const germanText = new Map([
+        ["Travel Map Settings", "Reisekarten-Einstellungen"],
+        ["Display", "Anzeige"],
+        ["Title", "Titel"],
+        ["Map", "Karte"],
+        ["Countries", "Länder"],
+        ["US states", "US-Bundesstaaten"],
+        ["Projection", "Projektion"],
+        ["Natural Earth", "Natural-Earth-Projektion"],
+        ["Equal Earth", "Equal-Earth-Projektion"],
+        ["Mercator", "Mercator-Projektion"],
+        ["Equirectangular", "Äquidistante Zylinderprojektion"],
+        ["Automatic", "Automatisch"],
+        ["Year for map clicks", "Jahr für Kartenklicks"],
+        ["optional", "optional"],
+        ["Color mode", "Farbmodus"],
+        ["Color by year", "Farbe nach Jahr"],
+        ["Selected color", "Ausgewählte Farbe"],
+        ["Shade by year", "Schattierung nach Jahr"],
+        ["Black", "Schwarz"],
+        ["Red", "Rot"],
+        ["Yellow", "Gelb"],
+        ["Green", "Grün"],
+        ["Blue", "Blau"],
+        ["Show visited counter", "Besuchszähler anzeigen"],
+        ["Show year legend", "Jahreslegende anzeigen"],
+        ["Click a region on the map to toggle it. Enter years in the list to color visits by year.", "Klicke auf eine Region in der Karte, um sie umzuschalten. Trage Jahre in der Liste ein, um Besuche nach Jahr zu färben."],
+        ["Ready", "Bereit"],
+        ["Updated", "Aktualisiert"],
+        ["Map selection", "Kartenauswahl"],
+        ["Regions", "Regionen"],
+        ["Search", "Suche"],
+        ["Travel map", "Reisekarte"],
+        ["Year", "Jahr"],
+        ["Loading map...", "Karte wird geladen..."],
+        ["Could not load map data.", "Kartendaten konnten nicht geladen werden."],
+        ["selected", "ausgewählt"],
+      ]);
+
+      function languageFromPayload(payload) {
+        return String(payload?.meta?.language || navigator.language || "en")
+          .split("-")[0]
+          .toLowerCase();
+      }
+
+      function tr(text) {
+        return currentLanguage === "de" ? germanText.get(text) || text : text;
+      }
+
+      function translateStaticText(root = document.body) {
+        if (currentLanguage !== "de") {
+          return;
+        }
+        document.title = tr(document.title);
+        const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+        let node;
+        while ((node = walker.nextNode())) {
+          const text = node.nodeValue.trim();
+          const translated = text ? germanText.get(text) : "";
+          if (translated) {
+            node.nodeValue = node.nodeValue.replace(text, translated);
+          }
+        }
+        document.querySelectorAll("input[placeholder]").forEach((input) => {
+          input.placeholder = tr(input.placeholder);
+        });
+        document.querySelectorAll("option").forEach((option) => {
+          option.textContent = tr(option.textContent.trim());
+        });
+      }
+
+      function setSettingsLanguage(payload) {
+        currentLanguage = languageFromPayload(payload);
+        document.documentElement.lang = currentLanguage;
+        translateStaticText();
+      }
 
       function isObject(value) {
         return Boolean(value) && typeof value === "object" && !Array.isArray(value);
@@ -592,7 +669,7 @@
         const definition = mapDefinitions[mode];
         const response = await fetch(definition.url, { cache: "no-store" });
         if (!response.ok) {
-          throw new Error(`Could not load ${mode}`);
+          throw new Error(tr("Could not load map data."));
         }
         const data = await response.json();
         const features =
@@ -607,7 +684,7 @@
 
       function postSettings() {
         settings = normalizeSettings(readSettingsFromControls());
-        statusElement.textContent = "Updated";
+        statusElement.textContent = tr("Updated");
         if (settingsBridge.postSettingsUpdate) {
           settingsBridge.postSettingsUpdate(settings);
         } else {
@@ -685,7 +762,7 @@
         );
         const path = d3.geoPath(projection);
         mapElement.innerHTML = `
-          <svg width="${width}" height="${height}" viewBox="0 0 ${width} ${height}" style="--region-stroke:${strokes.region};--visited-stroke:${strokes.visited}" role="img" aria-label="Travel map">
+          <svg width="${width}" height="${height}" viewBox="0 0 ${width} ${height}" style="--region-stroke:${strokes.region};--visited-stroke:${strokes.visited}" role="img" aria-label="${escapeHtml(tr("Travel map"))}">
             ${activeFeatures
               .map((feature) => {
                 const id = regionId(feature);
@@ -743,7 +820,7 @@
               <label class="row" data-region-id="${escapeHtml(id)}">
                 <input type="checkbox" ${checked ? "checked" : ""} aria-label="${escapeHtml(regionName(feature))}">
                 <span class="row-name" title="${escapeHtml(regionName(feature))}">${escapeHtml(regionName(feature))}</span>
-                <input class="row-year" type="number" min="1900" max="2100" placeholder="Year" value="${escapeHtml(year)}">
+                <input class="row-year" type="number" min="1900" max="2100" placeholder="${escapeHtml(tr("Year"))}" value="${escapeHtml(year)}">
               </label>
             `;
           })
@@ -777,10 +854,10 @@
 
       async function refreshMode() {
         settings = normalizeSettings(readSettingsFromControls());
-        statusElement.textContent = "Loading map...";
+        statusElement.textContent = tr("Loading map...");
         activeFeatures = await loadFeatures(settings.mapMode);
         renderMap();
-        statusElement.textContent = `${Object.keys(visited[settings.mapMode]).length}/${activeFeatures.length} selected`;
+        statusElement.textContent = `${Object.keys(visited[settings.mapMode]).length}/${activeFeatures.length} ${tr("selected")}`;
       }
 
       async function applySettings(nextSettings) {
@@ -798,6 +875,7 @@
         const payload =
           message.type === "INIT" || message.cmd === "message" ? message.data : message.payload;
         if (isObject(payload)) {
+          setSettingsLanguage(payload);
           applySettings(pluginSettingsFromPayload(payload));
         } else if (isObject(message.pluginSettings)) {
           applySettings(message.pluginSettings);
@@ -835,6 +913,7 @@
       window.addEventListener("message", handleMessage);
 
       settingsBridge.observeSettingsHeight?.({ minHeight: 160 });
+      setSettingsLanguage();
       applySettings(defaults).then(() => {
         if (settingsBridge.postSettingsReady) {
           settingsBridge.postSettingsReady();

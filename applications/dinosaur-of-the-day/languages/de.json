@@ -26,6 +26,8 @@
   "groupSpinosaurid": "Spinosauride",
   "signature": "Silhouettenmerkmal",
   "errorTitle": "Dinosaurier konnte nicht geladen werden",
-  "groupSauropodomorph": "Sauropodomorph",
-  "groupAlvarezsaurid": "Alvarezsauride"
+  "groupSauropodomorph": "Sauropodomorphe",
+  "groupAlvarezsaurid": "Alvarezsauride",
+  "imageFailed": "Dinosaurierbild konnte nicht geladen werden.",
+  "listFailed": "Dinosaurierliste konnte nicht geladen werden."
 }

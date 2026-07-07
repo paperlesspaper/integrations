@@ -1,7 +1,9 @@
 {
-  "title": "Biblicke verse",
-  "loading": "Nacitava sa...",
-  "fallback": "Offline vers",
+  "title": "Biblické verše",
+  "loading": "Načítava sa...",
+  "fallback": "Offline verš",
   "source": "Zdroj",
-  "errorTitle": "Vers sa nepodarilo nacitat"
+  "errorTitle": "Verš sa nepodarilo načítať",
+  "qrAlt": "QR kód pre zdrojový verš",
+  "apiFailed": "API zlyhalo so stavom {status}"
 }

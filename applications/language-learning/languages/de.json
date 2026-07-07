@@ -4,10 +4,11 @@
   "translation": "Bedeutung",
   "pronunciation": "Aussprache",
   "example": "Beispiel",
-  "practice": "Heute ueben",
+  "practice": "Heute üben",
   "memory": "Merktipp",
-  "source": "Taegliche Rotation",
-  "errorTitle": "Language Learning konnte nicht geladen werden",
+  "source": "Tägliche Rotation",
+  "errorTitle": "Sprachenlernen konnte nicht geladen werden",
   "noExample": "Beispiel ausgeblendet",
-  "notAvailable": "Keine Angabe"
+  "notAvailable": "Keine Angabe",
+  "apiFailed": "API-Aufruf fehlgeschlagen ({status})"
 }

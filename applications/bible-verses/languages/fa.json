@@ -3,5 +3,7 @@
   "loading": "در حال بارگذاری...",
   "fallback": "آیه آفلاین",
   "source": "منبع",
-  "errorTitle": "آیه بارگذاری نشد"
+  "errorTitle": "آیه بارگذاری نشد",
+  "qrAlt": "کد QR برای منبع آیه",
+  "apiFailed": "API با وضعیت {status} ناموفق بود"
 }

@@ -3,5 +3,7 @@
   "loading": "Chargement...",
   "fallback": "Verset hors ligne",
   "source": "Source",
-  "errorTitle": "Le verset n'a pas pu etre charge"
+  "errorTitle": "Le verset n'a pas pu être chargé",
+  "qrAlt": "Code QR du verset source",
+  "apiFailed": "Échec de l'API avec {status}"
 }

@@ -8,11 +8,12 @@
   "final": "Finale",
   "finalOvertime": "Finale OT",
   "overtime": "OT",
-  "quarter": "Q{period}",
+  "quarter": "{period}º quarto",
   "favorite": "Preferita",
   "leaders": "Leader",
   "noGames": "Nessuna partita NFL trovata per questa selezione.",
   "updated": "Aggiornato",
   "from": "fonte",
-  "record": "Record"
+  "record": "Record",
+  "apiFailed": "API non riuscita con {status}"
 }

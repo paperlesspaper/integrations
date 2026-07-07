@@ -7,5 +7,6 @@
   "rows": "righe",
   "fields": "campi",
   "errorTitle": "Impossibile caricare Airtable",
-  "source": "Fonte"
+  "source": "Fonte",
+  "apiFailed": "API non riuscita con {status}"
 }

@@ -270,6 +270,7 @@
           day: "Day {day}",
           source: "Daily quote",
           errorTitle: "Wisdom could not load",
+          apiFailed: "API failed with {status}",
           hidden: "Wisdom text hidden",
         };
         const defaults = {
@@ -412,7 +413,7 @@
           });
 
           if (!response.ok) {
-            throw new Error(`Wisdom API failed with ${response.status}`);
+            throw new Error(t("apiFailed", { status: response.status }));
           }
 
           const data = await response.json();

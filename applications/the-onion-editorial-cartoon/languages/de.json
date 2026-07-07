@@ -2,10 +2,10 @@
   "loading": "Wird geladen...",
   "updated": "Aktualisiert",
   "from": "von",
-  "errorTitle": "The Onion Cartoon konnte nicht geladen werden",
-  "apiFailed": "API fehlgeschlagen mit {status}",
+  "errorTitle": "Karikatur von The Onion konnte nicht geladen werden",
+  "apiFailed": "API-Aufruf fehlgeschlagen ({status})",
   "source": "The Onion",
-  "section": "Editorial Cartoon",
+  "section": "Redaktionskarikatur",
   "credit": "theonion.com",
-  "imageFailed": "Cartoonbild konnte nicht geladen werden"
+  "imageFailed": "Bild der Karikatur konnte nicht geladen werden"
 }

@@ -313,13 +313,15 @@
           aqiGood: "Good",
           aqiFair: "Fair",
           aqiModerate: "Moderate",
-          aqiPoor: "Poor"
+          aqiPoor: "Poor",
+          apiFailed: "API failed with {status}"
         };
         let messages = defaultMessages;
         let currentLanguage = "en";
 
-        function t(key) {
-          return messages[key] || defaultMessages[key] || key;
+        function t(key, values = {}) {
+          const template = messages[key] || defaultMessages[key] || key;
+          return String(template).replace(/\{(\w+)\}/g, (_match, name) => values[name] ?? "");
         }
 
         function formatNumber(value, digits = 0) {
@@ -427,7 +429,7 @@
             cache: "no-store"
           });
           if (!response.ok) {
-            throw new Error(`Bike commute API failed with ${response.status}`);
+            throw new Error(t("apiFailed", { status: response.status }));
           }
 
           const data = await response.json();

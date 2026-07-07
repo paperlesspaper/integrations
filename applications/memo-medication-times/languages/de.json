@@ -1,7 +1,7 @@
 {
   "loading": "Laden...",
   "errorTitle": "Memo konnte nicht geladen werden",
-  "nextTitle": "N\u00e4chste Einnahmen",
+  "nextTitle": "Nächste Einnahmen",
   "noEntries": "Keine anstehenden Einnahmen",
   "lastUpdated": "Aktualisiert",
   "goodMorning": "Guten Morgen",
@@ -12,12 +12,13 @@
   "medication": "Medikament",
   "medications": "Medikamente",
   "alertTitle": "{time} Medikamente",
-  "alertSingle": "Es ist Zeit f\u00fcr {name}.",
-  "alertMany": "Es ist Zeit f\u00fcr Ihre Medikamente.",
-  "emptyStomach": "N\u00fcchtern",
+  "alertSingle": "Es ist Zeit für {name}.",
+  "alertMany": "Es ist Zeit für Ihre Medikamente.",
+  "emptyStomach": "Nüchtern",
   "morning": "Morgens",
   "noon": "Mittags",
   "afternoon": "Nachmittags",
   "night": "Abends",
-  "sampleSource": "Beispieldaten"
+  "sampleSource": "Beispieldaten",
+  "apiFailed": "Memo-API-Aufruf fehlgeschlagen ({status})"
 }

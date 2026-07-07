@@ -622,6 +622,8 @@
           updated: "Updated",
           source: "Source",
           errorTitle: "Tour de France could not load",
+          apiFailed: "API failed with {status}",
+          atGradient: "at {value}",
         };
         let messages = defaultMessages;
 
@@ -718,7 +720,9 @@
         function climbDetail(climb) {
           const parts = [
             compactNumber(climb.lengthKm, " km"),
-            Number.isFinite(climb.gradientPercent) ? `at ${compactNumber(climb.gradientPercent, "%")}` : "",
+            Number.isFinite(climb.gradientPercent)
+              ? t("atGradient", { value: compactNumber(climb.gradientPercent, "%") })
+              : "",
           ].filter(Boolean);
           return parts.length ? parts.join(" ") : climb.detail || "";
         }
@@ -873,7 +877,7 @@
             showRankings: String(settings.showRankings),
           });
           const response = await fetch(`./api/data?${params.toString()}`);
-          if (!response.ok) throw new Error(`API failed with ${response.status}`);
+          if (!response.ok) throw new Error(t("apiFailed", { status: response.status }));
           const data = await response.json();
           const stage = data.stage || {};
 

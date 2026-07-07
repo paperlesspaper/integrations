@@ -3,7 +3,7 @@
   "kicker": "Baum des Tages",
   "species": "Art",
   "range": "Verbreitung",
-  "height": "Hoehe",
+  "height": "Höhe",
   "age": "Alter",
   "leafType": "Blatttyp",
   "fruitSeed": "Frucht / Samen",
@@ -13,8 +13,10 @@
   "conservation": "Schutzstatus",
   "category": "Eintrag",
   "categorySpecies": "Baumart",
-  "categoryIndividual": "Beruehmter Baum",
+  "categoryIndividual": "Berühmter Baum",
   "source": "Quelle",
   "selectedFrom": "{count} in Rotation",
-  "errorTitle": "Baum konnte nicht geladen werden"
+  "errorTitle": "Baum konnte nicht geladen werden",
+  "imageFailed": "Baumbild konnte nicht geladen werden.",
+  "listFailed": "Baumliste konnte nicht geladen werden."
 }

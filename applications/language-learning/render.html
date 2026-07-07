@@ -461,6 +461,7 @@
           memory: "Memory hook",
           source: "Daily rotation",
           errorTitle: "Language Learning could not load",
+          apiFailed: "API failed with {status}",
           noExample: "Example hidden",
           notAvailable: "N/A",
         };
@@ -561,7 +562,7 @@
           });
           const response = await fetch(`./api/data?${params.toString()}`, { cache: "no-store" });
           if (!response.ok) {
-            throw new Error(`Language Learning API failed with ${response.status}`);
+            throw new Error(t("apiFailed", { status: response.status }));
           }
 
           const data = await response.json();

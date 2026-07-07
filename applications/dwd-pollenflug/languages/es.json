@@ -1,27 +1,27 @@
 {
   "title": "Polen DWD",
-  "subtitle": "Prevision de carga de polen",
-  "highest": "Maximo hoy",
+  "subtitle": "Previsión de carga de polen",
+  "highest": "Máximo hoy",
   "today": "Hoy",
-  "tomorrow": "Manana",
+  "tomorrow": "Mañana",
   "dayafter_to": "Pasado",
-  "updated": "Actualizacion DWD",
+  "updated": "Actualización DWD",
   "nextUpdate": "Siguiente",
   "noLoad": "Sin carga relevante de polen",
-  "errorTitle": "No se pudo cargar la prevision de polen",
+  "errorTitle": "No se pudo cargar la previsión de polen",
   "source": "Fuente",
-  "regionId": "Region ID",
+  "regionId": "ID de región",
   "valueDescriptions": {
     "0": "ninguna",
+    "1": "baja",
+    "2": "moderada",
+    "3": "alta",
     "0-1": "ninguna a baja",
     "0.5": "ninguna a baja",
-    "1": "baja",
     "1-2": "baja a moderada",
     "1.5": "baja a moderada",
-    "2": "moderada",
     "2-3": "moderada a alta",
-    "2.5": "moderada a alta",
-    "3": "alta"
+    "2.5": "moderada a alta"
   },
   "pollenNames": {
     "Ambrosia": "Ambrosia",
@@ -29,8 +29,10 @@
     "Birke": "Abedul",
     "Erle": "Aliso",
     "Esche": "Fresno",
-    "Graeser": "Gramineas",
+    "Graeser": "Gramíneas",
     "Hasel": "Avellano",
     "Roggen": "Centeno"
-  }
+  },
+  "loading": "Cargando...",
+  "apiFailed": "La API falló con {status}"
 }

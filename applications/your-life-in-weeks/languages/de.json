@@ -1,15 +1,20 @@
 {
-  "subtitle": "Ein Punkt fuer jede Woche.",
+  "subtitle": "Ein Punkt für jede Woche.",
   "ageLabel": "Alter",
   "weeksLivedLabel": "Gelebte Wochen",
-  "remainingLabel": "Wochen uebrig",
+  "remainingLabel": "Wochen übrig",
   "progressLabel": "Fortschritt",
   "livedLabel": "Gelebt",
   "currentLabel": "Diese Woche",
-  "futureLabel": "Uebrig",
+  "futureLabel": "Übrig",
   "yearLabel": "Jahr",
   "footerTemplate": "Geboren am {birthDate}. Raster rechnet mit {years} Jahren.",
-  "invalidBirthDateTitle": "Ungueltiges Geburtsdatum",
+  "invalidBirthDateTitle": "Ungültiges Geburtsdatum",
   "invalidBirthDateMessage": "Bitte birthDate als YYYY-MM-DD setzen.",
-  "futureBirthDateMessage": "Das Geburtsdatum darf nicht in der Zukunft liegen."
+  "futureBirthDateMessage": "Das Geburtsdatum darf nicht in der Zukunft liegen.",
+  "lifeStatsLabel": "Lebensstatistik",
+  "weeksGridLabel": "Lebenswochenraster",
+  "legendLabel": "Legende",
+  "title": "Dein Leben in Wochen",
+  "lifeCalendarTitle": "Lebenskalender"
 }

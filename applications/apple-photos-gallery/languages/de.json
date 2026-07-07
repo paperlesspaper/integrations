@@ -2,10 +2,11 @@
   "loading": "Wird geladen...",
   "updated": "Aktualisiert",
   "from": "von",
-  "errorTitle": "Apple Fotos konnte nicht geladen werden",
-  "apiFailed": "Apple Fotos API fehlgeschlagen mit {status}",
-  "title": "Apple Fotos",
-  "imageFailed": "Die aufgeloeste Bild-URL konnte nicht geladen werden.",
-  "imageAlt": "Apple Fotos Bild {index} von {total}",
-  "photoCount": "Foto {index} / {total}"
+  "errorTitle": "Apple-Fotos konnten nicht geladen werden",
+  "apiFailed": "Apple-Fotos-API-Aufruf fehlgeschlagen ({status})",
+  "title": "Apple-Fotos",
+  "imageFailed": "Die aufgelöste Bild-URL konnte nicht geladen werden.",
+  "imageAlt": "Apple-Fotos-Bild {index} von {total}",
+  "photoCount": "Foto {index} / {total}",
+  "photoDetailsLabel": "Fotodetails"
 }

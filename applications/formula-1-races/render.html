@@ -779,7 +779,7 @@
           const params = new URLSearchParams(settings);
           const response = await fetch(`./api/data?${params.toString()}`, { cache: "no-store" });
           if (!response.ok) {
-            throw new Error(`Formula 1 API failed with ${response.status}`);
+            throw new Error(t("apiFailed", { status: response.status }));
           }
 
           const race = await response.json();

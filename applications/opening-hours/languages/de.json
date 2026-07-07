@@ -2,13 +2,13 @@
   "loading": "Wird geladen...",
   "updated": "Aktualisiert",
   "from": "von",
-  "errorTitle": "Oeffnungszeiten konnten nicht geladen werden",
-  "apiFailed": "API fehlgeschlagen mit {status}",
-  "kicker": "Oeffnungszeiten",
-  "title": "Oeffnungszeiten",
+  "errorTitle": "Öffnungszeiten konnten nicht geladen werden",
+  "apiFailed": "API-Aufruf fehlgeschlagen ({status})",
+  "kicker": "Öffnungszeiten",
+  "title": "Öffnungszeiten",
   "manual": "Manuell",
   "today": "Heute",
   "thisWeek": "Diese Woche",
-  "unavailable": "Oeffnungszeiten nicht verfügbar",
+  "unavailable": "Öffnungszeiten nicht verfügbar",
   "googleMaps": "Google Maps"
 }

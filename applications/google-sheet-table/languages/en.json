@@ -8,5 +8,7 @@
   "emptyTitle": "No rows found",
   "emptyCopy": "The sheet loaded, but no displayable rows were found.",
   "updated": "Updated",
-  "errorTitle": "Sheet could not load"
+  "errorTitle": "Sheet could not load",
+  "defaultTitle": "Sheet",
+  "apiFailed": "API failed with {status}"
 }

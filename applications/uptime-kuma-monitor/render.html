@@ -479,7 +479,7 @@
           </h1>
           <p class="kuma-page" id="page-title"></p>
         </div>
-        <section class="kuma-counts" aria-label="Monitor counts">
+        <section class="kuma-counts" aria-label="">
           <article class="kuma-count">
             <p class="kuma-count-label" data-i18n="up">Up</p>
             <p class="kuma-count-value" id="count-up">--</p>
@@ -538,6 +538,9 @@
           "total": "Total",
           "events": "Events",
           "recent": "Recent",
+          "incidents": "Incidents",
+          "maintenanceEvents": "Maintenance",
+          "monitorCountsLabel": "Monitor counts",
           "publicMonitors": "{count} public monitors",
           "ping": "Ping {value}",
           "noPublicMonitors": "No public monitors"
@@ -596,6 +599,9 @@
           currentLanguage = result.language || "en";
           document.documentElement.lang = currentLanguage;
           applyStaticMessages();
+          document
+            .querySelector(".kuma-counts")
+            ?.setAttribute("aria-label", t("monitorCountsLabel"));
           return result;
         }
 
@@ -708,14 +714,14 @@
 
           if (incidents.length) {
             return {
-              title: "Incidents",
+              title: t("incidents"),
               items: incidents,
             };
           }
 
           if (maintenance.length) {
             return {
-              title: "Maintenance",
+              title: t("maintenanceEvents"),
               items: maintenance,
             };
           }
@@ -749,7 +755,7 @@
 
           if (!response.ok) {
             const text = await response.text();
-            throw new Error(text || `Uptime Kuma API failed with ${response.status}`);
+            throw new Error(text || t("apiFailed", { status: response.status }));
           }
 
           const data = await response.json();

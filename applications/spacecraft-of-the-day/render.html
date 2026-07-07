@@ -52,7 +52,9 @@
         line-height: 0.9;
         font-weight: 900;
         letter-spacing: 0;
-        overflow-wrap: anywhere;
+        overflow-wrap: normal;
+        word-break: normal;
+        text-wrap: balance;
       }
 
       .nickname {
@@ -176,6 +178,42 @@
         overflow-wrap: anywhere;
       }
 
+      @media (min-width: 1400px) and (min-height: 1000px) {
+        .hero-header {
+          padding: 20px 28px 8px;
+        }
+
+        .nickname {
+          font-size: 1.12rem;
+        }
+
+        .signature-line {
+          font-size: 1.05rem;
+        }
+
+        .source-meta {
+          flex-basis: 190px;
+          font-size: 0.64rem;
+        }
+
+        .date-line {
+          font-size: 0.84rem;
+        }
+
+        .fact-grid {
+          gap: 15px;
+          padding: 12px 28px 19px;
+        }
+
+        .label {
+          font-size: 0.68rem;
+        }
+
+        .value {
+          font-size: 1.08rem;
+        }
+      }
+
       @media (orientation: portrait), (max-width: 700px) {
         .spacecraft-shell {
           grid-template-rows: auto minmax(0, 1fr) auto;
@@ -293,7 +331,7 @@
             <h1 class="spacecraft-name pp-fit" id="spacecraft-name" data-i18n="loading">
               Loading...
             </h1>
-            <p class="nickname pp-fit" id="nickname"></p>
+            <p class="nickname" id="nickname"></p>
             <p class="signature-line pp-fit" id="signature"></p>
           </div>
           <div class="source-meta">
@@ -318,8 +356,8 @@
           getQuerySettings,
           mergeSettings,
           escapeHtml,
+          fitText,
           fitHyphenatedText,
-          fitAllText,
           fitToScreen,
           markReady,
           markError,
@@ -385,6 +423,74 @@
           applyStaticMessages();
         }
 
+        async function loadSpacecraftTranslations(language) {
+          const requested = String(language || "en")
+            .trim()
+            .toLowerCase();
+          const requestedBase = requested.split("-")[0];
+          const candidates = ["en", requestedBase, requested].filter(
+            (value, index, array) => value && array.indexOf(value) === index,
+          );
+          let translations = {};
+
+          for (const candidate of candidates) {
+            try {
+              const response = await fetch(`./languages/spacecraft/${candidate}.json`, {
+                cache: "no-store",
+              });
+              if (!response.ok) {
+                continue;
+              }
+              const data = await response.json();
+              if (data && typeof data === "object" && !Array.isArray(data)) {
+                translations = { ...translations, ...data };
+              }
+            } catch (_error) {
+              // Spacecraft metadata translations are optional; base data remains usable.
+            }
+          }
+
+          return translations;
+        }
+
+        function applySpacecraftTranslation(item, translations) {
+          const translation =
+            translations && typeof translations === "object"
+              ? translations[item.id]
+              : null;
+          if (
+            !translation ||
+            typeof translation !== "object" ||
+            Array.isArray(translation)
+          ) {
+            return item;
+          }
+
+          const fields = [
+            "name",
+            "nickname",
+            "mission",
+            "launchDate",
+            "agency",
+            "destination",
+            "mass",
+            "powerSource",
+            "outcome",
+            "country",
+            "launchVehicle",
+            "operationalLife",
+            "source",
+            "signature",
+          ];
+          const translatedFields = {};
+          fields.forEach((field) => {
+            if (typeof translation[field] === "string") {
+              translatedFields[field] = translation[field];
+            }
+          });
+          return { ...item, ...translatedFields };
+        }
+
         function dayKey(date = new Date()) {
           return date.toISOString().slice(0, 10);
         }
@@ -444,7 +550,7 @@
           return `
             <article class="fact">
               <p class="label">${escapeHtml(label)}</p>
-              <p class="value pp-fit">${escapeHtml(value || "N/A")}</p>
+              <p class="value">${escapeHtml(value || "N/A")}</p>
             </article>
           `;
         }
@@ -457,7 +563,7 @@
             image.addEventListener("load", resolve, { once: true });
             image.addEventListener(
               "error",
-              () => reject(new Error(`Could not load ${image.src}`)),
+              () => reject(new Error(t("imageFailed"))),
               { once: true },
             );
           });
@@ -492,11 +598,17 @@
           );
           applyColorTheme(settings.color, { defaultTheme: defaults.color });
           if (!spacecraft.length) {
-            throw new Error("Spacecraft list could not load");
+            throw new Error(t("listFailed"));
           }
 
           const today = dayKey();
-          const { item, poolSize } = pickSpacecraft(settings, today);
+          const { item: selectedItem, poolSize } = pickSpacecraft(settings, today);
+          const spacecraftTranslations =
+            await loadSpacecraftTranslations(currentLanguage);
+          const item = applySpacecraftTranslation(
+            selectedItem,
+            spacecraftTranslations,
+          );
           const image = document.getElementById("spacecraft-image");
           image.src = item.image;
           image.alt = item.name;
@@ -538,30 +650,19 @@
           await Promise.all([document.fonts?.ready, waitForImage(image)]);
           const compactLandscape =
             window.innerWidth > window.innerHeight && window.innerHeight <= 560;
-          fitHyphenatedText(document.getElementById("spacecraft-name"), {
+          const roomyLandscape =
+            window.innerWidth >= 1400 && window.innerHeight >= 1000;
+          fitText(document.getElementById("spacecraft-name"), {
             min: 28,
-            max: compactLandscape ? 56 : 76,
+            max: compactLandscape ? 56 : roomyLandscape ? 104 : 76,
             step: 2,
             tolerance: 6,
             lineBreak: "balance",
           });
-          fitHyphenatedText(document.getElementById("nickname"), {
-            min: 11,
-            max: compactLandscape ? 14 : 19,
-            step: 1,
-            lineBreak: true,
-          });
           fitHyphenatedText(document.getElementById("signature"), {
             min: 9,
-            max: compactLandscape ? 13 : 17,
+            max: compactLandscape ? 13 : roomyLandscape ? 20 : 17,
             step: 1,
-            lineBreak: true,
-          });
-          fitAllText(".fact .pp-fit", {
-            min: 8,
-            max: compactLandscape ? 13 : 18,
-            step: 1,
-            tolerance: 4,
             lineBreak: true,
           });
           fitToScreen();

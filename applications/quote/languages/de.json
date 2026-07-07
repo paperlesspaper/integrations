@@ -3,5 +3,5 @@
   "updated": "Aktualisiert",
   "from": "von",
   "errorTitle": "Zitat konnte nicht geladen werden",
-  "apiFailed": "API fehlgeschlagen mit {status}"
+  "apiFailed": "API-Aufruf fehlgeschlagen ({status})"
 }

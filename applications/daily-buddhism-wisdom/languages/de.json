@@ -4,5 +4,6 @@
   "day": "Tag {day}",
   "source": "Tägliches Zitat",
   "errorTitle": "Weisheit konnte nicht geladen werden",
-  "hidden": "Weisheitstext ausgeblendet"
+  "hidden": "Weisheitstext ausgeblendet",
+  "apiFailed": "API-Aufruf fehlgeschlagen ({status})"
 }

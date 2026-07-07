@@ -6,7 +6,9 @@
     "fossilLocation": "Westliches Nordamerika",
     "nameMeaning": "Tyrannenechsen-König",
     "source": "Wikipedia: Tyrannosaurus",
-    "signature": "Massiver Schädel, winzige Arme und ein ausbalancierender Schwanz ergeben eine der klarsten Dinosaurier-Silhouetten."
+    "signature": "Massiver Schädel, winzige Arme und ein ausbalancierender Schwanz ergeben eine der klarsten Dinosaurier-Silhouetten.",
+    "name": "Tyrannosaurus rex",
+    "length": "12,3-13 m"
   },
   "triceratops": {
     "nickname": "Dreihorngesicht",
@@ -15,7 +17,9 @@
     "fossilLocation": "Westliches Nordamerika",
     "nameMeaning": "Dreihorngesicht",
     "source": "Wikipedia: Triceratops",
-    "signature": "Breiter Nackenschild und drei Hörner bleiben auch auf kleinen Displays sofort lesbar."
+    "signature": "Breiter Nackenschild und drei Hörner bleiben auch auf kleinen Displays sofort lesbar.",
+    "name": "Triceratops",
+    "length": "8-9 m"
   },
   "stegosaurus": {
     "nickname": "Dachechse",
@@ -25,7 +29,8 @@
     "fossilLocation": "Morrison-Formation, westliche USA",
     "nameMeaning": "Dachechse",
     "source": "Wikipedia: Stegosaurus",
-    "signature": "Rückenplatten und Stachelschwanz machen den niedrigen Körper zur unverwechselbaren Display-Form."
+    "signature": "Rückenplatten und Stachelschwanz machen den niedrigen Körper zu einer unverwechselbaren Schausilhouette.",
+    "name": "Stegosaurus"
   },
   "brachiosaurus": {
     "nickname": "Armechse",
@@ -34,7 +39,9 @@
     "fossilLocation": "Colorado, USA; Morrison-Formation",
     "nameMeaning": "Armechse",
     "source": "Wikipedia: Brachiosaurus",
-    "signature": "Hohe Schultern und ein langer aufrechter Hals unterscheiden ihn von niedrigeren Sauropoden."
+    "signature": "Hohe Schultern und ein langer aufrechter Hals unterscheiden ihn von niedrigeren Sauropoden.",
+    "name": "Brachiosaurus",
+    "length": "18-22 m"
   },
   "velociraptor": {
     "nickname": "Velociraptor mongoliensis",
@@ -43,7 +50,9 @@
     "fossilLocation": "Mongolei",
     "nameMeaning": "Schneller Räuber",
     "source": "Wikipedia: Velociraptor",
-    "signature": "Klein, schnell, befiedert und mit Sichelkralle: eher schlanker Bodenvogel als Filmmonster."
+    "signature": "Klein, schnell, befiedert und mit Sichelkralle: eher schlanker Bodenvogel als Filmmonster.",
+    "name": "Velociraptor",
+    "length": "1,5-2,07 m"
   },
   "spinosaurus": {
     "nickname": "Dornechse",
@@ -53,7 +62,8 @@
     "fossilLocation": "Ägypten und Marokko",
     "nameMeaning": "Dornechse",
     "source": "Wikipedia: Spinosaurus",
-    "signature": "Krokodilartige Schnauze und hohes Rückensegel geben ihm eine einzigartige Theropoden-Silhouette."
+    "signature": "Krokodilartige Schnauze und hohes Rückensegel geben ihm eine einzigartige Theropoden-Silhouette.",
+    "name": "Spinosaurus"
   },
   "ankylosaurus": {
     "nickname": "Ankylosaurus magniventris",
@@ -62,7 +72,9 @@
     "fossilLocation": "Westliches Nordamerika",
     "nameMeaning": "Versteifte Echse",
     "source": "Wikipedia: Ankylosaurus",
-    "signature": "Niedrige Panzerplatten und eine schwere Schwanzkeule lassen ihn wie ein gepanzertes Fahrzeug wirken."
+    "signature": "Niedrige Panzerplatten und eine schwere Schwanzkeule lassen ihn wie ein gepanzertes Fahrzeug wirken.",
+    "name": "Ankylosaurus",
+    "length": "6-8 m"
   },
   "parasaurolophus": {
     "nickname": "Nahe Kamm-Echse",
@@ -72,7 +84,8 @@
     "fossilLocation": "Alberta, New Mexico, Utah",
     "nameMeaning": "Nahe Kamm-Echse",
     "source": "Wikipedia: Parasaurolophus",
-    "signature": "Der lange nach hinten gerichtete Röhrenkamm macht diesen Entenschnabel-Dinosaurier unverwechselbar."
+    "signature": "Der lange nach hinten gerichtete Röhrenkamm macht diesen Entenschnabel-Dinosaurier unverwechselbar.",
+    "name": "Parasaurolophus"
   },
   "allosaurus": {
     "nickname": "Allosaurus fragilis",
@@ -81,7 +94,9 @@
     "fossilLocation": "Morrison-Formation; Portugal",
     "nameMeaning": "Andere Echse",
     "source": "Wikipedia: Allosaurus",
-    "signature": "Ein ausgewogener Jäger mit Brauenkämmen, langen Armen und leichterem Körperbau als T. rex."
+    "signature": "Ein ausgewogener Jäger mit Brauenkämmen, langen Armen und leichterem Körperbau als T. rex.",
+    "name": "Allosaurus",
+    "length": "8,5-9,7 m"
   },
   "diplodocus": {
     "nickname": "Doppelbalken",
@@ -90,7 +105,9 @@
     "fossilLocation": "Morrison-Formation, Nordamerika",
     "nameMeaning": "Doppelbalken",
     "source": "Wikipedia: Diplodocus",
-    "signature": "Ein niedriger horizontaler Hals und eine peitschenartige Rute strecken ihn zu einer langen eleganten Linie."
+    "signature": "Ein niedriger horizontaler Hals und eine peitschenartige Rute strecken ihn zu einer langen eleganten Linie.",
+    "name": "Diplodocus",
+    "length": "24-26 m"
   },
   "iguanodon": {
     "nickname": "Iguanodon bernissartensis",
@@ -99,7 +116,9 @@
     "fossilLocation": "Belgien, Deutschland, England, Spanien",
     "nameMeaning": "Leguanzahn",
     "source": "Wikipedia: Iguanodon",
-    "signature": "Daumenstachel und kräftiger Ornithopoden-Stand machen ihn zu einem Klassiker früher Dinosaurierfunde."
+    "signature": "Daumenstachel und kräftiger Ornithopoden-Stand machen ihn zu einem Klassiker früher Dinosaurierfunde.",
+    "name": "Iguanodon",
+    "length": "9-11 m"
   },
   "pachycephalosaurus": {
     "nickname": "Dickkopfechse",
@@ -109,7 +128,8 @@
     "fossilLocation": "Montana, South Dakota, Wyoming, Alberta",
     "nameMeaning": "Dickkopfechse",
     "source": "Wikipedia: Pachycephalosaurus",
-    "signature": "Ein gerundeter Kuppelschädel macht den kompakten Zweibeiner sofort erkennbar."
+    "signature": "Ein gerundeter Kuppelschädel macht den kompakten Zweibeiner sofort erkennbar.",
+    "name": "Pachycephalosaurus"
   },
   "carnotaurus": {
     "nickname": "Carnotaurus sastrei",
@@ -118,7 +138,9 @@
     "fossilLocation": "Provinz Chubut, Argentinien",
     "nameMeaning": "Fleischfressender Stier",
     "source": "Wikipedia: Carnotaurus",
-    "signature": "Stierartige Brauenhörner und winzige Arme machen diesen südlichen Jäger sofort unterscheidbar."
+    "signature": "Stierartige Brauenhörner und winzige Arme machen diesen südlichen Jäger sofort unterscheidbar.",
+    "name": "Carnotaurus",
+    "length": "7,5-8 m"
   },
   "therizinosaurus": {
     "nickname": "Therizinosaurus cheloniformis",
@@ -127,7 +149,9 @@
     "fossilLocation": "Nemegt-Formation, Mongolei",
     "nameMeaning": "Sensenechse",
     "source": "Wikipedia: Therizinosaurus",
-    "signature": "Riesige sichelartige Krallen und ein hoher befiederter Körper ergeben eine wunderbar seltsame Silhouette."
+    "signature": "Riesige sichelartige Krallen und ein hoher befiederter Körper ergeben eine wunderbar seltsame Silhouette.",
+    "name": "Therizinosaurus",
+    "length": "9-10 m"
   },
   "dilophosaurus": {
     "nickname": "Dilophosaurus wetherilli",
@@ -137,7 +161,8 @@
     "fossilLocation": "Kayenta-Formation, Arizona",
     "nameMeaning": "Zweikammechse",
     "source": "Wikipedia: Dilophosaurus",
-    "signature": "Zwei Schädelkämme und lange Arme unterscheiden ihn von späteren schwereren Theropoden."
+    "signature": "Zwei Schädelkämme und lange Arme unterscheiden ihn von späteren schwereren Theropoden.",
+    "name": "Dilophosaurus"
   },
   "gallimimus": {
     "nickname": "Gallimimus bullatus",
@@ -147,7 +172,8 @@
     "fossilLocation": "Nemegt-Formation, Mongolei",
     "nameMeaning": "Hühnernachahmer",
     "source": "Wikipedia: Gallimimus",
-    "signature": "Lange Beine, kleiner Kopf und straußenartiger Körperbau wirken wie für Geschwindigkeit gemacht."
+    "signature": "Lange Beine, kleiner Kopf und straußenartiger Körperbau wirken wie für Geschwindigkeit gemacht.",
+    "name": "Gallimimus"
   },
   "apatosaurus": {
     "nickname": "Trügerische Echse",
@@ -156,7 +182,9 @@
     "fossilLocation": "Morrison-Formation, westliche USA",
     "nameMeaning": "Trügerische Echse",
     "source": "Wikipedia: Apatosaurus",
-    "signature": "Ein schwerer diplodocider Körper, langer Hals und Peitschenschwanz machen ihn zum kräftigeren Diplodocus-Verwandten."
+    "signature": "Ein schwerer diplodocider Körper, langer Hals und Peitschenschwanz machen ihn zum kräftigeren Diplodocus-Verwandten.",
+    "name": "Apatosaurus",
+    "length": "21-23 m"
   },
   "ceratosaurus": {
     "nickname": "Ceratosaurus nasicornis",
@@ -165,7 +193,9 @@
     "fossilLocation": "Morrison-Formation; Portugal; Tansania",
     "nameMeaning": "Gehörnte Echse",
     "source": "Wikipedia: Ceratosaurus",
-    "signature": "Nasenhorn, Brauenhöcker und Rücken-Osteodermen heben ihn von glatteren Theropoden ab."
+    "signature": "Nasenhorn, Brauenhöcker und Rücken-Osteodermen heben ihn von glatteren Theropoden ab.",
+    "name": "Ceratosaurus",
+    "length": "5,3-7 m"
   },
   "deinonychus": {
     "nickname": "Deinonychus antirrhopus",
@@ -175,7 +205,8 @@
     "fossilLocation": "Montana, Wyoming, Oklahoma",
     "nameMeaning": "Schreckliche Klaue",
     "source": "Wikipedia: Deinonychus",
-    "signature": "Die erhobene Sichelkralle und der ausbalancierte befiederte Körper prägten das moderne Bild aktiver Dinosaurier."
+    "signature": "Die erhobene Sichelkralle und der ausbalancierte befiederte Körper prägten das moderne Bild aktiver Dinosaurier.",
+    "name": "Deinonychus"
   },
   "edmontosaurus": {
     "nickname": "Edmonton-Echse",
@@ -184,7 +215,9 @@
     "fossilLocation": "Westliches Nordamerika",
     "nameMeaning": "Edmonton-Echse",
     "source": "Wikipedia: Edmontosaurus",
-    "signature": "Breiter Entenschnabel und langer gerader Rücken geben diesem kammfreien Hadrosaurier ein ruhiges Profil."
+    "signature": "Breiter Entenschnabel und langer gerader Rücken geben diesem kammfreien Hadrosaurier ein ruhiges Profil.",
+    "name": "Edmontosaurus",
+    "length": "9-12 m"
   },
   "oviraptor": {
     "nickname": "Oviraptor philoceratops",
@@ -193,7 +226,9 @@
     "fossilLocation": "Djadokhta-Formation, Mongolei",
     "nameMeaning": "Eierdieb",
     "source": "Wikipedia: Oviraptor",
-    "signature": "Zahnloser Schnabel, kompakter Körper und Fächerschwanz machen diesen brütenden Oviraptoriden leicht erkennbar."
+    "signature": "Zahnloser Schnabel, kompakter Körper und Fächerschwanz machen diesen brütenden Oviraptoriden leicht erkennbar.",
+    "name": "Oviraptor",
+    "length": "1,6-2 m"
   },
   "protoceratops": {
     "nickname": "Protoceratops andrewsi",
@@ -203,7 +238,8 @@
     "fossilLocation": "Mongolei und nördliches China",
     "nameMeaning": "Erstes Horngesicht",
     "source": "Wikipedia: Protoceratops",
-    "signature": "Kleiner Schnabelkörper und Nackenschild zeigen die Ceratopsier-Form ohne riesige Triceratops-Hörner."
+    "signature": "Kleiner Schnabelkörper und Nackenschild zeigen die Ceratopsier-Form ohne riesige Triceratops-Hörner.",
+    "name": "Protoceratops"
   },
   "utahraptor": {
     "nickname": "Utahraptor ostrommaysi",
@@ -213,7 +249,8 @@
     "fossilLocation": "Cedar-Mountain-Formation, Utah",
     "nameMeaning": "Utah-Räuber",
     "source": "Wikipedia: Utahraptor",
-    "signature": "Eine größere, schwerere Raptor-Silhouette mit übergroßen Sichelklauen und kräftigem befiedertem Körper."
+    "signature": "Eine größere, schwerere Raptor-Silhouette mit übergroßen Sichelklauen und kräftigem befiedertem Körper.",
+    "name": "Utahraptor"
   },
   "argentinosaurus": {
     "nickname": "Argentinosaurus huinculensis",
@@ -222,7 +259,9 @@
     "fossilLocation": "Huincul-Formation, Argentinien",
     "nameMeaning": "Argentinische Echse",
     "source": "Wikipedia: Argentinosaurus",
-    "signature": "Riesiger Titanosaurier-Körper und säulenartige Beine lassen die Anzeige schon vor den Fakten groß wirken."
+    "signature": "Riesiger Titanosaurier-Körper und säulenartige Beine lassen die Anzeige schon vor den Fakten groß wirken.",
+    "name": "Argentinosaurus",
+    "length": "30-35 m"
   },
   "archaeopteryx": {
     "nickname": "Archaeopteryx lithographica",
@@ -232,7 +271,8 @@
     "fossilLocation": "Solnhofener Plattenkalk, Deutschland",
     "nameMeaning": "Alter Flügel",
     "source": "Wikipedia: Archaeopteryx",
-    "signature": "Federflügel, Krallen, Zähne und langer knöcherner Schwanz verbinden Dinosaurier- und Vogelform."
+    "signature": "Federflügel, Krallen, Zähne und langer knöcherner Schwanz verbinden Dinosaurier- und Vogelform.",
+    "name": "Archaeopteryx"
   },
   "compsognathus": {
     "nickname": "Compsognathus longipes",
@@ -241,7 +281,9 @@
     "fossilLocation": "Deutschland und Frankreich",
     "nameMeaning": "Eleganter Kiefer",
     "source": "Wikipedia: Compsognathus",
-    "signature": "Ein winziger schlanker Jäger mit langen Beinen und Schwanz bringt Miniatur-Predator-Energie in die Rotation."
+    "signature": "Ein winziger schlanker Jäger mit langen Beinen und Schwanz bringt Miniatur-Predator-Energie in die Rotation.",
+    "name": "Compsognathus",
+    "length": "0,7-1,25 m"
   },
   "corythosaurus": {
     "nickname": "Corythosaurus casuarius",
@@ -251,7 +293,8 @@
     "fossilLocation": "Alberta, Kanada",
     "nameMeaning": "Helmechse",
     "source": "Wikipedia: Corythosaurus",
-    "signature": "Der hohe helmartige Kamm ergänzt die Hadrosaurier um eine ganz andere Kopfform."
+    "signature": "Der hohe helmartige Kamm ergänzt die Hadrosaurier um eine ganz andere Kopfform.",
+    "name": "Corythosaurus"
   },
   "giganotosaurus": {
     "nickname": "Giganotosaurus carolinii",
@@ -260,7 +303,9 @@
     "fossilLocation": "Candeleros-Formation, Argentinien",
     "nameMeaning": "Riesige südliche Echse",
     "source": "Wikipedia: Giganotosaurus",
-    "signature": "Ein langer niedriger Schädel und die fließende Körperlinie unterscheiden diesen südlichen Riesen von T. rex."
+    "signature": "Ein langer niedriger Schädel und die fließende Körperlinie unterscheiden diesen südlichen Riesen von T. rex.",
+    "name": "Giganotosaurus",
+    "length": "12-13 m"
   },
   "kentrosaurus": {
     "nickname": "Kentrosaurus aethiopicus",
@@ -269,7 +314,9 @@
     "fossilLocation": "Tendaguru-Formation, Tansania",
     "nameMeaning": "Stachelechse",
     "source": "Wikipedia: Kentrosaurus",
-    "signature": "Vordere Platten, hintere Stacheln und Schulterdornen machen ihn zum spitzeren Stegosaurus-Verwandten."
+    "signature": "Vordere Platten, hintere Stacheln und Schulterdornen machen ihn zum spitzeren Stegosaurus-Verwandten.",
+    "name": "Kentrosaurus",
+    "length": "4-4,5 m"
   },
   "sauropelta": {
     "nickname": "Sauropelta edwardsorum",
@@ -279,7 +326,8 @@
     "fossilLocation": "Cloverly-Formation, USA",
     "nameMeaning": "Echsen-Schild",
     "source": "Wikipedia: Sauropelta",
-    "signature": "Lange Schulterstacheln und fehlende Schwanzkeule trennen diesen Nodosaurier klar von Ankylosaurus."
+    "signature": "Lange Schulterstacheln und fehlende Schwanzkeule trennen diesen Nodosaurier klar von Ankylosaurus.",
+    "name": "Sauropelta"
   },
   "styracosaurus": {
     "nickname": "Styracosaurus albertensis",
@@ -288,7 +336,9 @@
     "fossilLocation": "Dinosaur-Park-Formation, Alberta",
     "nameMeaning": "Stachelechse",
     "source": "Wikipedia: Styracosaurus",
-    "signature": "Riesiges Nasenhorn und stacheliger Nackenschild machen diesen Ceratopsier dramatischer als Triceratops."
+    "signature": "Riesiges Nasenhorn und stacheliger Nackenschild machen diesen Ceratopsier dramatischer als Triceratops.",
+    "name": "Styracosaurus",
+    "length": "5-5,5 m"
   },
   "suchomimus": {
     "nickname": "Suchomimus tenerensis",
@@ -297,7 +347,9 @@
     "fossilLocation": "Elrhaz-Formation, Niger",
     "nameMeaning": "Krokodil-Nachahmer",
     "source": "Wikipedia: Suchomimus",
-    "signature": "Krokodilartige Schnauze und große Handklauen zeigen den Spinosauriden-Look ohne riesiges Rückensegel."
+    "signature": "Krokodilartige Schnauze und große Handklauen zeigen den Spinosauriden-Look ohne riesiges Rückensegel.",
+    "name": "Suchomimus",
+    "length": "9,5-11 m"
   },
   "albertosaurus": {
     "nickname": "Albertosaurus sarcophagus",
@@ -306,7 +358,9 @@
     "fossilLocation": "Alberta, Kanada",
     "nameMeaning": "Alberta-Echse",
     "source": "Wikipedia: Albertosaurus",
-    "signature": "Ein schlankerer Tyrannosauride, bekannt aus einem ungewöhnlich reichen Knochenbett in Alberta."
+    "signature": "Ein schlankerer Tyrannosauride, bekannt aus einem ungewöhnlich reichen Knochenbett in Alberta.",
+    "name": "Albertosaurus",
+    "length": "8-9 m"
   },
   "baryonyx": {
     "nickname": "Baryonyx walkeri",
@@ -315,7 +369,9 @@
     "fossilLocation": "Smokejack Clay Pit, Surrey, England",
     "nameMeaning": "Schwere Klaue",
     "source": "Wikipedia: Baryonyx",
-    "signature": "Ein fischfressender Spinosauride mit krokodilartiger Schnauze und riesiger Daumenkralle."
+    "signature": "Ein fischfressender Spinosauride mit krokodilartiger Schnauze und riesiger Daumenkralle.",
+    "name": "Baryonyx",
+    "length": "7,5-10 m"
   },
   "camarasaurus": {
     "nickname": "Kammerechse",
@@ -324,7 +380,9 @@
     "fossilLocation": "Morrison-Formation, westliches Nordamerika",
     "nameMeaning": "Kammerechse",
     "source": "Wikipedia: Camarasaurus",
-    "signature": "Ein robuster Morrison-Sauropode mit gekammerten Wirbeln und boxigem Schädel."
+    "signature": "Ein robuster Morrison-Sauropode mit gekammerten Wirbeln und boxigem Schädel.",
+    "name": "Camarasaurus",
+    "length": "15-23 m"
   },
   "chasmosaurus": {
     "nickname": "Öffnungsechse",
@@ -333,7 +391,9 @@
     "fossilLocation": "Dinosaur-Park-Formation, Alberta, Kanada",
     "nameMeaning": "Öffnungsechse",
     "source": "Wikipedia: Chasmosaurus",
-    "signature": "Ein mittelgroßer Horndinosaurier mit breitem Nackenschild und großen Öffnungen darin."
+    "signature": "Ein mittelgroßer Horndinosaurier mit breitem Nackenschild und großen Öffnungen darin.",
+    "name": "Chasmosaurus",
+    "length": "4,3-4,8 m"
   },
   "dryosaurus": {
     "nickname": "Baumechse",
@@ -343,7 +403,8 @@
     "fossilLocation": "Morrison-Formation, westliche USA",
     "nameMeaning": "Baumechse",
     "source": "Wikipedia: Dryosaurus",
-    "signature": "Ein kleiner langbeiniger Pflanzenfresser, gebaut für schnelle Bewegung über Jura-Flusslandschaften."
+    "signature": "Ein kleiner langbeiniger Pflanzenfresser, gebaut für schnelle Bewegung über Jura-Flusslandschaften.",
+    "name": "Dryosaurus"
   },
   "euoplocephalus": {
     "nickname": "Gut gepanzerter Kopf",
@@ -353,7 +414,8 @@
     "fossilLocation": "Alberta, Kanada",
     "nameMeaning": "Gut gepanzerter Kopf",
     "source": "Wikipedia: Euoplocephalus",
-    "signature": "Ein schwer gepanzerter Pflanzenfresser mit breitem Körper und defensiver Schwanzkeule."
+    "signature": "Ein schwer gepanzerter Pflanzenfresser mit breitem Körper und defensiver Schwanzkeule.",
+    "name": "Euoplocephalus"
   },
   "lambeosaurus": {
     "nickname": "Lambes Echse",
@@ -363,7 +425,8 @@
     "fossilLocation": "Dinosaur-Park-Formation, Alberta, Kanada",
     "nameMeaning": "Lambes Echse",
     "source": "Wikipedia: Lambeosaurus",
-    "signature": "Ein Hadrosaurier mit hohlem Kopfkamm, der vermutlich Rufe verstärken konnte."
+    "signature": "Ein Hadrosaurier mit hohlem Kopfkamm, der vermutlich Rufe verstärken konnte.",
+    "name": "Lambeosaurus"
   },
   "megalosaurus": {
     "nickname": "Große Echse",
@@ -373,7 +436,8 @@
     "fossilLocation": "Oxfordshire, südliches England",
     "nameMeaning": "Große Echse",
     "source": "Wikipedia: Megalosaurus",
-    "signature": "Ein robuster Jura-Jäger und die erste gültig benannte Dinosaurier-Gattung."
+    "signature": "Ein robuster Jura-Jäger und die erste gültig benannte Dinosaurier-Gattung.",
+    "name": "Megalosaurus"
   },
   "maiasaura": {
     "nickname": "Maiasaura peeblesorum",
@@ -383,7 +447,8 @@
     "fossilLocation": "Montana und Alberta",
     "nameMeaning": "Gute-Mutter-Echse",
     "source": "Wikipedia: Maiasaura",
-    "signature": "Gerundete Schnauze, hoher Rücken und berühmte Nistplätze geben diesem Hadrosaurier eine ungewöhnlich fürsorgliche Note."
+    "signature": "Gerundete Schnauze, hoher Rücken und berühmte Nistplätze geben diesem Hadrosaurier eine ungewöhnlich fürsorgliche Note.",
+    "name": "Maiasaura"
   },
   "plateosaurus": {
     "nickname": "Plateosaurus trossingensis",
@@ -393,17 +458,19 @@
     "fossilLocation": "Mittel- und Nordeuropa",
     "nameMeaning": "Breite Echse",
     "source": "Wikipedia: Plateosaurus",
-    "signature": "Langer Hals, greifende Hände und kräftige Hinterbeine zeigen einen frühen Schritt hin zur Sauropoden-Größe."
+    "signature": "Langer Hals, greifende Hände und kräftige Hinterbeine zeigen einen frühen Schritt hin zur Sauropoden-Größe.",
+    "name": "Plateosaurus"
   },
   "coelophysis": {
-    "nickname": "Coelophysis bauri",
+    "nickname": "Cölophysis bauri",
     "period": "Späte Trias, 215-201,4 Mio. Jahre",
     "length": "Bis 3 m",
     "diet": "Fleischfresser",
     "fossilLocation": "Südwesten der USA, besonders Ghost Ranch",
     "nameMeaning": "Hohle Form",
-    "source": "Wikipedia: Coelophysis",
-    "signature": "Schmaler Kopf, lange Beine und peitschenartiger Schwanz geben diesem frühen Theropoden ein leichtes Läuferprofil."
+    "source": "Wikipedia: Cölophysis",
+    "signature": "Schmaler Kopf, lange Beine und peitschenartiger Schwanz geben diesem frühen Theropoden ein leichtes Läuferprofil.",
+    "name": "Coelophysis"
   },
   "mononykus": {
     "nickname": "Mononykus olecranus",
@@ -412,7 +479,9 @@
     "fossilLocation": "Nemegt-Formation, Mongolei",
     "nameMeaning": "Eine Klaue",
     "source": "Wikipedia: Mononykus",
-    "signature": "Winzige Arme mit einer übergroßen Einzelklaue machen diesen vogelartigen Dinosaurier sofort erkennbar."
+    "signature": "Winzige Arme mit einer übergroßen Einzelklaue machen diesen vogelartigen Dinosaurier sofort erkennbar.",
+    "name": "Mononykus",
+    "length": "1-1,2 m"
   },
   "psittacosaurus": {
     "nickname": "Psittacosaurus mongoliensis",
@@ -422,7 +491,8 @@
     "fossilLocation": "China, Mongolei, Russland und Thailand",
     "nameMeaning": "Papageienechse",
     "source": "Wikipedia: Psittacosaurus",
-    "signature": "Papageienartiger Schnabel und Schwanzborsten zeigen die Ceratopsier-Linie vor riesigen Hörnern und Nackenschilden."
+    "signature": "Papageienartiger Schnabel und Schwanzborsten zeigen die Ceratopsier-Linie vor riesigen Hörnern und Nackenschilden.",
+    "name": "Psittacosaurus"
   },
   "acrocanthosaurus": {
     "nickname": "Acrocanthosaurus atokensis",
@@ -431,7 +501,9 @@
     "fossilLocation": "Oklahoma, Texas, Wyoming und Maryland",
     "nameMeaning": "Hochstachel-Echse",
     "source": "Wikipedia: Acrocanthosaurus",
-    "signature": "Hohe Wirbeldornen heben die ganze Rückenlinie hinter einem langen Großtheropoden-Schädel an."
+    "signature": "Hohe Wirbeldornen heben die ganze Rückenlinie hinter einem langen Großtheropoden-Schädel an.",
+    "name": "Acrocanthosaurus",
+    "length": "11-11,5 m"
   },
   "mamenchisaurus": {
     "nickname": "Mamenchisaurus constructus",
@@ -441,7 +513,8 @@
     "fossilLocation": "Sichuan-Becken und Yunnan, China",
     "nameMeaning": "Mamenchi-Echse",
     "source": "Wikipedia: Mamenchisaurus",
-    "signature": "Extrem langer Hals, kleiner Kopf und langer Schwanz strecken diesen Sauropoden über die ganze Anzeige."
+    "signature": "Extrem langer Hals, kleiner Kopf und langer Schwanz strecken diesen Sauropoden über die ganze Anzeige.",
+    "name": "Mamenchisaurus"
   },
   "pachyrhinosaurus": {
     "nickname": "Pachyrhinosaurus canadensis",
@@ -451,7 +524,8 @@
     "fossilLocation": "Alberta und Alaska",
     "nameMeaning": "Dicknasige Echse",
     "source": "Wikipedia: Pachyrhinosaurus",
-    "signature": "Abgeflachter Nasenbuckel und gehörntes Nackenschild unterscheiden ihn klar von Triceratops."
+    "signature": "Abgeflachter Nasenbuckel und gehörntes Nackenschild unterscheiden ihn klar von Triceratops.",
+    "name": "Pachyrhinosaurus"
   },
   "amargasaurus": {
     "nickname": "Amargasaurus cazaui",
@@ -461,7 +535,8 @@
     "fossilLocation": "La-Amarga-Formation, Argentinien",
     "nameMeaning": "La-Amarga-Echse",
     "source": "Wikipedia: Amargasaurus",
-    "signature": "Zwei Reihen hoher Hals- und Rückenstacheln machen aus einem kurzhalsigen Sauropoden eine gezackte Display-Silhouette."
+    "signature": "Zwei Reihen hoher Hals- und Rückenstacheln machen aus einem kurzhalsigen Sauropoden eine gezackte Schausilhouette.",
+    "name": "Amargasaurus"
   },
   "nigersaurus": {
     "nickname": "Nigersaurus taqueti",
@@ -471,7 +546,8 @@
     "fossilLocation": "Elrhaz-Formation, Niger",
     "nameMeaning": "Niger-Reptil",
     "source": "Wikipedia: Nigersaurus",
-    "signature": "Breite rechtwinklige Schnauze und niedriger Weidekopf geben diesem Sauropoden ein herrlich seltsames Profil."
+    "signature": "Breite rechtwinklige Schnauze und niedriger Weidekopf geben diesem Sauropoden ein herrlich seltsames Profil.",
+    "name": "Nigersaurus"
   },
   "ouranosaurus": {
     "nickname": "Ouranosaurus nigeriensis",
@@ -481,7 +557,8 @@
     "fossilLocation": "Niger und Kamerun",
     "nameMeaning": "Mutige Echse aus Niger",
     "source": "Wikipedia: Ouranosaurus",
-    "signature": "Ein Iguanodont-Körper mit langem Rückensegel ergänzt die Ornithopoden um eine dramatische Kammform."
+    "signature": "Ein Iguanodont-Körper mit langem Rückensegel ergänzt die Ornithopoden um eine dramatische Kammform.",
+    "name": "Ouranosaurus"
   },
   "shantungosaurus": {
     "nickname": "Shantungosaurus giganteus",
@@ -491,7 +568,8 @@
     "fossilLocation": "Wangshi-Gruppe, Shandong, China",
     "nameMeaning": "Shandong-Echse",
     "source": "Wikipedia: Shantungosaurus",
-    "signature": "Riesiger Entenschnabel-Körper, tiefer Rumpf und langer schwerer Schwanz lassen die Hadrosaurier-Form gewaltig wirken."
+    "signature": "Riesiger Entenschnabel-Körper, tiefer Rumpf und langer schwerer Schwanz lassen die Hadrosaurier-Form gewaltig wirken.",
+    "name": "Shantungosaurus"
   },
   "tarbosaurus": {
     "nickname": "Tarbosaurus bataar",
@@ -501,7 +579,8 @@
     "fossilLocation": "Nemegt-Formation, Mongolei",
     "nameMeaning": "Alarmierende Echse",
     "source": "Wikipedia: Tarbosaurus",
-    "signature": "Tiefer Tyrannosaurier-Schädel und winzige zweifingrige Arme ergeben ein vertrautes, aber eigenes asiatisches Räuberprofil."
+    "signature": "Tiefer Tyrannosaurier-Schädel und winzige zweifingrige Arme ergeben ein vertrautes, aber eigenes asiatisches Räuberprofil.",
+    "name": "Tarbosaurus"
   },
   "herrerasaurus": {
     "nickname": "Herrerasaurus ischigualastensis",
@@ -511,7 +590,8 @@
     "fossilLocation": "Ischigualasto-Formation, Argentinien",
     "nameMeaning": "Herreras Echse",
     "source": "Wikipedia: Herrerasaurus",
-    "signature": "Langer Schwanz, niedriger Schädel, kräftige Hinterbeine und Greifhände zeigen einen frühen Räuberbauplan."
+    "signature": "Langer Schwanz, niedriger Schädel, kräftige Hinterbeine und Greifhände zeigen einen frühen Räuberbauplan.",
+    "name": "Herrerasaurus"
   },
   "minmi": {
     "nickname": "Minmi paravertebra",
@@ -521,7 +601,8 @@
     "fossilLocation": "Bungil-Formation, Queensland, Australien",
     "nameMeaning": "Benannt nach Minmi Crossing",
     "source": "Wikipedia: Minmi paravertebra",
-    "signature": "Ein kleiner gepanzerter Vierbeiner mit langen Gliedmaßen und niedrigem plattenbesetztem Körper ergänzt die Ankylosaurier leichter."
+    "signature": "Ein kleiner gepanzerter Vierbeiner mit langen Gliedmaßen und niedrigem plattenbesetztem Körper ergänzt die Ankylosaurier leichter.",
+    "name": "Minmi"
   },
   "concavenator": {
     "nickname": "Concavenator corcovatus",
@@ -531,6 +612,7 @@
     "fossilLocation": "Las Hoyas, Cuenca, Spanien",
     "nameMeaning": "Cuenca-Jäger",
     "source": "Wikipedia: Concavenator",
-    "signature": "Ein mittelgroßer Theropode mit erhobenem Rückenbuckel unterbricht die sonst glatte Räuberlinie."
+    "signature": "Ein mittelgroßer Theropode mit erhobenem Rückenbuckel unterbricht die sonst glatte Räuberlinie.",
+    "name": "Concavenator"
   }
 }

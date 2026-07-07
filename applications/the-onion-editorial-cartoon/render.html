@@ -385,7 +385,7 @@
           });
 
           if (!response.ok) {
-            throw new Error(`The Onion API failed with ${response.status}`);
+            throw new Error(t("apiFailed", { status: response.status }));
           }
 
           const cartoon = await response.json();

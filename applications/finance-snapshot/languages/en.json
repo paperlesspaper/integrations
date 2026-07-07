@@ -11,5 +11,10 @@
   "noData": "No quotes available",
   "high": "High",
   "low": "Low",
-  "range": "Range"
+  "range": "Range",
+  "value": "Value",
+  "price": "Price",
+  "change": "Change",
+  "unit": "Unit",
+  "apiFailed": "API failed with {status}"
 }

@@ -19,5 +19,6 @@
     "waningGibbous": "Waning Gibbous",
     "lastQuarter": "Last Quarter",
     "waningCrescent": "Waning Crescent"
-  }
+  },
+  "errorTitle": "Moon Phase could not load"
 }

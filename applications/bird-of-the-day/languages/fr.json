@@ -15,5 +15,7 @@
   "source": "Source",
   "selectedFrom": "{count} dans la rotation",
   "signature": "Note de terrain",
-  "errorTitle": "L'oiseau n'a pas pu etre charge"
+  "errorTitle": "L'oiseau n'a pas pu être chargé",
+  "imageFailed": "L'image de l'oiseau n'a pas pu être chargée.",
+  "listFailed": "La liste des oiseaux n'a pas pu être chargée."
 }

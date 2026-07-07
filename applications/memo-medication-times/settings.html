@@ -302,6 +302,84 @@
       let organizations = [];
       let patients = [];
       let applying = false;
+      let currentLanguage = "en";
+      const germanText = new Map([
+        ["Memo Medication Times Settings", "Memo-Einnahmezeiten-Einstellungen"],
+        ["Memo connection", "Memo-Verbindung"],
+        ["API base URL", "API-Basis-URL"],
+        ["Uses MEMO_API_BASE_URL when blank", "Verwendet MEMO_API_BASE_URL, wenn leer"],
+        ["API key", "API-Schlüssel"],
+        ["Uses MEMO_API_API_KEY when blank", "Verwendet MEMO_API_API_KEY, wenn leer"],
+        ["Load organizations", "Organisationen laden"],
+        ["Ready", "Bereit"],
+        ["Account", "Konto"],
+        ["Organization", "Organisation"],
+        ["Patient", "Patient"],
+        ["The selected IDs are saved into the integration settings.", "Die ausgewählten IDs werden in den Integrationseinstellungen gespeichert."],
+        ["Display", "Anzeige"],
+        ["Display name", "Anzeigename"],
+        ["Greeting override", "Begrüßung überschreiben"],
+        ["Locale", "Gebietsschema"],
+        ["Timezone", "Zeitzone"],
+        ["Intake window", "Einnahmefenster"],
+        ["Lookahead days", "Tage im Voraus"],
+        ["Maximum entries", "Maximale Einträge"],
+        ["Alert window minutes", "Erinnerungsfenster in Minuten"],
+        ["Behavior", "Verhalten"],
+        ["Full-screen intake alert", "Vollbild-Einnahmealarm"],
+        ["Show last updated", "Letzte Aktualisierung anzeigen"],
+        ["Show taken entries", "Eingenommene Einträge anzeigen"],
+        ["Select organization", "Organisation auswählen"],
+        ["Select patient", "Patient auswählen"],
+        ["Loading Memo data...", "MEMO-Daten werden geladen..."],
+      ]);
+
+      function languageFromPayload(payload) {
+        return String(payload?.meta?.language || navigator.language || "en")
+          .split("-")[0]
+          .toLowerCase();
+      }
+
+      function tr(text) {
+        return currentLanguage === "de" ? germanText.get(text) || text : text;
+      }
+
+      function requestFailed(statusCode) {
+        return currentLanguage === "de"
+          ? `Anfrage fehlgeschlagen mit ${statusCode}`
+          : `Request failed with ${statusCode}`;
+      }
+
+      function memoSummary(organizationCount, patientCount) {
+        return currentLanguage === "de"
+          ? `${organizationCount} Organisationen, ${patientCount} Patienten.`
+          : `${organizationCount} organization${organizationCount === 1 ? "" : "s"}, ${patientCount} patient${patientCount === 1 ? "" : "s"}.`;
+      }
+
+      function translateStaticText(root = document.body) {
+        if (currentLanguage !== "de") {
+          return;
+        }
+        document.title = tr(document.title);
+        const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+        let node;
+        while ((node = walker.nextNode())) {
+          const text = node.nodeValue.trim();
+          const translated = text ? germanText.get(text) : "";
+          if (translated) {
+            node.nodeValue = node.nodeValue.replace(text, translated);
+          }
+        }
+        document.querySelectorAll("input[placeholder]").forEach((input) => {
+          input.placeholder = tr(input.placeholder);
+        });
+      }
+
+      function setSettingsLanguage(payload) {
+        currentLanguage = languageFromPayload(payload);
+        document.documentElement.lang = currentLanguage;
+        translateStaticText();
+      }
 
       function isObject(value) {
         return Boolean(value) && typeof value === "object" && !Array.isArray(value);
@@ -361,7 +439,7 @@
       }
 
       function setStatus(message, isError = false) {
-        status.textContent = message;
+        status.textContent = tr(message);
         status.classList.toggle("is-error", isError);
       }
 
@@ -371,7 +449,7 @@
 
         const empty = document.createElement("option");
         empty.value = "";
-        empty.textContent = placeholder;
+        empty.textContent = tr(placeholder);
         select.append(empty);
 
         for (const item of items) {
@@ -496,10 +574,10 @@
           try {
             data = text ? JSON.parse(text) : {};
           } catch {
-            throw new Error(text || `Request failed with ${response.status}`);
+            throw new Error(text || requestFailed(response.status));
           }
           if (!response.ok) {
-            throw new Error(data.error || data.message || `Request failed with ${response.status}`);
+            throw new Error(data.error || data.message || requestFailed(response.status));
           }
 
           organizations = Array.isArray(data.organizations) ? data.organizations : [];
@@ -514,9 +592,7 @@
           setControlValues();
           applySelectedPatientDefaults();
           postSettings();
-          setStatus(
-            `${organizations.length} organization${organizations.length === 1 ? "" : "s"}, ${patients.length} patient${patients.length === 1 ? "" : "s"}.`,
-          );
+          setStatus(memoSummary(organizations.length, patients.length));
         } catch (error) {
           setStatus(error?.message || String(error), true);
           setControlValues();
@@ -526,6 +602,7 @@
       }
 
       function handlePayload(payload) {
+        setSettingsLanguage(payload);
         applySettings(pluginSettingsFromPayload(payload));
       }
 
@@ -574,6 +651,7 @@
       loadButton.addEventListener("click", loadOptions);
 
       window.addEventListener("message", handleMessage);
+      setSettingsLanguage();
       bridge.setupSettingsPage?.({ onPayload: handlePayload, minHeight: 240 });
       bridge.observeSettingsHeight?.({ minHeight: 240 });
       setControlValues();

@@ -3,7 +3,7 @@
   "updated": "Actualizado",
   "from": "desde",
   "errorTitle": "No se pudo cargar el horario",
-  "apiFailed": "La API fallo con {status}",
+  "apiFailed": "La API falló con {status}",
   "kicker": "Horario",
   "title": "Horario de apertura",
   "manual": "Manual",

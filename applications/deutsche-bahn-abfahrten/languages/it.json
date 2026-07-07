@@ -7,7 +7,7 @@
   "departures": "Partenze",
   "nextMinutes": "Prossimi {duration} min",
   "noDepartures": "Nessuna partenza",
-  "noDeparturesHint": "Prova una finestra piu lunga o un altro filtro prodotto.",
+  "noDeparturesHint": "Prova una finestra più lunga o un altro filtro prodotto.",
   "nextDeparture": "Prossima partenza",
   "platform": "Binario",
   "time": "Ora",

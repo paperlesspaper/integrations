@@ -3,5 +3,7 @@
   "loading": "लोड हो रहा है...",
   "fallback": "ऑफलाइन पद",
   "source": "स्रोत",
-  "errorTitle": "पद लोड नहीं हो सका"
+  "errorTitle": "पद लोड नहीं हो सका",
+  "qrAlt": "स्रोत पद के लिए QR कोड",
+  "apiFailed": "API स्थिति {status} के साथ विफल हुआ"
 }

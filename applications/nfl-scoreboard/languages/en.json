@@ -14,5 +14,6 @@
   "noGames": "No NFL games found for this selection.",
   "updated": "Updated",
   "from": "from",
-  "record": "Record"
+  "record": "Record",
+  "apiFailed": "API failed with {status}"
 }

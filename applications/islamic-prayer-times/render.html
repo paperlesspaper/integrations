@@ -1346,9 +1346,12 @@
               : "";
           applyNextPrayerColor(next);
 
-          document.title = settings.title;
+          const configuredTitle = String(settings.title || "").trim();
+          const displayTitle =
+            !configuredTitle || configuredTitle === defaults.title ? t("title") : configuredTitle;
+          document.title = displayTitle;
           document.getElementById("kicker").textContent = t("kicker");
-          document.getElementById("title").textContent = settings.title;
+          document.getElementById("title").textContent = displayTitle;
           document.getElementById("dateMain").textContent = selectedDateText;
           document.getElementById("dateSub").textContent = hijriText || timezoneText;
           document.getElementById("nextLabel").textContent = t("nextPrayer");

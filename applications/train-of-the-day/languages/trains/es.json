@@ -4,503 +4,575 @@
     "nickname": "Clase 403 / 406, familia Velaro",
     "country": "Alemania",
     "source": "Wikipedia: ICE 3",
-    "signature": "Su morro blanco de piso bajo, la franja roja y la tracción distribuida lo convirtieron en la cara internacional de la alta velocidad alemana."
+    "signature": "Su morro blanco de piso bajo, la franja roja y la tracción distribuida lo convirtieron en la cara internacional de la alta velocidad alemana.",
+    "route": "Colonia-Fráncfort / ICE internacional"
   },
   "tgv-duplex": {
     "name": "SNCF TGV Duplex",
     "nickname": "TGV de dos pisos con cabezas tractoras",
     "country": "Francia",
     "source": "Wikipedia: TGV Duplex",
-    "signature": "Sus coches de dos niveles permitieron a Francia añadir plazas en rutas de alta velocidad saturadas sin alargar los andenes."
+    "signature": "Sus coches de dos niveles permitieron a Francia añadir plazas en rutas de alta velocidad saturadas sin alargar los andenes.",
+    "route": "LGV Sud-Est / corredores TGV concurridos"
   },
   "sbb-re-460": {
     "name": "SBB Re 460",
     "nickname": "Lok 2000",
     "country": "Suiza",
     "source": "Wikipedia: SBB Re 460",
-    "signature": "La suave carrocería influida por Pininfarina se convirtió en un icono suizo de los servicios rápidos InterCity e InterRegio."
+    "signature": "La suave carrocería influida por Pininfarina se convirtió en un icono suizo de los servicios rápidos InterCity e InterRegio.",
+    "route": "Líneas principales InterCity suizas"
   },
   "eurostar-e320": {
     "name": "Eurostar e320",
-    "nickname": "British Rail Class 374",
+    "nickname": "Clase 374 de British Rail",
     "country": "Reino Unido / Europa",
     "source": "Wikipedia: British Rail Class 374",
-    "signature": "Un Velaro multisistema construido para el túnel del Canal y recorridos directos por varias redes eléctricas europeas."
+    "signature": "Un Velaro multisistema construido para el túnel del Canal y recorridos directos por varias redes eléctricas europeas.",
+    "route": "Londres-París-Bruselas-Ámsterdam"
   },
   "frecciarossa-1000": {
     "name": "Frecciarossa 1000",
     "nickname": "ETR 1000",
     "country": "Italia",
     "source": "Wikipedia: Frecciarossa 1000",
-    "signature": "El largo morro rojo y la banda negra de ventanas convirtieron al tren insignia de alta velocidad italiano en una marca en movimiento."
+    "signature": "El largo morro rojo y la banda negra de ventanas convirtieron al tren insignia de alta velocidad italiano en una marca en movimiento.",
+    "route": "Eje italiano de alta velocidad"
   },
   "obb-taurus": {
     "name": "OeBB Taurus",
     "nickname": "Locomotora Railjet clase 1116",
     "country": "Austria",
     "source": "Wikipedia: OeBB Class 1116",
-    "signature": "Su plataforma ES64U2 se hizo famosa en los servicios Railjet y marcó un récord de velocidad para locomotoras eléctricas convencionales."
+    "signature": "Su plataforma ES64U2 se hizo famosa en los servicios Railjet y marcó un récord de velocidad para locomotoras eléctricas convencionales.",
+    "route": "Railjet y líneas principales alpinas"
   },
   "intercity-125": {
     "name": "InterCity 125",
-    "nickname": "British Rail Class 43 HST",
+    "nickname": "Clase 43 HST de British Rail",
     "country": "Reino Unido",
     "source": "Wikipedia: InterCity 125",
-    "signature": "El HST llevó el servicio diésel de 125 mph a las líneas principales británicas no electrificadas y siguió en primera línea durante décadas."
+    "signature": "El HST llevó el servicio diésel de 125 mph a las líneas principales británicas no electrificadas y siguió en primera línea durante décadas.",
+    "route": "Líneas principales Great Western / East Coast"
   },
   "renfe-ave-s103": {
     "name": "Renfe AVE S-103",
     "nickname": "Siemens Velaro E",
     "country": "España",
     "source": "Wikipedia: Renfe Class 103",
-    "signature": "El Velaro E español unió Madrid y Barcelona con uno de los servicios regulares de alta velocidad más rápidos de Europa."
+    "signature": "El Velaro E español unió Madrid y Barcelona con uno de los servicios regulares de alta velocidad más rápidos de Europa.",
+    "route": "Línea de alta velocidad Madrid-Barcelona"
   },
   "sbb-giruno": {
     "name": "SBB Giruno",
     "nickname": "RABe 501 / Stadler SMILE",
     "country": "Suiza",
     "source": "Wikipedia: SBB RABe 501",
-    "signature": "Construido para el túnel de base de San Gotardo, el Giruno es un tren transfronterizo de piso bajo para Suiza, Italia y Alemania."
+    "signature": "Construido para el túnel de base de San Gotardo, el Giruno es un tren transfronterizo de piso bajo para Suiza, Italia y Alemania.",
+    "route": "Corredor del túnel de base de San Gotardo"
   },
   "sj-x2000": {
     "name": "SJ X2000",
     "nickname": "Tren basculante X2",
     "country": "Suecia",
     "source": "Wikipedia: X 2000",
-    "signature": "Su basculación activa permitió a Suecia aumentar la velocidad de viaje en rutas antiguas y sinuosas sin reconstruir cada línea principal."
+    "signature": "Su basculación activa permitió a Suecia aumentar la velocidad de viaje en rutas antiguas y sinuosas sin reconstruir cada línea principal.",
+    "route": "Estocolmo-Gotemburgo / Malmö"
   },
   "thalys-pbka": {
     "name": "Thalys PBKA",
     "nickname": "París-Bruselas-Colonia-Ámsterdam",
     "country": "Francia / Bélgica",
     "source": "Wikipedia: Thalys PBKA",
-    "signature": "Las ramas PBKA se construyeron para cuatro países y cuatro sistemas eléctricos, una verdadera variante TGV transfronteriza."
+    "signature": "Las ramas PBKA se construyeron para cuatro países y cuatro sistemas eléctricos, una verdadera variante TGV transfronteriza.",
+    "route": "París-Bruselas-Colonia-Ámsterdam"
   },
   "db-class-103": {
-    "name": "DB Class 103",
+    "name": "DB Clase 103",
     "nickname": "Locomotora exprés TEE e InterCity",
     "country": "Alemania",
     "source": "Wikipedia: DB Class 103",
-    "signature": "Emblema crema y rojo del servicio InterCity alemán, la Class 103 se convirtió en una de las locomotoras eléctricas más reconocibles de Europa."
+    "signature": "Emblema crema y rojo del servicio InterCity alemán, la Clase 103 se convirtió en una de las locomotoras eléctricas más reconocibles de Europa.",
+    "route": "Líneas principales TEE e InterCity"
   },
   "siemens-vectron": {
     "name": "Siemens Vectron",
     "nickname": "Plataforma europea de locomotora modular",
     "country": "Alemania / Europa",
     "source": "Wikipedia: Siemens Vectron",
-    "signature": "Una locomotora modular de exportación construida para mercancías y viajeros transfronterizos en gran parte de Europa."
+    "signature": "Una locomotora modular de exportación construida para mercancías y viajeros transfronterizos en gran parte de Europa.",
+    "route": "Corredores europeos de mercancías y pasajeros"
   },
   "ns-virm": {
     "name": "NS VIRM",
     "nickname": "EMU neerlandés de dos pisos",
     "country": "Países Bajos",
     "source": "Wikipedia: NS VIRM",
-    "signature": "El tren amarillo de dos pisos es un conocido caballo de batalla intercity neerlandés, creado para mover multitudes en líneas principales muy transitadas."
+    "signature": "El tren amarillo de dos pisos es un conocido caballo de batalla intercity neerlandés, creado para mover multitudes en líneas principales muy transitadas.",
+    "route": "Red Intercity neerlandesa"
   },
   "alfa-pendular": {
     "name": "Alfa Pendular",
-    "nickname": "CP Series 4000 Pendolino",
+    "nickname": "Serie CP 4000 Pendolino",
     "country": "Portugal",
     "source": "Wikipedia: Alfa Pendular",
-    "signature": "El tren basculante insignia de Portugal enlaza Lisboa, Oporto y el Algarve con una carrocería derivada del Pendolino y rodadura de ancho ibérico."
+    "signature": "El tren basculante insignia de Portugal enlaza Lisboa, Oporto y el Algarve con una carrocería derivada del Pendolino y rodadura de ancho ibérico.",
+    "route": "Braga-Lisboa-Algarve"
   },
   "vr-sm3": {
     "name": "VR Sm3",
     "nickname": "Pendolino finlandés",
     "country": "Finlandia",
     "source": "Wikipedia: VR Class Sm3",
-    "signature": "El Pendolino finlandés de vía ancha llevó la alta velocidad basculante a rutas de larga distancia bajo condiciones nórdicas."
+    "signature": "El Pendolino finlandés de vía ancha llevó la alta velocidad basculante a rutas de larga distancia bajo condiciones nórdicas.",
+    "route": "Rutas Helsinki-Tampere / Oulu"
   },
   "etr-500": {
     "name": "FS ETR 500",
     "nickname": "Rama Frecciarossa con cabezas tractoras",
     "country": "Italia",
     "source": "Wikipedia: FS Class ETR 500",
-    "signature": "El ETR 500 fue el buque insignia italiano de alta velocidad diseñado expresamente antes de la era del ETR 1000."
+    "signature": "El ETR 500 fue el buque insignia italiano de alta velocidad diseñado expresamente antes de la era del ETR 1000.",
+    "route": "Línea de alta velocidad Milán-Roma-Nápoles"
   },
   "sncf-bb-26000": {
     "name": "SNCF BB 26000",
     "nickname": "Sybic",
     "country": "Francia",
     "source": "Wikipedia: SNCF Class BB 26000",
-    "signature": "La serie Sybic se creó como locomotora francesa versátil para expresos de viajeros y mercancías."
+    "signature": "La serie Sybic se creó como locomotora francesa versátil para expresos de viajeros y mercancías.",
+    "route": "Rutas francesas Intercités y de mercancías"
   },
   "eurostar-class-373": {
-    "name": "Eurostar Class 373",
+    "name": "Eurostar Clase 373",
     "nickname": "TransManche Super Train",
     "country": "Reino Unido / Francia",
     "source": "Wikipedia: British Rail Class 373",
-    "signature": "El tren original del túnel del Canal unió Londres, París y Bruselas con una larga formación derivada del TGV."
+    "signature": "El tren original del túnel del Canal unió Londres, París y Bruselas con una larga formación derivada del TGV.",
+    "route": "Londres-París-Bruselas"
   },
   "renfe-s102": {
     "name": "Renfe AVE S-102",
     "nickname": "Talgo 350 Pato",
     "country": "España",
     "source": "Wikipedia: Renfe Class 102",
-    "signature": "Apodado Pato por su morro de pico de pato, el S-102 combina coches Talgo con cabezas tractoras de alta velocidad."
+    "signature": "Apodado Pato por su morro de pico de pato, el S-102 combina coches Talgo con cabezas tractoras de alta velocidad.",
+    "route": "Madrid-Zaragoza-Barcelona / Málaga"
   },
   "cd-class-680": {
-    "name": "CD Class 680",
+    "name": "ČD Clase 680",
     "nickname": "Pendolino checo",
     "country": "República Checa",
     "source": "Wikipedia: CD Class 680",
-    "signature": "El Pendolino checo llevó la basculación activa y el funcionamiento multisistema a las rutas exprés de Europa Central."
+    "signature": "El Pendolino checo llevó la basculación activa y el funcionamiento multisistema a las rutas exprés de Europa Central.",
+    "route": "Corredores Praga-Ostrava / Viena"
   },
   "pkp-ed250": {
     "name": "PKP ED250",
     "nickname": "Pendolino polaco",
     "country": "Polonia",
     "source": "Wikipedia: PKP Class ED250",
-    "signature": "El Pendolino polaco introdujo un servicio intercity premium de alta velocidad en corredores nacionales modernizados."
+    "signature": "El Pendolino polaco introdujo un servicio intercity premium de alta velocidad en corredores nacionales modernizados.",
+    "route": "Varsovia-Gdansk / Cracovia / Katowice"
   },
   "sncb-class-18": {
-    "name": "SNCB Class 18",
+    "name": "SNCB Clase 18",
     "nickname": "Siemens ES60U3",
     "country": "Bélgica",
     "source": "Wikipedia: Belgian Railways Class 18",
-    "signature": "La Class 18 belga es una locomotora Siemens multisistema usada en servicios intercity e internacionales."
+    "signature": "La Clase 18 belga es una locomotora Siemens multisistema usada en servicios intercity e internacionales.",
+    "route": "Corredores IC belgas y Benelux"
   },
   "db-class-218": {
-    "name": "DB Class 218",
+    "name": "DB Clase 218",
     "nickname": "Clásico diésel-hidráulico alemán",
     "country": "Alemania",
     "source": "Wikipedia: DB Class 218",
-    "signature": "La Class 218 se convirtió en la locomotora diésel estándar de Alemania Occidental para viajeros y mercancías en rutas no electrificadas."
+    "signature": "La Clase 218 se convirtió en la locomotora diésel estándar de Alemania Occidental para viajeros y mercancías en rutas no electrificadas.",
+    "route": "Líneas principales alemanas no electrificadas"
   },
   "ice-1": {
     "name": "DB ICE 1",
     "nickname": "Clase 401",
     "country": "Alemania",
     "source": "Wikipedia: ICE 1",
-    "signature": "El primer ICE de producción alemán introdujo la imagen blanca y roja de alta velocidad que aún define a la marca."
+    "signature": "El primer ICE de producción alemán introdujo la imagen blanca y roja de alta velocidad que aún define a la marca.",
+    "route": "Hamburgo-Múnich / troncales ICE alemanas"
   },
   "class-390-pendolino": {
-    "name": "Class 390 Pendolino",
-    "nickname": "Tren basculante de la West Coast Main Line",
+    "name": "Clase 390 Pendolino",
+    "nickname": "Tren basculante de la línea West Coast Main Line",
     "country": "Reino Unido",
     "source": "Wikipedia: British Rail Class 390",
-    "signature": "Su sistema de basculación ayudó a elevar velocidades en la sinuosa West Coast Main Line británica sin construir una línea completamente nueva."
+    "signature": "Su sistema de basculación ayudó a elevar velocidades en la sinuosa línea West Coast Main Line británica sin construir una línea completamente nueva.",
+    "route": "West Coast Main Line"
   },
   "ns-icm-koploper": {
     "name": "NS Koploper",
     "nickname": "Intercity Materieel",
     "country": "Países Bajos",
     "source": "Wikipedia: NS Intercity Materieel",
-    "signature": "La cabina elevada dio nombre al Koploper y en su día permitía a los pasajeros pasar entre unidades acopladas."
+    "signature": "La cabina elevada dio nombre al Koploper y en su día permitía a los pasajeros pasar entre unidades acopladas.",
+    "route": "Red Intercity neerlandesa"
   },
   "dsb-ic3": {
     "name": "DSB IC3",
-    "nickname": "Class MF",
+    "nickname": "Clase MF",
     "country": "Dinamarca",
     "source": "Wikipedia: IC3",
-    "signature": "El IC3 de frontal flexible puede acoplarse morro con morro y abrir un paso de ancho completo entre unidades."
+    "signature": "El IC3 de frontal flexible puede acoplarse morro con morro y abrir un paso de ancho completo entre unidades.",
+    "route": "Rutas intercity danesas"
   },
   "coradia-ilint": {
     "name": "Coradia iLint",
     "nickname": "Tren regional de hidrógeno",
     "country": "Alemania",
     "source": "Wikipedia: Alstom Coradia iLint",
-    "signature": "El iLint se convirtió en el primer tren de pasajeros de pila de combustible de hidrógeno en entrar en servicio regular."
+    "signature": "El iLint se convirtió en el primer tren de pasajeros de pila de combustible de hidrógeno en entrar en servicio regular.",
+    "route": "Rutas regionales de hidrógeno de Baja Sajonia"
   },
   "stadler-flirt": {
     "name": "Stadler FLIRT",
     "nickname": "Tren intercity y regional ligero y rápido",
     "country": "Suiza / Europa",
     "source": "Wikipedia: Stadler FLIRT",
-    "signature": "El FLIRT modular de piso bajo se convirtió en una de las familias de trenes regionales modernos más extendidas de Europa."
+    "signature": "El FLIRT modular de piso bajo se convirtió en una de las familias de trenes regionales modernos más extendidas de Europa.",
+    "route": "Rutas regionales e intercity europeas"
   },
   "adler": {
     "name": "Der Adler",
-    "nickname": "The Eagle",
+    "nickname": "El Águila",
     "country": "Alemania",
     "source": "Wikipedia: Adler locomotive",
-    "signature": "Clasico historico desde 1835: Der Adler marco la historia ferroviaria en Alemania."
+    "signature": "Clásico histórico desde 1835: Der Adler marcó la historia ferroviaria en Alemania.",
+    "route": "Núremberg a Fürth"
   },
   "amtrak-metroliner": {
     "name": "Budd Metroliner / Amtrak Metroliner EMU",
     "nickname": "Metroliner",
     "country": "Estados Unidos",
     "source": "Wikipedia: Budd Metroliner",
-    "signature": "Clasico historico desde 1969: Budd Metroliner / Amtrak Metroliner EMU marco la historia ferroviaria en Estados Unidos."
+    "signature": "Clásico histórico desde 1969: Budd Metroliner / Amtrak Metroliner EMU marcó la historia ferroviaria en Estados Unidos.",
+    "route": "Corredor Noreste: Nueva York-Filadelfia-Washington"
   },
   "bavarian-s3-6": {
     "name": "Bavarian S 3/6",
-    "nickname": "Bavarian Pacific",
+    "nickname": "Pacific bávara",
     "country": "Alemania",
     "source": "Wikipedia: Bavarian S 3/6",
-    "signature": "Clasico historico desde 1908: Bavarian S 3/6 marco la historia ferroviaria en Alemania."
+    "signature": "Clásico histórico desde 1908: Bavarian S 3/6 marcó la historia ferroviaria en Alemania.",
+    "route": "Expresos de líneas principales bávaras"
   },
   "belgian-type-12": {
-    "name": "Belgian State Railways/SNCB Type 12",
+    "name": "Ferrocarriles Estatales Belgas/SNCB Tipo 12",
     "nickname": "La Douce",
-    "country": "Belgica",
+    "country": "Bélgica",
     "source": "Wikipedia: SNCB Type 12",
-    "signature": "Clasico historico desde 1938: Belgian State Railways/SNCB Type 12 marco la historia ferroviaria en Belgica."
+    "signature": "Clásico histórico desde 1938: el Tipo 12 de los Ferrocarriles Estatales Belgas/SNCB marcó la historia ferroviaria en Bélgica.",
+    "route": "Trenes barco Bruselas-Ostende"
   },
   "budd-rdc": {
-    "name": "Budd Rail Diesel Car (RDC)",
+    "name": "Automotor diésel Budd (RDC)",
     "nickname": "Buddliner",
     "country": "Estados Unidos",
     "source": "Wikipedia: Budd Rail Diesel Car",
-    "signature": "Clasico historico desde 1949: Budd Rail Diesel Car (RDC) marco la historia ferroviaria en Estados Unidos."
+    "signature": "Clásico histórico desde 1949: el automotor diésel Budd (RDC) marcó la historia ferroviaria en Estados Unidos.",
+    "route": "Rutas de pasajeros de baja densidad"
   },
   "db-vt-11-5": {
     "name": "DB VT 11.5",
-    "nickname": "TEE diesel multiple unit",
+    "nickname": "Unidad múltiple diésel TEE",
     "country": "Alemania",
     "source": "Wikipedia: DB Class VT 11.5",
-    "signature": "Clasico historico desde 1957: DB VT 11.5 marco la historia ferroviaria en Alemania."
+    "signature": "Clásico histórico desde 1957: DB VT 11.5 marcó la historia ferroviaria en Alemania.",
+    "route": "Rutas TEE, incluidas Rhein-Main, Helvetia y Parsifal"
   },
   "drg-class-05": {
-    "name": "DRG Class 05 streamlined express steam locomotive",
-    "nickname": "Streamlined Hudson",
+    "name": "DRG Clase 05, locomotora de vapor expresa aerodinámica",
+    "nickname": "Hudson aerodinámica",
     "country": "Alemania",
     "source": "Wikipedia: DRG Class 05",
-    "signature": "Clasico historico desde 1935: DRG Class 05 streamlined express steam locomotive marco la historia ferroviaria en Alemania."
+    "signature": "Clásico histórico desde 1935: la DRG Clase 05 marcó la historia ferroviaria en Alemania.",
+    "route": "Pruebas Berlín-Hamburgo"
   },
   "drg-e18": {
-    "name": "DRG Class E 18 / DB Class 118",
-    "nickname": "Streamlined German express electric",
+    "name": "DRG Clase E 18 / DB Clase 118",
+    "nickname": "Eléctrica expresa alemana aerodinámica",
     "country": "Alemania",
     "source": "Wikipedia: DRG Class E 18",
-    "signature": "Clasico historico desde 1935: DRG Class E 18 / DB Class 118 marco la historia ferroviaria en Alemania."
+    "signature": "Clásico histórico desde 1935: la DRG Clase E 18 / DB Clase 118 marcó la historia ferroviaria en Alemania.",
+    "route": "Diseñada para expresos alemanes electrificados"
   },
   "drg-svt-877-flying-hamburger": {
     "name": "DRG SVT 877",
-    "nickname": "Flying Hamburger",
+    "nickname": "Hamburgués Volador",
     "country": "Alemania",
     "source": "Wikipedia: DRG Class SVT 877",
-    "signature": "Clasico historico desde 1933: DRG SVT 877 marco la historia ferroviaria en Alemania."
+    "signature": "Clásico histórico desde 1933: DRG SVT 877 marcó la historia ferroviaria en Alemania.",
+    "route": "Berlin Lehrter Bahnhof-Hamburg Hauptbahnhof"
   },
   "flying-scotsman": {
-    "name": "LNER Class A3 4472 Flying Scotsman",
+    "name": "LNER Clase A3 4472 Flying Scotsman",
     "nickname": "Flying Scotsman",
     "country": "Reino Unido",
     "source": "Wikipedia: Flying Scotsman",
-    "signature": "Clasico historico desde 1923: LNER Class A3 4472 Flying Scotsman marco la historia ferroviaria en Reino Unido."
+    "signature": "Clásico histórico desde 1923: la LNER Clase A3 4472 Flying Scotsman marcó la historia ferroviaria en Reino Unido.",
+    "route": "London King's Cross-Edinburgh Waverley"
   },
   "fs-e626": {
-    "name": "FS Class E.626",
+    "name": "FS Clase E.626",
     "nickname": "Tuttofare",
     "country": "Italia",
     "source": "Wikipedia: FS Class E.626",
-    "signature": "Clasico historico desde 1927: FS Class E.626 marco la historia ferroviaria en Italia."
+    "signature": "Clásico histórico desde 1927: la FS Clase E.626 marcó la historia ferroviaria en Italia.",
+    "route": "Introducida en la línea Foggia-Benevento"
   },
   "lms-coronation": {
-    "name": "LMS Coronation Class streamlined steam locomotive",
+    "name": "LMS Clase Coronation, locomotora de vapor aerodinámica",
     "nickname": "Duchess",
     "country": "Reino Unido",
     "source": "Wikipedia: LMS Coronation Class",
-    "signature": "Clasico historico desde 1937: LMS Coronation Class streamlined steam locomotive marco la historia ferroviaria en Reino Unido."
+    "signature": "Clásico histórico desde 1937: la LMS Clase Coronation marcó la historia ferroviaria en Reino Unido.",
+    "route": "London Euston-Glasgow Central por la West Coast Main Line"
   },
   "mallard": {
-    "name": "LNER Class A4 4468 Mallard",
+    "name": "LNER Clase A4 4468 Mallard",
     "nickname": "Mallard",
     "country": "Reino Unido",
     "source": "Wikipedia: LNER Class A4 4468 Mallard",
-    "signature": "Clasico historico desde 1935: LNER Class A4 4468 Mallard marco la historia ferroviaria en Reino Unido."
+    "signature": "Clásico histórico desde 1935: la LNER Clase A4 4468 Mallard marcó la historia ferroviaria en Reino Unido.",
+    "route": "London King's Cross-Edinburgh por la East Coast Main Line"
   },
   "mistral-cc-40100": {
     "name": "SNCF CC 40100",
-    "nickname": "Le Mistral era TEE electric",
+    "nickname": "Eléctrica TEE de la era Le Mistral",
     "country": "Francia",
     "source": "Wikipedia: SNCF CC 40100",
-    "signature": "Clasico historico desde 1964: SNCF CC 40100 marco la historia ferroviaria en Francia."
+    "signature": "Clásico histórico desde 1964: SNCF CC 40100 marcó la historia ferroviaria en Francia.",
+    "route": "Servicios TEE de París a Bruselas"
   },
   "new-york-central-hudson": {
     "name": "New York Central J-3a Hudson",
     "nickname": "Dreyfuss Hudson",
     "country": "Estados Unidos",
     "source": "Wikipedia: New York Central Hudson",
-    "signature": "Clasico historico desde 1937: New York Central J-3a Hudson marco la historia ferroviaria en Estados Unidos."
+    "signature": "Clásico histórico desde 1937: New York Central J-3a Hudson marcó la historia ferroviaria en Estados Unidos.",
+    "route": "Ruta Water Level Nueva York-Chicago"
   },
   "ns-mat-54": {
     "name": "NS Mat '54",
     "nickname": "Hondekop",
-    "country": "Paises Bajos",
+    "country": "Países Bajos",
     "source": "Wikipedia: NS Mat '54",
-    "signature": "Historischer Klassiker: NS Mat '54 praegte die Eisenbahngeschichte."
+    "signature": "Clásico histórico: NS Mat '54 marcó la historia ferroviaria.",
+    "route": "Servicios expresos de pasajeros entre ciudades neerlandesas"
   },
   "pennsylvania-gg1": {
-    "name": "Pennsylvania Railroad GG1 electric locomotive",
+    "name": "Locomotora eléctrica GG1 de Pennsylvania Railroad",
     "nickname": "GG1",
     "country": "Estados Unidos",
     "source": "Wikipedia: Pennsylvania Railroad GG1",
-    "signature": "Clasico historico desde 1935: Pennsylvania Railroad GG1 electric locomotive marco la historia ferroviaria en Estados Unidos."
+    "signature": "Clásico histórico desde 1935: la locomotora eléctrica GG1 de Pennsylvania Railroad marcó la historia ferroviaria en Estados Unidos.",
+    "route": "Corredor Noreste"
   },
   "prussian-p8": {
-    "name": "Prussian P 8 / DRG Class 38.10-40",
+    "name": "P 8 prusiana / DRG Clase 38.10-40",
     "nickname": "P 8",
     "country": "Alemania",
     "source": "Wikipedia: Prussian P 8",
-    "signature": "Clasico historico desde 1906: Prussian P 8 / DRG Class 38.10-40 marco la historia ferroviaria en Alemania."
+    "signature": "Clásico histórico desde 1906: la P 8 prusiana / DRG Clase 38.10-40 marcó la historia ferroviaria en Alemania.",
+    "route": "Servicio de pasajeros"
   },
   "rheingold-1928": {
     "name": "Rheingold",
     "nickname": "Rhinegold",
     "country": "Alemania",
     "source": "Wikipedia: Rheingold",
-    "signature": "Clasico historico desde 1928: Rheingold marco la historia ferroviaria en Alemania."
+    "signature": "Clásico histórico desde 1928: Rheingold marcó la historia ferroviaria en Alemania.",
+    "route": "Hoek van Holland"
   },
   "sbb-crocodile": {
     "name": "SBB Ce 6/8 II",
-    "nickname": "Swiss Crocodile",
+    "nickname": "Cocodrilo suizo",
     "country": "Suiza",
     "source": "Wikipedia: SBB Ce 6/8 II",
-    "signature": "Clasico historico desde 1919: SBB Ce 6/8 II marco la historia ferroviaria en Suiza."
+    "signature": "Clásico histórico desde 1919: SBB Ce 6/8 II marcó la historia ferroviaria en Suiza.",
+    "route": "Berna-Spiez en su introducción"
   },
   "sbb-rae-4-8-churchill": {
     "name": "SBB RAe 4/8 1021",
     "nickname": "Churchill Arrow",
     "country": "Suiza",
     "source": "Wikipedia: SBB RAe 4/8 1021",
-    "signature": "Clasico historico desde 1939: SBB RAe 4/8 1021 marco la historia ferroviaria en Suiza."
+    "signature": "Clásico histórico desde 1939: SBB RAe 4/8 1021 marcó la historia ferroviaria en Suiza.",
+    "route": "Construido para la Exposición Nacional Suiza de 1939"
   },
   "shinkansen-0-series": {
     "name": "0 Series Shinkansen",
-    "nickname": "Bullet Train",
-    "country": "Japon",
+    "nickname": "Tren bala",
+    "country": "Japón",
     "source": "Wikipedia: 0 Series Shinkansen",
-    "signature": "Historischer Klassiker: 0 Series Shinkansen praegte die Eisenbahngeschichte."
+    "signature": "Clásico histórico: Shinkansen Serie 0 marcó la historia ferroviaria.",
+    "route": "Tokaido Shinkansen"
   },
   "sncf-2d2-9100": {
     "name": "SNCF 2D2 9100",
     "nickname": "Batteuses; Dragues",
     "country": "Francia",
     "source": "Wikipedia: SNCF 2D2 9100",
-    "signature": "Clasico historico desde 1950: SNCF 2D2 9100 marco la historia ferroviaria en Francia."
+    "signature": "Clásico histórico desde 1950: SNCF 2D2 9100 marcó la historia ferroviaria en Francia.",
+    "route": "Introducida para la línea París-Lyon recién electrificada"
   },
   "sncf-cc-7100": {
     "name": "SNCF CC 7100",
-    "nickname": "World-record CC",
+    "nickname": "CC de récord mundial",
     "country": "Francia",
     "source": "Wikipedia: SNCF CC 7100",
-    "signature": "Clasico historico desde 1952: SNCF CC 7100 marco la historia ferroviaria en Francia."
+    "signature": "Clásico histórico desde 1952: SNCF CC 7100 marcó la historia ferroviaria en Francia.",
+    "route": "Servicios expresos París-Lyon"
   },
   "southern-railway-schools": {
-    "name": "SR V Class Schools 4-4-0",
+    "name": "SR Clase V Schools 4-4-0",
     "nickname": "Schools",
     "country": "Reino Unido",
     "source": "Wikipedia: SR V class",
-    "signature": "Clasico historico desde 1930: SR V Class Schools 4-4-0 marco la historia ferroviaria en Reino Unido."
+    "signature": "Clásico histórico desde 1930: la SR Clase V Schools 4-4-0 marcó la historia ferroviaria en Reino Unido.",
+    "route": "Southern Railway"
   },
   "stephensons-rocket": {
     "name": "Stephenson's Rocket",
     "nickname": "Rocket",
     "country": "Reino Unido",
     "source": "Wikipedia: Stephenson's Rocket",
-    "signature": "Clasico historico desde 1829: Stephenson's Rocket marco la historia ferroviaria en Reino Unido."
+    "signature": "Clásico histórico desde 1829: Stephenson's Rocket marcó la historia ferroviaria en Reino Unido.",
+    "route": "Pruebas de Rainhill"
   },
   "tee-rabe": {
     "name": "SBB-CFF-FFS RAe TEE II",
-    "nickname": "Gottardo; later Grey Mouse",
+    "nickname": "Gottardo; después Ratón Gris",
     "country": "Suiza",
     "source": "Wikipedia: SBB RAe TEE II",
-    "signature": "Clasico historico desde 1961: SBB-CFF-FFS RAe TEE II marco la historia ferroviaria en Suiza."
+    "signature": "Clásico histórico desde 1961: SBB-CFF-FFS RAe TEE II marcó la historia ferroviaria en Suiza.",
+    "route": "TEE Gottardo Zúrich-Milán"
   },
   "tokaido-ef58": {
-    "name": "JNR Class EF58",
+    "name": "JNR Clase EF58",
     "nickname": "Gohachi",
-    "country": "Japon",
+    "country": "Japón",
     "source": "Wikipedia: JNR Class EF58",
-    "signature": "Clasico historico desde 1946: JNR Class EF58 marco la historia ferroviaria en Japon."
+    "signature": "Clásico histórico desde 1946: la JNR Clase EF58 marcó la historia ferroviaria en Japón.",
+    "route": "Expresos de la línea principal Tokaido"
   },
   "union-pacific-big-boy": {
     "name": "Union Pacific Big Boy 4-8-8-4",
     "nickname": "Big Boy",
     "country": "Estados Unidos",
     "source": "Wikipedia: Union Pacific Big Boy",
-    "signature": "Historischer Klassiker: Union Pacific Big Boy 4-8-8-4 praegte die Eisenbahngeschichte."
+    "signature": "Clásico histórico: Union Pacific Big Boy 4-8-8-4 marcó la historia ferroviaria.",
+    "route": "Ogden, Utah a Green River, Wyoming"
   },
   "union-pacific-m10000": {
     "name": "Union Pacific M-10000",
     "nickname": "The Streamliner; City of Salina; Tin Worm; Little Zip",
     "country": "Estados Unidos",
     "source": "Wikipedia: M-10000",
-    "signature": "Clasico historico desde 1934: Union Pacific M-10000 marco la historia ferroviaria en Estados Unidos."
+    "signature": "Clásico histórico desde 1934: Union Pacific M-10000 marcó la historia ferroviaria en Estados Unidos.",
+    "route": "Kansas City"
   },
   "ice-t": {
     "name": "DB ICE T",
-    "nickname": "Class 411 / 415 tilting ICE",
+    "nickname": "Baureihe 411 / 415, ICE basculante",
     "country": "Alemania",
     "source": "Wikipedia: ICE T",
-    "signature": "DB ICE T es un tren europeo destacado para German curving ICE routes."
+    "signature": "DB ICE T es un tren europeo destacado para rutas ICE alemanas con curvas.",
+    "route": "Rutas ICE alemanas con curvas"
   },
   "tgv-pos": {
     "name": "SNCF TGV POS",
-    "nickname": "Paris-Ostfrankreich-Sueddeutschland",
+    "nickname": "París-Este de Francia-Sur de Alemania",
     "country": "Francia",
     "source": "Wikipedia: TGV POS",
-    "signature": "SNCF TGV POS es un tren europeo destacado para LGV Est / France-Switzerland."
+    "signature": "SNCF TGV POS es un tren europeo destacado para LGV Est / Francia-Suiza.",
+    "route": "LGV Est / Francia-Suiza"
   },
   "renfe-s130": {
-    "name": "Renfe Class 130",
+    "name": "Renfe Serie 130",
     "nickname": "Talgo 250 / Patito",
-    "country": "Espana",
+    "country": "España",
     "source": "Wikipedia: Renfe Class 130",
-    "signature": "Renfe Class 130 es un tren europeo destacado para Spanish mixed-gauge corridors."
+    "signature": "La Renfe Serie 130 es un tren europeo destacado para corredores españoles de ancho variable.",
+    "route": "Corredores españoles de ancho variable"
   },
   "sbb-icn": {
     "name": "SBB ICN",
-    "nickname": "RABDe 500 tilting train",
+    "nickname": "Tren basculante RABDe 500",
     "country": "Suiza",
     "source": "Wikipedia: SBB RABDe 500",
-    "signature": "SBB ICN es un tren europeo destacado para Swiss InterCity Neigezug routes."
+    "signature": "SBB ICN es un tren europeo destacado para rutas InterCity Neigezug suizas.",
+    "route": "Rutas InterCity Neigezug suizas"
   },
   "db-class-101": {
-    "name": "DB Class 101",
-    "nickname": "InterCity electric locomotive",
+    "name": "DB Clase 101",
+    "nickname": "Locomotora eléctrica InterCity",
     "country": "Alemania",
     "source": "Wikipedia: DB Class 101",
-    "signature": "DB Class 101 es un tren europeo destacado para German InterCity main lines."
+    "signature": "La DB Clase 101 es un tren europeo destacado para líneas principales InterCity alemanas.",
+    "route": "Líneas principales InterCity alemanas"
   },
   "sncf-cc-72000": {
     "name": "SNCF CC 72000",
-    "nickname": "French mainline diesel locomotive",
+    "nickname": "Locomotora diésel francesa de línea principal",
     "country": "Francia",
     "source": "Wikipedia: SNCF Class CC 72000",
-    "signature": "SNCF CC 72000 es un tren europeo destacado para French non-electrified main lines."
+    "signature": "SNCF CC 72000 es un tren europeo destacado para líneas principales francesas no electrificadas.",
+    "route": "Líneas principales francesas no electrificadas"
   },
   "amtrak-acela": {
     "name": "Amtrak Acela",
-    "nickname": "Northeast Corridor high-speed train",
+    "nickname": "Tren de alta velocidad del Corredor Noreste",
     "country": "Estados Unidos",
     "source": "Wikipedia: Acela",
-    "signature": "Amtrak Acela amplia la rotacion con un tren de Estados Unidos."
+    "signature": "Amtrak Acela amplía la rotación con un tren de Estados Unidos.",
+    "route": "Boston-Nueva York-Washington"
   },
   "crh380a": {
     "name": "China Railways CRH380A",
-    "nickname": "Chinese high-speed EMU",
+    "nickname": "EMU chino de alta velocidad",
     "country": "China",
     "source": "Wikipedia: China Railways CRH380A",
-    "signature": "China Railways CRH380A amplia la rotacion con un tren de China."
+    "signature": "China Railways CRH380A amplía la rotación con un tren de China.",
+    "route": "Red china de alta velocidad"
   },
   "vande-bharat": {
     "name": "Vande Bharat Express",
     "nickname": "Train 18",
     "country": "India",
     "source": "Wikipedia: Vande Bharat Express",
-    "signature": "Vande Bharat Express amplia la rotacion con un tren de India."
+    "signature": "Vande Bharat Express amplía la rotación con un tren de la India.",
+    "route": "Corredores intercity indios"
   },
   "gautrain": {
     "name": "Gautrain",
     "nickname": "Bombardier Electrostar",
-    "country": "Sudafrica",
+    "country": "Sudáfrica",
     "source": "Wikipedia: Gautrain",
-    "signature": "Gautrain amplia la rotacion con un tren de Sudafrica."
+    "signature": "Gautrain amplía la rotación con un tren de Sudáfrica.",
+    "route": "Johannesburgo-Pretoria-OR Tambo"
   },
   "queensland-tilt-train": {
     "name": "Queensland Electric Tilt Train",
-    "nickname": "QR electric tilting train",
+    "nickname": "Tren eléctrico basculante de QR",
     "country": "Australia",
     "source": "Wikipedia: Electric Tilt Train",
-    "signature": "Queensland Electric Tilt Train amplia la rotacion con un tren de Australia."
+    "signature": "Queensland Electric Tilt Train amplía la rotación con un tren de Australia.",
+    "route": "Brisbane-Rockhampton"
   },
   "sarmiento-csr-emu": {
     "name": "Sarmiento Line CSR EMU",
-    "nickname": "Argentinian suburban EMU",
+    "nickname": "EMU suburbano argentino",
     "country": "Argentina",
     "source": "Wikipedia: Sarmiento Line",
-    "signature": "Sarmiento Line CSR EMU amplia la rotacion con un tren de Argentina."
+    "signature": "Sarmiento Line CSR EMU amplía la rotación con un tren de Argentina.",
+    "route": "Línea Sarmiento de Buenos Aires"
   }
 }

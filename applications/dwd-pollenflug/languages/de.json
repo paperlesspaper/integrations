@@ -6,31 +6,33 @@
   "tomorrow": "Morgen",
   "dayafter_to": "Übermorgen",
   "updated": "DWD-Update",
-  "nextUpdate": "Naechstes",
+  "nextUpdate": "Nächstes",
   "noLoad": "Keine relevante Pollenbelastung",
   "errorTitle": "Pollenflug konnte nicht geladen werden",
   "source": "Quelle",
-  "regionId": "Region ID",
+  "regionId": "Region-ID",
   "valueDescriptions": {
     "0": "keine Belastung",
+    "1": "geringe Belastung",
+    "2": "mittlere Belastung",
+    "3": "hohe Belastung",
     "0-1": "keine bis geringe Belastung",
     "0.5": "keine bis geringe Belastung",
-    "1": "geringe Belastung",
     "1-2": "geringe bis mittlere Belastung",
     "1.5": "geringe bis mittlere Belastung",
-    "2": "mittlere Belastung",
     "2-3": "mittlere bis hohe Belastung",
-    "2.5": "mittlere bis hohe Belastung",
-    "3": "hohe Belastung"
+    "2.5": "mittlere bis hohe Belastung"
   },
   "pollenNames": {
     "Ambrosia": "Ambrosia",
-    "Beifuss": "Beifuss",
     "Birke": "Birke",
     "Erle": "Erle",
     "Esche": "Esche",
-    "Graeser": "Graeser",
+    "Graeser": "Gräser",
     "Hasel": "Hasel",
-    "Roggen": "Roggen"
-  }
+    "Roggen": "Roggen",
+    "Beifuss": "Beifuß"
+  },
+  "loading": "Wird geladen...",
+  "apiFailed": "API-Aufruf fehlgeschlagen ({status})"
 }

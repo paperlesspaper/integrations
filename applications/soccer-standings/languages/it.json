@@ -9,5 +9,21 @@
   "focus": "Focus",
   "noFocus": "Nessuna squadra preferita",
   "markdownTitle": "Nota",
-  "errorTitle": "Impossibile caricare la classifica"
+  "errorTitle": "Impossibile caricare la classifica",
+  "defaultHeadline": "Classifica",
+  "team": "Squadra",
+  "wins": "V",
+  "draws": "N",
+  "losses": "P",
+  "matchday": "Giornata {value}",
+  "teams": "Squadre",
+  "areaGermany": "Germania",
+  "areaEngland": "Inghilterra",
+  "areaSpain": "Spagna",
+  "areaItaly": "Italia",
+  "areaFrance": "Francia",
+  "areaNetherlands": "Paesi Bassi",
+  "areaPortugal": "Portogallo",
+  "areaEurope": "Europa",
+  "apiFailed": "API non riuscita con {status}"
 }

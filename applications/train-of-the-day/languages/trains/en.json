@@ -214,7 +214,7 @@
     "nickname": "The Eagle",
     "country": "Germany",
     "source": "Wikipedia: Adler locomotive",
-    "signature": "adler-1835-germany-first-successful-steam"
+    "signature": "Germany's first successful steam locomotive opened the Nuremberg-Furth railway age in 1835."
   },
   "amtrak-metroliner": {
     "name": "Budd Metroliner / Amtrak Metroliner EMU",
@@ -249,28 +249,28 @@
     "nickname": "TEE diesel multiple unit",
     "country": "Germany",
     "source": "Wikipedia: DB Class VT 11.5",
-    "signature": "codex-db-vt-11-5-2026-06-25"
+    "signature": "The red-and-cream TEE diesel set made postwar international express travel look fast, modern, and unmistakably German."
   },
   "drg-class-05": {
     "name": "DRG Class 05 streamlined express steam locomotive",
     "nickname": "Streamlined Hudson",
     "country": "Germany",
     "source": "Wikipedia: DRG Class 05",
-    "signature": "codex-2026-06-25-drg-class-05"
+    "signature": "A fully streamlined Hudson built for speed trials, it gave German steam one of its most aerodynamic silhouettes."
   },
   "drg-e18": {
     "name": "DRG Class E 18 / DB Class 118",
     "nickname": "Streamlined German express electric",
     "country": "Germany",
     "source": "Wikipedia: DRG Class E 18",
-    "signature": "historic-train-drg-e18"
+    "signature": "A streamlined German express electric that set the pattern for fast mainline services before and after World War II."
   },
   "drg-svt-877-flying-hamburger": {
     "name": "DRG SVT 877",
     "nickname": "Flying Hamburger",
     "country": "Germany",
     "source": "Wikipedia: DRG Class SVT 877",
-    "signature": "codex-flying-hamburger"
+    "signature": "The diesel-electric express railcar linked Berlin and Hamburg at a speed that made its nickname famous."
   },
   "flying-scotsman": {
     "name": "LNER Class A3 4472 Flying Scotsman",
@@ -284,21 +284,21 @@
     "nickname": "Tuttofare",
     "country": "Italy",
     "source": "Wikipedia: FS Class E.626",
-    "signature": "fs-e626-italy-3kv-dc-bo-bo-bo"
+    "signature": "Italy's first standard 3 kV DC electric locomotive became a durable all-purpose workhorse."
   },
   "lms-coronation": {
     "name": "LMS Coronation Class streamlined steam locomotive",
     "nickname": "Duchess",
     "country": "United Kingdom",
     "source": "Wikipedia: LMS Coronation Class",
-    "signature": "codex:lms-coronation:2026-06-25"
+    "signature": "A Stanier Pacific with streamlined casing, built for the LMS Coronation Scot and record-setting West Coast expresses."
   },
   "mallard": {
     "name": "LNER Class A4 4468 Mallard",
     "nickname": "Mallard",
     "country": "United Kingdom",
     "source": "Wikipedia: LNER Class A4 4468 Mallard",
-    "signature": "garter-blue-streamlined-steam-record-holder"
+    "signature": "Garter-blue streamlining and a 126 mph run made Mallard the enduring steam speed-record holder."
   },
   "mistral-cc-40100": {
     "name": "SNCF CC 40100",
@@ -312,7 +312,7 @@
     "nickname": "Dreyfuss Hudson",
     "country": "United States",
     "source": "Wikipedia: New York Central Hudson",
-    "signature": "nyc-j3a-hudson-20th-century-limited"
+    "signature": "Henry Dreyfuss streamlining turned the J-3a Hudson into the Art Deco face of the 20th Century Limited."
   },
   "ns-mat-54": {
     "name": "NS Mat '54",
@@ -326,7 +326,7 @@
     "nickname": "GG1",
     "country": "United States",
     "source": "Wikipedia: Pennsylvania Railroad GG1",
-    "signature": "prr-gg1-2-c-c-2-electric-1934"
+    "signature": "A Raymond Loewy-smoothed electric whose 2-C+C-2 frame became an American mainline icon."
   },
   "prussian-p8": {
     "name": "Prussian P 8 / DRG Class 38.10-40",
@@ -354,7 +354,7 @@
     "nickname": "Churchill Arrow",
     "country": "Switzerland",
     "source": "Wikipedia: SBB RAe 4/8 1021",
-    "signature": "sbb-rae-4-8-churchill:historic:ch"
+    "signature": "The lone red double-arrow railcar became famous after carrying Winston Churchill through Switzerland in 1946."
   },
   "shinkansen-0-series": {
     "name": "0 Series Shinkansen",
@@ -368,7 +368,7 @@
     "nickname": "Batteuses; Dragues",
     "country": "France",
     "source": "Wikipedia: SNCF 2D2 9100",
-    "signature": "codex-sncf-2d2-9100"
+    "signature": "A boxy but powerful French 1.5 kV DC express electric built for the Paris-Lyon main line."
   },
   "sncf-cc-7100": {
     "name": "SNCF CC 7100",
@@ -389,7 +389,7 @@
     "nickname": "Rocket",
     "country": "United Kingdom",
     "source": "Wikipedia: Stephenson's Rocket",
-    "signature": "stephensons-rocket-1829-rainhill"
+    "signature": "Its Rainhill Trials victory made Rocket the template for practical steam locomotives."
   },
   "tee-rabe": {
     "name": "SBB-CFF-FFS RAe TEE II",
@@ -417,7 +417,7 @@
     "nickname": "The Streamliner; City of Salina; Tin Worm; Little Zip",
     "country": "United States",
     "source": "Wikipedia: M-10000",
-    "signature": "historic-train:union-pacific-m10000"
+    "signature": "America's first streamlined internal-combustion passenger trainset previewed the Union Pacific streamliner era."
   },
   "ice-t": {
     "name": "DB ICE T",

@@ -7,5 +7,6 @@
   "source": "losungen.de",
   "updated": "Updated",
   "empty": "No text selected.",
-  "errorTitle": "Losung could not load"
+  "errorTitle": "Losung could not load",
+  "apiFailed": "API failed with {status}"
 }

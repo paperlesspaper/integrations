@@ -6,13 +6,14 @@
   "pregame": "Avant-match",
   "halftime": "Mi-temps",
   "final": "Final",
-  "finalOvertime": "Final OT",
-  "overtime": "OT",
-  "quarter": "Q{period}",
+  "finalOvertime": "Final ap. prol.",
+  "overtime": "Prol.",
+  "quarter": "{period}e quart",
   "favorite": "Favori",
-  "leaders": "Leaders",
-  "noGames": "Aucun match NFL trouve pour cette selection.",
-  "updated": "Mis a jour",
+  "leaders": "Meneurs",
+  "noGames": "Aucun match NFL trouvé pour cette sélection.",
+  "updated": "Mis à jour",
   "from": "source",
-  "record": "Bilan"
+  "record": "Bilan",
+  "apiFailed": "Échec de l'API avec {status}"
 }

@@ -236,6 +236,7 @@
           yearLegend: "Years",
           visitedLegend: "Visited",
           source: "Map data: Natural Earth, U.S. Census, DIVA-GIS",
+          apiFailed: "API failed with {status}",
         };
 
         const defaults = {
@@ -488,7 +489,7 @@
         async function loadFeatures(definition, mode) {
           const response = await fetch(definition.url, { cache: "no-store" });
           if (!response.ok) {
-            throw new Error(`Map data failed with ${response.status}`);
+            throw new Error(t("apiFailed", { status: response.status }));
           }
           const data = await response.json();
           if (definition.type === "topojson") {
@@ -596,7 +597,9 @@
           const definition = mapDefinitions[mode];
           const visited = parseVisited(settings.visitedRegions);
           const features = await loadFeatures(definition, mode);
-          const title = String(settings.title || t("title")).trim() || t("title");
+          const configuredTitle = String(settings.title || "").trim();
+          const title =
+            !configuredTitle || configuredTitle === defaults.title ? t("title") : configuredTitle;
 
           document.getElementById("title").textContent = title;
           document.getElementById("map-label").textContent = t(definition.labelKey);

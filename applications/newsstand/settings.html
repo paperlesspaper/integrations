@@ -135,6 +135,66 @@
       const selected = document.getElementById("selected");
       const status = document.getElementById("status");
       const settingsBridge = window.PaperlessOpenIntegration || {};
+      let currentLanguage = "en";
+      const germanText = new Map([
+        ["Newsstand Settings", "Zeitungskiosk-Einstellungen"],
+        ["Newspaper", "Zeitung"],
+        ["Random top 3", "Zufällige Top 3"],
+        ["Random", "Zufällig"],
+        ["The New York Times, The Wall Street Journal, or The Guardian", "The New York Times, The Wall Street Journal oder The Guardian"],
+        ["Any available front page", "Beliebige verfügbare Titelseite"],
+        ["Filter", "Filter"],
+        ["Loading newspapers...", "Zeitungen werden geladen..."],
+        ["Current selection", "Aktuelle Auswahl"],
+        ["Newspapers could not load", "Zeitungen konnten nicht geladen werden"],
+      ]);
+
+      function languageFromPayload(payload) {
+        return String(payload?.meta?.language || navigator.language || "en")
+          .split("-")[0]
+          .toLowerCase();
+      }
+
+      function tr(text) {
+        return currentLanguage === "de" ? germanText.get(text) || text : text;
+      }
+
+      function paperListFailed(statusCode) {
+        return currentLanguage === "de"
+          ? `Zeitungsliste fehlgeschlagen mit ${statusCode}`
+          : `Paper list failed with ${statusCode}`;
+      }
+
+      function newspapersLoaded(count) {
+        return currentLanguage === "de"
+          ? `${count} Zeitungen geladen`
+          : `${count} newspapers loaded`;
+      }
+
+      function translateStaticText(root = document.body) {
+        if (currentLanguage !== "de") {
+          return;
+        }
+        document.title = tr(document.title);
+        const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+        let node;
+        while ((node = walker.nextNode())) {
+          const text = node.nodeValue.trim();
+          const translated = text ? germanText.get(text) : "";
+          if (translated) {
+            node.nodeValue = node.nodeValue.replace(text, translated);
+          }
+        }
+        document.querySelectorAll("option").forEach((option) => {
+          option.textContent = tr(option.textContent.trim());
+        });
+      }
+
+      function setSettingsLanguage(payload) {
+        currentLanguage = languageFromPayload(payload);
+        document.documentElement.lang = currentLanguage;
+        translateStaticText();
+      }
 
       function isObject(value) {
         return Boolean(value) && typeof value === "object" && !Array.isArray(value);
@@ -159,8 +219,8 @@
 
       function optionLabel(paper) {
         const prefix = paper.country ? `${paper.country.toUpperCase()} - ` : "";
-        const suffix = paper.city ? ` (${paper.city})` : "";
-        return `${prefix}${paper.name}${suffix}`;
+        const suffix = paper.city ? ` (${tr(paper.city)})` : "";
+        return `${prefix}${tr(paper.name)}${suffix}`;
       }
 
       function pluginSettingsFromPayload(payload) {
@@ -203,7 +263,7 @@
           options.unshift({
             slug: settings.newspaper,
             name: settings.newspaper,
-            city: "Current selection",
+            city: tr("Current selection"),
             country: "",
           });
         }
@@ -250,6 +310,7 @@
             : message.payload;
 
         if (isObject(payload)) {
+          setSettingsLanguage(payload);
           applySettings(pluginSettingsFromPayload(payload));
         } else if (isObject(message.pluginSettings)) {
           applySettings(message.pluginSettings);
@@ -260,16 +321,16 @@
         try {
           const response = await fetch("./api/papers", { cache: "no-store" });
           if (!response.ok) {
-            throw new Error(`Paper list failed with ${response.status}`);
+            throw new Error(paperListFailed(response.status));
           }
 
           const data = await response.json();
           papers = Array.isArray(data.papers) ? data.papers : [];
           renderOptions();
-          status.textContent = `${papers.length} newspapers loaded`;
+          status.textContent = newspapersLoaded(papers.length);
         } catch (error) {
           renderOptions();
-          status.textContent = error.message || "Newspapers could not load";
+          status.textContent = error.message || tr("Newspapers could not load");
         }
       }
 
@@ -277,6 +338,7 @@
       newspaper.addEventListener("change", postSettings);
       filter.addEventListener("input", renderOptions);
       settingsBridge.observeSettingsHeight?.({ minHeight: 160 });
+      setSettingsLanguage();
       if (settingsBridge.postSettingsReady) {
         settingsBridge.postSettingsReady();
       } else {

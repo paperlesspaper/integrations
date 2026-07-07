@@ -3,6 +3,6 @@
   "updated": "Actualizado",
   "from": "desde",
   "errorTitle": "XKCD no se pudo cargar",
-  "apiFailed": "La API fallo con {status}",
+  "apiFailed": "La API falló con {status}",
   "title": "XKCD"
 }

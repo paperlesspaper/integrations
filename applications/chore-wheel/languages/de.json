@@ -6,5 +6,7 @@
   "nextWeekLabel": "Nächste Woche",
   "emptyMembers": "Bewohner in den Einstellungen ergänzen.",
   "emptyChores": "Aufgaben in den Einstellungen ergänzen.",
-  "errorTitle": "Chore Wheel konnte nicht geladen werden"
+  "errorTitle": "Aufgabenrad konnte nicht geladen werden",
+  "title": "Aufgabenrad",
+  "defaultChores": "Geschirr\nMüll\nStaubsaugen\nBad\nPflanzen"
 }

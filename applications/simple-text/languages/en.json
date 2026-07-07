@@ -1,3 +1,7 @@
 {
-  "emptyContent": "Add text in settings."
+  "emptyContent": "Add text in settings.",
+  "errorTitle": "Simple Text could not load",
+  "defaultContent": "# Hello World\n\nUse **markdown** or plain text on your paperlesspaper display.",
+  "noticeTitle": "Notice",
+  "noticeContent": "This is a plain text note.\nLine breaks are preserved."
 }

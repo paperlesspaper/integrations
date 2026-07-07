@@ -1,8 +1,8 @@
 {
   "loading": "Laden...",
-  "kicker": "Hebraeischer Kalender",
-  "defaultTitle": "Juedisches Datum",
-  "hebrewLabel": "Hebraeisch",
+  "kicker": "Hebräischer Kalender",
+  "defaultTitle": "Jüdisches Datum",
+  "hebrewLabel": "Hebräisch",
   "transliterationLabel": "Umschrift",
   "gregorianLabel": "Gregorianisch",
   "weekdayLabel": "Wochentag",
@@ -10,12 +10,12 @@
   "monthYearLabel": "Monat / Jahr",
   "noteLabel": "Heute",
   "afterSunsetLabel": "Sonnenuntergang",
-  "afterSunsetOn": "Nach Sonnenuntergang: naechster hebraeischer Tag",
-  "afterSunsetOff": "Buergerlicher Tag",
+  "afterSunsetOn": "Nach Sonnenuntergang: nächster hebräischer Tag",
+  "afterSunsetOff": "Bürgerlicher Tag",
   "roshChodesh": "Rosch Chodesch",
   "omerDay": "Omer-Tag {day}",
-  "ordinaryDay": "Regulaerer Tag",
+  "ordinaryDay": "Regulärer Tag",
   "todayNote": "Heutiges Datum",
   "fixedDateNote": "Festes Datum",
-  "errorTitle": "Juedisches Datum konnte nicht geladen werden"
+  "errorTitle": "Jüdisches Datum konnte nicht geladen werden"
 }

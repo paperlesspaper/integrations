@@ -8,5 +8,10 @@
   "minutesLabel": "Minutes",
   "progressLabel": "Progress",
   "targetDateLabel": "Target",
-  "invalidDateMessage": "Set a valid targetDate in settings."
+  "invalidDateMessage": "Set a valid targetDate in settings.",
+  "errorTitle": "Countdown Card could not load",
+  "invalidDateTitle": "Invalid target date",
+  "defaultTitle": "Launch Day",
+  "sinceOpeningTitle": "Since Opening",
+  "openedDateLabel": "Opened"
 }

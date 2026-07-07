@@ -3,10 +3,12 @@
   "date": "Datum",
   "name": "Name",
   "group": "Gruppe",
-  "configuredNeededTitle": "Sheet-ID eintragen",
-  "configuredNeededCopy": "Füge in den Integrationseinstellungen eine oeffentliche Google-Sheet-ID oder URL ein.",
+  "configuredNeededTitle": "Google-Tabellen-ID eintragen",
+  "configuredNeededCopy": "Füge in den Integrationseinstellungen eine öffentliche Google-Tabellen-ID oder -URL ein.",
   "emptyTitle": "Keine Zeilen gefunden",
-  "emptyCopy": "Das Sheet wurde geladen, enthaelt aber keine anzeigbaren Zeilen.",
+  "emptyCopy": "Die Tabelle wurde geladen, enthält aber keine anzeigbaren Zeilen.",
   "updated": "Aktualisiert",
-  "errorTitle": "Sheet konnte nicht geladen werden"
+  "errorTitle": "Tabelle konnte nicht geladen werden",
+  "defaultTitle": "Tabelle",
+  "apiFailed": "API-Aufruf fehlgeschlagen ({status})"
 }

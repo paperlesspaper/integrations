@@ -16,10 +16,10 @@
   "gauge": "Scartamento",
   "family": "Famiglia / classe",
   "yearsBuilt": "Anni di costruzione",
-  "unitsBuilt": "Unita costruite",
-  "recordSpeed": "Velocita di prova",
+  "unitsBuilt": "Unità costruite",
+  "recordSpeed": "Velocità di prova",
   "powerOutput": "Potenza",
-  "capacity": "Posti / capacita",
+  "capacity": "Posti / capacità",
   "axleArrangement": "Disposizione assi",
   "route": "Percorso principale",
   "typeHighSpeed": "Alta velocità",
@@ -27,5 +27,7 @@
   "typeEmu": "Elettrotreno",
   "selectedFrom": "{count} nella rotazione",
   "signature": "Segno distintivo",
-  "errorTitle": "Impossibile caricare il treno"
+  "errorTitle": "Impossibile caricare il treno",
+  "imageFailed": "L'immagine del treno non è stata caricata.",
+  "listFailed": "L'elenco dei treni non è stato caricato."
 }

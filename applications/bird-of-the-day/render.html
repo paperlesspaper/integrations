@@ -57,7 +57,9 @@
         line-height: 0.9;
         font-weight: 920;
         letter-spacing: 0;
-        overflow-wrap: anywhere;
+        overflow-wrap: normal;
+        word-break: normal;
+        text-wrap: balance;
       }
 
       .scientific {
@@ -191,6 +193,34 @@
         overflow-wrap: anywhere;
       }
 
+      @media (min-width: 1400px) and (min-height: 1000px) {
+        .hero-header {
+          padding: 18px 28px 8px;
+        }
+
+        .scientific {
+          font-size: 1.12rem;
+        }
+
+        .signature-line {
+          font-size: 1.05rem;
+          margin-bottom: 7px;
+        }
+
+        .fact-grid {
+          gap: 16px;
+          padding: 10px 28px 18px;
+        }
+
+        .fact .label {
+          font-size: 0.66rem;
+        }
+
+        .value {
+          font-size: 1.08rem;
+        }
+      }
+
       @media (orientation: portrait), (max-width: 700px) {
         .bird-shell {
           grid-template-rows: auto minmax(0, 0.9fr) auto;
@@ -310,7 +340,7 @@
             <h1 class="bird-name pp-fit" id="bird-name" data-i18n="loading">
               Loading...
             </h1>
-            <p class="scientific pp-fit" id="scientific"></p>
+            <p class="scientific" id="scientific"></p>
           </div>
           <div class="source-meta">
             <p data-i18n="source">Source</p>
@@ -335,8 +365,8 @@
           getQuerySettings,
           mergeSettings,
           escapeHtml,
+          fitText,
           fitHyphenatedText,
-          fitAllText,
           fitToScreen,
           markReady,
           markError,
@@ -471,6 +501,7 @@
             "nesting",
             "signature",
             "source",
+            "wingspan",
           ];
           const translatedFields = {};
           fields.forEach((field) => {
@@ -536,7 +567,7 @@
           return `
             <article class="fact">
               <p class="label">${escapeHtml(label)}</p>
-              <p class="value pp-fit">${escapeHtml(value || "N/A")}</p>
+              <p class="value">${escapeHtml(value || "N/A")}</p>
             </article>
           `;
         }
@@ -549,7 +580,7 @@
             image.addEventListener("load", resolve, { once: true });
             image.addEventListener(
               "error",
-              () => reject(new Error(`Could not load ${image.src}`)),
+              () => reject(new Error(t("imageFailed"))),
               { once: true },
             );
           });
@@ -585,7 +616,7 @@
             applyColorTheme(settings.color, { defaultTheme: defaults.color });
           }
           if (!birds.length) {
-            throw new Error("Bird list could not load");
+            throw new Error(t("listFailed"));
           }
 
           const today = dayKey();
@@ -665,30 +696,19 @@
           await Promise.all([document.fonts?.ready, waitForImage(image)]);
           const compactLandscape =
             window.innerWidth > window.innerHeight && window.innerHeight <= 560;
-          fitHyphenatedText(document.getElementById("bird-name"), {
+          const roomyLandscape =
+            window.innerWidth >= 1400 && window.innerHeight >= 1000;
+          fitText(document.getElementById("bird-name"), {
             min: 28,
-            max: compactLandscape ? 58 : 78,
+            max: compactLandscape ? 58 : roomyLandscape ? 104 : 78,
             step: 2,
             tolerance: 6,
             lineBreak: "balance",
           });
-          fitHyphenatedText(document.getElementById("scientific"), {
-            min: 10,
-            max: compactLandscape ? 15 : 20,
-            step: 1,
-            lineBreak: true,
-          });
           fitHyphenatedText(document.getElementById("signature"), {
             min: 9,
-            max: compactLandscape ? 13 : 17,
+            max: compactLandscape ? 13 : roomyLandscape ? 20 : 17,
             step: 1,
-            lineBreak: true,
-          });
-          fitAllText(".fact .pp-fit", {
-            min: 8,
-            max: compactLandscape ? 13 : 18,
-            step: 1,
-            tolerance: 4,
             lineBreak: true,
           });
           fitToScreen();

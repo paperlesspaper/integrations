@@ -11,5 +11,14 @@
   "contactTitle": "Contact",
   "emptyRules": "Add house rules in settings.",
   "emptyCafes": "Add nearby cafes in settings.",
-  "emptySmartHome": "Add smart-home instructions in settings."
+  "emptySmartHome": "Add smart-home instructions in settings.",
+  "errorTitle": "Guest Mode Card could not load",
+  "defaultPlaceName": "The Paperless Loft",
+  "defaultWelcomeLine": "Welcome home. Everything important is right here.",
+  "defaultWifiName": "Paperless Guest",
+  "defaultCheckoutNote": "Leave keys on the kitchen table and pull the door closed.",
+  "defaultHouseRules": "Quiet hours after 22:00\nNo smoking indoors\nPlease separate recycling",
+  "defaultNearbyCafes": "Milo Coffee - 3 min walk\nCorner Bakery - opens 07:30\nNorthside Espresso - best flat white",
+  "defaultSmartHomeInstructions": "Say: Hey Home, set living room to warm\nThermostat: turn the dial gently\nLights: long press the wall switch to dim",
+  "qrPayloadTooLong": "Wi-Fi QR payload is too long for this card."
 }

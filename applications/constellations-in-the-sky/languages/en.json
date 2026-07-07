@@ -13,6 +13,7 @@
   "apiValue": "VirtualSky local catalogue",
   "now": "Now",
   "projections": {
+    "gnomic": "Focused",
     "stereo": "Stereographic",
     "polar": "All sky",
     "lambert": "Lambert",
@@ -61,5 +62,8 @@
     "Cap": "Find a wide, faint triangle east of Sagittarius and west of Aquarius. Dark skies help a lot with Capricornus.",
     "Aqr": "Look for a loose Y-shaped water jar below Pegasus. The rest of Aquarius spreads faintly south and east.",
     "Psc": "Use the Great Square of Pegasus as a landmark. Pisces curves around its southeast side as a faint loop and cord."
-  }
+  },
+  "skyMapLabel": "Astronomical sky map",
+  "assetFailed": "Sky asset could not load.",
+  "engineFailed": "VirtualSky could not be loaded."
 }

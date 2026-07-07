@@ -6,5 +6,7 @@
   "nextWeekLabel": "Semaine prochaine",
   "emptyMembers": "Ajoutez les membres du foyer dans les réglages.",
   "emptyChores": "Ajoutez les tâches dans les réglages.",
-  "errorTitle": "La roue des tâches n’a pas pu se charger"
+  "errorTitle": "La roue des tâches n’a pas pu se charger",
+  "title": "Roue des tâches",
+  "defaultChores": "Vaisselle\nPoubelles\nAspirateur\nSalle de bain\nPlantes"
 }

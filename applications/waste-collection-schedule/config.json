@@ -49,7 +49,7 @@
       "sourceMode": "manual",
       "icsUrl": "",
       "manualDates": "",
-      "recurringRules": "Restmuell | WEEKLY | 2 | 2026-01-05 | MO\nBiomuell | WEEKLY | 1 | 2026-01-07 | WE\nPapiertonne | WEEKLY | 4 | 2026-01-12 | MO\nGelbe Tonne | WEEKLY | 2 | 2026-01-09 | FR",
+      "recurringRules": "Restmüll | WEEKLY | 2 | 2026-01-05 | MO\nBiomüll | WEEKLY | 1 | 2026-01-07 | WE\nPapiertonne | WEEKLY | 4 | 2026-01-12 | MO\nGelbe Tonne | WEEKLY | 2 | 2026-01-09 | FR",
       "excludedDates": "",
       "includeTypes": "",
       "excludeTypes": "",

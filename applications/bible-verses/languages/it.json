@@ -3,5 +3,7 @@
   "loading": "Caricamento...",
   "fallback": "Versetto offline",
   "source": "Fonte",
-  "errorTitle": "Impossibile caricare il versetto"
+  "errorTitle": "Impossibile caricare il versetto",
+  "qrAlt": "Codice QR per il versetto di origine",
+  "apiFailed": "API non riuscita con {status}"
 }

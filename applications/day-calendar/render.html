@@ -396,7 +396,7 @@
           });
 
           if (!response.ok) {
-            throw new Error(`Day Calendar API failed with ${response.status}`);
+            throw new Error(t("apiFailed", { status: response.status }));
           }
 
           const data = await response.json();

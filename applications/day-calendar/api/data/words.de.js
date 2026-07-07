@@ -1,13 +1,13 @@
 export const wordsDe = [
   {
     title: "Augenblick",
-    text: "Ein sehr kurzer Moment, wortlich ein Blick der Augen.",
-    meta: "Ein kleines Wort fur Gegenwart",
+    text: "Ein sehr kurzer Moment, wörtlich ein Blick der Augen.",
+    meta: "Ein kleines Wort für Gegenwart",
   },
   {
     title: "Fernweh",
     text: "Die Sehnsucht nach fernen Orten.",
-    meta: "Das Gegenstuck zum Heimweh",
+    meta: "Das Gegenstück zum Heimweh",
   },
   {
     title: "Feierabend",
@@ -17,42 +17,42 @@ export const wordsDe = [
   {
     title: "Vorfreude",
     text: "Freude auf etwas, das noch kommt.",
-    meta: "Bekanntlich eine der schonsten Freuden",
+    meta: "Bekanntlich eine der schönsten Freuden",
   },
   {
     title: "Morgenrot",
-    text: "Die rote Farbung des Himmels bei Sonnenaufgang.",
-    meta: "Ein Wort fur fruhe Blicke aus dem Fenster",
+    text: "Die rote Färbung des Himmels bei Sonnenaufgang.",
+    meta: "Ein Wort für frühe Blicke aus dem Fenster",
   },
   {
     title: "Waldeinsamkeit",
-    text: "Das Gefuhl, allein und geborgen im Wald zu sein.",
+    text: "Das Gefühl, allein und geborgen im Wald zu sein.",
     meta: "Romantisches deutsches Lieblingswort",
   },
   {
     title: "Zeitfenster",
-    text: "Ein begrenzter Zeitraum, in dem etwas moglich ist.",
-    meta: "Burodeutsch, aber erstaunlich brauchbar",
+    text: "Ein begrenzter Zeitraum, in dem etwas möglich ist.",
+    meta: "Bürodeutsch, aber erstaunlich brauchbar",
   },
   {
     title: "Zwischenzeit",
     text: "Die Zeit zwischen zwei Ereignissen.",
-    meta: "Fur Wartezimmer und Bahnsteige",
+    meta: "Für Wartezimmer und Bahnsteige",
   },
   {
-    title: "Fingerspitzengefuhl",
-    text: "Feines Gespur fur eine Situation.",
-    meta: "Nicht nur fur Hande",
+    title: "Fingerspitzengefühl",
+    text: "Feines Gespür für eine Situation.",
+    meta: "Nicht nur für Hände",
   },
   {
     title: "Luftschloss",
-    text: "Ein schoner, aber unrealistischer Plan.",
+    text: "Ein schöner, aber unrealistischer Plan.",
     meta: "Architektur der Hoffnung",
   },
   {
     title: "Torschlusspanik",
     text: "Die Angst, eine wichtige Gelegenheit zu verpassen.",
-    meta: "Wortlich: Panik vor dem Schliessen des Tores",
+    meta: "Wörtlich: Panik vor dem Schließen des Tores",
   },
   {
     title: "Kopfkino",
@@ -66,23 +66,23 @@ export const wordsDe = [
   },
   {
     title: "Schnapsidee",
-    text: "Eine verruckte oder wenig durchdachte Idee.",
+    text: "Eine verrückte oder wenig durchdachte Idee.",
     meta: "Manchmal trotzdem der Anfang von etwas Gutem",
   },
   {
     title: "Eigensinn",
-    text: "Ein eigener Wille oder unabhangiger Sinn.",
+    text: "Ein eigener Wille oder unabhängiger Sinn.",
     meta: "Kann stur sein, kann stark sein",
   },
   {
     title: "Weltschmerz",
-    text: "Traurigkeit uber die Unvollkommenheit der Welt.",
-    meta: "Grosses Gefuhl in einem kompakten Wort",
+    text: "Traurigkeit über die Unvollkommenheit der Welt.",
+    meta: "Großes Gefühl in einem kompakten Wort",
   },
   {
     title: "Komorebi",
-    text: "Sonnenlicht, das durch Blatter fallt.",
-    meta: "Japanisches Wort, international verstandlich",
+    text: "Sonnenlicht, das durch Blätter fällt.",
+    meta: "Japanisches Wort, international verständlich",
   },
   {
     title: "Sisu",
@@ -91,42 +91,42 @@ export const wordsDe = [
   },
   {
     title: "Kairos",
-    text: "Der richtige, gunstige Moment.",
+    text: "Der richtige, günstige Moment.",
     meta: "Zeit als Gelegenheit",
   },
   {
     title: "Kintsugi",
-    text: "Keramikreparatur, bei der Bruche sichtbar vergoldet werden.",
+    text: "Keramikreparatur, bei der Brüche sichtbar vergoldet werden.",
     meta: "Japanische Handwerkskunst",
   },
   {
     title: "Sehnsucht",
     text: "Ein tiefes Verlangen nach etwas Entferntem oder Unerreichbarem.",
-    meta: "Grosses Gefuhl in einem kurzen Wort",
+    meta: "Großes Gefühl in einem kurzen Wort",
   },
   {
     title: "Geborgenheit",
-    text: "Das Gefuhl, sicher, warm und gut aufgehoben zu sein.",
+    text: "Das Gefühl, sicher, warm und gut aufgehoben zu sein.",
     meta: "Ein Wort wie eine Decke",
   },
   {
-    title: "Glucksfall",
+    title: "Glücksfall",
     text: "Ein unerwartet gutes Ereignis.",
     meta: "Wenn der Zufall freundlich vorbeischaut",
   },
   {
     title: "Spaziergang",
-    text: "Ein gemachlicher Gang ohne dringendes Ziel.",
-    meta: "Alltagliche Bewegung mit Raum fur Gedanken",
+    text: "Ein gemächlicher Gang ohne dringendes Ziel.",
+    meta: "Alltägliche Bewegung mit Raum für Gedanken",
   },
   {
     title: "Zweisamkeit",
     text: "Vertraute Zeit, die zwei Menschen miteinander teilen.",
-    meta: "Kleiner Kreis, grosse Nahe",
+    meta: "Kleiner Kreis, große Nähe",
   },
   {
     title: "Aufbruch",
-    text: "Der Beginn einer Reise, Veranderung oder neuen Phase.",
+    text: "Der Beginn einer Reise, Veränderung oder neuen Phase.",
     meta: "Ein Wort mit gepackter Tasche",
   },
   {
@@ -145,12 +145,12 @@ export const wordsDe = [
     meta: "Ziemlich direkt, ziemlich warm",
   },
   {
-    title: "Heimatgefuhl",
-    text: "Das Gefuhl, irgendwo dazuzugehoren oder anzukommen.",
+    title: "Heimatgefühl",
+    text: "Das Gefühl, irgendwo dazuzugehören oder anzukommen.",
     meta: "Nicht immer an einen Ort gebunden",
   },
   {
-    title: "Abenddammerung",
+    title: "Abenddämmerung",
     text: "Das weiche Licht zwischen Tag und Nacht.",
     meta: "Wenn der Himmel leiser wird",
   },
@@ -161,8 +161,8 @@ export const wordsDe = [
   },
   {
     title: "Meeresrauschen",
-    text: "Das stetige Gerausch der Wellen am Meer.",
-    meta: "Urlaubsgefuhl in einem Klang",
+    text: "Das stetige Geräusch der Wellen am Meer.",
+    meta: "Urlaubsgefühl in einem Klang",
   },
   {
     title: "Sternstunde",
@@ -182,7 +182,7 @@ export const wordsDe = [
   {
     title: "Tatendrang",
     text: "Starker Wunsch, aktiv zu werden und etwas zu tun.",
-    meta: "Energie mit hochgekrempelten Armeln",
+    meta: "Energie mit hochgekrempelten Ärmeln",
   },
   {
     title: "Nachklang",
@@ -191,8 +191,8 @@ export const wordsDe = [
   },
   {
     title: "Augenweide",
-    text: "Etwas, das besonders schon anzusehen ist.",
-    meta: "Ein Fest fur den Blick",
+    text: "Etwas, das besonders schön anzusehen ist.",
+    meta: "Ein Fest für den Blick",
   },
   {
     title: "Seelenruhe",
@@ -201,13 +201,13 @@ export const wordsDe = [
   },
   {
     title: "Leichtigkeit",
-    text: "Ein Gefuhl von Unbeschwertheit und muhelosem Dasein.",
-    meta: "Wenn der Tag nicht druckt",
+    text: "Ein Gefühl von Unbeschwertheit und mühelosem Dasein.",
+    meta: "Wenn der Tag nicht drückt",
   },
   {
     title: "Zuversicht",
     text: "Vertrauen darauf, dass etwas gut werden kann.",
-    meta: "Hoffnung mit Boden unter den Fussen",
+    meta: "Hoffnung mit Boden unter den Füßen",
   },
   {
     title: "Lichtblick",
@@ -227,17 +227,17 @@ export const wordsDe = [
   {
     title: "Fernblick",
     text: "Ein weiter Blick in die Ferne.",
-    meta: "Gut fur Berge und Gedanken",
+    meta: "Gut für Berge und Gedanken",
   },
   {
     title: "Weitblick",
-    text: "Die Fahigkeit, langfristig und vorausschauend zu denken.",
-    meta: "Blick uber den Rand des Tages",
+    text: "Die Fähigkeit, langfristig und vorausschauend zu denken.",
+    meta: "Blick über den Rand des Tages",
   },
   {
     title: "Herzklopfen",
-    text: "Spurbar schneller Herzschlag vor Aufregung oder Freude.",
-    meta: "Der Korper macht Ausrufezeichen",
+    text: "Spürbar schneller Herzschlag vor Aufregung oder Freude.",
+    meta: "Der Körper macht Ausrufezeichen",
   },
   {
     title: "Innehalten",
@@ -255,13 +255,13 @@ export const wordsDe = [
     meta: "Drama in der Ferne",
   },
   {
-    title: "Fruhtau",
+    title: "Frühtau",
     text: "Feuchtigkeit, die sich am Morgen auf Pflanzen sammelt.",
     meta: "Der Tag beginnt glitzernd",
   },
   {
     title: "Sternenstaub",
-    text: "Feiner Staub aus dem All, auch bildlich fur etwas Magisches.",
+    text: "Feiner Staub aus dem All, auch bildlich für etwas Magisches.",
     meta: "Kosmos in der Hosentasche",
   },
   {
@@ -272,7 +272,7 @@ export const wordsDe = [
   {
     title: "Abendbrot",
     text: "Eine einfache Mahlzeit am Abend.",
-    meta: "Kleiner Alltag mit grosser Ruhe",
+    meta: "Kleiner Alltag mit großer Ruhe",
   },
   {
     title: "Kaffeeklatsch",
@@ -291,32 +291,32 @@ export const wordsDe = [
   },
   {
     title: "Trostpflaster",
-    text: "Eine kleine Aufmunterung nach einer Enttauschung.",
+    text: "Eine kleine Aufmunterung nach einer Enttäuschung.",
     meta: "Hilft nicht immer, meint es aber gut",
   },
   {
     title: "Alltagszauber",
-    text: "Ein kleiner besonderer Moment mitten im Gewohnlichen.",
+    text: "Ein kleiner besonderer Moment mitten im Gewöhnlichen.",
     meta: "Magie ohne Nebelmaschine",
   },
   {
-    title: "Bauchgefuhl",
-    text: "Eine intuitive Einschatzung ohne lange Begrundung.",
+    title: "Bauchgefühl",
+    text: "Eine intuitive Einschätzung ohne lange Begründung.",
     meta: "Der Bauch hat selten Quellenangaben",
   },
   {
-    title: "Augenmass",
-    text: "Ein ausgewogenes Gespur fur das richtige Mass.",
+    title: "Augenmaß",
+    text: "Ein ausgewogenes Gespür für das richtige Maß.",
     meta: "Praktische Weisheit ohne Lineal",
   },
   {
-    title: "Ruckhalt",
-    text: "Unterstutzung und Sicherheit durch andere Menschen.",
-    meta: "Stabilitat von hinten",
+    title: "Rückhalt",
+    text: "Unterstützung und Sicherheit durch andere Menschen.",
+    meta: "Stabilität von hinten",
   },
   {
     title: "Zuspruch",
-    text: "Ermutigende Worte oder bestarkende Zuwendung.",
+    text: "Ermutigende Worte oder bestärkende Zuwendung.",
     meta: "Manchmal reicht ein Satz",
   },
   {
@@ -326,7 +326,7 @@ export const wordsDe = [
   },
   {
     title: "Gelassenheit",
-    text: "Ruhige Haltung, auch wenn nicht alles nach Plan lauft.",
+    text: "Ruhige Haltung, auch wenn nicht alles nach Plan läuft.",
     meta: "Innere Schultern locker lassen",
   },
   {
@@ -336,22 +336,22 @@ export const wordsDe = [
   },
   {
     title: "Sinnbild",
-    text: "Ein Bild oder Zeichen, das fur etwas anderes steht.",
+    text: "Ein Bild oder Zeichen, das für etwas anderes steht.",
     meta: "Bedeutung in Kurzform",
   },
   {
     title: "Freiraum",
-    text: "Raum fur eigene Entscheidungen, Gedanken oder Bewegung.",
+    text: "Raum für eigene Entscheidungen, Gedanken oder Bewegung.",
     meta: "Platz zum Atmen",
   },
   {
     title: "Spielraum",
-    text: "Ein Bereich, in dem Flexibilitat moglich ist.",
+    text: "Ein Bereich, in dem Flexibilität möglich ist.",
     meta: "Nicht alles ist schon festgeschraubt",
   },
   {
     title: "Lebenslust",
-    text: "Freude am Leben und an seinen Moglichkeiten.",
+    text: "Freude am Leben und an seinen Möglichkeiten.",
     meta: "Ja sagen, aber mit Schwung",
   },
   {
@@ -360,12 +360,12 @@ export const wordsDe = [
     meta: "Gute Laune mit Tradition",
   },
   {
-    title: "Glanzstuck",
+    title: "Glanzstück",
     text: "Eine besonders gelungene Leistung oder Sache.",
     meta: "Da darf es kurz funkeln",
   },
   {
-    title: "Fundstuck",
+    title: "Fundstück",
     text: "Etwas Entdecktes, das besondere Aufmerksamkeit verdient.",
     meta: "Kleiner Schatz am Wegesrand",
   },
@@ -381,13 +381,13 @@ export const wordsDe = [
   },
   {
     title: "Geduldsfaden",
-    text: "Bild fur die Geduld, die reissen kann.",
+    text: "Bild für die Geduld, die reißen kann.",
     meta: "Bitte nicht zu stark daran ziehen",
   },
   {
     title: "Drahtseilakt",
     text: "Eine schwierige Aufgabe, die viel Balance verlangt.",
-    meta: "Zwischen zwei Moglichkeiten gespannt",
+    meta: "Zwischen zwei Möglichkeiten gespannt",
   },
   {
     title: "Schattenwurf",
@@ -396,7 +396,7 @@ export const wordsDe = [
   },
   {
     title: "Lichtermeer",
-    text: "Eine grosse Menge von Lichtern.",
+    text: "Eine große Menge von Lichtern.",
     meta: "Stadt, Fest oder Fensterblick",
   },
   {
@@ -405,7 +405,7 @@ export const wordsDe = [
     meta: "Noch nicht hell, aber sichtbar",
   },
   {
-    title: "Traumerei",
+    title: "Träumerei",
     text: "Ein versunkenes, phantasievolles Denken.",
     meta: "Die Gedanken gehen spazieren",
   },
@@ -416,7 +416,7 @@ export const wordsDe = [
   },
   {
     title: "Schwellenzeit",
-    text: "Eine Ubergangsphase zwischen zwei Zustanden.",
+    text: "Eine Übergangsphase zwischen zwei Zuständen.",
     meta: "Noch nicht dort, nicht mehr hier",
   },
   {
@@ -425,13 +425,13 @@ export const wordsDe = [
     meta: "Man merkt, dass man sich bewegt",
   },
   {
-    title: "Ruckenwind",
-    text: "Unterstutzung, die das Vorankommen erleichtert.",
+    title: "Rückenwind",
+    text: "Unterstützung, die das Vorankommen erleichtert.",
     meta: "Wenn die Luft mithilft",
   },
   {
     title: "Wolkenbruch",
-    text: "Ein plotzlicher, sehr starker Regen.",
+    text: "Ein plötzlicher, sehr starker Regen.",
     meta: "Der Himmel leert die Taschen",
   },
   {
@@ -440,29 +440,29 @@ export const wordsDe = [
     meta: "Wetter in kleinen Portionen",
   },
   {
-    title: "Schneegestober",
+    title: "Schneegestöber",
     text: "Dicht fallender oder wirbelnder Schnee.",
     meta: "Winter macht Bewegung",
   },
   {
     title: "Sommerfrische",
-    text: "Erholsame Zeit an einem kuhleren Ort im Sommer.",
+    text: "Erholsame Zeit an einem kühleren Ort im Sommer.",
     meta: "Altes Wort mit Ferienluft",
   },
   {
     title: "Winterruhe",
-    text: "Eine stille, zuruckgezogene Zeit im Winter.",
+    text: "Eine stille, zurückgezogene Zeit im Winter.",
     meta: "Die Welt spricht leiser",
   },
   {
-    title: "Fruehaufsteher",
-    text: "Jemand, der gern oder regelmassig sehr fruh aufsteht.",
+    title: "Frühaufsteher",
+    text: "Jemand, der gern oder regelmäßig sehr früh aufsteht.",
     meta: "Der Morgen hat Fans",
   },
   {
     title: "Nachtschwarm",
     text: "Jemand, der abends und nachts besonders aktiv ist.",
-    meta: "Das Gegenstuck zum fruhen Start",
+    meta: "Das Gegenstück zum frühen Start",
   },
   {
     title: "Tagtraum",
@@ -471,7 +471,7 @@ export const wordsDe = [
   },
   {
     title: "Gedankenblitz",
-    text: "Ein plotzlicher Einfall.",
+    text: "Ein plötzlicher Einfall.",
     meta: "Idee mit Lichtgeschwindigkeit",
   },
   {
@@ -481,11 +481,11 @@ export const wordsDe = [
   },
   {
     title: "Vertrauen",
-    text: "Die Zuversicht, sich auf jemanden oder etwas verlassen zu konnen.",
-    meta: "Unsichtbare Stabilitat",
+    text: "Die Zuversicht, sich auf jemanden oder etwas verlassen zu können.",
+    meta: "Unsichtbare Stabilität",
   },
   {
-    title: "Herzstuck",
+    title: "Herzstück",
     text: "Der wichtigste oder liebste Teil von etwas.",
     meta: "Die Mitte mit Bedeutung",
   },

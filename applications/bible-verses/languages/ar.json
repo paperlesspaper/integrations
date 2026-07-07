@@ -3,5 +3,7 @@
   "loading": "جار التحميل...",
   "fallback": "آية دون اتصال",
   "source": "المصدر",
-  "errorTitle": "تعذر تحميل الآية"
+  "errorTitle": "تعذر تحميل الآية",
+  "qrAlt": "رمز QR لمصدر الآية",
+  "apiFailed": "فشل طلب API بالحالة {status}"
 }

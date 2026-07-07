@@ -1,7 +1,9 @@
 {
   "title": "Bibelverse",
-  "loading": "Ladt...",
+  "loading": "Lädt...",
   "fallback": "Offline-Vers",
   "source": "Quelle",
-  "errorTitle": "Vers konnte nicht geladen werden"
+  "errorTitle": "Vers konnte nicht geladen werden",
+  "qrAlt": "QR-Code zur Quelle des Verses",
+  "apiFailed": "API-Aufruf fehlgeschlagen ({status})"
 }

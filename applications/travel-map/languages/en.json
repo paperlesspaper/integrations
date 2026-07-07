@@ -8,5 +8,6 @@
   "visitedNoYear": "Visited",
   "yearLegend": "Years",
   "visitedLegend": "Visited",
-  "source": "Map data: Natural Earth, U.S. Census, DIVA-GIS"
+  "source": "Map data: Natural Earth, U.S. Census, DIVA-GIS",
+  "apiFailed": "API failed with {status}"
 }

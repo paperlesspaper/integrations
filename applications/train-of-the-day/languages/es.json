@@ -27,5 +27,7 @@
   "typeEmu": "Unidad eléctrica",
   "selectedFrom": "{count} en rotación",
   "signature": "Rasgo distintivo",
-  "errorTitle": "No se pudo cargar el tren"
+  "errorTitle": "No se pudo cargar el tren",
+  "imageFailed": "La imagen del tren no se pudo cargar.",
+  "listFailed": "La lista de trenes no se pudo cargar."
 }

@@ -775,7 +775,7 @@
           const params = new URLSearchParams(settings);
           const response = await fetch(`./api/data?${params.toString()}`, { cache: "no-store" });
           if (!response.ok) {
-            throw new Error(`Departure API failed with ${response.status}`);
+            throw new Error(t("apiFailed", { status: response.status }));
           }
 
           const data = await response.json();

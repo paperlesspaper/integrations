@@ -55,7 +55,9 @@
         line-height: 0.9;
         font-weight: 900;
         letter-spacing: 0;
-        overflow-wrap: anywhere;
+        overflow-wrap: normal;
+        word-break: normal;
+        text-wrap: balance;
       }
 
       .nickname {
@@ -158,6 +160,41 @@
         overflow-wrap: anywhere;
       }
 
+      @media (min-width: 1400px) and (min-height: 1000px) {
+        .hero-header {
+          padding: 20px 22px 9px 24px;
+        }
+
+        .nickname {
+          font-size: 1rem;
+        }
+
+        .source-meta {
+          flex-basis: 132px;
+          font-size: 0.6rem;
+        }
+
+        .date-line {
+          font-size: 0.8rem;
+        }
+
+        .info-panel {
+          padding: 0 22px 18px 24px;
+        }
+
+        .signature-line {
+          font-size: 1.08rem;
+        }
+
+        .fact-grid {
+          gap: 13px 18px;
+        }
+
+        .value {
+          font-size: 1.02rem;
+        }
+      }
+
       @media (orientation: portrait), (max-width: 700px) {
         .tree-shell {
           grid-template-columns: minmax(0, 1fr);
@@ -258,7 +295,7 @@
             <h1 class="tree-name pp-fit" id="tree-name" data-i18n="loading">
               Loading...
             </h1>
-            <p class="nickname pp-fit" id="nickname"></p>
+            <p class="nickname" id="nickname"></p>
           </div>
           <div class="source-meta">
             <p class="date-line" id="date">----</p>
@@ -285,8 +322,8 @@
           getQuerySettings,
           mergeSettings,
           escapeHtml,
+          fitText,
           fitHyphenatedText,
-          fitAllText,
           fitToScreen,
           markReady,
           markError,
@@ -490,7 +527,7 @@
           return `
             <article class="fact">
               <p class="label">${escapeHtml(label)}</p>
-              <p class="value pp-fit">${escapeHtml(value || "N/A")}</p>
+              <p class="value">${escapeHtml(value || "N/A")}</p>
             </article>
           `;
         }
@@ -509,7 +546,7 @@
             image.addEventListener("load", resolve, { once: true });
             image.addEventListener(
               "error",
-              () => reject(new Error(`Could not load ${image.src}`)),
+              () => reject(new Error(t("imageFailed"))),
               { once: true },
             );
           });
@@ -545,7 +582,7 @@
             applyColorTheme(settings.color, { defaultTheme: defaults.color });
           }
           if (!trees.length) {
-            throw new Error("Tree list could not load");
+            throw new Error(t("listFailed"));
           }
 
           const today = dayKey();
@@ -622,30 +659,19 @@
           await Promise.all([document.fonts?.ready, waitForImage(image)]);
           const compactLandscape =
             window.innerWidth > window.innerHeight && window.innerHeight <= 560;
-          fitHyphenatedText(document.getElementById("tree-name"), {
+          const roomyLandscape =
+            window.innerWidth >= 1400 && window.innerHeight >= 1000;
+          fitText(document.getElementById("tree-name"), {
             min: 28,
-            max: compactLandscape ? 52 : 70,
+            max: compactLandscape ? 52 : roomyLandscape ? 86 : 70,
             step: 2,
             tolerance: 6,
             lineBreak: "balance",
           });
-          fitHyphenatedText(document.getElementById("nickname"), {
-            min: 11,
-            max: compactLandscape ? 14 : 18,
-            step: 1,
-            lineBreak: true,
-          });
           fitHyphenatedText(document.getElementById("signature"), {
             min: 10,
-            max: compactLandscape ? 14 : 18,
+            max: compactLandscape ? 14 : roomyLandscape ? 21 : 18,
             step: 1,
-            lineBreak: true,
-          });
-          fitAllText(".fact .pp-fit", {
-            min: 8,
-            max: compactLandscape ? 13 : 18,
-            step: 1,
-            tolerance: 4,
             lineBreak: true,
           });
           fitToScreen();

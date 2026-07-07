@@ -1,3 +1,7 @@
 {
-  "emptyContent": "Text in den Einstellungen hinzufugen."
+  "emptyContent": "Text in den Einstellungen hinzufügen.",
+  "errorTitle": "Text konnte nicht geladen werden",
+  "defaultContent": "# Hallo Welt\n\nNutze **Markdown** oder Klartext für dein paperlesspaper-Display.",
+  "noticeTitle": "Hinweis",
+  "noticeContent": "Dies ist eine einfache Textnotiz.\nZeilenumbrüche bleiben erhalten."
 }

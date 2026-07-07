@@ -180,7 +180,7 @@ function typeMatches(type, tokens) {
 
 function classifyType(type) {
   const value = type.toLowerCase();
-  if (/(bio|organic|compost|food|gruen|green|garden)/.test(value)) {
+  if (/(bio|organic|compost|food|gruen|grün|green|garden)/.test(value)) {
     return "organic";
   }
   if (/(paper|papier|cardboard|pappe|carton)/.test(value)) {
@@ -198,7 +198,7 @@ function classifyType(type) {
   if (/(hazard|schad|chemical|battery|paint)/.test(value)) {
     return "hazard";
   }
-  if (/(residual|rest|refuse|general|trash|garbage|waste|muell|mull)/.test(value)) {
+  if (/(residual|rest|refuse|general|trash|garbage|waste|muell|müll|mull)/.test(value)) {
     return "residual";
   }
   return "default";

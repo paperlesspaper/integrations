@@ -1,7 +1,7 @@
 const competitions = {
   BL1: { code: 'BL1', name: 'Bundesliga', area: 'Germany' },
   PL: { code: 'PL', name: 'Premier League', area: 'England' },
-  PD: { code: 'PD', name: 'Primera Division', area: 'Spain' },
+  PD: { code: 'PD', name: 'Primera División', area: 'Spain' },
   SA: { code: 'SA', name: 'Serie A', area: 'Italy' },
   FL1: { code: 'FL1', name: 'Ligue 1', area: 'France' },
   DED: { code: 'DED', name: 'Eredivisie', area: 'Netherlands' },
@@ -13,7 +13,7 @@ const maxRemoteMarkdownBytes = 12_000;
 
 const sampleTables = {
   BL1: [
-    ['Bayern Munchen', 'FCB', 15, 10, 3, 2, 37, 18, 33],
+    ['Bayern München', 'FCB', 15, 10, 3, 2, 37, 18, 33],
     ['Borussia Dortmund', 'BVB', 15, 9, 4, 2, 31, 17, 31],
     ['Bayer Leverkusen', 'B04', 15, 8, 5, 2, 29, 16, 29],
     ['RB Leipzig', 'RBL', 15, 8, 3, 4, 27, 18, 27],
@@ -41,7 +41,7 @@ const sampleTables = {
   PD: [
     ['Real Madrid', 'RMA', 16, 11, 4, 1, 33, 12, 37],
     ['FC Barcelona', 'BAR', 16, 11, 2, 3, 35, 18, 35],
-    ['Atletico de Madrid', 'ATM', 16, 10, 3, 3, 28, 13, 33],
+    ['Atlético de Madrid', 'ATM', 16, 10, 3, 3, 28, 13, 33],
     ['Athletic Club', 'ATH', 16, 8, 5, 3, 24, 16, 29],
     ['Villarreal CF', 'VIL', 16, 7, 5, 4, 25, 20, 26],
     ['Real Sociedad', 'RSO', 16, 7, 4, 5, 19, 16, 25],
@@ -84,7 +84,7 @@ sampleTables.PPL = [
   ['SL Benfica', 'BEN', 15, 11, 2, 2, 31, 13, 35],
   ['FC Porto', 'FCP', 15, 10, 3, 2, 29, 14, 33],
   ['SC Braga', 'BRA', 15, 8, 3, 4, 25, 18, 27],
-  ['Vitoria SC', 'VSC', 15, 7, 4, 4, 22, 17, 25],
+  ['Vitória SC', 'VSC', 15, 7, 4, 4, 22, 17, 25],
   ['Casa Pia AC', 'CPAC', 15, 5, 5, 5, 16, 17, 20],
 ];
 
@@ -92,7 +92,7 @@ sampleTables.CL = [
   ['Paris Saint-Germain', 'PSG', 8, 6, 1, 1, 19, 8, 19],
   ['Manchester City', 'MCI', 8, 6, 0, 2, 20, 10, 18],
   ['Real Madrid', 'RMA', 8, 5, 2, 1, 18, 9, 17],
-  ['Bayern Munchen', 'FCB', 8, 5, 1, 2, 17, 10, 16],
+  ['Bayern München', 'FCB', 8, 5, 1, 2, 17, 10, 16],
   ['Arsenal', 'ARS', 8, 4, 3, 1, 15, 8, 15],
   ['Inter', 'INT', 8, 4, 2, 2, 13, 9, 14],
   ['Barcelona', 'BAR', 8, 4, 1, 3, 16, 12, 13],

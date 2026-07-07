@@ -12,5 +12,8 @@
   "recent": "Recenti",
   "publicMonitors": "{count} monitor pubblici",
   "ping": "Ping {value}",
-  "noPublicMonitors": "Nessun monitor pubblico"
+  "noPublicMonitors": "Nessun monitor pubblico",
+  "incidents": "Incidenti",
+  "maintenanceEvents": "Manutenzioni",
+  "monitorCountsLabel": "Conteggio monitor"
 }

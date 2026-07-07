@@ -92,7 +92,7 @@
 
     <main class="photo-screen">
       <img class="photo-image" id="photo-image" alt="">
-      <section class="photo-overlay" id="photo-overlay" aria-label="Photo details">
+      <section class="photo-overlay" id="photo-overlay" aria-label="">
         <p class="photo-caption" id="photo-caption"></p>
         <p class="photo-meta" id="photo-meta"></p>
       </section>
@@ -124,7 +124,8 @@
           "apiFailed": "Immich request failed with {status}",
           "title": "Immich Photos",
           "fallbackCaption": "Immich photo",
-          "imageFailed": "Resolved Immich image could not be loaded."
+          "imageFailed": "Resolved Immich image could not be loaded.",
+          "photoDetailsLabel": "Photo details"
 };
         let messages = defaultMessages;
         let currentLanguage = "en";
@@ -180,6 +181,9 @@
           currentLanguage = result.language || "en";
           document.documentElement.lang = currentLanguage;
           applyStaticMessages();
+          document
+            .getElementById("photo-overlay")
+            ?.setAttribute("aria-label", t("photoDetailsLabel"));
           return result;
         }
 

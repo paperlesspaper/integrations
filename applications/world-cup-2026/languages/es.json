@@ -3,7 +3,7 @@
   "updated": "Actualizado",
   "from": "desde",
   "errorTitle": "No se pudo cargar World Cup 2026",
-  "apiFailed": "La API fallo con {status}",
+  "apiFailed": "La API falló con {status}",
   "brand": "World Cup 26",
   "latestResults": "Ultimos resultados",
   "upNext": "Siguiente",

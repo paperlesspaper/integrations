@@ -3,5 +3,7 @@
   "loading": "載入中...",
   "fallback": "離線經文",
   "source": "來源",
-  "errorTitle": "無法載入經文"
+  "errorTitle": "無法載入經文",
+  "qrAlt": "來源經文的 QR 碼",
+  "apiFailed": "API 失敗，狀態 {status}"
 }

@@ -217,6 +217,7 @@
 
         const defaultMessages = {
           loading: "Loading...",
+          defaultTitle: "Sheet",
           date: "Date",
           name: "Name",
           group: "Group",
@@ -226,6 +227,7 @@
           emptyCopy: "The sheet loaded, but no displayable rows were found.",
           updated: "Updated",
           errorTitle: "Sheet could not load",
+          apiFailed: "API failed with {status}",
         };
         let messages = defaultMessages;
 
@@ -275,7 +277,7 @@
         }
 
         function displayTitle(settings, data) {
-          return settings.title || data?.sheetTitle || "Sheet";
+          return String(settings.title || data?.sheetTitle || t("defaultTitle")).trim() || t("defaultTitle");
         }
 
         function renderEmpty(title, copy) {
@@ -501,7 +503,8 @@
           app.classList.toggle("sheet-header-plain", tableHeaderStyle(settings) === "plain");
           app.classList.toggle("sheet-header-sheet", tableHeaderStyle(settings) === "sheet");
 
-          document.getElementById("sheet-title").textContent = settings.title || "Sheet";
+          document.getElementById("sheet-title").textContent =
+            String(settings.title || t("defaultTitle")).trim() || t("defaultTitle");
 
           if (!hasSheetId(settings.sheetId)) {
             document.getElementById("sheet-meta").textContent = t("configuredNeededTitle");
@@ -517,7 +520,7 @@
           });
 
           if (!response.ok) {
-            throw new Error(`API failed with ${response.status}`);
+            throw new Error(t("apiFailed", { status: response.status }));
           }
 
           const data = await response.json();

@@ -44,7 +44,9 @@
         line-height: 0.9;
         font-weight: 900;
         letter-spacing: 0;
-        overflow-wrap: anywhere;
+        overflow-wrap: normal;
+        word-break: normal;
+        text-wrap: balance;
       }
 
       .nickname {
@@ -144,6 +146,37 @@
         overflow-wrap: anywhere;
       }
 
+      @media (min-width: 1400px) and (min-height: 1000px) {
+        .hero-header {
+          padding: 20px 32px 8px;
+        }
+
+        .nickname {
+          font-size: 1.12rem;
+        }
+
+        .signature-line {
+          font-size: 1.06rem;
+        }
+
+        .date-line {
+          font-size: 0.66rem;
+        }
+
+        .fact-grid {
+          gap: 18px;
+          padding: 12px 32px 19px;
+        }
+
+        .fact .label {
+          font-size: 0.68rem;
+        }
+
+        .value {
+          font-size: 1.12rem;
+        }
+      }
+
       @media (orientation: portrait), (max-width: 700px) {
         .dino-shell {
           grid-template-rows: auto minmax(0, 0.82fr) auto;
@@ -233,7 +266,7 @@
           <h1 class="dino-name pp-fit" id="dino-name" data-i18n="loading">
             Loading...
           </h1>
-          <p class="nickname pp-fit" id="nickname"></p>
+          <p class="nickname" id="nickname"></p>
           <p class="signature-line pp-fit" id="signature"></p>
           <p class="date-line" id="date">----</p>
         </header>
@@ -254,8 +287,8 @@
           getQuerySettings,
           mergeSettings,
           escapeHtml,
+          fitText,
           fitHyphenatedText,
-          fitAllText,
           fitToScreen,
           markReady,
           markError,
@@ -445,7 +478,7 @@
           return `
             <article class="fact">
               <p class="label">${escapeHtml(label)}</p>
-              <p class="value pp-fit">${escapeHtml(value || "N/A")}</p>
+              <p class="value">${escapeHtml(value || "N/A")}</p>
             </article>
           `;
         }
@@ -458,7 +491,7 @@
             image.addEventListener("load", resolve, { once: true });
             image.addEventListener(
               "error",
-              () => reject(new Error(`Could not load ${image.src}`)),
+              () => reject(new Error(t("imageFailed"))),
               { once: true },
             );
           });
@@ -488,7 +521,7 @@
             applyColorTheme(settings.color, { defaultTheme: defaults.color });
           }
           if (!dinosaurs.length) {
-            throw new Error("Dinosaur list could not load");
+            throw new Error(t("listFailed"));
           }
 
           const today = dayKey();
@@ -560,30 +593,19 @@
           await Promise.all([document.fonts?.ready, waitForImage(image)]);
           const compactLandscape =
             window.innerWidth > window.innerHeight && window.innerHeight <= 560;
-          fitHyphenatedText(document.getElementById("dino-name"), {
+          const roomyLandscape =
+            window.innerWidth >= 1400 && window.innerHeight >= 1000;
+          fitText(document.getElementById("dino-name"), {
             min: 28,
-            max: compactLandscape ? 54 : 78,
+            max: compactLandscape ? 54 : roomyLandscape ? 104 : 78,
             step: 2,
             tolerance: 6,
             lineBreak: "balance",
           });
-          fitHyphenatedText(document.getElementById("nickname"), {
-            min: 12,
-            max: compactLandscape ? 15 : 20,
-            step: 1,
-            lineBreak: true,
-          });
           fitHyphenatedText(document.getElementById("signature"), {
             min: 10,
-            max: compactLandscape ? 14 : 18,
+            max: compactLandscape ? 14 : roomyLandscape ? 21 : 18,
             step: 1,
-            lineBreak: true,
-          });
-          fitAllText(".fact .pp-fit", {
-            min: 8,
-            max: compactLandscape ? 14 : 18,
-            step: 1,
-            tolerance: 4,
             lineBreak: true,
           });
           fitToScreen();

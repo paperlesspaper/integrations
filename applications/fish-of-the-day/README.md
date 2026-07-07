@@ -52,15 +52,15 @@ The application icon is stored at [assets/icon.png](./assets/icon.png). It was g
 Use this prompt for icon variants. Replace `NAME OF THE FISH` with a prehistoric fish name:
 
 ```txt
-Erstelle ein gerendertes CAD-aehnliches Bild von dem praehistorischen Fisch NAME OF THE FISH in exakter orthografischer Seitenansicht, ohne Perspektive. Der Fisch ist vollstaendig sichtbar. Perfekt flacher #00ff00 Chroma-Key-Hintergrund fuer die Freistellung, Studio-Licht, hoher Kontrast, klare Kanten und saubere technische Flaechen.
+Erstelle ein gerendertes CAD-ähnliches Bild von dem prähistorischen Fisch NAME OF THE FISH in exakter orthografischer Seitenansicht, ohne Perspektive. Der Fisch ist vollständig sichtbar. Perfekt flacher #00ff00 Chroma-Key-Hintergrund für die Freistellung, Studio-Licht, hoher Kontrast, klare Kanten und saubere technische Flächen.
 
-Nutze ein oeffentliches Referenzbild von Wikipedia als visuelle Vorlage: NAME OF THE FISH mit den charakteristischen Farben und Formen. Das Bild soll keine lesbaren Logos oder Textbeschriftungen enthalten.
+Nutze ein öffentliches Referenzbild von Wikipedia als visuelle Vorlage: NAME OF THE FISH mit den charakteristischen Farben und Formen. Das Bild soll keine lesbaren Logos oder Textbeschriftungen enthalten.
 
 Der Fisch soll etwas vereinfacht wirken, wie eine gerenderte CAD-Zeichnung: reduzierte, aber erkennbare Details.
 
-Komposition: exakte Seitenansicht, horizontal von links nach rechts, vollstaendig sichtbar. Keine perspektivische Verzerrung, keine Umgebung, keine Personen, keine starken Gebrauchsspuren, keine ueberladenen Details, kein Wasserzeichen, keine Textlabels.
+Komposition: exakte Seitenansicht, horizontal von links nach rechts, vollständig sichtbar. Keine perspektivische Verzerrung, keine Umgebung, keine Personen, keine starken Gebrauchsspuren, keine überladenen Details, kein Wasserzeichen, keine Textlabels.
 
-Der Hintergrund muss eine gleichmaessige Chroma-Key-Farbe haben. Kein Schatten, kein Kontakt-Schatten, keine Reflexion, kein Text.
+Der Hintergrund muss eine gleichmäßige Chroma-Key-Farbe haben. Kein Schatten, kein Kontakt-Schatten, keine Reflexion, kein Text.
 ```
 
 ### Image Prompt
@@ -68,13 +68,13 @@ Der Hintergrund muss eine gleichmaessige Chroma-Key-Farbe haben. Kein Schatten, 
 Use this prompt for additional fish. Replace `NAME OF THE FISH`:
 
 ```txt
-Erstelle ein gerendertes CAD-aehnliches Bild von dem praehistorischen Fisch NAME OF THE FISH in exakter orthografischer Seitenansicht, ohne Perspektive. Der Fisch ist vollstaendig sichtbar. Weisser Hintergrund, Studio-Licht, hoher Kontrast, klare Kanten und saubere technische Flaechen.
+Erstelle ein gerendertes CAD-ähnliches Bild von dem prähistorischen Fisch NAME OF THE FISH in exakter orthografischer Seitenansicht, ohne Perspektive. Der Fisch ist vollständig sichtbar. Weißer Hintergrund, Studio-Licht, hoher Kontrast, klare Kanten und saubere technische Flächen.
 
-Nutze ein oeffentliches Referenzbild von Wikipedia als visuelle Vorlage: NAME OF THE FISH mit den charakteristischen Farben und Form. Das Bild soll keine lesbaren Logos oder Textbeschriftungen enthalten.
+Nutze ein öffentliches Referenzbild von Wikipedia als visuelle Vorlage: NAME OF THE FISH mit den charakteristischen Farben und Form. Das Bild soll keine lesbaren Logos oder Textbeschriftungen enthalten.
 
 Der Fisch soll etwas vereinfacht wirken, wie eine gerenderte CAD-Zeichnung: reduzierte, aber erkennbare Details.
 
-Komposition: exakte Seitenansicht, horizontal von links nach rechts, vollstaendig sichtbar. Keine perspektivische Verzerrung, keine Umgebung, keine Personen, keine starken Gebrauchsspuren, keine ueberladenen Details, kein Wasserzeichen, keine Textlabels.
+Komposition: exakte Seitenansicht, horizontal von links nach rechts, vollständig sichtbar. Keine perspektivische Verzerrung, keine Umgebung, keine Personen, keine starken Gebrauchsspuren, keine überladenen Details, kein Wasserzeichen, keine Textlabels.
 
 no transparency
 ```

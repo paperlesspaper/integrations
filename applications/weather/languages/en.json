@@ -11,5 +11,14 @@
   "pressure": "Pressure",
   "sunrise": "Sunrise",
   "sunset": "Sunset",
-  "moon": "Moon"
+  "moon": "Moon",
+  "moonNew": "New moon",
+  "moonWaxingCrescent": "Waxing crescent",
+  "moonFirstQuarter": "First quarter",
+  "moonWaxingGibbous": "Waxing gibbous",
+  "moonFull": "Full moon",
+  "moonWaningGibbous": "Waning gibbous",
+  "moonLastQuarter": "Last quarter",
+  "moonWaningCrescent": "Waning crescent",
+  "apiFailed": "Weather API failed with {status}"
 }

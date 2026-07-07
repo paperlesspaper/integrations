@@ -15,5 +15,7 @@
   "source": "Fonte",
   "selectedFrom": "{count} nella rotazione",
   "signature": "Nota sul campo",
-  "errorTitle": "Impossibile caricare l'uccello"
+  "errorTitle": "Impossibile caricare l'uccello",
+  "imageFailed": "L'immagine dell'uccello non è stata caricata.",
+  "listFailed": "L'elenco degli uccelli non è stato caricato."
 }

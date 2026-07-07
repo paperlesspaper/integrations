@@ -12,5 +12,8 @@
   "recent": "Recent",
   "publicMonitors": "{count} public monitors",
   "ping": "Ping {value}",
-  "noPublicMonitors": "No public monitors"
+  "noPublicMonitors": "No public monitors",
+  "incidents": "Incidents",
+  "maintenanceEvents": "Maintenance",
+  "monitorCountsLabel": "Monitor counts"
 }

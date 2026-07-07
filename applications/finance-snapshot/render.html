@@ -522,10 +522,10 @@
 
       <section class="quotes">
         <div class="quote-head">
-          <span>Value</span>
-          <span>Price</span>
-          <span>Change</span>
-          <span>Unit</span>
+          <span data-i18n="value">Value</span>
+          <span data-i18n="price">Price</span>
+          <span data-i18n="change">Change</span>
+          <span data-i18n="unit">Unit</span>
         </div>
         <div class="quote-body" id="quotes"></div>
       </section>
@@ -566,6 +566,11 @@
           high: "High",
           low: "Low",
           range: "Range",
+          value: "Value",
+          price: "Price",
+          change: "Change",
+          unit: "Unit",
+          apiFailed: "API failed with {status}",
         };
         let messages = defaultMessages;
         let currentLanguage = "en";
@@ -861,7 +866,7 @@
 
           const response = await fetch(`./api/data?${params.toString()}`, { cache: "no-store" });
           if (!response.ok) {
-            throw new Error(`Finance API failed with ${response.status}`);
+            throw new Error(t("apiFailed", { status: response.status }));
           }
 
           const data = await response.json();

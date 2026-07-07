@@ -15,5 +15,7 @@
   "source": "Source",
   "selectedFrom": "{count} in rotation",
   "signature": "Field note",
-  "errorTitle": "Bird could not load"
+  "errorTitle": "Bird could not load",
+  "imageFailed": "Bird image could not load.",
+  "listFailed": "Bird list could not load."
 }

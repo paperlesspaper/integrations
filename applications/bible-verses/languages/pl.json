@@ -1,7 +1,9 @@
 {
   "title": "Wersety biblijne",
-  "loading": "Ladowanie...",
+  "loading": "Ładowanie...",
   "fallback": "Werset offline",
-  "source": "Zrodlo",
-  "errorTitle": "Nie mozna zaladowac wersetu"
+  "source": "Źródło",
+  "errorTitle": "Nie można załadować wersetu",
+  "qrAlt": "Kod QR do wersetu źródłowego",
+  "apiFailed": "Interfejs API zakończył się błędem ze statusem {status}"
 }

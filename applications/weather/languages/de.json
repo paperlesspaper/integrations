@@ -11,5 +11,14 @@
   "pressure": "Druck",
   "sunrise": "Sonnenaufgang",
   "sunset": "Sonnenuntergang",
-  "moon": "Mond"
+  "moon": "Mond",
+  "moonNew": "Neumond",
+  "moonWaxingCrescent": "Zunehmende Sichel",
+  "moonFirstQuarter": "Erstes Viertel",
+  "moonWaxingGibbous": "Zunehmender Mond",
+  "moonFull": "Vollmond",
+  "moonWaningGibbous": "Abnehmender Mond",
+  "moonLastQuarter": "Letztes Viertel",
+  "moonWaningCrescent": "Abnehmende Sichel",
+  "apiFailed": "Wetter-API-Aufruf fehlgeschlagen ({status})"
 }

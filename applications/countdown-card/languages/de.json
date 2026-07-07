@@ -1,12 +1,17 @@
 {
   "untilLabel": "Bis",
   "sinceLabel": "Seit",
-  "pastTargetLabel": "Ziel ueberschritten",
+  "pastTargetLabel": "Ziel überschritten",
   "futureSinceLabel": "Startet in",
   "daysLabel": "Tage",
   "hoursLabel": "Stunden",
   "minutesLabel": "Minuten",
   "progressLabel": "Fortschritt",
   "targetDateLabel": "Ziel",
-  "invalidDateMessage": "Bitte ein gueltiges targetDate in den Einstellungen setzen."
+  "invalidDateMessage": "Bitte ein gültiges targetDate in den Einstellungen setzen.",
+  "errorTitle": "Countdown konnte nicht geladen werden",
+  "invalidDateTitle": "Ungültiges Zieldatum",
+  "defaultTitle": "Starttag",
+  "sinceOpeningTitle": "Seit Eröffnung",
+  "openedDateLabel": "Eröffnet"
 }
