@@ -948,7 +948,7 @@ function createPreviewHtml({
       ];
       let monitorTimer;
       let timeoutTimer;
-      let reloadTimer;
+      let messageTimer;
       let syncingJson = false;
       let cacheSuppressed = false;
       let deviceObjectUrl;
@@ -1130,7 +1130,7 @@ function createPreviewHtml({
         syncFormFromJson();
         syncColorFromJson();
         cacheState(reason);
-        scheduleReload(reason);
+        scheduleSendInit(reason);
         sendSettingsPageInit();
       }
 
@@ -1218,7 +1218,7 @@ function createPreviewHtml({
         applyViewport();
         syncViewportPresets();
         setPanel(devStatus, "Cache reset", "Restored manifest defaults.");
-        reloadFrame();
+        sendInit();
         cacheSuppressed = false;
       }
 
@@ -1356,7 +1356,7 @@ function createPreviewHtml({
         settings.value = JSON.stringify(values, null, 2);
         syncingJson = false;
         cacheState("Settings saved.");
-        scheduleReload("Settings changed");
+        scheduleSendInit("Settings changed");
       }
 
       function syncFormFromJson() {
@@ -1491,7 +1491,7 @@ function createPreviewHtml({
         syncColorFromJson();
         syncFormFromJson();
         cacheState("Variant " + (index + 1) + " applied.");
-        reloadFrame();
+        sendInit();
       }
 
       function renderConfigVariants(cacheBust) {
@@ -1634,12 +1634,30 @@ function createPreviewHtml({
         }
       }
 
+      function resetFrameReadyMarkers() {
+        const doc = iframe.contentDocument;
+        if (!doc?.body) {
+          return;
+        }
+
+        doc.getElementById("website-has-loaded")?.remove();
+
+        if (!doc.getElementById("website-has-loading-element")) {
+          const marker = doc.createElement("div");
+          marker.id = "website-has-loading-element";
+          marker.hidden = true;
+          doc.body.append(marker);
+        }
+      }
+
       function sendInit() {
         showLivePreview();
 
         try {
           const payload = currentPayload();
           applyFrameTheme();
+          resetFrameReadyMarkers();
+          console.log("[paperlesspaper-openintegration] sending INIT", payload);
           iframe.contentWindow?.postMessage(
             {
               type: "INIT",
@@ -1694,6 +1712,7 @@ function createPreviewHtml({
       }
 
       function reloadFrame() {
+        clearTimeout(messageTimer);
         showLivePreview();
         applyViewport();
         cacheState("Preview values saved.");
@@ -1702,10 +1721,10 @@ function createPreviewHtml({
         iframe.src = frameUrl();
       }
 
-      function scheduleReload(reason) {
-        clearTimeout(reloadTimer);
-        setPanel(renderStatus, "Reload queued", reason);
-        reloadTimer = setTimeout(reloadFrame, 250);
+      function scheduleSendInit(reason) {
+        clearTimeout(messageTimer);
+        setPanel(renderStatus, "INIT queued", reason);
+        messageTimer = setTimeout(sendInit, 250);
       }
 
       function reloadSettingsFrame() {
@@ -1918,17 +1937,17 @@ function createPreviewHtml({
         syncSettingsColorFromSelect();
         syncFormFromJson();
         cacheState("Settings saved.");
-        reloadFrame();
+        sendInit();
       });
       language?.addEventListener("change", () => {
         cacheState("Language saved.");
-        reloadFrame();
+        sendInit();
       });
       settings.addEventListener("input", () => {
         syncFormFromJson();
         syncColorFromJson();
         cacheState("Raw settings saved.");
-        scheduleReload("Raw settings changed");
+        scheduleSendInit("Raw settings changed");
       });
 
       if (window.EventSource) {
@@ -3044,6 +3063,7 @@ function renderTemplate({ api, name }) {
         mergeSettings,
         loadLanguageJson,
         applyColorThemeFromQuery,
+        markLoading,
         markReady,
         markError,
         fitAllText,
@@ -3053,23 +3073,24 @@ function renderTemplate({ api, name }) {
 
       const app = document.querySelector("#app");
 
-      try {
-        const payload = await waitForPayload({ timeoutMs: 500 });
-        const { messages } = await loadLanguageJson(payload);
-        applyColorThemeFromQuery({ defaultTheme: "light" });
+      async function renderPayload(payload) {
+        try {
+          markLoading();
+          const { messages } = await loadLanguageJson(payload);
+          applyColorThemeFromQuery({ defaultTheme: "light" });
 
-        const settings = mergeSettings(
-          { title: ${JSON.stringify(name)}, limit: 5 },
-          getSettings(payload),
-          getQuerySettings()
-        );
-        settings.limit = Math.max(1, Math.min(12, Number(settings.limit) || 5));
+          const settings = mergeSettings(
+            { title: ${JSON.stringify(name)}, limit: 5 },
+            getSettings(payload),
+            getQuerySettings()
+          );
+          settings.limit = Math.max(1, Math.min(12, Number(settings.limit) || 5));
 
-        ${loadData}
+          ${loadData}
 
-        const items = Array.isArray(data.items) ? data.items.slice(0, settings.limit) : [];
-        const footer = typeof messages.footer === "string" ? messages.footer : "";
-        app.innerHTML = \`
+          const items = Array.isArray(data.items) ? data.items.slice(0, settings.limit) : [];
+          const footer = typeof messages.footer === "string" ? messages.footer : "";
+          app.innerHTML = \`
           <header class="pp-header">
             <div>
               <h1 class="pp-title pp-fit">\${escapeHtml(data.title || settings.title)}</h1>
@@ -3085,13 +3106,17 @@ function renderTemplate({ api, name }) {
           \${footer ? \`<footer class="pp-footer">\${escapeHtml(footer)}</footer>\` : ""}
         \`;
 
-        await document.fonts?.ready;
-        fitAllText(".pp-fit", { min: 12, max: 72, step: 1, tolerance: 3, lineBreak: true });
-        fitToScreen(app);
-        markReady();
-      } catch (error) {
-        markError(error);
+          await document.fonts?.ready;
+          fitAllText(".pp-fit", { min: 12, max: 72, step: 1, tolerance: 3, lineBreak: true });
+          fitToScreen(app);
+          markReady();
+        } catch (error) {
+          markError(error);
+        }
       }
+
+      const payload = await waitForPayload({ timeoutMs: 500, onUpdate: renderPayload });
+      await renderPayload(payload);
     </script>
   </body>
 </html>

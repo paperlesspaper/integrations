@@ -19,11 +19,13 @@ export interface ValidationResult {
     errors: string[];
     warnings: string[];
 }
+export type PayloadUpdateHandler = (payload: JsonRecord, event: MessageEvent) => void | Promise<void>;
 export interface WaitForPayloadOptions {
     timeout?: number;
     timeoutMs?: number;
     fallback?: JsonRecord;
     allowedOrigins?: string[];
+    onUpdate?: PayloadUpdateHandler;
 }
 export interface FitTextOptions {
     min?: number;

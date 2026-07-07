@@ -85,7 +85,7 @@ const storageKey = [
 
 let monitorTimer;
 let timeoutTimer;
-let reloadTimer;
+let messageTimer;
 let syncingJson = false;
 let cacheSuppressed = false;
 
@@ -316,7 +316,7 @@ function resetCachedState() {
   applyViewport();
   syncViewportPresets();
   setPanel(devStatus, "Cache reset", "Restored manifest defaults.");
-  reloadFrame();
+  sendInit();
   cacheSuppressed = false;
 }
 
@@ -390,7 +390,7 @@ function updatePluginSettings(nextSettings, reason) {
   syncFormFromJson();
   syncColorFromJson();
   cacheState(reason);
-  scheduleReload(reason);
+  scheduleSendInit(reason);
   sendSettingsPageInit();
 }
 
@@ -466,7 +466,7 @@ function updateJsonFromForm() {
   settingsEditor.value = JSON.stringify(values, null, 2);
   syncingJson = false;
   cacheState("Settings saved.");
-  scheduleReload("Settings changed");
+  scheduleSendInit("Settings changed");
 }
 
 function syncFormFromJson() {
@@ -651,7 +651,7 @@ function applyVariant(variant, index) {
   syncColorFromJson();
   syncFormFromJson();
   cacheState("Variant " + (index + 1) + " applied.");
-  reloadFrame();
+  sendInit();
 }
 
 function renderConfigVariants(cacheBust) {
@@ -750,12 +750,30 @@ function applyFrameTheme() {
   }
 }
 
+function resetFrameReadyMarkers() {
+  const doc = iframe.contentDocument;
+  if (!doc?.body) {
+    return;
+  }
+
+  doc.getElementById("website-has-loaded")?.remove();
+
+  if (!doc.getElementById("website-has-loading-element")) {
+    const marker = doc.createElement("div");
+    marker.id = "website-has-loading-element";
+    marker.hidden = true;
+    doc.body.append(marker);
+  }
+}
+
 function sendInit() {
   showLivePreview();
 
   try {
     const payload = currentPayload();
     applyFrameTheme();
+    resetFrameReadyMarkers();
+    console.log("[paperlesspaper-online-runner] sending INIT", payload);
     iframe.contentWindow?.postMessage(
       {
         type: "INIT",
@@ -810,6 +828,7 @@ function monitorReady() {
 }
 
 function reloadFrame() {
+  clearTimeout(messageTimer);
   showLivePreview();
   applyViewport();
   cacheState("Preview values saved.");
@@ -818,10 +837,10 @@ function reloadFrame() {
   iframe.src = frameUrl();
 }
 
-function scheduleReload(reason) {
-  clearTimeout(reloadTimer);
-  setPanel(renderStatus, "Reload queued", escapeText(reason));
-  reloadTimer = setTimeout(reloadFrame, 250);
+function scheduleSendInit(reason) {
+  clearTimeout(messageTimer);
+  setPanel(renderStatus, "INIT queued", escapeText(reason));
+  messageTimer = setTimeout(sendInit, 250);
 }
 
 function reloadSettingsFrame() {
@@ -922,17 +941,17 @@ color.addEventListener("change", () => {
   syncSettingsColorFromSelect();
   syncFormFromJson();
   cacheState("Settings saved.");
-  reloadFrame();
+  sendInit();
 });
 language?.addEventListener("change", () => {
   cacheState("Language saved.");
-  reloadFrame();
+  sendInit();
 });
 settingsEditor.addEventListener("input", () => {
   syncFormFromJson();
   syncColorFromJson();
   cacheState("Raw settings saved.");
-  scheduleReload("Raw settings changed");
+  scheduleSendInit("Raw settings changed");
 });
 
 hydrateCachedState();

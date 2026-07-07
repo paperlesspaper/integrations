@@ -12,5 +12,5 @@ export { fitImage, fitToScreen } from "./resize";
 export { detectOverflow } from "./overflow";
 export { escapeHtml } from "./html";
 export { validateConfig } from "./manifest";
-export type { FitHyphenatedTextOptions, FitTextOptions, FitToScreenOptions, HyphenateTextOptions, JsonRecord, OpenIntegrationConfig, OverflowReport, PrepareHyphenationOptions, ValidationResult, WaitForPayloadOptions } from "./types";
+export type { FitHyphenatedTextOptions, FitTextOptions, FitToScreenOptions, HyphenateTextOptions, JsonRecord, OpenIntegrationConfig, OverflowReport, PayloadUpdateHandler, PrepareHyphenationOptions, ValidationResult, WaitForPayloadOptions } from "./types";
 //# sourceMappingURL=browser.d.ts.map

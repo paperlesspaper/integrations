@@ -97,6 +97,7 @@ var PaperlessOpenIntegration = (() => {
     return content.length > 0;
   }
   function markLoading() {
+    getDocument()?.getElementById(loadedMarkerId)?.remove();
     appendHiddenMarker(loadingMarkerId);
   }
   function markReady() {
@@ -142,8 +143,21 @@ var PaperlessOpenIntegration = (() => {
     }
     return allowedOrigins.includes(origin);
   }
+  function notifyPayloadUpdate(handler, payload, event) {
+    if (!handler) {
+      return;
+    }
+    try {
+      const result = handler(payload, event);
+      if (result && typeof result.then === "function") {
+        result.catch((error) => console.error(error));
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
   function waitForPayload(options = {}) {
-    const { fallback = {}, allowedOrigins } = options;
+    const { fallback = {}, allowedOrigins, onUpdate } = options;
     const timeoutMs = options.timeoutMs ?? options.timeout ?? 500;
     if (typeof window === "undefined") {
       return Promise.resolve(fallback);
@@ -151,14 +165,25 @@ var PaperlessOpenIntegration = (() => {
     return new Promise((resolve) => {
       let settled = false;
       let timer;
-      const finish = (payload) => {
-        if (settled) {
-          return;
-        }
-        settled = true;
+      const cleanup = () => {
         window.removeEventListener("message", onMessage);
         if (timer) {
           clearTimeout(timer);
+        }
+      };
+      const finish = (payload, event) => {
+        if (settled) {
+          if (event) {
+            notifyPayloadUpdate(onUpdate, payload, event);
+          }
+          return;
+        }
+        settled = true;
+        if (timer) {
+          clearTimeout(timer);
+        }
+        if (!onUpdate) {
+          cleanup();
         }
         resolve(payload);
       };
@@ -168,7 +193,7 @@ var PaperlessOpenIntegration = (() => {
         }
         const payload = normalizePayload(event.data);
         if (payload) {
-          finish(payload);
+          finish(payload, event);
         }
       };
       window.addEventListener("message", onMessage);
