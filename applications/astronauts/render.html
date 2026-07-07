@@ -397,6 +397,7 @@
           escapeHtml,
           fitText,
           fitToScreen,
+          markLoading,
           markReady,
           markError,
           loadLanguageJson,
@@ -653,66 +654,71 @@
           });
         }
 
-        try {
-          const defaults = {
-            locationFilter: "",
-            rosterLimit: 8,
-            showPortraits: true,
-          };
-          const payload = await waitForPayload({ timeout: 300 });
-          const languageBundle = await loadMessages(payload);
-          messages = languageBundle.messages;
-          currentLanguage = languageBundle.language;
-          document.documentElement.lang = currentLanguage;
-          document.querySelector('[data-i18n="peopleInSpace"]').textContent =
-            t("peopleInSpace");
-          document.getElementById("count-label").textContent =
-            t("loadingRoster");
-          document.getElementById("crew-heading").textContent =
-            t("crewRoster");
-          const settings = mergeSettings(
-            defaults,
-            getSettings(payload),
-            getQuerySettings(),
-          );
-          const params = new URLSearchParams(settings);
-          const response = await fetch(`./api/data?${params.toString()}`, {
-            cache: "no-store",
-          });
+        async function renderPayload(payload) {
+          try {
+            markLoading?.();
+            const defaults = {
+              locationFilter: "",
+              rosterLimit: 8,
+              showPortraits: true,
+            };
+            const languageBundle = await loadMessages(payload);
+            messages = languageBundle.messages;
+            currentLanguage = languageBundle.language;
+            document.documentElement.lang = currentLanguage;
+            document.querySelector('[data-i18n="peopleInSpace"]').textContent =
+              t("peopleInSpace");
+            document.getElementById("count-label").textContent =
+              t("loadingRoster");
+            document.getElementById("crew-heading").textContent =
+              t("crewRoster");
+            const settings = mergeSettings(
+              defaults,
+              getSettings(payload),
+              getQuerySettings(),
+            );
+            const params = new URLSearchParams(settings);
+            const response = await fetch(`./api/data?${params.toString()}`, {
+              cache: "no-store",
+            });
 
-          if (!response.ok) {
-            throw new Error(t("apiFailed", { status: response.status }));
+            if (!response.ok) {
+              throw new Error(t("apiFailed", { status: response.status }));
+            }
+
+            const data = await response.json();
+            const showPortraits = isEnabled(settings.showPortraits);
+            const count = Number(data.count || 0);
+            const total = Number(data.totalCount || data.allPeopleCount || count);
+            const crew = document.getElementById("crew");
+
+            document.getElementById("count").textContent = count;
+            document.getElementById("count-label").textContent =
+              count === total
+                ? t("countAll")
+                : t("countMatched", { count, total });
+            document.getElementById("filter-label").textContent =
+              data.locationFilter ? t("filtered", { value: data.locationFilter }) : "";
+            document.getElementById("locations").innerHTML = renderLocations(
+              data.locations || [],
+            );
+            crew.innerHTML = renderPeople(data.people || [], showPortraits);
+
+            attachImageFallbacks(crew);
+            await imageLoadPromises(crew);
+            revealMissingImageFallbacks(crew);
+
+            fitDynamicText();
+            fitToScreen();
+            markReady({ count, shown: (data.people || []).length });
+          } catch (error) {
+            markError(error);
+            document.body.innerHTML = `<main class="pp-screen"><h1 class="pp-title pp-error">${escapeHtml(t("errorTitle"))}</h1><p>${escapeHtml(error.message)}</p></main>`;
           }
-
-          const data = await response.json();
-          const showPortraits = isEnabled(settings.showPortraits);
-          const count = Number(data.count || 0);
-          const total = Number(data.totalCount || data.allPeopleCount || count);
-          const crew = document.getElementById("crew");
-
-          document.getElementById("count").textContent = count;
-          document.getElementById("count-label").textContent =
-            count === total
-              ? t("countAll")
-              : t("countMatched", { count, total });
-          document.getElementById("filter-label").textContent =
-            data.locationFilter ? t("filtered", { value: data.locationFilter }) : "";
-          document.getElementById("locations").innerHTML = renderLocations(
-            data.locations || [],
-          );
-          crew.innerHTML = renderPeople(data.people || [], showPortraits);
-
-          attachImageFallbacks(crew);
-          await imageLoadPromises(crew);
-          revealMissingImageFallbacks(crew);
-
-          fitDynamicText();
-          fitToScreen();
-          markReady({ count, shown: (data.people || []).length });
-        } catch (error) {
-          markError(error);
-          document.body.innerHTML = `<main class="pp-screen"><h1 class="pp-title pp-error">${escapeHtml(t("errorTitle"))}</h1><p>${escapeHtml(error.message)}</p></main>`;
         }
+
+        const payload = await waitForPayload({ timeout: 300, onUpdate: renderPayload });
+        await renderPayload(payload);
       })();
     </script>
   </body>

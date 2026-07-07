@@ -112,6 +112,7 @@
           getQuerySettings,
           mergeSettings,
           escapeHtml,
+          markLoading,
           markReady,
           markError,
         } = window.PaperlessOpenIntegration;
@@ -304,75 +305,84 @@
 
         async function renderPayload(payload) {
           const request = ++renderRequest;
-          await loadMessages(payload);
-          showLoading();
+          try {
+            markLoading?.();
+            await loadMessages(payload);
+            showLoading();
 
-          const settings = mergeSettings(defaults, getSettings(payload), getQuerySettings());
-          const response = await fetch(apiUrlFromSettings(settings), { cache: "no-store" });
+            const settings = mergeSettings(defaults, getSettings(payload), getQuerySettings());
+            const response = await fetch(apiUrlFromSettings(settings), { cache: "no-store" });
 
-          if (!response.ok) {
-            throw new Error(await readApiError(response));
-          }
-
-          const photo = await response.json();
-          const image = document.getElementById("photo-image");
-          const status = document.getElementById("photo-status");
-          const overlay = document.getElementById("photo-overlay");
-          const caption = document.getElementById("photo-caption");
-          const meta = document.getElementById("photo-meta");
-          const showMetadata = isEnabled(settings.showMetadata);
-          const showDate = isEnabled(settings.showDate);
-          const showLocation = isEnabled(settings.showLocation);
-          const showAlbumName = isEnabled(settings.showAlbumName);
-          const metaParts = [];
-          const date = formatDate(photo.takenAt, settings.locale);
-          const details = imageDescription(photo);
-
-          image.style.objectFit = settings.fit === "contain" ? "contain" : "cover";
-          image.alt = photo.caption || photo.originalFileName || t("fallbackCaption");
-
-          if (showMetadata) {
-            caption.innerHTML = escapeHtml(photo.caption || photo.originalFileName || t("fallbackCaption"));
-            if (details) {
-              metaParts.push(details);
+            if (!response.ok) {
+              throw new Error(await readApiError(response));
             }
-          } else {
-            caption.textContent = "";
-          }
 
-          if (showAlbumName && photo.albumName) {
-            metaParts.push(photo.albumName);
-          }
+            const photo = await response.json();
+            const image = document.getElementById("photo-image");
+            const status = document.getElementById("photo-status");
+            const overlay = document.getElementById("photo-overlay");
+            const caption = document.getElementById("photo-caption");
+            const meta = document.getElementById("photo-meta");
+            const showMetadata = isEnabled(settings.showMetadata);
+            const showDate = isEnabled(settings.showDate);
+            const showLocation = isEnabled(settings.showLocation);
+            const showAlbumName = isEnabled(settings.showAlbumName);
+            const metaParts = [];
+            const date = formatDate(photo.takenAt, settings.locale);
+            const details = imageDescription(photo);
 
-          if (showDate && date) {
-            metaParts.push(date);
-          }
+            image.style.objectFit = settings.fit === "contain" ? "contain" : "cover";
+            image.alt = photo.caption || photo.originalFileName || t("fallbackCaption");
 
-          if (showLocation && photo.location) {
-            metaParts.push(photo.location);
-          }
+            if (showMetadata) {
+              caption.innerHTML = escapeHtml(photo.caption || photo.originalFileName || t("fallbackCaption"));
+              if (details) {
+                metaParts.push(details);
+              }
+            } else {
+              caption.textContent = "";
+            }
 
-          meta.innerHTML = metaParts.map((part) => `<span>${escapeHtml(part)}</span>`).join("");
-          overlay.classList.toggle("is-visible", Boolean(caption.textContent || metaParts.length));
+            if (showAlbumName && photo.albumName) {
+              metaParts.push(photo.albumName);
+            }
 
-          image.onload = () => {
+            if (showDate && date) {
+              metaParts.push(date);
+            }
+
+            if (showLocation && photo.location) {
+              metaParts.push(photo.location);
+            }
+
+            meta.innerHTML = metaParts.map((part) => `<span>${escapeHtml(part)}</span>`).join("");
+            overlay.classList.toggle("is-visible", Boolean(caption.textContent || metaParts.length));
+
+            image.onload = () => {
+              if (request !== renderRequest) {
+                return;
+              }
+              status.style.display = "none";
+              markReady({ id: photo.id, selection: settings.selection });
+            };
+
+            image.onerror = () => {
+              if (request !== renderRequest) {
+                return;
+              }
+              const imageError = new Error(t("imageFailed"));
+              markError(imageError);
+              showError(imageError);
+            };
+
+            image.src = photo.imageDataUrl;
+          } catch (error) {
             if (request !== renderRequest) {
               return;
             }
-            status.style.display = "none";
-            markReady({ id: photo.id, selection: settings.selection });
-          };
-
-          image.onerror = () => {
-            if (request !== renderRequest) {
-              return;
-            }
-            const imageError = new Error(t("imageFailed"));
-            markError(imageError);
-            showError(imageError);
-          };
-
-          image.src = photo.imageDataUrl;
+            markError(error);
+            showError(error);
+          }
         }
 
         function handlePayloadMessage(event) {
@@ -388,7 +398,7 @@
         }
 
         try {
-          const payload = await waitForPayload({ timeoutMs: 500 });
+          const payload = await waitForPayload({ timeoutMs: 500, onUpdate: renderPayload });
           await renderPayload(payload);
         } catch (error) {
           markError(error);

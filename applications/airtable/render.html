@@ -229,6 +229,7 @@
           escapeHtml,
           fitHyphenatedText,
           fitToScreen,
+          markLoading,
           markReady,
           markError,
         } = window.PaperlessOpenIntegration;
@@ -327,73 +328,78 @@
           `;
         }
 
-        try {
-          const payload = await waitForPayload({ timeoutMs: 500 });
-          await loadMessages(payload);
+        async function renderPayload(payload) {
+          try {
+            markLoading?.();
+            await loadMessages(payload);
 
-          const defaults = {
-            color: "light",
-            title: "Airtable",
-            token: "",
-            baseId: "",
-            tableName: "",
-            view: "Grid view",
-            fields: "",
-            filterByFormula: "",
-            sortField: "",
-            sortDirection: "asc",
-            maxRows: 8,
-            rowBorder: true,
-            showTitle: true,
-            showMeta: true,
-            tablesJson: ""
-          };
-          const settings = mergeSettings(defaults, getSettings(payload), getQuerySettings());
-          applyColorTheme(settings.color, { defaultTheme: defaults.color });
+            const defaults = {
+              color: "light",
+              title: "Airtable",
+              token: "",
+              baseId: "",
+              tableName: "",
+              view: "Grid view",
+              fields: "",
+              filterByFormula: "",
+              sortField: "",
+              sortDirection: "asc",
+              maxRows: 8,
+              rowBorder: true,
+              showTitle: true,
+              showMeta: true,
+              tablesJson: ""
+            };
+            const settings = mergeSettings(defaults, getSettings(payload), getQuerySettings());
+            applyColorTheme(settings.color, { defaultTheme: defaults.color });
 
-          const params = new URLSearchParams();
-          Object.entries(settings).forEach(([key, value]) => {
-            if (Array.isArray(value)) {
-              params.set(key, value.join(","));
-            } else {
-              params.set(key, value ?? "");
+            const params = new URLSearchParams();
+            Object.entries(settings).forEach(([key, value]) => {
+              if (Array.isArray(value)) {
+                params.set(key, value.join(","));
+              } else {
+                params.set(key, value ?? "");
+              }
+            });
+
+            const response = await fetch(`./api/data?${params.toString()}`, { cache: "no-store" });
+            if (!response.ok) {
+              throw new Error(t("apiFailed", { status: response.status }));
             }
-          });
 
-          const response = await fetch(`./api/data?${params.toString()}`, { cache: "no-store" });
-          if (!response.ok) {
-            throw new Error(t("apiFailed", { status: response.status }));
+            const data = await response.json();
+            const tables = Array.isArray(data.tables) ? data.tables : [];
+            const totalRows = tables.reduce((sum, table) => sum + (Array.isArray(table.rows) ? table.rows.length : 0), 0);
+            const totalFields = tables.reduce((sum, table) => sum + (Array.isArray(table.columns) ? table.columns.length : 0), 0);
+
+            document.getElementById("screen-title").textContent = settings.showTitle ? settings.title || "Airtable" : "Airtable";
+            document.getElementById("screen-meta").innerHTML = data.isSample
+              ? `<span class="sample-badge">${escapeHtml(t("sample"))}</span>`
+              : `${escapeHtml(totalRows)} ${escapeHtml(t("rows"))}`;
+            document.getElementById("tables").innerHTML = tables.map(tableMarkup).join("");
+
+            const footer = document.getElementById("footer");
+            footer.textContent = data.showMeta
+              ? `${t("updated")} ${formatTime(data.generatedAt)} · ${totalFields} ${t("fields")}`
+              : "";
+
+            await document.fonts?.ready;
+            fitHyphenatedText(document.getElementById("screen-title"), {
+              min: 24,
+              max: 76,
+              step: 2,
+              lineBreak: "balance"
+            });
+            fitToScreen(document.getElementById("app"));
+            markReady({ tables: tables.length, rows: totalRows, sample: Boolean(data.isSample) });
+          } catch (error) {
+            markError(error);
+            document.body.innerHTML = `<main class="pp-screen"><h1 class="pp-title pp-error">${escapeHtml(t("errorTitle"))}</h1><p>${escapeHtml(error.message)}</p></main>`;
           }
-
-          const data = await response.json();
-          const tables = Array.isArray(data.tables) ? data.tables : [];
-          const totalRows = tables.reduce((sum, table) => sum + (Array.isArray(table.rows) ? table.rows.length : 0), 0);
-          const totalFields = tables.reduce((sum, table) => sum + (Array.isArray(table.columns) ? table.columns.length : 0), 0);
-
-          document.getElementById("screen-title").textContent = settings.showTitle ? settings.title || "Airtable" : "Airtable";
-          document.getElementById("screen-meta").innerHTML = data.isSample
-            ? `<span class="sample-badge">${escapeHtml(t("sample"))}</span>`
-            : `${escapeHtml(totalRows)} ${escapeHtml(t("rows"))}`;
-          document.getElementById("tables").innerHTML = tables.map(tableMarkup).join("");
-
-          const footer = document.getElementById("footer");
-          footer.textContent = data.showMeta
-            ? `${t("updated")} ${formatTime(data.generatedAt)} · ${totalFields} ${t("fields")}`
-            : "";
-
-          await document.fonts?.ready;
-          fitHyphenatedText(document.getElementById("screen-title"), {
-            min: 24,
-            max: 76,
-            step: 2,
-            lineBreak: "balance"
-          });
-          fitToScreen(document.getElementById("app"));
-          markReady({ tables: tables.length, rows: totalRows, sample: Boolean(data.isSample) });
-        } catch (error) {
-          markError(error);
-          document.body.innerHTML = `<main class="pp-screen"><h1 class="pp-title pp-error">${escapeHtml(t("errorTitle"))}</h1><p>${escapeHtml(error.message)}</p></main>`;
         }
+
+        const payload = await waitForPayload({ timeoutMs: 500, onUpdate: renderPayload });
+        await renderPayload(payload);
       })();
     </script>
   </body>

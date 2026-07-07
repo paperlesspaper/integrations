@@ -522,6 +522,7 @@
           escapeHtml,
           fitText,
           fitToScreen,
+          markLoading,
           markReady,
           markError,
         } = window.PaperlessOpenIntegration;
@@ -1253,6 +1254,7 @@
         }
 
         function handleEvents(events) {
+          markLoading?.();
           hasReceivedCalendarData = true;
           eventsData = events;
           renderCalendar();
@@ -1311,30 +1313,49 @@
           ];
         }
 
-        async function start() {
+        async function renderPayload(payload) {
           try {
-            window.addEventListener("message", handleMessage);
-            const payload = await waitForPayload({ timeoutMs: 500, fallback: {} });
-            const payloadLanguage = isRecord(payload.meta) && payload.meta.language ? payload.meta.language : undefined;
+            markLoading?.();
+            const payloadLanguage = isRecord(payload?.meta) && payload.meta.language ? payload.meta.language : undefined;
             currentSettings = normalizeSettings(
-              mergeSettings(defaults, getSettings(payload), payloadLanguage ? { language: payloadLanguage } : {}, getQuerySettings()),
+              mergeSettings(
+                defaults,
+                currentSettings,
+                getSettings(payload),
+                payloadLanguage ? { language: payloadLanguage } : {},
+                getQuerySettings(),
+              ),
             );
             currentMessages = await loadMessages(currentSettings.language);
             document.documentElement.lang = normalizeLanguage(currentSettings.language);
             applyCalendarTheme(currentSettings.color);
 
-            if (!hasReceivedCalendarData) {
-              const payloadEvents = extractEventsFromPayload(payload);
-              if (payloadEvents) {
-                eventsData = payloadEvents;
-                hasReceivedCalendarData = true;
-              }
+            const payloadEvents = extractEventsFromPayload(payload);
+            if (payloadEvents) {
+              eventsData = payloadEvents;
+              hasReceivedCalendarData = true;
             }
 
             renderCalendar();
             await document.fonts?.ready;
             renderCalendar();
             markReady();
+          } catch (error) {
+            markError(error);
+            document.body.innerHTML = `
+              <main class="pp-screen">
+                <h1 class="pp-title pp-error">${escapeHtml(currentMessages.errorTitle)}</h1>
+                <p>${escapeHtml(error?.message || String(error))}</p>
+              </main>
+            `;
+          }
+        }
+
+        async function start() {
+          window.addEventListener("message", handleMessage);
+          try {
+            const payload = await waitForPayload({ timeoutMs: 500, fallback: {}, onUpdate: renderPayload });
+            await renderPayload(payload);
           } catch (error) {
             markError(error);
             document.body.innerHTML = `

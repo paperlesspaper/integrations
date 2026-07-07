@@ -107,6 +107,7 @@
           getQuerySettings,
           mergeSettings,
           escapeHtml,
+          markLoading,
           markReady,
           markError,
         } = window.PaperlessOpenIntegration;
@@ -280,70 +281,95 @@
           showCaptureDate: false,
         };
         let renderRequest = 0;
+        const handledUpdateEvents = new WeakSet();
 
-        async function renderPayload(payload) {
+        async function renderPayload(payload, event) {
+          if (event && typeof event === "object") {
+            handledUpdateEvents.add(event);
+          }
           const request = ++renderRequest;
-          await loadMessages(payload);
-          showLoading();
+          try {
+            markLoading?.();
+            await loadMessages(payload);
+            showLoading();
 
-          const settings = restoreICloudFragment(
-            mergeSettings(defaults, getSettings(payload), getQuerySettings()),
-          );
-          const params = new URLSearchParams(settings);
-          const response = await fetch(`./api/data?${params.toString()}`, { cache: "no-store" });
+            const settings = restoreICloudFragment(
+              mergeSettings(defaults, getSettings(payload), getQuerySettings()),
+            );
+            const params = new URLSearchParams(settings);
+            const response = await fetch(`./api/data?${params.toString()}`, { cache: "no-store" });
 
-          if (!response.ok) {
-            throw new Error(await readApiError(response));
-          }
+            if (!response.ok) {
+              throw new Error(await readApiError(response));
+            }
 
-          const photo = await response.json();
-          const image = document.getElementById("photo-image");
-          const status = document.getElementById("photo-status");
-          const overlay = document.getElementById("photo-overlay");
-          const caption = document.getElementById("photo-caption");
-          const meta = document.getElementById("photo-meta");
-          const showMetadata = isEnabled(settings.showMetadata);
-          const showCaptureDate = isEnabled(settings.showCaptureDate);
-          const date = formatDate(photo.createdAt);
-          const metaParts = [];
+            const photo = await response.json();
+            const image = document.getElementById("photo-image");
+            const status = document.getElementById("photo-status");
+            const overlay = document.getElementById("photo-overlay");
+            const caption = document.getElementById("photo-caption");
+            const meta = document.getElementById("photo-meta");
+            const showMetadata = isEnabled(settings.showMetadata);
+            const showCaptureDate = isEnabled(settings.showCaptureDate);
+            const date = formatDate(photo.createdAt);
+            const metaParts = [];
 
-          image.style.objectFit = settings.fit === "contain" ? "contain" : "cover";
-          image.alt = photo.caption || t("imageAlt", { index: photo.index, total: photo.total });
+            image.style.objectFit = settings.fit === "contain" ? "contain" : "cover";
+            image.alt = photo.caption || t("imageAlt", { index: photo.index, total: photo.total });
 
-          if (showMetadata) {
-            caption.innerHTML = escapeHtml(photo.caption || t("title"));
-            metaParts.push(t("photoCount", { index: photo.index, total: photo.total }));
-          } else {
-            caption.textContent = "";
-          }
+            if (showMetadata) {
+              caption.innerHTML = escapeHtml(photo.caption || t("title"));
+              metaParts.push(t("photoCount", { index: photo.index, total: photo.total }));
+            } else {
+              caption.textContent = "";
+            }
 
-          if (showCaptureDate && date) {
-            metaParts.push(date);
-          }
+            if (showCaptureDate && date) {
+              metaParts.push(date);
+            }
 
-          meta.innerHTML = metaParts.map((part) => `<span>${escapeHtml(part)}</span>`).join("");
-          overlay.classList.toggle("is-visible", showMetadata || (showCaptureDate && date));
+            meta.innerHTML = metaParts.map((part) => `<span>${escapeHtml(part)}</span>`).join("");
+            overlay.classList.toggle("is-visible", showMetadata || (showCaptureDate && date));
 
-          image.onload = () => {
+            let readyMarked = false;
+            const finishReady = () => {
+              if (request !== renderRequest) {
+                return;
+              }
+              if (readyMarked) {
+                return;
+              }
+              readyMarked = true;
+              status.style.display = "none";
+              markReady({ index: photo.index, total: photo.total });
+            };
+
+            image.onload = finishReady;
+            image.onerror = () => {
+              if (request !== renderRequest) {
+                return;
+              }
+              const imageError = new Error(t("imageFailed"));
+              markError(imageError);
+              showError(imageError);
+            };
+            image.src = photo.imageUrl;
+            if (image.complete && image.naturalWidth > 0) {
+              finishReady();
+            }
+          } catch (error) {
             if (request !== renderRequest) {
               return;
             }
-            status.style.display = "none";
-            markReady({ index: photo.index, total: photo.total });
-          };
-
-          image.onerror = () => {
-            if (request !== renderRequest) {
-              return;
-            }
-            const imageError = new Error(t("imageFailed"));
-            markError(imageError);
-            showError(imageError);
-          };
-          image.src = photo.imageUrl;
+            markError(error);
+            showError(error);
+          }
         }
 
         function handlePayloadMessage(event) {
+          if (handledUpdateEvents.has(event)) {
+            return;
+          }
           const payload = payloadFromMessage(event);
           if (!payload) {
             return;
@@ -356,7 +382,7 @@
         }
 
         try {
-          const payload = await waitForPayload({ timeoutMs: 500 });
+          const payload = await waitForPayload({ timeoutMs: 500, onUpdate: renderPayload });
           await renderPayload(payload);
         } catch (error) {
           markError(error);

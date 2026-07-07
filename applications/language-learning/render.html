@@ -445,6 +445,7 @@
           fitAllText,
           fitHyphenatedText,
           fitToScreen,
+          markLoading,
           markReady,
           markError,
           applyColorTheme,
@@ -518,97 +519,106 @@
           const examplePanel = document.getElementById("example-panel");
           const practicePanel = document.getElementById("practice-panel");
 
-          if (!settings.showExample) {
-            examplePanel.remove();
-          } else {
+          footer.hidden = false;
+          footer.classList.remove("single");
+          shell.classList.remove("no-footer");
+          examplePanel.hidden = !settings.showExample;
+          practicePanel.hidden = !settings.showPractice;
+
+          if (settings.showExample) {
             document.getElementById("example").innerHTML = `${escapeHtml(data.example)}<span class="example-translation">${escapeHtml(data.exampleTranslation)}</span>`;
           }
 
-          if (!settings.showPractice) {
-            practicePanel.remove();
-          } else {
+          if (settings.showPractice) {
             document.getElementById("practice").innerHTML = escapeHtml(data.practice);
           }
 
-          const panels = footer.querySelectorAll(".footer-panel");
+          const panels = [...footer.querySelectorAll(".footer-panel")].filter((panel) => !panel.hidden);
           if (panels.length === 0) {
-            footer.remove();
+            footer.hidden = true;
             shell.classList.add("no-footer");
           } else if (panels.length === 1) {
             footer.classList.add("single");
           }
         }
 
-        try {
-          const defaults = {
-            color: "light",
-            targetLanguage: "French",
-            translationLanguage: "en",
-            showExample: true,
-            showPractice: true,
-            seed: "",
-          };
-          const payload = await waitForPayload({ timeout: 300 });
-          await loadMessages(payload);
-          const settings = mergeSettings(defaults, getSettings(payload), getQuerySettings());
-          if (typeof applyColorTheme === "function") {
-            applyColorTheme(settings.color, { defaultTheme: defaults.color });
+        async function renderPayload(payload) {
+          try {
+            if (typeof markLoading === "function") {
+              markLoading();
+            }
+            const defaults = {
+              color: "light",
+              targetLanguage: "French",
+              translationLanguage: "en",
+              showExample: true,
+              showPractice: true,
+              seed: "",
+            };
+            await loadMessages(payload);
+            const settings = mergeSettings(defaults, getSettings(payload), getQuerySettings());
+            if (typeof applyColorTheme === "function") {
+              applyColorTheme(settings.color, { defaultTheme: defaults.color });
+            }
+
+            const params = new URLSearchParams({
+              targetLanguage: settings.targetLanguage,
+              translationLanguage: settings.translationLanguage,
+              seed: settings.seed,
+            });
+            const response = await fetch(`./api/data?${params.toString()}`, { cache: "no-store" });
+            if (!response.ok) {
+              throw new Error(t("apiFailed", { status: response.status }));
+            }
+
+            const data = await response.json();
+            document.getElementById("language-name").textContent =
+              `${data.targetLanguage} / ${data.targetLanguageNativeName}`;
+            document.getElementById("date-value").textContent = formatDate(data.dayKey);
+            document.getElementById("level").textContent = data.level || t("notAvailable");
+            document.getElementById("part-of-speech").textContent = data.partOfSpeech || t("notAvailable");
+            document.getElementById("theme").textContent = data.theme || "";
+
+            const word = document.getElementById("word");
+            word.textContent = data.word;
+            word.lang = data.targetLanguageCode;
+
+            const pronunciation = document.getElementById("pronunciation");
+            pronunciation.innerHTML = `<span class="label">${escapeHtml(t("pronunciation"))}</span> ${escapeHtml(data.pronunciation || t("notAvailable"))}`;
+            document.getElementById("translation").textContent = data.translation;
+            document.getElementById("note").innerHTML = `<span class="label">${escapeHtml(t("memory"))}</span> ${escapeHtml(data.note)}`;
+            renderFooter(settings, data);
+
+            fitHyphenatedText(word, {
+              min: 30,
+              max: 126,
+              step: 2,
+              tolerance: 8,
+              lineBreak: "balance",
+              fitParent: document.querySelector(".word-wrap"),
+            });
+            fitHyphenatedText(document.getElementById("translation"), {
+              min: 18,
+              step: 2,
+              tolerance: 8,
+              lineBreak: "balance",
+            });
+            fitAllText(".note.pp-fit, .example-text.pp-fit, .practice-text.pp-fit", {
+              min: 11,
+              step: 1,
+              tolerance: 4,
+              lineBreak: true,
+            });
+            fitToScreen();
+            markReady({ word: data.word, language: data.targetLanguageCode });
+          } catch (error) {
+            markError(error);
+            document.body.innerHTML = `<main class="pp-screen"><h1 class="pp-title pp-error">${escapeHtml(t("errorTitle"))}</h1><p>${escapeHtml(error.message)}</p></main>`;
           }
-
-          const params = new URLSearchParams({
-            targetLanguage: settings.targetLanguage,
-            translationLanguage: settings.translationLanguage,
-            seed: settings.seed,
-          });
-          const response = await fetch(`./api/data?${params.toString()}`, { cache: "no-store" });
-          if (!response.ok) {
-            throw new Error(t("apiFailed", { status: response.status }));
-          }
-
-          const data = await response.json();
-          document.getElementById("language-name").textContent =
-            `${data.targetLanguage} / ${data.targetLanguageNativeName}`;
-          document.getElementById("date-value").textContent = formatDate(data.dayKey);
-          document.getElementById("level").textContent = data.level || t("notAvailable");
-          document.getElementById("part-of-speech").textContent = data.partOfSpeech || t("notAvailable");
-          document.getElementById("theme").textContent = data.theme || "";
-
-          const word = document.getElementById("word");
-          word.textContent = data.word;
-          word.lang = data.targetLanguageCode;
-
-          const pronunciation = document.getElementById("pronunciation");
-          pronunciation.innerHTML = `<span class="label">${escapeHtml(t("pronunciation"))}</span> ${escapeHtml(data.pronunciation || t("notAvailable"))}`;
-          document.getElementById("translation").textContent = data.translation;
-          document.getElementById("note").innerHTML = `<span class="label">${escapeHtml(t("memory"))}</span> ${escapeHtml(data.note)}`;
-          renderFooter(settings, data);
-
-          fitHyphenatedText(word, {
-            min: 30,
-            max: 126,
-            step: 2,
-            tolerance: 8,
-            lineBreak: "balance",
-            fitParent: document.querySelector(".word-wrap"),
-          });
-          fitHyphenatedText(document.getElementById("translation"), {
-            min: 18,
-            step: 2,
-            tolerance: 8,
-            lineBreak: "balance",
-          });
-          fitAllText(".note.pp-fit, .example-text.pp-fit, .practice-text.pp-fit", {
-            min: 11,
-            step: 1,
-            tolerance: 4,
-            lineBreak: true,
-          });
-          fitToScreen();
-          markReady({ word: data.word, language: data.targetLanguageCode });
-        } catch (error) {
-          markError(error);
-          document.body.innerHTML = `<main class="pp-screen"><h1 class="pp-title pp-error">${escapeHtml(t("errorTitle"))}</h1><p>${escapeHtml(error.message)}</p></main>`;
         }
+
+        const payload = await waitForPayload({ timeout: 300, onUpdate: renderPayload });
+        await renderPayload(payload);
       })();
     </script>
   </body>

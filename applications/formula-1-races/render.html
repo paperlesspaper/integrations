@@ -569,6 +569,7 @@
           escapeHtml,
           fitText,
           fitToScreen,
+          markLoading,
           markReady,
           markError,
         } = window.PaperlessOpenIntegration;
@@ -770,62 +771,67 @@
             .join("");
         }
 
-        try {
-          const payload = await waitForPayload({ timeout: 300 });
-          await loadMessages(payload);
-          const settings = mergeSettings(defaults, getSettings(payload), getQuerySettings());
-          applyColorTheme(settings.color, { defaultTheme: defaults.color });
+        async function renderPayload(payload) {
+          try {
+            markLoading?.();
+            await loadMessages(payload);
+            const settings = mergeSettings(defaults, getSettings(payload), getQuerySettings());
+            applyColorTheme(settings.color, { defaultTheme: defaults.color });
 
-          const params = new URLSearchParams(settings);
-          const response = await fetch(`./api/data?${params.toString()}`, { cache: "no-store" });
-          if (!response.ok) {
-            throw new Error(t("apiFailed", { status: response.status }));
+            const params = new URLSearchParams(settings);
+            const response = await fetch(`./api/data?${params.toString()}`, { cache: "no-store" });
+            if (!response.ok) {
+              throw new Error(t("apiFailed", { status: response.status }));
+            }
+
+            const race = await response.json();
+            const status = race.status || t("round", { round: race.round });
+            const location = compactLocation(race.circuit);
+            const trackImage = renderTrack(race.circuit, isEnabled(settings.showTrackMap));
+
+            document.getElementById("round-label").textContent =
+              t("seasonRound", { season: race.season, round: race.round, total: race.totalRounds });
+            document.getElementById("race-status").textContent = status;
+            document.getElementById("race-title").textContent = race.raceName;
+            document.getElementById("circuit-name").textContent = race.circuit.name;
+            document.getElementById("race-location").textContent = location;
+            document.getElementById("race-date").textContent = formatDate(race.startsAt, settings);
+            document.getElementById("race-time").textContent = formatTime(race.startsAt, settings);
+
+            document.getElementById("sessions-section").classList.toggle(
+              "is-hidden",
+              !isEnabled(settings.showSessions),
+            );
+            if (isEnabled(settings.showSessions)) {
+              renderSessions(race, settings);
+            }
+            renderFollowing(race, settings);
+
+            await Promise.all([document.fonts?.ready, waitForImage(trackImage)]);
+            fitText(document.getElementById("race-title"), {
+              min: 32,
+              max: 120,
+              step: 2,
+              tolerance: 8,
+              lineBreak: "balance",
+            });
+            fitText(document.getElementById("circuit-name"), {
+              min: 13,
+              max: 24,
+              step: 1,
+              tolerance: 4,
+              lineBreak: "balance",
+            });
+            fitToScreen();
+            markReady({ round: race.round, race: race.raceName });
+          } catch (error) {
+            markError(error);
+            document.body.innerHTML = `<main class="pp-screen"><h1 class="pp-title pp-error">${escapeHtml(t("errorTitle"))}</h1><p>${escapeHtml(error.message)}</p></main>`;
           }
-
-          const race = await response.json();
-          const status = race.status || t("round", { round: race.round });
-          const location = compactLocation(race.circuit);
-          const trackImage = renderTrack(race.circuit, isEnabled(settings.showTrackMap));
-
-          document.getElementById("round-label").textContent =
-            t("seasonRound", { season: race.season, round: race.round, total: race.totalRounds });
-          document.getElementById("race-status").textContent = status;
-          document.getElementById("race-title").textContent = race.raceName;
-          document.getElementById("circuit-name").textContent = race.circuit.name;
-          document.getElementById("race-location").textContent = location;
-          document.getElementById("race-date").textContent = formatDate(race.startsAt, settings);
-          document.getElementById("race-time").textContent = formatTime(race.startsAt, settings);
-
-          document.getElementById("sessions-section").classList.toggle(
-            "is-hidden",
-            !isEnabled(settings.showSessions),
-          );
-          if (isEnabled(settings.showSessions)) {
-            renderSessions(race, settings);
-          }
-          renderFollowing(race, settings);
-
-          await Promise.all([document.fonts?.ready, waitForImage(trackImage)]);
-          fitText(document.getElementById("race-title"), {
-            min: 32,
-            max: 120,
-            step: 2,
-            tolerance: 8,
-            lineBreak: "balance",
-          });
-          fitText(document.getElementById("circuit-name"), {
-            min: 13,
-            max: 24,
-            step: 1,
-            tolerance: 4,
-            lineBreak: "balance",
-          });
-          fitToScreen();
-          markReady({ round: race.round, race: race.raceName });
-        } catch (error) {
-          markError(error);
-          document.body.innerHTML = `<main class="pp-screen"><h1 class="pp-title pp-error">${escapeHtml(t("errorTitle"))}</h1><p>${escapeHtml(error.message)}</p></main>`;
         }
+
+        const payload = await waitForPayload({ timeout: 300, onUpdate: renderPayload });
+        await renderPayload(payload);
       })();
     </script>
   </body>

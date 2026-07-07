@@ -548,6 +548,7 @@
           applyColorTheme,
           fitToScreen,
           escapeHtml,
+          markLoading,
           markReady,
           markError,
         } = window.PaperlessOpenIntegration;
@@ -881,105 +882,110 @@
 
         let messages = fallbackMessages;
 
-        try {
-          const payload = await waitForPayload({ timeout: 300 });
-          const settings = mergeSettings(
-            defaults,
-            getSettings(payload),
-            getQuerySettings(),
-          );
-          const languageResult = await loadLanguageJson(payload).catch(() => ({
-            language: "en",
-            messages: {},
-          }));
-          messages = {
-            ...fallbackMessages,
-            ...(languageResult.messages || {}),
-          };
-          document.documentElement.lang = languageResult.language || "en";
-
-          applyColorTheme(settings.color, { defaultTheme: defaults.color });
-
-          const localizedSettings = {
-            ...settings,
-            placeName: localizedDefault(settings, "placeName", "defaultPlaceName"),
-            welcomeLine: localizedDefault(settings, "welcomeLine", "defaultWelcomeLine"),
-            wifiName: localizedDefault(settings, "wifiName", "defaultWifiName"),
-            checkoutNote: localizedDefault(settings, "checkoutNote", "defaultCheckoutNote"),
-            houseRules: localizedDefault(settings, "houseRules", "defaultHouseRules"),
-            nearbyCafes: localizedDefault(settings, "nearbyCafes", "defaultNearbyCafes"),
-            smartHomeInstructions: localizedDefault(
-              settings,
-              "smartHomeInstructions",
-              "defaultSmartHomeInstructions",
-            ),
-          };
-
-          setText("placeName", String(localizedSettings.placeName || "").trim());
-          setText("welcomeLine", String(localizedSettings.welcomeLine || "").trim());
-          setText("checkoutTitle", messages.checkoutTitle);
-          setText(
-            "checkoutTime",
-            String(settings.checkoutTime || defaults.checkoutTime).trim(),
-          );
-          setText("wifiTitle", messages.wifiTitle);
-          setText("wifiSubtitle", messages.wifiSubtitle);
-          setText("networkLabel", messages.networkLabel);
-          setText("passwordLabel", messages.passwordLabel);
-          setText("rulesTitle", messages.rulesTitle);
-          setText("cafesTitle", messages.cafesTitle);
-          setText("smartHomeTitle", messages.smartHomeTitle);
-          setText("contactTitle", messages.contactTitle);
-          setText(
-            "wifiName",
-            String(localizedSettings.wifiName || defaults.wifiName).trim(),
-          );
-          setText(
-            "wifiPassword",
-            settings.showWifiPassword === true ||
-              settings.showWifiPassword === "true"
-              ? String(settings.wifiPassword || "").trim()
-              : messages.hiddenPassword,
-          );
-          setText(
-            "checkoutNote",
-            String(localizedSettings.checkoutNote || defaults.checkoutNote).trim(),
-          );
-          setText(
-            "emergencyContact",
-            String(settings.emergencyContact || "").trim(),
-          );
-          document
-            .getElementById("contactStrip")
-            .classList.toggle(
-              "is-hidden",
-              !String(settings.emergencyContact || "").trim(),
+        async function renderPayload(payload) {
+          try {
+            markLoading?.();
+            const settings = mergeSettings(
+              defaults,
+              getSettings(payload),
+              getQuerySettings(),
             );
+            const languageResult = await loadLanguageJson(payload).catch(() => ({
+              language: "en",
+              messages: {},
+            }));
+            messages = {
+              ...fallbackMessages,
+              ...(languageResult.messages || {}),
+            };
+            document.documentElement.lang = languageResult.language || "en";
 
-          renderList(
-            "houseRules",
-            normalizeLines(localizedSettings.houseRules, messages.emptyRules),
-          );
-          renderList(
-            "nearbyCafes",
-            normalizeLines(localizedSettings.nearbyCafes, messages.emptyCafes),
-          );
-          renderList(
-            "smartHomeInstructions",
-            normalizeLines(
-              localizedSettings.smartHomeInstructions,
-              messages.emptySmartHome,
-            ),
-          );
-          drawQr(document.getElementById("qr"), buildWifiPayload(localizedSettings));
+            applyColorTheme(settings.color, { defaultTheme: defaults.color });
 
-          await document.fonts?.ready;
-          fitToScreen(document.getElementById("screen"));
-          markReady();
-        } catch (error) {
-          markError(error);
-          document.body.innerHTML = `<main class="pp-screen"><h1 class="pp-title pp-error">${escapeHtml(messages.errorTitle)}</h1><p>${escapeHtml(error.message)}</p></main>`;
+            const localizedSettings = {
+              ...settings,
+              placeName: localizedDefault(settings, "placeName", "defaultPlaceName"),
+              welcomeLine: localizedDefault(settings, "welcomeLine", "defaultWelcomeLine"),
+              wifiName: localizedDefault(settings, "wifiName", "defaultWifiName"),
+              checkoutNote: localizedDefault(settings, "checkoutNote", "defaultCheckoutNote"),
+              houseRules: localizedDefault(settings, "houseRules", "defaultHouseRules"),
+              nearbyCafes: localizedDefault(settings, "nearbyCafes", "defaultNearbyCafes"),
+              smartHomeInstructions: localizedDefault(
+                settings,
+                "smartHomeInstructions",
+                "defaultSmartHomeInstructions",
+              ),
+            };
+
+            setText("placeName", String(localizedSettings.placeName || "").trim());
+            setText("welcomeLine", String(localizedSettings.welcomeLine || "").trim());
+            setText("checkoutTitle", messages.checkoutTitle);
+            setText(
+              "checkoutTime",
+              String(settings.checkoutTime || defaults.checkoutTime).trim(),
+            );
+            setText("wifiTitle", messages.wifiTitle);
+            setText("wifiSubtitle", messages.wifiSubtitle);
+            setText("networkLabel", messages.networkLabel);
+            setText("passwordLabel", messages.passwordLabel);
+            setText("rulesTitle", messages.rulesTitle);
+            setText("cafesTitle", messages.cafesTitle);
+            setText("smartHomeTitle", messages.smartHomeTitle);
+            setText("contactTitle", messages.contactTitle);
+            setText(
+              "wifiName",
+              String(localizedSettings.wifiName || defaults.wifiName).trim(),
+            );
+            setText(
+              "wifiPassword",
+              settings.showWifiPassword === true ||
+                settings.showWifiPassword === "true"
+                ? String(settings.wifiPassword || "").trim()
+                : messages.hiddenPassword,
+            );
+            setText(
+              "checkoutNote",
+              String(localizedSettings.checkoutNote || defaults.checkoutNote).trim(),
+            );
+            setText(
+              "emergencyContact",
+              String(settings.emergencyContact || "").trim(),
+            );
+            document
+              .getElementById("contactStrip")
+              .classList.toggle(
+                "is-hidden",
+                !String(settings.emergencyContact || "").trim(),
+              );
+
+            renderList(
+              "houseRules",
+              normalizeLines(localizedSettings.houseRules, messages.emptyRules),
+            );
+            renderList(
+              "nearbyCafes",
+              normalizeLines(localizedSettings.nearbyCafes, messages.emptyCafes),
+            );
+            renderList(
+              "smartHomeInstructions",
+              normalizeLines(
+                localizedSettings.smartHomeInstructions,
+                messages.emptySmartHome,
+              ),
+            );
+            drawQr(document.getElementById("qr"), buildWifiPayload(localizedSettings));
+
+            await document.fonts?.ready;
+            fitToScreen(document.getElementById("screen"));
+            markReady();
+          } catch (error) {
+            markError(error);
+            document.body.innerHTML = `<main class="pp-screen"><h1 class="pp-title pp-error">${escapeHtml(messages.errorTitle)}</h1><p>${escapeHtml(error.message)}</p></main>`;
+          }
         }
+
+        const payload = await waitForPayload({ timeout: 300, onUpdate: renderPayload });
+        await renderPayload(payload);
       })();
     </script>
   </body>

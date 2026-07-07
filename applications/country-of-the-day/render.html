@@ -392,6 +392,7 @@
           fitText,
           fitHyphenatedText,
           fitToScreen,
+          markLoading,
           markReady,
           markError,
           loadLanguageJson,
@@ -525,80 +526,85 @@
           `;
         }
 
-        try {
-          const defaults = {
-            color: 'light',
-            region: 'any',
-            independentOnly: true,
-            countryCode: '',
-            seed: '',
-          };
-          const payload = await waitForPayload({ timeout: 300 });
-          await loadMessages(payload);
-          const settings = mergeSettings(defaults, getSettings(payload), getQuerySettings());
-          if (typeof applyColorTheme === 'function') {
-            applyColorTheme(settings.color, { defaultTheme: defaults.color });
+        async function renderPayload(payload) {
+          try {
+            markLoading?.();
+            const defaults = {
+              color: 'light',
+              region: 'any',
+              independentOnly: true,
+              countryCode: '',
+              seed: '',
+            };
+            await loadMessages(payload);
+            const settings = mergeSettings(defaults, getSettings(payload), getQuerySettings());
+            if (typeof applyColorTheme === 'function') {
+              applyColorTheme(settings.color, { defaultTheme: defaults.color });
+            }
+
+            const params = new URLSearchParams(settings);
+            params.set('language', currentLanguage);
+            const response = await fetch(`./api/data?${params.toString()}`, { cache: 'no-store' });
+
+            if (!response.ok) {
+              throw new Error(t('apiFailed', { status: response.status }));
+            }
+
+            const country = await response.json();
+            document.getElementById('date').textContent = formatDate(country.dayKey);
+            document.getElementById('flag').textContent = country.flag || country.cca2 || '?';
+            document.getElementById('country-code').textContent = country.cca3 || country.cca2 || '---';
+            document.getElementById('pool').textContent = t('selectedFrom', { count: country.poolSize });
+            document.getElementById('region-label').textContent = country.region || t('region');
+            document.getElementById('country-name').innerHTML = escapeHtml(country.name);
+            document.getElementById('official-name').innerHTML = escapeHtml(
+              country.nativeName && country.nativeName !== country.name
+                ? `${country.officialName} / ${country.nativeName}`
+                : country.officialName,
+            );
+
+            document.getElementById('facts').innerHTML = [
+              fact(t('capital'), country.capital),
+              fact(t('area'), formatArea(country.area)),
+              fact(t('languages'), compactListValue(country.languages, 3)),
+              fact(t('currency'), compactListValue(country.currencies, 2)),
+              fact(t('borders'), compactListValue(country.borders, 2, t('noBorders'))),
+              fact(t('coordinates'), coordsValue(country.latlng)),
+            ].join('');
+
+            document.getElementById('status').innerHTML = [
+              status(t('geography'), country.landlocked ? t('landlocked') : t('coastline')),
+              status(t('unMember'), country.unMember ? t('yes') : t('no')),
+              status(t('source'), country.source),
+            ].join('');
+
+            const compactLandscape =
+              window.innerWidth > window.innerHeight && window.innerHeight <= 560;
+            const roomyLandscape =
+              window.innerWidth >= 1400 && window.innerHeight >= 1000;
+            fitText(document.getElementById('country-name'), {
+              min: 26,
+              max: compactLandscape ? 60 : roomyLandscape ? 108 : 82,
+              step: 2,
+              tolerance: 8,
+              lineBreak: 'balance',
+            });
+            fitHyphenatedText(document.getElementById('official-name'), {
+              min: 12,
+              max: compactLandscape ? 18 : roomyLandscape ? 28 : 22,
+              step: 1,
+              lineBreak: true,
+            });
+            fitToScreen();
+            markReady({ country: country.cca3, day: country.dayKey });
+          } catch (error) {
+            markError(error);
+            document.body.innerHTML = `<main class="pp-screen"><h1 class="pp-title pp-error">${escapeHtml(t('errorTitle'))}</h1><p>${escapeHtml(error.message)}</p></main>`;
           }
-
-          const params = new URLSearchParams(settings);
-          params.set('language', currentLanguage);
-          const response = await fetch(`./api/data?${params.toString()}`, { cache: 'no-store' });
-
-          if (!response.ok) {
-            throw new Error(t('apiFailed', { status: response.status }));
-          }
-
-          const country = await response.json();
-          document.getElementById('date').textContent = formatDate(country.dayKey);
-          document.getElementById('flag').textContent = country.flag || country.cca2 || '?';
-          document.getElementById('country-code').textContent = country.cca3 || country.cca2 || '---';
-          document.getElementById('pool').textContent = t('selectedFrom', { count: country.poolSize });
-          document.getElementById('region-label').textContent = country.region || t('region');
-          document.getElementById('country-name').innerHTML = escapeHtml(country.name);
-          document.getElementById('official-name').innerHTML = escapeHtml(
-            country.nativeName && country.nativeName !== country.name
-              ? `${country.officialName} / ${country.nativeName}`
-              : country.officialName,
-          );
-
-          document.getElementById('facts').innerHTML = [
-            fact(t('capital'), country.capital),
-            fact(t('area'), formatArea(country.area)),
-            fact(t('languages'), compactListValue(country.languages, 3)),
-            fact(t('currency'), compactListValue(country.currencies, 2)),
-            fact(t('borders'), compactListValue(country.borders, 2, t('noBorders'))),
-            fact(t('coordinates'), coordsValue(country.latlng)),
-          ].join('');
-
-          document.getElementById('status').innerHTML = [
-            status(t('geography'), country.landlocked ? t('landlocked') : t('coastline')),
-            status(t('unMember'), country.unMember ? t('yes') : t('no')),
-            status(t('source'), country.source),
-          ].join('');
-
-          const compactLandscape =
-            window.innerWidth > window.innerHeight && window.innerHeight <= 560;
-          const roomyLandscape =
-            window.innerWidth >= 1400 && window.innerHeight >= 1000;
-          fitText(document.getElementById('country-name'), {
-            min: 26,
-            max: compactLandscape ? 60 : roomyLandscape ? 108 : 82,
-            step: 2,
-            tolerance: 8,
-            lineBreak: 'balance',
-          });
-          fitHyphenatedText(document.getElementById('official-name'), {
-            min: 12,
-            max: compactLandscape ? 18 : roomyLandscape ? 28 : 22,
-            step: 1,
-            lineBreak: true,
-          });
-          fitToScreen();
-          markReady({ country: country.cca3, day: country.dayKey });
-        } catch (error) {
-          markError(error);
-          document.body.innerHTML = `<main class="pp-screen"><h1 class="pp-title pp-error">${escapeHtml(t('errorTitle'))}</h1><p>${escapeHtml(error.message)}</p></main>`;
         }
+
+        const payload = await waitForPayload({ timeout: 300, onUpdate: renderPayload });
+        await renderPayload(payload);
       })();
     </script>
   </body>

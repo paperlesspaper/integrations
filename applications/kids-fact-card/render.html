@@ -343,6 +343,7 @@
           fitHyphenatedText,
           fitAllText,
           fitToScreen,
+          markLoading,
           markReady,
           markError,
           applyColorTheme,
@@ -433,72 +434,79 @@
           });
         }
 
-        try {
-          const defaults = {
-            color: 'light',
-            topic: 'mixed',
-            showQuestion: true,
-            seed: '',
-          };
-          const payload = await waitForPayload({ timeout: 300 });
-          await loadMessages(payload);
-          const settings = mergeSettings(defaults, getSettings(payload), getQuerySettings());
-          if (typeof applyColorTheme === 'function') {
-            applyColorTheme(settings.color, { defaultTheme: defaults.color });
+        async function renderPayload(payload) {
+          try {
+            if (typeof markLoading === 'function') {
+              markLoading();
+            }
+            const defaults = {
+              color: 'light',
+              topic: 'mixed',
+              showQuestion: true,
+              seed: '',
+            };
+            await loadMessages(payload);
+            const settings = mergeSettings(defaults, getSettings(payload), getQuerySettings());
+            if (typeof applyColorTheme === 'function') {
+              applyColorTheme(settings.color, { defaultTheme: defaults.color });
+            }
+
+            const params = new URLSearchParams({
+              topic: settings.topic,
+              seed: settings.seed,
+              language: currentLanguage,
+            });
+            const response = await fetch(`./api/data?${params.toString()}`, { cache: 'no-store' });
+            if (!response.ok) {
+              throw new Error(t('apiFailed', { status: response.status }));
+            }
+
+            const data = await response.json();
+            const topic = data.topic || 'space';
+            const topicPanel = document.getElementById('topic-panel');
+            topicPanel.classList.remove('is-space', 'is-animals', 'is-dinosaurs');
+            topicPanel.classList.add(`is-${topic}`);
+            document.getElementById('topic-art').innerHTML = topicIcons[topic] || topicIcons.space;
+            document.getElementById('date').textContent = formatDate(data.dayKey);
+            document.getElementById('topic-name').textContent = t(topic);
+            document.getElementById('title').innerHTML = escapeHtml(data.title);
+            document.getElementById('fact').innerHTML = escapeHtml(data.fact);
+            document.getElementById('detail').innerHTML = escapeHtml(data.detail);
+            document.getElementById('question').innerHTML = escapeHtml(data.question);
+
+            const questionPanel = document.getElementById('question-panel');
+            questionPanel.hidden = !settings.showQuestion;
+            document.getElementById('bottom-grid').style.gridTemplateColumns = settings.showQuestion ? '' : '1fr';
+
+            fitHyphenatedText(document.getElementById('title'), {
+              min: 24,
+              step: 2,
+              tolerance: 8,
+              lineBreak: 'balance',
+            });
+            fitHyphenatedText(document.getElementById('fact'), {
+              min: 20,
+              step: 2,
+              tolerance: 4,
+              lineBreak: 'balance',
+              fitParent: document.querySelector('.main-fact'),
+            });
+            fitAllText('.mini-text.pp-fit', {
+              min: 12,
+              step: 1,
+              tolerance: 4,
+              lineBreak: true,
+            });
+            fitToScreen();
+            markReady({ topic, day: data.dayKey });
+          } catch (error) {
+            markError(error);
+            document.body.innerHTML = `<main class="pp-screen"><h1 class="pp-title pp-error">${escapeHtml(t('errorTitle'))}</h1><p>${escapeHtml(error.message)}</p></main>`;
           }
-
-          const params = new URLSearchParams({
-            topic: settings.topic,
-            seed: settings.seed,
-            language: currentLanguage,
-          });
-          const response = await fetch(`./api/data?${params.toString()}`, { cache: 'no-store' });
-          if (!response.ok) {
-            throw new Error(t('apiFailed', { status: response.status }));
-          }
-
-          const data = await response.json();
-          const topic = data.topic || 'space';
-          const topicPanel = document.getElementById('topic-panel');
-          topicPanel.classList.add(`is-${topic}`);
-          document.getElementById('topic-art').innerHTML = topicIcons[topic] || topicIcons.space;
-          document.getElementById('date').textContent = formatDate(data.dayKey);
-          document.getElementById('topic-name').textContent = t(topic);
-          document.getElementById('title').innerHTML = escapeHtml(data.title);
-          document.getElementById('fact').innerHTML = escapeHtml(data.fact);
-          document.getElementById('detail').innerHTML = escapeHtml(data.detail);
-          document.getElementById('question').innerHTML = escapeHtml(data.question);
-
-          if (!settings.showQuestion) {
-            document.getElementById('question-panel').remove();
-            document.getElementById('bottom-grid').style.gridTemplateColumns = '1fr';
-          }
-
-          fitHyphenatedText(document.getElementById('title'), {
-            min: 24,
-            step: 2,
-            tolerance: 8,
-            lineBreak: 'balance',
-          });
-          fitHyphenatedText(document.getElementById('fact'), {
-            min: 20,
-            step: 2,
-            tolerance: 4,
-            lineBreak: 'balance',
-            fitParent: document.querySelector('.main-fact'),
-          });
-          fitAllText('.mini-text.pp-fit', {
-            min: 12,
-            step: 1,
-            tolerance: 4,
-            lineBreak: true,
-          });
-          fitToScreen();
-          markReady({ topic, day: data.dayKey });
-        } catch (error) {
-          markError(error);
-          document.body.innerHTML = `<main class="pp-screen"><h1 class="pp-title pp-error">${escapeHtml(t('errorTitle'))}</h1><p>${escapeHtml(error.message)}</p></main>`;
         }
+
+        const payload = await waitForPayload({ timeout: 300, onUpdate: renderPayload });
+        await renderPayload(payload);
       })();
     </script>
   </body>

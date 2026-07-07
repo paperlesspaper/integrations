@@ -677,6 +677,7 @@
           applyColorTheme,
           escapeHtml,
           fitText,
+          markLoading,
           markReady,
           markError,
         } = window.PaperlessOpenIntegration;
@@ -1441,7 +1442,9 @@
           );
         }
 
+        async function renderPayload(payload) {
         try {
+          markLoading();
           const root = document.getElementById("weather-root");
           const screenScale = getScreenScale();
           document.documentElement.style.fontSize = `${scaled(16, screenScale)}px`;
@@ -1460,7 +1463,6 @@
             showWindSpeed: true,
             showHumidity: true,
           };
-          const payload = await waitForPayload({ timeoutMs: 500 });
           await loadMessages(payload);
           const querySettings = getQuerySettings();
           const settings = mergeSettings(
@@ -1581,6 +1583,10 @@
             </section>
           `;
         }
+        }
+
+        const payload = await waitForPayload({ timeoutMs: 500, onUpdate: renderPayload });
+        await renderPayload(payload);
       })();
     </script>
   </body>

@@ -583,6 +583,7 @@
           fitAllText,
           fitToScreen,
           escapeHtml,
+          markLoading,
           markReady,
           markError,
         } = bridge;
@@ -1280,6 +1281,7 @@
               : settings.layout === "vertical" && !isPortrait
                 ? "horizontal"
               : settings.layout;
+          screen.classList.remove("layout-horizontal", "layout-vertical");
           screen.classList.add(`layout-${layout}`);
         }
 
@@ -1307,138 +1309,143 @@
             .join("");
         }
 
-        try {
-          const payload =
-            typeof waitForPayload === "function"
-              ? await waitForPayload({ timeoutMs: 500 })
-              : {};
-          await loadMessages(payload);
-          const merged =
-            typeof mergeSettings === "function"
-              ? mergeSettings(defaults, getSettings(payload), getQuerySettings())
-              : { ...defaults };
-          const settings = normalizeSettings(merged);
+        async function renderPayload(payload) {
+          try {
+            markLoading?.();
+            await loadMessages(payload);
+            const merged =
+              typeof mergeSettings === "function"
+                ? mergeSettings(defaults, getSettings(payload), getQuerySettings())
+                : { ...defaults };
+            const settings = normalizeSettings(merged);
 
-          if (typeof applyColorTheme === "function") {
-            applyColorTheme(settings.color, { defaultTheme: defaults.color });
-          }
-          applyLayoutClass(settings);
+            if (typeof applyColorTheme === "function") {
+              applyColorTheme(settings.color, { defaultTheme: defaults.color });
+            }
+            applyLayoutClass(settings);
 
-          const locale = localeForLanguage(language);
-          const parsedDate = parseDateInput(settings.date, settings.timeZone);
-          const selectedParts = parsedDate.parts;
-          const tomorrowParts = addDays(selectedParts, 1);
-          const selectedMinutes = calculatePrayerTimes(selectedParts, settings);
-          const tomorrowMinutes = calculatePrayerTimes(tomorrowParts, settings);
-          const schedule = scheduleFor(settings, selectedMinutes);
-          const next = findNextPrayer(settings, selectedParts, selectedParts, schedule, tomorrowMinutes);
-          const selectedDateText = formatDate(selectedParts, settings.timeZone, locale);
-          const hijriText = settings.showHijriDate
-            ? formatHijriDate(selectedParts, settings.timeZone, locale)
-            : "";
-          const timezoneText = `${settings.timeZone} (${timeZoneName(settings.timeZone, selectedParts)})`;
-          const methodText = t(`methods.${settings.calculationMethod}`);
-          const schoolText = t(`schools.${settings.asrSchool}`);
-          const coordinatesText = `${settings.latitude.toFixed(3)}, ${settings.longitude.toFixed(3)}`;
-          const iqamahText =
-            settings.showIqamah && next.isPrayer
-              ? `${t("iqamah")} ${formatClock(next.minutes + settings.iqamahMinutes, settings)}`
+            const locale = localeForLanguage(language);
+            const parsedDate = parseDateInput(settings.date, settings.timeZone);
+            const selectedParts = parsedDate.parts;
+            const tomorrowParts = addDays(selectedParts, 1);
+            const selectedMinutes = calculatePrayerTimes(selectedParts, settings);
+            const tomorrowMinutes = calculatePrayerTimes(tomorrowParts, settings);
+            const schedule = scheduleFor(settings, selectedMinutes);
+            const next = findNextPrayer(settings, selectedParts, selectedParts, schedule, tomorrowMinutes);
+            const selectedDateText = formatDate(selectedParts, settings.timeZone, locale);
+            const hijriText = settings.showHijriDate
+              ? formatHijriDate(selectedParts, settings.timeZone, locale)
               : "";
-          applyNextPrayerColor(next);
+            const timezoneText = `${settings.timeZone} (${timeZoneName(settings.timeZone, selectedParts)})`;
+            const methodText = t(`methods.${settings.calculationMethod}`);
+            const schoolText = t(`schools.${settings.asrSchool}`);
+            const coordinatesText = `${settings.latitude.toFixed(3)}, ${settings.longitude.toFixed(3)}`;
+            const iqamahText =
+              settings.showIqamah && next.isPrayer
+                ? `${t("iqamah")} ${formatClock(next.minutes + settings.iqamahMinutes, settings)}`
+                : "";
+            applyNextPrayerColor(next);
 
-          const configuredTitle = String(settings.title || "").trim();
-          const displayTitle =
-            !configuredTitle || configuredTitle === defaults.title ? t("title") : configuredTitle;
-          document.title = displayTitle;
-          document.getElementById("kicker").textContent = t("kicker");
-          document.getElementById("title").textContent = displayTitle;
-          document.getElementById("dateMain").textContent = selectedDateText;
-          document.getElementById("dateSub").textContent = hijriText || timezoneText;
-          document.getElementById("nextLabel").textContent = t("nextPrayer");
-          document.getElementById("nextName").textContent = next.label;
-          document.getElementById("nextTime").textContent = next.time;
-          document.getElementById("scheduleTitle").textContent = settings.locationName;
-          document.getElementById("scheduleNote").textContent = t("calculationNote");
-          document.getElementById("tomorrowLabel").textContent = t("tomorrowFajr");
-          document.getElementById("tomorrowTime").textContent = formatClock(tomorrowMinutes.fajr, settings);
-          document.getElementById("tomorrowLine").classList.toggle(
-            "is-hidden",
-            settings.showTomorrow === false || !Number.isFinite(tomorrowMinutes.fajr),
-          );
+            const configuredTitle = String(settings.title || "").trim();
+            const displayTitle =
+              !configuredTitle || configuredTitle === defaults.title ? t("title") : configuredTitle;
+            document.title = displayTitle;
+            document.getElementById("kicker").textContent = t("kicker");
+            document.getElementById("title").textContent = displayTitle;
+            document.getElementById("dateMain").textContent = selectedDateText;
+            document.getElementById("dateSub").textContent = hijriText || timezoneText;
+            document.getElementById("nextLabel").textContent = t("nextPrayer");
+            document.getElementById("nextName").textContent = next.label;
+            document.getElementById("nextTime").textContent = next.time;
+            document.getElementById("scheduleTitle").textContent = settings.locationName;
+            document.getElementById("scheduleNote").textContent = t("calculationNote");
+            document.getElementById("tomorrowLabel").textContent = t("tomorrowFajr");
+            document.getElementById("tomorrowTime").textContent = formatClock(tomorrowMinutes.fajr, settings);
+            document.getElementById("tomorrowLine").classList.toggle(
+              "is-hidden",
+              settings.showTomorrow === false || !Number.isFinite(tomorrowMinutes.fajr),
+            );
 
-          const meta = [];
-          if (settings.showCountdown && next.countdownMinutes !== null && next.countdownMinutes !== undefined) {
-            meta.push(pill(countdownLabel(Math.max(0, Math.round(next.countdownMinutes))), true));
-          }
-          if (next.dayOffset === 1) {
-            meta.push(pill(t("tomorrow")));
-          } else {
-            meta.push(pill(t("today")));
-          }
-          if (iqamahText) {
-            meta.push(pill(iqamahText));
-          }
-          document.getElementById("nextMeta").innerHTML = meta.join("");
+            const meta = [];
+            if (settings.showCountdown && next.countdownMinutes !== null && next.countdownMinutes !== undefined) {
+              meta.push(pill(countdownLabel(Math.max(0, Math.round(next.countdownMinutes))), true));
+            }
+            if (next.dayOffset === 1) {
+              meta.push(pill(t("tomorrow")));
+            } else {
+              meta.push(pill(t("today")));
+            }
+            if (iqamahText) {
+              meta.push(pill(iqamahText));
+            }
+            document.getElementById("nextMeta").innerHTML = meta.join("");
 
-          document.getElementById("details").innerHTML = [
-            detail(t("method"), methodText),
-            detail(t("school"), schoolText),
-            detail(t("timezone"), timezoneText),
-            detail(t("coordinates"), coordinatesText),
-          ].join("");
+            document.getElementById("details").innerHTML = [
+              detail(t("method"), methodText),
+              detail(t("school"), schoolText),
+              detail(t("timezone"), timezoneText),
+              detail(t("coordinates"), coordinatesText),
+            ].join("");
 
-          renderSchedule(schedule, next);
+            renderSchedule(schedule, next);
 
-          await document.fonts?.ready;
-          fitHyphenatedText?.(document.getElementById("title"), {
-            min: 24,
-            max: window.innerHeight <= 560 ? 50 : 70,
-            step: 2,
-            lineBreak: true,
-          });
-          fitHyphenatedText?.(document.getElementById("nextName"), {
-            min: 30,
-            max: window.innerHeight <= 560 ? 70 : 100,
-            step: 2,
-            lineBreak: true,
-          });
-          const compactRows = window.innerWidth <= 560 || window.innerHeight <= 560;
-          fitAllText?.(".row-name", {
-            min: 10,
-            max: compactRows ? 16 : 26,
-            step: 1,
-            tolerance: 3,
-            lineBreak: true,
-          });
-          fitAllText?.(".detail .pp-fit, .date-block .pp-fit", {
-            min: 8,
-            max: 18,
-            step: 1,
-            tolerance: 3,
-            lineBreak: true,
-          });
-          fitToScreen?.();
-          if (typeof markReady === "function") {
-            markReady({
-              date: isoDate(selectedParts),
-              location: settings.locationName,
-              calculationMethod: settings.calculationMethod,
-              nextPrayer: next.key,
-              nextTime: next.time,
+            await document.fonts?.ready;
+            fitHyphenatedText?.(document.getElementById("title"), {
+              min: 24,
+              max: window.innerHeight <= 560 ? 50 : 70,
+              step: 2,
+              lineBreak: true,
             });
-          } else {
-            const ready = document.createElement("div");
-            ready.id = "website-has-loaded";
-            ready.textContent = "ready";
-            document.body.appendChild(ready);
+            fitHyphenatedText?.(document.getElementById("nextName"), {
+              min: 30,
+              max: window.innerHeight <= 560 ? 70 : 100,
+              step: 2,
+              lineBreak: true,
+            });
+            const compactRows = window.innerWidth <= 560 || window.innerHeight <= 560;
+            fitAllText?.(".row-name", {
+              min: 10,
+              max: compactRows ? 16 : 26,
+              step: 1,
+              tolerance: 3,
+              lineBreak: true,
+            });
+            fitAllText?.(".detail .pp-fit, .date-block .pp-fit", {
+              min: 8,
+              max: 18,
+              step: 1,
+              tolerance: 3,
+              lineBreak: true,
+            });
+            fitToScreen?.();
+            if (typeof markReady === "function") {
+              markReady({
+                date: isoDate(selectedParts),
+                location: settings.locationName,
+                calculationMethod: settings.calculationMethod,
+                nextPrayer: next.key,
+                nextTime: next.time,
+              });
+            } else {
+              const ready = document.createElement("div");
+              ready.id = "website-has-loaded";
+              ready.textContent = "ready";
+              document.body.appendChild(ready);
+            }
+          } catch (error) {
+            const message = error instanceof Error ? error.message : String(error);
+            if (typeof markError === "function") {
+              markError(error);
+            }
+            document.body.innerHTML = `<main class="pp-screen"><h1 class="pp-title pp-error">${html(t("errorTitle"))}</h1><p>${html(message)}</p></main>`;
           }
-        } catch (error) {
-          const message = error instanceof Error ? error.message : String(error);
-          if (typeof markError === "function") {
-            markError(error);
-          }
-          document.body.innerHTML = `<main class="pp-screen"><h1 class="pp-title pp-error">${html(t("errorTitle"))}</h1><p>${html(message)}</p></main>`;
         }
+
+        const payload =
+          typeof waitForPayload === "function"
+            ? await waitForPayload({ timeoutMs: 500, onUpdate: renderPayload })
+            : {};
+        await renderPayload(payload);
       })();
     </script>
   </body>

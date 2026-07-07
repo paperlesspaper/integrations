@@ -284,6 +284,7 @@
           escapeHtml,
           fitHyphenatedText,
           fitToScreen,
+          markLoading,
           markReady,
           markError,
         } = window.PaperlessOpenIntegration;
@@ -405,121 +406,126 @@
           applyStaticMessages();
         }
 
-        try {
-          const payload = await waitForPayload({ timeout: 500 });
-          await loadMessages(payload);
+        async function renderPayload(payload) {
+          try {
+            markLoading?.();
+            await loadMessages(payload);
 
-          const defaults = {
-            color: "light",
-            mode: "random",
-            source: "bible-api",
-            version: "web",
-            scope: "all",
-            showHeader: true,
-            showFooter: true,
-            showQrCode: true,
-          };
-          const settings = mergeSettings(
-            defaults,
-            getSettings(payload),
-            getQuerySettings(),
-          );
-          const showHeader = booleanSetting(settings.showHeader, defaults.showHeader);
-          const showFooter = booleanSetting(settings.showFooter, defaults.showFooter);
-          const showQrCode = booleanSetting(settings.showQrCode, defaults.showQrCode);
-          const screen = document.querySelector(".verse-screen");
-          const qrImage = document.getElementById("qr");
-          qrImage.alt = t("qrAlt");
+            const defaults = {
+              color: "light",
+              mode: "random",
+              source: "bible-api",
+              version: "web",
+              scope: "all",
+              showHeader: true,
+              showFooter: true,
+              showQrCode: true,
+            };
+            const settings = mergeSettings(
+              defaults,
+              getSettings(payload),
+              getQuerySettings(),
+            );
+            const showHeader = booleanSetting(settings.showHeader, defaults.showHeader);
+            const showFooter = booleanSetting(settings.showFooter, defaults.showFooter);
+            const showQrCode = booleanSetting(settings.showQrCode, defaults.showQrCode);
+            const screen = document.querySelector(".verse-screen");
+            const qrImage = document.getElementById("qr");
+            qrImage.alt = t("qrAlt");
 
-          document.getElementById("header").hidden = !showHeader;
-          document.getElementById("footer").hidden = !showFooter;
-          screen.classList.toggle("no-header", !showHeader);
-          screen.classList.toggle("no-footer", !showFooter);
-          screen.classList.toggle("reference-in-header", showHeader);
+            document.getElementById("header").hidden = !showHeader;
+            document.getElementById("footer").hidden = !showFooter;
+            screen.classList.toggle("no-header", !showHeader);
+            screen.classList.toggle("no-footer", !showFooter);
+            screen.classList.toggle("reference-in-header", showHeader);
 
-          if (typeof applyColorTheme === "function") {
-            applyColorTheme(settings.color, { defaultTheme: defaults.color });
-          }
+            if (typeof applyColorTheme === "function") {
+              applyColorTheme(settings.color, { defaultTheme: defaults.color });
+            }
 
-          const params = new URLSearchParams(settings);
-          params.set("language", document.documentElement.lang || "en");
-          const response = await fetch(`./api/data?${params.toString()}`, {
-            cache: "no-store",
-          });
-
-          if (!response.ok) {
-            throw new Error(t("apiFailed", { status: response.status }));
-          }
-
-          const data = await response.json();
-          const translationCode =
-            data.translation?.shortName || String(data.version || "web").toUpperCase();
-          const translationName = data.translation?.name || translationCode;
-          const sourceLabel = data.isFallback
-            ? t("fallback")
-            : `${t("source")}: ${data.sourceName}`;
-
-          document.getElementById("title").textContent = data.reference;
-          document.getElementById("reference").textContent = data.reference;
-          document.getElementById("reference").hidden = showHeader;
-          document.getElementById("title").dir = textDirection(data.reference);
-          document.getElementById("reference").dir = textDirection(data.reference);
-          document.getElementById("verse").dir = textDirection(data.text);
-          document.getElementById("verse").innerHTML =
-            `&ldquo;${escapeHtml(data.text)}&rdquo;`;
-          if (showFooter) {
-            document.getElementById("translation").textContent = translationName;
-            document.getElementById("source").textContent = sourceLabel;
-          }
-
-          const qrSrc = showQrCode && data.sourceUrl
-            ? qrCodeUrl(data.sourceUrl, 160)
-            : "";
-          qrImage.hidden = !qrSrc;
-          screen.classList.toggle("has-qr", Boolean(qrSrc));
-          if (qrSrc) {
-            qrImage.src = qrSrc;
-            await (qrImage.decode?.() || Promise.resolve()).catch(() => {
-              qrImage.hidden = true;
-              screen.classList.remove("has-qr");
+            const params = new URLSearchParams(settings);
+            params.set("language", document.documentElement.lang || "en");
+            const response = await fetch(`./api/data?${params.toString()}`, {
+              cache: "no-store",
             });
-          }
 
-          if (showHeader) {
-            fitHyphenatedText(document.getElementById("title"), {
-              min: 20,
-              max: 72,
+            if (!response.ok) {
+              throw new Error(t("apiFailed", { status: response.status }));
+            }
+
+            const data = await response.json();
+            const translationCode =
+              data.translation?.shortName || String(data.version || "web").toUpperCase();
+            const translationName = data.translation?.name || translationCode;
+            const sourceLabel = data.isFallback
+              ? t("fallback")
+              : `${t("source")}: ${data.sourceName}`;
+
+            document.getElementById("title").textContent = data.reference;
+            document.getElementById("reference").textContent = data.reference;
+            document.getElementById("reference").hidden = showHeader;
+            document.getElementById("title").dir = textDirection(data.reference);
+            document.getElementById("reference").dir = textDirection(data.reference);
+            document.getElementById("verse").dir = textDirection(data.text);
+            document.getElementById("verse").innerHTML =
+              `&ldquo;${escapeHtml(data.text)}&rdquo;`;
+            if (showFooter) {
+              document.getElementById("translation").textContent = translationName;
+              document.getElementById("source").textContent = sourceLabel;
+            }
+
+            const qrSrc = showQrCode && data.sourceUrl
+              ? qrCodeUrl(data.sourceUrl, 160)
+              : "";
+            qrImage.hidden = !qrSrc;
+            screen.classList.toggle("has-qr", Boolean(qrSrc));
+            if (qrSrc) {
+              qrImage.src = qrSrc;
+              await (qrImage.decode?.() || Promise.resolve()).catch(() => {
+                qrImage.hidden = true;
+                screen.classList.remove("has-qr");
+              });
+            }
+
+            if (showHeader) {
+              fitHyphenatedText(document.getElementById("title"), {
+                min: 20,
+                max: 72,
+                step: 2,
+                tolerance: 8,
+                fitParent: document.querySelector(".verse-header"),
+              });
+            } else {
+              fitHyphenatedText(document.getElementById("reference"), {
+                min: 28,
+                max: 88,
+                step: 2,
+                tolerance: 10,
+                fitParent: document.querySelector(".verse-main"),
+              });
+            }
+            fitHyphenatedText(document.getElementById("verse"), {
+              min: 24,
+              max: 120,
               step: 2,
-              tolerance: 8,
-              fitParent: document.querySelector(".verse-header"),
+              tolerance: 12,
+              lineBreak: "balance",
+              fitParent: document.querySelector(".verse-text-wrap"),
             });
-          } else {
-            fitHyphenatedText(document.getElementById("reference"), {
-              min: 28,
-              max: 88,
-              step: 2,
-              tolerance: 10,
-              fitParent: document.querySelector(".verse-main"),
+            fitToScreen();
+            markReady({
+              reference: data.reference,
+              mode: data.mode || settings.mode,
+              version: translationCode,
             });
+          } catch (error) {
+            markError(error);
+            document.body.innerHTML = `<main class="pp-screen"><h1 class="pp-title pp-error">${escapeHtml(t("errorTitle"))}</h1><p>${escapeHtml(error.message)}</p></main>`;
           }
-          fitHyphenatedText(document.getElementById("verse"), {
-            min: 24,
-            max: 120,
-            step: 2,
-            tolerance: 12,
-            lineBreak: "balance",
-            fitParent: document.querySelector(".verse-text-wrap"),
-          });
-          fitToScreen();
-          markReady({
-            reference: data.reference,
-            mode: data.mode || settings.mode,
-            version: translationCode,
-          });
-        } catch (error) {
-          markError(error);
-          document.body.innerHTML = `<main class="pp-screen"><h1 class="pp-title pp-error">${escapeHtml(t("errorTitle"))}</h1><p>${escapeHtml(error.message)}</p></main>`;
         }
+
+        const payload = await waitForPayload({ timeout: 500, onUpdate: renderPayload });
+        await renderPayload(payload);
       })();
     </script>
   </body>

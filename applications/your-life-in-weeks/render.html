@@ -351,6 +351,7 @@
           fitHyphenatedText,
           fitToScreen,
           escapeHtml,
+          markLoading,
           markReady,
           markError,
         } = window.PaperlessOpenIntegration;
@@ -463,8 +464,9 @@
 
         let messages = fallbackMessages;
 
+        async function renderPayload(payload) {
         try {
-          const payload = await waitForPayload({ timeoutMs: 500 });
+          markLoading();
           const settings = mergeSettings(defaults, getSettings(payload), getQuerySettings());
           const languageResult = await loadLanguageJson(payload).catch(() => ({ language: "en", messages: {} }));
           messages = { ...fallbackMessages, ...(languageResult.messages || {}) };
@@ -548,6 +550,10 @@
             </main>
           `;
         }
+        }
+
+        const payload = await waitForPayload({ timeoutMs: 500, onUpdate: renderPayload });
+        await renderPayload(payload);
       })();
     </script>
   </body>

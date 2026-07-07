@@ -239,6 +239,7 @@
           fitText,
           fitHyphenatedText,
           fitToScreen,
+          markLoading,
           markReady,
           markError,
         } = window.PaperlessOpenIntegration;
@@ -385,95 +386,100 @@
           `;
         }
 
-        try {
-          const payload = await waitForPayload({ timeout: 300 });
-          await loadMessages(payload);
-          const settings = mergeSettings(defaults, getSettings(payload), getQuerySettings());
-          const resolvedColor = applyColorTheme(settings.color, { defaultTheme: defaults.color });
-          const params = new URLSearchParams(settings);
-          const response = await fetch(`./api/data?${params.toString()}`, {
-            cache: "no-store",
-          });
-
-          if (!response.ok) {
-            throw new Error(t("apiFailed", { status: response.status }));
-          }
-
-          const data = await response.json();
-          const app = document.getElementById("app");
-          const showQuote = quoteKinds.has(data.settings.kind);
-
-          app.className = [
-            "day-calendar-screen",
-            colorClass(resolvedColor),
-            data.settings.kind,
-            showQuote ? "show-quote" : "show-only-date",
-          ].join(" ");
-
-          if (showQuote) {
-            renderQuoteMode(app, data);
-          } else {
-            renderDateMode(app, data);
-          }
-
-          await document.fonts?.ready;
-
-          if (showQuote) {
-            fitHyphenatedText(document.getElementById("quote-text"), {
-              min: 28,
-              max: 93,
-              step: 1,
-              tolerance: 10,
-              lineBreak: "balance",
-              fitParent: document.querySelector(".quote"),
+        async function renderPayload(payload) {
+          try {
+            markLoading?.();
+            await loadMessages(payload);
+            const settings = mergeSettings(defaults, getSettings(payload), getQuerySettings());
+            const resolvedColor = applyColorTheme(settings.color, { defaultTheme: defaults.color });
+            const params = new URLSearchParams(settings);
+            const response = await fetch(`./api/data?${params.toString()}`, {
+              cache: "no-store",
             });
-            const quoteBox = document.querySelector(".quote");
-            const quoteMaxHeight = window.matchMedia("(max-height: 500px)").matches
-              ? window.innerHeight * 0.37
-              : window.innerHeight * 0.45;
-            clampTextToBox(
-              document.getElementById("quote-text"),
-              quoteBox.clientWidth,
-              quoteMaxHeight - window.innerHeight * 0.02,
-              18,
-            );
-            fitText(document.getElementById("formatted-date"), {
+
+            if (!response.ok) {
+              throw new Error(t("apiFailed", { status: response.status }));
+            }
+
+            const data = await response.json();
+            const app = document.getElementById("app");
+            const showQuote = quoteKinds.has(data.settings.kind);
+
+            app.className = [
+              "day-calendar-screen",
+              colorClass(resolvedColor),
+              data.settings.kind,
+              showQuote ? "show-quote" : "show-only-date",
+            ].join(" ");
+
+            if (showQuote) {
+              renderQuoteMode(app, data);
+            } else {
+              renderDateMode(app, data);
+            }
+
+            await document.fonts?.ready;
+
+            if (showQuote) {
+              fitHyphenatedText(document.getElementById("quote-text"), {
+                min: 28,
+                max: 93,
+                step: 1,
+                tolerance: 10,
+                lineBreak: "balance",
+                fitParent: document.querySelector(".quote"),
+              });
+              const quoteBox = document.querySelector(".quote");
+              const quoteMaxHeight = window.matchMedia("(max-height: 500px)").matches
+                ? window.innerHeight * 0.37
+                : window.innerHeight * 0.45;
+              clampTextToBox(
+                document.getElementById("quote-text"),
+                quoteBox.clientWidth,
+                quoteMaxHeight - window.innerHeight * 0.02,
+                18,
+              );
+              fitText(document.getElementById("formatted-date"), {
+                min: 24,
+                max: 150,
+                step: 2,
+                tolerance: 8,
+                fitParent: document.querySelector(".date"),
+              });
+            } else {
+              fitText(document.getElementById("day-number"), {
+                min: 72,
+                max: 300,
+                step: 2,
+                tolerance: 10,
+                fitParent: document.querySelector(".day-number"),
+              });
+              fitText(document.getElementById("month"), {
+                min: 34,
+                max: 100,
+                step: 2,
+                tolerance: 10,
+                fitParent: document.querySelector(".month"),
+              });
+            }
+
+            fitText(document.getElementById("weekday"), {
               min: 24,
-              max: 150,
-              step: 2,
-              tolerance: 8,
-              fitParent: document.querySelector(".date"),
-            });
-          } else {
-            fitText(document.getElementById("day-number"), {
-              min: 72,
-              max: 300,
-              step: 2,
-              tolerance: 10,
-              fitParent: document.querySelector(".day-number"),
-            });
-            fitText(document.getElementById("month"), {
-              min: 34,
               max: 100,
               step: 2,
-              tolerance: 10,
-              fitParent: document.querySelector(".month"),
+              tolerance: 8,
+              fitParent: document.querySelector(".weekday"),
             });
+            fitToScreen();
+            markReady({ kind: data.settings.kind, dayOfYear: data.dayOfYear });
+          } catch (error) {
+            markError(error);
+            document.body.innerHTML = `<main class="pp-screen"><h1 class="pp-title pp-error">${escapeHtml(t("errorTitle"))}</h1><p>${escapeHtml(error.message)}</p></main>`;
           }
-
-          fitText(document.getElementById("weekday"), {
-            min: 24,
-            max: 100,
-            step: 2,
-            tolerance: 8,
-            fitParent: document.querySelector(".weekday"),
-          });
-          fitToScreen();
-          markReady({ kind: data.settings.kind, dayOfYear: data.dayOfYear });
-        } catch (error) {
-          markError(error);
-          document.body.innerHTML = `<main class="pp-screen"><h1 class="pp-title pp-error">${escapeHtml(t("errorTitle"))}</h1><p>${escapeHtml(error.message)}</p></main>`;
         }
+
+        const payload = await waitForPayload({ timeout: 300, onUpdate: renderPayload });
+        await renderPayload(payload);
       })();
     </script>
   </body>

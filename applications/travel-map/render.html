@@ -219,6 +219,7 @@
           escapeHtml,
           fitAllText,
           fitToScreen,
+          markLoading,
           markReady,
           markError,
           loadLanguageJson,
@@ -580,56 +581,61 @@
           ].join("");
         }
 
-        try {
-          const payload = await waitForPayload({ timeoutMs: 500 });
-          if (typeof loadLanguageJson === "function") {
-            const result = await loadLanguageJson(payload);
-            messages = { ...defaultMessages, ...result.messages };
-            document.documentElement.lang = result.language || "en";
+        async function renderPayload(payload) {
+          try {
+            markLoading?.();
+            if (typeof loadLanguageJson === "function") {
+              const result = await loadLanguageJson(payload);
+              messages = { ...defaultMessages, ...result.messages };
+              document.documentElement.lang = result.language || "en";
+            }
+
+            const settings = mergeSettings(defaults, getSettings(payload), getQuerySettings());
+            if (typeof applyColorTheme === "function") {
+              applyColorTheme(settings.color, { defaultTheme: defaults.color });
+            }
+
+            const mode = mapDefinitions[settings.mapMode] ? settings.mapMode : defaults.mapMode;
+            const definition = mapDefinitions[mode];
+            const visited = parseVisited(settings.visitedRegions);
+            const features = await loadFeatures(definition, mode);
+            const configuredTitle = String(settings.title || "").trim();
+            const title =
+              !configuredTitle || configuredTitle === defaults.title ? t("title") : configuredTitle;
+
+            document.getElementById("title").textContent = title;
+            document.getElementById("map-label").textContent = t(definition.labelKey);
+            document.getElementById("source").textContent = t("source");
+
+            const result = renderMap({
+              features,
+              definition,
+              visited: visited[mode],
+              colorMode: settings.colorMode,
+              selectedColor: settings.selectedColor,
+              projectionMode: settings.projectionMode,
+            });
+
+            document.getElementById("counter").textContent = t("visitedOfTotal", {
+              visited: result.selected,
+              total: result.total,
+            });
+            document.getElementById("counter").style.display = normalizeBool(settings.showCounter)
+              ? ""
+              : "none";
+            renderLegend(result, normalizeBool(settings.showLegend));
+
+            await document.fonts?.ready;
+            fitAllText();
+            fitToScreen(document.querySelector("#app"));
+            markReady();
+          } catch (error) {
+            markError(error);
           }
-
-          const settings = mergeSettings(defaults, getSettings(payload), getQuerySettings());
-          if (typeof applyColorTheme === "function") {
-            applyColorTheme(settings.color, { defaultTheme: defaults.color });
-          }
-
-          const mode = mapDefinitions[settings.mapMode] ? settings.mapMode : defaults.mapMode;
-          const definition = mapDefinitions[mode];
-          const visited = parseVisited(settings.visitedRegions);
-          const features = await loadFeatures(definition, mode);
-          const configuredTitle = String(settings.title || "").trim();
-          const title =
-            !configuredTitle || configuredTitle === defaults.title ? t("title") : configuredTitle;
-
-          document.getElementById("title").textContent = title;
-          document.getElementById("map-label").textContent = t(definition.labelKey);
-          document.getElementById("source").textContent = t("source");
-
-          const result = renderMap({
-            features,
-            definition,
-            visited: visited[mode],
-            colorMode: settings.colorMode,
-            selectedColor: settings.selectedColor,
-            projectionMode: settings.projectionMode,
-          });
-
-          document.getElementById("counter").textContent = t("visitedOfTotal", {
-            visited: result.selected,
-            total: result.total,
-          });
-          document.getElementById("counter").style.display = normalizeBool(settings.showCounter)
-            ? ""
-            : "none";
-          renderLegend(result, normalizeBool(settings.showLegend));
-
-          await document.fonts?.ready;
-          fitAllText();
-          fitToScreen(document.querySelector("#app"));
-          markReady();
-        } catch (error) {
-          markError(error);
         }
+
+        const payload = await waitForPayload({ timeoutMs: 500, onUpdate: renderPayload });
+        await renderPayload(payload);
       })();
     </script>
   </body>

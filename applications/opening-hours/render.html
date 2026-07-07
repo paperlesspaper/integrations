@@ -373,6 +373,7 @@
           escapeHtml,
           fitAllText,
           fitToScreen,
+          markLoading,
           markReady,
           markError,
         } = window.PaperlessOpenIntegration;
@@ -504,8 +505,9 @@
           return value ? `<span class="contact-line">${escapeHtml(value)}</span>` : "";
         }
 
-        try {
-          const payload = await waitForPayload({ timeout: 300 });
+        async function renderPayload(payload) {
+          try {
+            markLoading?.();
           await loadMessages(payload);
           const settings = mergeSettings(
             defaults,
@@ -579,10 +581,14 @@
             status: data.status,
             businessName: data.businessName,
           });
-        } catch (error) {
-          markError(error);
-          document.body.innerHTML = `<main class="pp-screen"><h1 class="pp-title pp-error">${escapeHtml(t("errorTitle"))}</h1><p>${escapeHtml(error.message)}</p></main>`;
+          } catch (error) {
+            markError(error);
+            document.body.innerHTML = `<main class="pp-screen"><h1 class="pp-title pp-error">${escapeHtml(t("errorTitle"))}</h1><p>${escapeHtml(error.message)}</p></main>`;
+          }
         }
+
+        const payload = await waitForPayload({ timeout: 300, onUpdate: renderPayload });
+        await renderPayload(payload);
       })();
     </script>
   </body>

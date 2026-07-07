@@ -308,6 +308,7 @@
           applyColorTheme,
           fitAllText,
           fitToScreen,
+          markLoading,
           markReady,
           markError,
         } = window.PaperlessOpenIntegration;
@@ -630,107 +631,116 @@
           document.querySelector("#apiValue").textContent = message(messages, "apiValue", "VirtualSky local catalogue");
         }
 
-        try {
-          const payload = await waitForPayload({ timeoutMs: 500 });
-          const { messages } = await loadLanguageJson(payload);
-          document
-            .getElementById("virtualSky")
-            .setAttribute("aria-label", message(messages, "skyMapLabel", "Astronomical sky map"));
-          const settings = mergeSettings(defaults, getSettings(payload), getQuerySettings());
-          applyColorTheme(settings.color, { defaultTheme: defaults.color });
+        let activeSky = null;
 
-          if (!window.S || typeof window.S.virtualsky !== "function") {
-            throw new Error(message(messages, "engineFailed", "VirtualSky could not be loaded."));
+        async function renderPayload(payload) {
+          try {
+            markLoading?.();
+            const { messages } = await loadLanguageJson(payload);
+            const virtualSkyElement = document.getElementById("virtualSky");
+            virtualSkyElement.setAttribute("aria-label", message(messages, "skyMapLabel", "Astronomical sky map"));
+            const settings = mergeSettings(defaults, getSettings(payload), getQuerySettings());
+            applyColorTheme(settings.color, { defaultTheme: defaults.color });
+
+            if (!window.S || typeof window.S.virtualsky !== "function") {
+              throw new Error(message(messages, "engineFailed", "VirtualSky could not be loaded."));
+            }
+
+            const latitude = numberSetting(settings.latitude, defaults.latitude, -90, 90);
+            const longitude = numberSetting(settings.longitude, defaults.longitude, -180, 180);
+            const direction = numberSetting(settings.direction, defaults.direction, 0, 359);
+            const magnitude = numberSetting(settings.magnitude, defaults.magnitude, 1, 6.5);
+            const starSize = numberSetting(settings.starSize, defaults.starSize, 0.4, 3);
+            const displayMode = oneOf(settings.displayMode, ["sky", "dailySign"], defaults.displayMode);
+            document.body.classList.toggle("daily-sign-mode", displayMode === "dailySign");
+            const configuredProjection = oneOf(
+              settings.projection,
+              ["stereo", "polar", "lambert", "ortho", "mollweide", "planechart"],
+              defaults.projection
+            );
+            const projection = displayMode === "dailySign" ? "gnomic" : configuredProjection;
+            const skyTime = timeFromSettings(settings);
+            const dailySign = displayMode === "dailySign"
+              ? dailySignForDate(skyTime, settings.dailySignSeed)
+              : null;
+
+            const [lines, boundaries, galaxy, stars] = await Promise.all([
+              loadJson("./assets/virtualsky/lines_latin.json", messages),
+              loadJson("./assets/virtualsky/boundaries.json", messages),
+              loadJson("./assets/virtualsky/galaxy.json", messages),
+              loadJson("./assets/virtualsky/stars.json", messages),
+            ]);
+
+            renderInfo({ messages, settings, skyTime, projection, displayMode, dailySign });
+
+            const stage = document.querySelector("#skyStage");
+            activeSky?.stop?.();
+            virtualSkyElement.innerHTML = "";
+            const sky = window.S.virtualsky({
+              id: "virtualSky",
+              projection,
+              latitude,
+              longitude,
+              clock: skyTime,
+              az: direction,
+              ra: dailySign ? dailySign.ra : undefined,
+              dec: dailySign ? dailySign.dec : undefined,
+              fov: dailySign ? 52 : undefined,
+              magnitude,
+              scalestars: starSize,
+              constellations: true,
+              constellationlabels: boolSetting(settings.showLabels),
+              constellationboundaries: dailySign ? true : boolSetting(settings.showBoundaries),
+              constellationwidth: dailySign ? 2.2 : 1.35,
+              constellationboundarieswidth: 0.8,
+              lines: filterConstellationLines(lines.lines, dailySign),
+              boundaries: filterConstellationBoundaries(boundaries.boundaries, dailySign),
+              showgalaxy: dailySign ? false : boolSetting(settings.showMilkyWay),
+              galaxy: galaxy.galaxy,
+              galaxywidth: 1.15,
+              showstars: true,
+              showstarlabels: false,
+              showplanets: boolSetting(settings.showPlanets),
+              showplanetlabels: boolSetting(settings.showPlanets),
+              showdate: false,
+              showposition: false,
+              cardinalpoints: true,
+              gridlines_az: boolSetting(settings.showGrid),
+              gridlines_eq: false,
+              gridlines_gal: false,
+              gridstep: 30,
+              gridlineswidth: 0.7,
+              gradient: false,
+              ground: displayMode !== "dailySign",
+              transparent: true,
+              keyboard: false,
+              mouse: false,
+              credit: false,
+              lang: String(payload.meta?.language || "").split("-")[0] === "de" ? "de" : "en",
+              width: Math.max(1, stage.clientWidth),
+              height: Math.max(1, stage.clientHeight),
+            });
+            activeSky = sky;
+
+            addDeepStars(sky, stars);
+            applyVirtualSkyPalette(sky);
+            sky.resize(Math.max(1, stage.clientWidth), Math.max(1, stage.clientHeight));
+            sky.draw();
+
+            await document.fonts?.ready;
+            fitAllText();
+            fitToScreen(document.querySelector("#shell"));
+            sky.resize(Math.max(1, stage.clientWidth), Math.max(1, stage.clientHeight));
+            sky.draw();
+            await new Promise((resolve) => window.requestAnimationFrame(resolve));
+            markReady();
+          } catch (error) {
+            markError(error);
           }
-
-          const latitude = numberSetting(settings.latitude, defaults.latitude, -90, 90);
-          const longitude = numberSetting(settings.longitude, defaults.longitude, -180, 180);
-          const direction = numberSetting(settings.direction, defaults.direction, 0, 359);
-          const magnitude = numberSetting(settings.magnitude, defaults.magnitude, 1, 6.5);
-          const starSize = numberSetting(settings.starSize, defaults.starSize, 0.4, 3);
-          const displayMode = oneOf(settings.displayMode, ["sky", "dailySign"], defaults.displayMode);
-          document.body.classList.toggle("daily-sign-mode", displayMode === "dailySign");
-          const configuredProjection = oneOf(
-            settings.projection,
-            ["stereo", "polar", "lambert", "ortho", "mollweide", "planechart"],
-            defaults.projection
-          );
-          const projection = displayMode === "dailySign" ? "gnomic" : configuredProjection;
-          const skyTime = timeFromSettings(settings);
-          const dailySign = displayMode === "dailySign"
-            ? dailySignForDate(skyTime, settings.dailySignSeed)
-            : null;
-
-          const [lines, boundaries, galaxy, stars] = await Promise.all([
-            loadJson("./assets/virtualsky/lines_latin.json", messages),
-            loadJson("./assets/virtualsky/boundaries.json", messages),
-            loadJson("./assets/virtualsky/galaxy.json", messages),
-            loadJson("./assets/virtualsky/stars.json", messages),
-          ]);
-
-          renderInfo({ messages, settings, skyTime, projection, displayMode, dailySign });
-
-          const stage = document.querySelector("#skyStage");
-          const sky = window.S.virtualsky({
-            id: "virtualSky",
-            projection,
-            latitude,
-            longitude,
-            clock: skyTime,
-            az: direction,
-            ra: dailySign ? dailySign.ra : undefined,
-            dec: dailySign ? dailySign.dec : undefined,
-            fov: dailySign ? 52 : undefined,
-            magnitude,
-            scalestars: starSize,
-            constellations: true,
-            constellationlabels: boolSetting(settings.showLabels),
-            constellationboundaries: dailySign ? true : boolSetting(settings.showBoundaries),
-            constellationwidth: dailySign ? 2.2 : 1.35,
-            constellationboundarieswidth: 0.8,
-            lines: filterConstellationLines(lines.lines, dailySign),
-            boundaries: filterConstellationBoundaries(boundaries.boundaries, dailySign),
-            showgalaxy: dailySign ? false : boolSetting(settings.showMilkyWay),
-            galaxy: galaxy.galaxy,
-            galaxywidth: 1.15,
-            showstars: true,
-            showstarlabels: false,
-            showplanets: boolSetting(settings.showPlanets),
-            showplanetlabels: boolSetting(settings.showPlanets),
-            showdate: false,
-            showposition: false,
-            cardinalpoints: true,
-            gridlines_az: boolSetting(settings.showGrid),
-            gridlines_eq: false,
-            gridlines_gal: false,
-            gridstep: 30,
-            gridlineswidth: 0.7,
-            gradient: false,
-            ground: displayMode !== "dailySign",
-            transparent: true,
-            keyboard: false,
-            mouse: false,
-            credit: false,
-            lang: String(payload.meta?.language || "").split("-")[0] === "de" ? "de" : "en",
-            width: Math.max(1, stage.clientWidth),
-            height: Math.max(1, stage.clientHeight),
-          });
-
-          addDeepStars(sky, stars);
-          applyVirtualSkyPalette(sky);
-          sky.resize(Math.max(1, stage.clientWidth), Math.max(1, stage.clientHeight));
-          sky.draw();
-
-          await document.fonts?.ready;
-          fitAllText();
-          fitToScreen(document.querySelector("#shell"));
-          sky.resize(Math.max(1, stage.clientWidth), Math.max(1, stage.clientHeight));
-          sky.draw();
-          await new Promise((resolve) => window.requestAnimationFrame(resolve));
-          markReady();
-        } catch (error) {
-          markError(error);
         }
+
+        const payload = await waitForPayload({ timeoutMs: 500, onUpdate: renderPayload });
+        await renderPayload(payload);
       })();
     </script>
   </body>

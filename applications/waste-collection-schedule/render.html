@@ -542,6 +542,7 @@
           escapeHtml,
           fitAllText,
           fitToScreen,
+          markLoading,
           markReady,
           markError,
         } = window.PaperlessOpenIntegration;
@@ -589,6 +590,8 @@
           showWeekStrip: true,
           showSource: true,
         };
+
+        const scheduleShellMarkup = document.getElementById("content").innerHTML;
 
         function t(key, values = {}) {
           const template =
@@ -701,6 +704,15 @@
           return t("sourceManual");
         }
 
+        function restoreScheduleShell() {
+          const content = document.getElementById("content");
+          if (!content || document.getElementById("next-when")) {
+            return;
+          }
+          content.innerHTML = scheduleShellMarkup;
+          applyStaticMessages(content);
+        }
+
         function renderEmpty(data) {
           document.getElementById("content").innerHTML = `
             <section class="empty-state">
@@ -712,6 +724,7 @@
         }
 
         function renderSchedule(data) {
+          restoreScheduleShell();
           const nextGroup = data.groups?.[0];
           if (!nextGroup) {
             renderEmpty(data);
@@ -788,8 +801,9 @@
           document.getElementById("warning").textContent = data.warning || "";
         }
 
+        async function renderPayload(payload) {
         try {
-          const payload = await waitForPayload({ timeout: 300 });
+          markLoading();
           await loadMessages(payload);
           const settings = mergeSettings(
             defaults,
@@ -842,6 +856,10 @@
           markError(error);
           document.body.innerHTML = `<main class="pp-screen"><h1 class="pp-title pp-error">${escapeHtml(t("errorTitle"))}</h1><p>${escapeHtml(error.message)}</p></main>`;
         }
+        }
+
+        const payload = await waitForPayload({ timeout: 300, onUpdate: renderPayload });
+        await renderPayload(payload);
       })();
     </script>
   </body>

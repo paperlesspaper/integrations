@@ -215,6 +215,7 @@
           escapeHtml,
           fitText,
           fitToScreen,
+          markLoading,
           markReady,
           markError,
         } = window.PaperlessOpenIntegration;
@@ -368,60 +369,72 @@
           });
         }
 
-        try {
-          const payload = await waitForPayload({ timeout: 300 });
-          await loadMessages(payload);
-          const settings = mergeSettings(
-            defaults,
-            getSettings(payload),
-            getQuerySettings(),
-          );
-          const params = new URLSearchParams({
-            selection: settings.selection,
-            offset: settings.offset,
-          });
-          const response = await fetch(`./api/data?${params.toString()}`, {
-            cache: "no-store",
-          });
+        async function renderPayload(payload) {
+          try {
+            markLoading?.();
+            await loadMessages(payload);
+            const settings = mergeSettings(
+              defaults,
+              getSettings(payload),
+              getQuerySettings(),
+            );
+            const params = new URLSearchParams({
+              selection: settings.selection,
+              offset: settings.offset,
+            });
+            const response = await fetch(`./api/data?${params.toString()}`, {
+              cache: "no-store",
+            });
 
-          if (!response.ok) {
-            throw new Error(t("apiFailed", { status: response.status }));
+            if (!response.ok) {
+              throw new Error(t("apiFailed", { status: response.status }));
+            }
+
+            const cartoon = await response.json();
+            const image = document.getElementById("cartoon-image");
+            const title = document.getElementById("cartoon-title");
+            const dateStamp = document.getElementById("date-stamp");
+            const masthead = document.querySelector(".masthead");
+            const brand = document.querySelector(".brand");
+
+            masthead.classList.remove("title-hidden", "is-hidden");
+            brand.classList.remove("is-hidden");
+            title.classList.remove("is-hidden");
+            dateStamp.classList.remove("is-hidden");
+
+            image.src = cartoon.image;
+            image.alt = cartoon.alt || cartoon.title;
+            title.innerHTML = escapeHtml(cartoon.title);
+            dateStamp.textContent = formatDate(cartoon.date);
+            document.getElementById("cartoon-credit").textContent =
+              "theonion.com";
+
+            if (!settings.showTitle) {
+              masthead.classList.add("title-hidden");
+              brand.classList.add("is-hidden");
+              title.classList.add("is-hidden");
+            }
+
+            if (!settings.showDate || !dateStamp.textContent) {
+              dateStamp.classList.add("is-hidden");
+            }
+
+            if (!settings.showTitle && !settings.showDate) {
+              masthead.classList.add("is-hidden");
+            }
+
+            await Promise.all([document.fonts?.ready, waitForImage(image)]);
+            fitDynamicText();
+            fitToScreen();
+            markReady({ id: cartoon.id });
+          } catch (error) {
+            markError(error);
+            document.body.innerHTML = `<main class="pp-screen"><h1 class="pp-title pp-error">${escapeHtml(t("errorTitle"))}</h1><p>${escapeHtml(error.message)}</p></main>`;
           }
-
-          const cartoon = await response.json();
-          const image = document.getElementById("cartoon-image");
-          const title = document.getElementById("cartoon-title");
-          const dateStamp = document.getElementById("date-stamp");
-
-          image.src = cartoon.image;
-          image.alt = cartoon.alt || cartoon.title;
-          title.innerHTML = escapeHtml(cartoon.title);
-          dateStamp.textContent = formatDate(cartoon.date);
-          document.getElementById("cartoon-credit").textContent =
-            "theonion.com";
-
-          if (!settings.showTitle) {
-            document.querySelector(".masthead").classList.add("title-hidden");
-            document.querySelector(".brand").classList.add("is-hidden");
-            title.classList.add("is-hidden");
-          }
-
-          if (!settings.showDate || !dateStamp.textContent) {
-            dateStamp.classList.add("is-hidden");
-          }
-
-          if (!settings.showTitle && !settings.showDate) {
-            document.querySelector(".masthead").classList.add("is-hidden");
-          }
-
-          await Promise.all([document.fonts?.ready, waitForImage(image)]);
-          fitDynamicText();
-          fitToScreen();
-          markReady({ id: cartoon.id });
-        } catch (error) {
-          markError(error);
-          document.body.innerHTML = `<main class="pp-screen"><h1 class="pp-title pp-error">${escapeHtml(t("errorTitle"))}</h1><p>${escapeHtml(error.message)}</p></main>`;
         }
+
+        const payload = await waitForPayload({ timeout: 300, onUpdate: renderPayload });
+        await renderPayload(payload);
       })();
     </script>
   </body>

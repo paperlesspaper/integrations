@@ -368,6 +368,7 @@
           fitText,
           fitHyphenatedText,
           fitToScreen,
+          markLoading,
           markReady,
           markError,
           loadLanguageJson,
@@ -586,137 +587,142 @@
           });
         }
 
-        try {
-          const defaults = {
-            color: "light",
-            region: "any",
-            habitat: "any",
-            birdId: "",
-            seed: "",
-            showRange: true,
-            showWingspan: true,
-            showCall: true,
-            showDiet: true,
-            showConservation: true,
-            showMigration: true,
-            showScientificName: false,
-            showHabitat: false,
-            showSize: false,
-            showNesting: false,
-            showOrder: false,
-          };
-          const payload = await waitForPayload({ timeout: 300 });
-          await loadMessages(payload);
-          const settings = mergeSettings(
-            defaults,
-            getSettings(payload),
-            getQuerySettings(),
-          );
-          if (typeof applyColorTheme === "function") {
-            applyColorTheme(settings.color, { defaultTheme: defaults.color });
+        async function renderPayload(payload) {
+          try {
+            markLoading?.();
+            const defaults = {
+              color: "light",
+              region: "any",
+              habitat: "any",
+              birdId: "",
+              seed: "",
+              showRange: true,
+              showWingspan: true,
+              showCall: true,
+              showDiet: true,
+              showConservation: true,
+              showMigration: true,
+              showScientificName: false,
+              showHabitat: false,
+              showSize: false,
+              showNesting: false,
+              showOrder: false,
+            };
+            await loadMessages(payload);
+            const settings = mergeSettings(
+              defaults,
+              getSettings(payload),
+              getQuerySettings(),
+            );
+            if (typeof applyColorTheme === "function") {
+              applyColorTheme(settings.color, { defaultTheme: defaults.color });
+            }
+            if (!birds.length) {
+              throw new Error(t("listFailed"));
+            }
+
+            const today = dayKey();
+            const { bird: selectedBird, poolSize } = pickBird(settings, today);
+            const birdTranslations = await loadBirdTranslations(currentLanguage);
+            const bird = applyBirdTranslation(selectedBird, birdTranslations);
+            const image = document.getElementById("bird-image");
+            image.src = bird.image;
+            image.alt = bird.name;
+
+            document.getElementById("date").textContent = formatDate(today);
+            document.getElementById("rotation").textContent = t("selectedFrom", {
+              count: poolSize,
+            });
+            document.getElementById("source").textContent = bird.source;
+            document.getElementById("bird-name").innerHTML = escapeHtml(
+              bird.name,
+            );
+            document.getElementById("scientific").innerHTML = escapeHtml(
+              bird.scientificName,
+            );
+            document.getElementById("signature").innerHTML = escapeHtml(
+              bird.signature,
+            );
+
+            const availableFacts = [
+              { setting: "showRange", label: t("range"), value: bird.range },
+              {
+                setting: "showWingspan",
+                label: t("wingspan"),
+                value: bird.wingspan,
+              },
+              { setting: "showCall", label: t("call"), value: bird.call },
+              { setting: "showDiet", label: t("diet"), value: bird.diet },
+              {
+                setting: "showConservation",
+                label: t("conservation"),
+                value: bird.conservationStatus,
+              },
+              {
+                setting: "showMigration",
+                label: t("migration"),
+                value: bird.migration,
+              },
+              {
+                setting: "showScientificName",
+                label: t("scientificName"),
+                value: bird.scientificName,
+              },
+              {
+                setting: "showHabitat",
+                label: t("habitat"),
+                value: bird.habitat,
+              },
+              { setting: "showSize", label: t("size"), value: bird.size },
+              {
+                setting: "showNesting",
+                label: t("nesting"),
+                value: bird.nesting,
+              },
+              { setting: "showOrder", label: t("order"), value: bird.order },
+            ];
+            const selectedFacts = availableFacts.filter(
+              (item) => settings[item.setting] !== false,
+            );
+            const visibleFacts = selectedFacts.length
+              ? selectedFacts
+              : availableFacts.slice(0, 6);
+            const factsElement = document.getElementById("facts");
+            factsElement.dataset.count = String(
+              Math.min(visibleFacts.length, 11),
+            );
+            factsElement.innerHTML = visibleFacts
+              .map((item) => fact(item.label, item.value))
+              .join("");
+
+            await Promise.all([document.fonts?.ready, waitForImage(image)]);
+            const compactLandscape =
+              window.innerWidth > window.innerHeight && window.innerHeight <= 560;
+            const roomyLandscape =
+              window.innerWidth >= 1400 && window.innerHeight >= 1000;
+            fitText(document.getElementById("bird-name"), {
+              min: 28,
+              max: compactLandscape ? 58 : roomyLandscape ? 104 : 78,
+              step: 2,
+              tolerance: 6,
+              lineBreak: "balance",
+            });
+            fitHyphenatedText(document.getElementById("signature"), {
+              min: 9,
+              max: compactLandscape ? 13 : roomyLandscape ? 20 : 17,
+              step: 1,
+              lineBreak: true,
+            });
+            fitToScreen();
+            markReady({ bird: bird.id, day: today });
+          } catch (error) {
+            markError(error);
+            document.body.innerHTML = `<main class="pp-screen"><h1 class="pp-title pp-error">${escapeHtml(t("errorTitle"))}</h1><p>${escapeHtml(error.message)}</p></main>`;
           }
-          if (!birds.length) {
-            throw new Error(t("listFailed"));
-          }
-
-          const today = dayKey();
-          const { bird: selectedBird, poolSize } = pickBird(settings, today);
-          const birdTranslations = await loadBirdTranslations(currentLanguage);
-          const bird = applyBirdTranslation(selectedBird, birdTranslations);
-          const image = document.getElementById("bird-image");
-          image.src = bird.image;
-          image.alt = bird.name;
-
-          document.getElementById("date").textContent = formatDate(today);
-          document.getElementById("rotation").textContent = t("selectedFrom", {
-            count: poolSize,
-          });
-          document.getElementById("source").textContent = bird.source;
-          document.getElementById("bird-name").innerHTML = escapeHtml(
-            bird.name,
-          );
-          document.getElementById("scientific").innerHTML = escapeHtml(
-            bird.scientificName,
-          );
-          document.getElementById("signature").innerHTML = escapeHtml(
-            bird.signature,
-          );
-
-          const availableFacts = [
-            { setting: "showRange", label: t("range"), value: bird.range },
-            {
-              setting: "showWingspan",
-              label: t("wingspan"),
-              value: bird.wingspan,
-            },
-            { setting: "showCall", label: t("call"), value: bird.call },
-            { setting: "showDiet", label: t("diet"), value: bird.diet },
-            {
-              setting: "showConservation",
-              label: t("conservation"),
-              value: bird.conservationStatus,
-            },
-            {
-              setting: "showMigration",
-              label: t("migration"),
-              value: bird.migration,
-            },
-            {
-              setting: "showScientificName",
-              label: t("scientificName"),
-              value: bird.scientificName,
-            },
-            {
-              setting: "showHabitat",
-              label: t("habitat"),
-              value: bird.habitat,
-            },
-            { setting: "showSize", label: t("size"), value: bird.size },
-            {
-              setting: "showNesting",
-              label: t("nesting"),
-              value: bird.nesting,
-            },
-            { setting: "showOrder", label: t("order"), value: bird.order },
-          ];
-          const selectedFacts = availableFacts.filter(
-            (item) => settings[item.setting] !== false,
-          );
-          const visibleFacts = selectedFacts.length
-            ? selectedFacts
-            : availableFacts.slice(0, 6);
-          const factsElement = document.getElementById("facts");
-          factsElement.dataset.count = String(
-            Math.min(visibleFacts.length, 11),
-          );
-          factsElement.innerHTML = visibleFacts
-            .map((item) => fact(item.label, item.value))
-            .join("");
-
-          await Promise.all([document.fonts?.ready, waitForImage(image)]);
-          const compactLandscape =
-            window.innerWidth > window.innerHeight && window.innerHeight <= 560;
-          const roomyLandscape =
-            window.innerWidth >= 1400 && window.innerHeight >= 1000;
-          fitText(document.getElementById("bird-name"), {
-            min: 28,
-            max: compactLandscape ? 58 : roomyLandscape ? 104 : 78,
-            step: 2,
-            tolerance: 6,
-            lineBreak: "balance",
-          });
-          fitHyphenatedText(document.getElementById("signature"), {
-            min: 9,
-            max: compactLandscape ? 13 : roomyLandscape ? 20 : 17,
-            step: 1,
-            lineBreak: true,
-          });
-          fitToScreen();
-          markReady({ bird: bird.id, day: today });
-        } catch (error) {
-          markError(error);
-          document.body.innerHTML = `<main class="pp-screen"><h1 class="pp-title pp-error">${escapeHtml(t("errorTitle"))}</h1><p>${escapeHtml(error.message)}</p></main>`;
         }
+
+        const payload = await waitForPayload({ timeout: 300, onUpdate: renderPayload });
+        await renderPayload(payload);
       })();
     </script>
   </body>

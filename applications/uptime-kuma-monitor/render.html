@@ -522,6 +522,7 @@
           escapeHtml,
           fitAllText,
           fitToScreen,
+          markLoading,
           markReady,
           markError,
         } = window.PaperlessOpenIntegration;
@@ -738,8 +739,9 @@
           };
         }
 
+        async function renderPayload(payload) {
         try {
-          const payload = await waitForPayload({ timeout: 300 });
+          markLoading();
           await loadMessages(payload);
           const settings = mergeSettings(
             defaults,
@@ -764,7 +766,11 @@
           const list = document.getElementById("monitor-list");
           const side = sideItems(data);
 
+          Array.from(app.classList)
+            .filter((className) => className.startsWith("kuma-status-"))
+            .forEach((className) => app.classList.remove(className));
           app.classList.add(`kuma-status-${data.status.key}`);
+          list.className = "kuma-list";
           document.getElementById("status-label").innerHTML =
             `<span class="kuma-status-mark"></span>${escapeHtml(data.status.label)}`;
           document.getElementById("page-title").textContent =
@@ -801,6 +807,10 @@
           markError(error);
           document.body.innerHTML = `<main class="pp-screen"><h1 class="pp-title pp-error">${escapeHtml(t("errorTitle"))}</h1><p>${escapeHtml(error.message)}</p></main>`;
         }
+        }
+
+        const payload = await waitForPayload({ timeout: 300, onUpdate: renderPayload });
+        await renderPayload(payload);
       })();
     </script>
   </body>

@@ -548,6 +548,7 @@
           applyColorTheme,
           fitAllText,
           fitToScreen,
+          markLoading,
           markReady,
           markError,
         } = window.PaperlessOpenIntegration;
@@ -834,7 +835,9 @@
           `;
         }
 
-        try {
+        async function renderPayload(payload) {
+          try {
+            markLoading();
           const defaults = {
             color: "light",
             preset: "balanced",
@@ -850,7 +853,6 @@
             showChange: true,
             showSource: true,
           };
-          const payload = await waitForPayload({ timeout: 300 });
           await loadMessages(payload);
           const settings = mergeSettings(defaults, getSettings(payload), getQuerySettings());
           applyColorTheme(settings.color, { defaultTheme: defaults.color });
@@ -909,10 +911,14 @@
           fitAllText(".pp-fit-leader", { min: 18, max: 42, step: 2 });
           fitToScreen();
           markReady({ count: quotes.length, preset: data.settings?.preset });
-        } catch (error) {
-          markError(error);
-          document.body.innerHTML = `<main class="pp-screen"><h1 class="pp-title pp-error">${escapeHtml(t("errorTitle"))}</h1><p>${escapeHtml(error.message)}</p></main>`;
+          } catch (error) {
+            markError(error);
+            document.body.innerHTML = `<main class="pp-screen"><h1 class="pp-title pp-error">${escapeHtml(t("errorTitle"))}</h1><p>${escapeHtml(error.message)}</p></main>`;
+          }
         }
+
+        const payload = await waitForPayload({ timeout: 300, onUpdate: renderPayload });
+        await renderPayload(payload);
       })();
     </script>
   </body>

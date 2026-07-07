@@ -564,6 +564,7 @@
           mergeSettings,
           applyColorTheme,
           escapeHtml,
+          markLoading,
           markReady,
           markError,
         } = window.PaperlessOpenIntegration;
@@ -952,95 +953,102 @@
           }
         }
 
-        try {
-          const root = document.getElementById("app");
-          root.innerHTML = `<section class="error-screen"><div><h1>${escapeHtml(t("loading"))}</h1></div></section>`;
+        async function renderPayload(payload) {
+          try {
+            if (typeof markLoading === "function") {
+              markLoading();
+            }
+            const root = document.getElementById("app");
+            root.innerHTML = `<section class="error-screen"><div><h1>${escapeHtml(t("loading"))}</h1></div></section>`;
 
-          const defaults = {
-            color: "light",
-            apiBaseUrl: "",
-            apiKey: "",
-            patientId: "",
-            organizationId: "",
-            displayName: "",
-            greeting: "",
-            locale: "de-DE",
-            timezone: "Europe/Berlin",
-            lookaheadDays: 7,
-            maxEntries: 6,
-            intakeWindowMinutes: 20,
-            fullscreenAlert: true,
-            showLastUpdated: true,
-            showTakenEntries: false,
-            forceSample: false,
-            sampleMode: "schedule",
-          };
+            const defaults = {
+              color: "light",
+              apiBaseUrl: "",
+              apiKey: "",
+              patientId: "",
+              organizationId: "",
+              displayName: "",
+              greeting: "",
+              locale: "de-DE",
+              timezone: "Europe/Berlin",
+              lookaheadDays: 7,
+              maxEntries: 6,
+              intakeWindowMinutes: 20,
+              fullscreenAlert: true,
+              showLastUpdated: true,
+              showTakenEntries: false,
+              forceSample: false,
+              sampleMode: "schedule",
+            };
 
-          const payload = await waitForPayload({ timeoutMs: 500 });
-          const settings = mergeSettings(defaults, getSettings(payload), getQuerySettings());
-          await loadMessages(payload, settings);
+            const settings = mergeSettings(defaults, getSettings(payload), getQuerySettings());
+            await loadMessages(payload, settings);
 
-          settings.lookaheadDays = numberSetting(settings.lookaheadDays, defaults.lookaheadDays, 1, 60);
-          settings.maxEntries = numberSetting(settings.maxEntries, defaults.maxEntries, 1, 20);
-          settings.intakeWindowMinutes = numberSetting(settings.intakeWindowMinutes, defaults.intakeWindowMinutes, 1, 240);
-          settings.fullscreenAlert = booleanSetting(settings.fullscreenAlert, defaults.fullscreenAlert);
-          settings.showLastUpdated = booleanSetting(settings.showLastUpdated, defaults.showLastUpdated);
-          settings.showTakenEntries = booleanSetting(settings.showTakenEntries, defaults.showTakenEntries);
-          settings.forceSample = booleanSetting(settings.forceSample, defaults.forceSample);
+            settings.lookaheadDays = numberSetting(settings.lookaheadDays, defaults.lookaheadDays, 1, 60);
+            settings.maxEntries = numberSetting(settings.maxEntries, defaults.maxEntries, 1, 20);
+            settings.intakeWindowMinutes = numberSetting(settings.intakeWindowMinutes, defaults.intakeWindowMinutes, 1, 240);
+            settings.fullscreenAlert = booleanSetting(settings.fullscreenAlert, defaults.fullscreenAlert);
+            settings.showLastUpdated = booleanSetting(settings.showLastUpdated, defaults.showLastUpdated);
+            settings.showTakenEntries = booleanSetting(settings.showTakenEntries, defaults.showTakenEntries);
+            settings.forceSample = booleanSetting(settings.forceSample, defaults.forceSample);
 
-          applyColorTheme(settings.color, { defaultTheme: defaults.color });
+            applyColorTheme(settings.color, { defaultTheme: defaults.color });
 
-          const apiParams = new URLSearchParams();
-          [
-            "apiBaseUrl",
-            "apiKey",
-            "patientId",
-            "organizationId",
-            "timezone",
-            "lookaheadDays",
-            "maxEntries",
-            "intakeWindowMinutes",
-            "showTakenEntries",
-            "forceSample",
-            "sampleMode",
-          ].forEach((key) => appendParam(apiParams, key, settings[key]));
+            const apiParams = new URLSearchParams();
+            [
+              "apiBaseUrl",
+              "apiKey",
+              "patientId",
+              "organizationId",
+              "timezone",
+              "lookaheadDays",
+              "maxEntries",
+              "intakeWindowMinutes",
+              "showTakenEntries",
+              "forceSample",
+              "sampleMode",
+            ].forEach((key) => appendParam(apiParams, key, settings[key]));
 
-          const response = await fetch(`./api/data?${apiParams.toString()}`, {
-            cache: "no-store",
-          });
-          if (!response.ok) {
-            throw new Error(await readApiError(response));
+            const response = await fetch(`./api/data?${apiParams.toString()}`, {
+              cache: "no-store",
+            });
+            if (!response.ok) {
+              throw new Error(await readApiError(response));
+            }
+
+            const data = await response.json();
+            const useAlert =
+              settings.fullscreenAlert &&
+              Array.isArray(data.currentEntries) &&
+              data.currentEntries.length > 0;
+
+            root.className = `med-screen ${useAlert ? "alert-view" : "schedule-view"}`;
+            root.innerHTML = useAlert ? alertMarkup(data, settings) : scheduleMarkup(data, settings);
+
+            await document.fonts?.ready;
+            fitScheduleBody();
+            markReady({
+              source: data.source,
+              entries: data.entries?.length || 0,
+              currentEntries: data.currentEntries?.length || 0,
+            });
+          } catch (error) {
+            markError(error);
+            const root = document.getElementById("app");
+            root.className = "med-screen";
+            root.innerHTML = `
+              <section class="error-screen">
+                <div>
+                  <h1>${escapeHtml(t("errorTitle"))}</h1>
+                  <p>${escapeHtml(error?.message || String(error))}</p>
+                </div>
+              </section>
+            `;
           }
-
-          const data = await response.json();
-          const useAlert =
-            settings.fullscreenAlert &&
-            Array.isArray(data.currentEntries) &&
-            data.currentEntries.length > 0;
-
-          root.className = `med-screen ${useAlert ? "alert-view" : "schedule-view"}`;
-          root.innerHTML = useAlert ? alertMarkup(data, settings) : scheduleMarkup(data, settings);
-
-          await document.fonts?.ready;
-          fitScheduleBody();
-          markReady({
-            source: data.source,
-            entries: data.entries?.length || 0,
-            currentEntries: data.currentEntries?.length || 0,
-          });
-        } catch (error) {
-          markError(error);
-          const root = document.getElementById("app");
-          root.className = "med-screen";
-          root.innerHTML = `
-            <section class="error-screen">
-              <div>
-                <h1>${escapeHtml(t("errorTitle"))}</h1>
-                <p>${escapeHtml(error?.message || String(error))}</p>
-              </div>
-            </section>
-          `;
         }
+
+        const payload = await waitForPayload({ timeoutMs: 500, onUpdate: renderPayload });
+        await renderPayload(payload);
       })();
     </script>
   </body>

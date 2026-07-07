@@ -290,6 +290,7 @@
           fitText,
           fitHyphenatedText,
           fitToScreen,
+          markLoading,
           markReady,
           markError,
           loadLanguageJson,
@@ -497,7 +498,9 @@
           });
         }
 
-        try {
+        async function renderPayload(payload) {
+          try {
+            markLoading();
           const defaults = {
             color: "light",
             group: "any",
@@ -510,7 +513,6 @@
             showNameMeaning: true,
             showSource: false,
           };
-          const payload = await waitForPayload({ timeout: 300 });
           await loadMessages(payload);
           const settings = mergeSettings(
             defaults,
@@ -610,10 +612,14 @@
           });
           fitToScreen();
           markReady({ dinosaur: dinosaur.id, day: today });
-        } catch (error) {
-          markError(error);
-          document.body.innerHTML = `<main class="pp-screen"><h1 class="pp-title pp-error">${escapeHtml(t("errorTitle"))}</h1><p>${escapeHtml(error.message)}</p></main>`;
+          } catch (error) {
+            markError(error);
+            document.body.innerHTML = `<main class="pp-screen"><h1 class="pp-title pp-error">${escapeHtml(t("errorTitle"))}</h1><p>${escapeHtml(error.message)}</p></main>`;
+          }
         }
+
+        const payload = await waitForPayload({ timeout: 300, onUpdate: renderPayload });
+        await renderPayload(payload);
       })();
     </script>
   </body>

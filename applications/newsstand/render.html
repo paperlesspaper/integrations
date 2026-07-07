@@ -180,6 +180,7 @@
           mergeSettings,
           escapeHtml,
           fitToScreen,
+          markLoading,
           markReady,
           markError,
         } = window.PaperlessOpenIntegration;
@@ -281,13 +282,14 @@
           });
         }
 
-        try {
+        async function renderPayload(payload) {
+          try {
+            markLoading?.();
           const defaults = {
             newspaper: "top3",
             fit: "cover",
             showTitleBar: true,
           };
-          const payload = await waitForPayload({ timeout: 300 });
           await loadMessages(payload);
           const settings = mergeSettings(
             defaults,
@@ -318,6 +320,7 @@
             .filter(Boolean)
             .join(" / ");
 
+          screen.classList.remove("force-portrait", "force-landscape", "fit-cover", "fit-contain");
           screen.classList.add(`force-${orientation}`);
           screen.classList.add(`fit-${fit}`);
           screen.classList.toggle("no-title", !showTitleBar);
@@ -341,10 +344,14 @@
           await waitForImage(image);
           fitToScreen();
           markReady({ slug: paper.slug, date: paper.date });
-        } catch (error) {
-          markError(error);
-          document.body.innerHTML = `<main class="pp-screen"><h1 class="pp-title pp-error">${escapeHtml(t("errorTitle"))}</h1><p>${escapeHtml(error.message)}</p></main>`;
+          } catch (error) {
+            markError(error);
+            document.body.innerHTML = `<main class="pp-screen"><h1 class="pp-title pp-error">${escapeHtml(t("errorTitle"))}</h1><p>${escapeHtml(error.message)}</p></main>`;
+          }
         }
+
+        const payload = await waitForPayload({ timeout: 300, onUpdate: renderPayload });
+        await renderPayload(payload);
       })();
     </script>
   </body>

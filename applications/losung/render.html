@@ -267,6 +267,7 @@
           fitAllText,
           fitHyphenatedText,
           fitToScreen,
+          markLoading,
           markReady,
           markError,
         } = window.PaperlessOpenIntegration;
@@ -335,83 +336,90 @@
           `;
         }
 
-        try {
-          const payload = await waitForPayload({ timeout: 300 });
-          await loadMessages(payload);
+        async function renderPayload(payload) {
+          try {
+            if (typeof markLoading === "function") {
+              markLoading();
+            }
+            await loadMessages(payload);
 
-          const defaults = {
-            color: "light",
-            showLosung: true,
-            showLehrtext: true,
-            showDate: true,
-            dateOffset: 0,
-          };
-          const settings = mergeSettings(
-            defaults,
-            getSettings(payload),
-            getQuerySettings(),
-          );
-          applyColorTheme(settings.color, { defaultTheme: defaults.color });
+            const defaults = {
+              color: "light",
+              showLosung: true,
+              showLehrtext: true,
+              showDate: true,
+              dateOffset: 0,
+            };
+            const settings = mergeSettings(
+              defaults,
+              getSettings(payload),
+              getQuerySettings(),
+            );
+            applyColorTheme(settings.color, { defaultTheme: defaults.color });
 
-          const showLosung = asBoolean(settings.showLosung, true);
-          const showLehrtext = asBoolean(settings.showLehrtext, true);
-          const showDate = asBoolean(settings.showDate, true);
-          const params = new URLSearchParams({
-            dateOffset: String(settings.dateOffset || 0),
-          });
-          const response = await fetch(`./api/data?${params.toString()}`, {
-            cache: "no-store",
-          });
-
-          if (!response.ok) {
-            throw new Error(t("apiFailed", { status: response.status }));
-          }
-
-          const data = await response.json();
-          const verses = document.getElementById("verses");
-          const cards = [];
-
-          if (showLosung) {
-            cards.push(renderVerse("losung", data.losung));
-          }
-          if (showLehrtext) {
-            cards.push(renderVerse("lehrtext", data.lehrtext));
-          }
-
-          verses.classList.toggle("is-single", cards.length === 1);
-          verses.innerHTML = cards.length
-            ? cards.join("")
-            : `<div class="empty-state">${escapeHtml(t("empty"))}</div>`;
-
-          document.getElementById("date").textContent = showDate
-            ? data.dateLabel || new Date(`${data.date}T12:00:00`).toLocaleDateString(currentLanguage)
-            : "";
-          document.getElementById("updated").textContent =
-            `${t("updated")}: ${new Date(data.updatedAt).toLocaleDateString(currentLanguage)}`;
-
-          document.querySelectorAll(".verse-text").forEach((element) => {
-            fitHyphenatedText(element, {
-              min: 18,
-              max: 82,
-              step: 2,
-              tolerance: 10,
-              lineBreak: "balance",
-              fitParent: element.closest(".verse-text-wrap"),
+            const showLosung = asBoolean(settings.showLosung, true);
+            const showLehrtext = asBoolean(settings.showLehrtext, true);
+            const showDate = asBoolean(settings.showDate, true);
+            const params = new URLSearchParams({
+              dateOffset: String(settings.dateOffset || 0),
             });
-          });
-          fitAllText(".verse-reference", {
-            min: 12,
-            max: 30,
-            step: 1,
-            tolerance: 4,
-            lineBreak: true,
-          });
-          fitToScreen();
-          markReady({ date: data.date });
-        } catch (error) {
-          markError(error);
-          document.body.innerHTML = `<main class="pp-screen"><h1 class="pp-title pp-error">${escapeHtml(t("errorTitle"))}</h1><p>${escapeHtml(error.message)}</p></main>`;
+            const response = await fetch(`./api/data?${params.toString()}`, {
+              cache: "no-store",
+            });
+
+            if (!response.ok) {
+              throw new Error(t("apiFailed", { status: response.status }));
+            }
+
+            const data = await response.json();
+            const verses = document.getElementById("verses");
+            const cards = [];
+
+            if (showLosung) {
+              cards.push(renderVerse("losung", data.losung));
+            }
+            if (showLehrtext) {
+              cards.push(renderVerse("lehrtext", data.lehrtext));
+            }
+
+            verses.classList.toggle("is-single", cards.length === 1);
+            verses.innerHTML = cards.length
+              ? cards.join("")
+              : `<div class="empty-state">${escapeHtml(t("empty"))}</div>`;
+
+            document.getElementById("date").textContent = showDate
+              ? data.dateLabel || new Date(`${data.date}T12:00:00`).toLocaleDateString(currentLanguage)
+              : "";
+            document.getElementById("updated").textContent =
+              `${t("updated")}: ${new Date(data.updatedAt).toLocaleDateString(currentLanguage)}`;
+
+            document.querySelectorAll(".verse-text").forEach((element) => {
+              fitHyphenatedText(element, {
+                min: 18,
+                max: 82,
+                step: 2,
+                tolerance: 10,
+                lineBreak: "balance",
+                fitParent: element.closest(".verse-text-wrap"),
+              });
+            });
+            fitAllText(".verse-reference", {
+              min: 12,
+              max: 30,
+              step: 1,
+              tolerance: 4,
+              lineBreak: true,
+            });
+            fitToScreen();
+            markReady({ date: data.date });
+          } catch (error) {
+            markError(error);
+            document.body.innerHTML = `<main class="pp-screen"><h1 class="pp-title pp-error">${escapeHtml(t("errorTitle"))}</h1><p>${escapeHtml(error.message)}</p></main>`;
+          }
         }
+
+        const payload = await waitForPayload({ timeout: 300, onUpdate: renderPayload });
+        await renderPayload(payload);
       })();
     </script>
   </body>

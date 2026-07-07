@@ -421,6 +421,7 @@
           escapeHtml,
           fitHyphenatedText,
           fitToScreen,
+          markLoading,
           markReady,
           markError,
         } = window.PaperlessOpenIntegration;
@@ -669,102 +670,108 @@
           return url;
         }
 
-        try {
-          const defaults = {
-            color: 'light',
-            competition: 'BL1',
-            apiKey: '',
-            focusTeam: '',
-            maxTeams: 10,
-            showCrests: true,
-            compact: false,
-            headline: 'League table',
-            markdown: '',
-            markdownUrl: '',
-          };
-          const payload = await waitForPayload({ timeoutMs: 500 });
-          await loadMessages(payload);
+        const defaults = {
+          color: 'light',
+          competition: 'BL1',
+          apiKey: '',
+          focusTeam: '',
+          maxTeams: 10,
+          showCrests: true,
+          compact: false,
+          headline: 'League table',
+          markdown: '',
+          markdownUrl: '',
+        };
 
-          const settings = mergeSettings(defaults, getSettings(payload), getQuerySettings());
-          settings.showCrests = settings.showCrests === true || settings.showCrests === 'true';
-          settings.compact = settings.compact === true || settings.compact === 'true';
-          settings.maxTeams = Number(settings.maxTeams) || 0;
-          applyColorTheme(settings.color, { defaultTheme: defaults.color });
+        async function renderPayload(payload) {
+          try {
+            markLoading?.();
+            await loadMessages(payload);
 
-          const response = await fetch(apiUrl(settings), { cache: 'no-store' });
-          if (!response.ok) {
-            throw new Error(t('apiFailed', { status: response.status }));
-          }
+            const settings = mergeSettings(defaults, getSettings(payload), getQuerySettings());
+            settings.showCrests = settings.showCrests === true || settings.showCrests === 'true';
+            settings.compact = settings.compact === true || settings.compact === 'true';
+            settings.maxTeams = Number(settings.maxTeams) || 0;
+            applyColorTheme(settings.color, { defaultTheme: defaults.color });
 
-          const data = await response.json();
-          const sourceLabel = data.source === 'live' ? t('sourceLive') : t('sourceSample');
-          const focusLabel = data.focused?.team?.shortName || data.focused?.team?.name || settings.focusTeam || t('noFocus');
-          const noteMarkdown = data.remoteMarkdown || settings.markdown;
-          const noteHtml = markdownToHtml(noteMarkdown);
-          const warnings = [data.warning, data.remoteMarkdownWarning].filter(Boolean);
-          const subtitleParts = [
-            data.competition?.name,
-            localizeArea(data.competition?.area),
-            data.season?.currentMatchday
-              ? formatMessage('matchday', { value: data.season.currentMatchday })
-              : '',
-          ].filter(Boolean);
-          const headline =
-            settings.headline && settings.headline !== defaults.headline
-              ? settings.headline
-              : data.competition?.name || t('defaultHeadline');
+            const response = await fetch(apiUrl(settings), { cache: 'no-store' });
+            if (!response.ok) {
+              throw new Error(t('apiFailed', { status: response.status }));
+            }
 
-          app.classList.toggle('is-compact', settings.compact);
-          app.innerHTML = `
-            <section class="soccer-topbar">
-              <div>
-                <h1 class="soccer-title pp-fit">${text(headline)}</h1>
-                <p class="soccer-subtitle">${text(subtitleParts.join(' / '))}</p>
-              </div>
-              <div class="soccer-meta-stack">
-                <p class="soccer-badge"><span class="soccer-badge-dot"></span>${text(t('focus'))}: ${text(focusLabel)}</p>
-                <p class="soccer-meta">${text(sourceLabel)} / ${text(t('updated'))}: ${text(formatDate(data.updatedAt))}</p>
-                ${warnings.length ? `<p class="soccer-warning">${text(warnings.join(' / '))}</p>` : ''}
-              </div>
-            </section>
+            const data = await response.json();
+            const sourceLabel = data.source === 'live' ? t('sourceLive') : t('sourceSample');
+            const focusLabel = data.focused?.team?.shortName || data.focused?.team?.name || settings.focusTeam || t('noFocus');
+            const noteMarkdown = data.remoteMarkdown || settings.markdown;
+            const noteHtml = markdownToHtml(noteMarkdown);
+            const warnings = [data.warning, data.remoteMarkdownWarning].filter(Boolean);
+            const subtitleParts = [
+              data.competition?.name,
+              localizeArea(data.competition?.area),
+              data.season?.currentMatchday
+                ? formatMessage('matchday', { value: data.season.currentMatchday })
+                : '',
+            ].filter(Boolean);
+            const headline =
+              settings.headline && settings.headline !== defaults.headline
+                ? settings.headline
+                : data.competition?.name || t('defaultHeadline');
 
-            <section class="soccer-layout">
-              <section class="soccer-table-wrap">
-                <div class="soccer-table-headline">
-                  <p class="soccer-focus">${text(data.table.length)} / ${text(data.fullTableSize || data.table.length)} ${text(t('teams'))}</p>
-                  <p class="soccer-source">${text(data.competition?.code || settings.competition)}</p>
+            app.classList.toggle('is-compact', settings.compact);
+            app.innerHTML = `
+              <section class="soccer-topbar">
+                <div>
+                  <h1 class="soccer-title pp-fit">${text(headline)}</h1>
+                  <p class="soccer-subtitle">${text(subtitleParts.join(' / '))}</p>
                 </div>
-                <div class="soccer-table">
-                  ${tableHeaderHtml()}
-                  ${data.table.map((row) => rowHtml(row, settings)).join('')}
+                <div class="soccer-meta-stack">
+                  <p class="soccer-badge"><span class="soccer-badge-dot"></span>${text(t('focus'))}: ${text(focusLabel)}</p>
+                  <p class="soccer-meta">${text(sourceLabel)} / ${text(t('updated'))}: ${text(formatDate(data.updatedAt))}</p>
+                  ${warnings.length ? `<p class="soccer-warning">${text(warnings.join(' / '))}</p>` : ''}
                 </div>
               </section>
 
-              <aside class="soccer-note${noteHtml ? '' : ' is-empty'}">
-                <p class="soccer-note-title">${text(t('markdownTitle'))}</p>
-                <div class="soccer-markdown pp-fit-copy">${noteHtml || `<p>${text(data.focused?.team?.name || data.competition?.name || '')}</p>`}</div>
-              </aside>
-            </section>
-          `;
+              <section class="soccer-layout">
+                <section class="soccer-table-wrap">
+                  <div class="soccer-table-headline">
+                    <p class="soccer-focus">${text(data.table.length)} / ${text(data.fullTableSize || data.table.length)} ${text(t('teams'))}</p>
+                    <p class="soccer-source">${text(data.competition?.code || settings.competition)}</p>
+                  </div>
+                  <div class="soccer-table">
+                    ${tableHeaderHtml()}
+                    ${data.table.map((row) => rowHtml(row, settings)).join('')}
+                  </div>
+                </section>
 
-          await document.fonts?.ready;
-          fitHyphenatedText(app.querySelector('.soccer-title'), {
-            min: 24,
-            max: 58,
-            step: 2,
-            lineBreak: 'balance',
-          });
-          fitToScreen(app);
-          markReady({ competition: data.competition?.code || settings.competition, source: data.source });
-        } catch (error) {
-          markError(error);
-          app.innerHTML = `
-            <section>
-              <h1 class="pp-title pp-error">${text(t('errorTitle'))}</h1>
-              <p>${text(error instanceof Error ? error.message : error)}</p>
-            </section>
-          `;
+                <aside class="soccer-note${noteHtml ? '' : ' is-empty'}">
+                  <p class="soccer-note-title">${text(t('markdownTitle'))}</p>
+                  <div class="soccer-markdown pp-fit-copy">${noteHtml || `<p>${text(data.focused?.team?.name || data.competition?.name || '')}</p>`}</div>
+                </aside>
+              </section>
+            `;
+
+            await document.fonts?.ready;
+            fitHyphenatedText(app.querySelector('.soccer-title'), {
+              min: 24,
+              max: 58,
+              step: 2,
+              lineBreak: 'balance',
+            });
+            fitToScreen(app);
+            markReady({ competition: data.competition?.code || settings.competition, source: data.source });
+          } catch (error) {
+            markError(error);
+            app.innerHTML = `
+              <section>
+                <h1 class="pp-title pp-error">${text(t('errorTitle'))}</h1>
+                <p>${text(error instanceof Error ? error.message : error)}</p>
+              </section>
+            `;
+          }
         }
+
+        const payload = await waitForPayload({ timeoutMs: 500, onUpdate: renderPayload });
+        await renderPayload(payload);
       })();
     </script>
   </body>

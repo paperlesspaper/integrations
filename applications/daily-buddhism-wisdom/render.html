@@ -260,6 +260,7 @@
           escapeHtml,
           fitHyphenatedText,
           fitToScreen,
+          markLoading,
           markReady,
           markError,
         } = window.PaperlessOpenIntegration;
@@ -389,73 +390,78 @@
           body.style.setProperty("--wisdom-align", textAlign);
         }
 
-        try {
-          const payload = await waitForPayload({ timeout: 300 });
-          await loadMessages(payload);
-          const settings = mergeSettings(
-            defaults,
-            getSettings(payload),
-            getQuerySettings(),
-          );
-          applyColorTheme(settings.color, { defaultTheme: defaults.color });
-          applyDisplaySettings(settings);
+        async function renderPayload(payload) {
+          try {
+            markLoading?.();
+            await loadMessages(payload);
+            const settings = mergeSettings(
+              defaults,
+              getSettings(payload),
+              getQuerySettings(),
+            );
+            applyColorTheme(settings.color, { defaultTheme: defaults.color });
+            applyDisplaySettings(settings);
 
-          const params = new URLSearchParams();
-          Object.entries(settings).forEach(([key, value]) => {
-            if (value !== undefined && value !== null) {
-              params.set(key, String(value));
-            }
-          });
-          params.set("language", currentLanguage);
-
-          const response = await fetch(`./api/data?${params.toString()}`, {
-            cache: "no-store",
-          });
-
-          if (!response.ok) {
-            throw new Error(t("apiFailed", { status: response.status }));
-          }
-
-          const data = await response.json();
-          const screen = document.getElementById("screen");
-          const wisdom = document.getElementById("wisdom");
-          const hiddenMessage = document.getElementById("hidden-message");
-          const showPage = asBoolean(settings.showPage);
-          const showDay = asBoolean(settings.showDay);
-          const showAttribution = asBoolean(settings.showAttribution);
-
-          document.getElementById("entry-title").textContent = data.title;
-          document.getElementById("day").textContent = t("day", {
-            day: data.dayOfYear,
-          });
-          document.getElementById("day").hidden = !showDay;
-          document.getElementById("attribution").textContent = data.attribution;
-          document.getElementById("footer").hidden = !showAttribution;
-
-          screen.classList.toggle("is-hidden", !showPage);
-          wisdom.hidden = !showPage;
-          hiddenMessage.hidden = showPage;
-
-          if (showPage) {
-            wisdom.innerHTML = escapeHtml(data.text);
-            fitHyphenatedText(wisdom, {
-              min: 22,
-              max: 180,
-              step: 2,
-              tolerance: 18,
-              lineBreak: "balance",
-              fitParent: document.getElementById("panel"),
+            const params = new URLSearchParams();
+            Object.entries(settings).forEach(([key, value]) => {
+              if (value !== undefined && value !== null) {
+                params.set(key, String(value));
+              }
             });
-          }
+            params.set("language", currentLanguage);
 
-          fitToScreen();
-          markReady({
-            dayOfYear: data.dayOfYear,
-          });
-        } catch (error) {
-          markError(error);
-          document.body.innerHTML = `<main class="pp-screen"><h1 class="pp-title pp-error">${escapeHtml(t("errorTitle"))}</h1><p>${escapeHtml(error.message)}</p></main>`;
+            const response = await fetch(`./api/data?${params.toString()}`, {
+              cache: "no-store",
+            });
+
+            if (!response.ok) {
+              throw new Error(t("apiFailed", { status: response.status }));
+            }
+
+            const data = await response.json();
+            const screen = document.getElementById("screen");
+            const wisdom = document.getElementById("wisdom");
+            const hiddenMessage = document.getElementById("hidden-message");
+            const showPage = asBoolean(settings.showPage);
+            const showDay = asBoolean(settings.showDay);
+            const showAttribution = asBoolean(settings.showAttribution);
+
+            document.getElementById("entry-title").textContent = data.title;
+            document.getElementById("day").textContent = t("day", {
+              day: data.dayOfYear,
+            });
+            document.getElementById("day").hidden = !showDay;
+            document.getElementById("attribution").textContent = data.attribution;
+            document.getElementById("footer").hidden = !showAttribution;
+
+            screen.classList.toggle("is-hidden", !showPage);
+            wisdom.hidden = !showPage;
+            hiddenMessage.hidden = showPage;
+
+            if (showPage) {
+              wisdom.innerHTML = escapeHtml(data.text);
+              fitHyphenatedText(wisdom, {
+                min: 22,
+                max: 180,
+                step: 2,
+                tolerance: 18,
+                lineBreak: "balance",
+                fitParent: document.getElementById("panel"),
+              });
+            }
+
+            fitToScreen();
+            markReady({
+              dayOfYear: data.dayOfYear,
+            });
+          } catch (error) {
+            markError(error);
+            document.body.innerHTML = `<main class="pp-screen"><h1 class="pp-title pp-error">${escapeHtml(t("errorTitle"))}</h1><p>${escapeHtml(error.message)}</p></main>`;
+          }
         }
+
+        const payload = await waitForPayload({ timeout: 300, onUpdate: renderPayload });
+        await renderPayload(payload);
       })();
     </script>
   </body>

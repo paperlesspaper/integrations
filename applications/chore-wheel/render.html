@@ -393,6 +393,7 @@
           fitHyphenatedText,
           fitToScreen,
           escapeHtml,
+          markLoading,
           markReady,
           markError,
         } = window.PaperlessOpenIntegration;
@@ -548,80 +549,87 @@
 
         let messages = fallbackMessages;
 
-        try {
-          const payload = await waitForPayload({ timeout: 300 });
-          const settings = mergeSettings(defaults, getSettings(payload), getQuerySettings());
-          const languageResult = await loadLanguageJson(payload).catch(() => ({
-            language: "en",
-            messages: {},
-          }));
-          messages = {
-            ...fallbackMessages,
-            ...(languageResult.messages || {}),
-          };
-          document.documentElement.lang = languageResult.language || "en";
+        async function renderPayload(payload) {
+          try {
+            markLoading?.();
+            const settings = mergeSettings(defaults, getSettings(payload), getQuerySettings());
+            const languageResult = await loadLanguageJson(payload).catch(() => ({
+              language: "en",
+              messages: {},
+            }));
+            messages = {
+              ...fallbackMessages,
+              ...(languageResult.messages || {}),
+            };
+            document.documentElement.lang = languageResult.language || "en";
 
-          applyColorTheme(settings.color, { defaultTheme: defaults.color });
-          applyPalette(settings.palette);
+            applyColorTheme(settings.color, { defaultTheme: defaults.color });
+            applyPalette(settings.palette);
 
-          const rotation = settings.rotation === "daily" ? "daily" : "weekly";
-          const members = parseList(settings.members);
-          const choreInput =
-            settings.chores === defaults.chores
-              ? messages.defaultChores || defaults.chores
-              : settings.chores;
-          const chores = parseList(choreInput);
-          const seed = String(settings.seed || defaults.seed).trim();
-          const now = new Date();
-          const period = getPeriod(now, rotation);
-          const nextDate = getNextDate(now, rotation);
-          const showNext = isTrue(settings.showNext);
+            const rotation = settings.rotation === "daily" ? "daily" : "weekly";
+            const members = parseList(settings.members);
+            const choreInput =
+              settings.chores === defaults.chores
+                ? messages.defaultChores || defaults.chores
+                : settings.chores;
+            const chores = parseList(choreInput);
+            const seed = String(settings.seed || defaults.seed).trim();
+            const now = new Date();
+            const period = getPeriod(now, rotation);
+            const nextDate = getNextDate(now, rotation);
+            const showNext = isTrue(settings.showNext);
 
-          const configuredTitle = String(settings.title || "").trim();
-          document.getElementById("title").textContent =
-            !configuredTitle || configuredTitle === defaults.title
-              ? messages.title || defaults.title
-              : configuredTitle;
-          document.getElementById("assignmentsTitle").textContent = messages.assignmentsTitle;
-          document.getElementById("periodLabel").textContent =
-            rotation === "daily" ? messages.todayLabel : messages.thisWeekLabel;
-          document.getElementById("periodValue").textContent = period.label;
-          document.getElementById("wheelCenter").textContent = String(members.length || 0);
+            const configuredTitle = String(settings.title || "").trim();
+            document.getElementById("title").textContent =
+              !configuredTitle || configuredTitle === defaults.title
+                ? messages.title || defaults.title
+                : configuredTitle;
+            document.getElementById("assignmentsTitle").textContent = messages.assignmentsTitle;
+            document.getElementById("periodLabel").textContent =
+              rotation === "daily" ? messages.todayLabel : messages.thisWeekLabel;
+            document.getElementById("periodValue").textContent = period.label;
+            document.getElementById("wheelCenter").textContent = String(members.length || 0);
 
-          const assignmentList = document.getElementById("assignments");
-          const emptyState = document.getElementById("emptyState");
-          if (!members.length || !chores.length) {
-            assignmentList.classList.add("is-hidden");
-            emptyState.classList.remove("is-hidden");
-            emptyState.textContent = members.length ? messages.emptyChores : messages.emptyMembers;
-          } else {
-            const assignments = buildAssignments(members, chores, rotation, seed, now);
-            const nextAssignments = buildAssignments(members, chores, rotation, seed, nextDate);
-            assignmentList.innerHTML = renderAssignments(
-              assignments,
-              nextAssignments,
-              showNext,
-              messages,
-              rotation,
-            );
-          }
+            const assignmentList = document.getElementById("assignments");
+            const emptyState = document.getElementById("emptyState");
+            if (!members.length || !chores.length) {
+              assignmentList.classList.add("is-hidden");
+              emptyState.classList.remove("is-hidden");
+              emptyState.textContent = members.length ? messages.emptyChores : messages.emptyMembers;
+            } else {
+              assignmentList.classList.remove("is-hidden");
+              emptyState.classList.add("is-hidden");
+              const assignments = buildAssignments(members, chores, rotation, seed, now);
+              const nextAssignments = buildAssignments(members, chores, rotation, seed, nextDate);
+              assignmentList.innerHTML = renderAssignments(
+                assignments,
+                nextAssignments,
+                showNext,
+                messages,
+                rotation,
+              );
+            }
 
-          await document.fonts?.ready;
-          document.querySelectorAll(".chore-name, .member-name, .next-name").forEach((element) => {
-            fitHyphenatedText(element, {
-              min: 10,
-              max: 28,
-              step: 1,
-              tolerance: 6,
-              fitParent: element,
+            await document.fonts?.ready;
+            document.querySelectorAll(".chore-name, .member-name, .next-name").forEach((element) => {
+              fitHyphenatedText(element, {
+                min: 10,
+                max: 28,
+                step: 1,
+                tolerance: 6,
+                fitParent: element,
+              });
             });
-          });
-          fitToScreen(document.getElementById("screen"));
-          markReady({ rotation, period: period.key });
-        } catch (error) {
-          markError(error);
-          document.body.innerHTML = `<main class="pp-screen"><h1 class="pp-title pp-error">${escapeHtml(messages.errorTitle)}</h1><p>${escapeHtml(error.message)}</p></main>`;
+            fitToScreen(document.getElementById("screen"));
+            markReady({ rotation, period: period.key });
+          } catch (error) {
+            markError(error);
+            document.body.innerHTML = `<main class="pp-screen"><h1 class="pp-title pp-error">${escapeHtml(messages.errorTitle)}</h1><p>${escapeHtml(error.message)}</p></main>`;
+          }
         }
+
+        const payload = await waitForPayload({ timeout: 300, onUpdate: renderPayload });
+        await renderPayload(payload);
       })();
     </script>
   </body>

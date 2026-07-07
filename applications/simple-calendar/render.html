@@ -337,6 +337,7 @@
           escapeHtml,
           fitText,
           fitToScreen,
+          markLoading,
           markReady,
           markError,
         } = window.PaperlessOpenIntegration;
@@ -433,13 +434,22 @@
           return classes.join(" ");
         }
 
-        try {
-          const payload = await waitForPayload({ timeout: 300 });
+        async function renderPayload(payload) {
+          try {
+            markLoading?.();
           await loadMessages(payload);
           const settings = mergeSettings(defaults, getSettings(payload), getQuerySettings());
           applyColorTheme(settings.color, { defaultTheme: defaults.color });
 
           const app = document.getElementById("app");
+          app.classList.remove(
+            "font-system",
+            "font-serif",
+            "font-mono",
+            "density-regular",
+            "density-compact",
+            "density-large",
+          );
           app.classList.add(`font-${settings.fontFamily || defaults.fontFamily}`);
           app.classList.add(`density-${settings.density || defaults.density}`);
 
@@ -496,10 +506,14 @@
           });
           fitToScreen();
           markReady({ month: data.title });
-        } catch (error) {
-          markError(error);
-          document.body.innerHTML = `<main class="pp-screen"><h1 class="pp-title pp-error">${escapeHtml(t("errorTitle"))}</h1><p>${escapeHtml(error.message)}</p></main>`;
+          } catch (error) {
+            markError(error);
+            document.body.innerHTML = `<main class="pp-screen"><h1 class="pp-title pp-error">${escapeHtml(t("errorTitle"))}</h1><p>${escapeHtml(error.message)}</p></main>`;
+          }
         }
+
+        const payload = await waitForPayload({ timeout: 300, onUpdate: renderPayload });
+        await renderPayload(payload);
       })();
     </script>
   </body>

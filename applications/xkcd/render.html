@@ -89,6 +89,7 @@
           escapeHtml,
           fitHyphenatedText,
           fitToScreen,
+          markLoading,
           markReady,
           markError,
         } = window.PaperlessOpenIntegration;
@@ -158,9 +159,10 @@
           return result;
         }
 
+        async function renderPayload(payload) {
         try {
+          markLoading();
           const defaults = { kind: 'latest', difference: 0 };
-          const payload = await waitForPayload({ timeout: 300 });
           await loadMessages(payload);
           const settings = mergeSettings(defaults, getSettings(payload), getQuerySettings());
           const params = new URLSearchParams(settings);
@@ -195,6 +197,10 @@
           markError(error);
           document.body.innerHTML = `<main class="pp-screen"><h1 class="pp-title pp-error">${escapeHtml(t("errorTitle"))}</h1><p>${error.message}</p></main>`;
         }
+        }
+
+        const payload = await waitForPayload({ timeout: 300, onUpdate: renderPayload });
+        await renderPayload(payload);
       })();
     </script>
   </body>

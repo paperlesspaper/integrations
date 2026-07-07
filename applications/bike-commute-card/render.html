@@ -285,6 +285,7 @@
           escapeHtml,
           fitAllText,
           fitToScreen,
+          markLoading,
           markReady,
           markError
         } = window.PaperlessOpenIntegration;
@@ -383,73 +384,74 @@
           });
         }
 
-        try {
-          const defaults = {
-            color: "light",
-            title: "Bike Commute",
-            routeName: "Home to Work",
-            city: "Berlin",
-            latitude: 52.52,
-            longitude: 13.405,
-            commuteStart: "07:30",
-            commuteDurationMinutes: 45,
-            rainProbabilityThreshold: 35,
-            windCautionKmh: 28,
-            windStrongKmh: 40,
-            aqiCaution: 40,
-            aqiHigh: 60,
-            routeStatus: "clear",
-            routeNote: "",
-            showSource: true
-          };
-          const payload = await waitForPayload({ timeoutMs: 500, timeout: 500 });
-          const languageResult = await loadLanguageJson(payload).catch(() => ({
-            language: "en",
-            messages: defaultMessages
-          }));
-          messages = { ...defaultMessages, ...languageResult.messages };
-          currentLanguage = languageResult.language || "en";
-          document.documentElement.lang = currentLanguage;
+        async function renderPayload(payload) {
+          try {
+            markLoading?.();
+            const defaults = {
+              color: "light",
+              title: "Bike Commute",
+              routeName: "Home to Work",
+              city: "Berlin",
+              latitude: 52.52,
+              longitude: 13.405,
+              commuteStart: "07:30",
+              commuteDurationMinutes: 45,
+              rainProbabilityThreshold: 35,
+              windCautionKmh: 28,
+              windStrongKmh: 40,
+              aqiCaution: 40,
+              aqiHigh: 60,
+              routeStatus: "clear",
+              routeNote: "",
+              showSource: true
+            };
+            const languageResult = await loadLanguageJson(payload).catch(() => ({
+              language: "en",
+              messages: defaultMessages
+            }));
+            messages = { ...defaultMessages, ...languageResult.messages };
+            currentLanguage = languageResult.language || "en";
+            document.documentElement.lang = currentLanguage;
 
-          const settings = mergeSettings(
-            defaults,
-            getSettings(payload),
-            getQuerySettings()
-          );
-          applyColorTheme(settings.color, { defaultTheme: defaults.color });
+            const settings = mergeSettings(
+              defaults,
+              getSettings(payload),
+              getQuerySettings()
+            );
+            applyColorTheme(settings.color, { defaultTheme: defaults.color });
 
-          const params = new URLSearchParams();
-          Object.entries(settings).forEach(([key, value]) => {
-            if (value !== undefined && value !== null) {
-              params.set(key, String(value));
+            const params = new URLSearchParams();
+            Object.entries(settings).forEach(([key, value]) => {
+              if (value !== undefined && value !== null) {
+                params.set(key, String(value));
+              }
+            });
+
+            const response = await fetch(`./api/data?${params.toString()}`, {
+              cache: "no-store"
+            });
+            if (!response.ok) {
+              throw new Error(t("apiFailed", { status: response.status }));
             }
-          });
 
-          const response = await fetch(`./api/data?${params.toString()}`, {
-            cache: "no-store"
-          });
-          if (!response.ok) {
-            throw new Error(t("apiFailed", { status: response.status }));
-          }
+            const data = await response.json();
+            const forecast = data.forecast || {};
+            const commute = forecast.commute || {};
+            const rainWindow = forecast.rainWindow;
+            const air = data.airQuality || {};
+            const routeStatus = data.routeStatus || "clear";
+            const score = data.score || "watch";
+            const rainHeadline = rainWindow
+              ? `${escapeHtml(rainWindow.start)} ${escapeHtml(t("until"))} ${escapeHtml(rainWindow.end)}`
+              : escapeHtml(t("noRain"));
+            const routeNote = data.routeNote
+              ? escapeHtml(data.routeNote)
+              : `${escapeHtml(data.city)} - ${escapeHtml(t(routeStatus))}`;
+            const sourceText = data.showSource
+              ? escapeHtml(t("source"))
+              : "";
 
-          const data = await response.json();
-          const forecast = data.forecast || {};
-          const commute = forecast.commute || {};
-          const rainWindow = forecast.rainWindow;
-          const air = data.airQuality || {};
-          const routeStatus = data.routeStatus || "clear";
-          const score = data.score || "watch";
-          const rainHeadline = rainWindow
-            ? `${escapeHtml(rainWindow.start)} ${escapeHtml(t("until"))} ${escapeHtml(rainWindow.end)}`
-            : escapeHtml(t("noRain"));
-          const routeNote = data.routeNote
-            ? escapeHtml(data.routeNote)
-            : `${escapeHtml(data.city)} - ${escapeHtml(t(routeStatus))}`;
-          const sourceText = data.showSource
-            ? escapeHtml(t("source"))
-            : "";
-
-          document.getElementById("app").innerHTML = `
+            document.getElementById("app").innerHTML = `
             <header class="bike-header">
               <div>
                 <p class="eyebrow">${escapeHtml(data.title || t("title"))} / ${escapeHtml(data.city)}</p>
@@ -502,20 +504,24 @@
             </footer>
           `;
 
-          await document.fonts?.ready;
-          fitAllText(".pp-fit", { min: 24, max: 72, step: 2 });
-          fitToScreen(document.getElementById("app"));
-          markReady({ score });
-        } catch (error) {
-          markError(error);
-          document.getElementById("app").innerHTML = `
+            await document.fonts?.ready;
+            fitAllText(".pp-fit", { min: 24, max: 72, step: 2 });
+            fitToScreen(document.getElementById("app"));
+            markReady({ score });
+          } catch (error) {
+            markError(error);
+            document.getElementById("app").innerHTML = `
             <section class="rain-card">
               <p class="metric-label">${escapeHtml(t("title"))}</p>
               <h1 class="title">${escapeHtml(t("unavailable"))}</h1>
               <p class="rain-detail">${escapeHtml(error.message || String(error))}</p>
             </section>
           `;
+          }
         }
+
+        const payload = await waitForPayload({ timeoutMs: 500, timeout: 500, onUpdate: renderPayload });
+        await renderPayload(payload);
       })();
     </script>
   </body>

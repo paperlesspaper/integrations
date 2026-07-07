@@ -278,6 +278,7 @@
           escapeHtml,
           fitAllText,
           fitToScreen,
+          markLoading,
           markReady,
           markError,
         } = window.PaperlessOpenIntegration;
@@ -525,57 +526,65 @@
           `;
         }
 
-        try {
-          const payload = await waitForPayload({ timeout: 300 });
-          await loadMessages(payload);
-          const settings = mergeSettings(defaults, getSettings(payload), getQuerySettings());
-          applyColorTheme(settings.color, { defaultTheme: defaults.color });
+        async function renderPayload(payload) {
+          try {
+            if (typeof markLoading === "function") {
+              markLoading();
+            }
+            await loadMessages(payload);
+            const settings = mergeSettings(defaults, getSettings(payload), getQuerySettings());
+            applyColorTheme(settings.color, { defaultTheme: defaults.color });
 
-          const params = new URLSearchParams(settings);
-          const response = await fetch(`./api/data?${params.toString()}`, { cache: "no-store" });
-          if (!response.ok) {
-            throw new Error(t("apiFailed", { status: response.status }));
+            const params = new URLSearchParams(settings);
+            const response = await fetch(`./api/data?${params.toString()}`, { cache: "no-store" });
+            if (!response.ok) {
+              throw new Error(t("apiFailed", { status: response.status }));
+            }
+
+            const data = await response.json();
+            const feed = document.getElementById("feed");
+            const items = Array.isArray(data.items) ? data.items : [];
+            const singleMode = settings.displayMode === "single";
+            const postIndex = Math.max(0, number(settings.postIndex, 0)) % Math.max(items.length, 1);
+            const renderedItems = singleMode ? items.slice(postIndex, postIndex + 1) : items;
+
+            document.getElementById("title").innerHTML = escapeHtml(feedTitle(settings));
+            document.getElementById("feed-label").textContent = feedLabel(data);
+            feed.className = "mastodon-list";
+            feed.style.removeProperty("--post-count");
+
+            if (!renderedItems.length) {
+              feed.className = "pp-card mastodon-empty";
+              feed.innerHTML = `<h2 class="pp-title">${escapeHtml(t("noPosts"))}</h2><p class="pp-subtitle">${escapeHtml(t("noPostsHint"))}</p>`;
+            } else {
+              feed.style.setProperty("--post-count", String(renderedItems.length));
+              feed.classList.toggle("mastodon-single", singleMode);
+              feed.innerHTML = renderedItems.map((item) => postTemplate(item, settings)).join("");
+            }
+
+            document.getElementById("updated").textContent =
+              `${t("updated")} ${new Date(data.updatedAt).toLocaleString(currentLanguage || undefined)}`;
+
+            await document.fonts?.ready;
+            await Promise.all(
+              [...document.images].map((image) => image.complete
+                ? Promise.resolve()
+                : new Promise((resolve) => {
+                    image.addEventListener("load", resolve, { once: true });
+                    image.addEventListener("error", resolve, { once: true });
+                  })),
+            );
+            fitAllText(".pp-fit-title", { min: 26, max: 80, step: 2 });
+            fitToScreen();
+            markReady({ posts: items.length, feedType: data.feedType });
+          } catch (error) {
+            markError(error);
+            document.body.innerHTML = `<main class="pp-screen"><h1 class="pp-title pp-error">${escapeHtml(t("errorTitle"))}</h1><p>${escapeHtml(error.message)}</p></main>`;
           }
-
-          const data = await response.json();
-          const app = document.getElementById("app");
-          const feed = document.getElementById("feed");
-          const items = Array.isArray(data.items) ? data.items : [];
-          const singleMode = settings.displayMode === "single";
-          const postIndex = Math.max(0, number(settings.postIndex, 0)) % Math.max(items.length, 1);
-          const renderedItems = singleMode ? items.slice(postIndex, postIndex + 1) : items;
-
-          document.getElementById("title").innerHTML = escapeHtml(feedTitle(settings));
-          document.getElementById("feed-label").textContent = feedLabel(data);
-
-          if (!renderedItems.length) {
-            feed.className = "pp-card mastodon-empty";
-            feed.innerHTML = `<h2 class="pp-title">${escapeHtml(t("noPosts"))}</h2><p class="pp-subtitle">${escapeHtml(t("noPostsHint"))}</p>`;
-          } else {
-            feed.style.setProperty("--post-count", String(renderedItems.length));
-            feed.classList.toggle("mastodon-single", singleMode);
-            feed.innerHTML = renderedItems.map((item) => postTemplate(item, settings)).join("");
-          }
-
-          document.getElementById("updated").textContent =
-            `${t("updated")} ${new Date(data.updatedAt).toLocaleString(currentLanguage || undefined)}`;
-
-          await document.fonts?.ready;
-          await Promise.all(
-            [...document.images].map((image) => image.complete
-              ? Promise.resolve()
-              : new Promise((resolve) => {
-                  image.addEventListener("load", resolve, { once: true });
-                  image.addEventListener("error", resolve, { once: true });
-                })),
-          );
-          fitAllText(".pp-fit-title", { min: 26, max: 80, step: 2 });
-          fitToScreen();
-          markReady({ posts: items.length, feedType: data.feedType });
-        } catch (error) {
-          markError(error);
-          document.body.innerHTML = `<main class="pp-screen"><h1 class="pp-title pp-error">${escapeHtml(t("errorTitle"))}</h1><p>${escapeHtml(error.message)}</p></main>`;
         }
+
+        const payload = await waitForPayload({ timeout: 300, onUpdate: renderPayload });
+        await renderPayload(payload);
       })();
     </script>
   </body>

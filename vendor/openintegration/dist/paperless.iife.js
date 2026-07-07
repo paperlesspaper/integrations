@@ -738,12 +738,38 @@ var PaperlessOpenIntegration = (() => {
   }
 
   // src/resize.ts
-  function fitToScreen(element, options = {}) {
-    const { padding = 0, maxScale = 1 } = options;
-    const target = element ?? globalThis.document?.body;
-    if (typeof window === "undefined" || !target) {
-      return 1;
+  var fitToScreenStates = /* @__PURE__ */ new WeakMap();
+  var fitImageStates = /* @__PURE__ */ new WeakMap();
+  function getTarget(element) {
+    return element ?? globalThis.document?.body;
+  }
+  function requestFrame(callback) {
+    if (typeof window.requestAnimationFrame === "function") {
+      return window.requestAnimationFrame(callback);
     }
+    return window.setTimeout(() => callback(window.performance.now()), 0);
+  }
+  function onScreenResize(callback) {
+    window.addEventListener("resize", callback);
+    window.addEventListener("orientationchange", callback);
+    window.visualViewport?.addEventListener("resize", callback);
+    return () => {
+      window.removeEventListener("resize", callback);
+      window.removeEventListener("orientationchange", callback);
+      window.visualViewport?.removeEventListener("resize", callback);
+    };
+  }
+  function scheduleFrame(state) {
+    if (state.frame) {
+      return;
+    }
+    state.frame = requestFrame(() => {
+      state.frame = 0;
+      state.update();
+    });
+  }
+  function applyFitToScreen(target, options) {
+    const { padding = 0, maxScale = 1 } = options;
     target.style.transform = "";
     target.style.transformOrigin = "top left";
     const rect = target.getBoundingClientRect();
@@ -758,10 +784,64 @@ var PaperlessOpenIntegration = (() => {
     target.style.transform = `scale(${scale})`;
     return scale;
   }
-  function fitImage(image, mode = "contain") {
+  function observeFitToScreen(target, options) {
+    const state = {
+      frame: 0,
+      options,
+      update: () => {
+        if (!target.isConnected && target !== globalThis.document?.body) {
+          state.removeListeners();
+          fitToScreenStates.delete(target);
+          return;
+        }
+        applyFitToScreen(target, state.options);
+      },
+      removeListeners: () => void 0
+    };
+    const schedule = () => scheduleFrame(state);
+    state.removeListeners = onScreenResize(schedule);
+    fitToScreenStates.set(target, state);
+    return state;
+  }
+  function fitToScreen(element, options = {}) {
+    const target = getTarget(element);
+    if (typeof window === "undefined" || !target) {
+      return 1;
+    }
+    const state = fitToScreenStates.get(target) ?? observeFitToScreen(target, options);
+    state.options = options;
+    return applyFitToScreen(target, options);
+  }
+  function applyFitImage(image, mode) {
     image.style.width = "100%";
     image.style.height = "100%";
     image.style.objectFit = mode;
+  }
+  function observeFitImage(image, mode) {
+    const state = {
+      frame: 0,
+      mode,
+      update: () => {
+        if (!image.isConnected) {
+          state.removeListeners();
+          fitImageStates.delete(image);
+          return;
+        }
+        applyFitImage(image, state.mode);
+      },
+      removeListeners: () => void 0
+    };
+    const schedule = () => scheduleFrame(state);
+    state.removeListeners = onScreenResize(schedule);
+    fitImageStates.set(image, state);
+    return state;
+  }
+  function fitImage(image, mode = "contain") {
+    if (typeof window !== "undefined") {
+      const state = fitImageStates.get(image) ?? observeFitImage(image, mode);
+      state.mode = mode;
+    }
+    applyFitImage(image, mode);
   }
 
   // src/overflow.ts

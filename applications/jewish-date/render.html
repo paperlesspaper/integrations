@@ -408,6 +408,7 @@
           fitHyphenatedText,
           fitAllText,
           fitToScreen,
+          markLoading,
           markReady,
           markError,
           loadLanguageJson,
@@ -640,157 +641,165 @@
           return `<span class="label-pill">${escapeHtml(text)}</span>`;
         }
 
-        try {
-          const defaults = {
-            color: "light",
-            title: "Jewish Date",
-            date: "",
-            displayStyle: "both",
-            afterSunset: false,
-            showGregorian: true,
-            showWeekday: true,
-            showDetails: true,
-          };
-          const payload = await waitForPayload({ timeoutMs: 500 });
-          await loadMessages(payload);
-          const settings = mergeSettings(
-            defaults,
-            getSettings(payload),
-            getQuerySettings(),
-          );
-          if (typeof applyColorTheme === "function") {
-            applyColorTheme(settings.color, { defaultTheme: defaults.color });
-          }
+        async function renderPayload(payload) {
+          try {
+            if (typeof markLoading === "function") {
+              markLoading();
+            }
+            const defaults = {
+              color: "light",
+              title: "Jewish Date",
+              date: "",
+              displayStyle: "both",
+              afterSunset: false,
+              showGregorian: true,
+              showWeekday: true,
+              showDetails: true,
+            };
+            await loadMessages(payload);
+            const settings = mergeSettings(
+              defaults,
+              getSettings(payload),
+              getQuerySettings(),
+            );
+            if (typeof applyColorTheme === "function") {
+              applyColorTheme(settings.color, { defaultTheme: defaults.color });
+            }
 
-          const requestedDate = parseDateInput(settings.date);
-          const effectiveDate = settings.afterSunset
-            ? addDays(requestedDate, 1)
-            : requestedDate;
-          const parts = hebrewParts(effectiveDate);
-          const displayStyle = String(settings.displayStyle || "both");
-          const transliteratedText = transliteratedDateText(effectiveDate);
-          const hebrewDay = hebrewNumber(parts.day);
-          const hebrewYear = hebrewNumber(parts.year);
-          const hebrewMonth = hebrewMonthText(effectiveDate);
-          const hebrewText = `${hebrewDay} ב${hebrewMonth} ${hebrewYear}`;
+            const requestedDate = parseDateInput(settings.date);
+            const effectiveDate = settings.afterSunset
+              ? addDays(requestedDate, 1)
+              : requestedDate;
+            const parts = hebrewParts(effectiveDate);
+            const displayStyle = String(settings.displayStyle || "both");
+            const transliteratedText = transliteratedDateText(effectiveDate);
+            const hebrewDay = hebrewNumber(parts.day);
+            const hebrewYear = hebrewNumber(parts.year);
+            const hebrewMonth = hebrewMonthText(effectiveDate);
+            const hebrewText = `${hebrewDay} ב${hebrewMonth} ${hebrewYear}`;
 
-          const title = String(settings.title || "").trim() || t("defaultTitle");
-          document.getElementById("title").textContent = title;
-          document.getElementById("mode-label").textContent =
-            displayStyle === "transliterated"
-              ? t("transliterationLabel")
-              : t("hebrewLabel");
+            const title = String(settings.title || "").trim() || t("defaultTitle");
+            document.getElementById("title").textContent = title;
+            document.getElementById("mode-label").textContent =
+              displayStyle === "transliterated"
+                ? t("transliterationLabel")
+                : t("hebrewLabel");
 
-          const primaryElement = document.getElementById("primary-date");
-          const secondaryElement = document.getElementById("secondary-date");
+            const primaryElement = document.getElementById("primary-date");
+            const secondaryElement = document.getElementById("secondary-date");
+            secondaryElement.classList.remove("is-hidden");
 
-          if (displayStyle === "transliterated") {
-            primaryElement.textContent = transliteratedText;
-            primaryElement.dir = "ltr";
-            secondaryElement.classList.add("is-hidden");
-          } else {
-            primaryElement.textContent = hebrewText;
-            primaryElement.dir = "rtl";
-            if (displayStyle === "hebrew") {
+            if (displayStyle === "transliterated") {
+              primaryElement.textContent = transliteratedText;
+              primaryElement.dir = "ltr";
               secondaryElement.classList.add("is-hidden");
             } else {
-              secondaryElement.textContent = transliteratedText;
+              primaryElement.textContent = hebrewText;
+              primaryElement.dir = "rtl";
+              if (displayStyle === "hebrew") {
+                secondaryElement.classList.add("is-hidden");
+              } else {
+                secondaryElement.textContent = transliteratedText;
+              }
             }
-          }
 
-          const labels = [label(t("hebrewLabel"))];
-          if (displayStyle !== "hebrew") {
-            labels.push(label(t("transliterationLabel")));
-          }
-          document.getElementById("date-labels").innerHTML = labels.join("");
+            const labels = [label(t("hebrewLabel"))];
+            if (displayStyle !== "hebrew") {
+              labels.push(label(t("transliterationLabel")));
+            }
+            document.getElementById("date-labels").innerHTML = labels.join("");
 
-          document.getElementById("calendar-day").textContent = hebrewDay;
-          document.getElementById("calendar-month").textContent = hebrewMonth;
-          document.getElementById("calendar-year").textContent = hebrewYear;
+            document.getElementById("calendar-day").textContent = hebrewDay;
+            document.getElementById("calendar-month").textContent = hebrewMonth;
+            document.getElementById("calendar-year").textContent = hebrewYear;
 
-          const details = [];
-          if (settings.showGregorian !== false) {
-            details.push(
-              detail(t("gregorianLabel"), formatGregorian(requestedDate, currentLanguage)),
-            );
-          }
-          if (settings.showWeekday !== false) {
-            details.push(
-              detail(
-                t("weekdayLabel"),
-                formatGregorianWeekday(requestedDate, currentLanguage),
-              ),
-            );
-          }
-          if (settings.showDetails !== false) {
-            details.push(detail(t("dayLabel"), hebrewDay));
-            details.push(
-              detail(t("monthYearLabel"), `${hebrewMonth} ${hebrewYear}`),
-            );
-            details.push(detail(t("noteLabel"), dayNote(parts)));
-            details.push(
-              detail(
-                t("afterSunsetLabel"),
-                settings.afterSunset ? t("afterSunsetOn") : t("afterSunsetOff"),
-              ),
-            );
-          }
-          if (!details.length) {
-            details.push(
-              detail(
-                t("noteLabel"),
-                String(settings.date || "").trim()
-                  ? t("fixedDateNote")
-                  : t("todayNote"),
-              ),
-            );
-          }
-          document.getElementById("details").innerHTML = details.join("");
+            const details = [];
+            if (settings.showGregorian !== false) {
+              details.push(
+                detail(t("gregorianLabel"), formatGregorian(requestedDate, currentLanguage)),
+              );
+            }
+            if (settings.showWeekday !== false) {
+              details.push(
+                detail(
+                  t("weekdayLabel"),
+                  formatGregorianWeekday(requestedDate, currentLanguage),
+                ),
+              );
+            }
+            if (settings.showDetails !== false) {
+              details.push(detail(t("dayLabel"), hebrewDay));
+              details.push(
+                detail(t("monthYearLabel"), `${hebrewMonth} ${hebrewYear}`),
+              );
+              details.push(detail(t("noteLabel"), dayNote(parts)));
+              details.push(
+                detail(
+                  t("afterSunsetLabel"),
+                  settings.afterSunset ? t("afterSunsetOn") : t("afterSunsetOff"),
+                ),
+              );
+            }
+            if (!details.length) {
+              details.push(
+                detail(
+                  t("noteLabel"),
+                  String(settings.date || "").trim()
+                    ? t("fixedDateNote")
+                    : t("todayNote"),
+                ),
+              );
+            }
+            document.getElementById("details").innerHTML = details.join("");
 
-          await document.fonts?.ready;
-          const compactLandscape =
-            window.innerWidth > window.innerHeight && window.innerHeight <= 560;
-          fitHyphenatedText(document.getElementById("title"), {
-            min: 22,
-            max: compactLandscape ? 48 : 64,
-            step: 2,
-            lineBreak: true,
-          });
-          fitHyphenatedText(primaryElement, {
-            min: 30,
-            max: compactLandscape ? 78 : 104,
-            step: 2,
-            lineBreak: true,
-          });
-          fitHyphenatedText(secondaryElement, {
-            min: 12,
-            max: compactLandscape ? 22 : 30,
-            step: 1,
-            lineBreak: true,
-          });
-          fitHyphenatedText(document.getElementById("calendar-month"), {
-            min: 12,
-            max: compactLandscape ? 20 : 28,
-            step: 1,
-            lineBreak: true,
-          });
-          fitAllText(".detail .pp-fit", {
-            min: 8,
-            max: compactLandscape ? 15 : 19,
-            step: 1,
-            tolerance: 4,
-            lineBreak: true,
-          });
-          fitToScreen();
-          markReady({
-            date: isoDate(requestedDate),
-            effectiveDate: isoDate(effectiveDate),
-            hebrewDate: transliteratedText,
-          });
-        } catch (error) {
-          markError(error);
-          document.body.innerHTML = `<main class="pp-screen"><h1 class="pp-title pp-error">${escapeHtml(t("errorTitle"))}</h1><p>${escapeHtml(error.message)}</p></main>`;
+            await document.fonts?.ready;
+            const compactLandscape =
+              window.innerWidth > window.innerHeight && window.innerHeight <= 560;
+            fitHyphenatedText(document.getElementById("title"), {
+              min: 22,
+              max: compactLandscape ? 48 : 64,
+              step: 2,
+              lineBreak: true,
+            });
+            fitHyphenatedText(primaryElement, {
+              min: 30,
+              max: compactLandscape ? 78 : 104,
+              step: 2,
+              lineBreak: true,
+            });
+            fitHyphenatedText(secondaryElement, {
+              min: 12,
+              max: compactLandscape ? 22 : 30,
+              step: 1,
+              lineBreak: true,
+            });
+            fitHyphenatedText(document.getElementById("calendar-month"), {
+              min: 12,
+              max: compactLandscape ? 20 : 28,
+              step: 1,
+              lineBreak: true,
+            });
+            fitAllText(".detail .pp-fit", {
+              min: 8,
+              max: compactLandscape ? 15 : 19,
+              step: 1,
+              tolerance: 4,
+              lineBreak: true,
+            });
+            fitToScreen();
+            markReady({
+              date: isoDate(requestedDate),
+              effectiveDate: isoDate(effectiveDate),
+              hebrewDate: transliteratedText,
+            });
+          } catch (error) {
+            markError(error);
+            document.body.innerHTML = `<main class="pp-screen"><h1 class="pp-title pp-error">${escapeHtml(t("errorTitle"))}</h1><p>${escapeHtml(error.message)}</p></main>`;
+          }
         }
+
+        const payload = await waitForPayload({ timeoutMs: 500, onUpdate: renderPayload });
+        await renderPayload(payload);
       })();
     </script>
   </body>

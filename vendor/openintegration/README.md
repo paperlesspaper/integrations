@@ -156,7 +156,7 @@ Rules that keep generated integrations compatible:
 - If a setting is edited by a custom `settingsPage`, add `"inStettingsPage": true` to that `formSchema.properties.<name>` entry so the CLI preview does not also show it in the generated form.
 - Use `""` for empty string settings instead of `null` when the setting is a text filter.
 - Keep API handlers as default-exported async functions in `api/*.js`. The dev server calls them with `{ query }` and serves the returned value as JSON.
-- In `render.html`, wait for `INIT` with `waitForPayload()`, load copy with `loadLanguageJson(payload)` when localized text is used, merge defaults with `getSettings(payload)` and `getQuerySettings()`, render DOM, optionally set `<meta name="paperless:epd-optimize" content='{"intent":"readable"}' />`, wait for fonts/images if needed, fit content, then call `markReady()`.
+- In `render.html`, put DOM updates in an async `renderPayload(payload)` function. Wait for the first `INIT` with `waitForPayload({ onUpdate: renderPayload })`, load copy with `loadLanguageJson(payload)` when localized text is used, merge defaults with `getSettings(payload)` and `getQuerySettings()`, render DOM, optionally set `<meta name="paperless:epd-optimize" content='{"intent":"readable"}' />`, wait for fonts/images if needed, fit content, then call `markReady()`. The `onUpdate` callback receives later preview `INIT` messages without reloading the iframe.
 - Wrap the render logic in `try/catch` and call `markError(error)` on failure.
 - Escape untrusted strings with `escapeHtml()` before injecting HTML.
 - Add `<div id="website-has-loading-element"></div>` at startup. `markReady()` removes it and adds `#website-has-loaded`.
@@ -169,20 +169,26 @@ Rules that keep generated integrations compatible:
 Minimal render flow for generated pages:
 
 ```js
-const payload = await waitForPayload({ timeoutMs: 500 });
-const { messages } = await loadLanguageJson(payload);
 const defaults = {
   // Add integration-specific defaults here too.
   color: "light"
 };
-const settings = mergeSettings(defaults, getSettings(payload), getQuerySettings());
-applyColorTheme(settings.color, { defaultTheme: defaults.color });
 
-// Fetch/prepare data, update the DOM, then:
-await document.fonts?.ready;
-fitAllText();
-fitToScreen(document.querySelector("#app"));
-markReady();
+async function renderPayload(payload) {
+  markLoading();
+  const { messages } = await loadLanguageJson(payload);
+  const settings = mergeSettings(defaults, getSettings(payload), getQuerySettings());
+  applyColorTheme(settings.color, { defaultTheme: defaults.color });
+
+  // Fetch/prepare data, update the DOM, then:
+  await document.fonts?.ready;
+  fitAllText();
+  fitToScreen(document.querySelector("#app"));
+  markReady();
+}
+
+const payload = await waitForPayload({ timeoutMs: 500, onUpdate: renderPayload });
+await renderPayload(payload);
 ```
 
 ## Integration icons
@@ -284,6 +290,7 @@ Use `loadLanguageJson(payload)` in `render.html`. It resolves exact language cod
         mergeSettings,
         loadLanguageJson,
         applyColorTheme,
+        markLoading,
         markReady,
         markError,
         fitAllText,
@@ -293,28 +300,29 @@ Use `loadLanguageJson(payload)` in `render.html`. It resolves exact language cod
 
       const app = document.querySelector("#app");
 
-      try {
-        const payload = await waitForPayload({ timeoutMs: 500 });
-        const { messages } = await loadLanguageJson(payload);
-        const defaults = { color: "light", kind: "latest", difference: 0 };
-        const settings = mergeSettings(
-          defaults,
-          getSettings(payload),
-          getQuerySettings()
-        );
-        applyColorTheme(settings.color, { defaultTheme: defaults.color });
+      async function renderPayload(payload) {
+        try {
+          markLoading();
+          const { messages } = await loadLanguageJson(payload);
+          const defaults = { color: "light", kind: "latest", difference: 0 };
+          const settings = mergeSettings(
+            defaults,
+            getSettings(payload),
+            getQuerySettings()
+          );
+          applyColorTheme(settings.color, { defaultTheme: defaults.color });
 
-        const url = new URL("./api/data", window.location.href);
-        url.searchParams.set("kind", settings.kind);
-        url.searchParams.set("difference", settings.difference);
+          const url = new URL("./api/data", window.location.href);
+          url.searchParams.set("kind", settings.kind);
+          url.searchParams.set("difference", settings.difference);
 
-        const response = await fetch(url);
-        const comic = await response.json();
-        const footerPrefix = typeof messages.footerPrefix === "string"
-          ? messages.footerPrefix
-          : "";
+          const response = await fetch(url);
+          const comic = await response.json();
+          const footerPrefix = typeof messages.footerPrefix === "string"
+            ? messages.footerPrefix
+            : "";
 
-        app.innerHTML = `
+          app.innerHTML = `
           <section class="pp-header">
             <div>
               <h1 class="pp-title pp-fit">${escapeHtml(comic.title)}</h1>
@@ -329,13 +337,17 @@ Use `loadLanguageJson(payload)` in `render.html`. It resolves exact language cod
           <footer class="pp-footer">${escapeHtml(footerPrefix ? `${footerPrefix}: ${comic.alt}` : comic.alt)}</footer>
         `;
 
-        await document.fonts?.ready;
-        fitAllText();
-        fitToScreen(app);
-        markReady();
-      } catch (error) {
-        markError(error);
+          await document.fonts?.ready;
+          fitAllText();
+          fitToScreen(app);
+          markReady();
+        } catch (error) {
+          markError(error);
+        }
       }
+
+      const payload = await waitForPayload({ timeoutMs: 500, onUpdate: renderPayload });
+      await renderPayload(payload);
     </script>
   </body>
 </html>
@@ -355,7 +367,7 @@ Use `loadLanguageJson(payload)` in `render.html`. It resolves exact language cod
 - `markLoading()`
 - `markReady()`
 - `markError(error?)`
-- `waitForPayload({ timeoutMs?, fallback?, allowedOrigins? })`
+- `waitForPayload({ timeoutMs?, fallback?, allowedOrigins?, onUpdate? })`
 - `getSettings(payload?, defaults?)`
 - `getQuerySettings(defaults?)`
 - `mergeSettings(...sources)`

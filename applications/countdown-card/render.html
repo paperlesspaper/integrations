@@ -308,6 +308,7 @@
           fitHyphenatedText,
           fitToScreen,
           escapeHtml,
+          markLoading,
           markReady,
           markError,
         } = window.PaperlessOpenIntegration;
@@ -401,86 +402,91 @@
 
         let messages = fallbackMessages;
 
-        try {
-          const payload = await waitForPayload({ timeout: 300 });
-          const settings = mergeSettings(defaults, getSettings(payload), getQuerySettings());
-          const languageResult = await loadLanguageJson(payload).catch(() => ({ language: "en", messages: {} }));
-          messages = { ...fallbackMessages, ...(languageResult.messages || {}) };
-          const language = languageResult.language || "en";
-          document.documentElement.lang = language;
+        async function renderPayload(payload) {
+          try {
+            markLoading?.();
+            const settings = mergeSettings(defaults, getSettings(payload), getQuerySettings());
+            const languageResult = await loadLanguageJson(payload).catch(() => ({ language: "en", messages: {} }));
+            messages = { ...fallbackMessages, ...(languageResult.messages || {}) };
+            const language = languageResult.language || "en";
+            document.documentElement.lang = language;
 
-          applyColorTheme(settings.color, { defaultTheme: defaults.color });
+            applyColorTheme(settings.color, { defaultTheme: defaults.color });
 
-          const now = new Date();
-          const targetDate = parseLocalDate(settings.targetDate);
-          if (!targetDate) {
-            throw new Error(messages.invalidDateMessage);
+            const now = new Date();
+            const targetDate = parseLocalDate(settings.targetDate);
+            if (!targetDate) {
+              throw new Error(messages.invalidDateMessage);
+            }
+
+            const requestedMode = ["auto", "until", "since"].includes(settings.mode) ? settings.mode : defaults.mode;
+            const effectiveMode = requestedMode === "auto" ? (now <= targetDate ? "until" : "since") : requestedMode;
+            const rawDiff = effectiveMode === "until" ? targetDate.getTime() - now.getTime() : now.getTime() - targetDate.getTime();
+            const crossed = rawDiff < 0;
+            const diff = Math.abs(rawDiff);
+            const totalMinutes = Math.floor(diff / 60000);
+            const days = Math.floor(totalMinutes / 1440);
+            const hours = Math.floor((totalMinutes % 1440) / 60);
+            const minutes = totalMinutes % 60;
+            const showTime = asBoolean(settings.showTime, defaults.showTime);
+            const showProgress = asBoolean(settings.showProgress, defaults.showProgress);
+
+            const title = localizedSetting(settings.title, defaults.title, messages.defaultTitle, {
+              "Since Opening": messages.sinceOpeningTitle,
+            });
+            const dateLabel = localizedSetting(settings.dateLabel, defaults.dateLabel, messages.targetDateLabel, {
+              Opened: messages.openedDateLabel,
+            });
+            const stateLabel = effectiveMode === "until"
+              ? (crossed ? messages.pastTargetLabel : messages.untilLabel)
+              : (crossed ? messages.futureSinceLabel : messages.sinceLabel);
+
+            setText("title", title);
+            setText("stateLabel", stateLabel);
+            setText("days", String(days));
+            setText("hours", String(hours).padStart(2, "0"));
+            setText("minutes", String(minutes).padStart(2, "0"));
+            setText("daysLabel", messages.daysLabel);
+            setText("hoursLabel", messages.hoursLabel);
+            setText("minutesLabel", messages.minutesLabel);
+            setText("dateLabel", dateLabel);
+            setText("dateValue", formatDate(targetDate, language));
+            setText("progressLabel", messages.progressLabel);
+
+            const values = document.getElementById("values");
+            values.classList.toggle("days-only", !showTime);
+            document.getElementById("hoursUnit").classList.toggle("is-hidden", !showTime);
+            document.getElementById("minutesUnit").classList.toggle("is-hidden", !showTime);
+
+            const startDate = parseLocalDate(settings.startDate);
+            const progressCard = document.getElementById("progressCard");
+            if (showProgress && startDate && startDate.getTime() !== targetDate.getTime()) {
+              const elapsed = now.getTime() - startDate.getTime();
+              const duration = targetDate.getTime() - startDate.getTime();
+              const ratio = duration === 0 ? 1 : elapsed / duration;
+              const percent = Math.round(clamp(ratio, 0, 1) * 100);
+              document.getElementById("progressFill").style.width = percent + "%";
+              setText("progressValue", percent + "%");
+              progressCard.classList.remove("is-hidden");
+            } else {
+              progressCard.classList.add("is-hidden");
+            }
+
+            await document.fonts?.ready;
+            fitHyphenatedText(document.getElementById("title"), { min: 22, max: 82, step: 1, tolerance: 8 });
+            document.querySelectorAll(".countdown-number").forEach((element) => {
+              fitHyphenatedText(element, { min: 28, max: 190, step: 1, tolerance: 8 });
+            });
+            fitToScreen(document.getElementById("screen"));
+            markReady({ mode: effectiveMode, showTime, showProgress: !progressCard.classList.contains("is-hidden") });
+          } catch (error) {
+            markError(error);
+            document.body.innerHTML = `<main class="pp-screen"><h1 class="pp-title pp-error">${escapeHtml(messages.errorTitle)}</h1><p>${escapeHtml(error.message)}</p></main>`;
           }
-
-          const requestedMode = ["auto", "until", "since"].includes(settings.mode) ? settings.mode : defaults.mode;
-          const effectiveMode = requestedMode === "auto" ? (now <= targetDate ? "until" : "since") : requestedMode;
-          const rawDiff = effectiveMode === "until" ? targetDate.getTime() - now.getTime() : now.getTime() - targetDate.getTime();
-          const crossed = rawDiff < 0;
-          const diff = Math.abs(rawDiff);
-          const totalMinutes = Math.floor(diff / 60000);
-          const days = Math.floor(totalMinutes / 1440);
-          const hours = Math.floor((totalMinutes % 1440) / 60);
-          const minutes = totalMinutes % 60;
-          const showTime = asBoolean(settings.showTime, defaults.showTime);
-          const showProgress = asBoolean(settings.showProgress, defaults.showProgress);
-
-          const title = localizedSetting(settings.title, defaults.title, messages.defaultTitle, {
-            "Since Opening": messages.sinceOpeningTitle,
-          });
-          const dateLabel = localizedSetting(settings.dateLabel, defaults.dateLabel, messages.targetDateLabel, {
-            Opened: messages.openedDateLabel,
-          });
-          const stateLabel = effectiveMode === "until"
-            ? (crossed ? messages.pastTargetLabel : messages.untilLabel)
-            : (crossed ? messages.futureSinceLabel : messages.sinceLabel);
-
-          setText("title", title);
-          setText("stateLabel", stateLabel);
-          setText("days", String(days));
-          setText("hours", String(hours).padStart(2, "0"));
-          setText("minutes", String(minutes).padStart(2, "0"));
-          setText("daysLabel", messages.daysLabel);
-          setText("hoursLabel", messages.hoursLabel);
-          setText("minutesLabel", messages.minutesLabel);
-          setText("dateLabel", dateLabel);
-          setText("dateValue", formatDate(targetDate, language));
-          setText("progressLabel", messages.progressLabel);
-
-          const values = document.getElementById("values");
-          values.classList.toggle("days-only", !showTime);
-          document.getElementById("hoursUnit").classList.toggle("is-hidden", !showTime);
-          document.getElementById("minutesUnit").classList.toggle("is-hidden", !showTime);
-
-          const startDate = parseLocalDate(settings.startDate);
-          const progressCard = document.getElementById("progressCard");
-          if (showProgress && startDate && startDate.getTime() !== targetDate.getTime()) {
-            const elapsed = now.getTime() - startDate.getTime();
-            const duration = targetDate.getTime() - startDate.getTime();
-            const ratio = duration === 0 ? 1 : elapsed / duration;
-            const percent = Math.round(clamp(ratio, 0, 1) * 100);
-            document.getElementById("progressFill").style.width = percent + "%";
-            setText("progressValue", percent + "%");
-            progressCard.classList.remove("is-hidden");
-          } else {
-            progressCard.classList.add("is-hidden");
-          }
-
-          await document.fonts?.ready;
-          fitHyphenatedText(document.getElementById("title"), { min: 22, max: 82, step: 1, tolerance: 8 });
-          document.querySelectorAll(".countdown-number").forEach((element) => {
-            fitHyphenatedText(element, { min: 28, max: 190, step: 1, tolerance: 8 });
-          });
-          fitToScreen(document.getElementById("screen"));
-          markReady({ mode: effectiveMode, showTime, showProgress: !progressCard.classList.contains("is-hidden") });
-        } catch (error) {
-          markError(error);
-          document.body.innerHTML = `<main class="pp-screen"><h1 class="pp-title pp-error">${escapeHtml(messages.errorTitle)}</h1><p>${escapeHtml(error.message)}</p></main>`;
         }
+
+        const payload = await waitForPayload({ timeout: 300, onUpdate: renderPayload });
+        await renderPayload(payload);
       })();
     </script>
   </body>

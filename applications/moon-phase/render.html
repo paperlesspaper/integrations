@@ -317,6 +317,7 @@
           fitHyphenatedText,
           fitToScreen,
           escapeHtml,
+          markLoading,
           markReady,
           markError,
         } = window.PaperlessOpenIntegration;
@@ -515,8 +516,9 @@
 
         let messages = fallbackMessages;
 
-        try {
-          const payload = await waitForPayload({ timeout: 300 });
+        async function renderPayload(payload) {
+          try {
+            markLoading?.();
           const settings = mergeSettings(defaults, getSettings(payload), getQuerySettings());
           const languageResult = await loadLanguageJson(payload).catch(() => ({ language: "en", messages: {} }));
           messages = { ...fallbackMessages, ...(languageResult.messages || {}) };
@@ -572,10 +574,14 @@
             illumination: illuminationPercent,
             age: Number(moon.age.toFixed(2)),
           });
-        } catch (error) {
-          markError(error);
-          document.body.innerHTML = `<main class="pp-screen"><h1 class="pp-title pp-error">${escapeHtml(getMessage(messages, "errorTitle"))}</h1><p>${escapeHtml(error.message)}</p></main>`;
+          } catch (error) {
+            markError(error);
+            document.body.innerHTML = `<main class="pp-screen"><h1 class="pp-title pp-error">${escapeHtml(getMessage(messages, "errorTitle"))}</h1><p>${escapeHtml(error.message)}</p></main>`;
+          }
         }
+
+        const payload = await waitForPayload({ timeout: 300, onUpdate: renderPayload });
+        await renderPayload(payload);
       })();
     </script>
   </body>

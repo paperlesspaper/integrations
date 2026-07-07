@@ -604,6 +604,7 @@
           escapeHtml,
           fitHyphenatedText,
           fitToScreen,
+          markLoading,
           markReady,
           markError,
         } = window.PaperlessOpenIntegration;
@@ -848,69 +849,77 @@
           }
         }
 
-        try {
-          const payload = await waitForPayload({ timeout: 300 });
-          const loader = window.PaperlessOpenIntegration.loadLanguageJson;
-          if (typeof loader === "function") {
-            const languageResult = await loader(payload, { defaultMessages });
-            messages = { ...defaultMessages, ...(languageResult.messages || {}) };
+        const defaults = {
+          color: "light",
+          selection: "auto",
+          stage: 1,
+          locale: "en-US",
+          timeZone: "Europe/Berlin",
+          showProfile: true,
+          showRankings: true,
+        };
+
+        async function renderPayload(payload) {
+          try {
+            markLoading?.();
+            const loader = window.PaperlessOpenIntegration.loadLanguageJson;
+            if (typeof loader === "function") {
+              const languageResult = await loader(payload, { defaultMessages });
+              messages = { ...defaultMessages, ...(languageResult.messages || {}) };
+            }
+
+            const settings = mergeSettings(defaults, getSettings(payload), getQuerySettings());
+            applyColorTheme(settings.color, { defaultTheme: defaults.color });
+            applyStaticMessages();
+
+            const params = new URLSearchParams({
+              selection: settings.selection,
+              stage: String(settings.stage),
+              locale: settings.locale,
+              timeZone: settings.timeZone,
+              showRankings: String(settings.showRankings),
+            });
+            const response = await fetch(`./api/data?${params.toString()}`);
+            if (!response.ok) throw new Error(t("apiFailed", { status: response.status }));
+            const data = await response.json();
+            const stage = data.stage || {};
+
+            document.getElementById("edition").textContent = `${data.year || 2026} | ${escapeHtml(stage.type || "")}`;
+            document.getElementById("status").textContent = stage.status || "";
+            document.getElementById("stage-label").textContent = stage.label || "";
+            document.getElementById("stage-date").textContent = stage.dateLabel || stage.dayLabel || "";
+            document.getElementById("stage-route").innerHTML = withSeparator(stage.route);
+            document.getElementById("stage-type").textContent = stage.type || "";
+            document.getElementById("stage-distance").textContent = stage.distance || "-";
+            document.getElementById("stage-elevation").textContent = stage.elevation || "-";
+            document.getElementById("profile-wrap").innerHTML = `
+              <div class="tdf-fallback-map"><span id="fallback-stage">${escapeHtml(stage.stage || "R")}</span></div>
+            `;
+            document.getElementById("source").textContent = `${t("source")}: ${data.sourceNote || data.source || "letour.fr"}`;
+            document.getElementById("updated").textContent = formatUpdated(data.updatedAt);
+
+            const profileSrc = settings.showProfile ? stage.profileImage || stage.mapImage || stage.heroImage : "";
+            let loaded = profileSrc ? await loadImage(profileSrc, stage.route) : false;
+            if (!loaded && settings.showProfile) {
+              loaded = renderGeneratedProfile(stage);
+            }
+            document.getElementById("visual-title").textContent = loaded ? t("profile") : t("map");
+
+            renderRankings(data);
+            await document.fonts?.ready;
+            document.querySelectorAll(".pp-fit").forEach((element) => {
+              fitHyphenatedText(element);
+            });
+            fitToScreen(document.querySelector("#app"));
+            markReady();
+          } catch (error) {
+            document.body.innerHTML = `<main class="pp-screen"><h1 class="pp-title pp-error">${escapeHtml(t("errorTitle"))}</h1><p>${escapeHtml(error.message)}</p></main>`;
+            markError(error);
           }
-
-          const defaults = {
-            color: "light",
-            selection: "auto",
-            stage: 1,
-            locale: "en-US",
-            timeZone: "Europe/Berlin",
-            showProfile: true,
-            showRankings: true,
-          };
-          const settings = mergeSettings(defaults, getSettings(payload), getQuerySettings());
-          applyColorTheme(settings.color, { defaultTheme: defaults.color });
-          applyStaticMessages();
-
-          const params = new URLSearchParams({
-            selection: settings.selection,
-            stage: String(settings.stage),
-            locale: settings.locale,
-            timeZone: settings.timeZone,
-            showRankings: String(settings.showRankings),
-          });
-          const response = await fetch(`./api/data?${params.toString()}`);
-          if (!response.ok) throw new Error(t("apiFailed", { status: response.status }));
-          const data = await response.json();
-          const stage = data.stage || {};
-
-          document.getElementById("edition").textContent = `${data.year || 2026} | ${escapeHtml(stage.type || "")}`;
-          document.getElementById("status").textContent = stage.status || "";
-          document.getElementById("stage-label").textContent = stage.label || "";
-          document.getElementById("stage-date").textContent = stage.dateLabel || stage.dayLabel || "";
-          document.getElementById("stage-route").innerHTML = withSeparator(stage.route);
-          document.getElementById("stage-type").textContent = stage.type || "";
-          document.getElementById("stage-distance").textContent = stage.distance || "-";
-          document.getElementById("stage-elevation").textContent = stage.elevation || "-";
-          document.getElementById("fallback-stage").textContent = stage.stage || "R";
-          document.getElementById("source").textContent = `${t("source")}: ${data.sourceNote || data.source || "letour.fr"}`;
-          document.getElementById("updated").textContent = formatUpdated(data.updatedAt);
-
-          const profileSrc = settings.showProfile ? stage.profileImage || stage.mapImage || stage.heroImage : "";
-          let loaded = profileSrc ? await loadImage(profileSrc, stage.route) : false;
-          if (!loaded && settings.showProfile) {
-            loaded = renderGeneratedProfile(stage);
-          }
-          document.getElementById("visual-title").textContent = loaded ? t("profile") : t("map");
-
-          renderRankings(data);
-          await document.fonts?.ready;
-          document.querySelectorAll(".pp-fit").forEach((element) => {
-            fitHyphenatedText(element);
-          });
-          fitToScreen(document.querySelector("#app"));
-          markReady();
-        } catch (error) {
-          document.body.innerHTML = `<main class="pp-screen"><h1 class="pp-title pp-error">${escapeHtml(t("errorTitle"))}</h1><p>${escapeHtml(error.message)}</p></main>`;
-          markError(error);
         }
+
+        const payload = await waitForPayload({ timeout: 300, onUpdate: renderPayload });
+        await renderPayload(payload);
       })();
     </script>
   </body>

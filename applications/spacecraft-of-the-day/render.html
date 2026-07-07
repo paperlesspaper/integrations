@@ -359,6 +359,7 @@
           fitText,
           fitHyphenatedText,
           fitToScreen,
+          markLoading,
           markReady,
           markError,
           loadLanguageJson,
@@ -569,108 +570,114 @@
           });
         }
 
-        try {
-          const defaults = {
-            color: "light",
-            vehicleType: "any",
-            era: "any",
-            spacecraftId: "",
-            seed: "",
-            showMission: true,
-            showLaunchDate: true,
-            showAgency: true,
-            showDestination: true,
-            showMass: true,
-            showPowerSource: true,
-            showOutcome: true,
-            showVehicleType: false,
-            showCountry: false,
-            showLaunchVehicle: false,
-            showOperationalLife: false,
-            showSource: false,
-          };
-          const payload = await waitForPayload({ timeoutMs: 500 });
-          await loadMessages(payload);
-          const settings = mergeSettings(
-            defaults,
-            getSettings(payload),
-            getQuerySettings(),
-          );
-          applyColorTheme(settings.color, { defaultTheme: defaults.color });
-          if (!spacecraft.length) {
-            throw new Error(t("listFailed"));
+        const defaults = {
+          color: "light",
+          vehicleType: "any",
+          era: "any",
+          spacecraftId: "",
+          seed: "",
+          showMission: true,
+          showLaunchDate: true,
+          showAgency: true,
+          showDestination: true,
+          showMass: true,
+          showPowerSource: true,
+          showOutcome: true,
+          showVehicleType: false,
+          showCountry: false,
+          showLaunchVehicle: false,
+          showOperationalLife: false,
+          showSource: false,
+        };
+
+        async function renderPayload(payload) {
+          try {
+            markLoading?.();
+            await loadMessages(payload);
+            const settings = mergeSettings(
+              defaults,
+              getSettings(payload),
+              getQuerySettings(),
+            );
+            applyColorTheme(settings.color, { defaultTheme: defaults.color });
+            if (!spacecraft.length) {
+              throw new Error(t("listFailed"));
+            }
+
+            const today = dayKey();
+            const { item: selectedItem, poolSize } = pickSpacecraft(settings, today);
+            const spacecraftTranslations =
+              await loadSpacecraftTranslations(currentLanguage);
+            const item = applySpacecraftTranslation(
+              selectedItem,
+              spacecraftTranslations,
+            );
+            const image = document.getElementById("spacecraft-image");
+            image.src = item.image;
+            image.alt = item.name;
+
+            document.getElementById("date").textContent = formatDate(today);
+            document.getElementById("rotation").textContent = t("selectedFrom", {
+              count: poolSize,
+            });
+            document.getElementById("spacecraft-name").innerHTML = escapeHtml(item.name);
+            document.getElementById("nickname").innerHTML = escapeHtml(item.nickname);
+            document.getElementById("signature").innerHTML = escapeHtml(item.signature);
+
+            const availableFacts = [
+              { setting: "showMission", label: t("mission"), value: item.mission },
+              { setting: "showLaunchDate", label: t("launchDate"), value: item.launchDate },
+              { setting: "showAgency", label: t("agency"), value: item.agency },
+              { setting: "showDestination", label: t("destination"), value: item.destination },
+              { setting: "showMass", label: t("mass"), value: item.mass },
+              { setting: "showPowerSource", label: t("powerSource"), value: item.powerSource },
+              { setting: "showOutcome", label: t("outcome"), value: item.outcome },
+              { setting: "showVehicleType", label: t("vehicleType"), value: vehicleTypeLabel(item.vehicleType) },
+              { setting: "showCountry", label: t("country"), value: item.country },
+              { setting: "showLaunchVehicle", label: t("launchVehicle"), value: item.launchVehicle },
+              { setting: "showOperationalLife", label: t("operationalLife"), value: item.operationalLife },
+              { setting: "showSource", label: t("source"), value: item.source },
+            ];
+            const selectedFacts = availableFacts.filter(
+              (factItem) => settings[factItem.setting] !== false,
+            );
+            const visibleFacts = selectedFacts.length
+              ? selectedFacts
+              : availableFacts.slice(0, 7);
+            const factsElement = document.getElementById("facts");
+            factsElement.dataset.count = String(Math.min(visibleFacts.length, 12));
+            factsElement.innerHTML = visibleFacts
+              .map((factItem) => fact(factItem.label, factItem.value))
+              .join("");
+
+            await Promise.all([document.fonts?.ready, waitForImage(image)]);
+            const compactLandscape =
+              window.innerWidth > window.innerHeight && window.innerHeight <= 560;
+            const roomyLandscape =
+              window.innerWidth >= 1400 && window.innerHeight >= 1000;
+            fitText(document.getElementById("spacecraft-name"), {
+              min: 28,
+              max: compactLandscape ? 56 : roomyLandscape ? 104 : 76,
+              step: 2,
+              tolerance: 6,
+              lineBreak: "balance",
+            });
+            fitHyphenatedText(document.getElementById("signature"), {
+              min: 9,
+              max: compactLandscape ? 13 : roomyLandscape ? 20 : 17,
+              step: 1,
+              lineBreak: true,
+            });
+            fitToScreen();
+            markReady({ spacecraft: item.id, day: today });
+          } catch (error) {
+            markError(error);
+            document.body.innerHTML = `<main class="pp-screen"><h1 class="pp-title pp-error">${escapeHtml(t("errorTitle"))}</h1><p>${escapeHtml(error.message)}</p></main>`;
           }
-
-          const today = dayKey();
-          const { item: selectedItem, poolSize } = pickSpacecraft(settings, today);
-          const spacecraftTranslations =
-            await loadSpacecraftTranslations(currentLanguage);
-          const item = applySpacecraftTranslation(
-            selectedItem,
-            spacecraftTranslations,
-          );
-          const image = document.getElementById("spacecraft-image");
-          image.src = item.image;
-          image.alt = item.name;
-
-          document.getElementById("date").textContent = formatDate(today);
-          document.getElementById("rotation").textContent = t("selectedFrom", {
-            count: poolSize,
-          });
-          document.getElementById("spacecraft-name").innerHTML = escapeHtml(item.name);
-          document.getElementById("nickname").innerHTML = escapeHtml(item.nickname);
-          document.getElementById("signature").innerHTML = escapeHtml(item.signature);
-
-          const availableFacts = [
-            { setting: "showMission", label: t("mission"), value: item.mission },
-            { setting: "showLaunchDate", label: t("launchDate"), value: item.launchDate },
-            { setting: "showAgency", label: t("agency"), value: item.agency },
-            { setting: "showDestination", label: t("destination"), value: item.destination },
-            { setting: "showMass", label: t("mass"), value: item.mass },
-            { setting: "showPowerSource", label: t("powerSource"), value: item.powerSource },
-            { setting: "showOutcome", label: t("outcome"), value: item.outcome },
-            { setting: "showVehicleType", label: t("vehicleType"), value: vehicleTypeLabel(item.vehicleType) },
-            { setting: "showCountry", label: t("country"), value: item.country },
-            { setting: "showLaunchVehicle", label: t("launchVehicle"), value: item.launchVehicle },
-            { setting: "showOperationalLife", label: t("operationalLife"), value: item.operationalLife },
-            { setting: "showSource", label: t("source"), value: item.source },
-          ];
-          const selectedFacts = availableFacts.filter(
-            (factItem) => settings[factItem.setting] !== false,
-          );
-          const visibleFacts = selectedFacts.length
-            ? selectedFacts
-            : availableFacts.slice(0, 7);
-          const factsElement = document.getElementById("facts");
-          factsElement.dataset.count = String(Math.min(visibleFacts.length, 12));
-          factsElement.innerHTML = visibleFacts
-            .map((factItem) => fact(factItem.label, factItem.value))
-            .join("");
-
-          await Promise.all([document.fonts?.ready, waitForImage(image)]);
-          const compactLandscape =
-            window.innerWidth > window.innerHeight && window.innerHeight <= 560;
-          const roomyLandscape =
-            window.innerWidth >= 1400 && window.innerHeight >= 1000;
-          fitText(document.getElementById("spacecraft-name"), {
-            min: 28,
-            max: compactLandscape ? 56 : roomyLandscape ? 104 : 76,
-            step: 2,
-            tolerance: 6,
-            lineBreak: "balance",
-          });
-          fitHyphenatedText(document.getElementById("signature"), {
-            min: 9,
-            max: compactLandscape ? 13 : roomyLandscape ? 20 : 17,
-            step: 1,
-            lineBreak: true,
-          });
-          fitToScreen();
-          markReady({ spacecraft: item.id, day: today });
-        } catch (error) {
-          markError(error);
-          document.body.innerHTML = `<main class="pp-screen"><h1 class="pp-title pp-error">${escapeHtml(t("errorTitle"))}</h1><p>${escapeHtml(error.message)}</p></main>`;
         }
+
+        const payload = await waitForPayload({ timeoutMs: 500, onUpdate: renderPayload });
+        await renderPayload(payload);
       })();
     </script>
   </body>

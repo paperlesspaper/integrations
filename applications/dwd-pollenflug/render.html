@@ -339,6 +339,7 @@
           escapeHtml,
           fitAllText,
           fitToScreen,
+          markLoading,
           markReady,
           markError,
         } = window.PaperlessOpenIntegration;
@@ -556,7 +557,9 @@
           `;
         }
 
-        try {
+        async function renderPayload(payload) {
+          try {
+            markLoading();
           const defaults = {
             color: "light",
             regionId: 50,
@@ -564,7 +567,6 @@
             sortBy: "severity",
             showEmpty: false,
           };
-          const payload = await waitForPayload({ timeoutMs: 500, timeout: 500 });
           await loadMessages(payload);
           const settings = mergeSettings(defaults, getSettings(payload), getQuerySettings());
           applyColorTheme(settings.color, { defaultTheme: defaults.color });
@@ -586,10 +588,14 @@
           fitAllText(".pp-fit-name", { min: 12, max: 24, step: 1 });
           fitToScreen(app);
           markReady({ regionId: data.region?.id });
-        } catch (error) {
-          markError(error);
-          app.innerHTML = `<h1 class="pp-title pp-error">${escapeHtml(t("errorTitle"))}</h1><p>${escapeHtml(error.message)}</p>`;
+          } catch (error) {
+            markError(error);
+            app.innerHTML = `<h1 class="pp-title pp-error">${escapeHtml(t("errorTitle"))}</h1><p>${escapeHtml(error.message)}</p>`;
+          }
         }
+
+        const payload = await waitForPayload({ timeoutMs: 500, timeout: 500, onUpdate: renderPayload });
+        await renderPayload(payload);
       })();
     </script>
   </body>
