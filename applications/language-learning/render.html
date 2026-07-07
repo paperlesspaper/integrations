@@ -20,7 +20,6 @@
         grid-template-rows: auto minmax(0, 1fr) minmax(104px, 0.38fr);
         border: 3px solid var(--pp-border);
         background: var(--pp-card);
-        overflow: hidden;
       }
 
       .lesson-shell.no-footer {
@@ -87,7 +86,6 @@
         min-height: 0;
         display: grid;
         grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
-        overflow: hidden;
       }
 
       .word-panel,
@@ -95,7 +93,6 @@
         min-width: 0;
         min-height: 0;
         display: grid;
-        overflow: hidden;
       }
 
       .word-panel {
@@ -144,7 +141,6 @@
         line-height: 0.88;
         font-weight: 950;
         letter-spacing: 0;
-        overflow: hidden;
         overflow-wrap: anywhere;
         text-wrap: balance;
       }
@@ -166,7 +162,6 @@
         font-size: 3rem;
         line-height: 1.02;
         font-weight: 900;
-        overflow: hidden;
         overflow-wrap: anywhere;
         text-wrap: balance;
       }
@@ -179,7 +174,6 @@
         font-size: 1.22rem;
         line-height: 1.15;
         font-weight: 720;
-        overflow: hidden;
         overflow-wrap: anywhere;
       }
 
@@ -189,7 +183,6 @@
         display: grid;
         grid-template-columns: minmax(0, 1.22fr) minmax(0, 0.78fr);
         border-top: 3px solid var(--pp-border);
-        overflow: hidden;
       }
 
       .lesson-footer.single {
@@ -203,7 +196,6 @@
         grid-template-rows: auto minmax(0, 1fr);
         gap: 8px;
         padding: 14px 18px;
-        overflow: hidden;
       }
 
       .footer-panel + .footer-panel {
@@ -222,7 +214,6 @@
         font-size: 1.24rem;
         line-height: 1.1;
         font-weight: 780;
-        overflow: hidden;
         overflow-wrap: anywhere;
       }
 
@@ -407,7 +398,9 @@
             </div>
 
             <div class="word-wrap">
-              <h2 class="word pp-fit" id="word" dir="auto" data-i18n="loading">Loading...</h2>
+              <h2 class="word pp-fit" id="word" dir="auto" data-i18n="loading">
+                Loading...
+              </h2>
             </div>
 
             <p class="pronunciation" id="pronunciation"></p>
@@ -474,7 +467,10 @@
             typeof messages[key] === "string"
               ? messages[key]
               : defaultMessages[key] || key;
-          return template.replace(/\{(\w+)\}/g, (_match, name) => values[name] ?? "");
+          return template.replace(
+            /\{(\w+)\}/g,
+            (_match, name) => values[name] ?? "",
+          );
         }
 
         function applyStaticMessages(root = document) {
@@ -490,10 +486,16 @@
           } else {
             const requested = String(payload?.meta?.language || "en").trim();
             const requestedBase = requested.split("-")[0].toLowerCase();
-            const language = ["en", "de"].includes(requestedBase) ? requestedBase : "en";
-            const response = await fetch(`./languages/${language}.json`, { cache: "no-store" });
+            const language = ["en", "de"].includes(requestedBase)
+              ? requestedBase
+              : "en";
+            const response = await fetch(`./languages/${language}.json`, {
+              cache: "no-store",
+            });
             if (!response.ok) {
-              throw new Error(`Could not load language JSON for ${language}: ${response.status}`);
+              throw new Error(
+                `Could not load language JSON for ${language}: ${response.status}`,
+              );
             }
             result = { language, messages: await response.json() };
           }
@@ -526,14 +528,19 @@
           practicePanel.hidden = !settings.showPractice;
 
           if (settings.showExample) {
-            document.getElementById("example").innerHTML = `${escapeHtml(data.example)}<span class="example-translation">${escapeHtml(data.exampleTranslation)}</span>`;
+            document.getElementById("example").innerHTML =
+              `${escapeHtml(data.example)}<span class="example-translation">${escapeHtml(data.exampleTranslation)}</span>`;
           }
 
           if (settings.showPractice) {
-            document.getElementById("practice").innerHTML = escapeHtml(data.practice);
+            document.getElementById("practice").innerHTML = escapeHtml(
+              data.practice,
+            );
           }
 
-          const panels = [...footer.querySelectorAll(".footer-panel")].filter((panel) => !panel.hidden);
+          const panels = [...footer.querySelectorAll(".footer-panel")].filter(
+            (panel) => !panel.hidden,
+          );
           if (panels.length === 0) {
             footer.hidden = true;
             shell.classList.add("no-footer");
@@ -556,7 +563,11 @@
               seed: "",
             };
             await loadMessages(payload);
-            const settings = mergeSettings(defaults, getSettings(payload), getQuerySettings());
+            const settings = mergeSettings(
+              defaults,
+              getSettings(payload),
+              getQuerySettings(),
+            );
             if (typeof applyColorTheme === "function") {
               applyColorTheme(settings.color, { defaultTheme: defaults.color });
             }
@@ -566,7 +577,9 @@
               translationLanguage: settings.translationLanguage,
               seed: settings.seed,
             });
-            const response = await fetch(`./api/data?${params.toString()}`, { cache: "no-store" });
+            const response = await fetch(`./api/data?${params.toString()}`, {
+              cache: "no-store",
+            });
             if (!response.ok) {
               throw new Error(t("apiFailed", { status: response.status }));
             }
@@ -574,9 +587,13 @@
             const data = await response.json();
             document.getElementById("language-name").textContent =
               `${data.targetLanguage} / ${data.targetLanguageNativeName}`;
-            document.getElementById("date-value").textContent = formatDate(data.dayKey);
-            document.getElementById("level").textContent = data.level || t("notAvailable");
-            document.getElementById("part-of-speech").textContent = data.partOfSpeech || t("notAvailable");
+            document.getElementById("date-value").textContent = formatDate(
+              data.dayKey,
+            );
+            document.getElementById("level").textContent =
+              data.level || t("notAvailable");
+            document.getElementById("part-of-speech").textContent =
+              data.partOfSpeech || t("notAvailable");
             document.getElementById("theme").textContent = data.theme || "";
 
             const word = document.getElementById("word");
@@ -585,8 +602,10 @@
 
             const pronunciation = document.getElementById("pronunciation");
             pronunciation.innerHTML = `<span class="label">${escapeHtml(t("pronunciation"))}</span> ${escapeHtml(data.pronunciation || t("notAvailable"))}`;
-            document.getElementById("translation").textContent = data.translation;
-            document.getElementById("note").innerHTML = `<span class="label">${escapeHtml(t("memory"))}</span> ${escapeHtml(data.note)}`;
+            document.getElementById("translation").textContent =
+              data.translation;
+            document.getElementById("note").innerHTML =
+              `<span class="label">${escapeHtml(t("memory"))}</span> ${escapeHtml(data.note)}`;
             renderFooter(settings, data);
 
             fitHyphenatedText(word, {
@@ -603,12 +622,15 @@
               tolerance: 8,
               lineBreak: "balance",
             });
-            fitAllText(".note.pp-fit, .example-text.pp-fit, .practice-text.pp-fit", {
-              min: 11,
-              step: 1,
-              tolerance: 4,
-              lineBreak: true,
-            });
+            fitAllText(
+              ".note.pp-fit, .example-text.pp-fit, .practice-text.pp-fit",
+              {
+                min: 11,
+                step: 1,
+                tolerance: 4,
+                lineBreak: true,
+              },
+            );
             fitToScreen();
             markReady({ word: data.word, language: data.targetLanguageCode });
           } catch (error) {
@@ -617,7 +639,10 @@
           }
         }
 
-        const payload = await waitForPayload({ timeout: 300, onUpdate: renderPayload });
+        const payload = await waitForPayload({
+          timeout: 300,
+          onUpdate: renderPayload,
+        });
         await renderPayload(payload);
       })();
     </script>
