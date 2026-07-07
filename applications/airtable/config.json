@@ -78,7 +78,8 @@
         "type": "string",
         "title": "Airtable token",
         "description": "Personal access token. Leave blank to use AIRTABLE_TOKEN from the server environment or sample data.",
-        "default": ""
+        "default": "",
+        "format": "password"
       },
       "baseId": {
         "type": "string",
@@ -101,13 +102,15 @@
         "type": "string",
         "title": "Fields",
         "description": "Comma- or line-separated fields. Leave blank to show fields from the first records.",
-        "default": ""
+        "default": "",
+        "format": "textarea"
       },
       "filterByFormula": {
         "type": "string",
         "title": "Filter formula",
         "description": "Optional Airtable formula, such as {Status} = 'Open'.",
-        "default": ""
+        "default": "",
+        "format": "textarea"
       },
       "sortField": {
         "type": "string",
@@ -147,7 +150,8 @@
         "type": "string",
         "title": "Advanced tables JSON",
         "description": "Optional JSON array for multiple tables. Each entry can set title, tableName, view, fields, filterByFormula, sortField, sortDirection, maxRows, and rowBorder.",
-        "default": ""
+        "default": "",
+        "format": "textarea"
       }
     }
   },

@@ -58,7 +58,8 @@
         "type": "string",
         "title": "Uptime Kuma URL",
         "default": "",
-        "description": "Base URL of your Uptime Kuma instance. Leave blank to use UPTIME_KUMA_BASE_URL from .env or show sample data."
+        "description": "Base URL of your Uptime Kuma instance. Leave blank to use UPTIME_KUMA_BASE_URL from .env or show sample data.",
+        "format": "url"
       },
       "slug": {
         "type": "string",

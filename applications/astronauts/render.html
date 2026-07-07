@@ -320,9 +320,9 @@
         }
       }
 
-      @media (min-width: 1000px) and (min-height: 900px) {
-        .crew-grid {
-          grid-template-columns: repeat(3, minmax(0, 1fr));
+      @media (orientation: landscape) {
+        .crew-list {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
         }
 
         .person {
@@ -334,14 +334,12 @@
           border-bottom: 2px solid currentColor;
         }
 
-        .crew-list .person:nth-child(3n) {
+        .crew-list .person:nth-child(even) {
           border-right: 0;
         }
 
         .crew-list .person:last-child,
-        .crew-list .person:nth-last-child(2):nth-child(3n + 1),
-        .crew-list .person:nth-last-child(3):nth-child(3n + 1),
-        .crew-list .person:nth-last-child(2):nth-child(3n + 2) {
+        .crew-list .person:nth-last-child(2):nth-child(odd) {
           border-bottom: 0;
         }
 
@@ -366,7 +364,9 @@
       <section class="pp-grid astronauts-main">
         <section class="count-panel">
           <div class="count-block">
-            <p class="pp-metric-label" data-i18n="peopleInSpace">People in space</p>
+            <p class="pp-metric-label" data-i18n="peopleInSpace">
+              People in space
+            </p>
             <p class="count-value pp-fit pp-fit-count" id="count">--</p>
           </div>
           <div class="locations-block">
@@ -439,8 +439,9 @@
             typeof messages[key] === "string"
               ? messages[key]
               : defaultMessages[key] || key;
-          return template.replace(/\{(\w+)\}/g, (_match, name) =>
-            values[name] ?? "",
+          return template.replace(
+            /\{(\w+)\}/g,
+            (_match, name) => values[name] ?? "",
           );
         }
 
@@ -689,7 +690,9 @@
             const data = await response.json();
             const showPortraits = isEnabled(settings.showPortraits);
             const count = Number(data.count || 0);
-            const total = Number(data.totalCount || data.allPeopleCount || count);
+            const total = Number(
+              data.totalCount || data.allPeopleCount || count,
+            );
             const crew = document.getElementById("crew");
 
             document.getElementById("count").textContent = count;
@@ -698,7 +701,9 @@
                 ? t("countAll")
                 : t("countMatched", { count, total });
             document.getElementById("filter-label").textContent =
-              data.locationFilter ? t("filtered", { value: data.locationFilter }) : "";
+              data.locationFilter
+                ? t("filtered", { value: data.locationFilter })
+                : "";
             document.getElementById("locations").innerHTML = renderLocations(
               data.locations || [],
             );
@@ -717,7 +722,10 @@
           }
         }
 
-        const payload = await waitForPayload({ timeout: 300, onUpdate: renderPayload });
+        const payload = await waitForPayload({
+          timeout: 300,
+          onUpdate: renderPayload,
+        });
         await renderPayload(payload);
       })();
     </script>

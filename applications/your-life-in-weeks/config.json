@@ -52,7 +52,8 @@
         "type": "string",
         "title": "Birth date",
         "description": "Your birth date in YYYY-MM-DD format.",
-        "default": "1990-01-01"
+        "default": "1990-01-01",
+        "format": "date"
       },
       "lifeExpectancy": {
         "type": "number",

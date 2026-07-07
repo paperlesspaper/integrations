@@ -15,11 +15,9 @@ The manifest includes screenshot paths for `800x480` and `480x800`, but screensh
 
 ## Settings
 
-- `title`: heading above the wheel.
 - `members`: household members separated by commas or new lines.
 - `chores`: chores separated by commas or new lines.
 - `rotation`: choose `daily` or `weekly`.
-- `palette`: color treatment for the wheel and assignment rows (`theme`, `rainbow`, `warm`, or `cool`).
 - `seed`: change this to reshuffle the deterministic rotation.
 - `showNext`: preview the next day or week assignment under each chore.
 

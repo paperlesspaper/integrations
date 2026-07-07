@@ -9,17 +9,36 @@
     <script src="/assets/paperless.iife.js"></script>
     <style>
       .hours-screen {
+        --hours-red: #ff0000;
+        --hours-blue: #0000ff;
+        --hours-green: #00ff00;
+        --hours-on-color: #ffffff;
+        --hours-on-green: #000000;
         padding: 22px;
         gap: 14px;
       }
 
       .hours-header {
+        position: relative;
         display: grid;
         grid-template-columns: minmax(0, 1fr) auto;
         gap: 18px;
         align-items: start;
+        padding-top: 16px;
         padding-bottom: 12px;
-        border-bottom: 3px solid currentColor;
+      }
+
+      .hours-header::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 74px;
+        height: 10px;
+        background:
+          radial-gradient(circle at 5px 5px, var(--hours-red) 0 4px, transparent 4.5px),
+          radial-gradient(circle at 33px 5px, var(--hours-blue) 0 4px, transparent 4.5px),
+          radial-gradient(circle at 61px 5px, var(--hours-green) 0 4px, transparent 4.5px);
       }
 
       .hours-kicker {
@@ -81,19 +100,24 @@
       }
 
       .status-panel.is-open {
-        background: color-mix(in srgb, var(--pp-accent) 24%, var(--pp-card));
+        color: var(--hours-on-green);
+        border-color: var(--pp-fg);
+        background: var(--hours-green);
       }
 
       .status-panel.is-closed,
       .status-panel.is-temporarily-closed,
       .status-panel.is-permanently-closed {
-        background:
-          repeating-linear-gradient(
-            -45deg,
-            transparent 0 11px,
-            color-mix(in srgb, var(--pp-fg) 9%, transparent) 11px 14px
-          ),
-          var(--pp-card);
+        color: var(--hours-on-color);
+        border-color: var(--pp-fg);
+        background: var(--hours-red);
+      }
+
+      .status-panel.is-open .today-label,
+      .status-panel.is-closed .today-label,
+      .status-panel.is-temporarily-closed .today-label,
+      .status-panel.is-permanently-closed .today-label {
+        color: inherit;
       }
 
       .status-label {
@@ -167,9 +191,25 @@
         background: var(--pp-bg);
       }
 
+      .hours-row:nth-child(3n + 1) {
+        color: var(--hours-on-color);
+        background: var(--hours-red);
+      }
+
+      .hours-row:nth-child(3n + 2) {
+        color: var(--hours-on-color);
+        background: var(--hours-blue);
+      }
+
+      .hours-row:nth-child(3n) {
+        color: var(--hours-on-green);
+        background: var(--hours-green);
+      }
+
       .hours-row.is-today {
         border-color: currentColor;
-        background: color-mix(in srgb, var(--pp-accent) 18%, var(--pp-bg));
+        color: var(--hours-on-green);
+        background: var(--hours-green);
       }
 
       .day-name {
@@ -199,7 +239,6 @@
         gap: 16px;
         align-items: end;
         padding-top: 12px;
-        border-top: 2px solid currentColor;
       }
 
       .contact-lines {

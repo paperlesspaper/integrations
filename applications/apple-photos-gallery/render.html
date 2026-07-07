@@ -12,7 +12,7 @@
         width: 100vw;
         height: 100vh;
         padding: 0;
-        background: #050505;
+        background: var(--photo-bg, #050505);
         color: #fff;
         overflow: hidden;
       }
@@ -22,7 +22,7 @@
         height: 100%;
         display: block;
         object-position: center;
-        background: #050505;
+        background: var(--photo-bg, #050505);
       }
 
       .photo-overlay {
@@ -273,6 +273,7 @@
         }
 
         const defaults = {
+          color: "dark",
           albumUrl: "",
           selection: "random",
           photoNumber: 1,
@@ -282,6 +283,14 @@
         };
         let renderRequest = 0;
         const handledUpdateEvents = new WeakSet();
+
+        function applyBackgroundColor(value) {
+          const mode = value === "light" ? "light" : "dark";
+          const background = mode === "light" ? "#fff" : "#050505";
+          document.documentElement.style.setProperty("--photo-bg", background);
+          document.body.style.background = background;
+          return mode;
+        }
 
         async function renderPayload(payload, event) {
           if (event && typeof event === "object") {
@@ -296,6 +305,7 @@
             const settings = restoreICloudFragment(
               mergeSettings(defaults, getSettings(payload), getQuerySettings()),
             );
+            settings.color = applyBackgroundColor(settings.color);
             const params = new URLSearchParams(settings);
             const response = await fetch(`./api/data?${params.toString()}`, { cache: "no-store" });
 

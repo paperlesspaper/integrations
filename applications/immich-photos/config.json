@@ -75,12 +75,14 @@
       "serverUrl": {
         "type": "string",
         "title": "Immich server URL",
-        "description": "Base URL of your Immich server, with or without /api. Leave blank to use IMMICH_SERVER_URL from .env."
+        "description": "Base URL of your Immich server, with or without /api. Leave blank to use IMMICH_SERVER_URL from .env.",
+        "format": "url"
       },
       "apiKey": {
         "type": "string",
         "title": "Immich API key",
-        "description": "Personal API key with permission to read and view assets. Leave blank to use IMMICH_API_KEY from .env."
+        "description": "Personal API key with permission to read and view assets. Leave blank to use IMMICH_API_KEY from .env.",
+        "format": "password"
       },
       "selection": {
         "type": "string",
@@ -118,13 +120,15 @@
         "type": "string",
         "title": "Taken after",
         "description": "Optional date filter such as 2024-01-01.",
-        "default": ""
+        "default": "",
+        "format": "date"
       },
       "takenBefore": {
         "type": "string",
         "title": "Taken before",
         "description": "Optional date filter such as 2024-12-31.",
-        "default": ""
+        "default": "",
+        "format": "date"
       },
       "imageSize": {
         "type": "string",

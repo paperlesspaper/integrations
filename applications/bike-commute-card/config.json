@@ -93,7 +93,8 @@
         "type": "string",
         "title": "Commute start",
         "default": "07:30",
-        "description": "Local time in HH:MM format."
+        "description": "Local time in HH:MM format.",
+        "format": "time"
       },
       "commuteDurationMinutes": {
         "type": "number",

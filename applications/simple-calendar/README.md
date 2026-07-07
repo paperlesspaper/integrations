@@ -17,13 +17,15 @@ Monthly calendar integration.
 ## Settings
 
 - `locale`: BCP 47 locale for month and weekday labels, for example `en-US`, `de-DE`, `fr-FR`, or `ja-JP`.
+- `monthOffset`: start month offset, where `0` is this month and `11` is eleven months ahead.
+- `monthCount`: number of consecutive months to show, from `1` through `3`.
 - `weekStart`: first day of the week, from `sunday` through `saturday`.
 - `weeklyHoliday`: highlights one recurring weekday, or `off`.
 - `holidayRegion`: optional local public holiday highlights for a compact set of countries and regions.
 - `alternateCalendar`: optional small alternate day numbers using the browser Intl calendar support.
 - `fontFamily`: `system`, `serif`, or `mono`.
 - `density`: `compact`, `regular`, or `large`.
-- `weekdayLabels`: `auto`, `show`, or `hide`.
+- `weekdayLabels`: `short` or `full`.
 - `hideTitleBar`: hides the month title area.
 - `shortMonthLabel`: uses a short month label in the title.
 

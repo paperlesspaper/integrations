@@ -6,6 +6,7 @@
   "renderPage": "./render.html",
   "icon": "./assets/icon.png",
   "nativeSettings": {
+    "color": "dark",
     "albumUrl": "https://www.icloud.com/sharedalbum/de-de/#B1d5Uzl7VAmYnH",
     "selection": "random",
     "photoNumber": 1,
@@ -15,6 +16,7 @@
   },
   "configVariants": [
     {
+      "color": "dark",
       "albumUrl": "",
       "selection": "number",
       "photoNumber": 1,
@@ -27,6 +29,7 @@
       }
     },
     {
+      "color": "light",
       "albumUrl": "",
       "selection": "number",
       "photoNumber": 1,
@@ -45,6 +48,15 @@
       "albumUrl"
     ],
     "properties": {
+      "color": {
+        "type": "string",
+        "title": "Color",
+        "enum": [
+          "dark",
+          "light"
+        ],
+        "default": "dark"
+      },
       "albumUrl": {
         "type": "string",
         "title": "Album URL or token",

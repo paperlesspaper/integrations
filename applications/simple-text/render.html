@@ -38,7 +38,6 @@
         flex-direction: column;
         justify-content: center;
         gap: 18px;
-        overflow: hidden;
       }
 
       .simple-text-screen.align-top .simple-text-panel {
@@ -81,7 +80,6 @@
         line-height: var(--simple-text-line);
         text-align: var(--simple-text-align, center);
         letter-spacing: 0;
-        overflow: hidden;
         overflow-wrap: anywhere;
       }
 
@@ -206,7 +204,9 @@
     <main class="pp-screen simple-text-screen align-center" id="screen">
       <section class="simple-text-panel" id="panel">
         <h1 class="simple-text-title" id="title" hidden></h1>
-        <article class="simple-text-content pp-fit" id="content">Loading...</article>
+        <article class="simple-text-content pp-fit" id="content">
+          Loading...
+        </article>
       </section>
     </main>
     <script>
@@ -229,7 +229,8 @@
         const defaults = {
           color: "light",
           title: "",
-          content: "# Hello World\n\nUse **markdown** or plain text on your paperlesspaper display.",
+          content:
+            "# Hello World\n\nUse **markdown** or plain text on your paperlesspaper display.",
           format: "markdown",
           fontFamily: "system",
           fontSize: "large",
@@ -249,20 +250,20 @@
         const fontSizes = {
           "xx-small": "1.05rem",
           "x-small": "1.45rem",
-          "small": "2rem",
-          "medium": "2.8rem",
-          "large": "4.2rem",
+          small: "2rem",
+          medium: "2.8rem",
+          large: "4.2rem",
           "x-large": "5.6rem",
           "xx-large": "7.2rem",
         };
         const fitBounds = {
-          "xx-small": { min: 12, max: 44 },
-          "x-small": { min: 14, max: 58 },
-          "small": { min: 18, max: 82 },
-          "medium": { min: 22, max: 120 },
-          "large": { min: 26, max: 170 },
-          "x-large": { min: 30, max: 210 },
-          "xx-large": { min: 34, max: 260 },
+          "xx-small": { min: 10, max: 44 },
+          "x-small": { min: 10, max: 58 },
+          small: { min: 10, max: 82 },
+          medium: { min: 10, max: 120 },
+          large: { min: 10, max: 170 },
+          "x-large": { min: 10, max: 210 },
+          "xx-large": { min: 10, max: 260 },
         };
         const alignments = new Set(["left", "center", "right", "justify"]);
         const verticalAlignments = new Set(["top", "center", "bottom"]);
@@ -308,15 +309,27 @@
           });
 
           value = escapeHtml(value);
-          value = value.replace(/\[([^\]\n]+)\]\((https?:\/\/[^\s)]+)\)/g, (_match, label, url) => {
-            return `<a href="${escapeAttribute(url)}">${label}</a>`;
-          });
-          value = value.replace(/\*\*([^*\n][\s\S]*?[^*\n])\*\*/g, "<strong>$1</strong>");
+          value = value.replace(
+            /\[([^\]\n]+)\]\((https?:\/\/[^\s)]+)\)/g,
+            (_match, label, url) => {
+              return `<a href="${escapeAttribute(url)}">${label}</a>`;
+            },
+          );
+          value = value.replace(
+            /\*\*([^*\n][\s\S]*?[^*\n])\*\*/g,
+            "<strong>$1</strong>",
+          );
           value = value.replace(/\*([^*\n][^*\n]*?)\*/g, "<em>$1</em>");
-          value = value.replace(/__([^_\n][\s\S]*?[^_\n])__/g, "<strong>$1</strong>");
+          value = value.replace(
+            /__([^_\n][\s\S]*?[^_\n])__/g,
+            "<strong>$1</strong>",
+          );
           value = value.replace(/_([^_\n][^_\n]*?)_/g, "<em>$1</em>");
 
-          return value.replace(/\u0000(\d+)\u0000/g, (_match, index) => placeholders[Number(index)] || "");
+          return value.replace(
+            /\u0000(\d+)\u0000/g,
+            (_match, index) => placeholders[Number(index)] || "",
+          );
         }
 
         function renderList(lines, ordered) {
@@ -351,26 +364,36 @@
             if (/^```/.test(line.trim())) {
               const code = [];
               index += 1;
-              while (index < lines.length && !/^```/.test(lines[index].trim())) {
+              while (
+                index < lines.length &&
+                !/^```/.test(lines[index].trim())
+              ) {
                 code.push(lines[index]);
                 index += 1;
               }
               index += index < lines.length ? 1 : 0;
-              blocks.push(`<pre><code>${escapeHtml(code.join("\n"))}</code></pre>`);
+              blocks.push(
+                `<pre><code>${escapeHtml(code.join("\n"))}</code></pre>`,
+              );
               continue;
             }
 
             const heading = line.match(/^(#{1,3})\s+(.+)$/);
             if (heading) {
               const level = heading[1].length;
-              blocks.push(`<h${level}>${renderInline(heading[2].trim())}</h${level}>`);
+              blocks.push(
+                `<h${level}>${renderInline(heading[2].trim())}</h${level}>`,
+              );
               index += 1;
               continue;
             }
 
             if (/^\s*[-*+]\s+/.test(line)) {
               const listLines = [];
-              while (index < lines.length && /^\s*[-*+]\s+/.test(lines[index])) {
+              while (
+                index < lines.length &&
+                /^\s*[-*+]\s+/.test(lines[index])
+              ) {
                 listLines.push(lines[index]);
                 index += 1;
               }
@@ -380,7 +403,10 @@
 
             if (/^\s*\d+[.)]\s+/.test(line)) {
               const listLines = [];
-              while (index < lines.length && /^\s*\d+[.)]\s+/.test(lines[index])) {
+              while (
+                index < lines.length &&
+                /^\s*\d+[.)]\s+/.test(lines[index])
+              ) {
                 listLines.push(lines[index]);
                 index += 1;
               }
@@ -394,7 +420,9 @@
                 quoteLines.push(lines[index].replace(/^\s*>\s?/, ""));
                 index += 1;
               }
-              blocks.push(`<blockquote>${renderParagraph(quoteLines)}</blockquote>`);
+              blocks.push(
+                `<blockquote>${renderParagraph(quoteLines)}</blockquote>`,
+              );
               continue;
             }
 
@@ -422,8 +450,14 @@
         async function renderPayload(payload) {
           try {
             markLoading();
-            const settings = mergeSettings(defaults, getSettings(payload), getQuerySettings());
-            const languageResult = await loadLanguageJson(payload).catch(() => ({ language: "en", messages: {} }));
+            const settings = mergeSettings(
+              defaults,
+              getSettings(payload),
+              getQuerySettings(),
+            );
+            const languageResult = await loadLanguageJson(payload).catch(
+              () => ({ language: "en", messages: {} }),
+            );
             messages = languageResult.messages || {};
             document.documentElement.lang = languageResult.language || "en";
 
@@ -433,30 +467,58 @@
             const panel = document.getElementById("panel");
             const title = document.getElementById("title");
             const content = document.getElementById("content");
-            const textAlign = normalizeChoice(settings.textAlign, alignments, defaults.textAlign);
+            const textAlign = normalizeChoice(
+              settings.textAlign,
+              alignments,
+              defaults.textAlign,
+            );
             const verticalAlign = normalizeChoice(
               settings.verticalAlign,
               verticalAlignments,
               defaults.verticalAlign,
             );
-            const fontFamily = fontFamilies[settings.fontFamily] || fontFamilies.system;
+            const fontFamily =
+              fontFamilies[settings.fontFamily] || fontFamilies.system;
             const fontSize = fontSizes[settings.fontSize] || fontSizes.large;
-            const fontWeight = normalizeChoice(settings.fontWeight, fontWeights, defaults.fontWeight);
-            const fontStyle = normalizeChoice(settings.fontStyle, fontStyles, defaults.fontStyle);
-            const lineHeight = normalizeChoice(settings.lineHeight, lineHeights, defaults.lineHeight);
+            const fontWeight = normalizeChoice(
+              settings.fontWeight,
+              fontWeights,
+              defaults.fontWeight,
+            );
+            const fontStyle = normalizeChoice(
+              settings.fontStyle,
+              fontStyles,
+              defaults.fontStyle,
+            );
+            const lineHeight = normalizeChoice(
+              settings.lineHeight,
+              lineHeights,
+              defaults.lineHeight,
+            );
             const format = settings.format === "plain" ? "plain" : "markdown";
             const configuredContent = String(settings.content || "").trim();
             const rawContent =
               configuredContent === defaults.content
                 ? message("defaultContent", defaults.content)
-                : configuredContent === "This is a plain text note.\nLine breaks are preserved."
+                : configuredContent ===
+                    "This is a plain text note.\nLine breaks are preserved."
                   ? message("noticeContent", configuredContent)
                   : configuredContent;
-            const fallbackContent = message("emptyContent", "Add text in settings.");
+            const fallbackContent = message(
+              "emptyContent",
+              "Add text in settings.",
+            );
 
-            screen.classList.remove("align-top", "align-center", "align-bottom");
+            screen.classList.remove(
+              "align-top",
+              "align-center",
+              "align-bottom",
+            );
             screen.classList.add(`align-${verticalAlign}`);
-            screen.classList.toggle("has-frame", settings.showFrame === true || settings.showFrame === "true");
+            screen.classList.toggle(
+              "has-frame",
+              settings.showFrame === true || settings.showFrame === "true",
+            );
             panel.style.setProperty("--simple-text-font", fontFamily);
             panel.style.setProperty("--simple-text-size", fontSize);
             panel.style.setProperty("--simple-text-style", fontStyle);
@@ -466,7 +528,9 @@
 
             const configuredTitle = String(settings.title || "").trim();
             const titleText =
-              configuredTitle === "Notice" ? message("noticeTitle", configuredTitle) : configuredTitle;
+              configuredTitle === "Notice"
+                ? message("noticeTitle", configuredTitle)
+                : configuredTitle;
             title.hidden = !titleText;
             title.textContent = titleText;
 
@@ -480,11 +544,15 @@
 
             await document.fonts?.ready;
             const panelStyle = window.getComputedStyle(panel);
-            const gap = Number.parseFloat(panelStyle.rowGap || panelStyle.gap) || 0;
+            const gap =
+              Number.parseFloat(panelStyle.rowGap || panelStyle.gap) || 0;
             const reservedTitleHeight = title.hidden
               ? 0
               : Math.ceil(title.getBoundingClientRect().height + gap);
-            const contentMaxHeight = Math.max(48, panel.clientHeight - reservedTitleHeight);
+            const contentMaxHeight = Math.max(
+              48,
+              panel.clientHeight - reservedTitleHeight,
+            );
             content.style.maxHeight = `${contentMaxHeight}px`;
             content.style.maxWidth = `${panel.clientWidth}px`;
 
@@ -506,7 +574,10 @@
           }
         }
 
-        const payload = await waitForPayload({ timeout: 300, onUpdate: renderPayload });
+        const payload = await waitForPayload({
+          timeout: 300,
+          onUpdate: renderPayload,
+        });
         await renderPayload(payload);
       })();
     </script>

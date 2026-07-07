@@ -9,55 +9,48 @@
     <script src="/assets/paperless.iife.js"></script>
     <style>
       .chore-screen {
-        --wheel-accent: var(--pp-accent);
-        --wheel-soft: color-mix(in srgb, var(--pp-accent) 18%, var(--pp-card));
-        --wheel-row-1: var(--pp-card);
-        --wheel-row-2: var(--pp-bg);
-        --wheel-row-3: var(--wheel-soft);
-        --wheel-row-4: var(--pp-card);
-        --wheel-row-fg-1: var(--pp-fg);
-        --wheel-row-fg-2: var(--pp-fg);
-        --wheel-row-fg-3: var(--pp-fg);
-        --wheel-row-fg-4: var(--pp-fg);
-        --wheel-segment-1: var(--wheel-accent);
-        --wheel-segment-2: var(--pp-card);
-        --wheel-segment-3: var(--wheel-soft);
-        --wheel-segment-4: var(--pp-bg);
+        --wheel-blue: #2563eb;
+        --wheel-red: #ef4444;
+        --wheel-green: #16a34a;
+        --wheel-orange: #ff7f00;
+        --wheel-blue-soft: #dbeafe;
+        --wheel-red-soft: #fee2e2;
+        --wheel-green-soft: #dcfce7;
+        --wheel-orange-soft: #ffedd5;
+        --wheel-accent: var(--wheel-blue);
+        --wheel-row-1: var(--wheel-blue-soft);
+        --wheel-row-2: var(--wheel-red-soft);
+        --wheel-row-3: var(--wheel-green-soft);
+        --wheel-row-4: var(--wheel-orange-soft);
+        --wheel-row-fg-1: #0f172a;
+        --wheel-row-fg-2: #0f172a;
+        --wheel-row-fg-3: #0f172a;
+        --wheel-row-fg-4: #0f172a;
+        --wheel-next-fg: #475569;
+        --wheel-segment-1: var(--wheel-blue);
+        --wheel-segment-2: var(--wheel-red);
+        --wheel-segment-3: var(--wheel-green);
+        --wheel-segment-4: var(--wheel-orange);
         padding: 20px;
         gap: 12px;
       }
 
-      .chore-header {
-        display: grid;
-        grid-template-columns: minmax(0, 1fr) auto;
-        gap: 18px;
-        align-items: end;
-        padding-bottom: 10px;
-        border-bottom: 3px solid var(--pp-border);
-      }
-
-      .chore-title {
-        margin: 0;
-        color: var(--wheel-accent);
-        font-size: 3.4rem;
-        line-height: 0.92;
-        font-weight: 950;
-        letter-spacing: 0;
-        overflow-wrap: anywhere;
-      }
-
       .chore-period {
-        display: grid;
-        gap: 5px;
-        min-width: 168px;
-        padding: 9px 12px;
+        display: inline-grid;
+        grid-template-columns: auto auto;
+        gap: 8px;
+        align-items: baseline;
+        justify-content: center;
+        max-width: 100%;
+        padding: 7px 10px;
         border: 3px solid currentColor;
+        background: var(--pp-bg);
         text-align: center;
       }
 
       .period-label {
         margin: 0;
-        color: var(--pp-muted);
+        color: var(--pp-fg);
         font-size: 0.74rem;
         line-height: 1;
         font-weight: 880;
@@ -66,7 +59,7 @@
 
       .period-value {
         margin: 0;
-        font-size: 1.22rem;
+        font-size: 1.02rem;
         line-height: 1;
         font-weight: 920;
       }
@@ -88,10 +81,13 @@
 
       .wheel-panel {
         display: grid;
-        place-items: center;
+        align-content: center;
+        justify-items: center;
+        gap: 18px;
       }
 
       .wheel {
+        --wheel-label-radius: -84px;
         width: min(100%, 252px);
         aspect-ratio: 1;
         border: 5px solid currentColor;
@@ -100,24 +96,71 @@
         background:
           conic-gradient(
             from -90deg,
-            var(--wheel-segment-1) 0deg 90deg,
-            var(--wheel-segment-2) 90deg 180deg,
-            var(--wheel-segment-3) 180deg 270deg,
-            var(--wheel-segment-4) 270deg 360deg
+            var(--wheel-segment-1) 0deg 118deg,
+            currentColor 118deg 120deg,
+            var(--wheel-segment-2) 120deg 238deg,
+            currentColor 238deg 240deg,
+            var(--wheel-segment-3) 240deg 358deg,
+            currentColor 358deg 360deg
           );
+        box-shadow: 0 0 0 8px color-mix(in srgb, var(--pp-card) 76%, transparent);
       }
 
-      .wheel::before,
-      .wheel::after {
+      .wheel::before {
         content: "";
         position: absolute;
-        inset: 49% 8%;
-        border-top: 4px solid currentColor;
-        transform: rotate(var(--line-rotation, 0deg));
+        inset: 15%;
+        border: 2px solid color-mix(in srgb, var(--pp-bg) 76%, transparent);
+        border-radius: 50%;
       }
 
-      .wheel::after {
-        --line-rotation: 90deg;
+      .wheel-labels {
+        position: absolute;
+        inset: 0;
+        border-radius: 50%;
+      }
+
+      .wheel-label {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        display: inline-grid;
+        grid-template-columns: auto minmax(0, 1fr);
+        gap: 4px;
+        align-items: center;
+        max-width: 92px;
+        padding: 2px 5px 2px 3px;
+        border: 2px solid currentColor;
+        background: var(--pp-bg);
+        font-size: 0.78rem;
+        line-height: 1;
+        font-weight: 920;
+        transform:
+          translate(-50%, -50%)
+          rotate(var(--angle))
+          translateY(var(--wheel-label-radius))
+          rotate(calc(var(--angle) * -1));
+      }
+
+      .wheel-label-index {
+        display: grid;
+        place-items: center;
+        width: 1.25rem;
+        height: 1.25rem;
+        border-radius: 50%;
+        background: currentColor;
+      }
+
+      .wheel-label-index span {
+        color: #fff;
+      }
+
+      .wheel-label-name {
+        min-width: 0;
+        overflow: hidden;
+        color: #0f172a;
+        text-overflow: ellipsis;
+        white-space: nowrap;
       }
 
       .wheel-center {
@@ -164,6 +207,7 @@
         min-height: 0;
         display: grid;
         grid-template-columns: minmax(0, 1fr);
+        grid-auto-rows: minmax(0, 1fr);
         gap: 7px;
         margin: 0;
         padding: 0;
@@ -174,13 +218,30 @@
       .assignment {
         min-width: 0;
         display: grid;
-        grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+        grid-template-columns: 2rem minmax(0, 1.1fr) minmax(0, 0.9fr);
         gap: 10px;
         align-items: center;
+        min-height: 0;
         padding: 8px 10px;
         border: 2px solid var(--pp-border);
+        border-left: 8px solid var(--assignment-accent, var(--wheel-accent));
         background: var(--wheel-row-bg, var(--pp-card));
         color: var(--wheel-row-fg, var(--pp-fg));
+        box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--pp-bg) 60%, transparent);
+      }
+
+      .assignment-index {
+        display: grid;
+        place-items: center;
+        width: 2rem;
+        height: 2rem;
+        border: 2px solid currentColor;
+        border-radius: 50%;
+        background: var(--assignment-accent, var(--wheel-accent));
+        color: #fff;
+        font-size: 0.78rem;
+        line-height: 1;
+        font-weight: 920;
       }
 
       .chore-name,
@@ -207,7 +268,7 @@
       }
 
       .next-name {
-        grid-column: 1 / span 2;
+        grid-column: 2 / span 2;
         margin-top: -2px;
         padding-top: 5px;
         border-top: 1px solid var(--pp-border);
@@ -217,10 +278,6 @@
         font-weight: 760;
         text-align: right;
         text-transform: uppercase;
-      }
-
-      .is-hidden {
-        display: none;
       }
 
       .empty-state {
@@ -237,28 +294,18 @@
         text-align: center;
       }
 
+      .is-hidden {
+        display: none !important;
+      }
+
       @media (orientation: portrait) {
         .chore-screen {
           padding: 18px;
           gap: 12px;
         }
 
-        .chore-header {
-          grid-template-columns: 1fr;
-          gap: 10px;
-          align-items: start;
-        }
-
-        .chore-title {
-          font-size: 3rem;
-        }
-
         .chore-period {
-          width: 100%;
-          min-width: 0;
-          grid-template-columns: auto minmax(0, 1fr);
-          align-items: baseline;
-          text-align: left;
+          width: max-content;
         }
 
         .chore-layout {
@@ -268,11 +315,23 @@
         }
 
         .wheel {
+          --wheel-label-radius: -54px;
           width: min(100%, 164px);
         }
 
         .wheel-center {
           font-size: 2rem;
+        }
+
+        .wheel-label {
+          max-width: 70px;
+          padding-right: 4px;
+          font-size: 0.58rem;
+        }
+
+        .wheel-label-index {
+          width: 1rem;
+          height: 1rem;
         }
       }
 
@@ -280,15 +339,6 @@
         .chore-screen {
           padding: 14px;
           gap: 9px;
-        }
-
-        .chore-header {
-          padding-bottom: 8px;
-          border-bottom-width: 2px;
-        }
-
-        .chore-title {
-          font-size: 2.35rem;
         }
 
         .chore-period {
@@ -309,6 +359,7 @@
         }
 
         .wheel {
+          --wheel-label-radius: -62px;
           width: min(100%, 190px);
           border-width: 4px;
         }
@@ -316,6 +367,16 @@
         .wheel-center {
           border-width: 3px;
           font-size: 2.2rem;
+        }
+
+        .wheel-label {
+          max-width: 74px;
+          font-size: 0.62rem;
+        }
+
+        .wheel-label-index {
+          width: 1.05rem;
+          height: 1.05rem;
         }
 
         .assignment-panel {
@@ -334,6 +395,14 @@
           gap: 7px;
           padding: 6px 8px;
           border-width: 2px;
+          border-left-width: 6px;
+          grid-template-columns: 1.7rem minmax(0, 1.1fr) minmax(0, 0.9fr);
+        }
+
+        .assignment-index {
+          width: 1.7rem;
+          height: 1.7rem;
+          font-size: 0.68rem;
         }
 
         .chore-name {
@@ -357,19 +426,16 @@
   <body>
     <div id="website-has-loading-element"></div>
     <main class="pp-screen chore-screen" id="screen">
-      <header class="chore-header">
-        <h1 class="chore-title" id="title">Chore Wheel</h1>
-        <aside class="chore-period">
-          <p class="period-label" id="periodLabel">This week</p>
-          <p class="period-value" id="periodValue"></p>
-        </aside>
-      </header>
-
       <section class="chore-layout">
         <aside class="wheel-panel" aria-hidden="true">
           <div class="wheel">
             <div class="wheel-marker"></div>
+            <div class="wheel-labels" id="wheelLabels"></div>
             <div class="wheel-center" id="wheelCenter">0</div>
+          </div>
+          <div class="chore-period">
+            <p class="period-label" id="periodLabel">This week</p>
+            <p class="period-value" id="periodValue"></p>
           </div>
         </aside>
 
@@ -400,17 +466,14 @@
 
         const defaults = {
           color: "light",
-          title: "Chore Wheel",
           members: "Alex\nSam\nMira\nJonas",
           chores: "Dishes\nTrash\nVacuum\nBathroom\nPlants",
           rotation: "weekly",
           seed: "home",
           showNext: true,
-          palette: "theme",
         };
 
         const fallbackMessages = {
-          title: "Chore Wheel",
           defaultChores: "Dishes\nTrash\nVacuum\nBathroom\nPlants",
           assignmentsTitle: "Assignments",
           todayLabel: "Today",
@@ -421,44 +484,6 @@
           emptyChores: "Add chores in settings.",
           errorTitle: "Chore Wheel could not load",
         };
-
-        const palettes = {
-          theme: {
-            segments: ["var(--wheel-accent)", "var(--pp-card)", "var(--wheel-soft)", "var(--pp-bg)"],
-            rows: ["var(--pp-card)", "var(--pp-bg)", "var(--wheel-soft)", "var(--pp-card)"],
-          },
-          rainbow: {
-            segments: ["#f97316", "#facc15", "#22c55e", "#38bdf8"],
-            rows: ["#fff7ed", "#fefce8", "#f0fdf4", "#f0f9ff"],
-            member: "#0f172a",
-            next: "#475569",
-          },
-          warm: {
-            segments: ["#ef4444", "#f97316", "#facc15", "#fde68a"],
-            rows: ["#fef2f2", "#fff7ed", "#fefce8", "#fffbeb"],
-            member: "#7f1d1d",
-            next: "#854d0e",
-          },
-          cool: {
-            segments: ["#2563eb", "#06b6d4", "#22c55e", "#d9f99d"],
-            rows: ["#eff6ff", "#ecfeff", "#f0fdf4", "#f7fee7"],
-            member: "#172554",
-            next: "#155e75",
-          },
-        };
-
-        function applyPalette(value) {
-          const palette = palettes[value] || palettes.theme;
-          const root = document.getElementById("screen");
-          palette.segments.forEach((color, index) => {
-            root.style.setProperty(`--wheel-segment-${index + 1}`, color);
-          });
-          palette.rows.forEach((color, index) => {
-            root.style.setProperty(`--wheel-row-${index + 1}`, color);
-          });
-          root.style.setProperty("--wheel-member-fg", palette.member || "var(--wheel-accent)");
-          root.style.setProperty("--wheel-next-fg", palette.next || "var(--pp-muted)");
-        }
 
         function parseList(value) {
           return String(value || "")
@@ -529,6 +554,57 @@
           }));
         }
 
+        function getColorIndex(index) {
+          return index % 4 + 1;
+        }
+
+        function getAssignmentInlineStyle(index) {
+          const colorIndex = getColorIndex(index);
+          return [
+            `--wheel-row-bg: var(--wheel-row-${colorIndex})`,
+            `--wheel-row-fg: var(--wheel-row-fg-${colorIndex})`,
+            `--assignment-accent: var(--wheel-segment-${colorIndex})`,
+            `--wheel-member-fg: var(--wheel-segment-${colorIndex})`,
+          ].join("; ");
+        }
+
+        function renderWheel(assignments) {
+          const wheel = document.querySelector(".wheel");
+          const labels = document.getElementById("wheelLabels");
+          const center = document.getElementById("wheelCenter");
+          const count = assignments.length;
+          center.textContent = String(count);
+
+          if (!count) {
+            labels.innerHTML = "";
+            wheel.style.background = "var(--pp-card)";
+            return;
+          }
+
+          const slice = 360 / count;
+          const divider = count > 1 ? Math.min(2, slice * 0.14) : 0;
+          const stops = assignments.flatMap((assignment, index) => {
+            const start = index * slice;
+            const end = (index + 1) * slice;
+            const color = `var(--wheel-segment-${getColorIndex(index)})`;
+            if (!divider) {
+              return [`${color} ${start}deg ${end}deg`];
+            }
+            return [
+              `${color} ${start}deg ${end - divider}deg`,
+              `currentColor ${end - divider}deg ${end}deg`,
+            ];
+          });
+          wheel.style.background = `conic-gradient(from -90deg, ${stops.join(", ")})`;
+          labels.innerHTML = assignments
+            .map((assignment, index) => {
+              const angle = index * slice + slice / 2;
+              const colorIndex = getColorIndex(index);
+              return `<span class="wheel-label" style="--angle: ${angle}deg; color: var(--wheel-segment-${colorIndex})"><span class="wheel-label-index"><span>${index + 1}</span></span><span class="wheel-label-name">${escapeHtml(assignment.member)}</span></span>`;
+            })
+            .join("");
+        }
+
         function renderAssignments(assignments, nextAssignments, showNext, messages, rotation) {
           const nextLabel = rotation === "daily" ? messages.nextDayLabel : messages.nextWeekLabel;
           return assignments
@@ -537,8 +613,7 @@
               const nextHtml = showNext
                 ? `<span class="next-name">${escapeHtml(nextLabel)}: ${escapeHtml(next)}</span>`
                 : "";
-              const colorIndex = index % 4 + 1;
-              return `<li class="assignment" style="--wheel-row-bg: var(--wheel-row-${colorIndex}); --wheel-row-fg: var(--wheel-row-fg-${colorIndex})"><span class="chore-name">${escapeHtml(assignment.chore)}</span><span class="member-name">${escapeHtml(assignment.member)}</span>${nextHtml}</li>`;
+              return `<li class="assignment" style="${getAssignmentInlineStyle(index)}"><span class="assignment-index">${index + 1}</span><span class="chore-name">${escapeHtml(assignment.chore)}</span><span class="member-name">${escapeHtml(assignment.member)}</span>${nextHtml}</li>`;
             })
             .join("");
         }
@@ -564,7 +639,6 @@
             document.documentElement.lang = languageResult.language || "en";
 
             applyColorTheme(settings.color, { defaultTheme: defaults.color });
-            applyPalette(settings.palette);
 
             const rotation = settings.rotation === "daily" ? "daily" : "weekly";
             const members = parseList(settings.members);
@@ -579,16 +653,10 @@
             const nextDate = getNextDate(now, rotation);
             const showNext = isTrue(settings.showNext);
 
-            const configuredTitle = String(settings.title || "").trim();
-            document.getElementById("title").textContent =
-              !configuredTitle || configuredTitle === defaults.title
-                ? messages.title || defaults.title
-                : configuredTitle;
             document.getElementById("assignmentsTitle").textContent = messages.assignmentsTitle;
             document.getElementById("periodLabel").textContent =
               rotation === "daily" ? messages.todayLabel : messages.thisWeekLabel;
             document.getElementById("periodValue").textContent = period.label;
-            document.getElementById("wheelCenter").textContent = String(members.length || 0);
 
             const assignmentList = document.getElementById("assignments");
             const emptyState = document.getElementById("emptyState");
@@ -596,11 +664,13 @@
               assignmentList.classList.add("is-hidden");
               emptyState.classList.remove("is-hidden");
               emptyState.textContent = members.length ? messages.emptyChores : messages.emptyMembers;
+              renderWheel([]);
             } else {
               assignmentList.classList.remove("is-hidden");
               emptyState.classList.add("is-hidden");
               const assignments = buildAssignments(members, chores, rotation, seed, now);
               const nextAssignments = buildAssignments(members, chores, rotation, seed, nextDate);
+              renderWheel(assignments);
               assignmentList.innerHTML = renderAssignments(
                 assignments,
                 nextAssignments,
@@ -611,12 +681,30 @@
             }
 
             await document.fonts?.ready;
-            document.querySelectorAll(".chore-name, .member-name, .next-name").forEach((element) => {
+            document.querySelectorAll(".chore-name, .member-name").forEach((element) => {
               fitHyphenatedText(element, {
                 min: 10,
                 max: 28,
                 step: 1,
                 tolerance: 6,
+                fitParent: element,
+              });
+            });
+            document.querySelectorAll(".wheel-label-name").forEach((element) => {
+              fitHyphenatedText(element, {
+                min: 7,
+                max: 13,
+                step: 1,
+                tolerance: 2,
+                fitParent: element,
+              });
+            });
+            document.querySelectorAll(".next-name").forEach((element) => {
+              fitHyphenatedText(element, {
+                min: 8,
+                max: 15,
+                step: 1,
+                tolerance: 4,
                 fitParent: element,
               });
             });

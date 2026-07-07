@@ -99,6 +99,10 @@ function toInteger(value, fallback) {
   return Number.isFinite(number) ? Math.trunc(number) : fallback;
 }
 
+function clampInteger(value, fallback, min, max) {
+  return Math.min(max, Math.max(min, toInteger(value, fallback)));
+}
+
 function normalizeLocale(value) {
   const locale = typeof value === 'string' && value.trim() ? value.trim() : 'en-US';
   try {
@@ -339,22 +343,26 @@ export default async function handler({ query }) {
     'off',
   );
   const monthOffset = toInteger(query.monthOffset, 0);
-  const activeDate = new Date(now.getFullYear(), now.getMonth() + monthOffset, 1);
-  const year = activeDate.getFullYear();
-  const month = activeDate.getMonth();
+  const monthCount = clampInteger(query.monthCount, 1, 1, 3);
+  const monthDates = Array.from(
+    { length: monthCount },
+    (_value, index) => new Date(now.getFullYear(), now.getMonth() + monthOffset + index, 1),
+  );
   const todayKey = dateKey(now);
   const weekStart = dayKeys.indexOf(weekStartName);
   const weeklyHoliday = weeklyHolidayName === 'off' ? -1 : dayKeys.indexOf(weeklyHolidayName);
-  const firstOfMonth = new Date(year, month, 1);
-  const leadingDays = (firstOfMonth.getDay() - weekStart + 7) % 7;
-  const gridStart = addDays(firstOfMonth, -leadingDays);
-  const monthHolidays = new Map([
-    ...holidayMap(year - 1, holidayRegion),
-    ...holidayMap(year, holidayRegion),
-    ...holidayMap(year + 1, holidayRegion),
-  ]);
+  const holidayYears = new Set(
+    monthDates.flatMap((date) => [
+      date.getFullYear() - 1,
+      date.getFullYear(),
+      date.getFullYear() + 1,
+    ]),
+  );
+  const monthHolidays = new Map(
+    [...holidayYears].flatMap((year) => [...holidayMap(year, holidayRegion)]),
+  );
   const weekdayFormatter = formatter(locale, { weekday: 'short' });
-  const narrowWeekdayFormatter = formatter(locale, { weekday: 'narrow' });
+  const fullWeekdayFormatter = formatter(locale, { weekday: 'long' });
   const monthFormatter = formatter(locale, { month: query.shortMonthLabel === 'true' ? 'short' : 'long', year: 'numeric' });
   const compactMonthFormatter = formatter(locale, { month: 'short', year: 'numeric' });
 
@@ -362,41 +370,69 @@ export default async function handler({ query }) {
     const date = addDays(new Date(2024, 0, 7), weekStart + index);
     return {
       short: weekdayFormatter.format(date),
-      narrow: narrowWeekdayFormatter.format(date),
+      full: fullWeekdayFormatter.format(date),
       key: dayKeys[date.getDay()],
       isWeeklyHoliday: date.getDay() === weeklyHoliday,
     };
   });
 
-  const days = Array.from({ length: 42 }, (_value, index) => {
-    const date = addDays(gridStart, index);
-    const key = dateKey(date);
+  const months = monthDates.map((firstOfMonth) => {
+    const year = firstOfMonth.getFullYear();
+    const month = firstOfMonth.getMonth();
+    const leadingDays = (firstOfMonth.getDay() - weekStart + 7) % 7;
+    const gridStart = addDays(firstOfMonth, -leadingDays);
+    const days = Array.from({ length: 42 }, (_value, index) => {
+      const date = addDays(gridStart, index);
+      const key = dateKey(date);
+      return {
+        key,
+        day: date.getDate(),
+        weekday: date.getDay(),
+        inMonth: date.getMonth() === month,
+        isToday: key === todayKey,
+        isWeeklyHoliday: date.getDay() === weeklyHoliday,
+        holiday: localizeHolidayName(monthHolidays.get(key) || '', locale),
+        alternateDay: alternateDayLabel(date, locale, alternateCalendar),
+      };
+    });
+
     return {
-      key,
-      day: date.getDate(),
-      weekday: date.getDay(),
-      inMonth: date.getMonth() === month,
-      isToday: key === todayKey,
-      isWeeklyHoliday: date.getDay() === weeklyHoliday,
-      holiday: localizeHolidayName(monthHolidays.get(key) || '', locale),
-      alternateDay: alternateDayLabel(date, locale, alternateCalendar),
+      title: monthFormatter.format(firstOfMonth),
+      compactTitle: compactMonthFormatter.format(firstOfMonth),
+      year,
+      month: month + 1,
+      days,
     };
   });
 
+  const firstMonth = months[0];
+  const lastMonth = months[months.length - 1];
+  const title = monthCount === 1
+    ? firstMonth.title
+    : `${firstMonth.compactTitle} - ${lastMonth.compactTitle}`;
+  const compactTitle = monthCount === 1
+    ? firstMonth.compactTitle
+    : `${firstMonth.compactTitle} - ${lastMonth.compactTitle}`;
+
   return {
-    title: monthFormatter.format(firstOfMonth),
-    compactTitle: compactMonthFormatter.format(firstOfMonth),
+    title,
+    compactTitle,
     locale,
-    year,
-    month: month + 1,
+    year: firstMonth.year,
+    month: firstMonth.month,
+    monthOffset,
+    monthCount,
     weekdays,
-    days,
+    days: firstMonth.days,
+    months,
     settings: {
       weekStart: weekStartName,
       weeklyHoliday: weeklyHolidayName,
       holidayRegion,
       holidayRegionName: localizeRegionName(holidayRegion, locale),
       alternateCalendar,
+      monthOffset,
+      monthCount,
     },
     updatedAt: now.toISOString(),
   };

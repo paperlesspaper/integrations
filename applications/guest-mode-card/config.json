@@ -81,7 +81,8 @@
       "wifiPassword": {
         "type": "string",
         "title": "Wi-Fi password",
-        "default": "make-yourself-at-home"
+        "default": "make-yourself-at-home",
+        "format": "password"
       },
       "wifiSecurity": {
         "type": "string",
@@ -96,7 +97,8 @@
       "checkoutTime": {
         "type": "string",
         "title": "Checkout time",
-        "default": "11:00"
+        "default": "11:00",
+        "format": "time"
       },
       "checkoutNote": {
         "type": "string",
@@ -107,24 +109,28 @@
         "type": "string",
         "title": "House rules",
         "description": "One rule per line.",
-        "default": "Quiet hours after 22:00\nNo smoking indoors\nPlease separate recycling"
+        "default": "Quiet hours after 22:00\nNo smoking indoors\nPlease separate recycling",
+        "format": "textarea"
       },
       "nearbyCafes": {
         "type": "string",
         "title": "Nearby cafes",
         "description": "One cafe per line.",
-        "default": "Milo Coffee - 3 min walk\nCorner Bakery - opens 07:30\nNorthside Espresso - best flat white"
+        "default": "Milo Coffee - 3 min walk\nCorner Bakery - opens 07:30\nNorthside Espresso - best flat white",
+        "format": "textarea"
       },
       "smartHomeInstructions": {
         "type": "string",
         "title": "Smart-home instructions",
         "description": "One instruction per line.",
-        "default": "Say: Hey Home, set living room to warm\nThermostat: turn the dial gently\nLights: long press the wall switch to dim"
+        "default": "Say: Hey Home, set living room to warm\nThermostat: turn the dial gently\nLights: long press the wall switch to dim",
+        "format": "textarea"
       },
       "emergencyContact": {
         "type": "string",
         "title": "Emergency contact",
-        "default": "+49 30 000000"
+        "default": "+49 30 000000",
+        "format": "tel"
       },
       "showWifiPassword": {
         "type": "boolean",

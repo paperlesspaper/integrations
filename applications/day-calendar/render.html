@@ -20,7 +20,9 @@
         display: flex;
         flex-direction: column;
         justify-content: space-between;
-        font-family: "Arial Narrow", "Roboto Condensed", "Open Sans Condensed", var(--pp-font);
+        font-family:
+          "Arial Narrow", "Roboto Condensed", "Open Sans Condensed",
+          var(--pp-font);
         font-size: 2.7em;
         -webkit-font-smoothing: none;
         overflow: hidden;
@@ -90,22 +92,20 @@
         max-width: 90%;
       }
 
-      .day-number,
-      .month {
+      .date-lockup {
+        flex: 1;
+        width: 85vw;
+        max-width: 100%;
+        min-height: 20vh;
         margin: 0;
         line-height: 1;
         font-weight: 800;
+        text-align: center;
       }
 
-      .day-number {
-        max-height: 45vh;
-      }
-
+      .day-number,
       .month {
-        flex: 1;
-        max-width: 85vw;
-        min-height: 20vh;
-        overflow: hidden;
+        display: block;
       }
 
       .show-only-date .weekday {
@@ -146,7 +146,6 @@
         font-size: 1.5em;
         line-height: 1;
         font-weight: 600;
-        overflow: hidden;
       }
 
       .quote-title {
@@ -245,12 +244,12 @@
         } = window.PaperlessOpenIntegration;
 
         const defaultMessages = {
-          "loading": "Loading...",
-          "updated": "Updated",
-          "from": "from",
-          "errorTitle": "Day Calendar could not load",
-          "apiFailed": "API failed with {status}"
-};
+          loading: "Loading...",
+          updated: "Updated",
+          from: "from",
+          errorTitle: "Day Calendar could not load",
+          apiFailed: "API failed with {status}",
+        };
         let messages = defaultMessages;
         let currentLanguage = "en";
 
@@ -259,8 +258,9 @@
             typeof messages[key] === "string"
               ? messages[key]
               : defaultMessages[key] || key;
-          return template.replace(/\{(\w+)\}/g, (_match, name) =>
-            values[name] ?? "",
+          return template.replace(
+            /\{(\w+)\}/g,
+            (_match, name) => values[name] ?? "",
           );
         }
 
@@ -328,15 +328,25 @@
         ]);
 
         function colorClass(color) {
-          return `theme-${String(color || defaults.color).replace(/[^a-z0-9-]/gi, "").toLowerCase()}`;
+          return `theme-${String(color || defaults.color)
+            .replace(/[^a-z0-9-]/gi, "")
+            .toLowerCase()}`;
         }
 
-        function clampTextToBox(element, maxWidth, maxHeight, min = 18, tolerance = 2) {
+        function clampTextToBox(
+          element,
+          maxWidth,
+          maxHeight,
+          min = 18,
+          tolerance = 2,
+        ) {
           if (!element || !maxWidth || !maxHeight) {
             return;
           }
 
-          let size = Number.parseFloat(window.getComputedStyle(element).fontSize);
+          let size = Number.parseFloat(
+            window.getComputedStyle(element).fontSize,
+          );
 
           while (
             size > min &&
@@ -349,7 +359,8 @@
         }
 
         function renderQuoteMode(app, data) {
-          const fact = data.fact && typeof data.fact === "object" ? data.fact : {};
+          const fact =
+            data.fact && typeof data.fact === "object" ? data.fact : {};
           const quoteText = fact.text || data.quote || "";
           const source = fact.sourceName
             ? `${escapeHtml(t("from"))} ${escapeHtml(fact.sourceName)}`
@@ -373,11 +384,11 @@
 
         function renderDateMode(app, data) {
           app.innerHTML = `
-            <p class="day-number">
-              <span class="scale-text" id="day-number">${escapeHtml(data.date.day)}</span>
-            </p>
-            <p class="month">
-              <span class="scale-text" id="month">${escapeHtml(data.date.month)}</span>
+            <p class="date-lockup">
+              <span class="scale-text" id="date-lockup">
+                <span class="day-number" id="day-number">${escapeHtml(data.date.day)}</span>
+                <span class="month" id="month">${escapeHtml(data.date.month)}</span>
+              </span>
             </p>
             <h1 class="weekday">
               <span class="scale-text" id="weekday">${escapeHtml(data.date.weekday)}</span>
@@ -390,8 +401,14 @@
           try {
             markLoading?.();
             await loadMessages(payload);
-            const settings = mergeSettings(defaults, getSettings(payload), getQuerySettings());
-            const resolvedColor = applyColorTheme(settings.color, { defaultTheme: defaults.color });
+            const settings = mergeSettings(
+              defaults,
+              getSettings(payload),
+              getQuerySettings(),
+            );
+            const resolvedColor = applyColorTheme(settings.color, {
+              defaultTheme: defaults.color,
+            });
             const params = new URLSearchParams(settings);
             const response = await fetch(`./api/data?${params.toString()}`, {
               cache: "no-store",
@@ -430,7 +447,8 @@
                 fitParent: document.querySelector(".quote"),
               });
               const quoteBox = document.querySelector(".quote");
-              const quoteMaxHeight = window.matchMedia("(max-height: 500px)").matches
+              const quoteMaxHeight = window.matchMedia("(max-height: 500px)")
+                .matches
                 ? window.innerHeight * 0.37
                 : window.innerHeight * 0.45;
               clampTextToBox(
@@ -441,25 +459,19 @@
               );
               fitText(document.getElementById("formatted-date"), {
                 min: 24,
-                max: 150,
+                max: 350,
                 step: 2,
                 tolerance: 8,
                 fitParent: document.querySelector(".date"),
               });
             } else {
-              fitText(document.getElementById("day-number"), {
-                min: 72,
-                max: 300,
-                step: 2,
-                tolerance: 10,
-                fitParent: document.querySelector(".day-number"),
-              });
-              fitText(document.getElementById("month"), {
+              fitText(document.getElementById("date-lockup"), {
                 min: 34,
-                max: 100,
+                max: 500,
                 step: 2,
                 tolerance: 10,
-                fitParent: document.querySelector(".month"),
+                lineBreak: "balance",
+                fitParent: document.querySelector(".date-lockup"),
               });
             }
 
@@ -478,7 +490,10 @@
           }
         }
 
-        const payload = await waitForPayload({ timeout: 300, onUpdate: renderPayload });
+        const payload = await waitForPayload({
+          timeout: 300,
+          onUpdate: renderPayload,
+        });
         await renderPayload(payload);
       })();
     </script>

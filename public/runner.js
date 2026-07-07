@@ -170,7 +170,12 @@ function selectValue(select, value, fallback) {
 }
 
 function initColorControl() {
-  color.innerHTML = colorOptions
+  const schemaColorOptions = Array.isArray(config.formSchema?.properties?.color?.enum)
+    ? config.formSchema.properties.color.enum.filter((theme) => colorOptions.includes(theme))
+    : [];
+  const allowedColorOptions = schemaColorOptions.length > 0 ? schemaColorOptions : colorOptions;
+
+  color.innerHTML = allowedColorOptions
     .map((theme) => {
       const label = theme || "none";
       return "<option value=\"" + escapeText(theme) + "\">" + escapeText(label) + "</option>";

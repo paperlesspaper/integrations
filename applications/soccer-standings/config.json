@@ -64,7 +64,8 @@
       "apiKey": {
         "type": "string",
         "title": "football-data.org API key",
-        "description": "Optional. Leave blank to use FOOTBALL_DATA_API_KEY from .env or sample standings."
+        "description": "Optional. Leave blank to use FOOTBALL_DATA_API_KEY from .env or sample standings.",
+        "format": "password"
       },
       "focusTeam": {
         "type": "string",
@@ -97,13 +98,15 @@
         "type": "string",
         "title": "Markdown note",
         "description": "Optional markdown shown beside or below the table. Supports headings, bold, italic, code, links, blockquotes, and lists.",
-        "default": ""
+        "default": "",
+        "format": "textarea"
       },
       "markdownUrl": {
         "type": "string",
         "title": "Remote markdown URL",
         "description": "Optional HTTP(S) URL to a raw markdown file. When set, this content is shown instead of the inline markdown note.",
-        "default": ""
+        "default": "",
+        "format": "url"
       }
     }
   },

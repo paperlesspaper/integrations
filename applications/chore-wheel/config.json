@@ -7,18 +7,15 @@
   "icon": "./assets/icon.png",
   "nativeSettings": {
     "color": "light",
-    "title": "Chore Wheel",
     "members": "Alex\nSam\nMira\nJonas",
     "chores": "Dishes\nTrash\nVacuum\nBathroom\nPlants",
     "rotation": "weekly",
     "seed": "home",
-    "showNext": true,
-    "palette": "theme"
+    "showNext": true
   },
   "configVariants": [
     {
       "color": "light",
-      "title": "Chore Wheel",
       "members": "Alex\nSam\nMira\nJonas",
       "chores": "Dishes\nTrash\nVacuum\nBathroom\nPlants",
       "rotation": "weekly",
@@ -27,12 +24,10 @@
       "screenshots": {
         "800x480": "./screenshots/chore-wheel-weekly-800x480-landscape.png",
         "480x800": "./screenshots/chore-wheel-weekly-480x800-portrait.png"
-      },
-      "palette": "theme"
+      }
     },
     {
       "color": "dark",
-      "title": "Kitchen Week",
       "members": "Nora, Eli, Fatima, Ben",
       "chores": "Cook dinner\nClear table\nLoad dishwasher\nWipe counters",
       "rotation": "daily",
@@ -41,19 +36,12 @@
       "screenshots": {
         "800x480": "./screenshots/chore-wheel-daily-dark-800x480-landscape.png",
         "480x800": "./screenshots/chore-wheel-daily-dark-480x800-portrait.png"
-      },
-      "palette": "warm"
+      }
     }
   ],
   "formSchema": {
     "type": "object",
     "properties": {
-      "title": {
-        "type": "string",
-        "title": "Title",
-        "description": "Heading shown above the assignments.",
-        "default": "Chore Wheel"
-      },
       "members": {
         "type": "string",
         "title": "Members",
@@ -79,18 +67,6 @@
           "weekly"
         ],
         "default": "weekly"
-      },
-      "palette": {
-        "type": "string",
-        "title": "Colors",
-        "description": "Choose how colorful the wheel and assignment rows should be.",
-        "enum": [
-          "theme",
-          "rainbow",
-          "warm",
-          "cool"
-        ],
-        "default": "theme"
       },
       "seed": {
         "type": "string",

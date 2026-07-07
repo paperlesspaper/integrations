@@ -131,6 +131,52 @@ Open Integrations should render within `100vw` by `100vh`, avoid browser-only ch
 <div id="website-has-loaded">ready</div>
 ```
 
+## OpenIntegration CLI
+
+This repo installs `@paperlesspaper/openintegration` from `vendor/openintegration`, so after `npm install` the CLI can be run with `npx paperlesspaper-openintegration`.
+
+Create a starter integration:
+
+```sh
+npx paperlesspaper-openintegration scaffold ./applications/example --name "Example"
+```
+
+By default the scaffold includes `api/data.js`. Add `--no-api` for a static-only integration, or `--force` to overwrite existing scaffold files. The aliases `init` and `create` behave the same as `scaffold`.
+
+Validate an integration:
+
+```sh
+npx paperlesspaper-openintegration check ./applications/example/config.json
+```
+
+Use `--json` when another script needs machine-readable validation output.
+
+Run the local paperlesspaper host simulator:
+
+```sh
+npx paperlesspaper-openintegration dev ./applications/example/config.json
+```
+
+The preview opens at `http://127.0.0.1:4300/__paperless/preview` by default. It serves the integration folder, sends the `INIT` payload, renders manifest settings, supports live reload, and includes local render buttons. Useful options are `--host`, `--port`, `--settings '{"title":"Demo"}'`, `--language`, `--orientation`, `--frame-kind`, `--color`, and `--no-watch`.
+
+Render a PNG through local Chrome/Puppeteer and the production-like `epdoptimize` path:
+
+```sh
+npx paperlesspaper-openintegration render ./applications/example/config.json --viewport 800x480 --output /tmp/example-landscape.png
+npx paperlesspaper-openintegration render ./applications/example/config.json --viewport 480x800 --output /tmp/example-portrait.png
+```
+
+`render` defaults to an `800x480` viewport and writes to `render-output/<integration-name>-<viewport>.png` when `--output` is omitted. Add `--raw` to write the unoptimized Puppeteer screenshot, or `--epd-output device` / `--epd-output both` to write device-palette output instead of, or alongside, the default dithered PNG. If Chrome is not in the default location, pass `--chrome-bin <path>` or set `CHROME_BIN` / `PUPPETEER_EXECUTABLE_PATH`.
+
+Recommended loop for a new or changed integration:
+
+```sh
+npx paperlesspaper-openintegration check ./applications/example/config.json
+npx paperlesspaper-openintegration render ./applications/example/config.json --viewport 800x480 --output /tmp/example-landscape.png
+npx paperlesspaper-openintegration render ./applications/example/config.json --viewport 480x800 --output /tmp/example-portrait.png
+npx paperlesspaper-openintegration dev ./applications/example/config.json
+```
+
 ## Screenshots
 
 Regenerate local variant screenshots and update `configVariants` in application manifests:

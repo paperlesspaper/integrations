@@ -88,25 +88,29 @@
         "type": "string",
         "title": "ICS/iCal URL",
         "description": "Optional calendar URL from your municipality or waste service provider.",
-        "default": ""
+        "default": "",
+        "format": "url"
       },
       "manualDates": {
         "type": "string",
         "title": "Manual dates",
         "description": "One per line: YYYY-MM-DD | Type | optional note.",
-        "default": ""
+        "default": "",
+        "format": "textarea"
       },
       "recurringRules": {
         "type": "string",
         "title": "Recurring rules",
         "description": "One per line: Type | WEEKLY | interval | start YYYY-MM-DD | weekday, e.g. Paper | WEEKLY | 4 | 2026-01-12 | MO.",
-        "default": ""
+        "default": "",
+        "format": "textarea"
       },
       "excludedDates": {
         "type": "string",
         "title": "Excluded dates",
         "description": "Comma or line separated dates to remove. Use YYYY-MM-DD or YYYY-MM-DD | Type.",
-        "default": ""
+        "default": "",
+        "format": "textarea"
       },
       "includeTypes": {
         "type": "string",

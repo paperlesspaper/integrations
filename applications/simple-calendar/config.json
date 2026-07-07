@@ -9,13 +9,15 @@
   "nativeSettings": {
     "color": "light",
     "locale": "en-US",
+    "monthOffset": 0,
+    "monthCount": 1,
     "weekStart": "monday",
     "weeklyHoliday": "sunday",
     "holidayRegion": "off",
     "alternateCalendar": "off",
     "fontFamily": "system",
     "density": "regular",
-    "weekdayLabels": "auto",
+    "weekdayLabels": "short",
     "hideTitleBar": false,
     "shortMonthLabel": false
   },
@@ -23,13 +25,15 @@
     {
       "color": "light",
       "locale": "en-US",
+      "monthOffset": 0,
+      "monthCount": 1,
       "weekStart": "monday",
       "weeklyHoliday": "sunday",
       "holidayRegion": "US",
       "alternateCalendar": "off",
       "fontFamily": "system",
       "density": "regular",
-      "weekdayLabels": "auto",
+      "weekdayLabels": "short",
       "hideTitleBar": false,
       "shortMonthLabel": false,
       "screenshots": {
@@ -40,13 +44,15 @@
     {
       "color": "dark",
       "locale": "de-DE",
+      "monthOffset": 0,
+      "monthCount": 1,
       "weekStart": "monday",
       "weeklyHoliday": "sunday",
       "holidayRegion": "DE-BE",
       "alternateCalendar": "persian",
       "fontFamily": "serif",
       "density": "compact",
-      "weekdayLabels": "show",
+      "weekdayLabels": "full",
       "hideTitleBar": false,
       "shortMonthLabel": true,
       "screenshots": {
@@ -65,6 +71,13 @@
         "description": "BCP 47 locale such as en-US, de-DE, fr-FR, or ja-JP.",
         "inStettingsPage": true
       },
+      "monthOffset": {
+        "type": "integer",
+        "title": "Start month",
+        "enum": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
+        "default": 0,
+        "inStettingsPage": true
+      },
       "weekStart": {
         "type": "string",
         "title": "Week starts on",
@@ -78,6 +91,13 @@
           "saturday"
         ],
         "default": "monday",
+        "inStettingsPage": true
+      },
+      "monthCount": {
+        "type": "integer",
+        "title": "Months",
+        "enum": [1, 2, 3],
+        "default": 1,
         "inStettingsPage": true
       },
       "weeklyHoliday": {
@@ -150,8 +170,8 @@
       "weekdayLabels": {
         "type": "string",
         "title": "Weekday labels",
-        "enum": ["auto", "show", "hide"],
-        "default": "auto",
+        "enum": ["short", "full"],
+        "default": "short",
         "inStettingsPage": true
       },
       "hideTitleBar": {

@@ -19,6 +19,7 @@ The integration uses a curated local fact bank instead of a live public API. Tha
 ## Settings
 
 - `topic`: `mixed`, `dinosaurs`, `space`, or `animals`
+- `showFrame`: show or hide the outer padding and border
 - `showQuestion`: show or hide the thinking prompt
 - `seed`: optional text for a different deterministic daily rotation
 

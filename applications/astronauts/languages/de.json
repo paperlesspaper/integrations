@@ -8,7 +8,7 @@
   "loadingRoster": "Crew wird geladen",
   "crewRoster": "Crewliste",
   "empty": "Keine Crew passt zu diesem Standortfilter.",
-  "countAll": "Menschen sind gerade nicht auf der Erde",
+  "countAll": "Menschen, die gerade nicht auf der Erde sind",
   "countMatched": "{count} von {total} gefunden",
   "filtered": "Gefiltert: {value}",
   "missionDays": "{count} Missionstage",

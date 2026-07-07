@@ -23,6 +23,14 @@
         overflow: hidden;
       }
 
+      .fact-screen.is-frameless {
+        padding: 0;
+      }
+
+      .fact-screen.is-frameless .fact-card {
+        border: 0;
+      }
+
       .topic-panel {
         min-width: 0;
         min-height: 0;
@@ -80,7 +88,7 @@
         place-items: center;
       }
 
-      .topic-art svg {
+      .topic-art img {
         display: block;
         width: min(100%, 230px);
         height: auto;
@@ -209,7 +217,7 @@
           grid-row: 1 / span 2;
         }
 
-        .topic-art svg {
+        .topic-art img {
           width: 98px;
         }
 
@@ -261,7 +269,7 @@
           padding: 17px;
         }
 
-        .topic-art svg {
+        .topic-art img {
           width: 172px;
         }
 
@@ -297,7 +305,7 @@
   </head>
   <body>
     <div id="website-has-loading-element"></div>
-    <main class="pp-screen fact-screen">
+    <main class="pp-screen fact-screen" id="fact-screen">
       <article class="fact-card" id="app">
         <aside class="topic-panel" id="topic-panel">
           <div class="kicker-row">
@@ -362,30 +370,10 @@
           errorTitle: 'Fact could not load',
           apiFailed: 'API failed with {status}',
         };
-        const topicIcons = {
-          dinosaurs: `
-            <svg viewBox="0 0 160 160" role="img" aria-label="">
-              <path d="M28 93c7-23 28-41 57-42 15-1 31 4 44 14l13-13 5 8-7 18 16 6-4 10-21-3c-9 19-28 32-53 32H61l-8 19H39l4-24c-15-4-24-13-15-25Z" fill="none" stroke="currentColor" stroke-width="9" stroke-linejoin="round"/>
-              <circle cx="111" cy="68" r="4" fill="currentColor"/>
-              <path d="M47 116 31 139M83 122l2 20M75 48l-8-22M94 49l5-24M112 57l20-19" fill="none" stroke="currentColor" stroke-width="8" stroke-linecap="round"/>
-            </svg>
-          `,
-          space: `
-            <svg viewBox="0 0 160 160" role="img" aria-label="">
-              <circle cx="82" cy="81" r="36" fill="none" stroke="currentColor" stroke-width="9"/>
-              <path d="M28 99c20 13 69 10 101-8 21-12 28-26 21-34-8-9-28-4-50 8" fill="none" stroke="currentColor" stroke-width="8" stroke-linecap="round"/>
-              <path d="M39 37h1M129 29h1M125 128h1M29 135h1" stroke="currentColor" stroke-width="9" stroke-linecap="round"/>
-              <path d="M72 54c7-3 17-3 26 1" fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="round"/>
-            </svg>
-          `,
-          animals: `
-            <svg viewBox="0 0 160 160" role="img" aria-label="">
-              <circle cx="55" cy="51" r="19" fill="none" stroke="currentColor" stroke-width="9"/>
-              <circle cx="105" cy="51" r="19" fill="none" stroke="currentColor" stroke-width="9"/>
-              <path d="M34 105c2-27 21-48 46-48s44 21 46 48c2 20-12 33-31 24-7-3-12-6-15-6s-8 3-15 6c-19 9-33-4-31-24Z" fill="none" stroke="currentColor" stroke-width="9" stroke-linejoin="round"/>
-              <path d="M67 86h1M93 86h1M75 103c4 3 8 3 12 0" stroke="currentColor" stroke-width="8" stroke-linecap="round"/>
-            </svg>
-          `,
+        const topicArtImages = {
+          dinosaurs: './assets/topic-art-dinosaurs.png',
+          space: './assets/topic-art-space.png',
+          animals: './assets/topic-art-animals.png',
         };
         let messages = defaultMessages;
         let currentLanguage = 'en';
@@ -402,6 +390,10 @@
           root.querySelectorAll('[data-i18n]').forEach((element) => {
             element.textContent = t(element.dataset.i18n);
           });
+        }
+
+        function isSettingEnabled(value) {
+          return value !== false && value !== 0 && value !== 'false' && value !== '0';
         }
 
         async function loadMessages(payload) {
@@ -442,6 +434,7 @@
             const defaults = {
               color: 'light',
               topic: 'mixed',
+              showFrame: true,
               showQuestion: true,
               seed: '',
             };
@@ -450,6 +443,9 @@
             if (typeof applyColorTheme === 'function') {
               applyColorTheme(settings.color, { defaultTheme: defaults.color });
             }
+            document
+              .getElementById('fact-screen')
+              .classList.toggle('is-frameless', !isSettingEnabled(settings.showFrame));
 
             const params = new URLSearchParams({
               topic: settings.topic,
@@ -466,7 +462,14 @@
             const topicPanel = document.getElementById('topic-panel');
             topicPanel.classList.remove('is-space', 'is-animals', 'is-dinosaurs');
             topicPanel.classList.add(`is-${topic}`);
-            document.getElementById('topic-art').innerHTML = topicIcons[topic] || topicIcons.space;
+            const topicArt = document.getElementById('topic-art');
+            const topicImage = document.createElement('img');
+            topicImage.src = topicArtImages[topic] || topicArtImages.space;
+            topicImage.alt = '';
+            topicImage.width = 512;
+            topicImage.height = 512;
+            topicImage.decoding = 'async';
+            topicArt.replaceChildren(topicImage);
             document.getElementById('date').textContent = formatDate(data.dayKey);
             document.getElementById('topic-name').textContent = t(topic);
             document.getElementById('title').innerHTML = escapeHtml(data.title);

@@ -78,13 +78,15 @@
         "type": "string",
         "title": "Memo API base URL",
         "description": "Memo API URL with or without /v1. Leave blank to use MEMO_API_BASE_URL from the provider environment.",
-        "default": ""
+        "default": "",
+        "format": "url"
       },
       "apiKey": {
         "type": "string",
         "title": "Memo API key",
         "description": "API key with permission to read Memo calendar or medication data. Leave blank to use MEMO_API_API_KEY, MEMO_API_KEY, or PAPERLESSPAPER_API_KEY from the provider environment.",
-        "default": ""
+        "default": "",
+        "format": "password"
       },
       "patientId": {
         "type": "string",

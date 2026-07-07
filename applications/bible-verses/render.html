@@ -253,7 +253,9 @@
     <main class="pp-screen verse-screen">
       <header class="verse-header" id="header">
         <div class="verse-brand">
-          <h1 class="verse-title pp-fit" id="title" data-i18n="title">Bible Verses</h1>
+          <h1 class="verse-title pp-fit" id="title" data-i18n="title">
+            Bible Verses
+          </h1>
         </div>
       </header>
 
@@ -267,10 +269,12 @@
       </section>
 
       <footer class="verse-footer" id="footer">
-        <p id="translation"></p>
-        <p class="verse-source" id="source"></p>
+        <div>
+          <p id="translation"></p>
+          <p class="verse-source" id="source"></p>
+          <img class="verse-qr" id="qr" alt="" hidden />
+        </div>
       </footer>
-      <img class="verse-qr" id="qr" alt="" hidden />
     </main>
     <script>
       (async function render() {
@@ -305,8 +309,9 @@
             typeof messages[key] === "string"
               ? messages[key]
               : defaultMessages[key] || key;
-          return template.replace(/\{(\w+)\}/g, (_match, name) =>
-            values[name] ?? "",
+          return template.replace(
+            /\{(\w+)\}/g,
+            (_match, name) => values[name] ?? "",
           );
         }
 
@@ -395,7 +400,9 @@
             });
 
             if (!response.ok) {
-              throw new Error(`Could not load language JSON: ${response.status}`);
+              throw new Error(
+                `Could not load language JSON: ${response.status}`,
+              );
             }
 
             result = { language, messages: await response.json() };
@@ -426,9 +433,18 @@
               getSettings(payload),
               getQuerySettings(),
             );
-            const showHeader = booleanSetting(settings.showHeader, defaults.showHeader);
-            const showFooter = booleanSetting(settings.showFooter, defaults.showFooter);
-            const showQrCode = booleanSetting(settings.showQrCode, defaults.showQrCode);
+            const showHeader = booleanSetting(
+              settings.showHeader,
+              defaults.showHeader,
+            );
+            const showFooter = booleanSetting(
+              settings.showFooter,
+              defaults.showFooter,
+            );
+            const showQrCode = booleanSetting(
+              settings.showQrCode,
+              defaults.showQrCode,
+            );
             const screen = document.querySelector(".verse-screen");
             const qrImage = document.getElementById("qr");
             qrImage.alt = t("qrAlt");
@@ -455,7 +471,8 @@
 
             const data = await response.json();
             const translationCode =
-              data.translation?.shortName || String(data.version || "web").toUpperCase();
+              data.translation?.shortName ||
+              String(data.version || "web").toUpperCase();
             const translationName = data.translation?.name || translationCode;
             const sourceLabel = data.isFallback
               ? t("fallback")
@@ -464,19 +481,25 @@
             document.getElementById("title").textContent = data.reference;
             document.getElementById("reference").textContent = data.reference;
             document.getElementById("reference").hidden = showHeader;
-            document.getElementById("title").dir = textDirection(data.reference);
-            document.getElementById("reference").dir = textDirection(data.reference);
+            document.getElementById("title").dir = textDirection(
+              data.reference,
+            );
+            document.getElementById("reference").dir = textDirection(
+              data.reference,
+            );
             document.getElementById("verse").dir = textDirection(data.text);
             document.getElementById("verse").innerHTML =
               `&ldquo;${escapeHtml(data.text)}&rdquo;`;
             if (showFooter) {
-              document.getElementById("translation").textContent = translationName;
+              document.getElementById("translation").textContent =
+                translationName;
               document.getElementById("source").textContent = sourceLabel;
             }
 
-            const qrSrc = showQrCode && data.sourceUrl
-              ? qrCodeUrl(data.sourceUrl, 160)
-              : "";
+            const qrSrc =
+              showQrCode && data.sourceUrl
+                ? qrCodeUrl(data.sourceUrl, 160)
+                : "";
             qrImage.hidden = !qrSrc;
             screen.classList.toggle("has-qr", Boolean(qrSrc));
             if (qrSrc) {
@@ -524,7 +547,10 @@
           }
         }
 
-        const payload = await waitForPayload({ timeout: 500, onUpdate: renderPayload });
+        const payload = await waitForPayload({
+          timeout: 500,
+          onUpdate: renderPayload,
+        });
         await renderPayload(payload);
       })();
     </script>

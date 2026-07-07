@@ -128,12 +128,19 @@
 
       .preview {
         display: grid;
-        grid-template-columns: repeat(7, minmax(0, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(96px, 1fr));
         gap: 2px;
         padding: 8px;
         border: 2px solid var(--line);
         border-radius: 4px;
         background: var(--field);
+      }
+
+      .preview-month {
+        display: grid;
+        grid-template-columns: repeat(7, minmax(0, 1fr));
+        gap: 2px;
+        min-width: 0;
       }
 
       .preview span {
@@ -190,6 +197,18 @@
           Locale
           <input id="locale" type="text" autocomplete="language" spellcheck="false" />
         </label>
+        <label>
+          Months
+          <select id="monthCount">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+          </select>
+        </label>
+        <label>
+          Start month
+          <select id="monthOffset"></select>
+        </label>
         <p class="hint">BCP 47 format, for example en-US, de-DE, fr-FR, or ja-JP.</p>
       </section>
 
@@ -206,9 +225,8 @@
         <label>
           Weekday labels
           <select id="weekdayLabels">
-            <option value="auto">Auto</option>
-            <option value="show">Show</option>
-            <option value="hide">Hide</option>
+            <option value="short">Short</option>
+            <option value="full">Full</option>
           </select>
         </label>
       </section>
@@ -263,13 +281,15 @@
     <script>
       const defaults = {
         locale: "en-US",
+        monthOffset: 0,
+        monthCount: 1,
         weekStart: "monday",
         weeklyHoliday: "sunday",
         holidayRegion: "off",
         alternateCalendar: "off",
         fontFamily: "system",
         density: "regular",
-        weekdayLabels: "auto",
+        weekdayLabels: "short",
         hideTitleBar: false,
         shortMonthLabel: false,
       };
@@ -311,6 +331,21 @@
         ["persian", "Persian"],
       ];
 
+      const monthOffsets = [
+        [0, "This month"],
+        [1, "Next month"],
+        [2, "In 2 months"],
+        [3, "In 3 months"],
+        [4, "In 4 months"],
+        [5, "In 5 months"],
+        [6, "In 6 months"],
+        [7, "In 7 months"],
+        [8, "In 8 months"],
+        [9, "In 9 months"],
+        [10, "In 10 months"],
+        [11, "In 11 months"],
+      ];
+
       const settingsKeys = Object.keys(defaults);
       const controls = Object.fromEntries(
         settingsKeys.map((key) => [key, document.getElementById(key)]),
@@ -325,14 +360,27 @@
         ["Simple Calendar Settings", "Kalender-Einstellungen"],
         ["Calendar", "Kalender"],
         ["Locale", "Gebietsschema"],
+        ["Months", "Monate"],
+        ["Start month", "Startmonat"],
+        ["This month", "Dieser Monat"],
+        ["Next month", "Nächster Monat"],
+        ["In 2 months", "In 2 Monaten"],
+        ["In 3 months", "In 3 Monaten"],
+        ["In 4 months", "In 4 Monaten"],
+        ["In 5 months", "In 5 Monaten"],
+        ["In 6 months", "In 6 Monaten"],
+        ["In 7 months", "In 7 Monaten"],
+        ["In 8 months", "In 8 Monaten"],
+        ["In 9 months", "In 9 Monaten"],
+        ["In 10 months", "In 10 Monaten"],
+        ["In 11 months", "In 11 Monaten"],
         ["BCP 47 format, for example en-US, de-DE, fr-FR, or ja-JP.", "BCP-47-Format, zum Beispiel en-US, de-DE, fr-FR oder ja-JP."],
         ["Week", "Woche"],
         ["Week starts on", "Woche beginnt am"],
         ["Weekly holiday", "Wöchentlicher Ruhetag"],
         ["Weekday labels", "Wochentagsbeschriftungen"],
-        ["Auto", "Automatisch"],
-        ["Show", "Anzeigen"],
-        ["Hide", "Ausblenden"],
+        ["Short", "Kurz"],
+        ["Full", "Voll"],
         ["Regions", "Regionen"],
         ["Public holidays", "Gesetzliche Feiertage"],
         ["Alternate calendar", "Alternativer Kalender"],
@@ -417,6 +465,20 @@
         return Boolean(value) && typeof value === "object" && !Array.isArray(value);
       }
 
+      function normalizeWeekdayLabels(value) {
+        return value === "full" || value === "show" ? "full" : "short";
+      }
+
+      function normalizeMonthCount(value) {
+        const number = Number(value);
+        return Number.isFinite(number) ? Math.min(3, Math.max(1, Math.trunc(number))) : 1;
+      }
+
+      function normalizeMonthOffset(value) {
+        const number = Number(value);
+        return Number.isFinite(number) ? Math.min(11, Math.max(0, Math.trunc(number))) : 0;
+      }
+
       function fillOptions(select, options) {
         select.innerHTML = options
           .map(([value, label]) => `<option value="${value}">${tr(label)}</option>`)
@@ -435,6 +497,9 @@
           ...nextSettings,
         };
         delete normalized.orientation;
+        normalized.weekdayLabels = normalizeWeekdayLabels(normalized.weekdayLabels);
+        normalized.monthOffset = normalizeMonthOffset(normalized.monthOffset);
+        normalized.monthCount = normalizeMonthCount(normalized.monthCount);
         return normalized;
       }
 
@@ -448,19 +513,24 @@
         const ordered = orderedWeekdays(settings.weekStart);
         const labels = ordered.map(([value, label]) => ({
           value,
-          label: tr(label).slice(0, 2),
+          label: settings.weekdayLabels === "full" ? tr(label) : tr(label).slice(0, 2),
         }));
         const days = labels.map((weekday, index) => ({
           value: weekday.value,
           label: String(index + 1),
         }));
 
-        preview.innerHTML = [...labels, ...days]
+        const monthPreview = [...labels, ...days]
           .map(
             (item) =>
               `<span class="${item.value === settings.weeklyHoliday ? "is-holiday" : ""}">${item.label}</span>`,
           )
           .join("");
+
+        preview.innerHTML = Array.from(
+          { length: normalizeMonthCount(settings.monthCount) },
+          () => `<div class="preview-month">${monthPreview}</div>`,
+        ).join("");
       }
 
       function applySettings(nextSettings) {
@@ -537,6 +607,7 @@
       }
 
       setSettingsLanguage();
+      fillOptions(controls.monthOffset, monthOffsets);
       fillOptions(controls.weekStart, weekdays);
       fillOptions(controls.weeklyHoliday, [["off", "Off"], ...weekdays]);
       fillOptions(controls.holidayRegion, holidayRegions);

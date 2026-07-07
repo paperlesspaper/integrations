@@ -58,7 +58,8 @@
         "type": "string",
         "title": "Target date",
         "description": "Date or date-time to count toward or away from. Use local display time.",
-        "default": "2030-01-01T00:00:00"
+        "default": "2030-01-01T00:00:00",
+        "format": "datetime-local"
       },
       "mode": {
         "type": "string",
@@ -87,7 +88,8 @@
         "type": "string",
         "title": "Start date",
         "description": "Optional date or date-time used only for progress.",
-        "default": "2026-01-01T00:00:00"
+        "default": "2026-01-01T00:00:00",
+        "format": "datetime-local"
       },
       "dateLabel": {
         "type": "string",

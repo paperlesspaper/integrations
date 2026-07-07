@@ -13,12 +13,21 @@
       }
 
       .mastodon-header {
-        align-items: start;
-        gap: 18px;
+        align-items: end;
+        gap: 16px;
+        padding-bottom: 8px;
+        border-bottom: 2px solid var(--pp-border);
       }
 
       .mastodon-title {
-        max-width: 12ch;
+        max-width: 18ch;
+      }
+
+      .mastodon-screen .pp-card,
+      .mastodon-avatar,
+      .mastodon-media img,
+      .mastodon-qr {
+        border-radius: 0;
       }
 
       .mastodon-feed-label {
@@ -26,13 +35,15 @@
         max-width: 100%;
         overflow: hidden;
         text-overflow: ellipsis;
+        font-weight: 700;
+        line-height: 1.1;
       }
 
       .mastodon-list {
         flex: 1;
         min-height: 0;
         display: grid;
-        gap: 10px;
+        gap: 8px;
         grid-template-rows: repeat(var(--post-count, 5), minmax(0, 1fr));
       }
 
@@ -40,9 +51,10 @@
         min-width: 0;
         min-height: 0;
         display: grid;
-        grid-template-columns: minmax(0, 1fr) auto;
-        gap: 12px;
-        padding: 12px;
+        grid-template-columns: minmax(0, 1fr) min-content;
+        gap: 10px;
+        padding: 10px 12px;
+        border-left: 6px solid var(--pp-accent);
         overflow: hidden;
       }
 
@@ -51,21 +63,31 @@
         min-height: 0;
         display: flex;
         flex-direction: column;
-        gap: 8px;
+        gap: 7px;
       }
 
       .mastodon-account {
         min-width: 0;
         display: grid;
-        grid-template-columns: 34px minmax(0, 1fr) auto;
-        gap: 9px;
+        grid-template-columns: 36px minmax(0, 1fr);
+        gap: 10px;
         align-items: center;
       }
 
+      .mastodon-account-body {
+        min-width: 0;
+      }
+
+      .mastodon-account-top {
+        min-width: 0;
+        display: flex;
+        align-items: baseline;
+        gap: 8px;
+      }
+
       .mastodon-avatar {
-        width: 34px;
-        height: 34px;
-        border-radius: 50%;
+        width: 36px;
+        height: 36px;
         object-fit: cover;
         border: 1px solid var(--pp-border);
         background: var(--pp-bg);
@@ -77,6 +99,7 @@
         font-weight: 800;
         line-height: 1.05;
         white-space: nowrap;
+        flex: 1;
         overflow: hidden;
         text-overflow: ellipsis;
       }
@@ -98,6 +121,8 @@
       .mastodon-time {
         justify-self: end;
         align-self: start;
+        white-space: nowrap;
+        flex: none;
       }
 
       .mastodon-boost {
@@ -109,6 +134,7 @@
         overflow: hidden;
         font-size: 1.05rem;
         line-height: 1.25;
+        overflow-wrap: anywhere;
       }
 
       .mastodon-content p {
@@ -129,16 +155,16 @@
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(70px, 1fr));
         gap: 6px;
-        min-height: 52px;
-        max-height: 132px;
+        height: 56px;
+        min-height: 0;
+        max-height: 96px;
+        overflow: hidden;
       }
 
       .mastodon-media img {
         width: 100%;
         height: 100%;
-        min-height: 52px;
         object-fit: cover;
-        border-radius: 6px;
         border: 1px solid var(--pp-border);
       }
 
@@ -149,6 +175,7 @@
         image-rendering: pixelated;
         border: 1px solid var(--pp-border);
         background: #fff;
+        justify-self: end;
       }
 
       .mastodon-single {
@@ -168,16 +195,18 @@
       }
 
       .mastodon-single .mastodon-post {
-        padding: 18px;
+        padding: 16px;
+        border-left-width: 8px;
+        grid-template-columns: minmax(0, 1fr) auto;
       }
 
       .mastodon-single .mastodon-account {
-        grid-template-columns: 48px minmax(0, 1fr) auto;
+        grid-template-columns: 52px minmax(0, 1fr);
       }
 
       .mastodon-single .mastodon-avatar {
-        width: 48px;
-        height: 48px;
+        width: 52px;
+        height: 52px;
       }
 
       .mastodon-single .mastodon-name {
@@ -185,8 +214,19 @@
       }
 
       .mastodon-single .mastodon-content {
-        font-size: 2.05rem;
-        line-height: 1.15;
+        font-size: 1.95rem;
+        line-height: 1.16;
+      }
+
+      .mastodon-single .mastodon-media {
+        height: auto;
+        max-height: 260px;
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      }
+
+      .mastodon-single .mastodon-media img {
+        aspect-ratio: 16 / 9;
+        height: auto;
       }
 
       .mastodon-empty {
@@ -217,7 +257,8 @@
         .mastodon-qr {
           width: min(var(--qr-size, 88px), 92px);
           height: min(var(--qr-size, 88px), 92px);
-          align-self: start;
+          align-self: end;
+          justify-self: end;
         }
 
         .mastodon-media {
@@ -245,6 +286,15 @@
         .mastodon-time,
         .mastodon-boost {
           font-size: 0.72rem;
+        }
+
+        .mastodon-account {
+          grid-template-columns: 32px minmax(0, 1fr);
+        }
+
+        .mastodon-avatar {
+          width: 32px;
+          height: 32px;
         }
 
         .mastodon-single .mastodon-content {
@@ -497,7 +547,7 @@
           const boost = item.boostedBy
             ? `<div class="mastodon-boost">${escapeHtml(t("boostedBy", { acct: item.boostedBy.acct }))}</div>`
             : "";
-          const media = bool(settings.showMedia) && item.media.length
+          const media = bool(settings.showMedia) && settings.displayMode === "single" && item.media.length
             ? `<div class="mastodon-media">${item.media.slice(0, 4).map((image) => `
                 <img src="${escapeHtml(image.previewUrl || image.url)}" alt="${escapeHtml(image.description || "")}">
               `).join("")}</div>`
@@ -512,11 +562,13 @@
                 ${boost}
                 <header class="mastodon-account">
                   <img class="mastodon-avatar" src="${escapeHtml(item.account.avatar)}" alt="">
-                  <div>
-                    <p class="mastodon-name">${escapeHtml(displayName)}</p>
+                  <div class="mastodon-account-body">
+                    <div class="mastodon-account-top">
+                      <p class="mastodon-name">${escapeHtml(displayName)}</p>
+                      <time class="mastodon-time">${escapeHtml(formatTimestamp(item.createdAt, settings.dateFormat))}</time>
+                    </div>
                     <div class="mastodon-acct">${escapeHtml(acct)}</div>
                   </div>
-                  <time class="mastodon-time">${escapeHtml(formatTimestamp(item.createdAt, settings.dateFormat))}</time>
                 </header>
                 <div class="mastodon-content">${sanitizeContent(item.contentHtml, settings.maxLinkLength)}</div>
                 ${media}

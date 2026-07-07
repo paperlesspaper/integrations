@@ -8,6 +8,7 @@
   "nativeSettings": {
     "color": "light",
     "topic": "mixed",
+    "showFrame": true,
     "showQuestion": true,
     "seed": ""
   },
@@ -15,6 +16,7 @@
     {
       "color": "light",
       "topic": "mixed",
+      "showFrame": true,
       "showQuestion": true,
       "seed": "",
       "screenshots": {
@@ -25,6 +27,7 @@
     {
       "color": "blue-light",
       "topic": "space",
+      "showFrame": true,
       "showQuestion": true,
       "seed": "orbit",
       "screenshots": {
@@ -50,6 +53,11 @@
       "showQuestion": {
         "type": "boolean",
         "title": "Show thinking prompt",
+        "default": true
+      },
+      "showFrame": {
+        "type": "boolean",
+        "title": "Show outer padding and border",
         "default": true
       },
       "seed": {

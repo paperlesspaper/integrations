@@ -10,18 +10,18 @@
     <style>
       .pollen-screen {
         display: grid;
-        grid-template-rows: auto minmax(0, 1fr) minmax(0, 1.35fr) auto;
-        gap: 14px;
-        padding: 22px;
+        grid-template-rows: auto minmax(96px, 0.82fr) minmax(0, 1.53fr) auto;
+        gap: 16px;
+        padding: 24px;
       }
 
       .pollen-header {
         align-items: end;
         border-bottom: 2px solid var(--pp-border);
         display: grid;
-        gap: 12px;
+        gap: 18px;
         grid-template-columns: minmax(0, 1fr) auto;
-        padding-bottom: 10px;
+        padding-bottom: 12px;
       }
 
       .pollen-title {
@@ -46,17 +46,19 @@
         font-size: clamp(0.72rem, 1.8vh, 1rem);
         font-weight: 650;
         letter-spacing: 0;
+        line-height: 1.1;
         margin: 0;
         text-transform: uppercase;
       }
 
       .summary {
+        align-items: stretch;
         border: 2px solid var(--pp-border);
         display: grid;
-        gap: 16px;
-        grid-template-columns: minmax(0, 1fr) minmax(140px, 0.6fr);
+        gap: 18px;
+        grid-template-columns: minmax(0, 1fr) minmax(124px, 0.46fr);
         min-height: 0;
-        padding: 16px;
+        padding: 18px;
       }
 
       .summary-copy {
@@ -66,6 +68,7 @@
         grid-template-columns: auto minmax(0, 1fr);
         grid-template-rows: auto minmax(0, 1fr);
         min-width: 0;
+        row-gap: 4px;
       }
 
       .summary-label {
@@ -73,14 +76,15 @@
         font-size: clamp(0.78rem, 1.8vh, 1rem);
         font-weight: 800;
         grid-column: 1 / -1;
-        margin: 0 0 6px;
+        line-height: 1.05;
+        margin: 0;
         text-transform: uppercase;
       }
 
       .summary-value {
         align-items: baseline;
         display: flex;
-        gap: 10px;
+        gap: 12px;
         margin: 0;
       }
 
@@ -118,9 +122,11 @@
       .gauge {
         align-self: stretch;
         border: 2px solid var(--pp-border);
+        box-sizing: border-box;
         display: grid;
         grid-template-rows: repeat(4, minmax(0, 1fr));
         min-height: 0;
+        width: 100%;
       }
 
       .gauge-segment {
@@ -142,7 +148,7 @@
 
       .pollen-table {
         display: grid;
-        gap: 8px;
+        gap: 10px;
         grid-template-rows: auto minmax(0, 1fr);
         min-height: 0;
       }
@@ -151,21 +157,56 @@
       .pollen-row {
         align-items: stretch;
         display: grid;
-        gap: 8px;
-        grid-template-columns: minmax(96px, 1fr) repeat(3, minmax(64px, 0.7fr));
+        gap: 10px;
+        grid-template-columns: minmax(108px, 1fr) repeat(3, minmax(68px, 0.7fr));
       }
 
       .table-head {
+        align-items: end;
         color: var(--pp-muted);
         font-size: clamp(0.72rem, 1.8vh, 1rem);
         font-weight: 850;
+        line-height: 1.05;
+        padding: 0 2px;
         text-transform: uppercase;
       }
 
       .table-body {
         display: grid;
-        gap: 8px;
+        gap: 10px;
         min-height: 0;
+        overflow: hidden;
+      }
+
+      .table-body.is-sparse {
+        align-content: stretch;
+        grid-template-rows: minmax(0, 1fr);
+      }
+
+      .pollen-screen.is-sparse .pollen-table {
+        grid-template-rows: auto minmax(0, 1fr);
+      }
+
+      .table-body.is-sparse .pollen-row {
+        min-height: 0;
+      }
+
+      .table-body.is-sparse .forecast-cell {
+        align-content: center;
+        grid-template-rows: auto auto;
+      }
+
+      .table-body.is-sparse .pollen-name-text {
+        font-size: clamp(1.35rem, 4.2vh, 2.25rem);
+      }
+
+      .table-body.is-sparse .forecast-value {
+        font-size: clamp(1.55rem, 5.2vh, 2.8rem);
+      }
+
+      .table-body.is-sparse .forecast-desc {
+        font-size: clamp(0.78rem, 2vh, 1.08rem);
+        line-height: 1.12;
       }
 
       .pollen-row {
@@ -177,7 +218,7 @@
         border: 2px solid var(--pp-border);
         min-width: 0;
         overflow: hidden;
-        padding: 8px 10px;
+        padding: 9px 11px;
       }
 
       .pollen-name {
@@ -204,8 +245,9 @@
       }
 
       .forecast-cell {
+        align-content: start;
         display: grid;
-        gap: 2px;
+        gap: 4px;
         grid-template-rows: auto minmax(0, 1fr);
       }
 
@@ -220,21 +262,24 @@
         font-size: clamp(0.66rem, 1.65vh, 0.9rem);
         font-weight: 680;
         line-height: 1.05;
+        overflow-wrap: anywhere;
       }
 
       .pollen-footer {
         align-items: center;
         border-top: 2px solid var(--pp-border);
         display: grid;
-        gap: 8px;
+        gap: 8px 18px;
         grid-template-columns: minmax(0, 1fr) auto;
-        padding-top: 8px;
+        padding-top: 10px;
       }
 
       .source-link {
         color: var(--pp-fg);
         font-size: clamp(0.72rem, 1.8vh, 1rem);
         font-weight: 800;
+        justify-self: end;
+        line-height: 1.1;
         text-decoration: none;
       }
 
@@ -256,14 +301,16 @@
 
       @media (orientation: portrait) {
         .pollen-screen {
-          grid-template-rows: auto minmax(0, 0.8fr) minmax(0, 1.7fr) auto;
-          gap: 12px;
+          grid-template-rows: auto minmax(0, 0.74fr) minmax(0, 1.86fr) auto;
+          gap: 14px;
           padding: 18px;
         }
 
         .pollen-header {
           align-items: start;
+          gap: 8px;
           grid-template-columns: 1fr;
+          padding-bottom: 10px;
         }
 
         .region-name {
@@ -272,9 +319,9 @@
         }
 
         .summary {
-          gap: 10px;
-          grid-template-columns: minmax(0, 1fr) 84px;
-          padding: 12px;
+          gap: 12px;
+          grid-template-columns: minmax(0, 1fr) minmax(74px, 84px);
+          padding: 14px;
         }
 
         .summary-copy {
@@ -283,13 +330,33 @@
 
         .table-head,
         .pollen-row {
-          gap: 6px;
-          grid-template-columns: minmax(86px, 1fr) repeat(3, minmax(52px, 0.66fr));
+          gap: 7px;
+          grid-template-columns: minmax(94px, 1fr) repeat(3, minmax(54px, 0.68fr));
+        }
+
+        .table-body {
+          gap: 8px;
+        }
+
+        .table-body.is-sparse .pollen-row {
+          min-height: 0;
+        }
+
+        .table-body.is-sparse .pollen-name-text {
+          font-size: clamp(1.35rem, 3.6vh, 2.15rem);
+        }
+
+        .table-body.is-sparse .forecast-value {
+          font-size: clamp(1.7rem, 4.8vh, 2.8rem);
+        }
+
+        .table-body.is-sparse .forecast-desc {
+          font-size: clamp(0.82rem, 1.85vh, 1.04rem);
         }
 
         .pollen-name,
         .forecast-cell {
-          padding: 7px;
+          padding: 7px 8px;
         }
 
         .pollen-mark {
@@ -301,18 +368,47 @@
 
       @media (max-width: 620px), (max-height: 520px) {
         .pollen-screen {
-          gap: 9px;
+          gap: 10px;
+          grid-template-rows: auto minmax(0, 0.78fr) minmax(0, 1.62fr) auto;
           padding: 14px;
         }
 
         .summary {
+          gap: 8px;
+          grid-template-columns: minmax(0, 1fr) minmax(64px, 78px);
           padding: 10px;
+        }
+
+        .table-head,
+        .pollen-row {
+          gap: 6px;
+          grid-template-columns: minmax(84px, 1fr) repeat(3, minmax(50px, 0.68fr));
+        }
+
+        .table-body {
+          gap: 6px;
+        }
+
+        .table-body.is-sparse .pollen-row {
+          min-height: 0;
+        }
+
+        .table-body.is-sparse .pollen-name-text {
+          font-size: clamp(1.2rem, 4.4vh, 1.85rem);
+        }
+
+        .table-body.is-sparse .forecast-value {
+          font-size: clamp(1.35rem, 5.4vh, 2.3rem);
+        }
+
+        .table-body.is-sparse .forecast-desc {
+          font-size: clamp(0.7rem, 2vh, 0.95rem);
         }
 
         .pollen-name,
         .forecast-cell {
           border-width: 1px;
-          padding: 6px;
+          padding: 5px 6px;
         }
 
         .pollen-mark {
@@ -509,6 +605,9 @@
           const topValue = topForecast?.value ?? 0;
           const topTone = toneClass(topValue);
           const region = data.region || {};
+          const rowCount = (data.pollen || []).length;
+          const tableBodyClass = rowCount <= 2 ? "table-body is-sparse" : "table-body";
+          app.classList.toggle("is-sparse", rowCount <= 2);
           const rows = (data.pollen || []).length
             ? data.pollen.map(pollenRow).join("")
             : `<article class="pollen-row tone-none"><div class="pollen-name"><span class="pollen-name-text">${escapeHtml(t("noLoad"))}</span></div>${forecastCell(null)}${forecastCell(null)}${forecastCell(null)}</article>`;
@@ -547,7 +646,7 @@
                 <span>${escapeHtml(t("tomorrow"))}</span>
                 <span>${escapeHtml(t("dayafter_to"))}</span>
               </div>
-              <div class="table-body">${rows}</div>
+              <div class="${tableBodyClass}">${rows}</div>
             </section>
 
             <footer class="pollen-footer">

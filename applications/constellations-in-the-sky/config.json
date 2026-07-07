@@ -122,13 +122,15 @@
         "type": "string",
         "title": "Custom date",
         "description": "Optional YYYY-MM-DD date used when Time is custom.",
-        "default": ""
+        "default": "",
+        "format": "date"
       },
       "customTime": {
         "type": "string",
         "title": "Display time",
         "description": "Local HH:MM time used for tonight and custom mode.",
-        "default": "22:00"
+        "default": "22:00",
+        "format": "time"
       },
       "projection": {
         "type": "string",

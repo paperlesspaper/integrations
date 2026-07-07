@@ -71,7 +71,6 @@
         padding: 20px;
         border: 3px solid var(--pp-border);
         background: var(--pp-card);
-        overflow: hidden;
       }
 
       .verse-card.is-losung {
@@ -103,7 +102,6 @@
         min-height: 0;
         display: flex;
         align-items: center;
-        overflow: hidden;
       }
 
       .verse-text {
@@ -292,8 +290,9 @@
             typeof messages[key] === "string"
               ? messages[key]
               : defaultMessages[key] || key;
-          return template.replace(/\{(\w+)\}/g, (_match, name) =>
-            values[name] ?? "",
+          return template.replace(
+            /\{(\w+)\}/g,
+            (_match, name) => values[name] ?? "",
           );
         }
 
@@ -388,7 +387,10 @@
               : `<div class="empty-state">${escapeHtml(t("empty"))}</div>`;
 
             document.getElementById("date").textContent = showDate
-              ? data.dateLabel || new Date(`${data.date}T12:00:00`).toLocaleDateString(currentLanguage)
+              ? data.dateLabel ||
+                new Date(`${data.date}T12:00:00`).toLocaleDateString(
+                  currentLanguage,
+                )
               : "";
             document.getElementById("updated").textContent =
               `${t("updated")}: ${new Date(data.updatedAt).toLocaleDateString(currentLanguage)}`;
@@ -418,7 +420,10 @@
           }
         }
 
-        const payload = await waitForPayload({ timeout: 300, onUpdate: renderPayload });
+        const payload = await waitForPayload({
+          timeout: 300,
+          onUpdate: renderPayload,
+        });
         await renderPayload(payload);
       })();
     </script>

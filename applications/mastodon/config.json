@@ -72,12 +72,14 @@
       "instanceUrl": {
         "type": "string",
         "title": "Instance URL",
-        "default": "https://mastodon.social"
+        "default": "https://mastodon.social",
+        "format": "url"
       },
       "accessToken": {
         "type": "string",
         "title": "Access token",
-        "default": ""
+        "default": "",
+        "format": "password"
       },
       "feedType": {
         "type": "string",

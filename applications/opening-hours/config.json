@@ -110,7 +110,8 @@
         "type": "string",
         "title": "Google Maps API key",
         "description": "Optional. You can also set GOOGLE_MAPS_API_KEY on the server.",
-        "default": ""
+        "default": "",
+        "format": "password"
       },
       "languageCode": {
         "type": "string",
@@ -178,12 +179,14 @@
       "phone": {
         "type": "string",
         "title": "Phone",
-        "default": ""
+        "default": "",
+        "format": "tel"
       },
       "website": {
         "type": "string",
         "title": "Website",
-        "default": ""
+        "default": "",
+        "format": "url"
       },
       "showWeeklyHours": {
         "type": "boolean",
