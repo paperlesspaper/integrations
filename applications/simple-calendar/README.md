@@ -1,6 +1,6 @@
 # Simple Calendar
 
-Monthly calendar integration inspired by the TRMNL Simple Calendar recipe.
+Monthly calendar integration.
 
 ## Links
 
@@ -9,10 +9,10 @@ Monthly calendar integration inspired by the TRMNL Simple Calendar recipe.
 
 ## Screenshots
 
-| Landscape | Portrait |
-| --- | --- |
+| Landscape                                                                                                                                                             | Portrait                                                                                                                                                            |
+| --------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | <img src="./screenshots/simple-calendar-berlin-persian-compact-800x480-landscape.png" alt="Simple Calendar landscape screenshot: Berlin Persian Compact" width="360"> | <img src="./screenshots/simple-calendar-berlin-persian-compact-480x800-portrait.png" alt="Simple Calendar portrait screenshot: Berlin Persian Compact" width="216"> |
-| <img src="./screenshots/simple-calendar-us-regular-800x480-landscape.png" alt="Simple Calendar landscape screenshot: Us Regular" width="360"> | <img src="./screenshots/simple-calendar-us-regular-480x800-portrait.png" alt="Simple Calendar portrait screenshot: Us Regular" width="216"> |
+| <img src="./screenshots/simple-calendar-us-regular-800x480-landscape.png" alt="Simple Calendar landscape screenshot: Us Regular" width="360">                         | <img src="./screenshots/simple-calendar-us-regular-480x800-portrait.png" alt="Simple Calendar portrait screenshot: Us Regular" width="216">                         |
 
 ## Settings
 

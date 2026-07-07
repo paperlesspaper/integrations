@@ -1,6 +1,6 @@
 # World Cup 2026
 
-World Cup 2026 dashboard for paperlesspaper OpenIntegrations. It is inspired by the TRMNL dashboard at `https://trmnl-fifa-2026.westling.dev/` and shows:
+World Cup 2026 dashboard for paperlesspaper OpenIntegrations. It shows:
 
 - Latest completed matches
 - Upcoming matches
@@ -21,10 +21,10 @@ Settings:
 
 ## Screenshots
 
-| Landscape | Portrait |
-| --- | --- |
+| Landscape                                                                                                                           | Portrait                                                                                                                          |
+| ----------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
 | <img src="./screenshots/world-cup-2026-sweden-800x480-landscape.png" alt="World Cup 2026 landscape screenshot: Sweden" width="360"> | <img src="./screenshots/world-cup-2026-sweden-480x800-portrait.png" alt="World Cup 2026 portrait screenshot: Sweden" width="216"> |
-| <img src="./screenshots/world-cup-2026-usa-800x480-landscape.png" alt="World Cup 2026 landscape screenshot: Usa" width="360"> | <img src="./screenshots/world-cup-2026-usa-480x800-portrait.png" alt="World Cup 2026 portrait screenshot: Usa" width="216"> |
+| <img src="./screenshots/world-cup-2026-usa-800x480-landscape.png" alt="World Cup 2026 landscape screenshot: Usa" width="360">       | <img src="./screenshots/world-cup-2026-usa-480x800-portrait.png" alt="World Cup 2026 portrait screenshot: Usa" width="216">       |
 
 ## Language Support
 

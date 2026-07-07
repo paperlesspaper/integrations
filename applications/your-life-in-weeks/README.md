@@ -1,6 +1,6 @@
 # Your Life in Weeks
 
-Shows a week-by-week lifetime grid inspired by the TRMNL "Your Life in Weeks" recipe.
+Shows a week-by-week lifetime grid.
 
 ## Settings
 
@@ -11,3 +11,7 @@ Shows a week-by-week lifetime grid inspired by the TRMNL "Your Life in Weeks" re
 - `showLegend`: Toggles the legend below the grid.
 
 The integration is static and does not call an external API.
+
+### Reference
+
+Inspired by the [TRMNL "Your Life in Weeks"](https://trmnl.com/recipes/22415) recipe.

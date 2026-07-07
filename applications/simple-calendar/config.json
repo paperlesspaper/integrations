@@ -2,7 +2,7 @@
   "name": "Simple Calendar",
   "version": "0.1.0",
   "status": "beta",
-  "description": "Shows a configurable monthly calendar inspired by the TRMNL Simple Calendar recipe.",
+  "description": "Shows a configurable monthly calendar.",
   "renderPage": "./render.html",
   "settingsPage": "./settings.html",
   "icon": "./assets/icon.png",
@@ -136,33 +136,21 @@
       "fontFamily": {
         "type": "string",
         "title": "Font",
-        "enum": [
-          "system",
-          "serif",
-          "mono"
-        ],
+        "enum": ["system", "serif", "mono"],
         "default": "system",
         "inStettingsPage": true
       },
       "density": {
         "type": "string",
         "title": "Font size",
-        "enum": [
-          "compact",
-          "regular",
-          "large"
-        ],
+        "enum": ["compact", "regular", "large"],
         "default": "regular",
         "inStettingsPage": true
       },
       "weekdayLabels": {
         "type": "string",
         "title": "Weekday labels",
-        "enum": [
-          "auto",
-          "show",
-          "hide"
-        ],
+        "enum": ["auto", "show", "hide"],
         "default": "auto",
         "inStettingsPage": true
       },
@@ -180,11 +168,5 @@
       }
     }
   },
-  "language": [
-    "en",
-    "de",
-    "fr",
-    "es",
-    "it"
-  ]
+  "language": ["en", "de", "fr", "es", "it"]
 }

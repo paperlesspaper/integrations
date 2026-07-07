@@ -1,6 +1,6 @@
 # Language Learning
 
-Shows a deterministic foreign-language word of the day on a paperlesspaper display. It is inspired by the TRMNL Language Learning plugin, but it runs as a self-contained Open Integration with no upstream API dependency.
+Shows a deterministic foreign-language word of the day on a paperlesspaper display.
 
 ## Links
 
@@ -33,3 +33,7 @@ The word is selected deterministically from the current UTC date, selected langu
 ## Language Support
 
 This integration declares `language: ["en", "de"]` in `config.json` and loads localized fixed UI copy from `languages/<code>.json` using the host-selected `payload.meta.language`.
+
+### Reference
+
+It is inspired by the [TRMNL Language Learning plugin](https://trmnl.com/integrations/language-learning).

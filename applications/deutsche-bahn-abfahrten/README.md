@@ -1,8 +1,6 @@
 # Deutsche Bahn Abfahrten
 
-Shows upcoming realtime departures for a Deutsche Bahn station, inspired by the TRMNL Deutsche Bahn Abfahrten plugin.
-
-[https://trmnl.com/integrations/deutsche-bahn-abfahrten](https://trmnl.com/integrations/deutsche-bahn-abfahrten)
+Shows upcoming realtime departures for a Deutsche Bahn station.
 
 ## Links
 
@@ -11,9 +9,9 @@ Shows upcoming realtime departures for a Deutsche Bahn station, inspired by the 
 
 ## Screenshots
 
-| Landscape | Portrait |
-| --- | --- |
-| <img src="./screenshots/deutsche-bahn-abfahrten-berlin-hbf-800x480-landscape.png" alt="Deutsche Bahn Abfahrten landscape screenshot: Berlin Hbf" width="360"> | <img src="./screenshots/deutsche-bahn-abfahrten-berlin-hbf-480x800-portrait.png" alt="Deutsche Bahn Abfahrten portrait screenshot: Berlin Hbf" width="216"> |
+| Landscape                                                                                                                                                                 | Portrait                                                                                                                                                                |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| <img src="./screenshots/deutsche-bahn-abfahrten-berlin-hbf-800x480-landscape.png" alt="Deutsche Bahn Abfahrten landscape screenshot: Berlin Hbf" width="360">             | <img src="./screenshots/deutsche-bahn-abfahrten-berlin-hbf-480x800-portrait.png" alt="Deutsche Bahn Abfahrten portrait screenshot: Berlin Hbf" width="216">             |
 | <img src="./screenshots/deutsche-bahn-abfahrten-hamburg-regional-800x480-landscape.png" alt="Deutsche Bahn Abfahrten landscape screenshot: Hamburg Regional" width="360"> | <img src="./screenshots/deutsche-bahn-abfahrten-hamburg-regional-480x800-portrait.png" alt="Deutsche Bahn Abfahrten portrait screenshot: Hamburg Regional" width="216"> |
 
 ## Settings
@@ -44,3 +42,7 @@ This API does not require an API key, returns realtime departure data when the u
 This integration declares `language: ["en", "de", "fr", "es", "it"]` in `config.json` and loads localized fixed UI copy from `languages/<code>.json` using the host-selected `payload.meta.language`.
 
 The language JSON files localize dashboard labels, empty states, update text, and error titles only. Integration settings such as `locale`, `language`, or external API language codes remain separate.
+
+### Reference
+
+[https://trmnl.com/integrations/deutsche-bahn-abfahrten](https://trmnl.com/integrations/deutsche-bahn-abfahrten)
