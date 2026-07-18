@@ -9,7 +9,6 @@
     "color": "dark",
     "kind": "primary",
     "showTime": false,
-    "language": "en-US",
     "holidayRegion": "DE-BE",
     "latitude": 52.52,
     "longitude": 13.405
@@ -114,15 +113,6 @@
         "title": "Show time",
         "default": false
       },
-      "language": {
-        "type": "string",
-        "title": "Language",
-        "enum": [
-          "en-US",
-          "de"
-        ],
-        "default": "en-US"
-      },
       "holidayRegion": {
         "type": "string",
         "title": "Public holidays",
@@ -157,9 +147,6 @@
   },
   "language": [
     "en",
-    "de",
-    "fr",
-    "es",
-    "it"
+    "de"
   ]
 }

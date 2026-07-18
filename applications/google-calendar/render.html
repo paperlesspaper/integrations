@@ -6,6 +6,7 @@
     <meta name="paperless:epd-optimize" content='{"intent":"readable"}' />
     <title>Google Calendar</title>
     <link rel="stylesheet" href="/assets/paperless.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/iconoir-icons/iconoir@main/css/iconoir.css" />
     <script src="/assets/paperless.iife.js"></script>
     <style>
       .calendar-screen {
@@ -142,6 +143,67 @@
         border-bottom-width: 0;
       }
 
+      .event-heading,
+      .compact-heading,
+      .week-event-heading {
+        width: 100%;
+        min-width: 0;
+        display: flex;
+        align-items: flex-start;
+        gap: 0.35em;
+      }
+
+      .event-icon,
+      .compact-icon,
+      .week-icon {
+        flex: 0 0 auto;
+        width: 1.15em;
+        height: 1.15em;
+        display: inline-grid;
+        place-items: center;
+        border: 0.08em solid currentColor;
+        border-radius: 0.18em;
+        color: currentColor;
+        line-height: 1;
+        overflow: hidden;
+      }
+
+      .event-icon {
+        margin-top: 0.05em;
+        font-size: 1.3em;
+      }
+
+      .compact-icon,
+      .week-icon {
+        margin-top: 0.02em;
+        font-size: 0.9em;
+      }
+
+      .event-icon [class^="iconoir-"],
+      .event-icon [class*=" iconoir-"],
+      .compact-icon [class^="iconoir-"],
+      .compact-icon [class*=" iconoir-"],
+      .week-icon [class^="iconoir-"],
+      .week-icon [class*=" iconoir-"] {
+        font-size: 0.82em;
+      }
+
+      .event-image,
+      .compact-image,
+      .week-image {
+        display: block;
+        width: 100%;
+        object-fit: contain;
+        border: 2px solid currentColor;
+        background: var(--calendar-bg);
+        filter: contrast(1.05);
+      }
+
+      .event-image {
+        height: 5em;
+        margin-top: 0.45em;
+      }
+
       .event-time {
         margin: 0 0.3em 0.1em 0;
         font-size: 2em;
@@ -155,6 +217,8 @@
         font-size: 1.4em;
         line-height: 1.15;
         font-weight: 400;
+        flex: 1;
+        min-width: 0;
         overflow-wrap: anywhere;
       }
 
@@ -282,6 +346,18 @@
         overflow-wrap: anywhere;
       }
 
+      .compact-title,
+      .week-event-title {
+        flex: 1;
+        min-width: 0;
+      }
+
+      .compact-image {
+        height: 2.8em;
+        margin-top: 0.25em;
+        border-width: 1px;
+      }
+
       .week-grid {
         flex: 1;
         min-height: 0;
@@ -331,6 +407,16 @@
         font-size: 0.82em;
         line-height: 1;
         font-weight: 900;
+      }
+
+      .week-event-time {
+        font-weight: 900;
+      }
+
+      .week-image {
+        height: 2.4em;
+        margin-top: 0.2em;
+        border-width: 1px;
       }
 
       .year-grid {
@@ -488,6 +574,14 @@
           font-size: 0.95em;
         }
 
+        .event-image {
+          height: 4em;
+        }
+
+        .compact-image {
+          height: 2.2em;
+        }
+
         .week-event {
           font-size: 0.72em;
         }
@@ -538,6 +632,8 @@
           maxEvents: DEFAULT_MAX_EVENTS,
           highlightToday: false,
           highlightScale: DEFAULT_HIGHLIGHT_SCALE,
+          showEventIcons: true,
+          showEventImages: false,
         };
         const fallbackMessages = {
           allDay: "All day",
@@ -557,6 +653,39 @@
             untitled: "Termin ohne Titel",
           },
           en: fallbackMessages,
+        };
+        const eventIconAliases = {
+          appointment: "calendar",
+          alert: "warning-triangle",
+          bag: "shopping-bag",
+          birthday: "birthday-cake",
+          briefcase: "suitcase",
+          cake: "birthday-cake",
+          call: "phone",
+          dentist: "healthcare",
+          doctor: "healthcare",
+          flight: "airplane",
+          focus: "star",
+          gym: "sport",
+          health: "healthcare",
+          holiday: "airplane",
+          medical: "healthcare",
+          medicine: "healthcare",
+          meeting: "group",
+          music: "music-note",
+          office: "suitcase",
+          plane: "airplane",
+          reminder: "warning-triangle",
+          restaurant: "organic-food",
+          school: "open-book",
+          shop: "shopping-bag",
+          shopping: "shopping-bag",
+          sport: "gym",
+          travel: "airplane",
+          trip: "airplane",
+          vacation: "beach-bag",
+          video: "video-camera",
+          work: "suitcase",
         };
         const screen = document.getElementById("screen");
         const calendar = document.getElementById("calendar");
@@ -629,6 +758,8 @@
               max: 3,
               fallback: DEFAULT_HIGHLIGHT_SCALE,
             }),
+            showEventIcons: parseBoolean(settings.showEventIcons, true),
+            showEventImages: parseBoolean(settings.showEventImages, false),
           };
         }
 
@@ -1018,24 +1149,154 @@
           return formatTime(event, event.start?.dateTime);
         }
 
+        function normalizeIconName(value) {
+          return String(value || "")
+            .trim()
+            .toLowerCase()
+            .replace(/[^a-z0-9]+/g, "-")
+            .replace(/^-+|-+$/g, "")
+            .slice(0, 48);
+        }
+
+        function readableIconName(value) {
+          return normalizeIconName(value).replace(/-/g, " ");
+        }
+
+        function extractIconTokens(value, metadata) {
+          return String(value || "").replace(/\[icon:([^\]\n]+)\]/gi, (_match, name) => {
+            const iconName = normalizeIconName(name);
+            if (iconName && !metadata.iconName) {
+              metadata.iconName = iconName;
+            }
+            return "";
+          });
+        }
+
+        function cleanEventText(value) {
+          return String(value || "").replace(/\s+/g, " ").trim();
+        }
+
+        function decodeHtmlValue(value) {
+          const textarea = document.createElement("textarea");
+          textarea.innerHTML = String(value || "");
+          return textarea.value.trim();
+        }
+
+        function isLikelyImageUrl(url) {
+          return /\.(avif|gif|jpe?g|png|svg|webp)$/i.test(url.pathname);
+        }
+
+        function sanitizeImageUrl(value, options = {}) {
+          const rawUrl = decodeHtmlValue(value);
+          if (!rawUrl) {
+            return "";
+          }
+          let parsed;
+          try {
+            parsed = new URL(rawUrl, window.location.href);
+          } catch (_error) {
+            return "";
+          }
+          if (!["http:", "https:"].includes(parsed.protocol)) {
+            return "";
+          }
+          if (options.requireImageLike && !isLikelyImageUrl(parsed)) {
+            return "";
+          }
+          return parsed.href;
+        }
+
+        function extractDescriptionImageUrl(description) {
+          const rawDescription = String(description || "");
+          if (!rawDescription.trim()) {
+            return "";
+          }
+          const candidates = [];
+          const template = document.createElement("template");
+          template.innerHTML = rawDescription;
+
+          for (const image of template.content.querySelectorAll("img[src]")) {
+            candidates.push({ requireImageLike: false, url: image.getAttribute("src") });
+          }
+          for (const link of template.content.querySelectorAll("a[href]")) {
+            candidates.push({ requireImageLike: true, url: link.getAttribute("href") });
+          }
+
+          const textDescription = rawDescription.replace(/<[^>]*>/g, " ");
+          for (const match of textDescription.matchAll(/https?:\/\/[^\s<>"')]+/gi)) {
+            candidates.push({ requireImageLike: true, url: match[0] });
+          }
+
+          for (const candidate of candidates) {
+            const url = sanitizeImageUrl(candidate.url, {
+              requireImageLike: candidate.requireImageLike,
+            });
+            if (url) {
+              return url;
+            }
+          }
+          return "";
+        }
+
+        function getEventPresentation(event) {
+          const metadata = { iconName: "" };
+          const rawTitle = String(event.summary || currentMessages.untitled);
+          const titleWithoutIcon = extractIconTokens(rawTitle, metadata);
+          const rawDescription = typeof event.description === "string" ? event.description : "";
+          const descriptionWithoutIcon = extractIconTokens(rawDescription, metadata);
+          const title = cleanEventText(titleWithoutIcon) || currentMessages.untitled;
+          return {
+            iconName: metadata.iconName,
+            imageUrl: currentSettings.showEventImages
+              ? extractDescriptionImageUrl(descriptionWithoutIcon)
+              : "",
+            title,
+          };
+        }
+
+        function renderEventIcon(iconName, className) {
+          const normalized = normalizeIconName(iconName);
+          if (!currentSettings.showEventIcons || !normalized) {
+            return "";
+          }
+          const iconKey = eventIconAliases[normalized] || normalized;
+          const label = readableIconName(normalized);
+          return `<span class="${className}" title="${escapeHtml(label)}" aria-hidden="true"><i class="iconoir-${escapeHtml(iconKey)}"></i></span>`;
+        }
+
+        function renderEventImage(imageUrl, className) {
+          if (!currentSettings.showEventImages || !imageUrl) {
+            return "";
+          }
+          return `<img class="${className}" src="${escapeHtml(imageUrl)}" alt="" loading="eager" decoding="async">`;
+        }
+
         function renderEvent(event) {
           const time = eventTimeText(event);
-          const title = String(event.summary || currentMessages.untitled);
+          const presentation = getEventPresentation(event);
           return `
             <article class="event-card">
               <p class="event-time">${escapeHtml(time)}</p>
-              <h2 class="event-title">${escapeHtml(title)}</h2>
+              <div class="event-heading">
+                ${renderEventIcon(presentation.iconName, "event-icon")}
+                <h2 class="event-title">${escapeHtml(presentation.title)}</h2>
+              </div>
+              ${renderEventImage(presentation.imageUrl, "event-image")}
             </article>
           `;
         }
 
         function renderCompactEvent(event) {
           const time = eventTimeText(event);
-          const title = String(event.summary || currentMessages.untitled);
+          const presentation = getEventPresentation(event);
           return `
             <article class="compact-event">
               <p class="compact-time">${escapeHtml(time)}</p>
-              <h3 class="compact-title">${escapeHtml(title)}</h3>
+              <div class="compact-heading">
+                ${renderEventIcon(presentation.iconName, "compact-icon")}
+                <h3 class="compact-title">${escapeHtml(presentation.title)}</h3>
+              </div>
+              ${renderEventImage(presentation.imageUrl, "compact-image")}
             </article>
           `;
         }
@@ -1147,8 +1408,17 @@
                       <div class="week-events">
                         ${visible
                           .map((item) => {
-                            const title = String(item.event.summary || currentMessages.untitled);
-                            return `<div class="week-event">${escapeHtml(eventTimeText(item.event))}<br>${escapeHtml(title)}</div>`;
+                            const presentation = getEventPresentation(item.event);
+                            return `
+                              <div class="week-event">
+                                <div class="week-event-time">${escapeHtml(eventTimeText(item.event))}</div>
+                                <div class="week-event-heading">
+                                  ${renderEventIcon(presentation.iconName, "week-icon")}
+                                  <span class="week-event-title">${escapeHtml(presentation.title)}</span>
+                                </div>
+                                ${renderEventImage(presentation.imageUrl, "week-image")}
+                              </div>
+                            `;
                           })
                           .join("")}
                         ${hidden > 0 ? `<div class="more-events">${escapeHtml(moreEventsLabel(hidden))}</div>` : ""}
@@ -1253,11 +1523,49 @@
           screen.classList.add(`theme-${theme}`);
         }
 
-        function handleEvents(events) {
+        function waitForImages(root, timeoutMs = 3000) {
+          const images = Array.from(root.querySelectorAll("img"));
+          return Promise.all(
+            images.map((image) => {
+              if (image.complete) {
+                return Promise.resolve();
+              }
+              return new Promise((resolve) => {
+                const finish = () => {
+                  clearTimeout(timer);
+                  resolve();
+                };
+                const timer = window.setTimeout(finish, timeoutMs);
+                image.addEventListener("load", finish, { once: true });
+                image.addEventListener("error", finish, { once: true });
+              });
+            }),
+          );
+        }
+
+        async function settleCalendarRender() {
+          await document.fonts?.ready;
+          await waitForImages(screen);
+          renderCalendar();
+          await waitForImages(screen);
+        }
+
+        function showCalendarError(error) {
+          markError(error);
+          document.body.innerHTML = `
+            <main class="pp-screen">
+              <h1 class="pp-title pp-error">${escapeHtml(currentMessages.errorTitle)}</h1>
+              <p>${escapeHtml(error?.message || String(error))}</p>
+            </main>
+          `;
+        }
+
+        async function handleEvents(events) {
           markLoading?.();
           hasReceivedCalendarData = true;
           eventsData = events;
           renderCalendar();
+          await settleCalendarRender();
           markReady();
         }
 
@@ -1266,7 +1574,9 @@
           if (!nextEvents) {
             return;
           }
-          handleEvents(nextEvents);
+          handleEvents(nextEvents).catch((error) => {
+            showCalendarError(error);
+          });
         }
 
         function buildSampleEvents(now) {
@@ -1287,17 +1597,18 @@
               kind: "calendar#event",
               id,
               summary,
+              description: summary.includes("Project") ? '<img src="./assets/icon.png" alt="">' : "",
               start: { dateTime: toLocalIso(start), timeZone },
               end: { dateTime: toLocalIso(end), timeZone },
             };
           };
           return [
-            timedEvent("sample-standup", "Team standup", 9, 30, 30, 0),
-            timedEvent("sample-planning", "Sprint planning", 14, 0, 90, 0),
+            timedEvent("sample-standup", "[icon:meeting] Team standup", 9, 30, 30, 0),
+            timedEvent("sample-planning", "[icon:work] Sprint planning", 14, 0, 90, 0),
             {
               kind: "calendar#event",
               id: "sample-focus",
-              summary: "Focus day",
+              summary: "[icon:focus] Focus day",
               start: {
                 date: dateKeyFromLocalDate(addDays(startOfDay(now), 1)),
               },
@@ -1305,10 +1616,10 @@
                 date: dateKeyFromLocalDate(addDays(startOfDay(now), 2)),
               },
             },
-            timedEvent("sample-review", "Project review", 11, 0, 60, 2),
+            timedEvent("sample-review", "[icon:briefcase] Project review", 11, 0, 60, 2),
             timedEvent("sample-retro", "Retrospective", 15, 30, 45, 7),
-            timedEvent("sample-dentist", "Dentist", 8, 15, 45, 31),
-            timedEvent("sample-trip", "City trip", 10, 0, 120, 92),
+            timedEvent("sample-dentist", "[icon:medical] Dentist", 8, 15, 45, 31),
+            timedEvent("sample-trip", "[icon:travel] City trip", 10, 0, 120, 92),
             timedEvent("sample-renewal", "Subscription renewal", 12, 0, 30, 183),
           ];
         }
@@ -1337,17 +1648,10 @@
             }
 
             renderCalendar();
-            await document.fonts?.ready;
-            renderCalendar();
+            await settleCalendarRender();
             markReady();
           } catch (error) {
-            markError(error);
-            document.body.innerHTML = `
-              <main class="pp-screen">
-                <h1 class="pp-title pp-error">${escapeHtml(currentMessages.errorTitle)}</h1>
-                <p>${escapeHtml(error?.message || String(error))}</p>
-              </main>
-            `;
+            showCalendarError(error);
           }
         }
 
@@ -1357,13 +1661,7 @@
             const payload = await waitForPayload({ timeoutMs: 500, fallback: {}, onUpdate: renderPayload });
             await renderPayload(payload);
           } catch (error) {
-            markError(error);
-            document.body.innerHTML = `
-              <main class="pp-screen">
-                <h1 class="pp-title pp-error">${escapeHtml(currentMessages.errorTitle)}</h1>
-                <p>${escapeHtml(error?.message || String(error))}</p>
-              </main>
-            `;
+            showCalendarError(error);
           }
         }
 

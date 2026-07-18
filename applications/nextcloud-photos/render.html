@@ -1,0 +1,384 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="paperless:epd-optimize" content='{"intent":"natural"}'>
+    <title>Nextcloud Photos</title>
+    <link rel="stylesheet" href="/assets/paperless.css">
+    <script src="/assets/paperless.iife.js"></script>
+    <style>
+      .photo-screen {
+        position: relative;
+        display: grid;
+        width: 100vw;
+        height: 100vh;
+        padding: 0;
+        overflow: hidden;
+        background: var(--pp-bg);
+        color: var(--pp-text);
+      }
+
+      .photo-image {
+        width: 100%;
+        height: 100%;
+        min-width: 0;
+        min-height: 0;
+        display: block;
+        object-position: center;
+        background: var(--pp-card);
+      }
+
+      .photo-screen.is-contain {
+        padding: clamp(12px, 2.5vw, 28px);
+        gap: clamp(10px, 2vw, 20px);
+        grid-template-rows: minmax(0, 1fr) auto;
+      }
+
+      .photo-screen.is-contain .photo-image {
+        border: 2px solid var(--pp-border);
+        border-radius: clamp(8px, 1.5vw, 18px);
+      }
+
+      .photo-details {
+        position: absolute;
+        z-index: 2;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        display: none;
+        align-items: flex-end;
+        justify-content: space-between;
+        gap: 20px;
+        padding: clamp(32px, 7vw, 86px) clamp(18px, 3.5vw, 44px) clamp(16px, 3vw, 34px);
+        background: linear-gradient(to top, rgba(0, 0, 0, 0.82), rgba(0, 0, 0, 0));
+        color: #fff;
+      }
+
+      .photo-details.is-visible {
+        display: flex;
+      }
+
+      .photo-screen.is-contain .photo-details {
+        position: static;
+        min-height: 54px;
+        padding: 0 2px;
+        background: none;
+        color: var(--pp-text);
+      }
+
+      .photo-copy {
+        min-width: 0;
+      }
+
+      .album-name {
+        margin: 0;
+        font-size: clamp(1.2rem, 2.8vw, 2.7rem);
+        line-height: 1.08;
+        font-weight: 820;
+        overflow-wrap: anywhere;
+      }
+
+      .photo-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px 14px;
+        margin: 7px 0 0;
+        font-size: clamp(0.8rem, 1.45vw, 1.2rem);
+        line-height: 1.25;
+        font-weight: 650;
+        opacity: 0.86;
+      }
+
+      .photo-position {
+        flex: 0 0 auto;
+        margin: 0;
+        padding: 7px 11px;
+        border: 1px solid currentColor;
+        border-radius: 999px;
+        font-size: clamp(0.74rem, 1.25vw, 1.05rem);
+        line-height: 1;
+        font-weight: 750;
+        white-space: nowrap;
+      }
+
+      .sample-badge {
+        position: absolute;
+        z-index: 3;
+        top: clamp(12px, 2.5vw, 28px);
+        right: clamp(12px, 2.5vw, 28px);
+        display: none;
+        padding: 7px 11px;
+        border: 1px solid rgba(255, 255, 255, 0.7);
+        border-radius: 999px;
+        background: rgba(0, 0, 0, 0.68);
+        color: #fff;
+        font-size: clamp(0.68rem, 1.15vw, 0.94rem);
+        line-height: 1;
+        font-weight: 750;
+      }
+
+      .sample-badge.is-visible {
+        display: block;
+      }
+
+      .photo-status {
+        position: absolute;
+        z-index: 4;
+        inset: 0;
+        display: grid;
+        place-items: center;
+        padding: 28px;
+        background: var(--pp-bg);
+        color: var(--pp-text);
+        text-align: center;
+      }
+
+      .photo-status h1 {
+        margin: 0 0 10px;
+        font-size: clamp(2rem, 5vw, 4rem);
+        line-height: 1.05;
+      }
+
+      .photo-status p {
+        max-width: 58ch;
+        margin: 0 auto;
+        color: var(--pp-muted);
+        font-size: clamp(1rem, 2vw, 1.4rem);
+        line-height: 1.35;
+      }
+
+      @media (orientation: portrait) {
+        .photo-screen.is-contain {
+          padding: clamp(14px, 4vw, 28px);
+        }
+
+        .photo-details {
+          align-items: flex-start;
+          flex-direction: column;
+          gap: 12px;
+          padding-bottom: clamp(22px, 5vw, 42px);
+        }
+
+        .photo-screen.is-contain .photo-details {
+          min-height: 112px;
+        }
+
+        .photo-position {
+          align-self: flex-start;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="website-has-loading-element"></div>
+
+    <main class="photo-screen" id="photo-screen">
+      <img class="photo-image" id="photo-image" alt="">
+      <span class="sample-badge" id="sample-badge"></span>
+      <section class="photo-details" id="photo-details" aria-label="">
+        <div class="photo-copy">
+          <h1 class="album-name" id="album-name"></h1>
+          <p class="photo-meta" id="photo-meta"></p>
+        </div>
+        <p class="photo-position" id="photo-position"></p>
+      </section>
+      <section class="photo-status" id="photo-status">
+        <div>
+          <h1>Nextcloud Photos</h1>
+          <p>Loading your Nextcloud album…</p>
+        </div>
+      </section>
+    </main>
+
+    <script>
+      (async function render() {
+        const {
+          waitForPayload,
+          loadLanguageJson,
+          getSettings,
+          getQuerySettings,
+          mergeSettings,
+          applyColorTheme,
+          escapeHtml,
+          fitAllText,
+          fitToScreen,
+          markLoading,
+          markReady,
+          markError,
+        } = window.PaperlessOpenIntegration;
+
+        const defaultMessages = {
+          title: "Nextcloud Photos",
+          loading: "Loading your Nextcloud album…",
+          errorTitle: "Nextcloud Photos could not load",
+          apiFailed: "Nextcloud request failed with {status}",
+          imageFailed: "The selected Nextcloud photo could not be displayed.",
+          photoDetailsLabel: "Photo details",
+          photoPosition: "Photo {index} of {count}",
+          sample: "Preview album",
+        };
+        const defaults = {
+          color: "light",
+          serverUrl: "",
+          username: "",
+          userId: "",
+          appPassword: "",
+          albumName: "",
+          selection: "daily",
+          photoNumber: 1,
+          fit: "cover",
+          showAlbumName: true,
+          showFilename: false,
+          showCaptureDate: true,
+          showPhotoCount: true,
+          locale: "en-US",
+        };
+        let messages = defaultMessages;
+        let renderRequest = 0;
+
+        function t(key, values = {}) {
+          const template = typeof messages[key] === "string" ? messages[key] : defaultMessages[key] || key;
+          return template.replace(/\{(\w+)\}/g, (_match, name) => values[name] ?? "");
+        }
+
+        function isEnabled(value) {
+          return value === true || value === "true" || value === "1";
+        }
+
+        function formatDate(value, locale) {
+          if (!value) return "";
+          const date = new Date(value);
+          if (Number.isNaN(date.getTime())) return "";
+          return date.toLocaleDateString(locale || undefined, {
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+          });
+        }
+
+        async function loadMessages(payload) {
+          let result;
+          if (typeof loadLanguageJson === "function") {
+            result = await loadLanguageJson(payload);
+          } else {
+            const requested = String(payload?.meta?.language || "en").split("-")[0].toLowerCase();
+            const language = ["en", "de", "fr", "es", "it"].includes(requested) ? requested : "en";
+            const response = await fetch(`./languages/${language}.json`, { cache: "no-store" });
+            if (!response.ok) throw new Error(`Could not load language JSON: ${response.status}`);
+            result = { language, messages: await response.json() };
+          }
+          messages = { ...defaultMessages, ...result.messages };
+          document.documentElement.lang = result.language || "en";
+          document.getElementById("photo-details").setAttribute("aria-label", t("photoDetailsLabel"));
+        }
+
+        function showStatus(title, message) {
+          const status = document.getElementById("photo-status");
+          status.innerHTML = `<div><h1>${escapeHtml(title)}</h1><p>${escapeHtml(message)}</p></div>`;
+          status.style.display = "grid";
+        }
+
+        function apiUrl(settings) {
+          const url = new URL("./api/data", window.location.href);
+          for (const [key, value] of Object.entries(settings)) {
+            if (value !== undefined && value !== null) url.searchParams.set(key, String(value));
+          }
+          return url;
+        }
+
+        async function readApiError(response) {
+          const text = await response.text();
+          if (!text) return t("apiFailed", { status: response.status });
+          try {
+            return JSON.parse(text).error || text;
+          } catch {
+            return text.split("\n")[0].replace(/^Error:\s*/, "");
+          }
+        }
+
+        function payloadFromMessage(event) {
+          const message = event.data;
+          if (!message || typeof message !== "object") return null;
+          if (message.type !== "INIT" && message.cmd !== "message") return null;
+          return message.data && typeof message.data === "object" ? message.data : null;
+        }
+
+        async function renderPayload(payload) {
+          const request = ++renderRequest;
+          try {
+            markLoading?.();
+            await loadMessages(payload);
+            const settings = mergeSettings(defaults, getSettings(payload), getQuerySettings());
+            applyColorTheme?.(settings.color);
+            showStatus(t("title"), t("loading"));
+
+            const response = await fetch(apiUrl(settings), { cache: "no-store" });
+            if (!response.ok) throw new Error(await readApiError(response));
+            const data = await response.json();
+            if (request !== renderRequest) return;
+
+            const screen = document.getElementById("photo-screen");
+            const image = document.getElementById("photo-image");
+            const details = document.getElementById("photo-details");
+            const albumName = document.getElementById("album-name");
+            const meta = document.getElementById("photo-meta");
+            const position = document.getElementById("photo-position");
+            const badge = document.getElementById("sample-badge");
+            const fit = settings.fit === "contain" ? "contain" : "cover";
+            const metaParts = [];
+            const title = isEnabled(settings.showAlbumName) ? data.albumName : "";
+
+            screen.classList.toggle("is-contain", fit === "contain");
+            image.style.objectFit = fit;
+            image.alt = data.photo?.name || data.albumName || t("title");
+            albumName.textContent = title;
+
+            if (isEnabled(settings.showFilename) && data.photo?.name) metaParts.push(data.photo.name);
+            if (isEnabled(settings.showCaptureDate)) {
+              const date = formatDate(data.photo?.modifiedAt, settings.locale);
+              if (date) metaParts.push(date);
+            }
+
+            meta.innerHTML = metaParts.map((part) => `<span>${escapeHtml(part)}</span>`).join("");
+            position.textContent = isEnabled(settings.showPhotoCount)
+              ? t("photoPosition", { index: data.index, count: data.count })
+              : "";
+            position.style.display = position.textContent ? "block" : "none";
+            details.classList.toggle("is-visible", Boolean(title || metaParts.length || position.textContent));
+            badge.textContent = t("sample");
+            badge.classList.toggle("is-visible", data.source === "sample");
+
+            image.src = data.photo.imageDataUrl;
+            await image.decode();
+            if (request !== renderRequest) return;
+
+            document.getElementById("photo-status").style.display = "none";
+            await fitAllText?.();
+            await fitToScreen?.();
+            markReady({ source: data.source, selection: settings.selection, photo: data.photo.name });
+          } catch (error) {
+            if (request !== renderRequest) return;
+            markError(error);
+            showStatus(t("errorTitle"), error.message);
+          }
+        }
+
+        function handlePayloadMessage(event) {
+          const payload = payloadFromMessage(event);
+          if (payload) renderPayload(payload);
+        }
+
+        try {
+          const payload = await waitForPayload({ timeoutMs: 500, onUpdate: renderPayload });
+          await renderPayload(payload);
+        } catch (error) {
+          markError(error);
+          showStatus(t("errorTitle"), error.message);
+        } finally {
+          window.addEventListener("message", handlePayloadMessage);
+        }
+      })();
+    </script>
+  </body>
+</html>

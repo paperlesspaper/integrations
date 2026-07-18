@@ -1,0 +1,10 @@
+{
+  "title": "Fotos de Nextcloud",
+  "loading": "Cargando tu álbum de Nextcloud…",
+  "errorTitle": "No se pudieron cargar las fotos de Nextcloud",
+  "apiFailed": "La solicitud a Nextcloud falló ({status})",
+  "imageFailed": "No se pudo mostrar la foto seleccionada de Nextcloud.",
+  "photoDetailsLabel": "Detalles de la foto",
+  "photoPosition": "Foto {index} de {count}",
+  "sample": "Álbum de muestra"
+}

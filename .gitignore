@@ -6,5 +6,7 @@ npm-debug.log
 output
 # applications/*/screenshots
 public/runner.css
+public/fonts/
+vendor/openintegration/dist/fonts/
 .playwright-cli/*
 applications/constellations-in-the-sky/assets/virtualsky/

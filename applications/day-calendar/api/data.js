@@ -41,6 +41,69 @@ const regionNames = {
   CA: "Canada",
   AU: "Australia",
 };
+const localizedRegionNames = {
+  de: {
+    off: "Aus",
+    DE: "Deutschland",
+    "DE-BE": "Berlin",
+    AT: "Österreich",
+    CH: "Schweiz",
+    US: "Vereinigte Staaten",
+    "GB-ENG": "England",
+    FR: "Frankreich",
+    ES: "Spanien",
+    IT: "Italien",
+    NL: "Niederlande",
+    CA: "Kanada",
+    AU: "Australien",
+  },
+};
+const localizedHolidayNames = {
+  de: {
+    "New Year": "Neujahr",
+    "Labour Day": "Tag der Arbeit",
+    "German Unity Day": "Tag der Deutschen Einheit",
+    "Christmas Day": "Erster Weihnachtstag",
+    "Boxing Day": "Zweiter Weihnachtstag",
+    "Good Friday": "Karfreitag",
+    "Easter Monday": "Ostermontag",
+    "Ascension Day": "Christi Himmelfahrt",
+    "Whit Monday": "Pfingstmontag",
+    "Women's Day": "Internationaler Frauentag",
+    Epiphany: "Heilige Drei Könige",
+    "National Day": "Nationalfeiertag",
+    "St Stephen": "Stephanitag",
+    "Corpus Christi": "Fronleichnam",
+    Juneteenth: "Juneteenth",
+    "Independence Day": "Unabhängigkeitstag",
+    "Veterans Day": "Veteranentag",
+    "MLK Day": "Martin Luther King Jr. Day",
+    "Presidents Day": "Presidents Day",
+    "Memorial Day": "Memorial Day",
+    "Labor Day": "Labor Day",
+    "Columbus Day": "Columbus Day",
+    Thanksgiving: "Thanksgiving",
+    "Early May Bank Holiday": "Early May Bank Holiday",
+    "Spring Bank Holiday": "Spring Bank Holiday",
+    "Summer Bank Holiday": "Summer Bank Holiday",
+    "Victory Day": "Tag des Sieges",
+    "Bastille Day": "Nationalfeiertag",
+    Assumption: "Mariä Himmelfahrt",
+    "All Saints": "Allerheiligen",
+    Armistice: "Waffenstillstandstag",
+    "Constitution Day": "Tag der Verfassung",
+    "Immaculate Conception": "Mariä Empfängnis",
+    "Liberation Day": "Tag der Befreiung",
+    "Republic Day": "Tag der Republik",
+    Ferragosto: "Ferragosto",
+    "King's Day": "Königstag",
+    "Canada Day": "Canada Day",
+    "Remembrance Day": "Remembrance Day",
+    "Australia Day": "Australia Day",
+    "Anzac Day": "Anzac Day",
+    "Easter Tuesday": "Osterdienstag",
+  },
+};
 const seasonLabels = {
   en: {
     spring: "Spring",
@@ -64,7 +127,7 @@ const seasonLabels = {
     week: "Week {week}",
   },
   de: {
-    spring: "Fruhling",
+    spring: "Frühling",
     summer: "Sommer",
     autumn: "Herbst",
     winter: "Winter",
@@ -75,7 +138,7 @@ const seasonLabels = {
     lessLight: "weniger Licht als gestern",
     sameLight: "etwa gleich viel Licht wie gestern",
     noHoliday: "Heute kein gelisteter Feiertag",
-    nextObservance: "Nachster Aktionstag",
+    nextObservance: "Nächster Aktionstag",
     holiday: "Feiertag",
     observance: "Aktionstag",
     dayProgress: "Jahresfortschritt",
@@ -115,6 +178,35 @@ function text(key, language, values = {}) {
   const labels = seasonLabels[languageBase(language)] || seasonLabels.en;
   const template = labels[key] || seasonLabels.en[key] || key;
   return template.replace(/\{(\w+)\}/g, (_match, name) => values[name] ?? "");
+}
+
+function regionName(region, language) {
+  return (
+    localizedRegionNames[languageBase(language)]?.[region] ||
+    regionNames[region] ||
+    region
+  );
+}
+
+function holidayName(name, language) {
+  return localizedHolidayNames[languageBase(language)]?.[name] || name;
+}
+
+function uniqueLabels(labels) {
+  const seen = new Set();
+  return labels.filter((label) => {
+    if (!label) {
+      return false;
+    }
+
+    const key = label.toLowerCase();
+    if (seen.has(key)) {
+      return false;
+    }
+
+    seen.add(key);
+    return true;
+  });
 }
 
 function safeDatePart(date, locale, options) {
@@ -413,13 +505,14 @@ function findNextObservance(now, observances) {
 function buildHolidayObservanceFact(now, language, holidayRegion) {
   const observances = languageBase(language) === "de" ? observancesDe : observancesEn;
   const holiday = holidayMap(now.getFullYear(), holidayRegion).get(dateKey(now));
+  const localizedHoliday = holiday ? holidayName(holiday, language) : "";
   const observance = observances[monthDayKey(now)];
 
-  if (holiday || observance) {
+  if (localizedHoliday || observance) {
     return {
-      title: holiday ? text("holiday", language) : text("observance", language),
-      text: [holiday, observance].filter(Boolean).join(" - "),
-      meta: regionNames[holidayRegion] || holidayRegion,
+      title: localizedHoliday ? text("holiday", language) : text("observance", language),
+      text: uniqueLabels([localizedHoliday, observance]).join(" - "),
+      meta: regionName(holidayRegion, language),
     };
   }
 
@@ -430,7 +523,7 @@ function buildHolidayObservanceFact(now, language, holidayRegion) {
     text: text("noHoliday", language),
     meta: next
       ? `${text("nextObservance", language)}: ${next.label} (${formatter.format(next.date)})`
-      : regionNames[holidayRegion] || holidayRegion,
+      : regionName(holidayRegion, language),
   };
 }
 

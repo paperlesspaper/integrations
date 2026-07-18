@@ -29,7 +29,15 @@ It also accepts OpenIntegration payloads where events are provided as:
 - `{ "calendarData": { "events": [...] } }`
 - `{ "meta": { "calendarData": { "events": [...] } } }`
 
-Settings can be passed through `meta.pluginSettings` or query parameters. Supported settings are `color`, `view`, `language`, `dayRange`, `maxEvents`, `highlightToday`, and `highlightScale`.
+Settings can be passed through `meta.pluginSettings` or query parameters. Supported settings are `color`, `view`, `language`, `dayRange`, `maxEvents`, `highlightToday`, `highlightScale`, `showEventIcons`, and `showEventImages`.
+
+Event titles or descriptions can include an icon marker:
+
+```txt
+[icon:medical] Dentist
+```
+
+The marker is removed from the displayed text. When `showEventIcons` is enabled, icon names render through Iconoir from jsDelivr. Use Iconoir class names without the `iconoir-` prefix, such as `[icon:airplane]`; friendly aliases such as `medical`, `birthday`, and `work` are mapped to Iconoir names. When `showEventImages` is enabled, the first safe image URL from an event description is displayed. Image extraction supports HTML `<img src="...">`, image links, and plain image URLs.
 
 `view` supports:
 

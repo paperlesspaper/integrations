@@ -11,308 +11,10 @@
     <link rel="stylesheet" href="/assets/paperless.css" />
     <script src="/assets/paperless.iife.js"></script>
     <script src="./data/trees.js"></script>
-    <style>
-      .tree-screen {
-        padding: 0;
-        gap: 0;
-      }
-
-      .tree-shell {
-        width: 100%;
-        height: 100%;
-        min-height: 0;
-        display: grid;
-        grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
-        grid-template-rows: auto minmax(0, 1fr);
-        background: var(--pp-bg);
-      }
-
-      .hero-header {
-        min-width: 0;
-        display: flex;
-        align-items: flex-start;
-        justify-content: space-between;
-        gap: 14px;
-        padding: 18px 18px 8px 20px;
-      }
-
-      .title-area {
-        min-width: 0;
-      }
-
-      .label {
-        margin: 0;
-        color: var(--pp-muted);
-        font-size: 0.68rem;
-        line-height: 1.05;
-        font-weight: 820;
-        text-transform: uppercase;
-      }
-
-      .tree-name {
-        margin: 4px 0 0;
-        font-size: 3.4rem;
-        line-height: 0.9;
-        font-weight: 900;
-        letter-spacing: 0;
-        overflow-wrap: normal;
-        word-break: normal;
-        text-wrap: balance;
-      }
-
-      .nickname {
-        margin: 7px 0 0;
-        color: var(--pp-muted);
-        font-size: 0.9rem;
-        line-height: 1.12;
-        font-weight: 760;
-        overflow-wrap: anywhere;
-      }
-
-      .source-meta {
-        flex: 0 0 118px;
-        text-align: right;
-        color: var(--pp-muted);
-        font-size: 0.54rem;
-        line-height: 1.12;
-        font-weight: 780;
-        text-transform: uppercase;
-        overflow-wrap: anywhere;
-      }
-
-      .source-meta p {
-        margin: 0;
-      }
-
-      .date-line {
-        margin-bottom: 5px;
-        color: var(--pp-fg);
-        font-size: 0.72rem;
-        font-weight: 850;
-      }
-
-      .image-stage {
-        position: relative;
-        grid-column: 2;
-        grid-row: 1 / span 2;
-        min-width: 0;
-        min-height: 0;
-        display: grid;
-        place-items: center;
-        padding: 14px 12px 18px 2px;
-        background: #fff;
-        overflow: hidden;
-      }
-
-      .tree-image {
-        position: absolute;
-        inset: 0;
-        display: block;
-        width: 100%;
-        height: 100%;
-        object-fit: contain;
-        object-position: center center;
-        mix-blend-mode: multiply;
-      }
-
-      .info-panel {
-        min-width: 0;
-        min-height: 0;
-        display: grid;
-        grid-template-rows: auto minmax(0, 1fr);
-        padding: 0 18px 16px 20px;
-      }
-
-      .signature-line {
-        margin: 0 0 12px;
-        font-size: 0.95rem;
-        line-height: 1.14;
-        font-weight: 780;
-        overflow-wrap: anywhere;
-      }
-
-      .fact-grid {
-        min-width: 0;
-        min-height: 0;
-        display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        align-content: start;
-        gap: 11px 15px;
-      }
-
-      .fact-grid[data-count="1"] {
-        grid-template-columns: minmax(0, 1fr);
-      }
-
-      .fact {
-        min-width: 0;
-        display: flex;
-        flex-direction: column;
-        gap: 4px;
-        overflow: hidden;
-      }
-
-      .value {
-        margin: 0;
-        font-size: 0.92rem;
-        line-height: 1.07;
-        font-weight: 850;
-        overflow-wrap: anywhere;
-      }
-
-      @media (min-width: 1400px) and (min-height: 1000px) {
-        .hero-header {
-          padding: 20px 22px 9px 24px;
-        }
-
-        .nickname {
-          font-size: 1rem;
-        }
-
-        .source-meta {
-          flex-basis: 132px;
-          font-size: 0.6rem;
-        }
-
-        .date-line {
-          font-size: 0.8rem;
-        }
-
-        .info-panel {
-          padding: 0 22px 18px 24px;
-        }
-
-        .signature-line {
-          font-size: 1.08rem;
-        }
-
-        .fact-grid {
-          gap: 13px 18px;
-        }
-
-        .value {
-          font-size: 1.02rem;
-        }
-      }
-
-      @media (orientation: portrait), (max-width: 700px) {
-        .tree-shell {
-          grid-template-columns: minmax(0, 1fr);
-          grid-template-rows: auto minmax(0, 1fr) auto;
-        }
-
-        .hero-header {
-          padding: 15px 16px 6px;
-          gap: 12px;
-        }
-
-        .tree-name {
-          font-size: 3.15rem;
-        }
-
-        .nickname {
-          font-size: 0.86rem;
-        }
-
-        .source-meta {
-          flex-basis: 116px;
-          font-size: 0.5rem;
-        }
-
-        .image-stage {
-          grid-column: 1 / 2;
-          grid-row: 2 / 3;
-          padding: 4px 10px 12px;
-        }
-
-        .info-panel {
-          grid-column: 1 / 2;
-          grid-row: 3;
-          display: block;
-          padding: 8px 16px 14px;
-        }
-
-        .signature-line {
-          margin-bottom: 10px;
-          font-size: 0.86rem;
-        }
-
-        .fact-grid {
-          grid-template-columns: repeat(2, minmax(0, 1fr));
-          gap: 10px 18px;
-        }
-
-        .value {
-          font-size: 0.9rem;
-        }
-      }
-
-      @media (max-height: 560px) and (orientation: landscape) {
-        .hero-header {
-          padding: 12px 14px 5px 16px;
-        }
-
-        .tree-name {
-          font-size: 2.65rem;
-        }
-
-        .nickname,
-        .signature-line {
-          font-size: 0.78rem;
-        }
-
-        .source-meta {
-          flex-basis: 104px;
-          font-size: 0.48rem;
-        }
-
-        .info-panel {
-          padding: 0 14px 12px 16px;
-        }
-
-        .fact-grid {
-          gap: 8px 12px;
-        }
-
-        .label {
-          font-size: 0.58rem;
-        }
-
-        .value {
-          font-size: 0.78rem;
-          line-height: 1.04;
-        }
-      }
-    </style>
   </head>
   <body>
     <div id="website-has-loading-element"></div>
-    <main class="pp-screen tree-screen">
-      <section class="tree-shell" id="app">
-        <header class="hero-header">
-          <div class="title-area">
-            <p class="label" data-i18n="kicker">Tree of the day</p>
-            <h1 class="tree-name pp-fit" id="tree-name" data-i18n="loading">
-              Loading...
-            </h1>
-            <p class="nickname" id="nickname"></p>
-          </div>
-          <div class="source-meta">
-            <p class="date-line" id="date">----</p>
-            <p id="source"></p>
-          </div>
-        </header>
-
-        <div class="image-stage">
-          <img class="tree-image" id="tree-image" alt="" />
-        </div>
-
-        <section class="info-panel">
-          <p class="signature-line pp-fit" id="signature"></p>
-          <div class="fact-grid" id="facts"></div>
-        </section>
-      </section>
-    </main>
+    <main id="app" class="tree-screen"></main>
 
     <script>
       (async function render() {
@@ -322,14 +24,14 @@
           getQuerySettings,
           mergeSettings,
           escapeHtml,
-          fitText,
-          fitHyphenatedText,
-          fitToScreen,
+          fitOfTheDayLayout,
           markLoading,
           markReady,
           markError,
           loadLanguageJson,
           applyColorTheme,
+          renderOfTheDayLayout,
+          waitForOfTheDayImage,
         } = window.PaperlessOpenIntegration;
 
         const trees = Array.isArray(window.TreeOfTheDayTrees)
@@ -355,6 +57,8 @@
           source: "Source",
           selectedFrom: "{count} in rotation",
           errorTitle: "Tree could not load",
+          imageFailed: "Tree image could not load.",
+          listFailed: "Tree list could not load.",
         };
         let messages = defaultMessages;
         let currentLanguage = "en";
@@ -368,12 +72,6 @@
             /\{(\w+)\}/g,
             (_match, name) => values[name] ?? "",
           );
-        }
-
-        function applyStaticMessages(root = document) {
-          root.querySelectorAll("[data-i18n]").forEach((element) => {
-            element.textContent = t(element.dataset.i18n);
-          });
         }
 
         async function loadMessages(payload) {
@@ -403,7 +101,6 @@
           messages = { ...defaultMessages, ...result.messages };
           currentLanguage = result.language || "en";
           document.documentElement.lang = currentLanguage;
-          applyStaticMessages();
         }
 
         async function loadTreeTranslations(language) {
@@ -524,167 +221,161 @@
           });
         }
 
-        function fact(label, value) {
-          return `
-            <article class="fact">
-              <p class="label">${escapeHtml(label)}</p>
-              <p class="value">${escapeHtml(value || "N/A")}</p>
-            </article>
-          `;
-        }
-
         function categoryLabel(value) {
           return value === "individual"
             ? t("categoryIndividual")
             : t("categorySpecies");
         }
 
-        function waitForImage(image) {
-          if (image.complete && image.naturalWidth > 0) {
-            return Promise.resolve();
-          }
-          return new Promise((resolve, reject) => {
-            image.addEventListener("load", resolve, { once: true });
-            image.addEventListener(
-              "error",
-              () => reject(new Error(t("imageFailed"))),
-              { once: true },
-            );
-          });
-        }
-
         async function renderPayload(payload) {
-        try {
-          markLoading();
-          const defaults = {
-            color: "light",
-            region: "any",
-            category: "any",
-            treeId: "",
-            seed: "",
-            showSpecies: true,
-            showRange: true,
-            showHeight: true,
-            showAge: true,
-            showLeafType: true,
-            showFruitSeed: true,
-            showCulturalRole: true,
-            showFamily: false,
-            showHabitat: false,
-            showConservation: false,
-            showCategory: false,
-          };
-          await loadMessages(payload);
-          const settings = mergeSettings(
-            defaults,
-            getSettings(payload),
-            getQuerySettings(),
-          );
-          if (typeof applyColorTheme === "function") {
-            applyColorTheme(settings.color, { defaultTheme: defaults.color });
+          try {
+            markLoading();
+            const defaults = {
+              color: "light",
+              region: "any",
+              category: "any",
+              treeId: "",
+              seed: "",
+              textSize: "middle",
+              showHeader: true,
+              showSpecies: true,
+              showRange: true,
+              showHeight: true,
+              showAge: true,
+              showLeafType: true,
+              showFruitSeed: true,
+              showCulturalRole: true,
+              showFamily: false,
+              showHabitat: false,
+              showConservation: false,
+              showCategory: false,
+            };
+            await loadMessages(payload);
+            const settings = mergeSettings(
+              defaults,
+              getSettings(payload),
+              getQuerySettings(),
+            );
+            if (typeof applyColorTheme === "function") {
+              applyColorTheme(settings.color, { defaultTheme: defaults.color });
+            }
+            if (!trees.length) {
+              throw new Error(t("listFailed"));
+            }
+
+            const today = dayKey();
+            const { tree: selectedTree } = pickTree(settings, today);
+            const treeTranslations = await loadTreeTranslations(currentLanguage);
+            const tree = applyTreeTranslation(selectedTree, treeTranslations);
+            const facts = [
+              {
+                visible: settings.showSpecies !== false,
+                label: t("species"),
+                value: tree.species,
+              },
+              {
+                visible: settings.showRange !== false,
+                label: t("range"),
+                value: tree.nativeRange,
+              },
+              {
+                visible: settings.showHeight !== false,
+                label: t("height"),
+                value: tree.height,
+              },
+              {
+                visible: settings.showAge !== false,
+                label: t("age"),
+                value: tree.age,
+              },
+              {
+                visible: settings.showLeafType !== false,
+                label: t("leafType"),
+                value: tree.leafType,
+              },
+              {
+                visible: settings.showFruitSeed !== false,
+                label: t("fruitSeed"),
+                value: tree.fruitSeed,
+              },
+              {
+                visible: settings.showCulturalRole !== false,
+                label: t("culturalRole"),
+                value: tree.culturalRole,
+              },
+              {
+                visible: settings.showFamily !== false,
+                label: t("family"),
+                value: tree.family,
+              },
+              {
+                visible: settings.showHabitat !== false,
+                label: t("habitat"),
+                value: tree.habitat,
+              },
+              {
+                visible: settings.showConservation !== false,
+                label: t("conservation"),
+                value: tree.conservation,
+              },
+              {
+                visible: settings.showCategory !== false,
+                label: t("category"),
+                value: categoryLabel(tree.category),
+              },
+            ];
+
+            const layout = renderOfTheDayLayout({
+              target: "#app",
+              className: "tree-screen",
+              layout: "facts-left-landscape",
+              textSize: settings.textSize,
+              showHeader: settings.showHeader !== false,
+              kicker: t("kicker"),
+              title: tree.name,
+              signature: tree.signature,
+              subtitle: tree.nickname,
+              image: {
+                src: tree.image,
+                alt: tree.name,
+                blendMode: "multiply",
+              },
+              meta: [
+                {
+                  key: "date",
+                  className: "pp-otd-date",
+                  value: formatDate(today),
+                },
+                {
+                  key: "source",
+                  label: t("source"),
+                  value: tree.source,
+                },
+              ],
+              facts,
+            });
+
+            try {
+              await Promise.all([
+                document.fonts?.ready,
+                waitForOfTheDayImage(layout),
+              ]);
+            } catch (_error) {
+              throw new Error(t("imageFailed"));
+            }
+
+            fitOfTheDayLayout(layout, { textSize: settings.textSize });
+            markReady({ tree: tree.id, day: today });
+          } catch (error) {
+            markError(error);
+            document.body.innerHTML = `<main class="pp-screen"><h1 class="pp-title pp-error">${escapeHtml(t("errorTitle"))}</h1><p>${escapeHtml(error.message)}</p></main>`;
           }
-          if (!trees.length) {
-            throw new Error(t("listFailed"));
-          }
-
-          const today = dayKey();
-          const { tree: selectedTree } = pickTree(settings, today);
-          const treeTranslations = await loadTreeTranslations(currentLanguage);
-          const tree = applyTreeTranslation(selectedTree, treeTranslations);
-          const image = document.getElementById("tree-image");
-          image.src = tree.image;
-          image.alt = tree.name;
-
-          document.getElementById("date").textContent = formatDate(today);
-          document.getElementById("source").textContent = tree.source;
-          document.getElementById("tree-name").innerHTML = escapeHtml(
-            tree.name,
-          );
-          document.getElementById("nickname").innerHTML = escapeHtml(
-            tree.nickname,
-          );
-          document.getElementById("signature").innerHTML = escapeHtml(
-            tree.signature,
-          );
-
-          const availableFacts = [
-            { setting: "showSpecies", label: t("species"), value: tree.species },
-            {
-              setting: "showRange",
-              label: t("range"),
-              value: tree.nativeRange,
-            },
-            { setting: "showHeight", label: t("height"), value: tree.height },
-            { setting: "showAge", label: t("age"), value: tree.age },
-            {
-              setting: "showLeafType",
-              label: t("leafType"),
-              value: tree.leafType,
-            },
-            {
-              setting: "showFruitSeed",
-              label: t("fruitSeed"),
-              value: tree.fruitSeed,
-            },
-            {
-              setting: "showCulturalRole",
-              label: t("culturalRole"),
-              value: tree.culturalRole,
-            },
-            { setting: "showFamily", label: t("family"), value: tree.family },
-            { setting: "showHabitat", label: t("habitat"), value: tree.habitat },
-            {
-              setting: "showConservation",
-              label: t("conservation"),
-              value: tree.conservation,
-            },
-            {
-              setting: "showCategory",
-              label: t("category"),
-              value: categoryLabel(tree.category),
-            },
-          ];
-          const selectedFacts = availableFacts.filter(
-            (item) => settings[item.setting] !== false,
-          );
-          const visibleFacts = selectedFacts.length
-            ? selectedFacts
-            : availableFacts.slice(0, 7);
-          const factsElement = document.getElementById("facts");
-          factsElement.dataset.count = String(
-            Math.min(visibleFacts.length, 11),
-          );
-          factsElement.innerHTML = visibleFacts
-            .map((item) => fact(item.label, item.value))
-            .join("");
-
-          await Promise.all([document.fonts?.ready, waitForImage(image)]);
-          const compactLandscape =
-            window.innerWidth > window.innerHeight && window.innerHeight <= 560;
-          const roomyLandscape =
-            window.innerWidth >= 1400 && window.innerHeight >= 1000;
-          fitText(document.getElementById("tree-name"), {
-            min: 28,
-            max: compactLandscape ? 52 : roomyLandscape ? 86 : 70,
-            step: 2,
-            tolerance: 6,
-            lineBreak: "balance",
-          });
-          fitHyphenatedText(document.getElementById("signature"), {
-            min: 10,
-            max: compactLandscape ? 14 : roomyLandscape ? 21 : 18,
-            step: 1,
-            lineBreak: true,
-          });
-          fitToScreen();
-          markReady({ tree: tree.id, day: today });
-        } catch (error) {
-          markError(error);
-          document.body.innerHTML = `<main class="pp-screen"><h1 class="pp-title pp-error">${escapeHtml(t("errorTitle"))}</h1><p>${escapeHtml(error.message)}</p></main>`;
-        }
         }
 
-        const payload = await waitForPayload({ timeoutMs: 500, onUpdate: renderPayload });
+        const payload = await waitForPayload({
+          timeoutMs: 500,
+          onUpdate: renderPayload,
+        });
         await renderPayload(payload);
       })();
     </script>

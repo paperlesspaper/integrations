@@ -1,0 +1,159 @@
+{
+  "name": "Nextcloud Photos",
+  "version": "0.1.0",
+  "status": "alpha",
+  "description": "Shows a photo from a private Nextcloud Photos album.",
+  "renderPage": "./render.html",
+  "icon": "./assets/icon.png",
+  "nativeSettings": {
+    "color": "light",
+    "serverUrl": "",
+    "username": "",
+    "userId": "",
+    "appPassword": "",
+    "albumName": "",
+    "selection": "daily",
+    "photoNumber": 1,
+    "fit": "cover",
+    "showAlbumName": true,
+    "showFilename": false,
+    "showCaptureDate": true,
+    "showPhotoCount": true,
+    "locale": "en-US"
+  },
+  "configVariants": [
+    {
+      "color": "light",
+      "serverUrl": "",
+      "username": "",
+      "userId": "",
+      "appPassword": "",
+      "albumName": "Family Moments",
+      "selection": "daily",
+      "photoNumber": 1,
+      "fit": "cover",
+      "showAlbumName": true,
+      "showFilename": false,
+      "showCaptureDate": true,
+      "showPhotoCount": true,
+      "locale": "en-US",
+      "screenshots": {
+        "800x480": "./screenshots/nextcloud-photos-family-cover-800x480-landscape.png",
+        "480x800": "./screenshots/nextcloud-photos-family-cover-480x800-portrait.png"
+      }
+    },
+    {
+      "color": "light",
+      "serverUrl": "",
+      "username": "",
+      "userId": "",
+      "appPassword": "",
+      "albumName": "Weekend Hikes",
+      "selection": "newest",
+      "photoNumber": 1,
+      "fit": "contain",
+      "showAlbumName": true,
+      "showFilename": true,
+      "showCaptureDate": true,
+      "showPhotoCount": true,
+      "locale": "en-US",
+      "screenshots": {
+        "800x480": "./screenshots/nextcloud-photos-hikes-contain-800x480-landscape.png",
+        "480x800": "./screenshots/nextcloud-photos-hikes-contain-480x800-portrait.png"
+      }
+    }
+  ],
+  "formSchema": {
+    "type": "object",
+    "properties": {
+      "serverUrl": {
+        "type": "string",
+        "title": "Nextcloud URL",
+        "description": "Base URL of your Nextcloud server, including any subdirectory, for example https://cloud.example.com/nextcloud.",
+        "format": "url"
+      },
+      "username": {
+        "type": "string",
+        "title": "Username",
+        "description": "The username used to sign in to Nextcloud."
+      },
+      "userId": {
+        "type": "string",
+        "title": "User ID",
+        "description": "Optional Nextcloud user ID when it differs from the sign-in username."
+      },
+      "appPassword": {
+        "type": "string",
+        "title": "App password",
+        "description": "Create a dedicated app password in Nextcloud security settings. Do not use your main password.",
+        "format": "password"
+      },
+      "albumName": {
+        "type": "string",
+        "title": "Album name",
+        "description": "The exact name of a private album in the Nextcloud Photos app."
+      },
+      "selection": {
+        "type": "string",
+        "title": "Photo selection",
+        "enum": [
+          "daily",
+          "random",
+          "newest",
+          "oldest",
+          "number"
+        ],
+        "default": "daily"
+      },
+      "photoNumber": {
+        "type": "integer",
+        "title": "Photo number",
+        "description": "One-based position used when photo selection is number.",
+        "minimum": 1,
+        "default": 1
+      },
+      "fit": {
+        "type": "string",
+        "title": "Image fit",
+        "enum": [
+          "cover",
+          "contain"
+        ],
+        "default": "cover"
+      },
+      "showAlbumName": {
+        "type": "boolean",
+        "title": "Show album name",
+        "default": true
+      },
+      "showFilename": {
+        "type": "boolean",
+        "title": "Show filename",
+        "default": false
+      },
+      "showCaptureDate": {
+        "type": "boolean",
+        "title": "Show photo date",
+        "default": true
+      },
+      "showPhotoCount": {
+        "type": "boolean",
+        "title": "Show photo position",
+        "default": true
+      },
+      "locale": {
+        "type": "string",
+        "title": "Locale",
+        "description": "BCP 47 locale used for dates, such as en-US or de-DE.",
+        "default": "en-US"
+      }
+    }
+  },
+  "language": [
+    "en",
+    "de",
+    "fr",
+    "es",
+    "it"
+  ]
+}

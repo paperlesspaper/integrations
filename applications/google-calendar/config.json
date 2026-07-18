@@ -15,7 +15,9 @@
     "dayRange": 3,
     "maxEvents": 50,
     "highlightToday": false,
-    "highlightScale": 1.35
+    "highlightScale": 1.35,
+    "showEventIcons": true,
+    "showEventImages": false
   },
   "configVariants": [
     {
@@ -102,6 +104,16 @@
         "minimum": 1,
         "maximum": 3,
         "default": 1.35
+      },
+      "showEventIcons": {
+        "type": "boolean",
+        "title": "Show event icons",
+        "default": true
+      },
+      "showEventImages": {
+        "type": "boolean",
+        "title": "Show event images",
+        "default": false
       }
     }
   },

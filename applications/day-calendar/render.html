@@ -279,7 +279,7 @@
           } else {
             const requested = String(payload?.meta?.language || "en").trim();
             const requestedBase = requested.split("-")[0].toLowerCase();
-            const supported = ["en", "de", "fr", "es", "it"];
+            const supported = ["en", "de"];
             const language = supported.includes(requested)
               ? requested
               : supported.includes(requestedBase)
@@ -312,7 +312,6 @@
           color: "dark",
           kind: "primary",
           showTime: false,
-          language: "en-US",
           holidayRegion: "DE-BE",
           latitude: 52.52,
           longitude: 13.405,
@@ -331,6 +330,15 @@
           return `theme-${String(color || defaults.color)
             .replace(/[^a-z0-9-]/gi, "")
             .toLowerCase()}`;
+        }
+
+        function contentLanguage(language) {
+          return String(language || "")
+            .trim()
+            .toLowerCase()
+            .startsWith("de")
+            ? "de"
+            : "en-US";
         }
 
         function clampTextToBox(
@@ -401,11 +409,27 @@
           try {
             markLoading?.();
             await loadMessages(payload);
+            const querySettings = getQuerySettings();
             const settings = mergeSettings(
               defaults,
               getSettings(payload),
-              getQuerySettings(),
+              querySettings,
             );
+            const hostLanguage = contentLanguage(
+              payload?.meta?.language || currentLanguage,
+            );
+            const configuredLanguage =
+              typeof settings.language === "string"
+                ? settings.language.trim()
+                : "";
+            settings.language =
+              typeof querySettings.language === "string" &&
+              querySettings.language.trim()
+                ? querySettings.language.trim()
+                : configuredLanguage &&
+                    contentLanguage(configuredLanguage) === "de"
+                  ? "de"
+                  : hostLanguage;
             const resolvedColor = applyColorTheme(settings.color, {
               defaultTheme: defaults.color,
             });

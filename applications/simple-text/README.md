@@ -17,7 +17,8 @@ Displays configurable plain text or markdown on a paperlesspaper display. It is 
 ## Settings
 
 - `title`: optional heading above the content.
-- `content`: the plain text or markdown to render.
+- `content`: the fallback plain text or markdown to render.
+- `contentUrl`: optional URL to fetch plain text or markdown from instead of the textarea.
 - `format`: choose `plain` or `markdown`.
 - `fontFamily`: choose `system`, `serif`, or `mono`.
 - `fontSize`: choose from `xx-small` through `xx-large`.

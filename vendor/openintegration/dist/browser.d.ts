@@ -11,6 +11,8 @@ export { SOFT_HYPHEN, addSoftHyphensToTextNodes, fitHyphenatedText, hyphenateTex
 export { fitImage, fitToScreen } from "./resize";
 export { detectOverflow } from "./overflow";
 export { escapeHtml } from "./html";
+export { fitOfTheDayLayout, renderOfTheDayLayout, waitForOfTheDayImage } from "./ofTheDay";
+export type { FitOfTheDayLayoutOptions, OfTheDayFact, OfTheDayImageOptions, OfTheDayLayoutElements, OfTheDayLayoutMode, OfTheDayMetaItem, OfTheDayTextSize, RenderOfTheDayLayoutOptions } from "./ofTheDay";
 export { validateConfig } from "./manifest";
 export type { FitHyphenatedTextOptions, FitTextOptions, FitToScreenOptions, HyphenateTextOptions, JsonRecord, OpenIntegrationConfig, OverflowReport, PayloadUpdateHandler, PrepareHyphenationOptions, ValidationResult, WaitForPayloadOptions } from "./types";
 //# sourceMappingURL=browser.d.ts.map

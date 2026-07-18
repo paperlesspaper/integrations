@@ -1,11 +1,13 @@
-import { copyFile, mkdir } from 'node:fs/promises';
-import { readdir, readFile } from 'node:fs/promises';
+import { copyFile, mkdir, readdir, readFile } from 'node:fs/promises';
 import { spawn } from 'node:child_process';
 import path from 'node:path';
 
 const sourceDir = path.join(process.cwd(), 'node_modules/@paperlesspaper/openintegration/dist');
+const openSansDir = path.join(process.cwd(), 'node_modules/@fontsource/open-sans');
 const publicDir = path.join(process.cwd(), 'public');
 const applicationsDir = path.join(process.cwd(), 'applications');
+const openSansWeights = [300, 400, 500, 600, 700, 800];
+const openSansStyles = ['normal', 'italic'];
 
 const assets = [
   ['paperless.css', 'paperless.css'],
@@ -23,6 +25,25 @@ for (const [sourceName, targetName] of assets) {
   await copyFile(source, target);
   console.log(`copied ${sourceName} -> ${path.relative(process.cwd(), target)}`);
 }
+
+const publicFontsDir = path.join(publicDir, 'fonts');
+await mkdir(publicFontsDir, { recursive: true });
+
+for (const weight of openSansWeights) {
+  for (const style of openSansStyles) {
+    const fileName = `open-sans-latin-${weight}-${style}.woff2`;
+    await copyFile(
+      path.join(openSansDir, 'files', fileName),
+      path.join(publicFontsDir, fileName),
+    );
+  }
+}
+
+await copyFile(
+  path.join(openSansDir, 'LICENSE'),
+  path.join(publicFontsDir, 'open-sans-LICENSE.txt'),
+);
+console.log('copied Open Sans from @fontsource/open-sans -> public/fonts');
 
 async function run(command, args, cwd) {
   await new Promise((resolve, reject) => {

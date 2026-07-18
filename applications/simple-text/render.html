@@ -229,6 +229,7 @@
         const defaults = {
           color: "light",
           title: "",
+          contentUrl: "",
           content:
             "# Hello World\n\nUse **markdown** or plain text on your paperlesspaper display.",
           format: "markdown",
@@ -296,6 +297,14 @@
 
         function escapeAttribute(value) {
           return escapeHtml(value).replace(/"/g, "&quot;");
+        }
+
+        async function fetchContent(url) {
+          const response = await fetch(url, { cache: "no-store" });
+          if (!response.ok) {
+            throw new Error(`Content URL returned ${response.status}`);
+          }
+          return response.text();
         }
 
         function renderInline(markdown) {
@@ -496,14 +505,20 @@
               defaults.lineHeight,
             );
             const format = settings.format === "plain" ? "plain" : "markdown";
+            const configuredContentUrl = String(
+              settings.contentUrl || "",
+            ).trim();
             const configuredContent = String(settings.content || "").trim();
-            const rawContent =
+            const textareaContent =
               configuredContent === defaults.content
                 ? message("defaultContent", defaults.content)
                 : configuredContent ===
                     "This is a plain text note.\nLine breaks are preserved."
                   ? message("noticeContent", configuredContent)
                   : configuredContent;
+            const rawContent = configuredContentUrl
+              ? (await fetchContent(configuredContentUrl)).trim()
+              : textareaContent;
             const fallbackContent = message(
               "emptyContent",
               "Add text in settings.",

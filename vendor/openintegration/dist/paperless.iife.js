@@ -31,6 +31,7 @@ var PaperlessOpenIntegration = (() => {
     fitAllText: () => fitAllText,
     fitHyphenatedText: () => fitHyphenatedText,
     fitImage: () => fitImage,
+    fitOfTheDayLayout: () => fitOfTheDayLayout,
     fitText: () => fitText,
     fitToScreen: () => fitToScreen,
     getPayloadLanguage: () => getPayloadLanguage,
@@ -51,16 +52,20 @@ var PaperlessOpenIntegration = (() => {
     postSettingsReady: () => postSettingsReady,
     postSettingsUpdate: () => postSettingsUpdate,
     prepareHyphenation: () => prepareHyphenation,
+    renderOfTheDayLayout: () => renderOfTheDayLayout,
     resolveLanguage: () => resolveLanguage,
     setupSettingsPage: () => setupSettingsPage,
     stripSoftHyphens: () => stripSoftHyphens,
     validateConfig: () => validateConfig,
+    waitForOfTheDayImage: () => waitForOfTheDayImage,
     waitForPayload: () => waitForPayload
   });
 
   // src/ready.ts
   var loadingMarkerId = "website-has-loading-element";
   var loadedMarkerId = "website-has-loaded";
+  var renderStatusDataKey = "paperlessRenderStatus";
+  var renderErrorDataKey = "paperlessRenderError";
   function getDocument() {
     return globalThis.document;
   }
@@ -97,7 +102,12 @@ var PaperlessOpenIntegration = (() => {
     return content.length > 0;
   }
   function markLoading() {
-    getDocument()?.getElementById(loadedMarkerId)?.remove();
+    const doc = getDocument();
+    doc?.getElementById(loadedMarkerId)?.remove();
+    if (doc) {
+      doc.documentElement.dataset[renderStatusDataKey] = "loading";
+      delete doc.documentElement.dataset[renderErrorDataKey];
+    }
     appendHiddenMarker(loadingMarkerId);
   }
   function markReady() {
@@ -106,6 +116,8 @@ var PaperlessOpenIntegration = (() => {
       return;
     }
     doc.getElementById(loadingMarkerId)?.remove();
+    doc.documentElement.dataset[renderStatusDataKey] = "ready";
+    delete doc.documentElement.dataset[renderErrorDataKey];
     appendHiddenMarker(loadedMarkerId, "ready");
   }
   function markError(error) {
@@ -121,6 +133,10 @@ var PaperlessOpenIntegration = (() => {
       doc.body.append(block);
     }
     markReady();
+    if (doc) {
+      doc.documentElement.dataset[renderStatusDataKey] = "error";
+      doc.documentElement.dataset[renderErrorDataKey] = error instanceof Error ? error.message : String(error || "unknown error");
+    }
   }
 
   // src/runtime.ts
@@ -868,6 +884,180 @@ var PaperlessOpenIntegration = (() => {
   // src/html.ts
   function escapeHtml(value) {
     return String(value ?? "").replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll('"', "&quot;").replaceAll("'", "&#39;");
+  }
+
+  // src/ofTheDay.ts
+  var TEXT_SIZES = ["small", "middle", "big"];
+  var LAYOUT_CLASSES = [
+    "pp-otd--default",
+    "pp-otd--facts-left-landscape",
+    "pp-otd--hide-header",
+    "pp-otd--no-facts",
+    "pp-otd--text-small",
+    "pp-otd--text-middle",
+    "pp-otd--text-big"
+  ];
+  function normalizeTextSize(value) {
+    const normalized = String(value || "middle").toLowerCase();
+    return TEXT_SIZES.includes(normalized) ? normalized : "middle";
+  }
+  function resolveTarget(target) {
+    if (target instanceof HTMLElement) {
+      return target;
+    }
+    if (typeof target === "string") {
+      const element = document.querySelector(target);
+      if (!element) {
+        throw new Error(`Could not find of-the-day target: ${target}`);
+      }
+      return element;
+    }
+    return document.querySelector("#app") ?? document.body;
+  }
+  function classAttr(...classes) {
+    return classes.filter(Boolean).join(" ");
+  }
+  function isVisible(item) {
+    return item.visible !== false;
+  }
+  function hasText(value) {
+    return String(value ?? "").trim().length > 0;
+  }
+  function styleProperty(name) {
+    return name.startsWith("--") ? name : `--${name}`;
+  }
+  function renderMetaItem(item) {
+    const key = item.key ? ` data-key="${escapeHtml(item.key)}"` : "";
+    const classes = classAttr("pp-otd-meta-item", item.className);
+    const label = hasText(item.label) ? `<p class="pp-otd-meta-label">${escapeHtml(item.label)}</p>` : "";
+    return `
+    <div class="${classes}"${key}>
+      ${label}
+      <p class="pp-otd-meta-value">${escapeHtml(item.value)}</p>
+    </div>
+  `;
+  }
+  function renderFact(item, emptyValue) {
+    const value = hasText(item.value) ? item.value : emptyValue;
+    return `
+    <article class="${classAttr("pp-otd-fact", item.className)}">
+      <p class="pp-otd-label">${escapeHtml(item.label)}</p>
+      <p class="pp-otd-value">${escapeHtml(value)}</p>
+    </article>
+  `;
+  }
+  function renderOfTheDayLayout(options) {
+    const target = resolveTarget(options.target);
+    const textSize = normalizeTextSize(options.textSize);
+    const layout = options.layout || "default";
+    const showHeader = options.showHeader !== false;
+    const facts = (options.facts || []).filter(isVisible);
+    const meta = (options.meta || []).filter(isVisible).filter((item) => hasText(item.value));
+    const emptyValue = options.emptyValue ?? "N/A";
+    const image = options.image || {};
+    target.classList.add("pp-screen", "pp-otd-screen");
+    target.classList.remove(...LAYOUT_CLASSES);
+    target.classList.add(`pp-otd--${layout}`, `pp-otd--text-${textSize}`);
+    if (!showHeader) {
+      target.classList.add("pp-otd--hide-header");
+    }
+    if (!facts.length) {
+      target.classList.add("pp-otd--no-facts");
+    }
+    if (options.className) {
+      target.classList.add(...options.className.split(/\s+/).filter(Boolean));
+    }
+    if (options.customProperties) {
+      for (const [name, value] of Object.entries(options.customProperties)) {
+        if (value !== void 0) {
+          target.style.setProperty(styleProperty(name), String(value));
+        }
+      }
+    }
+    const imageStyle = [
+      image.fit ? `object-fit:${image.fit}` : "",
+      image.position ? `object-position:${image.position}` : "",
+      image.blendMode ? `mix-blend-mode:${image.blendMode}` : ""
+    ].filter(Boolean).join(";");
+    target.innerHTML = `
+    <section class="pp-otd-shell">
+      <header class="pp-otd-header" aria-hidden="${showHeader ? "false" : "true"}">
+        <div class="pp-otd-title-area">
+          ${hasText(options.kicker) ? `<p class="pp-otd-kicker">${escapeHtml(options.kicker)}</p>` : ""}
+          <h1 class="pp-otd-title pp-fit">${escapeHtml(options.title)}</h1>
+          ${hasText(options.signature) ? `<p class="pp-otd-signature pp-fit">${escapeHtml(options.signature)}</p>` : ""}
+          ${hasText(options.subtitle) ? `<p class="pp-otd-subtitle">${escapeHtml(options.subtitle)}</p>` : ""}
+        </div>
+        ${meta.length ? `<aside class="pp-otd-meta">${meta.map(renderMetaItem).join("")}</aside>` : ""}
+      </header>
+      <div class="pp-otd-image-stage">
+        <img class="${classAttr("pp-otd-image", image.className)}" src="${escapeHtml(
+      image.src
+    )}" alt="${escapeHtml(image.alt)}"${imageStyle ? ` style="${escapeHtml(imageStyle)}"` : ""} />
+      </div>
+      <section class="pp-otd-fact-grid" data-count="${facts.length}">
+        ${facts.map((item) => renderFact(item, emptyValue)).join("")}
+      </section>
+    </section>
+  `;
+    const shell = target.querySelector(".pp-otd-shell");
+    const imageStage = target.querySelector(".pp-otd-image-stage");
+    const renderedImage = target.querySelector(".pp-otd-image");
+    const factGrid = target.querySelector(".pp-otd-fact-grid");
+    if (!shell || !imageStage || !renderedImage || !factGrid) {
+      throw new Error("Could not render of-the-day layout.");
+    }
+    return {
+      target,
+      shell,
+      header: target.querySelector(".pp-otd-header"),
+      title: target.querySelector(".pp-otd-title"),
+      signature: target.querySelector(".pp-otd-signature"),
+      subtitle: target.querySelector(".pp-otd-subtitle"),
+      imageStage,
+      image: renderedImage,
+      factGrid,
+      facts: Array.from(target.querySelectorAll(".pp-otd-fact")),
+      meta: Array.from(target.querySelectorAll(".pp-otd-meta-item"))
+    };
+  }
+  function fitOfTheDayLayout(layout, options = {}) {
+    const root = typeof layout === "string" || layout instanceof HTMLElement ? resolveTarget(layout) : layout.target;
+    const title = root.querySelector(".pp-otd-title");
+    const signature = root.querySelector(".pp-otd-signature");
+    if (title) {
+      fitText(title, {
+        min: options.titleMin ?? 28,
+        max: options.titleMax,
+        step: 2,
+        tolerance: 6,
+        lineBreak: "balance",
+        fitParent: true
+      });
+    }
+    if (signature) {
+      fitHyphenatedText(signature, {
+        min: options.signatureMin ?? 10,
+        max: options.signatureMax,
+        step: 1,
+        lineBreak: true
+      });
+    }
+    if (options.fitScreen !== false) {
+      fitToScreen(root, { padding: options.screenPadding ?? 0 });
+    }
+  }
+  function waitForOfTheDayImage(layoutOrImage) {
+    const image = layoutOrImage instanceof HTMLImageElement ? layoutOrImage : layoutOrImage.image;
+    if (image.complete && image.naturalWidth > 0) {
+      return Promise.resolve();
+    }
+    return new Promise((resolve, reject) => {
+      image.addEventListener("load", () => resolve(), { once: true });
+      image.addEventListener("error", () => reject(new Error("Image could not load.")), {
+        once: true
+      });
+    });
   }
 
   // src/manifest.ts

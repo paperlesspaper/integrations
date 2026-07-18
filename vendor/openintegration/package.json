@@ -9,6 +9,7 @@
     "dist/settings.css"
   ],
   "bin": {
+    "paperless": "./dist/cli.js",
     "paperlesspaper-openintegration": "./dist/cli.js"
   },
   "exports": {
@@ -40,6 +41,7 @@
     "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
+    "@fontsource/open-sans": "5.2.7",
     "@types/jsdom": "^28.0.3",
     "@types/node": "^24.0.0",
     "esbuild": "^0.25.0",

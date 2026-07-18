@@ -20,7 +20,7 @@ screenshots:
 
 Plain OpenIntegration version of the upstream `paperlesspaper-apps/src/components/DayCalendar` component, extended with offline daily fact modes.
 
-It keeps the same base settings (`color`, `kind`, `showTime`, `language`), the same date/time formatting behavior, and the same quote/fact arrays. Additional fact modes are selected by local day-of-year or deterministic date calculations.
+It keeps the same base settings (`color`, `kind`, `showTime`), the same date/time formatting behavior, and the same quote/fact arrays. Additional fact modes are selected by local day-of-year or deterministic date calculations.
 
 ## Links
 
@@ -52,13 +52,12 @@ It keeps the same base settings (`color`, `kind`, `showTime`, `language`), the s
 - `color`: `dark`, `light`, `red-dark`, or `red-light`
 - `kind`: `primary`, `demotivational`, `funny`, `day-progress`, `holiday-observance`, `season-daylight`, `word-phrase`, or `curiosity`
 - `showTime`: optional boolean
-- `language`: `en-US` or `de`
 - `holidayRegion`: public-holiday region for `holiday-observance`; defaults to `DE-BE`
 - `latitude`: latitude for `season-daylight`; defaults to Berlin
 - `longitude`: longitude for `season-daylight`; defaults to Berlin
 
 ## Language Support
 
-This integration declares `language: ["en", "de", "fr", "es", "it"]` in `config.json` and loads localized fixed UI copy from `languages/<code>.json` using the host-selected `payload.meta.language`.
+This integration declares `language: ["en", "de"]` in `config.json` and loads localized fixed UI copy from `languages/<code>.json` using the host-selected `payload.meta.language`.
 
-The language JSON files localize dashboard labels, empty states, update text, and error titles only. Integration settings such as `locale`, `language`, or external API language codes remain separate.
+The calendar content language also follows the host-selected `payload.meta.language`. Direct preview URLs can still pass `?language=de` or `?language=en-US` to override the content language while testing.

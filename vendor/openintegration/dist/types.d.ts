@@ -12,7 +12,35 @@ export interface OpenIntegrationConfig {
     settingsPage?: string;
     nativeSettings?: JsonRecord;
     configVariants?: OpenIntegrationConfigVariant[];
-    formSchema?: unknown;
+    formSchema?: OpenIntegrationFormSchema;
+}
+export type OpenIntegrationFormSchemaType = "string" | "number" | "integer" | "boolean" | "array" | "object";
+export type OpenIntegrationFormSchemaFormat = "textarea" | "date" | "time" | "date-time" | "datetime" | "datetime-local" | "email" | "uri" | "url" | "password" | "color" | "tel" | "phone" | "month" | "week";
+export interface OpenIntegrationFormSchema extends JsonRecord {
+    type?: "object" | string;
+    properties?: Record<string, OpenIntegrationFormSchemaProperty>;
+    required?: string[];
+}
+export interface OpenIntegrationFormSchemaProperty extends JsonRecord {
+    type?: OpenIntegrationFormSchemaType;
+    title?: string;
+    description?: string;
+    default?: unknown;
+    enum?: Array<string | number | boolean>;
+    format?: OpenIntegrationFormSchemaFormat | string;
+    rows?: number;
+    "ui:widget"?: "textarea" | string;
+    required?: boolean;
+    minimum?: number;
+    maximum?: number;
+    min?: number | string;
+    max?: number | string;
+    step?: number | string;
+    minLength?: number;
+    maxLength?: number;
+    pattern?: string;
+    placeholder?: string;
+    items?: OpenIntegrationFormSchemaProperty;
 }
 export interface ValidationResult {
     valid: boolean;

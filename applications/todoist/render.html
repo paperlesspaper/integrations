@@ -1,0 +1,723 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="paperless:epd-optimize" content='{"intent":"readable"}'>
+    <title>Todoist</title>
+    <link rel="stylesheet" href="/assets/paperless.css">
+    <script src="/assets/paperless.iife.js"></script>
+    <style>
+      .todoist-screen {
+        padding: 18px 22px 14px;
+        display: grid;
+        grid-template-rows: auto auto minmax(0, 1fr) auto;
+        gap: 10px;
+      }
+
+      .todoist-header {
+        min-width: 0;
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        align-items: center;
+        gap: 18px;
+      }
+
+      .todoist-heading,
+      .todoist-brand,
+      .todoist-title,
+      .todoist-count,
+      .todoist-stat-value,
+      .todoist-stat-label,
+      .todoist-task-title,
+      .todoist-task-description,
+      .todoist-task-meta,
+      .todoist-due,
+      .todoist-empty-title,
+      .todoist-empty-copy,
+      .todoist-footer {
+        margin: 0;
+      }
+
+      .todoist-heading {
+        min-width: 0;
+      }
+
+      .todoist-brand {
+        color: var(--pp-accent);
+        font-size: clamp(0.68rem, 1.8vh, 0.88rem);
+        font-weight: 950;
+        line-height: 1;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+
+      .todoist-title {
+        margin-top: 4px;
+        min-width: 0;
+        font-size: clamp(2rem, 7.4vh, 4rem);
+        font-weight: 950;
+        line-height: 0.88;
+        letter-spacing: -0.045em;
+      }
+
+      .todoist-header-side {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .todoist-count {
+        color: var(--pp-muted);
+        font-size: clamp(0.72rem, 1.9vh, 0.92rem);
+        font-weight: 900;
+        line-height: 1;
+        text-align: right;
+        text-transform: uppercase;
+        white-space: nowrap;
+      }
+
+      .todoist-icon {
+        width: clamp(42px, 8vh, 58px);
+        height: clamp(42px, 8vh, 58px);
+        object-fit: contain;
+      }
+
+      .todoist-stats {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 8px;
+      }
+
+      .todoist-stats[hidden] {
+        display: none;
+      }
+
+      .todoist-stat {
+        min-width: 0;
+        display: grid;
+        grid-template-columns: auto minmax(0, 1fr);
+        align-items: baseline;
+        gap: 8px;
+        padding: 7px 10px;
+        border: 2px solid var(--pp-border);
+      }
+
+      .todoist-stat-overdue {
+        border-left: 8px solid var(--pp-accent);
+      }
+
+      .todoist-stat-value {
+        font-size: clamp(1.05rem, 3vh, 1.5rem);
+        font-weight: 950;
+        line-height: 0.9;
+      }
+
+      .todoist-stat-label {
+        min-width: 0;
+        overflow: hidden;
+        color: var(--pp-muted);
+        font-size: clamp(0.66rem, 1.75vh, 0.82rem);
+        font-weight: 900;
+        line-height: 1;
+        text-overflow: ellipsis;
+        text-transform: uppercase;
+        white-space: nowrap;
+      }
+
+      .todoist-list {
+        min-width: 0;
+        min-height: 0;
+        display: grid;
+        grid-template-rows: repeat(var(--task-count, 1), minmax(0, 1fr));
+        gap: 5px;
+        overflow: hidden;
+      }
+
+      .todoist-task {
+        min-width: 0;
+        min-height: 0;
+        display: grid;
+        grid-template-columns: 25px minmax(0, 1fr) auto;
+        align-items: center;
+        gap: 10px;
+        padding: 6px 10px 6px 8px;
+        border: 2px solid var(--pp-border);
+        border-left-width: 7px;
+        overflow: hidden;
+      }
+
+      .todoist-task.priority-1 {
+        border-left-color: var(--pp-accent);
+      }
+
+      .todoist-task.priority-2 {
+        border-left-style: double;
+        border-left-width: 9px;
+      }
+
+      .todoist-task.priority-3 {
+        border-left-style: dashed;
+      }
+
+      .todoist-task.priority-4 {
+        border-left-color: var(--pp-muted);
+      }
+
+      .todoist-checkbox {
+        width: 20px;
+        height: 20px;
+        border: 3px solid var(--pp-fg);
+        border-radius: 50%;
+      }
+
+      .todoist-task-main {
+        min-width: 0;
+        display: grid;
+        align-content: center;
+        gap: 3px;
+      }
+
+      .todoist-task-title {
+        min-width: 0;
+        overflow: hidden;
+        font-size: clamp(0.92rem, 2.65vh, 1.28rem);
+        font-weight: 900;
+        line-height: 1;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .todoist-task-description,
+      .todoist-task-meta {
+        min-width: 0;
+        overflow: hidden;
+        color: var(--pp-muted);
+        font-size: clamp(0.62rem, 1.65vh, 0.78rem);
+        font-weight: 780;
+        line-height: 1;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .todoist-task-meta strong {
+        color: var(--pp-fg);
+        font-weight: 900;
+      }
+
+      .todoist-due {
+        max-width: 180px;
+        padding: 5px 8px;
+        border: 2px solid var(--pp-border);
+        font-size: clamp(0.62rem, 1.7vh, 0.8rem);
+        font-weight: 950;
+        line-height: 1;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        text-transform: uppercase;
+        white-space: nowrap;
+      }
+
+      .todoist-due.overdue {
+        background: var(--pp-accent);
+        border-color: var(--pp-accent);
+        color: var(--pp-bg);
+      }
+
+      .todoist-due.today {
+        border-color: var(--pp-accent);
+        color: var(--pp-accent);
+      }
+
+      .todoist-empty {
+        min-height: 0;
+        display: grid;
+        place-items: center;
+        border: 3px solid var(--pp-border);
+        padding: 28px;
+        text-align: center;
+      }
+
+      .todoist-empty-inner {
+        max-width: 32rem;
+      }
+
+      .todoist-empty-title {
+        font-size: clamp(2rem, 7vh, 4rem);
+        font-weight: 950;
+        line-height: 0.95;
+      }
+
+      .todoist-empty-copy {
+        margin-top: 10px;
+        color: var(--pp-muted);
+        font-size: clamp(0.9rem, 2.8vh, 1.35rem);
+        font-weight: 800;
+        line-height: 1.2;
+      }
+
+      .todoist-footer {
+        min-width: 0;
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        color: var(--pp-muted);
+        font-size: clamp(0.58rem, 1.55vh, 0.74rem);
+        font-weight: 850;
+        line-height: 1;
+        text-transform: uppercase;
+      }
+
+      .todoist-footer span {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .todoist-footer-source {
+        color: var(--pp-accent);
+      }
+
+      @media (orientation: portrait) {
+        .todoist-screen {
+          padding: 22px 18px 16px;
+          gap: 12px;
+        }
+
+        .todoist-header {
+          align-items: start;
+        }
+
+        .todoist-title {
+          margin-top: 7px;
+          font-size: clamp(2.35rem, 6.4vh, 4.2rem);
+        }
+
+        .todoist-header-side {
+          gap: 8px;
+        }
+
+        .todoist-count {
+          display: none;
+        }
+
+        .todoist-icon {
+          width: 54px;
+          height: 54px;
+        }
+
+        .todoist-stat {
+          grid-template-columns: minmax(0, 1fr);
+          gap: 4px;
+          padding: 9px 8px;
+        }
+
+        .todoist-stat-value {
+          font-size: 1.55rem;
+        }
+
+        .todoist-task {
+          grid-template-columns: 27px minmax(0, 1fr);
+          gap: 10px;
+          padding: 9px 10px 9px 8px;
+        }
+
+        .todoist-checkbox {
+          width: 22px;
+          height: 22px;
+        }
+
+        .todoist-task-title {
+          font-size: clamp(1rem, 2.3vh, 1.35rem);
+        }
+
+        .todoist-due {
+          grid-column: 2;
+          justify-self: start;
+          max-width: 100%;
+          margin-top: 1px;
+          padding: 4px 7px;
+        }
+
+        .todoist-task:has(.todoist-due) .todoist-task-main {
+          align-self: end;
+        }
+      }
+
+      @media (max-height: 520px) {
+        .todoist-screen {
+          padding: 14px 18px 10px;
+          gap: 7px;
+        }
+
+        .todoist-title {
+          font-size: clamp(1.75rem, 6.8vh, 3.2rem);
+        }
+
+        .todoist-icon {
+          width: 42px;
+          height: 42px;
+        }
+
+        .todoist-stats {
+          gap: 6px;
+        }
+
+        .todoist-stat {
+          padding: 5px 8px;
+        }
+
+        .todoist-task {
+          padding-top: 4px;
+          padding-bottom: 4px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="website-has-loading-element"></div>
+    <main class="pp-screen todoist-screen" id="app">
+      <header class="todoist-header">
+        <div class="todoist-heading">
+          <p class="todoist-brand" id="brand">Todoist</p>
+          <h1 class="todoist-title pp-fit-title" id="title">Today</h1>
+        </div>
+        <div class="todoist-header-side">
+          <p class="todoist-count" id="task-count">Loading tasks...</p>
+          <img class="todoist-icon" src="./assets/icon.png" alt="">
+        </div>
+      </header>
+      <section class="todoist-stats" id="stats" hidden></section>
+      <section class="todoist-empty" id="content">
+        <div class="todoist-empty-inner">
+          <p class="todoist-empty-title" id="loading">Loading tasks...</p>
+        </div>
+      </section>
+      <footer class="todoist-footer" id="footer"></footer>
+    </main>
+
+    <script>
+      (async function initialize() {
+        const {
+          waitForPayload,
+          getSettings,
+          getQuerySettings,
+          mergeSettings,
+          loadLanguageJson,
+          applyColorTheme,
+          escapeHtml,
+          fitAllText,
+          fitToScreen,
+          markLoading,
+          markReady,
+          markError,
+        } = window.PaperlessOpenIntegration;
+
+        const defaults = {
+          color: "light",
+          title: "",
+          apiToken: "",
+          view: "today",
+          filter: "",
+          projectId: "",
+          limit: 7,
+          sortBy: "todoist",
+          timezone: "Europe/Berlin",
+          showStats: true,
+          showProject: true,
+          showLabels: true,
+          showDescription: false,
+          showDuration: true,
+        };
+
+        const defaultMessages = {
+          brand: "Todoist",
+          loading: "Loading tasks...",
+          titleToday: "Today",
+          titleUpcoming: "Next 7 days",
+          titleProject: "Project tasks",
+          titleCustom: "Filtered tasks",
+          titleAll: "All tasks",
+          tasks: "{count} tasks",
+          overdue: "Overdue",
+          today: "Today",
+          upcoming: "Upcoming",
+          remaining: "+{count} more",
+          sample: "Sample data",
+          updated: "Updated",
+          noTasksTitle: "Nothing to do",
+          noTasksHint: "No active tasks matched this view.",
+          noDue: "No due date",
+          recurring: "Recurring",
+          minutes: "{count} min",
+          hours: "{count} h",
+          errorTitle: "Todoist could not load",
+          apiFailed: "API failed with {status}",
+        };
+
+        let messages = defaultMessages;
+        let language = "en";
+
+        function t(key, values = {}) {
+          const template = typeof messages[key] === "string"
+            ? messages[key]
+            : defaultMessages[key] || key;
+          return template.replace(/\{(\w+)\}/g, (_match, name) => values[name] ?? "");
+        }
+
+        function asBoolean(value, fallback) {
+          if (typeof value === "boolean") {
+            return value;
+          }
+          if (typeof value === "string") {
+            if (["1", "true", "yes", "on"].includes(value.toLowerCase())) return true;
+            if (["0", "false", "no", "off"].includes(value.toLowerCase())) return false;
+          }
+          return fallback;
+        }
+
+        function viewTitle(settings, data) {
+          if (String(settings.title || "").trim()) {
+            return String(settings.title).trim();
+          }
+          if (settings.view === "project" && data.projectName) {
+            return data.projectName;
+          }
+          const keys = {
+            today: "titleToday",
+            upcoming: "titleUpcoming",
+            project: "titleProject",
+            custom: "titleCustom",
+            all: "titleAll",
+          };
+          return t(keys[settings.view] || "titleToday");
+        }
+
+        function formatDate(value, timezone, state) {
+          if (!value) {
+            return t("noDue");
+          }
+
+          const dateOnly = /^\d{4}-\d{2}-\d{2}$/.test(value);
+          const date = new Date(dateOnly ? `${value}T12:00:00` : value);
+          if (Number.isNaN(date.getTime())) {
+            return value;
+          }
+
+          if (state === "today") {
+            if (dateOnly) {
+              return t("today");
+            }
+            const time = new Intl.DateTimeFormat(language, {
+              timeZone: timezone,
+              hour: "2-digit",
+              minute: "2-digit",
+            }).format(date);
+            return `${t("today")} · ${time}`;
+          }
+
+          const formatted = new Intl.DateTimeFormat(language, {
+            timeZone: timezone,
+            weekday: "short",
+            month: "short",
+            day: "numeric",
+          }).format(date);
+          return state === "overdue" ? `${t("overdue")} · ${formatted}` : formatted;
+        }
+
+        function formatDuration(duration) {
+          if (!duration) {
+            return "";
+          }
+          const amount = Number(duration.amount);
+          if (!Number.isFinite(amount)) {
+            return "";
+          }
+          if (/hour/i.test(duration.unit)) {
+            return t("hours", { count: amount });
+          }
+          if (/day/i.test(duration.unit)) {
+            return t("hours", { count: amount * 24 });
+          }
+          return t("minutes", { count: amount });
+        }
+
+        function taskMetadata(task, settings) {
+          const parts = [];
+          if (asBoolean(settings.showProject, true) && task.projectName) {
+            parts.push(`<strong>${escapeHtml(task.projectName)}</strong>`);
+          }
+          if (asBoolean(settings.showLabels, true) && Array.isArray(task.labels)) {
+            for (const label of task.labels.slice(0, 2)) {
+              parts.push(`@${escapeHtml(label)}`);
+            }
+          }
+          if (asBoolean(settings.showDuration, true) && task.duration) {
+            const duration = formatDuration(task.duration);
+            if (duration) parts.push(escapeHtml(duration));
+          }
+          if (task.due?.recurring) {
+            parts.push(escapeHtml(t("recurring")));
+          }
+          return parts.join(" · ");
+        }
+
+        function taskHtml(task, settings) {
+          const description = asBoolean(settings.showDescription, false) && task.description
+            ? `<p class="todoist-task-description">${escapeHtml(task.description.split(/\r?\n/)[0])}</p>`
+            : "";
+          const metadata = taskMetadata(task, settings);
+          const meta = metadata
+            ? `<p class="todoist-task-meta">${metadata}</p>`
+            : "";
+          const due = task.due
+            ? `<p class="todoist-due ${escapeHtml(task.dueState)}">${escapeHtml(formatDate(task.due.date, settings.timezone, task.dueState))}</p>`
+            : "";
+
+          return `
+            <article class="todoist-task priority-${escapeHtml(task.priority)}">
+              <span class="todoist-checkbox" aria-hidden="true"></span>
+              <div class="todoist-task-main">
+                <p class="todoist-task-title">${escapeHtml(task.content)}</p>
+                ${description}
+                ${meta}
+              </div>
+              ${due}
+            </article>
+          `;
+        }
+
+        function renderStats(data, settings) {
+          const stats = document.getElementById("stats");
+          if (!asBoolean(settings.showStats, true)) {
+            stats.hidden = true;
+            stats.innerHTML = "";
+            return;
+          }
+
+          const values = [
+            { value: data.stats.total, label: t("tasks", { count: data.stats.total }), className: "" },
+            { value: data.stats.overdue, label: t("overdue"), className: "todoist-stat-overdue" },
+            { value: data.stats.today, label: t("today"), className: "" },
+          ];
+          stats.innerHTML = values.map((stat) => `
+            <div class="todoist-stat ${stat.className}">
+              <p class="todoist-stat-value">${escapeHtml(stat.value)}</p>
+              <p class="todoist-stat-label">${escapeHtml(stat.label)}</p>
+            </div>
+          `).join("");
+          stats.hidden = false;
+        }
+
+        function renderContent(data, settings) {
+          const content = document.getElementById("content");
+          if (!Array.isArray(data.tasks) || data.tasks.length === 0) {
+            content.className = "todoist-empty";
+            content.innerHTML = `
+              <div class="todoist-empty-inner">
+                <p class="todoist-empty-title">${escapeHtml(t("noTasksTitle"))}</p>
+                <p class="todoist-empty-copy">${escapeHtml(t("noTasksHint"))}</p>
+              </div>
+            `;
+            return;
+          }
+
+          content.className = "todoist-list";
+          content.style.setProperty("--task-count", data.tasks.length);
+          content.innerHTML = data.tasks.map((task) => taskHtml(task, settings)).join("");
+        }
+
+        function renderFooter(data, settings) {
+          const fetchedAt = new Date(data.fetchedAt);
+          let updated = "";
+          if (!Number.isNaN(fetchedAt.getTime())) {
+            updated = new Intl.DateTimeFormat(language, {
+              timeZone: settings.timezone,
+              hour: "2-digit",
+              minute: "2-digit",
+            }).format(fetchedAt);
+          }
+          const remaining = data.hasMore
+            ? t("remaining", { count: Math.max(1, data.stats.total - data.tasks.length) })
+            : "";
+          const source = data.source === "sample" ? t("sample") : "Todoist API";
+
+          document.getElementById("footer").innerHTML = `
+            <span class="todoist-footer-source">${escapeHtml(source)}</span>
+            <span>${escapeHtml([remaining, updated ? `${t("updated")} ${updated}` : ""].filter(Boolean).join(" · "))}</span>
+          `;
+        }
+
+        async function requestData(settings) {
+          const url = new URL("./api/data", window.location.href);
+          const queryValues = {
+            apiToken: settings.apiToken,
+            view: settings.view,
+            filter: settings.filter,
+            projectId: settings.projectId,
+            limit: settings.limit,
+            sortBy: settings.sortBy,
+            timezone: settings.timezone,
+            language,
+          };
+          for (const [key, value] of Object.entries(queryValues)) {
+            if (value !== undefined && value !== null) {
+              url.searchParams.set(key, String(value));
+            }
+          }
+
+          const response = await fetch(url, { cache: "no-store" });
+          const payload = await response.json().catch(() => ({}));
+          if (!response.ok) {
+            throw new Error(payload.error || t("apiFailed", { status: response.status }));
+          }
+          return payload;
+        }
+
+        async function renderPayload(payload) {
+          markLoading();
+          try {
+            const loaded = await loadLanguageJson(payload);
+            messages = { ...defaultMessages, ...loaded.messages };
+            language = loaded.language || "en";
+            document.documentElement.lang = language;
+
+            const settings = mergeSettings(defaults, getSettings(payload), getQuerySettings());
+            applyColorTheme(settings.color, { defaultTheme: defaults.color });
+            const data = await requestData(settings);
+
+            document.getElementById("brand").textContent = t("brand");
+            document.getElementById("title").textContent = viewTitle(settings, data);
+            document.getElementById("task-count").textContent = t("tasks", { count: data.stats.total });
+            renderStats(data, settings);
+            renderContent(data, settings);
+            renderFooter(data, settings);
+
+            await document.fonts?.ready;
+            fitAllText();
+            fitToScreen(document.getElementById("app"));
+            markReady();
+          } catch (error) {
+            const content = document.getElementById("content");
+            content.className = "todoist-empty";
+            content.innerHTML = `
+              <div class="todoist-empty-inner">
+                <p class="todoist-empty-title">${escapeHtml(t("errorTitle"))}</p>
+                <p class="todoist-empty-copy">${escapeHtml(error?.message || String(error))}</p>
+              </div>
+            `;
+            document.getElementById("stats").hidden = true;
+            document.getElementById("footer").innerHTML = "";
+            await document.fonts?.ready;
+            fitAllText();
+            fitToScreen(document.getElementById("app"));
+            markError(error);
+          }
+        }
+
+        const payload = await waitForPayload({ timeoutMs: 500, onUpdate: renderPayload });
+        await renderPayload(payload);
+      })();
+    </script>
+  </body>
+</html>

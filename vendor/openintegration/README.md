@@ -7,8 +7,22 @@ This package is intentionally boring: no React, no generated app lifecycle, and 
 ## Install
 
 ```sh
-npm install @paperlesspaper/openintegration
+npm install --save-dev @paperlesspaper/openintegration
 ```
+
+After installing the package in your integration folder, npm can resolve the local `paperless` binary:
+
+```sh
+npx paperless dev
+```
+
+For a one-off run without installing it locally, point npx at the scoped package explicitly:
+
+```sh
+npx --package @paperlesspaper/openintegration paperless dev
+```
+
+Plain `npx paperless ...` only works with a local install. Otherwise npm tries the unrelated `paperless` package from the registry.
 
 For no-build integrations, copy these files from `dist/` into your integration folder:
 
@@ -23,7 +37,7 @@ paperless.iife.js
 Create a starter integration:
 
 ```sh
-paperlesspaper-openintegration scaffold ./my-integration --name "My Integration"
+paperless scaffold ./my-integration --name "My Integration"
 ```
 
 Use `--no-api` for a static-only starter. By default the scaffold includes `api/data.js`, because most integrations need a small data adapter between external APIs and the render page.
@@ -31,8 +45,10 @@ Use `--no-api` for a static-only starter. By default the scaffold includes `api/
 Run a local paperlesspaper host simulator for an integration:
 
 ```sh
-paperlesspaper-openintegration dev ./config.json
+paperless dev
 ```
+
+By default, `dev`, `check`, and `render` use `./config.json` when no path is provided.
 
 During package development, you can run it from this repository:
 
@@ -64,13 +80,13 @@ The content may also select a built-in `epdoptimize` palette export and override
 It also watches the integration folder and live-reloads the preview when files change. Disable that with:
 
 ```sh
-paperlesspaper-openintegration dev ./config.json --no-watch
+paperless dev --no-watch
 ```
 
 Validate an integration without opening the browser:
 
 ```sh
-paperlesspaper-openintegration check ./config.json
+paperless check
 ```
 
 Use `--json` for machine-readable check output in CI.
@@ -78,7 +94,7 @@ Use `--json` for machine-readable check output in CI.
 Render an integration through local Chrome/Puppeteer and `epdoptimize`:
 
 ```sh
-paperlesspaper-openintegration render ./config.json --viewport 800x480 --output render.png
+paperless render --viewport 800x480 --output render.png
 ```
 
 Use `--raw` to write the unoptimized Puppeteer screenshot. The interactive preview includes separate Puppeteer and EPD buttons that call the same local render endpoint, plus a Live button to switch the main preview back to the iframe.
@@ -86,16 +102,16 @@ Use `--raw` to write the unoptimized Puppeteer screenshot. The interactive previ
 The recommended generation loop is:
 
 ```sh
-paperlesspaper-openintegration scaffold ./applications/example --name "Example"
-paperlesspaper-openintegration check ./applications/example/config.json
-paperlesspaper-openintegration render ./applications/example/config.json --viewport 800x480 --output /tmp/example-landscape.png
-paperlesspaper-openintegration render ./applications/example/config.json --viewport 480x800 --output /tmp/example-portrait.png
-paperlesspaper-openintegration dev ./applications/example/config.json
+paperless scaffold ./applications/example --name "Example"
+paperless check ./applications/example/config.json
+paperless render ./applications/example/config.json --viewport 800x480 --output /tmp/example-landscape.png
+paperless render ./applications/example/config.json --viewport 480x800 --output /tmp/example-portrait.png
+paperless dev ./applications/example/config.json
 ```
 
 ## CLI development
 
-The CLI entry point is `src/cli.ts` and is published as the `paperlesspaper-openintegration` binary from `dist/cli.js`. Build it with:
+The CLI entry point is `src/cli.ts` and is published as the `paperless` binary from `dist/cli.js`. The old `paperlesspaper-openintegration` binary remains available as an alias. Build it with:
 
 ```sh
 npm run build
@@ -232,7 +248,7 @@ For each declared code, add a JSON object at `languages/<code>.json`:
 
 The host-selected language is delivered as `payload.meta.language`. The CLI preview and render command accept `--language <code>`; the preview also shows a language selector when `config.language` is present. If no language is provided, the first declared language is used. Integrations without `config.language` keep the legacy `"de"` default.
 
-Use `loadLanguageJson(payload)` in `render.html`. It resolves exact language codes first, then base codes such as `de-DE -> de`, then the default language, and fetches `languages/<resolved>.json`. `paperlesspaper-openintegration check` verifies that every declared language file exists, parses as JSON, and contains an object.
+Use `loadLanguageJson(payload)` in `render.html`. It resolves exact language codes first, then base codes such as `de-DE -> de`, then the default language, and fetches `languages/<resolved>.json`. `paperless check` verifies that every declared language file exists, parses as JSON, and contains an object.
 
 ## Minimal config.json
 
@@ -262,6 +278,12 @@ Use `loadLanguageJson(payload)` in `render.html`. It resolves exact language cod
   }
 }
 ```
+
+Generated settings forms support the standard JSON Schema primitive `type` values `string`, `number`,
+`integer`, `boolean`, `array`, and `object`. Strings can opt into richer inputs with `format`: use
+`date`, `time`, `date-time`/`datetime-local`, `email`, `uri`/`url`, `password`, `color`, `tel`,
+`month`, `week`, or `textarea`. Number inputs honor `minimum`, `maximum`, and `step`; string inputs honor
+`minLength`, `maxLength`, `pattern`, and `placeholder`.
 
 ## Static render.html
 

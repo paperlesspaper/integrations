@@ -946,6 +946,17 @@ function createPreviewHtml({
         "green-dark",
         "green-light"
       ];
+      const colorOptions = [
+        "",
+        "dark",
+        "light",
+        "red-dark",
+        "red-light",
+        "blue-dark",
+        "blue-light",
+        "green-dark",
+        "green-light"
+      ];
       let monitorTimer;
       let timeoutTimer;
       let messageTimer;
@@ -967,6 +978,7 @@ function createPreviewHtml({
         renderPath
       ].join(":");
 
+      initColorControl();
       settings.value = defaultSettingsValue;
       selectValue(color, defaultColorValue, "");
       if (language) {
@@ -1063,6 +1075,20 @@ function createPreviewHtml({
         }
 
         select.value = fallback;
+      }
+
+      function initColorControl() {
+        const schemaColorOptions = Array.isArray(config.formSchema?.properties?.color?.enum)
+          ? config.formSchema.properties.color.enum.filter((theme) => colorOptions.includes(theme))
+          : [];
+        const allowedColorOptions = schemaColorOptions.length > 0 ? schemaColorOptions : colorOptions;
+
+        color.innerHTML = allowedColorOptions
+          .map((theme) => {
+            const label = theme || "none";
+            return "<option value=\\"" + escapeText(theme) + "\\">" + escapeText(label) + "</option>";
+          })
+          .join("");
       }
 
       function syncViewportPresets() {
@@ -1307,6 +1333,52 @@ function createPreviewHtml({
         return "";
       }
 
+      function stringInputTypeForFormat(format) {
+        const normalized = typeof format === "string" ? format.toLowerCase() : "";
+        const inputTypes = {
+          "date": "date",
+          "time": "time",
+          "date-time": "datetime-local",
+          "datetime": "datetime-local",
+          "datetime-local": "datetime-local",
+          "email": "email",
+          "uri": "url",
+          "url": "url",
+          "password": "password",
+          "color": "color",
+          "tel": "tel",
+          "phone": "tel",
+          "month": "month",
+          "week": "week"
+        };
+
+        return inputTypes[normalized] || "text";
+      }
+
+      function isTextareaProperty(property) {
+        return (
+          property.format === "textarea" ||
+          property["ui:widget"] === "textarea" ||
+          Number.isInteger(property.rows)
+        );
+      }
+
+      function setOptionalAttribute(element, attribute, value) {
+        if (value !== undefined && value !== null && value !== "") {
+          element.setAttribute(attribute, String(value));
+        }
+      }
+
+      function applyInputAttributes(input, property) {
+        setOptionalAttribute(input, "min", property.minimum ?? property.min);
+        setOptionalAttribute(input, "max", property.maximum ?? property.max);
+        setOptionalAttribute(input, "step", property.step);
+        setOptionalAttribute(input, "minlength", property.minLength);
+        setOptionalAttribute(input, "maxlength", property.maxLength);
+        setOptionalAttribute(input, "pattern", property.pattern);
+        setOptionalAttribute(input, "placeholder", property.placeholder);
+      }
+
       function coerceFieldValue(element, schema) {
         const type = schema.type;
 
@@ -1425,16 +1497,21 @@ function createPreviewHtml({
               option.textContent = String(optionValue);
               input.append(option);
             }
-          } else if (property.type === "array" || property.type === "object" || property.format === "textarea") {
+          } else if (property.type === "array" || property.type === "object" || isTextareaProperty(property)) {
             input = document.createElement("textarea");
             input.rows = Number.isInteger(property.rows) ? property.rows : 4;
           } else {
             input = document.createElement("input");
-            input.type = property.type === "number" || property.type === "integer" ? "number" : "text";
+            input.type =
+              property.type === "number" || property.type === "integer"
+                ? "number"
+                : stringInputTypeForFormat(property.format);
 
-            if (property.type === "integer") {
+            if (property.type === "integer" && property.step === undefined) {
               input.step = "1";
             }
+
+            applyInputAttributes(input, property);
           }
 
           wrapper.append(input);
@@ -2970,11 +3047,19 @@ paperlesspaper OpenIntegration scaffold.
 
 ## Develop
 
+Install the local CLI helper first:
+
 \`\`\`sh
-paperlesspaper-openintegration check ./config.json
-paperlesspaper-openintegration dev ./config.json
-paperlesspaper-openintegration render ./config.json --viewport 800x480 --output render.png
+npm install --save-dev @paperlesspaper/openintegration
 \`\`\`
+
+\`\`\`sh
+npx paperless check
+npx paperless dev
+npx paperless render --viewport 800x480 --output render.png
+\`\`\`
+
+For a one-off run without a local install, use \`npx --package @paperlesspaper/openintegration paperless dev\`.
 
 ## Files
 
@@ -3224,12 +3309,16 @@ var COLOR_THEME_CLASSES2 = [
   "red",
   "yellow"
 ];
+var defaultConfigPath = "./config.json";
 function usage() {
   return `Usage:
-  paperlesspaper-openintegration dev [config.json] [options]
-  paperlesspaper-openintegration check [config.json] [options]
-  paperlesspaper-openintegration render [config.json] [options]
-  paperlesspaper-openintegration scaffold <directory> [options]
+  paperless dev [./config.json] [options]
+  paperless check [./config.json] [options]
+  paperless render [./config.json] [options]
+  paperless scaffold <directory> [options]
+
+Aliases:
+  paperlesspaper-openintegration
 
 Options:
   --name <name>              Integration display name for scaffold.
@@ -3614,11 +3703,11 @@ async function main() {
       console.log(`- ${file}`);
     }
     console.log("");
-    console.log(`Next: paperlesspaper-openintegration check ${result.targetDir}/config.json`);
+    console.log(`Next: paperless check ${result.targetDir}/config.json`);
     return;
   }
   if (args.command === "check") {
-    const result = await checkIntegration(args.configPath ?? "config.json");
+    const result = await checkIntegration(args.configPath ?? defaultConfigPath);
     if (args.json) {
       console.log(JSON.stringify(result, null, 2));
     } else {
@@ -3634,7 +3723,7 @@ async function main() {
     return;
   }
   if (args.command === "render") {
-    const configPath = args.configPath ?? "config.json";
+    const configPath = args.configPath ?? defaultConfigPath;
     const config = await readConfig(configPath);
     const viewport = parseViewport(args.viewport);
     const server2 = await startDevServer({
@@ -3710,7 +3799,7 @@ async function main() {
   }
   const server = await startDevServerWithPortFallback({
     color: args.color,
-    configPath: args.configPath ?? "config.json",
+    configPath: args.configPath ?? defaultConfigPath,
     frameKind: args.frameKind,
     host: args.host,
     language: args.language,
