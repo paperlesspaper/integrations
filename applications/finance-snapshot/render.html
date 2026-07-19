@@ -1,11 +1,14 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="paperless:epd-optimize" content='{"intent":"readable","palette":"spectra6OriginalPalette"}'>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="paperless:epd-optimize"
+      content='{"intent":"readable","palette":"spectra6OriginalPalette"}'
+    />
     <title>Finance Snapshot</title>
-    <link rel="stylesheet" href="/assets/paperless.css">
+    <link rel="stylesheet" href="/assets/paperless.css" />
     <script src="/assets/paperless.iife.js"></script>
     <style>
       .finance-screen {
@@ -188,7 +191,10 @@
         align-items: stretch;
         display: grid;
         gap: 0;
-        grid-template-columns: minmax(120px, 1.2fr) minmax(84px, 0.75fr) minmax(84px, 0.65fr) minmax(74px, 0.55fr);
+        grid-template-columns: minmax(120px, 1.2fr) minmax(84px, 0.75fr) minmax(
+            84px,
+            0.65fr
+          ) minmax(74px, 0.55fr);
       }
 
       .quote-head {
@@ -251,6 +257,7 @@
         stroke-linecap: round;
         stroke-linejoin: round;
         stroke-width: 3;
+        fill: transparent;
         width: 100%;
       }
 
@@ -370,7 +377,10 @@
         .quote-head,
         .quote-row {
           gap: 0;
-          grid-template-columns: minmax(104px, 1.08fr) minmax(82px, 0.72fr) minmax(78px, 0.7fr) minmax(54px, 0.45fr);
+          grid-template-columns: minmax(104px, 1.08fr) minmax(
+              82px,
+              0.72fr
+            ) minmax(78px, 0.7fr) minmax(54px, 0.45fr);
         }
 
         .quote-head span {
@@ -418,7 +428,10 @@
         .quote-head,
         .quote-row {
           gap: 0;
-          grid-template-columns: minmax(132px, 1.18fr) minmax(94px, 0.76fr) minmax(84px, 0.64fr) minmax(58px, 0.42fr);
+          grid-template-columns: minmax(132px, 1.18fr) minmax(
+              94px,
+              0.76fr
+            ) minmax(84px, 0.64fr) minmax(58px, 0.42fr);
         }
 
         .quote-head {
@@ -533,7 +546,9 @@
       <footer class="finance-footer">
         <p class="footer-meta" id="updated">Updated</p>
         <p class="footer-meta" id="source-footer"></p>
-        <p class="footer-meta" id="delay-note" data-i18n="delayed">Market data may be delayed</p>
+        <p class="footer-meta" id="delay-note" data-i18n="delayed">
+          Market data may be delayed
+        </p>
       </footer>
     </main>
 
@@ -578,7 +593,9 @@
         let currentLocale = "en-US";
 
         function localeForLanguage(language) {
-          const base = String(language || "en").split("-")[0].toLowerCase();
+          const base = String(language || "en")
+            .split("-")[0]
+            .toLowerCase();
           const locales = {
             de: "de-DE",
             en: "en-US",
@@ -601,8 +618,9 @@
             typeof messages[key] === "string"
               ? messages[key]
               : defaultMessages[key] || key;
-          return template.replace(/\{(\w+)\}/g, (_match, name) =>
-            values[name] ?? "",
+          return template.replace(
+            /\{(\w+)\}/g,
+            (_match, name) => values[name] ?? "",
           );
         }
 
@@ -740,7 +758,12 @@
           }
 
           const fillPath = `${path} L${width - 8} ${height - 8} L8 ${height - 8} Z`;
-          const trendClass = trend === "down" ? "chart-down" : trend === "up" ? "chart-up" : "chart-flat";
+          const trendClass =
+            trend === "down"
+              ? "chart-down"
+              : trend === "up"
+                ? "chart-up"
+                : "chart-flat";
           return `
             <svg class="chart-svg ${trendClass}" viewBox="0 0 ${width} ${height}" preserveAspectRatio="none" aria-hidden="true">
               <path class="chart-fill" d="${fillPath}"></path>
@@ -791,16 +814,25 @@
           `;
         }
 
-        function renderQuote(quote, showChange, showSparklines, showRangeStats) {
+        function renderQuote(
+          quote,
+          showChange,
+          showSparklines,
+          showRangeStats,
+        ) {
           const change = showChange ? formatChange(quote.changePercent) : "";
           const unit = quote.unit || "";
           const sparkline =
             showSparklines && finiteHistory(quote).length > 1
-              ? `<div class="mini-chart">${renderChart(finiteHistory(quote), quote.rangeTrend || quote.trend, {
-                  width: 150,
-                  height: 32,
-                  padding: 4,
-                })}</div>`
+              ? `<div class="mini-chart">${renderChart(
+                  finiteHistory(quote),
+                  quote.rangeTrend || quote.trend,
+                  {
+                    width: 150,
+                    height: 32,
+                    padding: 4,
+                  },
+                )}</div>`
               : "";
           const range =
             showRangeStats && quote.high !== null && quote.low !== null
@@ -838,86 +870,112 @@
         async function renderPayload(payload) {
           try {
             markLoading();
-          const defaults = {
-            color: "light",
-            preset: "balanced",
-            symbols: ["GC=F", "BTC-USD", "EURUSD=X", "^GSPC", "CL=F", "EUR=X"],
-            customSymbols: "",
-            currency: "USD",
-            locale: "en-US",
-            limit: 8,
-            chartRange: "1mo",
-            showChart: true,
-            showSparklines: true,
-            showRangeStats: true,
-            showChange: true,
-            showSource: true,
-          };
-          await loadMessages(payload);
-          const settings = mergeSettings(defaults, getSettings(payload), getQuerySettings());
-          applyColorTheme(settings.color, { defaultTheme: defaults.color });
-          const params = new URLSearchParams();
+            const defaults = {
+              color: "light",
+              preset: "balanced",
+              symbols: [
+                "GC=F",
+                "BTC-USD",
+                "EURUSD=X",
+                "^GSPC",
+                "CL=F",
+                "EUR=X",
+              ],
+              customSymbols: "",
+              currency: "USD",
+              locale: "en-US",
+              limit: 8,
+              chartRange: "1mo",
+              showChart: true,
+              showSparklines: true,
+              showRangeStats: true,
+              showChange: true,
+              showSource: true,
+            };
+            await loadMessages(payload);
+            const settings = mergeSettings(
+              defaults,
+              getSettings(payload),
+              getQuerySettings(),
+            );
+            applyColorTheme(settings.color, { defaultTheme: defaults.color });
+            const params = new URLSearchParams();
 
-          Object.entries(settings).forEach(([key, value]) => {
-            if (Array.isArray(value)) {
-              params.set(key, value.join(","));
-            } else {
-              params.set(key, value);
+            Object.entries(settings).forEach(([key, value]) => {
+              if (Array.isArray(value)) {
+                params.set(key, value.join(","));
+              } else {
+                params.set(key, value);
+              }
+            });
+
+            const response = await fetch(`./api/data?${params.toString()}`, {
+              cache: "no-store",
+            });
+            if (!response.ok) {
+              throw new Error(t("apiFailed", { status: response.status }));
             }
-          });
 
-          const response = await fetch(`./api/data?${params.toString()}`, { cache: "no-store" });
-          if (!response.ok) {
-            throw new Error(t("apiFailed", { status: response.status }));
-          }
+            const data = await response.json();
+            currentLocale = resolveDisplayLocale(
+              data.settings?.locale || settings.locale,
+            );
+            document.documentElement.lang = currentLanguage;
 
-          const data = await response.json();
-          currentLocale = resolveDisplayLocale(data.settings?.locale || settings.locale);
-          document.documentElement.lang = currentLanguage;
+            const quotes = Array.isArray(data.quotes) ? data.quotes : [];
+            const leader = data.leader || quotes[0] || null;
+            document.getElementById("preset").textContent =
+              `${String(data.settings?.preset || "balanced").toUpperCase()} · ${String(data.settings?.chartRange || "1mo").toUpperCase()}`;
+            document.getElementById("source-footer").textContent = data.settings
+              ?.showSource
+              ? `${t("source")}: ${data.source}`
+              : "";
 
-          const quotes = Array.isArray(data.quotes) ? data.quotes : [];
-          const leader = data.leader || quotes[0] || null;
-          document.getElementById("preset").textContent = `${String(data.settings?.preset || "balanced").toUpperCase()} · ${String(data.settings?.chartRange || "1mo").toUpperCase()}`;
-          document.getElementById("source-footer").textContent =
-            data.settings?.showSource ? `${t("source")}: ${data.source}` : "";
+            if (leader) {
+              document.getElementById("summary").className =
+                `summary trend-${leader.trend || "flat"}`;
+              document.getElementById("leader-name").textContent = leader.name;
+              document.getElementById("leader-price").textContent =
+                formatNumber(leader.price);
+              document.getElementById("leader-change").textContent =
+                formatChange(leader.changePercent);
+              document.getElementById("leader-chart").innerHTML =
+                renderLeaderChart(leader, data.settings || settings);
+            } else {
+              document.getElementById("summary").className =
+                "summary trend-flat";
+              document.getElementById("leader-name").textContent = t("noData");
+              document.getElementById("leader-price").textContent = "--";
+              document.getElementById("leader-change").textContent = "--";
+              document.getElementById("leader-chart").innerHTML = "";
+            }
 
-          if (leader) {
-            document.getElementById("summary").className = `summary trend-${leader.trend || "flat"}`;
-            document.getElementById("leader-name").textContent = leader.name;
-            document.getElementById("leader-price").textContent = formatNumber(leader.price);
-            document.getElementById("leader-change").textContent = formatChange(leader.changePercent);
-            document.getElementById("leader-chart").innerHTML = renderLeaderChart(leader, data.settings || settings);
-          } else {
-            document.getElementById("summary").className = "summary trend-flat";
-            document.getElementById("leader-name").textContent = t("noData");
-            document.getElementById("leader-price").textContent = "--";
-            document.getElementById("leader-change").textContent = "--";
-            document.getElementById("leader-chart").innerHTML = "";
-          }
+            document.getElementById("quotes").innerHTML = quotes
+              .map((quote) =>
+                renderQuote(
+                  quote,
+                  data.settings?.showChange !== false,
+                  data.settings?.showSparklines !== false,
+                  data.settings?.showRangeStats !== false,
+                ),
+              )
+              .join("");
+            document.getElementById("updated").textContent =
+              `${t("updated")} ${formatDateTime(data.updatedAt)}`;
 
-          document.getElementById("quotes").innerHTML = quotes
-            .map((quote) =>
-              renderQuote(
-                quote,
-                data.settings?.showChange !== false,
-                data.settings?.showSparklines !== false,
-                data.settings?.showRangeStats !== false,
-              ),
-            )
-            .join("");
-          document.getElementById("updated").textContent =
-            `${t("updated")} ${formatDateTime(data.updatedAt)}`;
-
-          fitAllText(".pp-fit-leader", { min: 18, max: 42, step: 2 });
-          fitToScreen();
-          markReady({ count: quotes.length, preset: data.settings?.preset });
+            fitAllText(".pp-fit-leader", { min: 18, max: 42, step: 2 });
+            fitToScreen();
+            markReady({ count: quotes.length, preset: data.settings?.preset });
           } catch (error) {
             markError(error);
             document.body.innerHTML = `<main class="pp-screen"><h1 class="pp-title pp-error">${escapeHtml(t("errorTitle"))}</h1><p>${escapeHtml(error.message)}</p></main>`;
           }
         }
 
-        const payload = await waitForPayload({ timeout: 300, onUpdate: renderPayload });
+        const payload = await waitForPayload({
+          timeout: 300,
+          onUpdate: renderPayload,
+        });
         await renderPayload(payload);
       })();
     </script>

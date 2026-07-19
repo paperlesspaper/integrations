@@ -1,0 +1,556 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="paperless:epd-optimize" content='{"intent":"readable"}' />
+    <title>Human Rights — Article of the Day</title>
+    <link rel="stylesheet" href="/assets/paperless.css" />
+    <script src="/assets/paperless.iife.js"></script>
+    <style>
+      .rights-screen {
+        padding: 28px;
+        gap: 18px;
+      }
+
+      .rights-header {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 18px;
+        min-height: 0;
+      }
+
+      .rights-brand {
+        min-width: 0;
+        border-left: 9px solid var(--pp-accent);
+        padding-left: 14px;
+      }
+
+      .rights-kicker {
+        margin: 0 0 5px;
+        color: var(--pp-muted);
+        font-size: 0.8rem;
+        line-height: 1;
+        font-weight: 850;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+      }
+
+      .rights-title {
+        margin: 0;
+        font-size: clamp(2.25rem, 8.5vh, 4.6rem);
+        line-height: 0.92;
+        font-weight: 950;
+        overflow-wrap: anywhere;
+      }
+
+      .rights-date {
+        flex: none;
+        max-width: 15em;
+        margin: 0;
+        border: 3px solid var(--pp-fg);
+        padding: 9px 12px;
+        font-size: 0.82rem;
+        line-height: 1.05;
+        font-weight: 850;
+        text-align: center;
+      }
+
+      .article-stage {
+        flex: 1;
+        min-height: 0;
+        display: grid;
+        grid-template-columns: clamp(112px, 19vw, 182px) minmax(0, 1fr);
+        overflow: hidden;
+        border-top: 4px solid var(--pp-fg);
+        border-bottom: 4px solid var(--pp-fg);
+      }
+
+      .article-number-panel {
+        min-width: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        border-right: 3px solid var(--pp-border);
+        background: var(--pp-card);
+        padding: 14px 10px;
+        text-align: center;
+      }
+
+      .article-label {
+        margin: 0;
+        color: var(--pp-muted);
+        font-size: 0.78rem;
+        line-height: 1;
+        font-weight: 900;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+      }
+
+      .article-number {
+        margin: 5px 0 3px;
+        color: var(--pp-accent);
+        font-size: clamp(5.2rem, 22vh, 11rem);
+        line-height: 0.78;
+        font-weight: 950;
+        letter-spacing: -0.07em;
+      }
+
+      .article-count {
+        margin: 0;
+        color: var(--pp-muted);
+        font-size: 0.72rem;
+        line-height: 1;
+        font-weight: 800;
+      }
+
+      .article-copy-wrap {
+        min-width: 0;
+        min-height: 0;
+        display: flex;
+        align-items: center;
+        overflow: hidden;
+        padding: 18px 0 18px 24px;
+      }
+
+      .article-copy {
+        width: 100%;
+        margin: 0;
+        font-size: 4.1rem;
+        line-height: 1.1;
+        font-weight: 720;
+        overflow-wrap: break-word;
+      }
+
+      .article-copy p {
+        margin: 0;
+      }
+
+      .article-copy p + p {
+        margin-top: 0.55em;
+      }
+
+      .article-copy ol {
+        display: grid;
+        gap: 0.42em;
+        margin: 0;
+        padding-left: 1.12em;
+      }
+
+      .article-copy li {
+        padding-left: 0.18em;
+      }
+
+      .rights-footer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 18px;
+        min-height: 1.3rem;
+        color: var(--pp-muted);
+        font-size: 0.76rem;
+        line-height: 1.1;
+        font-weight: 720;
+      }
+
+      .rights-footer p {
+        margin: 0;
+      }
+
+      .rights-source {
+        min-width: 0;
+        overflow-wrap: anywhere;
+      }
+
+      .rights-cycle {
+        flex: none;
+        color: var(--pp-accent);
+        font-weight: 900;
+        text-transform: uppercase;
+      }
+
+      [hidden] {
+        display: none !important;
+      }
+
+      @media (orientation: portrait) {
+        .rights-screen {
+          padding: 26px;
+          gap: 22px;
+        }
+
+        .rights-header {
+          display: grid;
+          grid-template-columns: minmax(0, 1fr);
+        }
+
+        .rights-date {
+          justify-self: start;
+        }
+
+        .article-stage {
+          grid-template-columns: minmax(0, 1fr);
+          grid-template-rows: auto minmax(0, 1fr);
+        }
+
+        .article-number-panel {
+          flex-direction: row;
+          justify-content: flex-start;
+          gap: 12px;
+          border-right: 0;
+          border-bottom: 3px solid var(--pp-border);
+          padding: 12px 16px;
+          text-align: left;
+        }
+
+        .article-number {
+          order: -1;
+          margin: 0;
+          font-size: clamp(4.3rem, 12vh, 7rem);
+          line-height: 0.8;
+        }
+
+        .article-label {
+          font-size: 0.86rem;
+        }
+
+        .article-count {
+          margin-left: auto;
+        }
+
+        .article-copy-wrap {
+          align-items: flex-start;
+          padding: 22px 4px 18px;
+        }
+
+        .article-copy {
+          font-size: 4.7rem;
+          line-height: 1.12;
+        }
+
+        .rights-footer {
+          align-items: flex-start;
+          flex-direction: column;
+          gap: 7px;
+        }
+      }
+
+      @media (max-width: 700px), (max-height: 560px) {
+        .rights-screen {
+          padding: 18px;
+          gap: 13px;
+        }
+
+        .rights-brand {
+          border-left-width: 6px;
+          padding-left: 10px;
+        }
+
+        .rights-kicker {
+          margin-bottom: 3px;
+          font-size: 0.64rem;
+        }
+
+        .rights-title {
+          font-size: clamp(1.85rem, 8vh, 3rem);
+        }
+
+        .rights-date {
+          border-width: 2px;
+          padding: 6px 8px;
+          font-size: 0.66rem;
+        }
+
+        .article-stage {
+          grid-template-columns: clamp(86px, 17vw, 116px) minmax(0, 1fr);
+          border-top-width: 3px;
+          border-bottom-width: 3px;
+        }
+
+        .article-number-panel {
+          border-right-width: 2px;
+          padding: 9px 7px;
+        }
+
+        .article-label {
+          font-size: 0.62rem;
+        }
+
+        .article-number {
+          font-size: clamp(4.2rem, 19vh, 7.4rem);
+        }
+
+        .article-count {
+          font-size: 0.58rem;
+        }
+
+        .article-copy-wrap {
+          padding: 12px 0 12px 16px;
+        }
+
+        .article-copy {
+          font-size: 3rem;
+        }
+
+        .rights-footer {
+          gap: 10px;
+          font-size: 0.61rem;
+        }
+      }
+
+      @media (orientation: portrait) and (max-width: 700px) {
+        .rights-header {
+          gap: 10px;
+        }
+
+        .article-stage {
+          grid-template-columns: minmax(0, 1fr);
+          grid-template-rows: auto minmax(0, 1fr);
+        }
+
+        .article-number-panel {
+          flex-direction: row;
+          gap: 10px;
+          border-right: 0;
+          border-bottom: 2px solid var(--pp-border);
+          padding: 9px 12px;
+        }
+
+        .article-number {
+          font-size: 3.9rem;
+        }
+
+        .article-copy-wrap {
+          padding: 16px 2px 12px;
+        }
+
+        .article-copy {
+          font-size: 3.65rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="website-has-loading-element"></div>
+    <main class="pp-screen rights-screen" id="screen">
+      <header class="rights-header">
+        <div class="rights-brand">
+          <p class="rights-kicker" data-i18n="kicker">Universal Declaration</p>
+          <h1 class="rights-title" data-i18n="title">Human Rights</h1>
+        </div>
+        <p class="rights-date" id="date"></p>
+      </header>
+
+      <section class="article-stage">
+        <div class="article-number-panel">
+          <p class="article-label" data-i18n="article">Article</p>
+          <p class="article-number" id="article-number">—</p>
+          <p class="article-count" data-i18n="ofThirty">of 30</p>
+        </div>
+        <div class="article-copy-wrap" id="copy-wrap">
+          <div class="article-copy" id="article-copy" data-i18n="loading">
+            Loading…
+          </div>
+        </div>
+      </section>
+
+      <footer class="rights-footer" id="footer">
+        <p class="rights-source" data-i18n="source">
+          Source: Universal Declaration of Human Rights · wooorm/udhr
+        </p>
+        <p class="rights-cycle" id="mode"></p>
+      </footer>
+    </main>
+
+    <script>
+      (async function render() {
+        const {
+          waitForPayload,
+          getSettings,
+          getQuerySettings,
+          mergeSettings,
+          loadLanguageJson,
+          applyColorTheme,
+          fitHyphenatedText,
+          fitToScreen,
+          markLoading,
+          markReady,
+          markError,
+          escapeHtml,
+        } = window.PaperlessOpenIntegration;
+
+        const defaults = {
+          color: "blue-light",
+          article: "daily",
+          showDate: true,
+          showSource: true,
+        };
+        const defaultMessages = {
+          title: "Human Rights",
+          kicker: "Universal Declaration",
+          article: "Article",
+          ofThirty: "of 30",
+          loading: "Loading…",
+          source: "Source: Universal Declaration of Human Rights · wooorm/udhr",
+          daily: "Daily rotation",
+          pinned: "Pinned article",
+          errorTitle: "The article could not load",
+          articles: [],
+        };
+        let messages = defaultMessages;
+        let currentLanguage = "en";
+
+        function t(key, values = {}) {
+          const template =
+            typeof messages[key] === "string"
+              ? messages[key]
+              : defaultMessages[key] || key;
+          return template.replace(/\{(\w+)\}/g, (_match, name) =>
+            values[name] ?? "",
+          );
+        }
+
+        function asBoolean(value) {
+          return value === true || value === "true";
+        }
+
+        function applyStaticMessages(root = document) {
+          root.querySelectorAll("[data-i18n]").forEach((element) => {
+            element.textContent = t(element.dataset.i18n);
+          });
+        }
+
+        function getDayOfYear(date) {
+          const current = Date.UTC(
+            date.getFullYear(),
+            date.getMonth(),
+            date.getDate(),
+          );
+          const start = Date.UTC(date.getFullYear(), 0, 0);
+          return Math.floor((current - start) / 86400000);
+        }
+
+        function resolveArticleNumber(value, date) {
+          const requested = Number.parseInt(String(value), 10);
+          if (Number.isInteger(requested) && requested >= 1 && requested <= 30) {
+            return { number: requested, daily: false };
+          }
+
+          return {
+            number: ((getDayOfYear(date) - 1) % 30) + 1,
+            daily: true,
+          };
+        }
+
+        function renderArticle(article) {
+          const copy = document.getElementById("article-copy");
+          const paragraphs = Array.isArray(article.paragraphs)
+            ? article.paragraphs
+            : [];
+          copy.replaceChildren();
+
+          if (article.numbered) {
+            const list = document.createElement("ol");
+            paragraphs.forEach((text) => {
+              const item = document.createElement("li");
+              item.textContent = String(text);
+              list.appendChild(item);
+            });
+            copy.appendChild(list);
+          } else {
+            paragraphs.forEach((text) => {
+              const paragraph = document.createElement("p");
+              paragraph.textContent = String(text);
+              copy.appendChild(paragraph);
+            });
+          }
+        }
+
+        async function loadMessages(payload) {
+          const result = await loadLanguageJson(payload);
+          messages = { ...defaultMessages, ...result.messages };
+          currentLanguage = result.language || "en";
+          document.documentElement.lang = currentLanguage;
+          applyStaticMessages();
+        }
+
+        async function renderPayload(payload) {
+          try {
+            markLoading();
+            await loadMessages(payload);
+
+            const settings = mergeSettings(
+              defaults,
+              getSettings(payload),
+              getQuerySettings(),
+            );
+            applyColorTheme(settings.color, { defaultTheme: defaults.color });
+
+            const articles = Array.isArray(messages.articles)
+              ? messages.articles
+              : [];
+            if (articles.length !== 30) {
+              throw new Error("Expected 30 declaration articles.");
+            }
+
+            const now = new Date();
+            const selection = resolveArticleNumber(settings.article, now);
+            const article = articles.find(
+              (entry) => Number(entry.number) === selection.number,
+            );
+            if (!article) {
+              throw new Error(`Article ${selection.number} is missing.`);
+            }
+
+            document.getElementById("article-number").textContent = String(
+              selection.number,
+            ).padStart(2, "0");
+            document.getElementById("date").textContent =
+              new Intl.DateTimeFormat(currentLanguage, {
+                weekday: "long",
+                day: "numeric",
+                month: "long",
+                year: "numeric",
+              }).format(now);
+            document.getElementById("date").hidden = !asBoolean(
+              settings.showDate,
+            );
+            document.getElementById("footer").hidden = !asBoolean(
+              settings.showSource,
+            );
+            document.getElementById("mode").textContent = selection.daily
+              ? t("daily")
+              : t("pinned");
+
+            renderArticle(article);
+            await document.fonts?.ready;
+            fitHyphenatedText(document.getElementById("article-copy"), {
+              min: 15,
+              max: 112,
+              step: 1,
+              tolerance: 12,
+              lineBreak: "balance",
+              fitParent: document.getElementById("copy-wrap"),
+            });
+            fitToScreen(document.getElementById("screen"));
+            markReady({
+              article: selection.number,
+              mode: selection.daily ? "daily" : "pinned",
+            });
+          } catch (error) {
+            markError(error);
+            document.body.innerHTML = `<main class="pp-screen"><h1 class="pp-title pp-error">${escapeHtml(t("errorTitle"))}</h1><p>${escapeHtml(error.message)}</p></main>`;
+          }
+        }
+
+        const payload = await waitForPayload({
+          timeoutMs: 500,
+          onUpdate: renderPayload,
+        });
+        await renderPayload(payload);
+      })();
+    </script>
+  </body>
+</html>

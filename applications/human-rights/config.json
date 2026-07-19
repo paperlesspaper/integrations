@@ -1,0 +1,127 @@
+{
+  "name": "Human Rights — Article of the Day",
+  "version": "0.1.0",
+  "status": "alpha",
+  "description": "Shows one article of the Universal Declaration of Human Rights each day.",
+  "renderPage": "./render.html",
+  "icon": "./assets/icon.png",
+  "nativeSettings": {
+    "color": "blue-light",
+    "article": "daily",
+    "showDate": true,
+    "showSource": true
+  },
+  "configVariants": [
+    {
+      "article": "1",
+      "showDate": true,
+      "showSource": true,
+      "screenshots": {
+        "800x480": "./screenshots/human-rights-article-1-800x480-landscape.png",
+        "480x800": "./screenshots/human-rights-article-1-480x800-portrait.png"
+      }
+    },
+    {
+      "article": "26",
+      "showDate": false,
+      "showSource": true,
+      "screenshots": {
+        "800x480": "./screenshots/human-rights-article-26-800x480-landscape.png",
+        "480x800": "./screenshots/human-rights-article-26-480x800-portrait.png"
+      }
+    }
+  ],
+  "formSchema": {
+    "type": "object",
+    "properties": {
+      "article": {
+        "type": "string",
+        "title": "Article",
+        "description": "Rotate daily or keep one article on screen.",
+        "enum": [
+          "daily",
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6",
+          "7",
+          "8",
+          "9",
+          "10",
+          "11",
+          "12",
+          "13",
+          "14",
+          "15",
+          "16",
+          "17",
+          "18",
+          "19",
+          "20",
+          "21",
+          "22",
+          "23",
+          "24",
+          "25",
+          "26",
+          "27",
+          "28",
+          "29",
+          "30"
+        ],
+        "enumNames": [
+          "Daily rotation",
+          "Article 1",
+          "Article 2",
+          "Article 3",
+          "Article 4",
+          "Article 5",
+          "Article 6",
+          "Article 7",
+          "Article 8",
+          "Article 9",
+          "Article 10",
+          "Article 11",
+          "Article 12",
+          "Article 13",
+          "Article 14",
+          "Article 15",
+          "Article 16",
+          "Article 17",
+          "Article 18",
+          "Article 19",
+          "Article 20",
+          "Article 21",
+          "Article 22",
+          "Article 23",
+          "Article 24",
+          "Article 25",
+          "Article 26",
+          "Article 27",
+          "Article 28",
+          "Article 29",
+          "Article 30"
+        ],
+        "default": "daily"
+      },
+      "showDate": {
+        "type": "boolean",
+        "title": "Show date",
+        "description": "Show the date used for the daily rotation.",
+        "default": true
+      },
+      "showSource": {
+        "type": "boolean",
+        "title": "Show source",
+        "description": "Show the declaration source in the footer.",
+        "default": true
+      }
+    }
+  },
+  "language": [
+    "en",
+    "de"
+  ]
+}
