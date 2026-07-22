@@ -6,8 +6,23 @@ canonical calendar model, and uses the shared paperlesspaper calendar layouts.
 
 ## Setup
 
+The form is pre-filled with Digital Peak's public DPCalendar iCalendar feed so a new integration
+has a populated, network-backed example. The shared demo is mutable and its contents may change;
+replace it with the calendar you want to show.
+
+```text
+https://demo.digital-peak.com/dpc/index.php?option=com_dpcalendar&task=ical.download&format=raw&id=494
+```
+
+Google's public **Holidays in Germany** feed is a second read-only example:
+
+```text
+https://calendar.google.com/calendar/ical/en.german%23holiday%40group.v.calendar.google.com/public/basic.ics
+```
+
 1. Copy the calendar's subscription or sharing URL from its provider.
-2. Paste the `webcal://`, HTTPS, or direct `.ics` URL into **Webcal or iCalendar URL**.
+2. Replace the example in **Webcal or iCalendar URL** with the `webcal://`, HTTPS, or direct `.ics`
+   URL.
 3. When the feed uses HTTP Basic authentication, enter both the username and password. Leave both
    blank for public or capability-link feeds.
 4. Select the display timezone and preferred calendar view.
@@ -62,3 +77,4 @@ node vendor/openintegration/dist/cli.js render applications/webcal/config.json -
 ## Specification
 
 - [RFC 5545: Internet Calendaring and Scheduling Core Object Specification](https://www.rfc-editor.org/rfc/rfc5545)
+- [DPCalendar iCalendar and Webcal feed documentation](https://joomla.digital-peak.com/documentation/dpcalendar/introduction/subscribe-to-calendars)

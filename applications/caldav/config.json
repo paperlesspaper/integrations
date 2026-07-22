@@ -9,10 +9,10 @@
   "nativeSettings": {
     "color": "light",
     "title": "CalDAV Calendar",
-    "calendarUrl": "",
-    "username": "",
-    "password": "",
-    "calendarName": "",
+    "calendarUrl": "https://demo.digital-peak.com/dpc/components/com_dpcalendar/caldav.php/calendars/demo/dp-494/",
+    "username": "demo",
+    "password": "demo",
+    "calendarName": "DPCalendar demo",
     "allowHttp": false,
     "view": "agenda",
     "locale": "en-GB",
@@ -59,28 +59,28 @@
       "calendarUrl": {
         "type": "string",
         "title": "Calendar collection URL",
-        "description": "Exact CalDAV URL of one calendar collection, not the provider's web interface.",
+        "description": "Exact CalDAV URL of one calendar collection, not the provider's web interface. The default is Digital Peak's public DPCalendar demo.",
         "format": "url",
-        "default": ""
+        "default": "https://demo.digital-peak.com/dpc/components/com_dpcalendar/caldav.php/calendars/demo/dp-494/"
       },
       "username": {
         "type": "string",
         "title": "Username",
-        "description": "CalDAV login name.",
-        "default": ""
+        "description": "CalDAV login name. The public demo uses demo.",
+        "default": "demo"
       },
       "password": {
         "type": "string",
         "title": "Password",
-        "description": "Use a dedicated app password when your provider offers one.",
+        "description": "Use a dedicated app password when your provider offers one. The public demo uses demo.",
         "format": "password",
-        "default": ""
+        "default": "demo"
       },
       "calendarName": {
         "type": "string",
         "title": "Calendar label",
         "description": "Optional display label for the selected calendar collection.",
-        "default": ""
+        "default": "DPCalendar demo"
       },
       "allowHttp": {
         "type": "boolean",

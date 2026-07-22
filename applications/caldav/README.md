@@ -6,9 +6,20 @@ recurrences, and hands canonical events to the shared paperlesspaper calendar la
 
 ## Setup
 
+The form is pre-filled with Digital Peak's public DPCalendar demo collection and its published
+`demo` / `demo` account. This shared calendar is mutable, so its contents may change; use it only to
+preview the integration, then replace all three connection fields with your own CalDAV details.
+
+```text
+Calendar URL: https://demo.digital-peak.com/dpc/components/com_dpcalendar/caldav.php/calendars/demo/dp-494/
+Username:     demo
+Password:     demo
+```
+
 1. Obtain the exact CalDAV collection URL for the calendar you want to display. It normally ends in
    the calendar's collection path and is not the provider's browser or account URL.
-2. Enter the CalDAV username and a dedicated app password when the provider offers one.
+2. Replace the public demo username and password. Use a dedicated app password when the provider
+   offers one.
 3. Optionally set **Calendar label** for the display header.
 4. Select the display timezone and preferred calendar view.
 
@@ -66,3 +77,4 @@ node vendor/openintegration/dist/cli.js render applications/caldav/config.json -
 
 - [RFC 4791: Calendaring Extensions to WebDAV](https://www.rfc-editor.org/rfc/rfc4791)
 - [RFC 5545: Internet Calendaring and Scheduling Core Object Specification](https://www.rfc-editor.org/rfc/rfc5545)
+- [DPCalendar CalDAV demo documentation](https://joomla.digital-peak.com/documentation/dpcalendar/introduction/calendar-management)

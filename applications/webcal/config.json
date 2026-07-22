@@ -9,7 +9,7 @@
   "nativeSettings": {
     "color": "light",
     "title": "Webcal & iCalendar",
-    "feedUrl": "",
+    "feedUrl": "https://demo.digital-peak.com/dpc/index.php?option=com_dpcalendar&task=ical.download&format=raw&id=494",
     "username": "",
     "password": "",
     "allowHttp": false,
@@ -57,9 +57,9 @@
       "feedUrl": {
         "type": "string",
         "title": "Webcal or iCalendar URL",
-        "description": "A webcal://, HTTPS, or .ics subscription URL. Treat private sharing links like passwords.",
+        "description": "A webcal://, HTTPS, or .ics subscription URL. The default is Digital Peak's public DPCalendar demo feed. Treat private sharing links like passwords.",
         "format": "password",
-        "default": ""
+        "default": "https://demo.digital-peak.com/dpc/index.php?option=com_dpcalendar&task=ical.download&format=raw&id=494"
       },
       "username": {
         "type": "string",
