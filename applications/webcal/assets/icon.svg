@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" role="img" aria-label="Web calendar">
+  <defs>
+    <linearGradient id="page" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#1f68e5" />
+      <stop offset="1" stop-color="#0047a8" />
+    </linearGradient>
+  </defs>
+  <rect x="116" y="148" width="792" height="748" rx="128" fill="url(#page)" />
+  <path d="M116 322h792v446c0 71-57 128-128 128H244c-71 0-128-57-128-128z" fill="#fff" />
+  <rect x="270" y="88" width="82" height="210" rx="41" fill="#111" />
+  <rect x="672" y="88" width="82" height="210" rx="41" fill="#111" />
+  <circle cx="346" cy="710" r="58" fill="#e60000" />
+  <path d="M346 555a155 155 0 0 1 155 155" fill="none" stroke="#111" stroke-width="54" stroke-linecap="round" />
+  <path d="M346 428c156 0 282 126 282 282" fill="none" stroke="#1f68e5" stroke-width="54" stroke-linecap="round" />
+</svg>

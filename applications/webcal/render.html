@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="paperless:epd-optimize" content='{"intent":"readable"}' />
+    <title>Webcal &amp; iCalendar</title>
+    <link rel="stylesheet" href="/assets/paperless.css?v=0.1.3-calendar-api" />
+    <script src="/assets/paperless.iife.js?v=0.1.3-calendar-api"></script>
+  </head>
+  <body>
+    <div id="website-has-loading-element"></div>
+    <main id="app" aria-live="polite"></main>
+
+    <script>
+      (() => {
+        const { bootCalendarApiIntegration } = window.PaperlessOpenIntegration;
+        const defaults = {
+          color: "light",
+          title: "Webcal & iCalendar",
+          feedUrl: "",
+          username: "",
+          password: "",
+          allowHttp: false,
+          view: "agenda",
+          locale: "en-GB",
+          timeZone: "Europe/Berlin",
+          dayRange: 14,
+          maxEvents: 30,
+          highlightToday: true,
+          highlightScale: 1.2,
+          showLocation: true,
+          showEventIcons: false,
+          showEventImages: false,
+          sampleData: false,
+          now: "",
+        };
+
+        function text(value, fallback = "") {
+          return typeof value === "string" && value.trim() ? value.trim() : fallback;
+        }
+
+        window.__paperlessRenderDone = bootCalendarApiIntegration({
+          defaults,
+          fallbackTitle: "Webcal & iCalendar",
+          buildRequest({ mergedSettings, range, settings }) {
+            return {
+              feedUrl: mergedSettings.feedUrl,
+              username: mergedSettings.username,
+              password: mergedSettings.password,
+              allowHttp: mergedSettings.allowHttp,
+              rangeStart: range.startKey,
+              rangeEndExclusive: range.endKey,
+              timeZone: settings.timeZone,
+              limit: 500,
+              sampleData: mergedSettings.sampleData,
+              now: mergedSettings.now,
+            };
+          },
+          resolveHeader({ data, mergedSettings, messages }) {
+            return {
+              kicker: text(messages.kicker, "Calendar feed"),
+              title: text(mergedSettings.title, "Webcal & iCalendar"),
+              subtitle: text(data.calendarName),
+              source: data.sample
+                ? text(messages.sampleSource, "Sample data")
+                : text(messages.source, "Webcal / iCalendar"),
+            };
+          },
+        });
+      })();
+    </script>
+  </body>
+</html>

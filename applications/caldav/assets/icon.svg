@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" role="img" aria-label="CalDAV calendar">
+  <defs>
+    <linearGradient id="calendar" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#19a54a" />
+      <stop offset="1" stop-color="#087a32" />
+    </linearGradient>
+  </defs>
+  <rect x="92" y="140" width="620" height="716" rx="116" fill="url(#calendar)" />
+  <path d="M92 310h620v430c0 64-52 116-116 116H208c-64 0-116-52-116-116z" fill="#fff" />
+  <rect x="212" y="76" width="76" height="190" rx="38" fill="#111" />
+  <rect x="516" y="76" width="76" height="190" rx="38" fill="#111" />
+  <rect x="208" y="436" width="112" height="112" rx="28" fill="#087a32" />
+  <rect x="374" y="436" width="112" height="112" rx="28" fill="#087a32" />
+  <rect x="208" y="602" width="112" height="112" rx="28" fill="#087a32" />
+  <rect x="374" y="602" width="112" height="112" rx="28" fill="#087a32" />
+  <ellipse cx="760" cy="566" rx="174" ry="76" fill="#1f68e5" stroke="#111" stroke-width="28" />
+  <path d="M586 566v212c0 42 78 76 174 76s174-34 174-76V566" fill="#1f68e5" stroke="#111" stroke-width="28" />
+  <path d="M586 672c0 42 78 76 174 76s174-34 174-76" fill="none" stroke="#fff" stroke-width="24" />
+  <ellipse cx="760" cy="566" rx="132" ry="42" fill="#fff" opacity=".85" />
+</svg>

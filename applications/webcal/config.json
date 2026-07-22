@@ -1,0 +1,138 @@
+{
+  "name": "Webcal & iCalendar",
+  "version": "0.1.0",
+  "status": "alpha",
+  "description": "Displays events from a Webcal subscription or an iCalendar feed URL.",
+  "renderPage": "./render.html",
+  "icon": "./assets/icon.png",
+  "timezone": "Europe/Berlin",
+  "nativeSettings": {
+    "color": "light",
+    "title": "Webcal & iCalendar",
+    "feedUrl": "",
+    "username": "",
+    "password": "",
+    "allowHttp": false,
+    "view": "agenda",
+    "locale": "en-GB",
+    "timeZone": "Europe/Berlin",
+    "dayRange": 14,
+    "maxEvents": 30,
+    "highlightToday": true,
+    "highlightScale": 1.2,
+    "showLocation": true
+  },
+  "configVariants": [
+    {
+      "color": "green-light",
+      "title": "Shared Calendar",
+      "feedUrl": "",
+      "username": "",
+      "password": "",
+      "allowHttp": false,
+      "view": "agenda",
+      "locale": "en-GB",
+      "timeZone": "Europe/Berlin",
+      "dayRange": 14,
+      "maxEvents": 12,
+      "highlightToday": true,
+      "highlightScale": 1.2,
+      "showLocation": true,
+      "sampleData": true,
+      "now": "2026-07-23T08:00:00.000Z",
+      "screenshots": {
+        "800x480": "./screenshots/webcal-800x480-landscape.png",
+        "480x800": "./screenshots/webcal-480x800-portrait.png"
+      }
+    }
+  ],
+  "formSchema": {
+    "type": "object",
+    "properties": {
+      "title": {
+        "type": "string",
+        "title": "Display title",
+        "default": "Webcal & iCalendar"
+      },
+      "feedUrl": {
+        "type": "string",
+        "title": "Webcal or iCalendar URL",
+        "description": "A webcal://, HTTPS, or .ics subscription URL. Treat private sharing links like passwords.",
+        "format": "password",
+        "default": ""
+      },
+      "username": {
+        "type": "string",
+        "title": "Username",
+        "description": "Optional username for HTTP Basic authentication.",
+        "default": ""
+      },
+      "password": {
+        "type": "string",
+        "title": "Password",
+        "description": "Optional password or app password for HTTP Basic authentication.",
+        "format": "password",
+        "default": ""
+      },
+      "allowHttp": {
+        "type": "boolean",
+        "title": "Allow insecure HTTP",
+        "description": "Requires PAPERLESSPAPER_ALLOW_INSECURE_CALENDAR_HTTP=true on the server. Prefer HTTPS.",
+        "default": false
+      },
+      "view": {
+        "type": "string",
+        "title": "View",
+        "enum": ["agenda", "day", "three-days", "week", "year"],
+        "enumNames": ["Agenda", "Day", "3 days", "Week", "Year"],
+        "default": "agenda"
+      },
+      "locale": {
+        "type": "string",
+        "title": "Date locale",
+        "description": "BCP 47 locale, for example en-GB or de-DE.",
+        "default": "en-GB"
+      },
+      "timeZone": {
+        "type": "string",
+        "title": "Time zone",
+        "description": "IANA time zone used for visible ranges and floating event times.",
+        "default": "Europe/Berlin"
+      },
+      "dayRange": {
+        "type": "integer",
+        "title": "Agenda day range",
+        "minimum": 1,
+        "maximum": 366,
+        "default": 14
+      },
+      "maxEvents": {
+        "type": "integer",
+        "title": "Maximum visible events",
+        "description": "Presentation limit; the adapter independently keeps up to 500 occurrences.",
+        "minimum": 1,
+        "maximum": 200,
+        "default": 30
+      },
+      "highlightToday": {
+        "type": "boolean",
+        "title": "Highlight today",
+        "default": true
+      },
+      "highlightScale": {
+        "type": "number",
+        "title": "Today highlight scale",
+        "minimum": 1,
+        "maximum": 3,
+        "step": 0.05,
+        "default": 1.2
+      },
+      "showLocation": {
+        "type": "boolean",
+        "title": "Show event locations",
+        "default": true
+      }
+    }
+  },
+  "language": ["en", "de"]
+}

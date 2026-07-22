@@ -1,0 +1,146 @@
+{
+  "name": "CalDAV Calendar",
+  "version": "0.1.0",
+  "status": "alpha",
+  "description": "Displays a calendar collection through read-only CalDAV requests.",
+  "renderPage": "./render.html",
+  "icon": "./assets/icon.png",
+  "timezone": "Europe/Berlin",
+  "nativeSettings": {
+    "color": "light",
+    "title": "CalDAV Calendar",
+    "calendarUrl": "",
+    "username": "",
+    "password": "",
+    "calendarName": "",
+    "allowHttp": false,
+    "view": "agenda",
+    "locale": "en-GB",
+    "timeZone": "Europe/Berlin",
+    "dayRange": 14,
+    "maxEvents": 30,
+    "highlightToday": true,
+    "highlightScale": 1.2,
+    "showLocation": true
+  },
+  "configVariants": [
+    {
+      "color": "blue-light",
+      "title": "CalDAV Calendar",
+      "calendarUrl": "",
+      "username": "",
+      "password": "",
+      "calendarName": "Work",
+      "allowHttp": false,
+      "view": "week",
+      "locale": "en-GB",
+      "timeZone": "Europe/Berlin",
+      "dayRange": 7,
+      "maxEvents": 20,
+      "highlightToday": true,
+      "highlightScale": 1.25,
+      "showLocation": true,
+      "sampleData": true,
+      "now": "2026-07-23T08:00:00.000Z",
+      "screenshots": {
+        "800x480": "./screenshots/caldav-800x480-landscape.png",
+        "480x800": "./screenshots/caldav-480x800-portrait.png"
+      }
+    }
+  ],
+  "formSchema": {
+    "type": "object",
+    "properties": {
+      "title": {
+        "type": "string",
+        "title": "Display title",
+        "default": "CalDAV Calendar"
+      },
+      "calendarUrl": {
+        "type": "string",
+        "title": "Calendar collection URL",
+        "description": "Exact CalDAV URL of one calendar collection, not the provider's web interface.",
+        "format": "url",
+        "default": ""
+      },
+      "username": {
+        "type": "string",
+        "title": "Username",
+        "description": "CalDAV login name.",
+        "default": ""
+      },
+      "password": {
+        "type": "string",
+        "title": "Password",
+        "description": "Use a dedicated app password when your provider offers one.",
+        "format": "password",
+        "default": ""
+      },
+      "calendarName": {
+        "type": "string",
+        "title": "Calendar label",
+        "description": "Optional display label for the selected calendar collection.",
+        "default": ""
+      },
+      "allowHttp": {
+        "type": "boolean",
+        "title": "Allow insecure HTTP",
+        "description": "Requires PAPERLESSPAPER_ALLOW_INSECURE_CALENDAR_HTTP=true on the server. Prefer HTTPS.",
+        "default": false
+      },
+      "view": {
+        "type": "string",
+        "title": "View",
+        "enum": ["agenda", "day", "three-days", "week", "year"],
+        "enumNames": ["Agenda", "Day", "3 days", "Week", "Year"],
+        "default": "agenda"
+      },
+      "locale": {
+        "type": "string",
+        "title": "Date locale",
+        "description": "BCP 47 locale, for example en-GB or de-DE.",
+        "default": "en-GB"
+      },
+      "timeZone": {
+        "type": "string",
+        "title": "Time zone",
+        "description": "IANA time zone used for queries, visible ranges, and floating event times.",
+        "default": "Europe/Berlin"
+      },
+      "dayRange": {
+        "type": "integer",
+        "title": "Agenda day range",
+        "minimum": 1,
+        "maximum": 366,
+        "default": 14
+      },
+      "maxEvents": {
+        "type": "integer",
+        "title": "Maximum visible events",
+        "description": "Presentation limit; the adapter independently keeps up to 500 occurrences.",
+        "minimum": 1,
+        "maximum": 200,
+        "default": 30
+      },
+      "highlightToday": {
+        "type": "boolean",
+        "title": "Highlight today",
+        "default": true
+      },
+      "highlightScale": {
+        "type": "number",
+        "title": "Today highlight scale",
+        "minimum": 1,
+        "maximum": 3,
+        "step": 0.05,
+        "default": 1.2
+      },
+      "showLocation": {
+        "type": "boolean",
+        "title": "Show event locations",
+        "default": true
+      }
+    }
+  },
+  "language": ["en", "de"]
+}

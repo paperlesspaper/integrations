@@ -144,6 +144,83 @@ export function calendarWindow({ now, timeZone, dayRange, view = "agenda" }) {
   return { current, from, to };
 }
 
+function calendarDateParts(value, label) {
+  const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(String(value || "").trim());
+  if (!match) {
+    throw new Error(`${label} must use YYYY-MM-DD.`);
+  }
+  const [, yearValue, monthValue, dayValue] = match;
+  const year = Number(yearValue);
+  const month = Number(monthValue);
+  const day = Number(dayValue);
+  const date = new Date(Date.UTC(year, month - 1, day));
+  if (
+    date.getUTCFullYear() !== year ||
+    date.getUTCMonth() !== month - 1 ||
+    date.getUTCDate() !== day
+  ) {
+    throw new Error(`${label} is not a valid calendar date.`);
+  }
+  return { year, month, day };
+}
+
+export function normalizeCalendarRange({
+  rangeStart,
+  rangeEndExclusive,
+  timeZone,
+  now,
+  defaultDays = 14,
+  maxDays = 370
+} = {}) {
+  const normalizedTimeZone = normalizeTimeZone(timeZone, "UTC");
+  const parsedNow = Date.parse(String(now || ""));
+  const current = Number.isFinite(parsedNow) ? new Date(parsedNow) : new Date();
+  const defaultStart = dateKey(startOfLocalDay(current, normalizedTimeZone), normalizedTimeZone);
+  const startKey = String(rangeStart || "").trim() || defaultStart;
+  const start = calendarDateParts(startKey, "Calendar range start");
+  const from = localDateTime(
+    start.year,
+    start.month - 1,
+    start.day,
+    0,
+    0,
+    normalizedTimeZone
+  );
+  const safeDefaultDays = Math.min(
+    Math.max(1, Math.trunc(Number(defaultDays) || 14)),
+    Math.max(1, Math.trunc(Number(maxDays) || 370))
+  );
+  const defaultEnd = dateKey(addLocalDays(from, safeDefaultDays, normalizedTimeZone), normalizedTimeZone);
+  const endKey = String(rangeEndExclusive || "").trim() || defaultEnd;
+  const end = calendarDateParts(endKey, "Calendar range end");
+  const startSerial = Date.UTC(start.year, start.month - 1, start.day);
+  const endSerial = Date.UTC(end.year, end.month - 1, end.day);
+  const rangeDays = Math.round((endSerial - startSerial) / 86_400_000);
+  const safeMaxDays = Math.max(1, Math.trunc(Number(maxDays) || 370));
+  if (rangeDays < 1) {
+    throw new Error("Calendar range end must be after its start.");
+  }
+  if (rangeDays > safeMaxDays) {
+    throw new Error(`Calendar range cannot exceed ${safeMaxDays} days.`);
+  }
+  const to = localDateTime(
+    end.year,
+    end.month - 1,
+    end.day,
+    0,
+    0,
+    normalizedTimeZone
+  );
+  return {
+    rangeStart: startKey,
+    rangeEndExclusive: endKey,
+    rangeDays,
+    timeZone: normalizedTimeZone,
+    from,
+    to
+  };
+}
+
 export function normalizeFeedUrl(value, { allowHttp = false } = {}) {
   const raw = String(value || "").trim().replace(/^webcal:/i, "https:");
   if (!raw) {
@@ -576,11 +653,18 @@ function basicUtc(value) {
   return value.toISOString().replace(/[-:]/g, "").replace(/\.\d{3}Z$/, "Z");
 }
 
-export async function fetchCalDavCalendar({ calendarUrl, username, appPassword, from, to }) {
-  const allowHttp = insecureHttpAllowed();
-  const url = normalizeFeedUrl(calendarUrl, { allowHttp });
+export async function fetchCalDavCalendar({
+  calendarUrl,
+  username,
+  appPassword,
+  from,
+  to,
+  allowHttp = false
+}) {
+  const effectiveAllowHttp = Boolean(allowHttp && insecureHttpAllowed());
+  const url = normalizeFeedUrl(calendarUrl, { allowHttp: effectiveAllowHttp });
   if (!username || !appPassword) {
-    throw new Error("Nextcloud username and app password are required.");
+    throw new Error("CalDAV username and password are required.");
   }
   const body = `<?xml version="1.0" encoding="utf-8" ?>
 <c:calendar-query xmlns:d="DAV:" xmlns:c="urn:ietf:params:xml:ns:caldav">
@@ -591,7 +675,7 @@ export async function fetchCalDavCalendar({ calendarUrl, username, appPassword, 
 </c:calendar-query>`;
   const response = await requestCalendarUrl({
     url,
-    allowHttp,
+    allowHttp: effectiveAllowHttp,
     method: "REPORT",
     followRedirects: false,
     headers: {
@@ -604,7 +688,7 @@ export async function fetchCalDavCalendar({ calendarUrl, username, appPassword, 
     body
   });
   if (response.status < 200 || response.status >= 300) {
-    throw new Error(await responseError(response, "Nextcloud CalDAV request"));
+    throw new Error(await responseError(response, "CalDAV request"));
   }
   const xml = response.text;
   const calendars = Array.from(
