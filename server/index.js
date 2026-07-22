@@ -225,6 +225,12 @@ app.use(
   express.static(publicDir, {
     immutable: false,
     maxAge: '1d',
+    setHeaders(response, filePath) {
+      const extension = path.extname(filePath).toLowerCase();
+      if (extension === '.js' || extension === '.css') {
+        response.setHeader('Cache-Control', 'no-cache');
+      }
+    },
   }),
 );
 
