@@ -1,0 +1,160 @@
+{
+  "name": "Nextcloud Calendar",
+  "version": "0.1.0",
+  "status": "alpha",
+  "description": "Shows events from a private Nextcloud calendar through read-only CalDAV requests.",
+  "renderPage": "./render.html",
+  "icon": "./assets/icon.png",
+  "timezone": "Europe/Berlin",
+  "nativeSettings": {
+    "color": "light",
+    "serverUrl": "",
+    "username": "",
+    "appPassword": "",
+    "calendarName": "",
+    "calendarPath": "",
+    "view": "agenda",
+    "locale": "en-GB",
+    "timeZone": "Europe/Berlin",
+    "dayRange": 14,
+    "maxEvents": 20,
+    "highlightToday": true,
+    "highlightScale": 1.15,
+    "showLocation": true
+  },
+  "configVariants": [
+    {
+      "color": "light",
+      "serverUrl": "",
+      "username": "",
+      "appPassword": "",
+      "calendarName": "",
+      "calendarPath": "",
+      "view": "agenda",
+      "locale": "en-GB",
+      "timeZone": "Europe/Berlin",
+      "dayRange": 14,
+      "maxEvents": 12,
+      "highlightToday": true,
+      "highlightScale": 1.15,
+      "showLocation": true,
+      "now": "2026-07-22T10:00:00.000Z",
+      "screenshots": {
+        "800x480": "./screenshots/nextcloud-calendar-agenda-800x480-landscape.png",
+        "480x800": "./screenshots/nextcloud-calendar-agenda-480x800-portrait.png"
+      }
+    },
+    {
+      "color": "blue-light",
+      "serverUrl": "",
+      "username": "",
+      "appPassword": "",
+      "calendarName": "",
+      "calendarPath": "",
+      "view": "week",
+      "locale": "de-DE",
+      "timeZone": "Europe/Berlin",
+      "dayRange": 7,
+      "maxEvents": 20,
+      "highlightToday": true,
+      "highlightScale": 1.25,
+      "showLocation": false,
+      "now": "2026-07-22T10:00:00.000Z",
+      "screenshots": {
+        "800x480": "./screenshots/nextcloud-calendar-week-800x480-landscape.png",
+        "480x800": "./screenshots/nextcloud-calendar-week-480x800-portrait.png"
+      }
+    }
+  ],
+  "formSchema": {
+    "type": "object",
+    "properties": {
+      "serverUrl": {
+        "type": "string",
+        "title": "Nextcloud URL",
+        "description": "Base URL of the Nextcloud instance, including a subdirectory when applicable.",
+        "format": "url",
+        "default": ""
+      },
+      "username": {
+        "type": "string",
+        "title": "Username",
+        "description": "Nextcloud login username.",
+        "default": ""
+      },
+      "appPassword": {
+        "type": "string",
+        "title": "App password",
+        "description": "Create a dedicated app password in Nextcloud security settings. Do not use the main account password.",
+        "format": "password",
+        "default": ""
+      },
+      "calendarName": {
+        "type": "string",
+        "title": "Calendar name",
+        "description": "Optional exact display name. Leave blank to use the first personal VEVENT calendar.",
+        "default": ""
+      },
+      "calendarPath": {
+        "type": "string",
+        "title": "Calendar path",
+        "description": "Optional DAV path or calendar URI, such as personal. Use this instead of Calendar name.",
+        "default": ""
+      },
+      "view": {
+        "type": "string",
+        "title": "View",
+        "enum": ["agenda", "day", "three-days", "week", "year"],
+        "enumNames": ["Agenda", "Day", "3 days", "Week", "Year"],
+        "default": "agenda"
+      },
+      "locale": {
+        "type": "string",
+        "title": "Locale",
+        "description": "BCP 47 locale used to format dates and times, such as en-GB or de-DE.",
+        "default": "en-GB"
+      },
+      "timeZone": {
+        "type": "string",
+        "title": "Time zone",
+        "description": "IANA time zone used for calendar ranges and floating event times.",
+        "default": "Europe/Berlin"
+      },
+      "dayRange": {
+        "type": "integer",
+        "title": "Agenda day range",
+        "description": "Number of days shown by the agenda view.",
+        "minimum": 1,
+        "maximum": 366,
+        "default": 14
+      },
+      "maxEvents": {
+        "type": "integer",
+        "title": "Maximum events",
+        "description": "Maximum number of event occurrences requested and displayed.",
+        "minimum": 1,
+        "maximum": 200,
+        "default": 20
+      },
+      "highlightToday": {
+        "type": "boolean",
+        "title": "Highlight today",
+        "default": true
+      },
+      "highlightScale": {
+        "type": "number",
+        "title": "Today highlight scale",
+        "minimum": 1,
+        "maximum": 3,
+        "step": 0.05,
+        "default": 1.15
+      },
+      "showLocation": {
+        "type": "boolean",
+        "title": "Show event locations",
+        "default": true
+      }
+    }
+  },
+  "language": ["en", "de"]
+}

@@ -1,0 +1,11 @@
+{
+  "allDay": "Ganztägig",
+  "empty": "Keine Termine in diesem Zeitraum",
+  "errorTitle": "Proton Kalender nicht verfügbar",
+  "kicker": "Freigegebener Proton-Kalender",
+  "moreEvents": "+{count} weitere",
+  "sampleSource": "Beispieldaten",
+  "source": "Proton",
+  "today": "Heute",
+  "untitled": "Termin ohne Titel"
+}

@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="paperless:epd-optimize" content='{"intent":"readable"}' />
+    <title>Outlook Calendar</title>
+    <link rel="stylesheet" href="/assets/paperless.css" />
+    <script src="/assets/paperless.iife.js"></script>
+  </head>
+  <body>
+    <div id="website-has-loading-element"></div>
+    <main id="app" aria-live="polite"></main>
+
+    <script>
+      (() => {
+        const { bootCalendarApiIntegration } = window.PaperlessOpenIntegration;
+
+        const defaults = {
+          color: "light",
+          view: "agenda",
+          locale: "en-US",
+          timeZone: "Europe/Berlin",
+          dayRange: 14,
+          maxEvents: 20,
+          highlightToday: true,
+          highlightScale: 1.2,
+          showLocation: true,
+          tenantId: "",
+          clientId: "",
+          clientSecret: "",
+          userId: "",
+          calendarId: "",
+          hidePrivate: true
+        };
+
+        window.__paperlessRenderDone = bootCalendarApiIntegration({
+          defaults,
+          fallbackTitle: "Outlook Calendar",
+          buildRequest({ mergedSettings, messages, range, settings }) {
+            return {
+              tenantId: mergedSettings.tenantId,
+              clientId: mergedSettings.clientId,
+              clientSecret: mergedSettings.clientSecret,
+              userId: mergedSettings.userId,
+              calendarId: mergedSettings.calendarId,
+              hidePrivate: mergedSettings.hidePrivate,
+              timeZone: settings.timeZone,
+              rangeStart: range.startKey,
+              rangeEndExclusive: range.endKey,
+              privateTitle: messages.privateEvent || "Private event"
+            };
+          },
+          resolveHeader({ data, messages }) {
+            return {
+              title: String(messages.title || "Outlook Calendar"),
+              source:
+                data.source === "sample"
+                  ? String(messages.sampleSource || "Sample data")
+                  : String(messages.source || "Microsoft Graph")
+            };
+          }
+        });
+      })();
+    </script>
+  </body>
+</html>

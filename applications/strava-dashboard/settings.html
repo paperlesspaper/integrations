@@ -1,0 +1,308 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="referrer" content="no-referrer" />
+    <title>Connect Strava</title>
+    <style>
+      :root {
+        color-scheme: light dark;
+        --bg: #f7f7f4;
+        --fg: #111;
+        --muted: #626662;
+        --line: #202020;
+        --field: #fff;
+        --accent: #fc4c02;
+        --success: #16733a;
+        --error: #b3261e;
+        font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      }
+
+      * { box-sizing: border-box; }
+      [hidden] { display: none !important; }
+      body { margin: 0; background: var(--bg); color: var(--fg); }
+      main { display: grid; gap: 14px; padding: 16px; }
+      h1 { margin: 0; font-size: 1.1rem; line-height: 1.2; }
+      p { margin: 0; }
+      .intro, .help, .status { color: var(--muted); font-size: 0.84rem; line-height: 1.45; }
+      .fields { display: grid; grid-template-columns: 0.7fr 1.3fr; gap: 10px; }
+      label { display: grid; gap: 6px; min-width: 0; font-size: 0.75rem; font-weight: 780; text-transform: uppercase; }
+      input {
+        width: 100%; min-height: 42px; padding: 8px 10px;
+        border: 2px solid var(--line); border-radius: 5px;
+        background: var(--field); color: var(--fg); font: inherit; font-size: 0.95rem;
+      }
+      .callback {
+        display: grid; gap: 5px; padding: 10px;
+        border: 1px solid color-mix(in srgb, var(--line) 45%, transparent);
+        border-radius: 5px; background: color-mix(in srgb, var(--field) 70%, transparent);
+      }
+      .callback strong { font-size: 0.76rem; text-transform: uppercase; }
+      code { overflow-wrap: anywhere; font-size: 0.78rem; }
+      .actions { display: flex; flex-wrap: wrap; gap: 8px; }
+      button, .button-link {
+        display: inline-flex; align-items: center; justify-content: center;
+        min-height: 42px; padding: 8px 14px; border: 2px solid var(--line);
+        border-radius: 5px; background: var(--field); color: var(--fg);
+        font: inherit; font-weight: 780; text-decoration: none; cursor: pointer;
+      }
+      button.primary { border-color: #111; background: var(--accent); color: #fff; }
+      button:disabled { cursor: wait; opacity: 0.55; }
+      .connection {
+        display: flex; align-items: center; justify-content: space-between; gap: 12px;
+        padding: 11px 12px; border: 2px solid var(--line); border-radius: 5px; background: var(--field);
+      }
+      .connection strong { display: block; font-size: 0.92rem; }
+      .connection span { display: block; margin-top: 2px; color: var(--muted); font-size: 0.78rem; }
+      .connection[data-state="connected"] { border-color: var(--success); }
+      .status[data-kind="error"] { color: var(--error); font-weight: 700; }
+      .status[data-kind="success"] { color: var(--success); font-weight: 700; }
+      details { font-size: 0.82rem; }
+      details label { margin-top: 9px; }
+
+      @media (max-width: 620px) { .fields { grid-template-columns: 1fr; } }
+      @media (prefers-color-scheme: dark) {
+        :root { --bg: #111; --fg: #f5f5f0; --muted: #b8bbb7; --line: #f5f5f0; --field: #050505; --success: #72d395; --error: #ff9a92; }
+        button.primary { border-color: #fff; }
+      }
+    </style>
+    <script src="/assets/paperless.iife.js"></script>
+  </head>
+  <body>
+    <main>
+      <div>
+        <h1>Connect Strava</h1>
+        <p class="intro">Use your own Strava API application. The dashboard requests read-only athlete and activity access.</p>
+      </div>
+
+      <div class="connection" id="connection" data-state="disconnected">
+        <div><strong id="connection-title">Not connected</strong><span id="connection-detail">Enter your app credentials below.</span></div>
+        <button id="clear" type="button" hidden>Clear</button>
+      </div>
+
+      <form class="fields" id="credentials-form">
+        <label>Client ID<input id="client-id" inputmode="numeric" autocomplete="off" /></label>
+        <label>Client secret<input id="client-secret" type="password" autocomplete="off" /></label>
+      </form>
+
+      <div class="callback">
+        <strong>Authorization callback</strong>
+        <p class="help">Set your Strava app’s callback domain to <code id="callback-domain"></code>, then authorize with this redirect URI:</p>
+        <code id="callback-uri"></code>
+      </div>
+
+      <div class="actions">
+        <button class="primary" id="connect" type="button">Connect with Strava</button>
+        <a class="button-link" href="https://www.strava.com/settings/api" target="_blank" rel="noreferrer">Open Strava API settings</a>
+        <button id="test" type="button" hidden>Test connection</button>
+      </div>
+
+      <details>
+        <summary>Popup blocked? Paste the returned authorization code</summary>
+        <label>Authorization code<input id="manual-code" autocomplete="off" /></label>
+        <button id="exchange" type="button">Finish connection</button>
+      </details>
+
+      <p class="status" id="status">No data is sent to Home Assistant.</p>
+      <p class="help">Your client secret and OAuth tokens are stored with this paper’s integration settings. Revoke access from Strava’s app settings when you no longer use the dashboard.</p>
+    </main>
+
+    <script>
+      (() => {
+        const query = new URLSearchParams(window.location.search);
+        const oauthCode = query.get("code");
+        const oauthState = query.get("state");
+        if (oauthCode && window.opener) {
+          window.opener.postMessage({
+            source: "strava-dashboard-oauth",
+            type: "AUTHORIZATION_CODE",
+            code: oauthCode,
+            state: oauthState || "",
+            scope: query.get("scope") || "",
+          }, window.location.origin);
+          document.body.innerHTML = '<main><h1>Strava connected</h1><p class="intro">Returning to paperlesspaper…</p></main>';
+          window.setTimeout(() => window.close(), 300);
+          return;
+        }
+
+        const bridge = window.PaperlessOpenIntegration || {};
+        const defaults = {
+          clientId: "", clientSecret: "", accessToken: "", refreshToken: "",
+          expiresAt: 0, athleteId: "", athleteName: "",
+        };
+        let settings = { ...defaults };
+        let hostWindow = window.parent;
+        let hostOrigin = "*";
+        let pendingState = "";
+
+        const clientId = document.querySelector("#client-id");
+        const clientSecret = document.querySelector("#client-secret");
+        const connect = document.querySelector("#connect");
+        const test = document.querySelector("#test");
+        const clear = document.querySelector("#clear");
+        const exchange = document.querySelector("#exchange");
+        const manualCode = document.querySelector("#manual-code");
+        const status = document.querySelector("#status");
+        const connection = document.querySelector("#connection");
+        const connectionTitle = document.querySelector("#connection-title");
+        const connectionDetail = document.querySelector("#connection-detail");
+
+        const redirectUrl = new URL("./settings.html", window.location.href);
+        redirectUrl.search = "";
+        redirectUrl.hash = "";
+        document.querySelector("#callback-domain").textContent = redirectUrl.hostname;
+        document.querySelector("#callback-uri").textContent = redirectUrl.href;
+
+        function isObject(value) {
+          return Boolean(value) && typeof value === "object" && !Array.isArray(value);
+        }
+
+        function pluginSettings(payload) {
+          if (isObject(payload?.meta?.pluginSettings)) return payload.meta.pluginSettings;
+          if (isObject(payload?.settings)) return payload.settings;
+          return {};
+        }
+
+        function setStatus(message, kind = "") {
+          status.textContent = message;
+          status.dataset.kind = kind;
+          bridge.postSettingsHeight?.();
+        }
+
+        function renderConnection() {
+          const connected = Boolean(settings.accessToken && settings.refreshToken && settings.athleteId);
+          connection.dataset.state = connected ? "connected" : "disconnected";
+          connectionTitle.textContent = connected ? settings.athleteName || "Strava connected" : "Not connected";
+          const expiry = Number(settings.expiresAt)
+            ? new Intl.DateTimeFormat(undefined, { dateStyle: "medium", timeStyle: "short" }).format(new Date(Number(settings.expiresAt) * 1000))
+            : "unknown";
+          connectionDetail.textContent = connected ? `Athlete ${settings.athleteId} · access token expires ${expiry}` : "Enter your app credentials below.";
+          clear.hidden = !connected;
+          test.hidden = !connected;
+          clientId.value = settings.clientId || "";
+          clientSecret.value = settings.clientSecret || "";
+        }
+
+        function sendPatch(patch) {
+          settings = { ...settings, ...patch };
+          const message = { source: "paperlesspaper-plugin", type: "UPDATE_SETTINGS", payload: patch };
+          hostWindow?.postMessage(message, hostOrigin);
+          renderConnection();
+        }
+
+        function applyPayload(payload, event) {
+          if (event?.source) hostWindow = event.source;
+          if (event?.origin) hostOrigin = event.origin;
+          settings = { ...settings, ...pluginSettings(payload) };
+          renderConnection();
+        }
+
+        function credentials() {
+          const next = { clientId: clientId.value.trim(), clientSecret: clientSecret.value.trim() };
+          if (!/^\d+$/.test(next.clientId)) throw new Error("Enter the numeric Strava client ID.");
+          if (!next.clientSecret) throw new Error("Enter the Strava client secret.");
+          return next;
+        }
+
+        async function finishConnection(code) {
+          const next = credentials();
+          if (!String(code || "").trim()) throw new Error("No authorization code was returned by Strava.");
+          setStatus("Exchanging the authorization code…");
+          connect.disabled = true;
+          exchange.disabled = true;
+          try {
+            const params = new URLSearchParams({ ...next, code: String(code).trim() });
+            const response = await fetch(`./api/oauth?${params.toString()}`, { cache: "no-store" });
+            const data = await response.json().catch(() => ({}));
+            if (!response.ok) throw new Error(data.error || `OAuth failed with ${response.status}.`);
+            const acceptedScopes = String(data.scope || "");
+            if (acceptedScopes && !acceptedScopes.includes("activity:read_all")) {
+              throw new Error("Strava access was granted without activity:read_all. Connect again and allow activity access.");
+            }
+            sendPatch({ ...next, ...data });
+            manualCode.value = "";
+            setStatus(`Connected as ${data.athleteName || "Strava athlete"}.`, "success");
+          } finally {
+            connect.disabled = false;
+            exchange.disabled = false;
+          }
+        }
+
+        function startAuthorization() {
+          try {
+            const next = credentials();
+            pendingState = crypto.randomUUID ? crypto.randomUUID() : `${Date.now()}-${Math.random()}`;
+            const authorizeUrl = new URL("https://www.strava.com/oauth/authorize");
+            authorizeUrl.search = new URLSearchParams({
+              client_id: next.clientId,
+              redirect_uri: redirectUrl.href,
+              response_type: "code",
+              approval_prompt: "auto",
+              scope: "read,activity:read_all",
+              state: pendingState,
+            }).toString();
+            const popup = window.open(authorizeUrl.href, "strava-oauth", "popup,width=620,height=760");
+            if (!popup) throw new Error("The authorization popup was blocked. Allow popups or use the manual code option.");
+            setStatus("Complete authorization in the Strava window.");
+          } catch (error) {
+            setStatus(error.message || String(error), "error");
+          }
+        }
+
+        async function testConnection() {
+          test.disabled = true;
+          setStatus("Testing the Strava API…");
+          try {
+            const params = new URLSearchParams({
+              clientId: settings.clientId, clientSecret: settings.clientSecret,
+              accessToken: settings.accessToken, refreshToken: settings.refreshToken,
+              expiresAt: String(settings.expiresAt || 0), athleteId: settings.athleteId,
+              athleteName: settings.athleteName, activityTypes: "run", units: "metric",
+            });
+            const response = await fetch(`./api/data?${params.toString()}`, { cache: "no-store" });
+            const data = await response.json().catch(() => ({}));
+            if (!response.ok) throw new Error(data.error || `Connection test failed with ${response.status}.`);
+            if (data.tokenRefreshed && isObject(data.settingsPatch)) sendPatch(data.settingsPatch);
+            setStatus(`Connection works for ${data.athleteName || "this athlete"}.`, "success");
+          } catch (error) {
+            setStatus(error.message || String(error), "error");
+          } finally {
+            test.disabled = false;
+          }
+        }
+
+        window.addEventListener("message", (event) => {
+          const message = event.data;
+          if (!isObject(message)) return;
+          if (message.source === "strava-dashboard-oauth" && message.type === "AUTHORIZATION_CODE") {
+            if (event.origin !== window.location.origin) return;
+            if (pendingState && message.state !== pendingState) {
+              setStatus("Strava returned an invalid OAuth state. Start the connection again.", "error");
+              return;
+            }
+            pendingState = "";
+            finishConnection(message.code).catch((error) => setStatus(error.message || String(error), "error"));
+            return;
+          }
+          const payload = (message.type === "INIT" || message.cmd === "message") ? message.data : message.payload;
+          if (isObject(payload)) applyPayload(payload, event);
+        });
+
+        connect.addEventListener("click", startAuthorization);
+        document.querySelector("#credentials-form").addEventListener("submit", (event) => event.preventDefault());
+        exchange.addEventListener("click", () => finishConnection(manualCode.value).catch((error) => setStatus(error.message || String(error), "error")));
+        test.addEventListener("click", testConnection);
+        clear.addEventListener("click", () => {
+          sendPatch({ ...defaults });
+          setStatus("The local connection was cleared. Revoke the app in Strava to invalidate its tokens.");
+        });
+
+        bridge.observeSettingsHeight?.({ minHeight: 360 });
+        if (bridge.postSettingsReady) bridge.postSettingsReady();
+        else window.parent.postMessage({ source: "paperlesspaper-plugin", type: "READY" }, "*");
+        renderConnection();
+      })();
+    </script>
+  </body>
+</html>

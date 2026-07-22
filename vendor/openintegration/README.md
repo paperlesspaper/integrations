@@ -171,7 +171,7 @@ Rules that keep generated integrations compatible:
 - Put global defaults such as `color` in `nativeSettings`, but do not add `color` to `formSchema.properties`; the host and CLI preview provide the global color control.
 - If a setting is edited by a custom `settingsPage`, add `"inStettingsPage": true` to that `formSchema.properties.<name>` entry so the CLI preview does not also show it in the generated form.
 - Use `""` for empty string settings instead of `null` when the setting is a text filter.
-- Keep API handlers as default-exported async functions in `api/*.js`. The dev server calls them with `{ query }` and serves the returned value as JSON.
+- Keep API handlers as default-exported async functions in `api/*.js`. The dev server calls them with `{ query, request }` and serves the returned value as JSON. `GET` query parameters remain supported; a same-origin `POST` with a JSON object merges that body into `query` (body values win, 64 KB limit). Prefer the JSON body for feed URLs, app passwords, client secrets, and other values that should not appear in request URLs.
 - In `render.html`, put DOM updates in an async `renderPayload(payload)` function. Wait for the first `INIT` with `waitForPayload({ onUpdate: renderPayload })`, load copy with `loadLanguageJson(payload)` when localized text is used, merge defaults with `getSettings(payload)` and `getQuerySettings()`, render DOM, optionally set `<meta name="paperless:epd-optimize" content='{"intent":"readable"}' />`, wait for fonts/images if needed, fit content, then call `markReady()`. The `onUpdate` callback receives later preview `INIT` messages without reloading the iframe.
 - Wrap the render logic in `try/catch` and call `markError(error)` on failure.
 - Escape untrusted strings with `escapeHtml()` before injecting HTML.
@@ -250,6 +250,8 @@ The host-selected language is delivered as `payload.meta.language`. The CLI prev
 
 Use `loadLanguageJson(payload)` in `render.html`. It resolves exact language codes first, then base codes such as `de-DE -> de`, then the default language, and fetches `languages/<resolved>.json`. `paperless check` verifies that every declared language file exists, parses as JSON, and contains an object.
 
+Set the optional top-level `timezone` field to an IANA timezone such as `Europe/Berlin` when the render page should observe a specific local time. Puppeteer applies it before loading the render page; when omitted, the renderer keeps its system timezone.
+
 ## Minimal config.json
 
 ```json
@@ -257,6 +259,7 @@ Use `loadLanguageJson(payload)` in `render.html`. It resolves exact language cod
   "name": "daily-xkcd",
   "version": "1.0.0",
   "description": "Show an XKCD comic on a paperlesspaper display.",
+  "timezone": "Europe/Berlin",
   "renderPage": "render.html",
   "language": ["de", "en"],
   "nativeSettings": {
@@ -334,11 +337,11 @@ Generated settings forms support the standard JSON Schema primitive `type` value
           );
           applyColorTheme(settings.color, { defaultTheme: defaults.color });
 
-          const url = new URL("./api/data", window.location.href);
-          url.searchParams.set("kind", settings.kind);
-          url.searchParams.set("difference", settings.difference);
-
-          const response = await fetch(url);
+          const response = await fetch(new URL("./api/data", window.location.href), {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ kind: settings.kind, difference: settings.difference })
+          });
           const comic = await response.json();
           const footerPrefix = typeof messages.footerPrefix === "string"
             ? messages.footerPrefix
@@ -408,7 +411,116 @@ Generated settings forms support the standard JSON Schema primitive `type` value
 - `detectOverflow(root?)`
 - `fitImage(image, mode?)`
 - `escapeHtml(value)`
+- `normalizeCalendarSettings(settings?, defaults?)`
+- `buildCalendarRange(settings?, now?)`
+- `prepareCalendarEvents(events, settings?, now?)`
+- `renderCalendarLayout(options?)`
+- `fitCalendarLayout(layout, options?)`
+- `waitForCalendarImages(layout, timeoutMs?)`
+- `bootCalendarApiIntegration(options)`
 - `validateConfig(config)`
+
+## Shared calendar layouts
+
+Calendar integrations should keep authentication, API requests, recurrence expansion, and
+provider-specific field parsing in a small adapter. The adapter maps every result to the shared
+event shape and hands it to `renderCalendarLayout()`. The runtime owns date ranges, timezone-safe
+grouping, sorting, empty states, all five views, optional locations/icons/images, responsive CSS,
+and fitting.
+
+```js
+const settings = normalizeCalendarSettings({
+  ...getSettings(payload),
+  ...getQuerySettings()
+});
+
+const events = providerEvents.map((event) => ({
+  id: event.id,
+  title: event.subject,
+  start: {
+    date: event.allDayDate, // YYYY-MM-DD; use either date or dateTime
+    dateTime: event.startDateTime, // ISO 8601, ideally with an offset
+    timeZone: event.timeZone
+  },
+  end: {
+    date: event.allDayEndDate,
+    dateTime: event.endDateTime,
+    timeZone: event.timeZone
+  },
+  location: event.location,
+  iconName: event.iconName,
+  imageUrl: event.imageUrl,
+  details: [{ label: "Role", value: event.role }]
+}));
+
+const layout = renderCalendarLayout({
+  target: "#app",
+  events,
+  settings,
+  messages,
+  header: { title: "Calendar", source: "Provider name" }
+});
+
+await document.fonts?.ready;
+await waitForCalendarImages(layout);
+fitCalendarLayout(layout);
+```
+
+The canonical views are `agenda`, `day`, `three-days`, `week`, and `year`. Common settings are
+`locale`, `timeZone`, `dayRange`, `maxEvents`, `highlightToday`, `highlightScale`, `showLocation`,
+`showEventIcons`, and `showEventImages`. For compatibility, normalization also accepts `language`
+as an alias for `locale`, `daysAhead` for `dayRange`, and common three-day view spellings.
+
+Use `start.date` for all-day values to preserve the provider's civil date without a UTC shift.
+Use an ISO value in `start.dateTime` for timed events and include the provider timezone when it is
+known. The configured `timeZone` is authoritative for timed-event grouping and clock display; an
+event timezone is only a fallback when no display timezone is configured. Events with an exclusive
+`end.date` or an `end.dateTime` are repeated on every visible civil day they overlap. Treat
+`maxEvents` as a presentation limit and keep a separate, bounded adapter fetch/parse limit so week
+and year views receive the complete requested range. Do not pass provider HTML to the shared renderer: it escapes all displayed fields, while the
+adapter remains responsible for extracting and validating any image URL or icon metadata.
+
+Server adapters that receive iCalendar data can import the recurrence-aware parser from the
+server-only subpath (it is intentionally excluded from `paperless.iife.js`):
+
+```js
+import { parseICalendar } from "@paperlesspaper/openintegration/ical";
+
+const events = parseICalendar(icsText, {
+  rangeStart: "2026-07-22",
+  rangeEndExclusive: "2026-08-05",
+  timeZone: "Europe/Berlin"
+});
+```
+
+The parser returns the same canonical `CalendarEvent[]` shape. It supports date-only and timed
+values, floating and bundled timezone definitions, `DTEND`/duration, recurrence rules and dates,
+exclusions, moved or cancelled exceptions, and bounded expansion. Use its event and occurrence
+limits together with adapter-level request timeouts and response-size limits.
+
+Canonical API-backed calendars can reduce their render page to a defaults object and one boot call:
+
+```js
+window.__paperlessRenderDone = bootCalendarApiIntegration({
+  defaults: {
+    color: "light",
+    title: "My Calendar",
+    view: "agenda",
+    locale: "en-US",
+    timeZone: "Europe/Berlin",
+    dayRange: 14,
+    maxEvents: 12,
+    showHeader: true,
+    showLocation: true
+  }
+});
+```
+
+The API returns `{ events, calendarName?, source?, sample? }` using the canonical event shape.
+The helper sends settings to the same-origin `./api/data` route as a JSON POST body, keeping feed
+URLs and app passwords out of request URLs. It also owns payload updates, localization, theme,
+the five shared views, font/image settling, fitting, and ready/error markers. Use `mapEvents`,
+`buildRequest`, or `resolveHeader` only when a provider needs a thin adapter around that contract.
 
 ## Color themes
 

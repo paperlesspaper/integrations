@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Proton Calendar">
+  <rect width="512" height="512" rx="104" fill="#fff"/>
+  <path d="M92 128h328a36 36 0 0 1 36 36v252a36 36 0 0 1-36 36H92a36 36 0 0 1-36-36V164a36 36 0 0 1 36-36Z" fill="#fff" stroke="#000" stroke-width="24"/>
+  <path d="M56 192h400" stroke="#60f" stroke-width="52"/>
+  <path d="M154 82v92M358 82v92" stroke="#000" stroke-width="28" stroke-linecap="round"/>
+  <path d="m176 286 80-48 80 48v92l-80 48-80-48Z" fill="none" stroke="#00f" stroke-width="26"/>
+</svg>

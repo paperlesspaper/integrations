@@ -1,0 +1,12 @@
+{
+  "allDay": "All day",
+  "empty": "No events in this period",
+  "moreEvents": "+{count} more",
+  "today": "Today",
+  "untitled": "Untitled event",
+  "title": "Nextcloud Calendar",
+  "kicker": "Nextcloud",
+  "loading": "Loading calendar…",
+  "errorTitle": "Nextcloud Calendar is unavailable",
+  "sampleSource": "Sample data"
+}

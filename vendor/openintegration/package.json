@@ -24,6 +24,10 @@
     "./paperless.css": "./dist/paperless.css",
     "./preview.css": "./dist/preview.css",
     "./settings.css": "./dist/settings.css",
+    "./ical": {
+      "types": "./dist/ical.d.ts",
+      "import": "./dist/ical.js"
+    },
     "./paperless.js": {
       "types": "./dist/browser.d.ts",
       "import": "./dist/paperless.js"
@@ -52,6 +56,7 @@
   "dependencies": {
     "@napi-rs/canvas": "^1.0.0",
     "epdoptimize": "^1.3.0",
+    "ical.js": "^2.2.1",
     "puppeteer-core": "^25.1.0"
   }
 }

@@ -44,7 +44,8 @@ await loadEnv(path.join(rootDir, '.env'));
 const port = Number(process.env.PORT || 3000);
 
 const app = express();
-const corsAllowedMethods = 'GET,HEAD,OPTIONS';
+const parseApiJson = express.json({ limit: '64kb', strict: true });
+const corsAllowedMethods = 'GET,HEAD,POST,OPTIONS';
 const allowedApiNamePattern = /^[a-z0-9-]+$/;
 const allowedAssetExtensions = new Set(['.jpg', '.jpeg', '.png', '.svg', '.webp', '.json', '.js']);
 const allowedDataExtensions = new Set(['.js', '.json']);
@@ -52,6 +53,10 @@ const allowedLanguageExtensions = new Set(['.json']);
 
 function isSafeSlug(slug) {
   return /^[a-z0-9-]+$/.test(slug);
+}
+
+function isJsonObject(value) {
+  return value !== null && typeof value === 'object' && !Array.isArray(value);
 }
 
 function isSafeFileName(fileName, allowedExtensions) {
@@ -172,8 +177,11 @@ async function sendIntegrationApi(request, response, slug, apiName) {
       return;
     }
 
+    const query = request.method === 'POST'
+      ? { ...request.query, ...request.body }
+      : request.query;
     const data = await module.default({
-      query: request.query,
+      query,
       request,
     });
 
@@ -311,6 +319,28 @@ app.get('/:slug/screenshots/:fileName', async (request, response) => {
 
 app.get('/:slug/api/:apiName', async (request, response) => {
   await sendIntegrationApi(request, response, request.params.slug, request.params.apiName);
+});
+
+app.post('/:slug/api/:apiName', parseApiJson, async (request, response) => {
+  if (!isJsonObject(request.body)) {
+    response.status(400).json({ error: 'JSON body must be an object' });
+    return;
+  }
+
+  await sendIntegrationApi(request, response, request.params.slug, request.params.apiName);
+});
+
+app.use((error, _request, response, next) => {
+  if (error?.type === 'entity.too.large') {
+    response.status(413).json({ error: 'JSON body exceeds the 64 KB limit' });
+    return;
+  }
+  if (error?.type === 'entity.parse.failed') {
+    response.status(400).json({ error: 'Invalid JSON body' });
+    return;
+  }
+
+  next(error);
 });
 
 app.use((_request, response) => {

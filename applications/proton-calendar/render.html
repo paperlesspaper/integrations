@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="paperless:epd-optimize" content='{"intent":"readable"}' />
+    <title>Proton Calendar</title>
+    <link rel="stylesheet" href="/assets/paperless.css" />
+    <script src="/assets/paperless.iife.js"></script>
+  </head>
+  <body>
+    <div id="website-has-loading-element"></div>
+    <main id="app" aria-live="polite"></main>
+    <script type="module">
+      const { bootCalendarApiIntegration } = window.PaperlessOpenIntegration;
+      const defaults = {
+        color: "light",
+        title: "Proton Calendar",
+        calendarUrl: "",
+        view: "agenda",
+        locale: "de-DE",
+        timeZone: "Europe/Berlin",
+        dayRange: 14,
+        maxEvents: 30,
+        highlightToday: false,
+        highlightScale: 1.35,
+        showLocation: true,
+        showEventIcons: false,
+        showEventImages: false,
+        sampleData: false,
+        now: "",
+      };
+
+      function message(messages, key, fallback) {
+        return typeof messages?.[key] === "string" ? messages[key] : fallback;
+      }
+
+      await bootCalendarApiIntegration({
+        defaults,
+        fallbackTitle: "Proton Calendar",
+        buildRequest({ mergedSettings, range, settings }) {
+          return {
+            calendarUrl: mergedSettings.calendarUrl,
+            rangeStart: range.startKey,
+            rangeEndExclusive: range.endKey,
+            timeZone: settings.timeZone,
+            limit: 500,
+            sampleData: mergedSettings.sampleData,
+            now: mergedSettings.now,
+          };
+        },
+        resolveHeader({ data, mergedSettings, messages }) {
+          return {
+            kicker: data.sample
+              ? message(messages, "sampleSource", "Sample data")
+              : message(messages, "kicker", "Proton shared calendar"),
+            title: mergedSettings.title || "Proton Calendar",
+            subtitle: typeof data.calendarName === "string" ? data.calendarName : "",
+            source: message(messages, "source", "Proton Calendar"),
+          };
+        },
+      });
+    </script>
+  </body>
+</html>

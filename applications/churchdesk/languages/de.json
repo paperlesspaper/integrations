@@ -1,0 +1,18 @@
+{
+  "kicker": "Kirchengemeinde",
+  "dateColumn": "Datum",
+  "eventColumn": "Veranstaltung",
+  "assignmentColumn": "Dienste",
+  "allDay": "ganztägig",
+  "empty": "In diesem Zeitraum sind keine Termine eingetragen.",
+  "moreEvents": "+{count} weitere",
+  "today": "Heute",
+  "untitled": "Termin ohne Titel",
+  "open": "offen",
+  "noAssignments": "Keine Einteilung",
+  "noEvents": "In diesem Zeitraum sind keine Termine eingetragen.",
+  "through": "bis",
+  "source": "ChurchDesk",
+  "sampleSource": "Beispieldaten",
+  "errorTitle": "Kalender nicht verfügbar"
+}

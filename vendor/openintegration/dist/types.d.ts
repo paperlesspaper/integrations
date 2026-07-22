@@ -9,6 +9,7 @@ export interface OpenIntegrationConfig {
     renderPage: string;
     icon?: string;
     language?: string[];
+    timezone?: string;
     settingsPage?: string;
     nativeSettings?: JsonRecord;
     configVariants?: OpenIntegrationConfigVariant[];

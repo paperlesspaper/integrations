@@ -1,0 +1,202 @@
+{
+  "name": "Strava Dashboard",
+  "version": "0.2.0",
+  "status": "alpha",
+  "description": "Shows year-to-date totals, recent stats, and the latest activity directly from the Strava API.",
+  "renderPage": "./render.html",
+  "settingsPage": "./settings.html",
+  "icon": "./assets/icon.png",
+  "nativeSettings": {
+    "color": "light",
+    "title": "",
+    "clientId": "",
+    "clientSecret": "",
+    "accessToken": "",
+    "refreshToken": "",
+    "expiresAt": 0,
+    "athleteId": "",
+    "athleteName": "",
+    "activityTypes": [
+      "swim",
+      "ride",
+      "run"
+    ],
+    "units": "metric",
+    "timezone": "Europe/Berlin",
+    "showRecent": true,
+    "showLatest": true,
+    "showRoute": true,
+    "showSource": true
+  },
+  "configVariants": [
+    {
+      "color": "light",
+      "title": "",
+      "clientId": "",
+      "clientSecret": "",
+      "accessToken": "",
+      "refreshToken": "",
+      "expiresAt": 0,
+      "athleteId": "",
+      "athleteName": "",
+      "activityTypes": [
+        "swim",
+        "ride",
+        "run"
+      ],
+      "units": "metric",
+      "timezone": "Europe/Berlin",
+      "showRecent": true,
+      "showLatest": true,
+      "showRoute": true,
+      "showSource": true,
+      "screenshots": {
+        "800x480": "./screenshots/strava-dashboard-overview-800x480-landscape.png",
+        "480x800": "./screenshots/strava-dashboard-overview-480x800-portrait.png"
+      }
+    },
+    {
+      "color": "red-light",
+      "title": "Endurance",
+      "clientId": "",
+      "clientSecret": "",
+      "accessToken": "",
+      "refreshToken": "",
+      "expiresAt": 0,
+      "athleteId": "",
+      "athleteName": "",
+      "activityTypes": [
+        "ride",
+        "run"
+      ],
+      "units": "metric",
+      "timezone": "Europe/Berlin",
+      "showRecent": true,
+      "showLatest": true,
+      "showRoute": true,
+      "showSource": true,
+      "screenshots": {
+        "800x480": "./screenshots/strava-dashboard-endurance-800x480-landscape.png",
+        "480x800": "./screenshots/strava-dashboard-endurance-480x800-portrait.png"
+      }
+    }
+  ],
+  "formSchema": {
+    "type": "object",
+    "properties": {
+      "title": {
+        "type": "string",
+        "title": "Title",
+        "description": "Optional heading. Leave empty to use the localized dashboard title.",
+        "default": ""
+      },
+      "clientId": {
+        "type": "string",
+        "title": "Strava client ID",
+        "default": "",
+        "inStettingsPage": true
+      },
+      "clientSecret": {
+        "type": "string",
+        "format": "password",
+        "title": "Strava client secret",
+        "default": "",
+        "inStettingsPage": true
+      },
+      "accessToken": {
+        "type": "string",
+        "format": "password",
+        "title": "Strava access token",
+        "default": "",
+        "inStettingsPage": true
+      },
+      "refreshToken": {
+        "type": "string",
+        "format": "password",
+        "title": "Strava refresh token",
+        "default": "",
+        "inStettingsPage": true
+      },
+      "expiresAt": {
+        "type": "integer",
+        "title": "Token expiry",
+        "default": 0,
+        "inStettingsPage": true
+      },
+      "athleteId": {
+        "type": "string",
+        "title": "Strava athlete ID",
+        "default": "",
+        "inStettingsPage": true
+      },
+      "athleteName": {
+        "type": "string",
+        "title": "Strava athlete",
+        "default": "",
+        "inStettingsPage": true
+      },
+      "activityTypes": {
+        "type": "array",
+        "title": "Activity types",
+        "description": "Select and order up to three summary cards.",
+        "items": {
+          "type": "string",
+          "enum": [
+            "swim",
+            "ride",
+            "run"
+          ]
+        },
+        "uniqueItems": true,
+        "default": [
+          "swim",
+          "ride",
+          "run"
+        ]
+      },
+      "units": {
+        "type": "string",
+        "title": "Units",
+        "enum": [
+          "metric",
+          "imperial"
+        ],
+        "default": "metric"
+      },
+      "timezone": {
+        "type": "string",
+        "title": "Timezone",
+        "description": "IANA timezone used for the latest activity date.",
+        "default": "Europe/Berlin"
+      },
+      "showRecent": {
+        "type": "boolean",
+        "title": "Show last four weeks",
+        "default": true
+      },
+      "showLatest": {
+        "type": "boolean",
+        "title": "Show latest activity",
+        "default": true
+      },
+      "showRoute": {
+        "type": "boolean",
+        "title": "Show latest route",
+        "description": "Draws the latest activity route when Strava returns a polyline.",
+        "default": true
+      },
+      "showSource": {
+        "type": "boolean",
+        "title": "Show source and update time",
+        "default": true
+      }
+    }
+  },
+  "language": [
+    "en",
+    "de",
+    "fr",
+    "es",
+    "it"
+  ]
+}

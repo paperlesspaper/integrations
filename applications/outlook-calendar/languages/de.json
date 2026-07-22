@@ -1,0 +1,12 @@
+{
+  "title": "Outlook-Kalender",
+  "allDay": "Ganztägig",
+  "empty": "In diesem Zeitraum gibt es keine Termine.",
+  "moreEvents": "+{count} weitere",
+  "today": "Heute",
+  "untitled": "Termin ohne Titel",
+  "privateEvent": "Privater Termin",
+  "errorTitle": "Outlook-Kalender nicht verfügbar",
+  "source": "Microsoft Graph",
+  "sampleSource": "Beispieldaten"
+}

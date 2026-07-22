@@ -1,0 +1,973 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="referrer" content="no-referrer">
+    <meta name="paperless:epd-optimize" content='{"intent":"readable"}'>
+    <title>Strava Dashboard</title>
+    <link rel="stylesheet" href="/assets/paperless.css">
+    <script src="/assets/paperless.iife.js"></script>
+    <style>
+      .strava-screen {
+        --activity-accent: var(--pp-accent);
+        display: grid;
+        gap: 7px;
+        grid-template-rows: auto minmax(0, 1fr) auto auto auto;
+        padding: 12px 16px 9px;
+      }
+
+      .strava-header,
+      .activity-heading,
+      .latest-heading,
+      .strava-footer {
+        align-items: center;
+        display: flex;
+        min-width: 0;
+      }
+
+      .strava-header {
+        border-bottom: 3px solid var(--pp-fg);
+        justify-content: space-between;
+        padding-bottom: 6px;
+      }
+
+      .strava-title-wrap {
+        min-width: 0;
+      }
+
+      .strava-brand,
+      .activity-label,
+      .period-label,
+      .detail-label,
+      .recent-label,
+      .latest-kicker,
+      .latest-meta,
+      .latest-metric-label,
+      .strava-footer {
+        font-size: clamp(0.58rem, 1.55vh, 0.78rem);
+        font-weight: 900;
+        letter-spacing: 0.08em;
+        line-height: 1;
+        margin: 0;
+        text-transform: uppercase;
+      }
+
+      .strava-brand {
+        color: var(--activity-accent);
+      }
+
+      .strava-title {
+        font-size: clamp(1.25rem, 4.6vh, 2.35rem);
+        font-weight: 950;
+        letter-spacing: -0.035em;
+        line-height: 0.92;
+        margin: 2px 0 0;
+      }
+
+      .athlete-name {
+        color: var(--pp-muted);
+        font-size: clamp(0.64rem, 1.7vh, 0.82rem);
+        font-weight: 900;
+        margin: 0 0 0 12px;
+        max-width: 34vw;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        text-transform: uppercase;
+        white-space: nowrap;
+      }
+
+      .activity-grid {
+        display: grid;
+        gap: 7px;
+        grid-template-columns: repeat(var(--activity-count, 3), minmax(0, 1fr));
+        min-height: 0;
+      }
+
+      .activity-card {
+        border: 2px solid var(--pp-border);
+        border-top: 7px solid var(--activity-accent);
+        display: grid;
+        gap: 4px;
+        grid-template-rows: auto minmax(0, 1fr) auto;
+        min-height: 0;
+        min-width: 0;
+        padding: 7px 9px 8px;
+      }
+
+      .activity-heading {
+        border-bottom: 1px solid var(--pp-border);
+        gap: 7px;
+        justify-content: space-between;
+        padding-bottom: 4px;
+      }
+
+      .activity-name {
+        align-items: center;
+        display: flex;
+        gap: 6px;
+        min-width: 0;
+      }
+
+      .activity-icon {
+        flex: none;
+        height: 18px;
+        width: 24px;
+      }
+
+      .activity-icon circle,
+      .activity-icon path,
+      .activity-icon polyline {
+        fill: none;
+        stroke: currentColor;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        stroke-width: 2.4;
+      }
+
+      .activity-label {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .period-label {
+        border: 1px solid var(--pp-border);
+        color: var(--pp-muted);
+        flex: none;
+        padding: 2px 4px;
+      }
+
+      .distance-block {
+        align-items: baseline;
+        align-self: center;
+        display: flex;
+        gap: 5px;
+        min-width: 0;
+      }
+
+      .distance-value {
+        font-size: clamp(2.3rem, 9.8vh, 4.8rem);
+        font-weight: 950;
+        letter-spacing: -0.065em;
+        line-height: 0.82;
+        margin: 0;
+        min-width: 0;
+      }
+
+      .distance-unit {
+        font-size: clamp(0.82rem, 2.6vh, 1.25rem);
+        font-weight: 900;
+      }
+
+      .activity-details {
+        display: grid;
+        gap: 0;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .activity-detail {
+        border-top: 1px solid var(--pp-border);
+        min-width: 0;
+        padding: 4px 4px 0 0;
+      }
+
+      .activity-detail:nth-child(even) {
+        border-left: 1px solid var(--pp-border);
+        padding-left: 6px;
+      }
+
+      .detail-label,
+      .latest-metric-label {
+        color: var(--pp-muted);
+        display: block;
+        font-size: clamp(0.47rem, 1.2vh, 0.62rem);
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .detail-value {
+        display: block;
+        font-size: clamp(0.68rem, 1.9vh, 0.92rem);
+        font-weight: 950;
+        line-height: 1.12;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .recent-strip {
+        background: var(--pp-fg);
+        color: var(--pp-bg);
+        display: grid;
+        gap: 1px;
+        grid-template-columns: repeat(var(--activity-count, 3), minmax(0, 1fr));
+        min-height: 48px;
+      }
+
+      .recent-strip[hidden],
+      .latest-card[hidden],
+      .strava-footer[hidden] {
+        display: none;
+      }
+
+      .recent-item {
+        border-right: 1px solid var(--pp-bg);
+        display: grid;
+        gap: 2px;
+        grid-template-columns: auto minmax(0, 1fr);
+        grid-template-rows: auto auto;
+        min-width: 0;
+        padding: 6px 9px;
+      }
+
+      .recent-item:last-child {
+        border-right: 0;
+      }
+
+      .recent-label {
+        color: var(--pp-bg);
+        grid-column: 1 / -1;
+        opacity: 0.75;
+      }
+
+      .recent-value {
+        align-self: end;
+        font-size: clamp(1.05rem, 3.4vh, 1.65rem);
+        font-weight: 950;
+        letter-spacing: -0.035em;
+        line-height: 0.9;
+        margin: 0;
+        white-space: nowrap;
+      }
+
+      .recent-meta {
+        align-self: end;
+        font-size: clamp(0.5rem, 1.35vh, 0.66rem);
+        font-weight: 800;
+        line-height: 1.15;
+        margin: 0;
+        min-width: 0;
+        overflow: hidden;
+        text-align: right;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .latest-card {
+        border: 2px solid var(--pp-border);
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(130px, 23%);
+        min-height: 100px;
+      }
+
+      .latest-card.no-route {
+        grid-template-columns: 1fr;
+      }
+
+      .latest-main {
+        display: grid;
+        gap: 5px;
+        grid-template-rows: auto minmax(0, 1fr);
+        min-width: 0;
+        padding: 7px 10px;
+      }
+
+      .latest-heading {
+        gap: 10px;
+        justify-content: space-between;
+      }
+
+      .latest-copy {
+        min-width: 0;
+      }
+
+      .latest-kicker {
+        color: var(--activity-accent);
+      }
+
+      .latest-title {
+        font-size: clamp(0.92rem, 2.7vh, 1.35rem);
+        font-weight: 950;
+        line-height: 1;
+        margin: 2px 0 0;
+        max-width: 100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .latest-meta {
+        color: var(--pp-muted);
+        max-width: 42%;
+        overflow: hidden;
+        text-align: right;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .latest-metrics {
+        align-self: end;
+        display: grid;
+        gap: 4px;
+        grid-template-columns: repeat(var(--latest-count, 5), minmax(0, 1fr));
+        min-width: 0;
+      }
+
+      .latest-metric {
+        border: 1px solid var(--pp-border);
+        min-width: 0;
+        padding: 4px 5px;
+      }
+
+      .latest-metric-value {
+        display: block;
+        font-size: clamp(0.68rem, 1.9vh, 0.92rem);
+        font-weight: 950;
+        line-height: 1.05;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .route-panel {
+        align-items: center;
+        background: var(--pp-card);
+        border-left: 2px solid var(--pp-border);
+        display: flex;
+        justify-content: center;
+        min-height: 0;
+        overflow: hidden;
+        padding: 5px;
+      }
+
+      .route-panel svg {
+        color: var(--activity-accent);
+        height: 100%;
+        max-height: 104px;
+        width: 100%;
+      }
+
+      .route-line {
+        fill: none;
+        stroke: currentColor;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        stroke-width: 5;
+      }
+
+      .route-dot {
+        fill: var(--pp-fg);
+        stroke: var(--pp-bg);
+        stroke-width: 2;
+      }
+
+      .route-empty {
+        color: var(--pp-muted);
+        font-size: clamp(0.58rem, 1.45vh, 0.7rem);
+        font-weight: 900;
+        margin: 0;
+        text-align: center;
+        text-transform: uppercase;
+      }
+
+      .strava-footer {
+        color: var(--pp-muted);
+        gap: 12px;
+        justify-content: space-between;
+        letter-spacing: 0;
+        min-height: 10px;
+        text-transform: none;
+      }
+
+      .strava-footer span {
+        min-width: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .footer-source {
+        color: var(--activity-accent);
+      }
+
+      .error-state {
+        border: 3px solid var(--activity-accent);
+        display: grid;
+        gap: 9px;
+        place-content: center;
+        padding: 28px;
+        text-align: center;
+      }
+
+      .error-title {
+        font-size: clamp(1.7rem, 7vh, 3.8rem);
+        font-weight: 950;
+        margin: 0;
+      }
+
+      .error-copy {
+        color: var(--pp-muted);
+        font-size: clamp(0.8rem, 2.4vh, 1.15rem);
+        font-weight: 800;
+        margin: 0;
+      }
+
+      @media (orientation: portrait) {
+        .strava-screen {
+          gap: 9px;
+          grid-template-rows: auto minmax(0, 1fr) auto auto auto;
+          padding: 16px 14px 11px;
+        }
+
+        .strava-header {
+          align-items: end;
+        }
+
+        .strava-title {
+          font-size: clamp(1.55rem, 4.1vh, 2.45rem);
+        }
+
+        .athlete-name {
+          max-width: 43%;
+        }
+
+        .activity-grid {
+          grid-template-columns: 1fr;
+          grid-template-rows: repeat(var(--activity-count, 3), minmax(0, 1fr));
+        }
+
+        .activity-card {
+          align-items: center;
+          gap: 8px;
+          grid-template-columns: minmax(92px, 0.78fr) minmax(112px, 0.95fr) minmax(0, 1.35fr);
+          grid-template-rows: 1fr;
+          padding: 7px 9px;
+        }
+
+        .activity-heading {
+          align-content: center;
+          align-items: flex-start;
+          align-self: stretch;
+          border-bottom: 0;
+          border-right: 1px solid var(--pp-border);
+          flex-direction: column;
+          justify-content: center;
+          padding: 0 8px 0 0;
+        }
+
+        .period-label {
+          margin-left: 30px;
+        }
+
+        .distance-value {
+          font-size: clamp(2.35rem, 6.4vh, 3.5rem);
+        }
+
+        .activity-details {
+          align-self: stretch;
+        }
+
+        .activity-detail {
+          display: grid;
+          align-content: center;
+        }
+
+        .recent-strip {
+          min-height: 76px;
+        }
+
+        .recent-item {
+          grid-template-columns: 1fr;
+          grid-template-rows: auto auto auto;
+          padding: 7px 6px;
+        }
+
+        .recent-value,
+        .recent-meta {
+          text-align: left;
+        }
+
+        .latest-card {
+          grid-template-columns: 1fr;
+          grid-template-rows: auto 105px;
+          min-height: 205px;
+        }
+
+        .latest-main {
+          padding: 9px;
+        }
+
+        .latest-metrics {
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+          grid-template-rows: repeat(2, auto);
+        }
+
+        .route-panel {
+          border-left: 0;
+          border-top: 2px solid var(--pp-border);
+        }
+
+        .route-panel svg {
+          max-height: 94px;
+        }
+      }
+
+      @media (max-height: 540px) {
+        .strava-screen {
+          gap: 5px;
+          padding: 8px 12px 6px;
+        }
+
+        .strava-header {
+          padding-bottom: 4px;
+        }
+
+        .strava-title {
+          font-size: clamp(1.1rem, 4.3vh, 1.8rem);
+        }
+
+        .activity-card {
+          gap: 3px;
+          padding: 5px 7px 6px;
+        }
+
+        .distance-value {
+          font-size: clamp(2rem, 8.8vh, 3.75rem);
+        }
+
+        .activity-detail {
+          padding-top: 2px;
+        }
+
+        .recent-item {
+          padding-bottom: 4px;
+          padding-top: 4px;
+        }
+
+        .latest-card {
+          min-height: 92px;
+        }
+
+        .latest-main {
+          padding-bottom: 5px;
+          padding-top: 5px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="website-has-loading-element"></div>
+    <main class="pp-screen strava-screen" id="app">
+      <header class="strava-header">
+        <div class="strava-title-wrap">
+          <p class="strava-brand" id="brand">Powered by Strava</p>
+          <h1 class="strava-title pp-fit-title" id="title">Activity Dashboard</h1>
+        </div>
+        <p class="athlete-name" id="athlete"></p>
+      </header>
+      <section class="activity-grid" id="activities"></section>
+      <section class="recent-strip" id="recent" hidden></section>
+      <section class="latest-card" id="latest" hidden></section>
+      <footer class="strava-footer" id="footer" hidden></footer>
+    </main>
+
+    <script>
+      (async function initialize() {
+        const {
+          waitForPayload,
+          getSettings,
+          getQuerySettings,
+          mergeSettings,
+          loadLanguageJson,
+          applyColorTheme,
+          escapeHtml,
+          fitAllText,
+          fitToScreen,
+          postSettingsUpdate,
+          markLoading,
+          markReady,
+          markError,
+        } = window.PaperlessOpenIntegration;
+
+        const app = document.querySelector("#app");
+        const defaults = {
+          color: "light",
+          title: "",
+          clientId: "",
+          clientSecret: "",
+          accessToken: "",
+          refreshToken: "",
+          expiresAt: 0,
+          athleteId: "",
+          athleteName: "",
+          activityTypes: ["swim", "ride", "run"],
+          units: "metric",
+          timezone: "Europe/Berlin",
+          showRecent: true,
+          showLatest: true,
+          showRoute: true,
+          showSource: true,
+        };
+
+        const defaultMessages = {
+          brand: "Powered by Strava",
+          defaultTitle: "Activity Dashboard",
+          ytd: "YTD",
+          recent: "Last 4 weeks",
+          sessions: "Sessions",
+          time: "Time",
+          elevation: "Elevation",
+          pace: "Pace",
+          speed: "Avg speed",
+          averageSession: "Avg / session",
+          latestActivity: "Latest activity",
+          distance: "Distance",
+          heartRate: "Heart rate",
+          kudos: "Kudos",
+          calories: "Calories",
+          sample: "Sample data",
+          updated: "Updated",
+          viaStravaApi: "Direct from the Strava API",
+          routeUnavailable: "No route available",
+          loading: "Loading activities...",
+          errorTitle: "Strava data could not load",
+          swim: "Swim",
+          ride: "Ride",
+          run: "Run",
+          hourShort: "h",
+          minuteShort: "min",
+        };
+
+        let messages = defaultMessages;
+        let language = "en";
+
+        function t(key, values = {}) {
+          const template = typeof messages[key] === "string"
+            ? messages[key]
+            : defaultMessages[key] || key;
+          return template.replace(/\{(\w+)\}/g, (_match, name) => values[name] ?? "");
+        }
+
+        function asBoolean(value, fallback) {
+          if (typeof value === "boolean") return value;
+          if (typeof value === "string") {
+            if (["1", "true", "yes", "on"].includes(value.toLowerCase())) return true;
+            if (["0", "false", "no", "off"].includes(value.toLowerCase())) return false;
+          }
+          return fallback;
+        }
+
+        function number(value, maximumFractionDigits = 1) {
+          if (!Number.isFinite(Number(value))) return "—";
+          return new Intl.NumberFormat(language, {
+            maximumFractionDigits,
+          }).format(Number(value));
+        }
+
+        function formatDuration(seconds) {
+          const totalMinutes = Math.max(0, Math.round(Number(seconds || 0) / 60));
+          const hours = Math.floor(totalMinutes / 60);
+          const minutes = totalMinutes % 60;
+          if (!hours) return `${minutes}${t("minuteShort")}`;
+          return minutes ? `${hours}${t("hourShort")} ${minutes}${t("minuteShort")}` : `${hours}${t("hourShort")}`;
+        }
+
+        function formatDate(value, timezone) {
+          const date = new Date(value);
+          if (!value || Number.isNaN(date.getTime())) return "";
+          return new Intl.DateTimeFormat(language, {
+            timeZone: timezone,
+            weekday: "short",
+            day: "numeric",
+            month: "short",
+            hour: "2-digit",
+            minute: "2-digit",
+          }).format(date);
+        }
+
+        function activityIcon(type) {
+          if (type === "ride") {
+            return '<svg class="activity-icon" viewBox="0 0 28 20" aria-hidden="true"><circle cx="6" cy="14" r="4"></circle><circle cx="22" cy="14" r="4"></circle><path d="M6 14l5-8 4 8m-4-8h6l5 8m-7 0h-9"></path></svg>';
+          }
+          if (type === "swim") {
+            return '<svg class="activity-icon" viewBox="0 0 28 20" aria-hidden="true"><circle cx="10" cy="5" r="2"></circle><path d="M3 11c3-2 5-2 8 0s5 2 8 0 5-2 7-1M2 16c3-2 6-2 9 0s5 2 8 0 5-2 7-1M12 8l5 2"></path></svg>';
+          }
+          return '<svg class="activity-icon" viewBox="0 0 28 20" aria-hidden="true"><circle cx="16" cy="3.5" r="2"></circle><path d="M15 6l-4 5 5 2 2 5m-6-7-5 2m9 0 5-4m-9 4-3 5"></path></svg>';
+        }
+
+        function distanceUnit(summary) {
+          return summary?.distanceUnit || "";
+        }
+
+        function distancePerSession(summary) {
+          const count = Number(summary?.count);
+          const distance = Number(summary?.distance);
+          if (!Number.isFinite(count) || count <= 0 || !Number.isFinite(distance)) return "—";
+          return `${number(distance / count, 1)} ${distanceUnit(summary)}`;
+        }
+
+        function paceOrSpeed(summary, type) {
+          const seconds = Number(summary?.movingTimeSeconds);
+          const distance = Number(summary?.distance);
+          const unit = String(summary?.distanceUnit || "").toLowerCase();
+          if (!Number.isFinite(seconds) || !Number.isFinite(distance) || seconds <= 0 || distance <= 0) {
+            return { label: type === "ride" ? t("speed") : t("pace"), value: "—" };
+          }
+
+          if (type === "ride") {
+            const speed = distance / (seconds / 3600);
+            return { label: t("speed"), value: `${number(speed, 1)} ${unit || "km"}/${t("hourShort")}` };
+          }
+
+          let secondsPerUnit;
+          let paceUnit;
+          if (type === "swim") {
+            const hundredUnits = unit.includes("mi") ? distance * 17.6 : distance * 10;
+            secondsPerUnit = seconds / hundredUnits;
+            paceUnit = unit.includes("mi") ? "/100 yd" : "/100 m";
+          } else {
+            secondsPerUnit = seconds / distance;
+            paceUnit = unit.includes("mi") ? "/mi" : "/km";
+          }
+
+          const minutes = Math.floor(secondsPerUnit / 60);
+          const remainingSeconds = Math.round(secondsPerUnit % 60);
+          return {
+            label: t("pace"),
+            value: `${minutes}:${String(remainingSeconds).padStart(2, "0")} ${paceUnit}`,
+          };
+        }
+
+        function detail(label, value) {
+          return `<div class="activity-detail"><span class="detail-label">${escapeHtml(label)}</span><strong class="detail-value">${escapeHtml(value)}</strong></div>`;
+        }
+
+        function renderActivityCard(activity) {
+          const summary = activity.ytd || {};
+          const effort = paceOrSpeed(summary, activity.type);
+          const thirdMetric = activity.type === "swim"
+            ? { label: t("averageSession"), value: distancePerSession(summary) }
+            : { label: t("elevation"), value: Number.isFinite(Number(summary.elevation)) ? `${number(summary.elevation, 0)} ${summary.elevationUnit || ""}` : "—" };
+
+          return `
+            <article class="activity-card activity-${escapeHtml(activity.type)}">
+              <header class="activity-heading">
+                <div class="activity-name">${activityIcon(activity.type)}<span class="activity-label">${escapeHtml(t(activity.type))}</span></div>
+                <span class="period-label">${escapeHtml(t("ytd"))}</span>
+              </header>
+              <div class="distance-block">
+                <strong class="distance-value">${escapeHtml(number(summary.distance, 1))}</strong>
+                <span class="distance-unit">${escapeHtml(distanceUnit(summary))}</span>
+              </div>
+              <div class="activity-details">
+                ${detail(t("sessions"), number(summary.count, 0))}
+                ${detail(t("time"), formatDuration(summary.movingTimeSeconds))}
+                ${detail(thirdMetric.label, thirdMetric.value)}
+                ${detail(effort.label, effort.value)}
+              </div>
+            </article>`;
+        }
+
+        function renderRecent(activity) {
+          const summary = activity.recent || {};
+          return `
+            <article class="recent-item">
+              <span class="recent-label">${escapeHtml(`${t(activity.type)} · ${t("recent")}`)}</span>
+              <strong class="recent-value">${escapeHtml(number(summary.distance, 1))} ${escapeHtml(distanceUnit(summary))}</strong>
+              <p class="recent-meta">${escapeHtml(`${number(summary.count, 0)} ${t("sessions")} · ${formatDuration(summary.movingTimeSeconds)}`)}</p>
+            </article>`;
+        }
+
+        function humanizeSportType(value) {
+          return String(value || "")
+            .replace(/([a-z])([A-Z])/g, "$1 $2")
+            .replace(/_/g, " ")
+            .trim();
+        }
+
+        function latestMetric(label, value) {
+          return `<div class="latest-metric"><span class="latest-metric-label">${escapeHtml(label)}</span><strong class="latest-metric-value">${escapeHtml(value)}</strong></div>`;
+        }
+
+        function formatLatestPace(latest) {
+          if (latest.paceFormatted) return latest.paceFormatted;
+          if (!Number.isFinite(Number(latest.pace))) return "—";
+          const minutes = Math.floor(Number(latest.pace));
+          const seconds = Math.round((Number(latest.pace) - minutes) * 60);
+          return `${minutes}:${String(seconds).padStart(2, "0")} ${latest.paceUnit || ""}`;
+        }
+
+        function decodePolyline(encoded) {
+          const points = [];
+          let index = 0;
+          let latitude = 0;
+          let longitude = 0;
+
+          while (index < encoded.length && points.length < 2000) {
+            let result = 0;
+            let shift = 0;
+            let byte;
+            do {
+              if (index >= encoded.length) return points;
+              byte = encoded.charCodeAt(index++) - 63;
+              result |= (byte & 0x1f) << shift;
+              shift += 5;
+            } while (byte >= 0x20);
+            latitude += result & 1 ? ~(result >> 1) : result >> 1;
+
+            result = 0;
+            shift = 0;
+            do {
+              if (index >= encoded.length) return points;
+              byte = encoded.charCodeAt(index++) - 63;
+              result |= (byte & 0x1f) << shift;
+              shift += 5;
+            } while (byte >= 0x20);
+            longitude += result & 1 ? ~(result >> 1) : result >> 1;
+            points.push([longitude / 1e5, latitude / 1e5]);
+          }
+
+          return points;
+        }
+
+        function routeSvg(polyline) {
+          const points = decodePolyline(String(polyline || ""));
+          if (points.length < 2) return "";
+
+          const width = 240;
+          const height = 100;
+          const padding = 9;
+          const xs = points.map((point) => point[0]);
+          const ys = points.map((point) => point[1]);
+          const minX = Math.min(...xs);
+          const maxX = Math.max(...xs);
+          const minY = Math.min(...ys);
+          const maxY = Math.max(...ys);
+          const rangeX = Math.max(maxX - minX, 0.00001);
+          const rangeY = Math.max(maxY - minY, 0.00001);
+          const scale = Math.min((width - padding * 2) / rangeX, (height - padding * 2) / rangeY);
+          const offsetX = (width - rangeX * scale) / 2;
+          const offsetY = (height - rangeY * scale) / 2;
+          const projected = points.map(([x, y]) => [
+            offsetX + (x - minX) * scale,
+            height - (offsetY + (y - minY) * scale),
+          ]);
+          const path = projected.map(([x, y], index) => `${index ? "L" : "M"}${x.toFixed(1)} ${y.toFixed(1)}`).join(" ");
+          const start = projected[0];
+          const end = projected[projected.length - 1];
+
+          return `<svg viewBox="0 0 ${width} ${height}" role="img" aria-label="Route"><path class="route-line" d="${path}"></path><circle class="route-dot" cx="${start[0].toFixed(1)}" cy="${start[1].toFixed(1)}" r="5"></circle><circle class="route-dot" cx="${end[0].toFixed(1)}" cy="${end[1].toFixed(1)}" r="5"></circle></svg>`;
+        }
+
+        function renderLatest(latest, settings) {
+          if (!latest) return "";
+          const isRide = /ride|cycl|bike/i.test(latest.sportType || "");
+          const metrics = [
+            latestMetric(t("distance"), `${number(latest.distance, 1)} ${latest.distanceUnit || ""}`),
+            latestMetric(t("time"), latest.movingTimeFormatted || formatDuration(latest.movingTimeSeconds)),
+            latestMetric(isRide ? t("speed") : t("pace"), isRide
+              ? `${number(latest.speed, 1)} ${latest.speedUnit || ""}`
+              : formatLatestPace(latest)),
+            latestMetric(t("elevation"), `${number(latest.elevation, 0)} ${latest.elevationUnit || ""}`),
+            latestMetric(t("heartRate"), `${number(latest.averageHeartRate, 0)} ${latest.heartRateUnit || ""}`),
+            latestMetric(t("kudos"), number(latest.kudos, 0)),
+          ];
+          const route = settings.showRoute ? routeSvg(latest.polyline) : "";
+          const meta = [humanizeSportType(latest.sportType), formatDate(latest.date, settings.timezone), latest.location]
+            .filter(Boolean)
+            .join(" · ");
+
+          return `
+            <div class="latest-main">
+              <header class="latest-heading">
+                <div class="latest-copy">
+                  <p class="latest-kicker">${escapeHtml(t("latestActivity"))}</p>
+                  <h2 class="latest-title">${escapeHtml(latest.title || t("latestActivity"))}</h2>
+                </div>
+                <p class="latest-meta">${escapeHtml(meta)}</p>
+              </header>
+              <div class="latest-metrics" style="--latest-count: ${metrics.length}">${metrics.join("")}</div>
+            </div>
+            ${route ? `<div class="route-panel">${route}</div>` : settings.showRoute ? `<div class="route-panel"><p class="route-empty">${escapeHtml(t("routeUnavailable"))}</p></div>` : ""}`;
+        }
+
+        async function loadData(settings) {
+          const url = new URL("./api/data", window.location.href);
+          url.searchParams.set("clientId", settings.clientId || "");
+          url.searchParams.set("clientSecret", settings.clientSecret || "");
+          url.searchParams.set("accessToken", settings.accessToken || "");
+          url.searchParams.set("refreshToken", settings.refreshToken || "");
+          url.searchParams.set("expiresAt", settings.expiresAt || 0);
+          url.searchParams.set("athleteId", settings.athleteId || "");
+          url.searchParams.set("athleteName", settings.athleteName || "");
+          url.searchParams.set("activityTypes", Array.isArray(settings.activityTypes) ? settings.activityTypes.join(",") : settings.activityTypes || "");
+          url.searchParams.set("units", settings.units || "metric");
+
+          const response = await fetch(url, { cache: "no-store", referrerPolicy: "no-referrer" });
+          const payload = await response.json().catch(() => ({}));
+          if (!response.ok) {
+            throw new Error(payload.error || `API failed with ${response.status}`);
+          }
+          return payload;
+        }
+
+        async function renderPayload(payload) {
+          try {
+            markLoading();
+            const localized = await loadLanguageJson(payload);
+            messages = { ...defaultMessages, ...(localized.messages || {}) };
+            language = localized.language || payload?.meta?.language || "en";
+            const settings = mergeSettings(defaults, getSettings(payload), getQuerySettings());
+            settings.showRecent = asBoolean(settings.showRecent, true);
+            settings.showLatest = asBoolean(settings.showLatest, true);
+            settings.showRoute = asBoolean(settings.showRoute, true);
+            settings.showSource = asBoolean(settings.showSource, true);
+            applyColorTheme(settings.color, { defaultTheme: defaults.color });
+
+            const data = await loadData(settings);
+            if (data.tokenRefreshed && data.settingsPatch && typeof data.settingsPatch === "object") {
+              postSettingsUpdate?.(data.settingsPatch, { legacy: false });
+            }
+            const activities = Array.isArray(data.activities) ? data.activities.slice(0, 3) : [];
+            const count = Math.max(1, activities.length);
+            document.querySelector("#brand").textContent = t("brand");
+            document.querySelector("#title").textContent = String(settings.title || "").trim() || t("defaultTitle");
+            document.querySelector("#athlete").textContent = data.athleteName || "";
+
+            const activityGrid = document.querySelector("#activities");
+            activityGrid.style.setProperty("--activity-count", count);
+            activityGrid.innerHTML = activities.map(renderActivityCard).join("");
+
+            const recent = document.querySelector("#recent");
+            recent.hidden = !settings.showRecent || !activities.length;
+            recent.style.setProperty("--activity-count", count);
+            recent.innerHTML = activities.map(renderRecent).join("");
+
+            const latest = document.querySelector("#latest");
+            latest.hidden = !settings.showLatest || !data.latest;
+            latest.classList.toggle("no-route", !settings.showRoute);
+            latest.innerHTML = settings.showLatest ? renderLatest(data.latest, settings) : "";
+
+            const footer = document.querySelector("#footer");
+            footer.hidden = !settings.showSource;
+            const source = data.source === "sample" ? t("sample") : t("viaStravaApi");
+            footer.innerHTML = `<span class="footer-source">${escapeHtml(source)}</span><span>${escapeHtml(`${t("updated")} ${formatDate(data.fetchedAt, settings.timezone)}`)}</span>`;
+
+            await document.fonts?.ready;
+            fitAllText();
+            fitToScreen(app);
+            markReady();
+          } catch (error) {
+            app.innerHTML = `<section class="error-state"><h1 class="error-title">${escapeHtml(t("errorTitle"))}</h1><p class="error-copy">${escapeHtml(error instanceof Error ? error.message : String(error))}</p></section>`;
+            markError(error);
+          }
+        }
+
+        const payload = await waitForPayload({ timeoutMs: 500, onUpdate: renderPayload });
+        await renderPayload(payload);
+      })();
+    </script>
+  </body>
+</html>

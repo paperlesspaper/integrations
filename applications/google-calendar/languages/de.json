@@ -4,5 +4,6 @@
   "errorTitle": "Google Kalender konnte nicht geladen werden",
   "loading": "Kalender wird geladen...",
   "moreEvents": "+{count} weitere",
+  "today": "Heute",
   "untitled": "Termin ohne Titel"
 }

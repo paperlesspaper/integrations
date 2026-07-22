@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" role="img" aria-labelledby="title">
+  <title id="title">Nextcloud Calendar</title>
+  <path fill="#0082c9" d="M512 94c-135 0-254 72-318 180a195 195 0 0 0-38-4C70 270 0 340 0 426s70 156 156 156h712c86 0 156-70 156-156s-70-156-156-156c-13 0-26 1-38 4C766 166 647 94 512 94Z"/>
+  <rect width="684" height="520" x="170" y="382" rx="72" fill="#fff" stroke="#005b91" stroke-width="34"/>
+  <path fill="#0082c9" d="M170 454a72 72 0 0 1 72-72h540a72 72 0 0 1 72 72v92H170Z"/>
+  <path fill="#005b91" d="M318 326h46v118h-46zm342 0h46v118h-46z"/>
+  <g fill="#0082c9">
+    <rect width="92" height="78" x="274" y="622" rx="14"/>
+    <rect width="92" height="78" x="466" y="622" rx="14"/>
+    <rect width="92" height="78" x="658" y="622" rx="14"/>
+    <rect width="92" height="78" x="274" y="752" rx="14"/>
+    <rect width="92" height="78" x="466" y="752" rx="14"/>
+  </g>
+</svg>

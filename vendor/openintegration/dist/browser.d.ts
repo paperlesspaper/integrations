@@ -13,6 +13,10 @@ export { detectOverflow } from "./overflow";
 export { escapeHtml } from "./html";
 export { fitOfTheDayLayout, renderOfTheDayLayout, waitForOfTheDayImage } from "./ofTheDay";
 export type { FitOfTheDayLayoutOptions, OfTheDayFact, OfTheDayImageOptions, OfTheDayLayoutElements, OfTheDayLayoutMode, OfTheDayMetaItem, OfTheDayTextSize, RenderOfTheDayLayoutOptions } from "./ofTheDay";
+export { DEFAULT_CALENDAR_MESSAGES, DEFAULT_CALENDAR_SETTINGS, buildCalendarRange, fitCalendarLayout, normalizeCalendarSettings, prepareCalendarEvents, renderCalendarLayout, waitForCalendarImages } from "./calendar";
+export { bootCalendarApiIntegration } from "./calendarIntegration";
+export type { BootCalendarApiIntegrationOptions, CalendarApiData, CalendarApiIntegrationContext, CalendarApiRequestContext } from "./calendarIntegration";
+export type { CalendarDateValue, CalendarDisplaySettings, CalendarEvent, CalendarEventDetail, CalendarHeaderOptions, CalendarLayoutElements, CalendarMessages, CalendarRange, CalendarSettingsInput, CalendarView, FitCalendarLayoutOptions, PreparedCalendarEvent, RenderCalendarLayoutOptions } from "./calendar";
 export { validateConfig } from "./manifest";
 export type { FitHyphenatedTextOptions, FitTextOptions, FitToScreenOptions, HyphenateTextOptions, JsonRecord, OpenIntegrationConfig, OverflowReport, PayloadUpdateHandler, PrepareHyphenationOptions, ValidationResult, WaitForPayloadOptions } from "./types";
 //# sourceMappingURL=browser.d.ts.map

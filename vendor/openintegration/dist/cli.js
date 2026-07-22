@@ -33,6 +33,14 @@ function isHttpUrl(value) {
 function isLanguageCode(value) {
   return typeof value === "string" && /^[A-Za-z]{2,3}(?:-[A-Za-z0-9]{2,8})*$/.test(value.trim());
 }
+function isTimeZone(value) {
+  try {
+    new Intl.DateTimeFormat("en-US", { timeZone: value }).format();
+    return true;
+  } catch {
+    return false;
+  }
+}
 function validateConfig(config) {
   const errors = [];
   const warnings = [];
@@ -57,6 +65,9 @@ function validateConfig(config) {
   }
   if ("language" in config && (!Array.isArray(config.language) || config.language.some((language) => !isLanguageCode(language)))) {
     errors.push("language must be an array of non-empty language codes");
+  }
+  if ("timezone" in config && (typeof config.timezone !== "string" || config.timezone.trim() === "" || !isTimeZone(config.timezone))) {
+    errors.push("timezone must be a valid IANA timezone");
   }
   if ("nativeSettings" in config && !isRecord(config.nativeSettings)) {
     errors.push("nativeSettings must be an object");
@@ -2335,6 +2346,7 @@ async function renderUrlWithPuppeteer({
   optimize = true,
   payload,
   readyTimeoutMs = 15e3,
+  timezone,
   url,
   width
 }) {
@@ -2347,6 +2359,9 @@ async function renderUrlWithPuppeteer({
       headless: true
     });
     const page = await browser.newPage();
+    if (timezone) {
+      await page.emulateTimezone(timezone);
+    }
     await page.setViewport({
       deviceScaleFactor: 1,
       height,
@@ -2386,6 +2401,10 @@ async function renderUrlWithPuppeteer({
 // src/devServer.ts
 var defaultColor = "light";
 var fallbackLanguage = "de";
+var defaultJsonBodyLimit = 1024 * 1024;
+var apiJsonBodyLimit = 64 * 1024;
+var JsonBodyTooLargeError = class extends Error {
+};
 var mimeTypes = {
   ".css": "text/css; charset=utf-8",
   ".gif": "image/gif",
@@ -2434,10 +2453,16 @@ function isRecord3(value) {
 function defaultLanguage(config) {
   return Array.isArray(config.language) && typeof config.language[0] === "string" && config.language[0].trim() ? config.language[0] : fallbackLanguage;
 }
-async function readJsonBody(request) {
+async function readJsonBody(request, maxBytes = defaultJsonBodyLimit) {
   const chunks = [];
+  let length = 0;
   for await (const chunk of request) {
-    chunks.push(Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk));
+    const buffer = Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk);
+    length += buffer.byteLength;
+    if (length > maxBytes) {
+      throw new JsonBodyTooLargeError(`JSON body exceeds ${maxBytes} bytes`);
+    }
+    chunks.push(buffer);
   }
   if (chunks.length === 0) {
     return void 0;
@@ -2530,9 +2555,13 @@ function variantSettings(variant) {
 function resolveIntegrationPath(root, fileName) {
   return resolve(root, fileName.replace(/^\.?\//, ""));
 }
-async function tryServeApi(response, requestUrl, integrationRoot) {
+async function tryServeApi(request, response, requestUrl, integrationRoot) {
   if (!requestUrl.pathname.startsWith("/api/")) {
     return false;
+  }
+  if (!["GET", "HEAD", "POST"].includes(request.method || "GET")) {
+    send(response, 405, "Method not allowed", "text/plain; charset=utf-8");
+    return true;
   }
   const apiPath = resolve(integrationRoot, `.${requestUrl.pathname}.js`);
   if (!isInside(integrationRoot, apiPath)) {
@@ -2551,8 +2580,26 @@ async function tryServeApi(response, requestUrl, integrationRoot) {
       send(response, 500, `API module has no default function: ${requestUrl.pathname}.js`, "text/plain; charset=utf-8");
       return true;
     }
+    let body = {};
+    if (request.method === "POST") {
+      let parsed;
+      try {
+        parsed = await readJsonBody(request, apiJsonBodyLimit);
+      } catch (error) {
+        sendJson(response, error instanceof JsonBodyTooLargeError ? 413 : 400, {
+          error: error instanceof JsonBodyTooLargeError ? "Calendar API JSON body exceeds 64 KB" : "Calendar API JSON body is invalid"
+        });
+        return true;
+      }
+      if (!isRecord3(parsed)) {
+        sendJson(response, 400, { error: "Calendar API JSON body must be an object" });
+        return true;
+      }
+      body = parsed;
+    }
     const result = await mod.default({
-      query: queryToRecord(requestUrl.searchParams)
+      query: { ...queryToRecord(requestUrl.searchParams), ...body },
+      request
     });
     sendJson(response, 200, result);
     return true;
@@ -2690,6 +2737,7 @@ async function startDevServer(options) {
                 height: viewport.height,
                 optimize: true,
                 payload,
+                timezone: config.timezone,
                 url: renderUrl.href,
                 width: viewport.width
               });
@@ -2738,6 +2786,7 @@ async function startDevServer(options) {
           height,
           optimize: body?.optimize !== false,
           payload,
+          timezone: config.timezone,
           url: renderUrl.href,
           width
         });
@@ -2789,7 +2838,7 @@ async function startDevServer(options) {
       }
       const decodedPath = decodeURIComponent(requestUrl.pathname);
       const pathName = decodedPath === "/" ? `/${config.renderPage}` : decodedPath;
-      if (await tryServeApi(response, requestUrl, integrationRoot)) {
+      if (await tryServeApi(request, response, requestUrl, integrationRoot)) {
         return;
       }
       const integrationPath = join(integrationRoot, pathName);
@@ -3070,11 +3119,11 @@ For a one-off run without a local install, use \`npx --package @paperlesspaper/o
 `;
 }
 function renderTemplate({ api, name }) {
-  const loadData = api ? `const url = new URL("./api/data", window.location.href);
-        url.searchParams.set("title", settings.title);
-        url.searchParams.set("limit", settings.limit);
-
-        const response = await fetch(url);
+  const loadData = api ? `const response = await fetch(new URL("./api/data", window.location.href), {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ title: settings.title, limit: settings.limit })
+        });
         if (!response.ok) {
           throw new Error(\`API request failed: \${response.status}\`);
         }
@@ -3440,6 +3489,7 @@ async function renderRawWithPuppeteer({
   height,
   payload,
   readyTimeoutMs = 15e3,
+  timezone,
   url,
   width
 }) {
@@ -3452,6 +3502,9 @@ async function renderRawWithPuppeteer({
       headless: true
     });
     const page = await browser.newPage();
+    if (timezone) {
+      await page.emulateTimezone(timezone);
+    }
     await page.setViewport({
       deviceScaleFactor: 1,
       height,
@@ -3754,6 +3807,7 @@ async function main() {
         height: viewport.height,
         payload,
         readyTimeoutMs: args.readyTimeoutMs,
+        timezone: config.timezone,
         url: renderUrl.href,
         width: viewport.width
       });

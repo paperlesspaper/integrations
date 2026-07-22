@@ -7,6 +7,7 @@ export interface PuppeteerRenderOptions {
     optimize?: boolean;
     payload?: JsonRecord;
     readyTimeoutMs?: number;
+    timezone?: string;
     url: string;
     width: number;
 }
@@ -18,5 +19,5 @@ export interface PuppeteerRenderResult {
     ready: boolean;
     width: number;
 }
-export declare function renderUrlWithPuppeteer({ chromePath, height, optimize, payload, readyTimeoutMs, url, width }: PuppeteerRenderOptions): Promise<PuppeteerRenderResult>;
+export declare function renderUrlWithPuppeteer({ chromePath, height, optimize, payload, readyTimeoutMs, timezone, url, width }: PuppeteerRenderOptions): Promise<PuppeteerRenderResult>;
 //# sourceMappingURL=puppeteerRender.d.ts.map

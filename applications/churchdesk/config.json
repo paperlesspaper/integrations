@@ -1,0 +1,151 @@
+{
+  "name": "Churchdesk",
+  "version": "0.2.0",
+  "status": "alpha",
+  "description": "Shows services and rota assignments from a public ChurchDesk rota.",
+  "renderPage": "./render.html",
+  "icon": "./assets/icon.png",
+  "timezone": "Europe/Berlin",
+  "nativeSettings": {
+    "color": "light",
+    "title": "Churchdesk",
+    "rotaUrl": "https://app.churchdesk.com/rota/a8e746dc-c9b1-4e8f-8937-6768dc896afb",
+    "view": "agenda",
+    "locale": "de-DE",
+    "timeZone": "Europe/Berlin",
+    "dayRange": 14,
+    "maxEvents": 6,
+    "highlightToday": false,
+    "highlightScale": 1.35,
+    "roleFilter": "",
+    "showOrganization": true,
+    "showLocation": true,
+    "showAssignments": true
+  },
+  "configVariants": [
+    {
+      "color": "light",
+      "title": "Churchdesk",
+      "rotaUrl": "https://app.churchdesk.com/rota/a8e746dc-c9b1-4e8f-8937-6768dc896afb",
+      "view": "agenda",
+      "locale": "de-DE",
+      "timeZone": "Europe/Berlin",
+      "dayRange": 14,
+      "maxEvents": 6,
+      "highlightToday": false,
+      "highlightScale": 1.35,
+      "roleFilter": "",
+      "showOrganization": true,
+      "showLocation": true,
+      "showAssignments": true,
+      "sampleData": true,
+      "now": "2026-07-21T10:00:00.000Z",
+      "screenshots": {
+        "800x480": "./screenshots/churchdesk-800x480-landscape.png",
+        "480x800": "./screenshots/churchdesk-480x800-portrait.png"
+      }
+    },
+    {
+      "color": "blue-light",
+      "title": "Gottesdienste & Dienste",
+      "rotaUrl": "https://app.churchdesk.com/rota/a8e746dc-c9b1-4e8f-8937-6768dc896afb",
+      "view": "week",
+      "locale": "de-DE",
+      "timeZone": "Europe/Berlin",
+      "dayRange": 21,
+      "maxEvents": 12,
+      "highlightToday": true,
+      "highlightScale": 1.35,
+      "roleFilter": "Zelebrant",
+      "showOrganization": true,
+      "showLocation": false,
+      "showAssignments": true,
+      "sampleData": true,
+      "now": "2026-07-21T10:00:00.000Z"
+    }
+  ],
+  "formSchema": {
+    "type": "object",
+    "properties": {
+      "title": {
+        "type": "string",
+        "title": "Titel",
+        "default": "Churchdesk"
+      },
+      "rotaUrl": {
+        "type": "string",
+        "title": "Öffentliche ChurchDesk-Dienstplan-URL",
+        "description": "Zum Beispiel https://app.churchdesk.com/rota/…; alternativ kann nur die UUID eingetragen werden.",
+        "default": "https://app.churchdesk.com/rota/a8e746dc-c9b1-4e8f-8937-6768dc896afb"
+      },
+      "view": {
+        "type": "string",
+        "title": "Ansicht",
+        "enum": ["agenda", "day", "three-days", "week"],
+        "enumNames": ["Agenda", "Tag", "3 Tage", "Woche"],
+        "default": "agenda"
+      },
+      "locale": {
+        "type": "string",
+        "title": "Gebietsschema",
+        "description": "BCP-47-Gebietsschema, zum Beispiel de-DE oder en-GB.",
+        "default": "de-DE"
+      },
+      "timeZone": {
+        "type": "string",
+        "title": "Zeitzone",
+        "description": "IANA-Zeitzone, zum Beispiel Europe/Berlin.",
+        "default": "Europe/Berlin"
+      },
+      "dayRange": {
+        "type": "integer",
+        "title": "Agenda-Tage",
+        "minimum": 1,
+        "maximum": 31,
+        "default": 14
+      },
+      "maxEvents": {
+        "type": "integer",
+        "title": "Maximale Termine",
+        "minimum": 1,
+        "maximum": 20,
+        "default": 6
+      },
+      "highlightToday": {
+        "type": "boolean",
+        "title": "Heute hervorheben",
+        "default": false
+      },
+      "highlightScale": {
+        "type": "number",
+        "title": "Größe der Heute-Hervorhebung",
+        "minimum": 1,
+        "maximum": 3,
+        "step": 0.05,
+        "default": 1.35
+      },
+      "roleFilter": {
+        "type": "string",
+        "title": "Dienste filtern",
+        "description": "Optionale, kommagetrennte Dienstnamen, zum Beispiel Zelebrant, Küsterdienst.",
+        "default": ""
+      },
+      "showOrganization": {
+        "type": "boolean",
+        "title": "Pfarrei anzeigen",
+        "default": true
+      },
+      "showLocation": {
+        "type": "boolean",
+        "title": "Ort anzeigen",
+        "default": true
+      },
+      "showAssignments": {
+        "type": "boolean",
+        "title": "Dienste und Personen anzeigen",
+        "default": true
+      }
+    }
+  },
+  "language": ["de", "en"]
+}

@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="paperless:epd-optimize" content='{"intent":"readable"}' />
+    <title>Churchdesk</title>
+    <link rel="stylesheet" href="/assets/paperless.css" />
+    <script src="/assets/paperless.iife.js"></script>
+  </head>
+  <body>
+    <div id="website-has-loading-element"></div>
+    <main id="app" aria-live="polite"></main>
+
+    <script type="module">
+      const {
+        applyColorTheme,
+        buildCalendarRange,
+        fitCalendarLayout,
+        getQuerySettings,
+        getSettings,
+        loadLanguageJson,
+        markError,
+        markLoading,
+        markReady,
+        mergeSettings,
+        normalizeCalendarSettings,
+        renderCalendarLayout,
+        waitForCalendarImages,
+        waitForPayload,
+      } = window.PaperlessOpenIntegration;
+
+      const app = document.querySelector("#app");
+      const defaults = {
+        color: "light",
+        title: "Churchdesk",
+        rotaUrl: "https://app.churchdesk.com/rota/a8e746dc-c9b1-4e8f-8937-6768dc896afb",
+        view: "agenda",
+        locale: "de-DE",
+        timeZone: "Europe/Berlin",
+        dayRange: 14,
+        maxEvents: 6,
+        highlightToday: false,
+        highlightScale: 1.35,
+        roleFilter: "",
+        showOrganization: true,
+        showLocation: true,
+        showAssignments: true,
+        showEventIcons: false,
+        showEventImages: false,
+        sampleData: false,
+        now: "",
+      };
+      let renderRequest = 0;
+
+      function booleanValue(value, fallback = false) {
+        if (value === undefined || value === null || value === "") return fallback;
+        if (typeof value === "string") {
+          return !["false", "0", "off", "no"].includes(value.toLowerCase());
+        }
+        return Boolean(value);
+      }
+
+      function message(messages, key, fallback) {
+        return typeof messages?.[key] === "string" ? messages[key] : fallback;
+      }
+
+      function assignmentValue(assignment, messages) {
+        if (Array.isArray(assignment.people) && assignment.people.length) {
+          return assignment.people.join(", ");
+        }
+        return assignment.unassigned
+          ? message(messages, "open", "open")
+          : message(messages, "noAssignments", "No assignment");
+      }
+
+      function mapEvent(event, settings, messages, timeZone) {
+        const allDay = Boolean(event.allDay);
+        return {
+          id: event.id,
+          title: event.title,
+          start: allDay
+            ? { date: event.dayKey }
+            : { dateTime: event.startDate, timeZone },
+          end: allDay
+            ? { date: event.endDayKey }
+            : { dateTime: event.endDate, timeZone },
+          location: event.location,
+          details: booleanValue(settings.showAssignments, true)
+            ? (event.assignments || []).map((assignment) => ({
+                label: assignment.role,
+                value: assignmentValue(assignment, messages),
+              }))
+            : [],
+        };
+      }
+
+      async function responseError(response) {
+        const body = await response.text();
+        try {
+          const parsed = JSON.parse(body);
+          return parsed.error || parsed.message || `Request failed with ${response.status}`;
+        } catch {
+          return body || `Request failed with ${response.status}`;
+        }
+      }
+
+      function showError(error, messages) {
+        app.innerHTML = "";
+        const section = document.createElement("section");
+        section.className = "pp-error";
+        const title = document.createElement("h1");
+        title.textContent = message(messages, "errorTitle", "Calendar unavailable");
+        const detail = document.createElement("p");
+        detail.textContent = error instanceof Error ? error.message : String(error);
+        section.append(title, detail);
+        app.append(section);
+        markError(error);
+      }
+
+      async function renderPayload(payload) {
+        const request = ++renderRequest;
+        let messages = {};
+        try {
+          markLoading();
+          const language = await loadLanguageJson(payload);
+          if (request !== renderRequest) return;
+          messages = language.messages;
+          document.documentElement.lang = language.language || "de";
+          const overrides = mergeSettings(getSettings(payload), getQuerySettings());
+          const rawSettings = mergeSettings(defaults, overrides);
+          const settings = normalizeCalendarSettings(overrides, defaults);
+          const now = rawSettings.now || undefined;
+          const range = buildCalendarRange(settings, now);
+          applyColorTheme(rawSettings.color, { defaultTheme: defaults.color });
+
+          const url = new URL("./api/data", window.location.href);
+          const apiSettings = {
+            rotaUrl: rawSettings.rotaUrl,
+            rangeStart: range.startKey,
+            rangeEndExclusive: range.endKey,
+            dayRange: settings.dayRange,
+            limit: 200,
+            roleFilter: rawSettings.roleFilter,
+            locale: settings.locale,
+            timeZone: settings.timeZone,
+            sampleData: rawSettings.sampleData,
+            now: rawSettings.now,
+          };
+          const response = await fetch(url, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(apiSettings),
+            cache: "no-store",
+          });
+          if (!response.ok) throw new Error(await responseError(response));
+          const data = await response.json();
+          if (request !== renderRequest) return;
+          const events = (Array.isArray(data.events) ? data.events : []).map((event) =>
+            mapEvent(event, rawSettings, messages, data.timeZone || settings.timeZone),
+          );
+          const organization = booleanValue(rawSettings.showOrganization, true)
+            ? data.organization || message(messages, "kicker", "Parish")
+            : "";
+          const layout = renderCalendarLayout({
+            target: app,
+            events,
+            settings,
+            messages: {
+              ...messages,
+              empty: message(messages, "empty", message(messages, "noEvents", "No events")),
+            },
+            now,
+            header: {
+              kicker: organization,
+              title: rawSettings.title || data.rotaName || "Churchdesk",
+              subtitle: data.rotaName && data.rotaName !== rawSettings.title ? data.rotaName : "",
+              source: data.sample
+                ? message(messages, "sampleSource", "Sample data")
+                : message(messages, "source", "ChurchDesk"),
+            },
+          });
+          await document.fonts?.ready;
+          await waitForCalendarImages(layout);
+          if (request !== renderRequest) return;
+          fitCalendarLayout(layout);
+          markReady();
+        } catch (error) {
+          if (request !== renderRequest) return;
+          showError(error, messages);
+        }
+      }
+
+      const payload = await waitForPayload({ timeoutMs: 500, fallback: {}, onUpdate: renderPayload });
+      await renderPayload(payload);
+    </script>
+  </body>
+</html>

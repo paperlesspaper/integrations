@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-labelledby="title">
+  <title id="title">Outlook Calendar</title>
+  <rect width="256" height="256" rx="44" fill="#1769aa"/>
+  <rect x="42" y="55" width="172" height="158" rx="18" fill="#fff"/>
+  <path d="M42 91h172" stroke="#1769aa" stroke-width="16"/>
+  <path d="M82 38v38M174 38v38" stroke="#fff" stroke-width="14" stroke-linecap="round"/>
+  <g fill="#1769aa">
+    <rect x="69" y="117" width="28" height="25" rx="5"/>
+    <rect x="114" y="117" width="28" height="25" rx="5"/>
+    <rect x="159" y="117" width="28" height="25" rx="5"/>
+    <rect x="69" y="158" width="28" height="25" rx="5"/>
+    <rect x="114" y="158" width="28" height="25" rx="5"/>
+    <rect x="159" y="158" width="28" height="25" rx="5"/>
+  </g>
+</svg>

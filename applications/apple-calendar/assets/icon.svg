@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Apple Calendar">
+  <rect width="512" height="512" rx="104" fill="#fff"/>
+  <rect x="68" y="92" width="376" height="352" rx="56" fill="#fff" stroke="#000" stroke-width="24"/>
+  <path d="M68 164h376" stroke="#f00" stroke-width="54"/>
+  <path d="M156 68v80M356 68v80" stroke="#000" stroke-width="28" stroke-linecap="round"/>
+  <path d="M170 262h172M170 334h122" stroke="#06f" stroke-width="28" stroke-linecap="round"/>
+</svg>

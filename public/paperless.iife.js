@@ -22,13 +22,18 @@ var PaperlessOpenIntegration = (() => {
   var browser_exports = {};
   __export(browser_exports, {
     COLOR_THEMES: () => COLOR_THEMES,
+    DEFAULT_CALENDAR_MESSAGES: () => DEFAULT_CALENDAR_MESSAGES,
+    DEFAULT_CALENDAR_SETTINGS: () => DEFAULT_CALENDAR_SETTINGS,
     SOFT_HYPHEN: () => SOFT_HYPHEN,
     addSoftHyphensToTextNodes: () => addSoftHyphensToTextNodes,
     applyColorTheme: () => applyColorTheme,
     applyColorThemeFromQuery: () => applyColorThemeFromQuery,
+    bootCalendarApiIntegration: () => bootCalendarApiIntegration,
+    buildCalendarRange: () => buildCalendarRange,
     detectOverflow: () => detectOverflow,
     escapeHtml: () => escapeHtml,
     fitAllText: () => fitAllText,
+    fitCalendarLayout: () => fitCalendarLayout,
     fitHyphenatedText: () => fitHyphenatedText,
     fitImage: () => fitImage,
     fitOfTheDayLayout: () => fitOfTheDayLayout,
@@ -46,17 +51,21 @@ var PaperlessOpenIntegration = (() => {
     markLoading: () => markLoading,
     markReady: () => markReady,
     mergeSettings: () => mergeSettings,
+    normalizeCalendarSettings: () => normalizeCalendarSettings,
     normalizeColorTheme: () => normalizeColorTheme,
     observeSettingsHeight: () => observeSettingsHeight,
     postSettingsHeight: () => postSettingsHeight,
     postSettingsReady: () => postSettingsReady,
     postSettingsUpdate: () => postSettingsUpdate,
+    prepareCalendarEvents: () => prepareCalendarEvents,
     prepareHyphenation: () => prepareHyphenation,
+    renderCalendarLayout: () => renderCalendarLayout,
     renderOfTheDayLayout: () => renderOfTheDayLayout,
     resolveLanguage: () => resolveLanguage,
     setupSettingsPage: () => setupSettingsPage,
     stripSoftHyphens: () => stripSoftHyphens,
     validateConfig: () => validateConfig,
+    waitForCalendarImages: () => waitForCalendarImages,
     waitForOfTheDayImage: () => waitForOfTheDayImage,
     waitForPayload: () => waitForPayload
   });
@@ -69,7 +78,7 @@ var PaperlessOpenIntegration = (() => {
   function getDocument() {
     return globalThis.document;
   }
-  function appendHiddenMarker(id, text = "") {
+  function appendHiddenMarker(id, text2 = "") {
     const doc = getDocument();
     if (!doc) {
       return void 0;
@@ -80,7 +89,7 @@ var PaperlessOpenIntegration = (() => {
     }
     const marker = doc.createElement("div");
     marker.id = id;
-    marker.textContent = text;
+    marker.textContent = text2;
     marker.hidden = true;
     doc.body.append(marker);
     return marker;
@@ -95,6 +104,9 @@ var PaperlessOpenIntegration = (() => {
         return false;
       }
       if (element.id === loadingMarkerId || element.id === loadedMarkerId) {
+        return false;
+      }
+      if (["SCRIPT", "STYLE", "NOSCRIPT"].includes(element.tagName)) {
         return false;
       }
       return !element.hidden && element.textContent?.trim();
@@ -144,12 +156,15 @@ var PaperlessOpenIntegration = (() => {
     return Boolean(value) && typeof value === "object" && !Array.isArray(value);
   }
   function normalizePayload(value) {
+    if (Array.isArray(value)) {
+      return { data: value };
+    }
     if (!isRecord(value)) {
       return void 0;
     }
     const data = value.data;
-    if (isRecord(data) && (value.type === "INIT" || value.cmd === "message")) {
-      return data;
+    if ((isRecord(data) || Array.isArray(data)) && (value.type === "INIT" || value.cmd === "message")) {
+      return Array.isArray(data) ? { data } : data;
     }
     return value;
   }
@@ -1060,8 +1075,750 @@ var PaperlessOpenIntegration = (() => {
     });
   }
 
-  // src/manifest.ts
+  // src/calendar.ts
+  var DEFAULT_CALENDAR_SETTINGS = {
+    view: "agenda",
+    locale: "en",
+    dayRange: 14,
+    maxEvents: 20,
+    highlightToday: false,
+    highlightScale: 1,
+    showLocation: true,
+    showEventIcons: true,
+    showEventImages: true
+  };
+  var DEFAULT_CALENDAR_MESSAGES = {
+    allDay: "All day",
+    empty: "No events",
+    moreEvents: "+{count} more",
+    today: "Today",
+    untitled: "Untitled event"
+  };
+  var VIEW_ALIASES = {
+    agenda: "agenda",
+    day: "day",
+    "3-days": "three-days",
+    "3days": "three-days",
+    three: "three-days",
+    "three-day": "three-days",
+    "three-days": "three-days",
+    week: "week",
+    year: "year"
+  };
+  var VIEW_CLASSES = [
+    "pp-cal--view-agenda",
+    "pp-cal--view-day",
+    "pp-cal--view-three-days",
+    "pp-cal--view-week",
+    "pp-cal--view-year"
+  ];
+  var DATE_KEY_PATTERN = /^\d{4}-\d{2}-\d{2}$/;
+  function clampInteger(value, fallback, min, max) {
+    const parsed = Number.parseInt(String(value ?? ""), 10);
+    return Number.isFinite(parsed) ? Math.min(max, Math.max(min, parsed)) : fallback;
+  }
+  function clampNumber(value, fallback, min, max) {
+    const parsed = Number(value);
+    return Number.isFinite(parsed) ? Math.min(max, Math.max(min, parsed)) : fallback;
+  }
+  function parseBoolean(value, fallback) {
+    if (typeof value === "boolean") {
+      return value;
+    }
+    if (typeof value === "number") {
+      return value !== 0;
+    }
+    const normalized = String(value ?? "").trim().toLowerCase();
+    if (["true", "1", "yes", "on"].includes(normalized)) {
+      return true;
+    }
+    if (["false", "0", "no", "off"].includes(normalized)) {
+      return false;
+    }
+    return fallback;
+  }
+  function text(value) {
+    return String(value ?? "").trim();
+  }
+  function hasText2(value) {
+    return text(value).length > 0;
+  }
+  function validTimeZone(value) {
+    const timeZone = text(value);
+    if (!timeZone) {
+      return void 0;
+    }
+    try {
+      new Intl.DateTimeFormat("en", { timeZone }).format(/* @__PURE__ */ new Date());
+      return timeZone;
+    } catch {
+      return void 0;
+    }
+  }
+  function validLocale(value, fallback) {
+    const locale = text(value) || fallback;
+    try {
+      new Intl.DateTimeFormat(locale).format(/* @__PURE__ */ new Date());
+      return locale;
+    } catch {
+      return fallback;
+    }
+  }
+  function normalizeCalendarSettings(input, defaults = {}) {
+    const base = { ...DEFAULT_CALENDAR_SETTINGS, ...defaults };
+    const source = input || {};
+    const requestedView = text(source.view).toLowerCase();
+    const view = VIEW_ALIASES[requestedView] ?? base.view;
+    const localeValue = source.locale ?? source.language;
+    const dayRangeValue = source.dayRange ?? source.daysAhead;
+    return {
+      view,
+      locale: validLocale(localeValue, base.locale),
+      timeZone: validTimeZone(source.timeZone ?? base.timeZone),
+      dayRange: clampInteger(dayRangeValue, base.dayRange, 1, 366),
+      maxEvents: clampInteger(source.maxEvents, base.maxEvents, 1, 200),
+      highlightToday: parseBoolean(source.highlightToday, base.highlightToday),
+      highlightScale: clampNumber(source.highlightScale, base.highlightScale, 1, 3),
+      showLocation: parseBoolean(source.showLocation, base.showLocation),
+      showEventIcons: parseBoolean(source.showEventIcons, base.showEventIcons),
+      showEventImages: parseBoolean(source.showEventImages, base.showEventImages)
+    };
+  }
+  function pad(value) {
+    return String(value).padStart(2, "0");
+  }
+  function partsToDateKey(parts) {
+    const values = Object.fromEntries(parts.map((part) => [part.type, part.value]));
+    return values.year && values.month && values.day ? `${values.year}-${values.month}-${values.day}` : null;
+  }
+  function dateKeyFromDate(value, timeZone) {
+    if (Number.isNaN(value.getTime())) {
+      return "";
+    }
+    if (timeZone) {
+      try {
+        const formatter = new Intl.DateTimeFormat("en-US", {
+          timeZone,
+          year: "numeric",
+          month: "2-digit",
+          day: "2-digit"
+        });
+        const formatted = partsToDateKey(formatter.formatToParts(value));
+        if (formatted) {
+          return formatted;
+        }
+      } catch {
+      }
+    }
+    return `${value.getFullYear()}-${pad(value.getMonth() + 1)}-${pad(value.getDate())}`;
+  }
+  function dateKeyToUtcDate(dateKey) {
+    const [year, month, day] = dateKey.split("-").map(Number);
+    return new Date(Date.UTC(year, month - 1, day, 12));
+  }
+  function dateKeyToDisplayDate(dateKey) {
+    const [year, month, day] = dateKey.split("-").map(Number);
+    return new Date(year, month - 1, day, 12);
+  }
+  function addDaysToKey(dateKey, count) {
+    const date = dateKeyToUtcDate(dateKey);
+    date.setUTCDate(date.getUTCDate() + count);
+    return `${date.getUTCFullYear()}-${pad(date.getUTCMonth() + 1)}-${pad(date.getUTCDate())}`;
+  }
+  function dateKeysBetween(startKey, endKey) {
+    const result = [];
+    for (let key = startKey; key < endKey; key = addDaysToKey(key, 1)) {
+      result.push(key);
+    }
+    return result;
+  }
+  function normalizeNow(value) {
+    const date = value instanceof Date ? new Date(value.getTime()) : new Date(value ?? Date.now());
+    return Number.isNaN(date.getTime()) ? /* @__PURE__ */ new Date() : date;
+  }
+  function buildCalendarRange(settingsInput = {}, now) {
+    const settings = normalizeCalendarSettings(settingsInput);
+    const referenceKey = dateKeyFromDate(normalizeNow(now), settings.timeZone);
+    let startKey = referenceKey;
+    let endKey = addDaysToKey(startKey, 1);
+    if (settings.view === "agenda") {
+      endKey = addDaysToKey(startKey, settings.dayRange);
+    } else if (settings.view === "three-days") {
+      endKey = addDaysToKey(startKey, 3);
+    } else if (settings.view === "week") {
+      const day = dateKeyToUtcDate(referenceKey).getUTCDay();
+      startKey = addDaysToKey(referenceKey, -((day + 6) % 7));
+      endKey = addDaysToKey(startKey, 7);
+    } else if (settings.view === "year") {
+      const year = Number(referenceKey.slice(0, 4));
+      startKey = `${year}-01-01`;
+      endKey = `${year + 1}-01-01`;
+    }
+    return {
+      view: settings.view,
+      startDate: dateKeyToDisplayDate(startKey),
+      endDate: dateKeyToDisplayDate(endKey),
+      startKey,
+      endKey,
+      dateKeys: dateKeysBetween(startKey, endKey)
+    };
+  }
+  function eventDateKey(event, settings) {
+    const dateOnly = text(event.start?.date).slice(0, 10);
+    if (DATE_KEY_PATTERN.test(dateOnly)) {
+      return dateOnly;
+    }
+    const rawDateTime = text(event.start?.dateTime);
+    const date = new Date(rawDateTime);
+    if (!Number.isNaN(date.getTime())) {
+      return dateKeyFromDate(date, settings.timeZone ?? validTimeZone(event.start?.timeZone));
+    }
+    const prefix = rawDateTime.slice(0, 10);
+    return DATE_KEY_PATTERN.test(prefix) ? prefix : "";
+  }
+  function eventLastDateKey(event, settings, startKey) {
+    const endDate = text(event.end?.date).slice(0, 10);
+    if (DATE_KEY_PATTERN.test(endDate)) {
+      const inclusiveEnd = addDaysToKey(endDate, -1);
+      return inclusiveEnd >= startKey ? inclusiveEnd : startKey;
+    }
+    const endDateTime = new Date(text(event.end?.dateTime));
+    if (!Number.isNaN(endDateTime.getTime())) {
+      const startDateTime = new Date(text(event.start?.dateTime));
+      const inclusiveEnd = new Date(
+        endDateTime.getTime() > startDateTime.getTime() ? endDateTime.getTime() - 1 : endDateTime.getTime()
+      );
+      const endKey = dateKeyFromDate(
+        inclusiveEnd,
+        settings.timeZone ?? validTimeZone(event.end?.timeZone) ?? validTimeZone(event.start?.timeZone)
+      );
+      return endKey >= startKey ? endKey : startKey;
+    }
+    return startKey;
+  }
+  function eventVisibleDateKeys(event, settings, range) {
+    const startKey = eventDateKey(event, settings);
+    if (!startKey) {
+      return [];
+    }
+    const lastKey = eventLastDateKey(event, settings, startKey);
+    const visibleStart = startKey < range.startKey ? range.startKey : startKey;
+    const eventEndExclusive = addDaysToKey(lastKey, 1);
+    const visibleEnd = eventEndExclusive > range.endKey ? range.endKey : eventEndExclusive;
+    return visibleStart < visibleEnd ? dateKeysBetween(visibleStart, visibleEnd) : [];
+  }
+  function eventSortTime(event, dateKey) {
+    const dateTime = new Date(text(event.start?.dateTime));
+    if (!Number.isNaN(dateTime.getTime())) {
+      return dateTime.getTime();
+    }
+    return dateKeyToUtcDate(dateKey).getTime() - 432e5;
+  }
+  function prepareCalendarEvents(events, settingsInput = {}, now) {
+    const settings = normalizeCalendarSettings(settingsInput);
+    const range = buildCalendarRange(settings, now);
+    return (Array.isArray(events) ? events : []).flatMap((event) => {
+      const rawStart = new Date(text(event.start?.dateTime));
+      return eventVisibleDateKeys(event, settings, range).map((dateKey) => ({
+        event,
+        dateKey,
+        startDate: Number.isNaN(rawStart.getTime()) ? null : rawStart,
+        sortTime: eventSortTime(event, dateKey)
+      }));
+    }).sort((left, right) => {
+      const dateOrder = left.dateKey.localeCompare(right.dateKey);
+      if (dateOrder) {
+        return dateOrder;
+      }
+      const leftAllDay = hasText2(left.event.start?.date);
+      const rightAllDay = hasText2(right.event.start?.date);
+      if (leftAllDay !== rightAllDay) {
+        return leftAllDay ? -1 : 1;
+      }
+      return left.sortTime - right.sortTime;
+    });
+  }
+  function resolveTarget2(target) {
+    if (target instanceof HTMLElement) {
+      return target;
+    }
+    if (typeof target === "string") {
+      const element = document.querySelector(target);
+      if (!element) {
+        throw new Error(`Could not find calendar target: ${target}`);
+      }
+      return element;
+    }
+    return document.querySelector("#app") ?? document.body;
+  }
+  function formatCivilDate(dateKey, locale, options) {
+    return new Intl.DateTimeFormat(locale, { ...options, timeZone: "UTC" }).format(
+      dateKeyToUtcDate(dateKey)
+    );
+  }
+  function formatTime(value, locale, displayTimeZone) {
+    const date = new Date(text(value?.dateTime));
+    if (Number.isNaN(date.getTime())) {
+      return "";
+    }
+    const timeZone = validTimeZone(displayTimeZone) ?? validTimeZone(value?.timeZone);
+    return new Intl.DateTimeFormat(locale, {
+      hour: "2-digit",
+      minute: "2-digit",
+      ...timeZone ? { timeZone } : {}
+    }).format(date);
+  }
+  function eventTimeText(event, settings, messages) {
+    if (hasText2(event.start?.date)) {
+      return messages.allDay;
+    }
+    const start = formatTime(event.start, settings.locale, settings.timeZone);
+    const end = formatTime(event.end, settings.locale, settings.timeZone);
+    return end && end !== start ? `${start} \u2013 ${end}` : start;
+  }
+  function formatRangeTitle(range, settings) {
+    if (range.view === "year") {
+      return range.startKey.slice(0, 4);
+    }
+    if (range.view === "day") {
+      return formatCivilDate(range.startKey, settings.locale, {
+        weekday: "long",
+        month: "long",
+        day: "numeric"
+      });
+    }
+    const endInclusive = addDaysToKey(range.endKey, -1);
+    const start = formatCivilDate(range.startKey, settings.locale, {
+      month: "short",
+      day: "numeric"
+    });
+    const end = formatCivilDate(endInclusive, settings.locale, {
+      month: "short",
+      day: "numeric"
+    });
+    return start === end ? start : `${start} \u2013 ${end}`;
+  }
+  function normalizeIconName(value) {
+    return text(value).toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "").slice(0, 48);
+  }
+  function safeImageUrl(value) {
+    const candidate = text(value);
+    if (!candidate) {
+      return "";
+    }
+    try {
+      const url = new URL(candidate, window.location.href);
+      return ["http:", "https:"].includes(url.protocol) ? url.href : "";
+    } catch {
+      return "";
+    }
+  }
+  function renderEventIcon(event, settings, aliases) {
+    const iconName = normalizeIconName(event.iconName);
+    if (!settings.showEventIcons || !iconName) {
+      return "";
+    }
+    const iconClass = normalizeIconName(aliases[iconName] ?? iconName);
+    return `<span class="pp-cal-event-icon" aria-hidden="true"><i class="iconoir-${escapeHtml(
+      iconClass
+    )}"></i></span>`;
+  }
+  function renderEventImage(event, settings) {
+    const imageUrl = settings.showEventImages ? safeImageUrl(event.imageUrl) : "";
+    return imageUrl ? `<img class="pp-cal-event-image" src="${escapeHtml(
+      imageUrl
+    )}" alt="" loading="eager" decoding="async">` : "";
+  }
+  function visibleDetails(event) {
+    return (event.details || []).filter(
+      (detail) => detail.visible !== false && (hasText2(detail.label) || hasText2(detail.value))
+    );
+  }
+  function renderDetails(event) {
+    const details = visibleDetails(event);
+    if (!details.length) {
+      return "";
+    }
+    return `<dl class="pp-cal-event-details">${details.map((detail) => {
+      const label = hasText2(detail.label) ? `<dt class="pp-cal-event-detail-label">${escapeHtml(detail.label)}</dt>` : "";
+      return `<div class="pp-cal-event-detail">${label}<dd class="pp-cal-event-detail-value">${escapeHtml(
+        detail.value
+      )}</dd></div>`;
+    }).join("")}</dl>`;
+  }
+  function renderEventCard(item, settings, messages, aliases, compact = false, showDetails = !compact) {
+    const event = item.event;
+    const title = hasText2(event.title) ? event.title : messages.untitled;
+    const location = settings.showLocation && hasText2(event.location) ? `<p class="pp-cal-event-location">${escapeHtml(event.location)}</p>` : "";
+    const details = showDetails ? renderDetails(event) : "";
+    const classes = [
+      "pp-cal-event",
+      compact ? "pp-cal-event--compact" : "",
+      details ? "pp-cal-event--with-details" : ""
+    ].filter(Boolean).join(" ");
+    return `<article class="${classes}" data-date="${escapeHtml(item.dateKey)}">
+    <p class="pp-cal-event-time">${escapeHtml(eventTimeText(event, settings, messages))}</p>
+    <div class="pp-cal-event-content">
+      <div class="pp-cal-event-heading">${renderEventIcon(event, settings, aliases)}<h2 class="pp-cal-event-title">${escapeHtml(
+      title
+    )}</h2></div>
+      ${location}
+      ${renderEventImage(event, settings)}
+    </div>
+    ${details}
+  </article>`;
+  }
+  function eventsByDate(events) {
+    const result = /* @__PURE__ */ new Map();
+    for (const event of events) {
+      const bucket = result.get(event.dateKey) ?? [];
+      bucket.push(event);
+      result.set(event.dateKey, bucket);
+    }
+    return result;
+  }
+  function moreEventsLabel(template, count) {
+    return template.replace("{count}", String(count));
+  }
+  function dateHeader(dateKey, settings) {
+    const weekday = formatCivilDate(dateKey, settings.locale, { weekday: "short" });
+    const date = formatCivilDate(dateKey, settings.locale, { month: "short", day: "numeric" });
+    return `<span class="pp-cal-column-weekday">${escapeHtml(
+      weekday
+    )}</span><span class="pp-cal-column-date">${escapeHtml(date)}</span>`;
+  }
+  function renderAgenda(events, settings, messages, aliases, todayKey) {
+    const visible = events.slice(0, settings.maxEvents);
+    const grouped = eventsByDate(visible);
+    if (!visible.length) {
+      return `<div class="pp-cal-empty">${escapeHtml(messages.empty)}</div>`;
+    }
+    const hidden = events.length - visible.length;
+    return `<div class="pp-cal-agenda">${Array.from(grouped.entries()).map(([dateKey, items]) => {
+      const classes = settings.highlightToday && dateKey === todayKey ? "pp-cal-day-group is-today" : "pp-cal-day-group";
+      const weekday = formatCivilDate(dateKey, settings.locale, { weekday: "long" });
+      const date = formatCivilDate(dateKey, settings.locale, { month: "long", day: "numeric" });
+      return `<section class="${classes}"><h2 class="pp-cal-day-heading"><span class="pp-cal-day-weekday">${escapeHtml(
+        weekday
+      )}</span><span class="pp-cal-day-date">${escapeHtml(
+        date
+      )}</span></h2><div class="pp-cal-day-events">${items.map((item) => renderEventCard(item, settings, messages, aliases)).join("")}</div></section>`;
+    }).join("")}${hidden > 0 ? `<p class="pp-cal-more">${escapeHtml(moreEventsLabel(messages.moreEvents, hidden))}</p>` : ""}</div>`;
+  }
+  function renderDayColumns(range, events, settings, messages, aliases, todayKey) {
+    const grouped = eventsByDate(events);
+    return `<section class="pp-cal-columns pp-cal-columns--${range.dateKeys.length}">${range.dateKeys.map((dateKey) => {
+      const items = grouped.get(dateKey) || [];
+      const visible = items.slice(0, settings.maxEvents);
+      const hidden = items.length - visible.length;
+      const classes = settings.highlightToday && dateKey === todayKey ? "pp-cal-column is-today" : "pp-cal-column";
+      return `<section class="${classes}"><header class="pp-cal-column-heading">${dateHeader(
+        dateKey,
+        settings
+      )}</header><div class="pp-cal-column-events">${visible.length ? `${visible.map((item) => renderEventCard(item, settings, messages, aliases, true, true)).join("")}${hidden > 0 ? `<p class="pp-cal-more">${escapeHtml(moreEventsLabel(messages.moreEvents, hidden))}</p>` : ""}` : `<div class="pp-cal-empty">${escapeHtml(messages.empty)}</div>`}</div></section>`;
+    }).join("")}</section>`;
+  }
+  function renderWeek(range, events, settings, messages, aliases, todayKey) {
+    const grouped = eventsByDate(events);
+    const perDayLimit = Math.min(settings.maxEvents, 4);
+    return `<section class="pp-cal-week">${range.dateKeys.map((dateKey) => {
+      const items = grouped.get(dateKey) || [];
+      const visible = items.slice(0, perDayLimit);
+      const hidden = items.length - visible.length;
+      const classes = settings.highlightToday && dateKey === todayKey ? "pp-cal-week-cell is-today" : "pp-cal-week-cell";
+      return `<section class="${classes}"><header class="pp-cal-week-heading">${dateHeader(
+        dateKey,
+        settings
+      )}</header><div class="pp-cal-week-events">${visible.map((item) => renderEventCard(item, settings, messages, aliases, true)).join("")}${hidden > 0 ? `<p class="pp-cal-more">${escapeHtml(moreEventsLabel(messages.moreEvents, hidden))}</p>` : ""}</div></section>`;
+    }).join("")}</section>`;
+  }
+  function renderYear(range, events, settings, todayKey) {
+    const grouped = eventsByDate(events);
+    const year = Number(range.startKey.slice(0, 4));
+    const weekdayKeys = Array.from({ length: 7 }, (_value, index) => addDaysToKey("2024-01-01", index));
+    return `<section class="pp-cal-year">${Array.from({ length: 12 }, (_value, monthIndex) => {
+      const monthStart = `${year}-${pad(monthIndex + 1)}-01`;
+      const monthWeekday = dateKeyToUtcDate(monthStart).getUTCDay();
+      const gridStart = addDaysToKey(monthStart, -((monthWeekday + 6) % 7));
+      const days = Array.from({ length: 42 }, (_day, index) => addDaysToKey(gridStart, index));
+      const monthName = formatCivilDate(monthStart, settings.locale, { month: "long" });
+      return `<section class="pp-cal-month"><h2 class="pp-cal-month-heading">${escapeHtml(
+        monthName
+      )}</h2><div class="pp-cal-month-weekdays">${weekdayKeys.map(
+        (dateKey) => `<span>${escapeHtml(formatCivilDate(dateKey, settings.locale, { weekday: "narrow" }))}</span>`
+      ).join("")}</div><div class="pp-cal-month-days">${days.map((dateKey) => {
+        const count = (grouped.get(dateKey) || []).length;
+        const classes = [
+          "pp-cal-month-day",
+          dateKey.slice(5, 7) !== pad(monthIndex + 1) ? "pp-cal-month-day--outside" : "",
+          count > 0 ? "pp-cal-month-day--events" : "",
+          settings.highlightToday && dateKey === todayKey ? "pp-cal-month-day--today" : ""
+        ].filter(Boolean).join(" ");
+        return `<span class="${classes}" title="${escapeHtml(String(count))}">${escapeHtml(
+          String(Number(dateKey.slice(8, 10)))
+        )}</span>`;
+      }).join("")}</div></section>`;
+    }).join("")}</section>`;
+  }
+  function renderHeader(header) {
+    if (!header || !Object.values(header).some(hasText2)) {
+      return "";
+    }
+    return `<header class="pp-cal-header"><div class="pp-cal-header-main">${hasText2(header.kicker) ? `<p class="pp-cal-kicker">${escapeHtml(header.kicker)}</p>` : ""}${hasText2(header.title) ? `<h1 class="pp-cal-title">${escapeHtml(header.title)}</h1>` : ""}${hasText2(header.subtitle) ? `<p class="pp-cal-subtitle">${escapeHtml(header.subtitle)}</p>` : ""}</div>${hasText2(header.source) ? `<p class="pp-cal-source">${escapeHtml(header.source)}</p>` : ""}</header>`;
+  }
+  function renderTodayBanner(settings, messages, todayKey) {
+    if (!settings.highlightToday) {
+      return "";
+    }
+    const weekday = formatCivilDate(todayKey, settings.locale, { weekday: "long" });
+    const date = formatCivilDate(todayKey, settings.locale, { month: "long", day: "numeric" });
+    return `<section class="pp-cal-today" style="--pp-cal-highlight-scale:${escapeHtml(
+      settings.highlightScale
+    )}"><span class="pp-cal-today-label">${escapeHtml(
+      messages.today
+    )}</span><span class="pp-cal-today-weekday">${escapeHtml(
+      weekday
+    )}</span><time datetime="${escapeHtml(todayKey)}">${escapeHtml(date)}</time></section>`;
+  }
+  function renderCalendarLayout(options) {
+    const target = resolveTarget2(options.target);
+    const settings = normalizeCalendarSettings(options.settings);
+    const messages = { ...DEFAULT_CALENDAR_MESSAGES, ...options.messages };
+    const now = normalizeNow(options.now);
+    const range = buildCalendarRange(settings, now);
+    const events = prepareCalendarEvents(options.events || [], settings, now);
+    const todayKey = dateKeyFromDate(now, settings.timeZone);
+    const aliases = options.iconAliases || {};
+    target.classList.add("pp-screen", "pp-cal-screen");
+    target.classList.remove(...VIEW_CLASSES);
+    target.classList.add(`pp-cal--view-${settings.view}`);
+    if (options.className) {
+      target.classList.add(...options.className.split(/\s+/).filter(Boolean));
+    }
+    const content = settings.view === "year" ? renderYear(range, events, settings, todayKey) : settings.view === "week" ? renderWeek(range, events, settings, messages, aliases, todayKey) : settings.view === "day" || settings.view === "three-days" ? renderDayColumns(range, events, settings, messages, aliases, todayKey) : renderAgenda(events, settings, messages, aliases, todayKey);
+    target.innerHTML = `<section class="pp-cal-shell">${renderHeader(options.header)}${renderTodayBanner(
+      settings,
+      messages,
+      todayKey
+    )}<section class="pp-cal-body"><h1 class="pp-cal-range-title">${escapeHtml(
+      formatRangeTitle(range, settings)
+    )}</h1><div class="pp-cal-content pp-fit">${content}</div></section></section>`;
+    const shell = target.querySelector(".pp-cal-shell");
+    const body = target.querySelector(".pp-cal-content");
+    if (!shell || !body) {
+      throw new Error("Could not render calendar layout.");
+    }
+    return { target, shell, body, settings, events, range };
+  }
+  function fitCalendarLayout(layoutOrTarget, options = {}) {
+    const target = typeof layoutOrTarget === "string" || layoutOrTarget instanceof HTMLElement ? resolveTarget2(layoutOrTarget) : layoutOrTarget.target;
+    const body = target.querySelector(".pp-cal-content");
+    const view = VIEW_CLASSES.find((className) => target.classList.contains(className));
+    const defaults = view === "pp-cal--view-year" ? { min: 5, max: 12 } : view === "pp-cal--view-week" ? { min: 7, max: 14 } : { min: 9, max: 17 };
+    if (body) {
+      fitText(body, {
+        min: options.min ?? defaults.min,
+        max: options.max ?? defaults.max,
+        step: options.step ?? 0.5,
+        tolerance: options.tolerance ?? 8
+      });
+    }
+    if (options.fitScreen !== false) {
+      fitToScreen(target, { padding: options.screenPadding ?? 0 });
+    }
+  }
+  function waitForCalendarImages(layoutOrRoot, timeoutMs = 5e3) {
+    const root = typeof layoutOrRoot === "string" || layoutOrRoot instanceof HTMLElement ? resolveTarget2(layoutOrRoot) : layoutOrRoot.target;
+    const images = Array.from(root.querySelectorAll(".pp-cal-event-image"));
+    const pending = images.filter((image) => !image.complete);
+    if (!pending.length) {
+      return Promise.resolve();
+    }
+    return new Promise((resolve) => {
+      let remaining = pending.length;
+      const timeout = window.setTimeout(resolve, timeoutMs);
+      const settle = () => {
+        remaining -= 1;
+        if (remaining <= 0) {
+          window.clearTimeout(timeout);
+          resolve();
+        }
+      };
+      for (const image of pending) {
+        image.addEventListener("load", settle, { once: true });
+        image.addEventListener("error", settle, { once: true });
+      }
+    });
+  }
+
+  // src/calendarIntegration.ts
   function isRecord4(value) {
+    return Boolean(value) && typeof value === "object" && !Array.isArray(value);
+  }
+  function stringValue(value) {
+    return typeof value === "string" ? value.trim() : "";
+  }
+  function booleanValue(value, fallback) {
+    if (value === void 0 || value === null || value === "") {
+      return fallback;
+    }
+    if (typeof value === "string") {
+      return !["false", "0", "off", "no"].includes(value.toLowerCase());
+    }
+    return Boolean(value);
+  }
+  function renderNow(settings) {
+    const value = new Date(String(settings.now || ""));
+    return Number.isNaN(value.getTime()) ? /* @__PURE__ */ new Date() : value;
+  }
+  function calendarMessages(messages) {
+    const result = {};
+    for (const key of ["allDay", "empty", "moreEvents", "today", "untitled"]) {
+      const value = stringValue(messages[key]);
+      if (value) {
+        result[key] = value;
+      }
+    }
+    return result;
+  }
+  function responseEvents(data) {
+    return Array.isArray(data.events) ? data.events.filter(
+      (event) => isRecord4(event) && isRecord4(event.start)
+    ) : [];
+  }
+  async function fetchCalendarData(apiPath, settings, fetchImplementation) {
+    const url = new URL(apiPath, window.location.href);
+    if (url.origin !== window.location.origin) {
+      throw new Error("Calendar API path must be same-origin.");
+    }
+    const response = await fetchImplementation(url, {
+      method: "POST",
+      cache: "no-store",
+      credentials: "same-origin",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(settings)
+    });
+    const value = await response.json().catch(() => ({}));
+    if (!response.ok) {
+      const message = isRecord4(value) ? stringValue(value.error) : "";
+      throw new Error(message || `Calendar request failed with ${response.status}`);
+    }
+    if (!isRecord4(value)) {
+      throw new Error("Calendar API returned an unexpected response.");
+    }
+    return value;
+  }
+  function defaultHeader(context, fallbackTitle) {
+    if (!booleanValue(context.mergedSettings.showHeader, true)) {
+      return void 0;
+    }
+    const calendarName = stringValue(context.data.calendarName);
+    const title = stringValue(context.mergedSettings.title) || calendarName || fallbackTitle;
+    const source = context.data.sample ? stringValue(context.messages.sampleSource) : stringValue(context.data.source) || fallbackTitle;
+    return {
+      kicker: calendarName && calendarName !== title ? calendarName : "",
+      title,
+      source
+    };
+  }
+  function renderCalendarError(target, title, error) {
+    const element = target instanceof HTMLElement ? target : typeof target === "string" ? document.querySelector(target) : document.querySelector("#app");
+    if (!element) {
+      return;
+    }
+    const section = document.createElement("section");
+    section.className = "pp-error";
+    const heading = document.createElement("h1");
+    heading.textContent = title;
+    const detail = document.createElement("p");
+    detail.textContent = error instanceof Error ? error.message : String(error);
+    section.append(heading, detail);
+    element.replaceChildren(section);
+  }
+  function bootCalendarApiIntegration(options) {
+    const apiPath = options.apiPath ?? "./api/data";
+    const fallbackTitle = options.fallbackTitle ?? document.title ?? "Calendar";
+    const fetchImplementation = options.fetch ?? fetch;
+    const defaultTheme = normalizeColorTheme(stringValue(options.defaults.color) || "light");
+    let revision = 0;
+    const renderPayload = async (payload) => {
+      const currentRevision = ++revision;
+      let messages = {};
+      try {
+        markLoading();
+        const languageResult = await loadLanguageJson(payload);
+        if (currentRevision !== revision) {
+          return;
+        }
+        messages = languageResult.messages;
+        document.documentElement.lang = languageResult.language;
+        const overrides = mergeSettings(getSettings(payload), getQuerySettings());
+        const mergedSettings = mergeSettings(options.defaults, overrides);
+        applyColorTheme(stringValue(mergedSettings.color), { defaultTheme });
+        const settings = normalizeCalendarSettings(overrides, options.defaults);
+        const now = renderNow(mergedSettings);
+        const range = buildCalendarRange(settings, now);
+        const requestContext = {
+          mergedSettings,
+          messages,
+          payload,
+          range,
+          settings
+        };
+        const request = options.buildRequest?.(requestContext) ?? {
+          ...mergedSettings,
+          ...settings,
+          rangeStart: range.startKey,
+          rangeEndExclusive: range.endKey
+        };
+        const data = await fetchCalendarData(apiPath, request, fetchImplementation);
+        if (currentRevision !== revision) {
+          return;
+        }
+        const context = {
+          ...requestContext,
+          data
+        };
+        const events = options.mapEvents?.(context) ?? responseEvents(data);
+        const header = options.resolveHeader ? options.resolveHeader(context) : defaultHeader(context, fallbackTitle);
+        const layout = renderCalendarLayout({
+          target: options.target ?? "#app",
+          events,
+          settings,
+          messages: {
+            ...calendarMessages(messages),
+            ...options.resolveMessages?.(context) ?? {}
+          },
+          now,
+          header
+        });
+        await document.fonts?.ready;
+        await waitForCalendarImages(layout);
+        if (currentRevision !== revision) {
+          return;
+        }
+        fitCalendarLayout(layout);
+        markReady();
+      } catch (error) {
+        if (currentRevision === revision) {
+          renderCalendarError(
+            options.target,
+            stringValue(messages.errorTitle) || `${fallbackTitle} unavailable`,
+            error
+          );
+          markError(error);
+        }
+      }
+    };
+    return waitForPayload({
+      timeoutMs: options.timeoutMs ?? 500,
+      fallback: {},
+      onUpdate: renderPayload
+    }).then(renderPayload);
+  }
+
+  // src/manifest.ts
+  function isRecord5(value) {
     return Boolean(value) && typeof value === "object" && !Array.isArray(value);
   }
   function isHttpUrl(value) {
@@ -1075,10 +1832,18 @@ var PaperlessOpenIntegration = (() => {
   function isLanguageCode2(value) {
     return typeof value === "string" && /^[A-Za-z]{2,3}(?:-[A-Za-z0-9]{2,8})*$/.test(value.trim());
   }
+  function isTimeZone(value) {
+    try {
+      new Intl.DateTimeFormat("en-US", { timeZone: value }).format();
+      return true;
+    } catch {
+      return false;
+    }
+  }
   function validateConfig(config) {
     const errors = [];
     const warnings = [];
-    if (!isRecord4(config)) {
+    if (!isRecord5(config)) {
       return {
         valid: false,
         errors: ["config must be an object"],
@@ -1100,10 +1865,13 @@ var PaperlessOpenIntegration = (() => {
     if ("language" in config && (!Array.isArray(config.language) || config.language.some((language) => !isLanguageCode2(language)))) {
       errors.push("language must be an array of non-empty language codes");
     }
-    if ("nativeSettings" in config && !isRecord4(config.nativeSettings)) {
+    if ("timezone" in config && (typeof config.timezone !== "string" || config.timezone.trim() === "" || !isTimeZone(config.timezone))) {
+      errors.push("timezone must be a valid IANA timezone");
+    }
+    if ("nativeSettings" in config && !isRecord5(config.nativeSettings)) {
       errors.push("nativeSettings must be an object");
     }
-    if ("formSchema" in config && !isRecord4(config.formSchema)) {
+    if ("formSchema" in config && !isRecord5(config.formSchema)) {
       errors.push("formSchema must be an object");
     }
     if (!("description" in config)) {

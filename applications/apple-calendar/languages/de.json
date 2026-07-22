@@ -1,0 +1,11 @@
+{
+  "allDay": "Ganztägig",
+  "empty": "Keine Termine in diesem Zeitraum",
+  "errorTitle": "Apple Kalender nicht verfügbar",
+  "kicker": "Öffentlicher iCloud-Kalender",
+  "moreEvents": "+{count} weitere",
+  "sampleSource": "Beispieldaten",
+  "source": "Apple",
+  "today": "Heute",
+  "untitled": "Termin ohne Titel"
+}

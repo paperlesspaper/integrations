@@ -1,21 +1,22 @@
 {
   "name": "Google Calendar",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "status": "alpha",
-  "description": "Displays upcoming Google Calendar events from host-provided calendar data.",
+  "description": "Displays Google Calendar events supplied by the paperlesspaper host.",
   "renderPage": "./render.html",
   "icon": "./assets/icon.png",
-  "requiredPermissions": [
-    "googleCalendar"
-  ],
+  "timezone": "Europe/Berlin",
+  "requiredPermissions": ["googleCalendar"],
   "nativeSettings": {
     "color": "light",
     "view": "agenda",
-    "language": "de-DE",
+    "locale": "de-DE",
+    "timeZone": "Europe/Berlin",
     "dayRange": 3,
     "maxEvents": 50,
     "highlightToday": false,
     "highlightScale": 1.35,
+    "showLocation": true,
     "showEventIcons": true,
     "showEventImages": false
   },
@@ -23,10 +24,16 @@
     {
       "color": "light",
       "view": "agenda",
-      "language": "de-DE",
+      "locale": "de-DE",
+      "timeZone": "Europe/Berlin",
       "dayRange": 3,
       "maxEvents": 8,
       "highlightToday": false,
+      "showLocation": true,
+      "showEventIcons": true,
+      "showEventImages": false,
+      "sampleData": true,
+      "now": "2026-07-22T08:00:00.000Z",
       "screenshots": {
         "800x480": "./screenshots/google-calendar-light-800x480-landscape.png",
         "480x800": "./screenshots/google-calendar-light-480x800-portrait.png"
@@ -35,11 +42,17 @@
     {
       "color": "red-light",
       "view": "week",
-      "language": "en-US",
+      "locale": "en-US",
+      "timeZone": "Europe/Berlin",
       "dayRange": 7,
       "maxEvents": 10,
       "highlightToday": true,
       "highlightScale": 1.35,
+      "showLocation": true,
+      "showEventIcons": true,
+      "showEventImages": false,
+      "sampleData": true,
+      "now": "2026-07-22T08:00:00.000Z",
       "screenshots": {
         "800x480": "./screenshots/google-calendar-highlight-800x480-landscape.png",
         "480x800": "./screenshots/google-calendar-highlight-480x800-portrait.png"
@@ -52,43 +65,32 @@
       "view": {
         "type": "string",
         "title": "View",
-        "enum": [
-          "agenda",
-          "day",
-          "three-days",
-          "week",
-          "year"
-        ],
-        "enumNames": [
-          "Agenda",
-          "Day",
-          "3 Days",
-          "Week",
-          "Year"
-        ],
+        "enum": ["agenda", "day", "three-days", "week", "year"],
+        "enumNames": ["Agenda", "Day", "3 Days", "Week", "Year"],
         "default": "agenda"
       },
-      "language": {
+      "locale": {
         "type": "string",
-        "title": "Language",
-        "enum": [
-          "de-DE",
-          "en-US",
-          "en",
-          "de"
-        ],
+        "title": "Date locale",
+        "description": "BCP 47 locale, for example de-DE or en-US.",
         "default": "de-DE"
       },
+      "timeZone": {
+        "type": "string",
+        "title": "Time zone",
+        "description": "IANA time zone, for example Europe/Berlin.",
+        "default": "Europe/Berlin"
+      },
       "dayRange": {
-        "type": "number",
-        "title": "Day range",
+        "type": "integer",
+        "title": "Agenda day range",
         "minimum": 1,
-        "maximum": 100,
+        "maximum": 366,
         "default": 3
       },
       "maxEvents": {
-        "type": "number",
-        "title": "Max events",
+        "type": "integer",
+        "title": "Maximum events",
         "minimum": 1,
         "maximum": 200,
         "default": 50
@@ -100,10 +102,16 @@
       },
       "highlightScale": {
         "type": "number",
-        "title": "Highlight scale",
+        "title": "Today highlight scale",
         "minimum": 1,
         "maximum": 3,
+        "step": 0.05,
         "default": 1.35
+      },
+      "showLocation": {
+        "type": "boolean",
+        "title": "Show locations",
+        "default": true
       },
       "showEventIcons": {
         "type": "boolean",
@@ -117,8 +125,5 @@
       }
     }
   },
-  "language": [
-    "en",
-    "de"
-  ]
+  "language": ["en", "de"]
 }

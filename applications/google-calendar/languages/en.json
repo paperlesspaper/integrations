@@ -4,5 +4,6 @@
   "errorTitle": "Google Calendar could not load",
   "loading": "Loading calendar...",
   "moreEvents": "+{count} more",
+  "today": "Today",
   "untitled": "Untitled event"
 }

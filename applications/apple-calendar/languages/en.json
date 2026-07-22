@@ -1,0 +1,11 @@
+{
+  "allDay": "All day",
+  "empty": "No events in this period",
+  "errorTitle": "Apple Calendar unavailable",
+  "kicker": "iCloud public calendar",
+  "moreEvents": "+{count} more",
+  "sampleSource": "Sample data",
+  "source": "Apple",
+  "today": "Today",
+  "untitled": "Untitled event"
+}

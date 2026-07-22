@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="paperless:epd-optimize" content='{"intent":"readable"}' />
+    <title>Nextcloud Calendar</title>
+    <link rel="stylesheet" href="/assets/paperless.css" />
+    <script src="/assets/paperless.iife.js"></script>
+  </head>
+  <body>
+    <div id="website-has-loading-element"></div>
+    <main id="app" aria-live="polite"></main>
+
+    <script>
+      (() => {
+        const { bootCalendarApiIntegration } = window.PaperlessOpenIntegration;
+        const defaults = {
+          color: "light",
+          serverUrl: "",
+          username: "",
+          appPassword: "",
+          calendarName: "",
+          calendarPath: "",
+          view: "agenda",
+          locale: "en-GB",
+          timeZone: "Europe/Berlin",
+          dayRange: 14,
+          maxEvents: 20,
+          highlightToday: true,
+          highlightScale: 1.15,
+          showLocation: true,
+          showEventIcons: false,
+          showEventImages: false,
+        };
+        window.__paperlessRenderDone = bootCalendarApiIntegration({
+          defaults,
+          fallbackTitle: "Nextcloud Calendar",
+          buildRequest({ mergedSettings, range, settings }) {
+            return {
+              serverUrl: mergedSettings.serverUrl,
+              username: mergedSettings.username,
+              appPassword: mergedSettings.appPassword,
+              calendarName: mergedSettings.calendarName,
+              calendarPath: mergedSettings.calendarPath,
+              timeZone: settings.timeZone,
+              dayRange: settings.dayRange,
+              limit: 200,
+              rangeStart: range.startKey,
+              rangeEndExclusive: range.endKey,
+              now: mergedSettings.now,
+            };
+          },
+          resolveHeader({ data, messages }) {
+            return {
+              kicker: String(messages.kicker || "Nextcloud"),
+              title: String(messages.title || "Nextcloud Calendar"),
+              source: data.sample
+                ? String(messages.sampleSource || "Sample data")
+                : String(data.calendarName || "Nextcloud"),
+            };
+          },
+        });
+      })();
+    </script>
+  </body>
+</html>

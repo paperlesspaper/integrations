@@ -1,0 +1,12 @@
+{
+  "allDay": "Ganztägig",
+  "empty": "Keine Termine in diesem Zeitraum",
+  "moreEvents": "+{count} weitere",
+  "today": "Heute",
+  "untitled": "Termin ohne Titel",
+  "title": "Nextcloud-Kalender",
+  "kicker": "Nextcloud",
+  "loading": "Kalender wird geladen…",
+  "errorTitle": "Nextcloud-Kalender ist nicht verfügbar",
+  "sampleSource": "Beispieldaten"
+}

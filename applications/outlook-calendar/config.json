@@ -1,0 +1,177 @@
+{
+  "name": "Outlook Calendar",
+  "version": "0.1.0",
+  "status": "alpha",
+  "description": "Shows calendar events from a Microsoft 365 mailbox through Microsoft Graph.",
+  "renderPage": "./render.html",
+  "icon": "./assets/icon.png",
+  "timezone": "Europe/Berlin",
+  "nativeSettings": {
+    "color": "light",
+    "view": "agenda",
+    "locale": "en-US",
+    "timeZone": "Europe/Berlin",
+    "dayRange": 14,
+    "maxEvents": 20,
+    "highlightToday": true,
+    "highlightScale": 1.2,
+    "showLocation": true,
+    "tenantId": "",
+    "clientId": "",
+    "clientSecret": "",
+    "userId": "",
+    "calendarId": "",
+    "hidePrivate": true
+  },
+  "configVariants": [
+    {
+      "color": "light",
+      "view": "agenda",
+      "locale": "en-US",
+      "timeZone": "Europe/Berlin",
+      "dayRange": 14,
+      "maxEvents": 9,
+      "highlightToday": true,
+      "highlightScale": 1.2,
+      "showLocation": true,
+      "tenantId": "",
+      "clientId": "",
+      "clientSecret": "",
+      "userId": "",
+      "calendarId": "",
+      "hidePrivate": true,
+      "now": "2026-07-22T08:00:00.000Z",
+      "screenshots": {
+        "800x480": "./screenshots/outlook-calendar-800x480-landscape.png",
+        "480x800": "./screenshots/outlook-calendar-480x800-portrait.png"
+      }
+    },
+    {
+      "color": "blue-light",
+      "view": "week",
+      "locale": "de-DE",
+      "timeZone": "Europe/Berlin",
+      "dayRange": 7,
+      "maxEvents": 12,
+      "highlightToday": true,
+      "highlightScale": 1.35,
+      "showLocation": true,
+      "tenantId": "",
+      "clientId": "",
+      "clientSecret": "",
+      "userId": "",
+      "calendarId": "",
+      "hidePrivate": true,
+      "now": "2026-07-22T08:00:00.000Z"
+    }
+  ],
+  "formSchema": {
+    "type": "object",
+    "properties": {
+      "view": {
+        "type": "string",
+        "title": "View",
+        "enum": [
+          "agenda",
+          "day",
+          "three-days",
+          "week",
+          "year"
+        ],
+        "enumNames": [
+          "Agenda",
+          "Day",
+          "3 Days",
+          "Week",
+          "Year"
+        ],
+        "default": "agenda"
+      },
+      "locale": {
+        "type": "string",
+        "title": "Locale",
+        "description": "BCP 47 locale used for dates, for example en-US or de-DE.",
+        "default": "en-US"
+      },
+      "timeZone": {
+        "type": "string",
+        "title": "Time zone",
+        "description": "IANA time zone used to query and display the calendar, for example Europe/Berlin.",
+        "default": "Europe/Berlin"
+      },
+      "dayRange": {
+        "type": "integer",
+        "title": "Day range",
+        "description": "Number of days shown by the agenda view.",
+        "minimum": 1,
+        "maximum": 366,
+        "default": 14
+      },
+      "maxEvents": {
+        "type": "integer",
+        "title": "Maximum events",
+        "minimum": 1,
+        "maximum": 200,
+        "default": 20
+      },
+      "highlightToday": {
+        "type": "boolean",
+        "title": "Highlight today",
+        "default": true
+      },
+      "highlightScale": {
+        "type": "number",
+        "title": "Today highlight scale",
+        "minimum": 1,
+        "maximum": 3,
+        "default": 1.2
+      },
+      "showLocation": {
+        "type": "boolean",
+        "title": "Show event locations",
+        "default": true
+      },
+      "tenantId": {
+        "type": "string",
+        "title": "Microsoft Entra tenant ID",
+        "description": "Directory (tenant) ID or verified tenant domain. App-only access works with Microsoft 365 organizations, not personal Outlook.com accounts.",
+        "default": ""
+      },
+      "clientId": {
+        "type": "string",
+        "title": "Application client ID",
+        "description": "Application (client) ID from the Microsoft Entra app registration.",
+        "default": ""
+      },
+      "clientSecret": {
+        "type": "string",
+        "title": "Application client secret",
+        "description": "Client secret value from the Microsoft Entra app registration.",
+        "format": "password",
+        "default": ""
+      },
+      "userId": {
+        "type": "string",
+        "title": "Mailbox user",
+        "description": "User principal name or Microsoft Graph user ID of the mailbox, for example alex@example.com.",
+        "default": ""
+      },
+      "calendarId": {
+        "type": "string",
+        "title": "Calendar ID",
+        "description": "Optional Microsoft Graph calendar ID. Leave blank to use the mailbox's default calendar.",
+        "default": ""
+      },
+      "hidePrivate": {
+        "type": "boolean",
+        "title": "Hide private event titles",
+        "description": "Replace the title and location of private and confidential events.",
+        "default": true
+      }
+    }
+  },
+  "language": [
+    "en",
+    "de"
+  ]
+}
