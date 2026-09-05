@@ -466,6 +466,146 @@
           grid-template-columns: repeat(2, minmax(0, 1fr));
         }
       }
+
+      @media (min-width: 900px) and (min-height: 900px) {
+        .kuma-screen {
+          padding: 30px 34px 26px;
+          gap: 18px;
+        }
+
+        .kuma-topbar {
+          min-height: 92px;
+          gap: 28px;
+          padding-bottom: 16px;
+          border-bottom-width: 6px;
+        }
+
+        .kuma-eyebrow,
+        .kuma-side-title,
+        .kuma-count-label {
+          font-size: 1rem;
+        }
+
+        .kuma-page {
+          margin-top: 8px;
+          font-size: 1.45rem;
+        }
+
+        .kuma-counts {
+          min-width: min(45vw, 540px);
+          gap: 12px;
+        }
+
+        .kuma-count {
+          min-height: 76px;
+          padding: 10px 13px;
+          border-width: 3px;
+        }
+
+        .kuma-count-value {
+          margin-top: 5px;
+          font-size: 2.45rem;
+        }
+
+        .kuma-layout,
+        .kuma-side {
+          gap: 18px;
+        }
+
+        .kuma-side-section {
+          gap: 13px;
+          padding: 18px;
+          border-width: 3px;
+        }
+
+        .kuma-side-items {
+          gap: 13px;
+        }
+
+        .kuma-side-item {
+          padding-top: 11px;
+          border-top-width: 2px;
+        }
+
+        .kuma-side-name {
+          font-size: 1.25rem;
+        }
+
+        .kuma-side-meta,
+        .kuma-updated {
+          font-size: 0.98rem;
+        }
+      }
+
+      .kuma-single .kuma-monitor {
+        grid-template-columns: minmax(0, 1.2fr) minmax(190px, 0.8fr);
+        gap: clamp(18px, 3vmin, 42px);
+        padding: clamp(20px, 3.2vmin, 48px);
+        border-width: clamp(3px, 0.35vmin, 6px);
+        border-left-width: clamp(10px, 1.1vmin, 18px);
+      }
+
+      .kuma-single .kuma-monitor-main,
+      .kuma-single .kuma-monitor-metrics {
+        gap: clamp(12px, 2vmin, 28px);
+      }
+
+      .kuma-single .kuma-monitor-title-row {
+        gap: clamp(12px, 2vmin, 26px);
+      }
+
+      .kuma-single .kuma-monitor-name {
+        overflow: visible;
+        text-overflow: clip;
+        white-space: normal;
+        font-size: clamp(2.25rem, 7.5vmin, 6.5rem);
+        line-height: 0.92;
+      }
+
+      .kuma-single .kuma-monitor-state {
+        font-size: clamp(0.95rem, 1.8vmin, 1.65rem);
+      }
+
+      .kuma-single .kuma-monitor-meta {
+        overflow: visible;
+        text-overflow: clip;
+        white-space: normal;
+        font-size: clamp(0.92rem, 1.7vmin, 1.55rem);
+        line-height: 1.15;
+      }
+
+      .kuma-single .kuma-beats {
+        gap: clamp(2px, 0.3vmin, 5px);
+        height: clamp(22px, 3.4vmin, 46px);
+      }
+
+      .kuma-single .kuma-uptime {
+        width: 100%;
+        font-size: clamp(4rem, 18vmin, 13rem);
+        line-height: 0.82;
+      }
+
+      .kuma-single .kuma-ping {
+        font-size: clamp(1rem, 2vmin, 1.7rem);
+      }
+
+      @media (orientation: portrait) {
+        .kuma-single .kuma-monitor {
+          grid-template-columns: 1fr;
+          grid-template-rows: minmax(0, 1fr) auto;
+        }
+
+        .kuma-single .kuma-monitor-metrics {
+          justify-items: start;
+          text-align: left;
+        }
+      }
+
+      @media (min-width: 900px) and (min-height: 900px) and (orientation: portrait) {
+        .kuma-side-section {
+          max-height: 210px;
+        }
+      }
     </style>
   </head>
   <body>
@@ -688,7 +828,7 @@
                 ${beats}
               </div>
               <div class="kuma-monitor-metrics">
-                <p class="kuma-uptime">${escapeHtml(formatUptime(monitor.uptime24))}</p>
+                <p class="kuma-uptime pp-fit-uptime">${escapeHtml(formatUptime(monitor.uptime24))}</p>
                 ${ping}
               </div>
             </article>
@@ -770,6 +910,7 @@
             .filter((className) => className.startsWith("kuma-status-"))
             .forEach((className) => app.classList.remove(className));
           app.classList.add(`kuma-status-${data.status.key}`);
+          app.classList.toggle("kuma-single", monitors.length === 1);
           list.className = "kuma-list";
           document.getElementById("status-label").innerHTML =
             `<span class="kuma-status-mark"></span>${escapeHtml(data.status.label)}`;
@@ -800,7 +941,18 @@
             `${t("updated")} ${formatDate(data.updatedAt)} ${t("from")} ${data.source}`;
 
           await document.fonts?.ready;
-          fitAllText(".pp-fit-title", { min: 24, max: 58, step: 2 });
+          const largeFrame = Math.min(window.innerWidth, window.innerHeight) >= 900;
+          fitAllText(".pp-fit-title", { min: 24, max: largeFrame ? 96 : 58, step: 2 });
+          if (monitors.length === 1) {
+            fitAllText(".pp-fit-uptime", {
+              min: 56,
+              max: largeFrame ? 240 : 140,
+              step: 2,
+              tolerance: 4,
+              nowrap: true,
+              fitParent: true,
+            });
+          }
           fitToScreen();
           markReady({ status: data.status.key, monitors: monitors.length });
         } catch (error) {

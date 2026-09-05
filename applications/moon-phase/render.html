@@ -70,17 +70,18 @@
         display: grid;
         grid-template-columns: minmax(0, 0.94fr) minmax(0, 1.06fr);
         gap: 24px;
-        align-items: center;
+        align-items: stretch;
       }
 
       .moon-visual-wrap {
         min-width: 0;
+        min-height: 0;
         display: grid;
         place-items: center;
       }
 
       .moon-visual {
-        width: min(100%, 340px, 61vh);
+        width: min(100%, 620px, 58vh);
         aspect-ratio: 1;
         display: block;
       }
@@ -176,12 +177,13 @@
 
         .moon-layout {
           grid-template-columns: 1fr;
+          grid-template-rows: minmax(0, 1fr) auto;
           gap: 18px;
-          align-content: center;
+          align-content: stretch;
         }
 
         .moon-visual {
-          width: min(100%, 330px, 43vh);
+          width: min(100%, 720px, 48vh);
         }
 
         .moon-info {
@@ -259,6 +261,72 @@
 
         .moon-next-value {
           font-size: 1.1rem;
+        }
+      }
+
+      @media (min-width: 900px) and (min-height: 900px) {
+        .moon-screen {
+          padding: 36px;
+          gap: 24px;
+        }
+
+        .moon-header {
+          gap: 28px;
+          padding-bottom: 20px;
+          border-bottom-width: 5px;
+        }
+
+        .moon-date {
+          margin-top: 12px;
+          font-size: 1.25rem;
+        }
+
+        .moon-badge {
+          min-width: 210px;
+          padding: 15px 18px;
+          border-width: 4px;
+        }
+
+        .moon-badge-label,
+        .moon-detail-label,
+        .moon-next-label {
+          font-size: 1rem;
+        }
+
+        .moon-badge-value {
+          font-size: 3.1rem;
+        }
+
+        .moon-layout {
+          gap: 38px;
+        }
+
+        .moon-info {
+          gap: 22px;
+        }
+
+        .moon-details {
+          border-top-width: 3px;
+          border-left-width: 3px;
+        }
+
+        .moon-detail {
+          padding: 18px 16px;
+          border-right-width: 3px;
+          border-bottom-width: 3px;
+        }
+
+        .moon-detail-value {
+          font-size: 1.85rem;
+        }
+
+        .moon-next {
+          padding: 19px 22px;
+          border-width: 4px;
+        }
+
+        .moon-next-value {
+          font-size: 2rem;
         }
       }
     </style>
@@ -558,13 +626,24 @@
 
           document.getElementById("details").classList.toggle("is-hidden", !asBoolean(settings.showDetails));
           document.getElementById("nextPhase").classList.toggle("is-hidden", !asBoolean(settings.showNextPhase));
-          drawMoon(document.getElementById("moonCanvas"), moon.phase, hemisphere);
+          const moonCanvas = document.getElementById("moonCanvas");
+          const canvasSize = Math.max(360, Math.round(moonCanvas.getBoundingClientRect().width));
+          moonCanvas.width = canvasSize;
+          moonCanvas.height = canvasSize;
+          drawMoon(moonCanvas, moon.phase, hemisphere);
 
           await document.fonts?.ready;
+          const largeFrame = Math.min(window.innerWidth, window.innerHeight) >= 900;
+          fitHyphenatedText(document.getElementById("title"), {
+            min: 30,
+            max: largeFrame ? 120 : 70,
+            step: 2,
+            tolerance: 8,
+          });
           fitHyphenatedText(document.getElementById("phaseName"), {
             min: 26,
-            max: 92,
-            step: 1,
+            max: largeFrame ? 180 : 92,
+            step: 2,
             tolerance: 8,
             lineBreak: "balance",
           });

@@ -29,5 +29,6 @@
   "signature": "Signature",
   "errorTitle": "Train could not load",
   "imageFailed": "Train image could not load.",
-  "listFailed": "Train list could not load."
+  "listFailed": "Train list could not load.",
+  "factsShown": "{shown} of {total} facts"
 }

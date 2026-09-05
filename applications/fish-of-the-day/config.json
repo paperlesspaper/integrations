@@ -15,7 +15,11 @@
     "showDiet": true,
     "showFossilLocation": true,
     "showNameMeaning": true,
-    "showSource": false
+    "showSource": false,
+    "textSize": "middle",
+    "showHeader": true,
+    "showFactCount": false,
+    "showRotationCount": false
   },
   "configVariants": [
     {
@@ -28,7 +32,17 @@
       "showDiet": true,
       "showFossilLocation": true,
       "showNameMeaning": true,
-      "showSource": false
+      "showSource": false,
+      "textSize": "middle",
+      "showHeader": true,
+      "screenshots": {
+        "800x480": "./screenshots/fish-of-the-day-default-800x480-landscape.png",
+        "480x800": "./screenshots/fish-of-the-day-default-480x800-portrait.png",
+        "1600x1200": "./screenshots/fish-of-the-day-default-1600x1200-landscape.png",
+        "1200x1600": "./screenshots/fish-of-the-day-default-1200x1600-portrait.png"
+      },
+      "showFactCount": false,
+      "showRotationCount": false
     },
     {
       "color": "dark",
@@ -40,7 +54,17 @@
       "showDiet": true,
       "showFossilLocation": true,
       "showNameMeaning": true,
-      "showSource": true
+      "showSource": true,
+      "textSize": "middle",
+      "showHeader": true,
+      "screenshots": {
+        "800x480": "./screenshots/fish-of-the-day-dunkleosteus-800x480-landscape.png",
+        "480x800": "./screenshots/fish-of-the-day-dunkleosteus-480x800-portrait.png",
+        "1600x1200": "./screenshots/fish-of-the-day-dunkleosteus-1600x1200-landscape.png",
+        "1200x1600": "./screenshots/fish-of-the-day-dunkleosteus-1200x1600-portrait.png"
+      },
+      "showFactCount": false,
+      "showRotationCount": false
     }
   ],
   "formSchema": {
@@ -99,6 +123,34 @@
       "showSource": {
         "type": "boolean",
         "title": "Show source",
+        "default": false
+      },
+      "textSize": {
+        "type": "string",
+        "title": "Text size",
+        "enum": [
+          "small",
+          "middle",
+          "big"
+        ],
+        "default": "middle",
+        "description": "Larger text shows fewer facts when needed to keep the full image visible."
+      },
+      "showHeader": {
+        "type": "boolean",
+        "title": "Show header",
+        "default": true
+      },
+      "showFactCount": {
+        "type": "boolean",
+        "title": "Show fact count",
+        "description": "Show how many selected facts fit on the display. Hidden when all facts fit.",
+        "default": false
+      },
+      "showRotationCount": {
+        "type": "boolean",
+        "title": "Show rotation count",
+        "description": "Show the number of items in the current rotation. Requires the header to be enabled.",
         "default": false
       }
     }

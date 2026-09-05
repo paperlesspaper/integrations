@@ -1,5 +1,5 @@
 export type OfTheDayTextSize = "small" | "middle" | "big";
-export type OfTheDayLayoutMode = "default" | "facts-left-landscape";
+export type OfTheDayLayoutMode = "auto" | "default" | "facts-left-landscape";
 export interface OfTheDayFact {
     label: unknown;
     value?: unknown;
@@ -27,6 +27,8 @@ export interface RenderOfTheDayLayoutOptions {
     layout?: OfTheDayLayoutMode;
     textSize?: OfTheDayTextSize | string;
     showHeader?: boolean;
+    /** Opt in to the count when selected facts do not all fit. Defaults to false. */
+    showFactCount?: boolean;
     kicker?: unknown;
     title: unknown;
     subtitle?: unknown;
@@ -35,6 +37,8 @@ export interface RenderOfTheDayLayoutOptions {
     facts?: OfTheDayFact[];
     meta?: OfTheDayMetaItem[];
     emptyValue?: string;
+    /** Localized template. Requires showFactCount and an incomplete fact selection. */
+    factsShown?: string;
     customProperties?: Record<string, string | number | undefined>;
 }
 export interface OfTheDayLayoutElements {
@@ -56,10 +60,17 @@ export interface FitOfTheDayLayoutOptions {
     titleMax?: number;
     signatureMin?: number;
     signatureMax?: number;
+    /** Kept for compatibility; this layout no longer scales the whole screen. */
     fitScreen?: boolean;
     screenPadding?: number;
 }
+export interface OfTheDayFitReport {
+    selectedFacts: number;
+    visibleFacts: number;
+    layout: "side" | "stack";
+    hasOverflow: boolean;
+}
 export declare function renderOfTheDayLayout(options: RenderOfTheDayLayoutOptions): OfTheDayLayoutElements;
-export declare function fitOfTheDayLayout(layout: OfTheDayLayoutElements | HTMLElement | string, options?: FitOfTheDayLayoutOptions): void;
+export declare function fitOfTheDayLayout(layout: OfTheDayLayoutElements | HTMLElement | string, options?: FitOfTheDayLayoutOptions): OfTheDayFitReport;
 export declare function waitForOfTheDayImage(layoutOrImage: OfTheDayLayoutElements | HTMLImageElement): Promise<void>;
 //# sourceMappingURL=ofTheDay.d.ts.map

@@ -1,0 +1,84 @@
+{
+  "name": "Rocket Launches",
+  "version": "0.1.0",
+  "status": "alpha",
+  "description": "Upcoming launches and schedule status from Launch Library 2.",
+  "renderPage": "./render.html",
+  "icon": "./assets/icon.png",
+  "timezone": "Europe/Berlin",
+  "language": [
+    "de",
+    "en"
+  ],
+  "nativeSettings": {
+    "color": "blue-light",
+    "title": "",
+    "sampleData": false,
+    "search": "",
+    "limit": 4,
+    "timeZone": "Europe/Berlin"
+  },
+  "formSchema": {
+    "type": "object",
+    "properties": {
+      "title": {
+        "type": "string",
+        "default": "",
+        "title": "Display title",
+        "maxLength": 80
+      },
+      "sampleData": {
+        "type": "boolean",
+        "default": false,
+        "title": "Use clearly labelled demo data"
+      },
+      "search": {
+        "type": "string",
+        "default": "",
+        "title": "Rocket or mission search"
+      },
+      "limit": {
+        "type": "number",
+        "default": 4,
+        "title": "Launch limit",
+        "minimum": 1,
+        "maximum": 8
+      },
+      "timeZone": {
+        "type": "string",
+        "default": "Europe/Berlin",
+        "title": "Display timezone"
+      }
+    }
+  },
+  "configVariants": [
+    {
+      "color": "blue-light",
+      "title": "",
+      "sampleData": true,
+      "search": "",
+      "limit": 4,
+      "timeZone": "Europe/Berlin",
+      "screenshots": {
+        "800x480": "./screenshots/rocket-launches-default-800x480.png",
+        "480x800": "./screenshots/rocket-launches-default-480x800.png",
+        "1600x1200": "./screenshots/rocket-launches-default-1600x1200.png",
+        "1200x1600": "./screenshots/rocket-launches-default-1200x1600.png"
+      }
+    },
+    {
+      "color": "dark",
+      "title": "",
+      "sampleData": true,
+      "search": "",
+      "limit": 4,
+      "timeZone": "Europe/Berlin",
+      "screenshots": {
+        "800x480": "./screenshots/rocket-launches-dark-800x480.png",
+        "480x800": "./screenshots/rocket-launches-dark-480x800.png",
+        "1600x1200": "./screenshots/rocket-launches-dark-1600x1200.png",
+        "1200x1600": "./screenshots/rocket-launches-dark-1200x1600.png"
+      }
+    }
+  ]
+}

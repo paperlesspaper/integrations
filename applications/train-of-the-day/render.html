@@ -8,387 +8,22 @@
     <link rel="stylesheet" href="/assets/paperless.css" />
     <script src="/assets/paperless.iife.js"></script>
     <script src="./data/trains.js"></script>
-    <style>
-      .train-screen {
-        padding: 0;
-        gap: 0;
-      }
-
-      .train-shell {
-        width: 100%;
-        height: 100%;
-        min-height: 0;
-        display: grid;
-        grid-template-rows: auto minmax(0, 1fr) auto;
-        background: var(--pp-bg);
-      }
-
-      .hero-header {
-        min-width: 0;
-        display: flex;
-        align-items: flex-start;
-        justify-content: space-between;
-        gap: 18px;
-        padding: 18px 22px 8px;
-      }
-
-      .label {
-        margin: 0;
-        color: var(--pp-muted);
-        font-size: 0.78rem;
-        line-height: 1.06;
-        font-weight: 820;
-        text-transform: uppercase;
-      }
-
-      .title-area {
-        min-width: 0;
-        flex: 1 1 auto;
-      }
-
-      .train-name {
-        margin: 0;
-        font-size: 4.7rem;
-        line-height: 0.9;
-        font-weight: 900;
-        letter-spacing: 0;
-        overflow-wrap: normal;
-        word-break: normal;
-        text-wrap: balance;
-      }
-
-      .nickname {
-        margin: 7px 0 0;
-        color: var(--pp-muted);
-        font-size: 1rem;
-        line-height: 1.12;
-        font-weight: 760;
-        overflow-wrap: anywhere;
-      }
-
-      .signature-line {
-        max-width: 50vw;
-        margin: 8px 0 0;
-        font-size: 0.95rem;
-        line-height: 1.12;
-        font-weight: 760;
-        overflow-wrap: anywhere;
-      }
-
-      .source-meta {
-        flex: 0 0 170px;
-        text-align: right;
-        color: var(--pp-muted);
-        font-size: 0.58rem;
-        line-height: 1.12;
-        font-weight: 780;
-        text-transform: uppercase;
-        overflow-wrap: anywhere;
-      }
-
-      .source-meta p {
-        margin: 0;
-      }
-
-      .date-line {
-        margin-bottom: 5px;
-        color: var(--pp-fg);
-        font-size: 0.76rem;
-        font-weight: 850;
-      }
-
-      .image-stage {
-        min-width: 0;
-        min-height: 0;
-        display: grid;
-        place-items: center;
-        padding: 0 0 0 18px;
-        background: #fff;
-      }
-
-      .train-image {
-        display: block;
-        width: 100%;
-        height: 100%;
-        object-fit: contain;
-        mix-blend-mode: multiply;
-        transform: translateY(-4%);
-      }
-
-      .fact-grid {
-        position: relative;
-        z-index: 1;
-        min-height: 0;
-        display: grid;
-        grid-template-columns: repeat(5, minmax(0, 1fr));
-        gap: 16px;
-        background: var(--pp-bg);
-        padding: 10px 22px 17px;
-      }
-
-      .fact-grid[data-count="1"] {
-        grid-template-columns: minmax(0, 1fr);
-      }
-
-      .fact-grid[data-count="2"] {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
-
-      .fact-grid[data-count="3"] {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-      }
-
-      .fact-grid[data-count="4"] {
-        grid-template-columns: repeat(4, minmax(0, 1fr));
-      }
-
-      .fact-grid[data-count="6"],
-      .fact-grid[data-count="7"],
-      .fact-grid[data-count="8"],
-      .fact-grid[data-count="9"],
-      .fact-grid[data-count="10"],
-      .fact-grid[data-count="11"],
-      .fact-grid[data-count="12"] {
-        grid-template-columns: repeat(6, minmax(0, 1fr));
-      }
-
-      .fact-grid[data-count="13"],
-      .fact-grid[data-count="14"],
-      .fact-grid[data-count="15"],
-      .fact-grid[data-count="16"],
-      .fact-grid[data-count="17"],
-      .fact-grid[data-count="18"],
-      .fact-grid[data-count="19"] {
-        grid-template-columns: repeat(7, minmax(0, 1fr));
-        gap: 9px 12px;
-      }
-
-      .fact-grid[data-count="13"] .label,
-      .fact-grid[data-count="14"] .label,
-      .fact-grid[data-count="15"] .label,
-      .fact-grid[data-count="16"] .label,
-      .fact-grid[data-count="17"] .label,
-      .fact-grid[data-count="18"] .label,
-      .fact-grid[data-count="19"] .label {
-        font-size: 0.56rem;
-      }
-
-      .fact-grid[data-count="13"] .value,
-      .fact-grid[data-count="14"] .value,
-      .fact-grid[data-count="15"] .value,
-      .fact-grid[data-count="16"] .value,
-      .fact-grid[data-count="17"] .value,
-      .fact-grid[data-count="18"] .value,
-      .fact-grid[data-count="19"] .value {
-        font-size: 0.8rem;
-        line-height: 1.02;
-      }
-
-      .fact {
-        min-width: 0;
-        min-height: 0;
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-start;
-        gap: 4px;
-        padding: 0;
-        border: 0;
-        background: transparent;
-        overflow: hidden;
-      }
-
-      .fact .label {
-        font-size: 0.68rem;
-      }
-
-      .value {
-        margin: 0;
-        font-size: 1.04rem;
-        line-height: 1.05;
-        font-weight: 850;
-        overflow-wrap: anywhere;
-      }
-
-      @media (min-width: 1400px) and (min-height: 1000px) {
-        .hero-header {
-          padding: 20px 28px 8px;
-        }
-
-        .nickname {
-          font-size: 1.12rem;
-        }
-
-        .signature-line {
-          font-size: 1.06rem;
-        }
-
-        .source-meta {
-          flex-basis: 190px;
-          font-size: 0.64rem;
-        }
-
-        .date-line {
-          font-size: 0.84rem;
-        }
-
-        .fact-grid {
-          gap: 18px;
-          padding: 12px 28px 19px;
-        }
-
-        .fact .label {
-          font-size: 0.72rem;
-        }
-
-        .value {
-          font-size: 1.12rem;
-        }
-      }
-
-      @media (orientation: portrait), (max-width: 700px) {
-        .train-shell {
-          grid-template-rows: auto minmax(0, 0.82fr) auto;
-        }
-
-        .hero-header {
-          padding: 15px 16px 7px;
-          gap: 12px;
-        }
-
-        .source-meta {
-          flex-basis: 130px;
-          font-size: 0.52rem;
-        }
-
-        .train-name {
-          font-size: 3.4rem;
-        }
-
-        .nickname {
-          font-size: 0.93rem;
-        }
-
-        .signature-line {
-          font-size: 0.82rem;
-        }
-
-        .date-line {
-          font-size: 0.68rem;
-        }
-
-        .image-stage {
-          padding: 0 10px 0 0;
-        }
-
-        .train-image {
-          transform: translateY(-2%);
-        }
-
-        .fact-grid {
-          grid-template-columns: repeat(2, minmax(0, 1fr));
-          gap: 12px 18px;
-          padding: 10px 16px 16px;
-        }
-
-        .fact-grid[data-count] {
-          grid-template-columns: repeat(2, minmax(0, 1fr));
-        }
-
-        .value {
-          font-size: 1.02rem;
-        }
-      }
-
-      @media (max-height: 560px) and (orientation: landscape) {
-        .hero-header {
-          padding: 11px 16px 5px;
-        }
-
-        .train-name {
-          font-size: 3.15rem;
-        }
-
-        .nickname {
-          font-size: 0.88rem;
-        }
-
-        .signature-line {
-          margin-top: 5px;
-          font-size: 0.78rem;
-        }
-
-        .source-meta {
-          flex-basis: 150px;
-          font-size: 0.52rem;
-        }
-
-        .image-stage {
-          padding: 0 0 0 16px;
-        }
-
-        .train-image {
-          transform: translateY(-7%);
-        }
-
-        .fact-grid {
-          gap: 12px;
-          padding: 7px 16px 12px;
-        }
-
-        .fact-grid[data-count="13"],
-        .fact-grid[data-count="14"],
-        .fact-grid[data-count="15"],
-        .fact-grid[data-count="16"],
-        .fact-grid[data-count="17"],
-        .fact-grid[data-count="18"],
-        .fact-grid[data-count="19"] {
-          gap: 7px 10px;
-          padding-bottom: 9px;
-        }
-
-        .value {
-          font-size: 0.86rem;
-        }
-      }
-    </style>
   </head>
   <body>
     <div id="website-has-loading-element"></div>
-    <main class="pp-screen train-screen">
-      <section class="train-shell" id="app">
-        <header class="hero-header">
-          <div class="title-area">
-            <h1 class="train-name pp-fit" id="train-name" data-i18n="loading">
-              Loading...
-            </h1>
-            <p class="nickname" id="nickname"></p>
-            <p class="signature-line pp-fit" id="signature"></p>
-          </div>
-          <div class="source-meta">
-            <p class="date-line" id="date">----</p>
-            <p id="source"></p>
-          </div>
-        </header>
-
-        <div class="image-stage">
-          <img class="train-image" id="train-image" alt="" />
-        </div>
-
-        <section class="fact-grid" id="facts"></section>
-      </section>
-    </main>
+    <main id="app"></main>
 
     <script>
       (async function render() {
         const {
           waitForPayload,
+          renderOfTheDayLayout,
+          fitOfTheDayLayout,
+          waitForOfTheDayImage,
           getSettings,
           getQuerySettings,
           mergeSettings,
           escapeHtml,
-          fitText,
-          fitHyphenatedText,
-          fitToScreen,
           markLoading,
           markReady,
           markError,
@@ -402,6 +37,7 @@
 
         const defaultMessages = {
           loading: "Loading...",
+          factsShown: "{shown} of {total} facts",
           kicker: "Train of the day",
           firstVehicle: "First vehicle",
           origin: "Origin",
@@ -445,12 +81,6 @@
           );
         }
 
-        function applyStaticMessages(root = document) {
-          root.querySelectorAll("[data-i18n]").forEach((element) => {
-            element.textContent = t(element.dataset.i18n);
-          });
-        }
-
         async function loadMessages(payload) {
           let result;
           if (typeof loadLanguageJson === "function") {
@@ -478,7 +108,6 @@
           messages = { ...defaultMessages, ...result.messages };
           currentLanguage = result.language || "en";
           document.documentElement.lang = currentLanguage;
-          applyStaticMessages();
         }
 
         async function loadTrainTranslations(language) {
@@ -584,15 +213,6 @@
           });
         }
 
-        function fact(label, value) {
-          return `
-            <article class="fact">
-              <p class="label">${escapeHtml(label)}</p>
-              <p class="value">${escapeHtml(value || "N/A")}</p>
-            </article>
-          `;
-        }
-
         function tractionLabel(value) {
           if (value === "high-speed") {
             return t("typeHighSpeed");
@@ -603,24 +223,12 @@
           return t("typeLocomotive");
         }
 
-        function waitForImage(image) {
-          if (image.complete && image.naturalWidth > 0) {
-            return Promise.resolve();
-          }
-          return new Promise((resolve, reject) => {
-            image.addEventListener("load", resolve, { once: true });
-            image.addEventListener(
-              "error",
-              () => reject(new Error(t("imageFailed"))),
-              {
-                once: true,
-              },
-            );
-          });
-        }
-
         const defaults = {
           color: "light",
+          textSize: "middle",
+          showHeader: true,
+          showFactCount: false,
+          showRotationCount: false,
           region: "europe",
           traction: "any",
           trainId: "",
@@ -663,26 +271,11 @@
             }
 
             const today = dayKey();
-            const { train: selectedTrain } = pickTrain(settings, today);
+            const { train: selectedTrain, poolSize } = pickTrain(settings, today);
             const trainTranslations = await loadTrainTranslations(currentLanguage);
             const train = applyTrainTranslation(
               selectedTrain,
               trainTranslations,
-            );
-            const image = document.getElementById("train-image");
-            image.src = train.image;
-            image.alt = train.name;
-
-            document.getElementById("date").textContent = formatDate(today);
-            document.getElementById("source").textContent = train.source;
-            document.getElementById("train-name").innerHTML = escapeHtml(
-              train.name,
-            );
-            document.getElementById("nickname").innerHTML = escapeHtml(
-              train.nickname,
-            );
-            document.getElementById("signature").innerHTML = escapeHtml(
-              train.signature,
             );
             const availableFacts = [
               { setting: "showOrigin", label: t("origin"), value: train.country },
@@ -753,39 +346,27 @@
               },
               { setting: "showRoute", label: t("route"), value: train.route },
             ];
-            const selectedFacts = availableFacts.filter(
-              (item) => settings[item.setting] !== false,
-            );
-            const visibleFacts = selectedFacts.length
-              ? selectedFacts
-              : availableFacts.slice(0, 5);
-            const factsElement = document.getElementById("facts");
-            factsElement.dataset.count = String(
-              Math.min(visibleFacts.length, 19),
-            );
-            factsElement.innerHTML = visibleFacts
-              .map((item) => fact(item.label, item.value))
-              .join("");
-
-            await Promise.all([document.fonts?.ready, waitForImage(image)]);
-            const compactLandscape =
-              window.innerWidth > window.innerHeight && window.innerHeight <= 560;
-            const roomyLandscape =
-              window.innerWidth >= 1400 && window.innerHeight >= 1000;
-            fitText(document.getElementById("train-name"), {
-              min: 30,
-              max: compactLandscape ? 58 : roomyLandscape ? 108 : 82,
-              step: 2,
-              tolerance: 6,
-              lineBreak: "balance",
+            const layout = renderOfTheDayLayout({
+              target: "#app",
+              layout: "auto",
+              textSize: settings.textSize,
+              showHeader: settings.showHeader !== false,
+              showFactCount: settings.showFactCount === true,
+              factsShown: t("factsShown", { shown: "{shown}", total: "{total}" }),
+              kicker: t("kicker"),
+              title: train.name,
+              subtitle: train.nickname,
+              signature: train.signature,
+              image: { src: train.image, alt: train.name, blendMode: "multiply" },
+              meta: [{ key: "date", value: formatDate(today) }, { key: "source", value: train.source }, { key: "rotation", value: t("selectedFrom", { count: poolSize }), visible: settings.showRotationCount === true }],
+              facts: availableFacts.map((factItem) => ({
+                label: factItem.label,
+                value: factItem.value,
+                visible: settings[factItem.setting] !== false,
+              })),
             });
-            fitHyphenatedText(document.getElementById("signature"), {
-              min: 10,
-              max: compactLandscape ? 14 : roomyLandscape ? 21 : 18,
-              step: 1,
-              lineBreak: true,
-            });
-            fitToScreen();
+            await Promise.all([document.fonts?.ready, waitForOfTheDayImage(layout)]);
+            fitOfTheDayLayout(layout, { textSize: settings.textSize });
             markReady({ train: train.id, day: today });
           } catch (error) {
             markError(error);

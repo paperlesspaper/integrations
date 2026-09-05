@@ -38,7 +38,9 @@
       "shortMonthLabel": false,
       "screenshots": {
         "800x480": "./screenshots/simple-calendar-us-regular-800x480-landscape.png",
-        "480x800": "./screenshots/simple-calendar-us-regular-480x800-portrait.png"
+        "480x800": "./screenshots/simple-calendar-us-regular-480x800-portrait.png",
+        "1600x1200": "./screenshots/simple-calendar-us-regular-1600x1200-landscape.png",
+        "1200x1600": "./screenshots/simple-calendar-us-regular-1200x1600-portrait.png"
       }
     },
     {
@@ -57,7 +59,9 @@
       "shortMonthLabel": true,
       "screenshots": {
         "800x480": "./screenshots/simple-calendar-berlin-persian-compact-800x480-landscape.png",
-        "480x800": "./screenshots/simple-calendar-berlin-persian-compact-480x800-portrait.png"
+        "480x800": "./screenshots/simple-calendar-berlin-persian-compact-480x800-portrait.png",
+        "1600x1200": "./screenshots/simple-calendar-berlin-persian-compact-1600x1200-landscape.png",
+        "1200x1600": "./screenshots/simple-calendar-berlin-persian-compact-1200x1600-portrait.png"
       }
     }
   ],
@@ -74,7 +78,20 @@
       "monthOffset": {
         "type": "integer",
         "title": "Start month",
-        "enum": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
+        "enum": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11
+        ],
         "default": 0,
         "inStettingsPage": true
       },
@@ -96,7 +113,11 @@
       "monthCount": {
         "type": "integer",
         "title": "Months",
-        "enum": [1, 2, 3],
+        "enum": [
+          1,
+          2,
+          3
+        ],
         "default": 1,
         "inStettingsPage": true
       },
@@ -156,21 +177,32 @@
       "fontFamily": {
         "type": "string",
         "title": "Font",
-        "enum": ["system", "serif", "mono"],
+        "enum": [
+          "system",
+          "serif",
+          "mono"
+        ],
         "default": "system",
         "inStettingsPage": true
       },
       "density": {
         "type": "string",
         "title": "Font size",
-        "enum": ["compact", "regular", "large"],
+        "enum": [
+          "compact",
+          "regular",
+          "large"
+        ],
         "default": "regular",
         "inStettingsPage": true
       },
       "weekdayLabels": {
         "type": "string",
         "title": "Weekday labels",
-        "enum": ["short", "full"],
+        "enum": [
+          "short",
+          "full"
+        ],
         "default": "short",
         "inStettingsPage": true
       },
@@ -188,5 +220,11 @@
       }
     }
   },
-  "language": ["en", "de", "fr", "es", "it"]
+  "language": [
+    "en",
+    "de",
+    "fr",
+    "es",
+    "it"
+  ]
 }

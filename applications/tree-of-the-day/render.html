@@ -40,6 +40,7 @@
 
         const defaultMessages = {
           loading: "Loading...",
+          factsShown: "{shown} of {total} facts",
           kicker: "Tree of the day",
           species: "Species",
           range: "Range",
@@ -238,6 +239,8 @@
               seed: "",
               textSize: "middle",
               showHeader: true,
+              showFactCount: false,
+              showRotationCount: false,
               showSpecies: true,
               showRange: true,
               showHeight: true,
@@ -264,7 +267,7 @@
             }
 
             const today = dayKey();
-            const { tree: selectedTree } = pickTree(settings, today);
+            const { tree: selectedTree, poolSize } = pickTree(settings, today);
             const treeTranslations = await loadTreeTranslations(currentLanguage);
             const tree = applyTreeTranslation(selectedTree, treeTranslations);
             const facts = [
@@ -328,9 +331,11 @@
             const layout = renderOfTheDayLayout({
               target: "#app",
               className: "tree-screen",
-              layout: "facts-left-landscape",
+              layout: "auto",
+              factsShown: t("factsShown", { shown: "{shown}", total: "{total}" }),
               textSize: settings.textSize,
               showHeader: settings.showHeader !== false,
+              showFactCount: settings.showFactCount === true,
               kicker: t("kicker"),
               title: tree.name,
               signature: tree.signature,
@@ -351,6 +356,7 @@
                   label: t("source"),
                   value: tree.source,
                 },
+                { key: "rotation", value: t("selectedFrom", { count: poolSize }), visible: settings.showRotationCount === true },
               ],
               facts,
             });

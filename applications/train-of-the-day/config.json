@@ -29,7 +29,11 @@
     "showPowerOutput": false,
     "showCapacity": false,
     "showAxleArrangement": false,
-    "showRoute": false
+    "showRoute": false,
+    "textSize": "middle",
+    "showHeader": true,
+    "showFactCount": false,
+    "showRotationCount": false
   },
   "configVariants": [
     {
@@ -59,8 +63,14 @@
       "showRoute": false,
       "screenshots": {
         "800x480": "./screenshots/train-of-the-day-europe-800x480-landscape.png",
-        "480x800": "./screenshots/train-of-the-day-europe-480x800-portrait.png"
-      }
+        "480x800": "./screenshots/train-of-the-day-europe-480x800-portrait.png",
+        "1600x1200": "./screenshots/train-of-the-day-europe-1600x1200-landscape.png",
+        "1200x1600": "./screenshots/train-of-the-day-europe-1200x1600-portrait.png"
+      },
+      "textSize": "middle",
+      "showHeader": true,
+      "showFactCount": false,
+      "showRotationCount": false
     },
     {
       "color": "dark",
@@ -89,8 +99,14 @@
       "showRoute": false,
       "screenshots": {
         "800x480": "./screenshots/train-of-the-day-frecciarossa-800x480-landscape.png",
-        "480x800": "./screenshots/train-of-the-day-frecciarossa-480x800-portrait.png"
-      }
+        "480x800": "./screenshots/train-of-the-day-frecciarossa-480x800-portrait.png",
+        "1600x1200": "./screenshots/train-of-the-day-frecciarossa-1600x1200-landscape.png",
+        "1200x1600": "./screenshots/train-of-the-day-frecciarossa-1200x1600-portrait.png"
+      },
+      "textSize": "middle",
+      "showHeader": true,
+      "showFactCount": false,
+      "showRotationCount": false
     }
   ],
   "formSchema": {
@@ -227,6 +243,34 @@
       "showRoute": {
         "type": "boolean",
         "title": "Show main route or corridor",
+        "default": false
+      },
+      "textSize": {
+        "type": "string",
+        "title": "Text size",
+        "enum": [
+          "small",
+          "middle",
+          "big"
+        ],
+        "default": "middle",
+        "description": "Larger text shows fewer facts when needed to keep the full image visible."
+      },
+      "showHeader": {
+        "type": "boolean",
+        "title": "Show header",
+        "default": true
+      },
+      "showFactCount": {
+        "type": "boolean",
+        "title": "Show fact count",
+        "description": "Show how many selected facts fit on the display. Hidden when all facts fit.",
+        "default": false
+      },
+      "showRotationCount": {
+        "type": "boolean",
+        "title": "Show rotation count",
+        "description": "Show the number of items in the current rotation. Requires the header to be enabled.",
         "default": false
       }
     }

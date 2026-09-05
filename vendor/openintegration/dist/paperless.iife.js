@@ -902,177 +902,219 @@ var PaperlessOpenIntegration = (() => {
   }
 
   // src/ofTheDay.ts
-  var TEXT_SIZES = ["small", "middle", "big"];
-  var LAYOUT_CLASSES = [
-    "pp-otd--default",
-    "pp-otd--facts-left-landscape",
-    "pp-otd--hide-header",
-    "pp-otd--no-facts",
-    "pp-otd--text-small",
-    "pp-otd--text-middle",
-    "pp-otd--text-big"
-  ];
+  var states = /* @__PURE__ */ new WeakMap();
+  var textSizes = ["small", "middle", "big"];
+  var layoutClasses = ["auto", "default", "facts-left-landscape", "side", "stack", "hide-header", "no-facts", "text-small", "text-middle", "text-big"].map((value) => `pp-otd--${value}`);
   function normalizeTextSize(value) {
-    const normalized = String(value || "middle").toLowerCase();
-    return TEXT_SIZES.includes(normalized) ? normalized : "middle";
+    const size = String(value || "middle").toLowerCase();
+    return textSizes.includes(size) ? size : "middle";
   }
   function resolveTarget(target) {
-    if (target instanceof HTMLElement) {
-      return target;
-    }
-    if (typeof target === "string") {
-      const element = document.querySelector(target);
-      if (!element) {
-        throw new Error(`Could not find of-the-day target: ${target}`);
-      }
-      return element;
-    }
-    return document.querySelector("#app") ?? document.body;
-  }
-  function classAttr(...classes) {
-    return classes.filter(Boolean).join(" ");
-  }
-  function isVisible(item) {
-    return item.visible !== false;
+    if (target instanceof HTMLElement) return target;
+    const element = document.querySelector(target || "#app");
+    if (!element) throw new Error(`Could not find of-the-day target: ${target || "#app"}`);
+    return element;
   }
   function hasText(value) {
     return String(value ?? "").trim().length > 0;
   }
-  function styleProperty(name) {
-    return name.startsWith("--") ? name : `--${name}`;
-  }
-  function renderMetaItem(item) {
-    const key = item.key ? ` data-key="${escapeHtml(item.key)}"` : "";
-    const classes = classAttr("pp-otd-meta-item", item.className);
-    const label = hasText(item.label) ? `<p class="pp-otd-meta-label">${escapeHtml(item.label)}</p>` : "";
-    return `
-    <div class="${classes}"${key}>
-      ${label}
-      <p class="pp-otd-meta-value">${escapeHtml(item.value)}</p>
-    </div>
-  `;
-  }
-  function renderFact(item, emptyValue) {
-    const value = hasText(item.value) ? item.value : emptyValue;
-    return `
-    <article class="${classAttr("pp-otd-fact", item.className)}">
-      <p class="pp-otd-label">${escapeHtml(item.label)}</p>
-      <p class="pp-otd-value">${escapeHtml(value)}</p>
-    </article>
-  `;
+  function renderMeta(item) {
+    return `<span class="pp-otd-meta-item ${escapeHtml(item.className || "")}" data-key="${escapeHtml(item.key || "")}">${hasText(item.label) ? `<span class="pp-otd-meta-label">${escapeHtml(item.label)}: </span>` : ""}<span class="pp-otd-meta-value">${escapeHtml(item.value)}</span></span>`;
   }
   function renderOfTheDayLayout(options) {
     const target = resolveTarget(options.target);
+    const previous = states.get(target);
+    previous?.removeListeners?.();
+    if (previous?.frame) cancelAnimationFrame(previous.frame);
     const textSize = normalizeTextSize(options.textSize);
-    const layout = options.layout || "default";
-    const showHeader = options.showHeader !== false;
-    const facts = (options.facts || []).filter(isVisible);
-    const meta = (options.meta || []).filter(isVisible).filter((item) => hasText(item.value));
-    const emptyValue = options.emptyValue ?? "N/A";
+    const mode = options.layout || "auto";
+    const facts = (options.facts || []).filter((item) => item.visible !== false);
+    const meta = (options.meta || []).filter((item) => item.visible !== false && hasText(item.value));
+    const date = meta.filter((item) => item.key === "date");
+    const source = meta.filter((item) => item.key !== "date");
     const image = options.image || {};
     target.classList.add("pp-screen", "pp-otd-screen");
-    target.classList.remove(...LAYOUT_CLASSES);
-    target.classList.add(`pp-otd--${layout}`, `pp-otd--text-${textSize}`);
-    if (!showHeader) {
-      target.classList.add("pp-otd--hide-header");
+    target.classList.remove(...layoutClasses);
+    target.classList.add(`pp-otd--${mode}`, `pp-otd--text-${textSize}`);
+    target.classList.toggle("pp-otd--hide-header", options.showHeader === false);
+    target.classList.toggle("pp-otd--no-facts", facts.length === 0);
+    if (options.className) target.classList.add(...options.className.split(/\s+/).filter(Boolean));
+    target.style.transform = "";
+    for (const [key, value] of Object.entries(options.customProperties || {})) {
+      if (value !== void 0) target.style.setProperty(key.startsWith("--") ? key : `--${key}`, String(value));
     }
-    if (!facts.length) {
-      target.classList.add("pp-otd--no-facts");
-    }
-    if (options.className) {
-      target.classList.add(...options.className.split(/\s+/).filter(Boolean));
-    }
-    if (options.customProperties) {
-      for (const [name, value] of Object.entries(options.customProperties)) {
-        if (value !== void 0) {
-          target.style.setProperty(styleProperty(name), String(value));
-        }
-      }
-    }
-    const imageStyle = [
-      image.fit ? `object-fit:${image.fit}` : "",
-      image.position ? `object-position:${image.position}` : "",
-      image.blendMode ? `mix-blend-mode:${image.blendMode}` : ""
-    ].filter(Boolean).join(";");
     target.innerHTML = `
     <section class="pp-otd-shell">
-      <header class="pp-otd-header" aria-hidden="${showHeader ? "false" : "true"}">
+      <header class="pp-otd-header">
+        <div class="pp-otd-topline">
+          <p class="pp-otd-kicker">${escapeHtml(options.kicker || "")}</p>
+          <div class="pp-otd-date">${date.map(renderMeta).join("")}</div>
+        </div>
         <div class="pp-otd-title-area">
-          ${hasText(options.kicker) ? `<p class="pp-otd-kicker">${escapeHtml(options.kicker)}</p>` : ""}
           <h1 class="pp-otd-title pp-fit">${escapeHtml(options.title)}</h1>
-          ${hasText(options.signature) ? `<p class="pp-otd-signature pp-fit">${escapeHtml(options.signature)}</p>` : ""}
           ${hasText(options.subtitle) ? `<p class="pp-otd-subtitle">${escapeHtml(options.subtitle)}</p>` : ""}
         </div>
-        ${meta.length ? `<aside class="pp-otd-meta">${meta.map(renderMetaItem).join("")}</aside>` : ""}
+        ${hasText(options.signature) ? `<p class="pp-otd-signature">${escapeHtml(options.signature)}</p>` : ""}
       </header>
-      <div class="pp-otd-image-stage">
-        <img class="${classAttr("pp-otd-image", image.className)}" src="${escapeHtml(
-      image.src
-    )}" alt="${escapeHtml(image.alt)}"${imageStyle ? ` style="${escapeHtml(imageStyle)}"` : ""} />
-      </div>
+      <div class="pp-otd-image-stage"><img class="pp-otd-image ${escapeHtml(image.className || "")}" src="${escapeHtml(image.src || "")}" alt="${escapeHtml(image.alt || "")}" /></div>
       <section class="pp-otd-fact-grid" data-count="${facts.length}">
-        ${facts.map((item) => renderFact(item, emptyValue)).join("")}
+        ${facts.map((fact) => `<article class="pp-otd-fact ${escapeHtml(fact.className || "")}"><p class="pp-otd-label">${escapeHtml(fact.label)}</p><p class="pp-otd-value">${escapeHtml(hasText(fact.value) ? fact.value : options.emptyValue ?? "N/A")}</p></article>`).join("")}
       </section>
-    </section>
-  `;
-    const shell = target.querySelector(".pp-otd-shell");
-    const imageStage = target.querySelector(".pp-otd-image-stage");
+      <footer class="pp-otd-footer"><div class="pp-otd-meta">${source.map(renderMeta).join("")}</div><p class="pp-otd-facts-shown" hidden></p></footer>
+    </section>`;
     const renderedImage = target.querySelector(".pp-otd-image");
-    const factGrid = target.querySelector(".pp-otd-fact-grid");
-    if (!shell || !imageStage || !renderedImage || !factGrid) {
-      throw new Error("Could not render of-the-day layout.");
-    }
+    renderedImage.style.objectFit = image.fit || "contain";
+    renderedImage.style.objectPosition = image.position || "center";
+    if (image.blendMode) renderedImage.style.mixBlendMode = image.blendMode;
+    states.set(target, { mode, textSize, options: {}, showFactCount: options.showFactCount === true, factsShown: options.factsShown || "{shown} of {total} facts" });
     return {
       target,
-      shell,
+      shell: target.querySelector(".pp-otd-shell"),
       header: target.querySelector(".pp-otd-header"),
       title: target.querySelector(".pp-otd-title"),
       signature: target.querySelector(".pp-otd-signature"),
       subtitle: target.querySelector(".pp-otd-subtitle"),
-      imageStage,
+      imageStage: target.querySelector(".pp-otd-image-stage"),
       image: renderedImage,
-      factGrid,
+      factGrid: target.querySelector(".pp-otd-fact-grid"),
       facts: Array.from(target.querySelectorAll(".pp-otd-fact")),
       meta: Array.from(target.querySelectorAll(".pp-otd-meta-item"))
     };
   }
-  function fitOfTheDayLayout(layout, options = {}) {
-    const root = typeof layout === "string" || layout instanceof HTMLElement ? resolveTarget(layout) : layout.target;
+  function fitLayout(root, state) {
+    const width = root.clientWidth || window.innerWidth;
+    const height = root.clientHeight || window.innerHeight;
+    const landscape = width > height;
+    const unit = landscape ? Math.min(width / 800, height / 480) : Math.min(width / 480, height / 800);
+    const scale = Math.max(0.5, unit);
+    const multiplier = { small: 0.9, middle: 1, big: 1.18 }[state.textSize];
+    const image = root.querySelector(".pp-otd-image");
+    const side = landscape && (state.mode === "facts-left-landscape" || state.mode === "auto" && image.naturalWidth / image.naturalHeight < 1.25);
+    const facts = Array.from(root.querySelectorAll(".pp-otd-fact"));
+    const grid = root.querySelector(".pp-otd-fact-grid");
+    const stage = root.querySelector(".pp-otd-image-stage");
+    const summary = root.querySelector(".pp-otd-facts-shown");
     const title = root.querySelector(".pp-otd-title");
     const signature = root.querySelector(".pp-otd-signature");
-    if (title) {
-      fitText(title, {
-        min: options.titleMin ?? 28,
-        max: options.titleMax,
-        step: 2,
-        tolerance: 6,
-        lineBreak: "balance",
-        fitParent: true
-      });
-    }
+    root.classList.toggle("pp-otd--side", side);
+    root.classList.toggle("pp-otd--stack", !side);
+    root.style.setProperty("--pp-otd-unit", `${scale}px`);
+    root.style.setProperty("--pp-otd-text-scale", String(multiplier));
+    root.style.setProperty("--pp-otd-extra-padding", `${Math.max(0, state.options.screenPadding || 0)}px`);
+    title.style.fontSize = state.options.titleMax ? `${state.options.titleMax}px` : "";
     if (signature) {
-      fitHyphenatedText(signature, {
-        min: options.signatureMin ?? 10,
-        max: options.signatureMax,
-        step: 1,
-        lineBreak: true
+      signature.style.fontSize = state.options.signatureMax ? `${state.options.signatureMax}px` : "";
+      if (state.options.signatureMin) {
+        signature.style.fontSize = `${Math.max(state.options.signatureMin, parseFloat(getComputedStyle(signature).fontSize))}px`;
+      }
+    }
+    const titleSize = parseFloat(getComputedStyle(title).fontSize);
+    const titleMin = Math.min(titleSize, state.options.titleMin ?? 24 * scale * multiplier);
+    for (let size = titleSize; size >= titleMin; size -= scale) {
+      title.style.fontSize = `${Math.max(titleMin, size)}px`;
+      const style = getComputedStyle(title);
+      if (title.scrollWidth <= title.clientWidth + 2 && title.clientHeight <= parseFloat(style.lineHeight) * 2 + 2) break;
+    }
+    const imageFloor = side ? 0 : height * (landscape ? 0.46 : 0.43);
+    let shown = facts.length;
+    const update = (count, columns) => {
+      facts.forEach((fact, index) => {
+        fact.hidden = index >= count;
+        fact.style.gridColumn = index === count - 1 && count % columns === 1 && columns > 1 ? "1 / -1" : "";
       });
+      root.classList.toggle("pp-otd--no-facts", count === 0);
+      grid.dataset.visibleCount = String(count);
+      grid.style.setProperty("--pp-otd-columns", String(columns));
+      summary.hidden = !state.showFactCount || count === facts.length;
+      summary.textContent = !summary.hidden ? state.factsShown.replace(/\{shown\}/g, String(count)).replace(/\{total\}/g, String(facts.length)) : "";
+    };
+    const fits = () => {
+      const bounds = root.getBoundingClientRect();
+      if (stage.clientHeight < imageFloor || stage.clientWidth < 1) return false;
+      return Array.from(root.querySelectorAll(".pp-otd-header, .pp-otd-header *, .pp-otd-fact-grid, .pp-otd-fact:not([hidden]), .pp-otd-fact:not([hidden]) > *, .pp-otd-footer, .pp-otd-footer *")).every((element) => {
+        if (!element.getClientRects().length) return true;
+        const rect = element.getBoundingClientRect();
+        return element.scrollHeight <= element.clientHeight + 2 && element.scrollWidth <= element.clientWidth + 2 && rect.bottom <= bounds.bottom + 1 && rect.right <= bounds.right + 1;
+      });
+    };
+    let valid = false;
+    const columnChoices = side || !landscape ? [2, 3] : [Math.min(5, Math.max(1, shown)), 4, 3];
+    for (; shown >= 0; shown--) {
+      for (const columns of [...new Set(columnChoices)].filter((count) => count <= Math.max(1, shown))) {
+        update(shown, columns);
+        if (fits()) {
+          valid = true;
+          break;
+        }
+      }
+      if (valid) break;
+      if (shown <= 1) {
+        update(shown, 1);
+        if (fits()) {
+          valid = true;
+          break;
+        }
+      }
     }
-    if (options.fitScreen !== false) {
-      fitToScreen(root, { padding: options.screenPadding ?? 0 });
-    }
+    shown = Math.max(0, shown);
+    root.dataset.visibleFacts = String(shown);
+    root.dataset.selectedFacts = String(facts.length);
+    root.dataset.layoutOverflow = String(!valid);
+    return { selectedFacts: facts.length, visibleFacts: shown, layout: side ? "side" : "stack", hasOverflow: !valid };
   }
-  function waitForOfTheDayImage(layoutOrImage) {
-    const image = layoutOrImage instanceof HTMLImageElement ? layoutOrImage : layoutOrImage.image;
-    if (image.complete && image.naturalWidth > 0) {
-      return Promise.resolve();
+  function fitOfTheDayLayout(layout, options = {}) {
+    const root = typeof layout === "string" || layout instanceof HTMLElement ? resolveTarget(layout) : layout.target;
+    const state = states.get(root);
+    if (!state) throw new Error("Render the of-the-day layout before fitting it.");
+    state.options = options;
+    state.textSize = normalizeTextSize(options.textSize || state.textSize);
+    if (!state.removeListeners) {
+      const update = () => {
+        if (state.frame) cancelAnimationFrame(state.frame);
+        state.frame = requestAnimationFrame(() => {
+          state.frame = void 0;
+          if (root.isConnected) fitLayout(root, state);
+          else {
+            state.removeListeners?.();
+            state.removeListeners = void 0;
+          }
+        });
+      };
+      window.addEventListener("resize", update);
+      window.addEventListener("orientationchange", update);
+      state.removeListeners = () => {
+        window.removeEventListener("resize", update);
+        window.removeEventListener("orientationchange", update);
+      };
     }
-    return new Promise((resolve, reject) => {
-      image.addEventListener("load", () => resolve(), { once: true });
-      image.addEventListener("error", () => reject(new Error("Image could not load.")), {
-        once: true
-      });
+    return fitLayout(root, state);
+  }
+  async function waitForOfTheDayImage(layoutOrImage) {
+    const image = layoutOrImage instanceof HTMLImageElement ? layoutOrImage : layoutOrImage.image;
+    if (image.complete) {
+      if (image.naturalWidth > 0) {
+        await image.decode?.();
+        return;
+      }
+      throw new Error("Image could not load.");
+    }
+    await new Promise((resolve, reject) => {
+      const cleanup = () => {
+        image.removeEventListener("load", loaded);
+        image.removeEventListener("error", failed);
+      };
+      const loaded = () => {
+        cleanup();
+        resolve();
+      };
+      const failed = () => {
+        cleanup();
+        reject(new Error("Image could not load."));
+      };
+      image.addEventListener("load", loaded, { once: true });
+      image.addEventListener("error", failed, { once: true });
     });
+    await image.decode?.();
   }
 
   // src/calendar.ts

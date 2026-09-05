@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="paperless:epd-optimize" content='{"intent":"readable"}' />
+    <meta name="paperless:epd-optimize" content='{"intent":"faithful","palette":"spectra6OriginalPalette","canvasDitherOptions":{"ditheringType":"errorDiffusion"}}' />
     <title>Day Calendar</title>
     <link rel="stylesheet" href="/assets/paperless.css" />
     <script src="/assets/paperless.iife.js"></script>
@@ -218,7 +218,85 @@
           margin-top: 6vmax;
         }
       }
-    </style>
+      .daylight-summary {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+        font-size: clamp(18px, 2.5vw, 32px);
+      }
+      .daylight-summary p,
+      .daylight-summary h1,
+      .daylight-summary h2 {
+        margin: 0;
+      }
+      .daylight-summary h1 {
+        font-size: clamp(32px, 5vw, 72px);
+        line-height: 1.05;
+      }
+      .daylight-summary h2 {
+        font-size: 1.1em;
+        border-left: 8px solid var(--pp-orange, #ff8000);
+        padding-left: 12px;
+      }
+      .daylight-heading {
+        border-bottom: 5px solid var(--pp-orange, #ff8000);
+        padding-bottom: 12px;
+        font-size: 0.8em;
+        text-transform: uppercase;
+        font-weight: 700;
+      }
+      .daylight-bars {
+        flex: 1;
+        min-height: 90px;
+        display: flex;
+        gap: 14px;
+        margin-top: 20px;
+        padding-bottom: 25px;
+      }
+      .daylight-column {
+        flex: 1;
+        min-width: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        align-items: center;
+        font-size: clamp(13px, 1.6vw, 22px);
+        position: relative;
+      }
+      .daylight-column strong {
+        font-size: 0.9em;
+        white-space: nowrap;
+        margin-bottom: 5px;
+      }
+      .daylight-column span {
+        position: absolute;
+        top: 100%;
+        margin-top: 5px;
+      }
+      .daylight-bar {
+        width: 100%;
+        background: var(--pp-blue);
+        min-height: 3px;
+      }
+      @media (orientation: portrait) {
+        .daylight-summary {
+          gap: 24px;
+          font-size: 22px;
+        }
+        .daylight-summary h1 {
+          font-size: 44px;
+        }
+        .daylight-bars {
+          gap: 8px;
+        }
+        .daylight-column {
+          font-size: 14px;
+        }
+      }
+    body.dark .daylight-bar { background: var(--pp-orange, #ff8000); }
+</style>
   </head>
   <body>
     <div id="website-has-loading-element"></div>
@@ -315,6 +393,7 @@
           holidayRegion: "DE-BE",
           latitude: 52.52,
           longitude: 13.405,
+          timeZone: "Europe/Berlin",
         };
         const quoteKinds = new Set([
           "demotivational",
@@ -364,6 +443,16 @@
             size -= 1;
             element.style.fontSize = `${size}px`;
           }
+        }
+
+        function renderDaylight(app, data) {
+          const fact = data.fact;
+          const locale = data.settings.language;
+          const maxDelta = Math.max(
+            1,
+            ...fact.trend.map((row) => Math.abs(row.deltaMinutes)),
+          );
+          app.innerHTML = `<section class="daylight-summary"><p class="daylight-heading">${escapeHtml(fact.title)} · ${escapeHtml(data.date.formattedDate)}</p><h1>${escapeHtml(fact.text)}</h1><p>${escapeHtml(fact.meta)}</p><p>${escapeHtml(fact.lightTrend)}</p><h2>${escapeHtml(fact.weekTrend)}</h2><div class="daylight-bars">${fact.trend.map((row) => `<div class="daylight-column"><strong>${row.deltaMinutes > 0 ? "+" : ""}${escapeHtml(row.deltaMinutes)} min</strong><div class="daylight-bar" style="height:${Math.max(3, Math.round((Math.abs(row.deltaMinutes) / maxDelta) * 90))}%"></div><span>${escapeHtml(new Intl.DateTimeFormat(locale, { weekday: "short", timeZone: "UTC" }).format(new Date(row.date + "T12:00:00Z")))}</span></div>`).join("")}</div></section>`;
         }
 
         function renderQuoteMode(app, data) {
@@ -453,7 +542,9 @@
               showQuote ? "show-quote" : "show-only-date",
             ].join(" ");
 
-            if (showQuote) {
+            if (data.settings.kind === "season-daylight") {
+              renderDaylight(app, data);
+            } else if (showQuote) {
               renderQuoteMode(app, data);
             } else {
               renderDateMode(app, data);
@@ -461,6 +552,10 @@
 
             await document.fonts?.ready;
 
+            if (data.settings.kind === "season-daylight") {
+              markReady({ kind: data.settings.kind });
+              return;
+            }
             if (showQuote) {
               fitHyphenatedText(document.getElementById("quote-text"), {
                 min: 28,

@@ -17,5 +17,6 @@
   "signature": "Nota de campo",
   "errorTitle": "No se pudo cargar el ave",
   "imageFailed": "La imagen del ave no se pudo cargar.",
-  "listFailed": "La lista de aves no se pudo cargar."
+  "listFailed": "La lista de aves no se pudo cargar.",
+  "factsShown": "{shown} de {total} datos"
 }

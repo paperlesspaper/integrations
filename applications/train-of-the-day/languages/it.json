@@ -29,5 +29,6 @@
   "signature": "Segno distintivo",
   "errorTitle": "Impossibile caricare il treno",
   "imageFailed": "L'immagine del treno non è stata caricata.",
-  "listFailed": "L'elenco dei treni non è stato caricato."
+  "listFailed": "L'elenco dei treni non è stato caricato.",
+  "factsShown": "{shown} di {total} dati"
 }

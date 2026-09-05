@@ -1,0 +1,78 @@
+{
+  "name": "RSS News",
+  "version": "0.1.0",
+  "status": "alpha",
+  "description": "Headlines from up to four RSS or Atom feeds.",
+  "renderPage": "./render.html",
+  "icon": "./assets/icon.png",
+  "timezone": "Europe/Berlin",
+  "language": [
+    "de",
+    "en"
+  ],
+  "nativeSettings": {
+    "color": "blue-light",
+    "title": "",
+    "sampleData": false,
+    "feeds": "https://www.tagesschau.de/xml/rss2/",
+    "limit": 5
+  },
+  "formSchema": {
+    "type": "object",
+    "properties": {
+      "title": {
+        "type": "string",
+        "default": "",
+        "title": "Display title",
+        "maxLength": 80
+      },
+      "sampleData": {
+        "type": "boolean",
+        "default": false,
+        "title": "Use clearly labelled demo data"
+      },
+      "feeds": {
+        "type": "string",
+        "default": "https://www.tagesschau.de/xml/rss2/",
+        "title": "One RSS/Atom feed URL per line",
+        "format": "textarea",
+        "maxLength": 4000
+      },
+      "limit": {
+        "type": "number",
+        "default": 5,
+        "title": "Headline limit",
+        "minimum": 1,
+        "maximum": 8
+      }
+    }
+  },
+  "configVariants": [
+    {
+      "color": "blue-light",
+      "title": "",
+      "sampleData": true,
+      "feeds": "https://www.tagesschau.de/xml/rss2/",
+      "limit": 5,
+      "screenshots": {
+        "800x480": "./screenshots/rss-news-default-800x480.png",
+        "480x800": "./screenshots/rss-news-default-480x800.png",
+        "1600x1200": "./screenshots/rss-news-default-1600x1200.png",
+        "1200x1600": "./screenshots/rss-news-default-1200x1600.png"
+      }
+    },
+    {
+      "color": "dark",
+      "title": "",
+      "sampleData": true,
+      "feeds": "https://www.tagesschau.de/xml/rss2/",
+      "limit": 5,
+      "screenshots": {
+        "800x480": "./screenshots/rss-news-dark-800x480.png",
+        "480x800": "./screenshots/rss-news-dark-480x800.png",
+        "1600x1200": "./screenshots/rss-news-dark-1600x1200.png",
+        "1200x1600": "./screenshots/rss-news-dark-1200x1600.png"
+      }
+    }
+  ]
+}

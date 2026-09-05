@@ -37,7 +37,9 @@
       "showFrame": false,
       "screenshots": {
         "800x480": "./screenshots/simple-text-markdown-800x480-landscape.png",
-        "480x800": "./screenshots/simple-text-markdown-480x800-portrait.png"
+        "480x800": "./screenshots/simple-text-markdown-480x800-portrait.png",
+        "1600x1200": "./screenshots/simple-text-markdown-1600x1200-landscape.png",
+        "1200x1600": "./screenshots/simple-text-markdown-1200x1600-portrait.png"
       }
     },
     {
@@ -56,7 +58,9 @@
       "showFrame": true,
       "screenshots": {
         "800x480": "./screenshots/simple-text-plain-800x480-landscape.png",
-        "480x800": "./screenshots/simple-text-plain-480x800-portrait.png"
+        "480x800": "./screenshots/simple-text-plain-480x800-portrait.png",
+        "1600x1200": "./screenshots/simple-text-plain-1600x1200-landscape.png",
+        "1200x1600": "./screenshots/simple-text-plain-1200x1600-portrait.png"
       }
     }
   ],
@@ -88,14 +92,21 @@
         "type": "string",
         "title": "Format",
         "description": "Render the content as plain text or markdown.",
-        "enum": ["plain", "markdown"],
+        "enum": [
+          "plain",
+          "markdown"
+        ],
         "default": "markdown"
       },
       "fontFamily": {
         "type": "string",
         "title": "Font",
         "description": "Choose the content font family.",
-        "enum": ["system", "serif", "mono"],
+        "enum": [
+          "system",
+          "serif",
+          "mono"
+        ],
         "default": "system"
       },
       "fontSize": {
@@ -117,7 +128,10 @@
         "type": "string",
         "title": "Font style",
         "description": "Choose normal or italic text.",
-        "enum": ["normal", "italic"],
+        "enum": [
+          "normal",
+          "italic"
+        ],
         "default": "normal"
       },
       "fontWeight": {
@@ -145,21 +159,36 @@
         "type": "string",
         "title": "Text alignment",
         "description": "Choose horizontal alignment.",
-        "enum": ["left", "center", "right", "justify"],
+        "enum": [
+          "left",
+          "center",
+          "right",
+          "justify"
+        ],
         "default": "center"
       },
       "verticalAlign": {
         "type": "string",
         "title": "Vertical alignment",
         "description": "Choose vertical placement on the display.",
-        "enum": ["top", "center", "bottom"],
+        "enum": [
+          "top",
+          "center",
+          "bottom"
+        ],
         "default": "center"
       },
       "lineHeight": {
         "type": "string",
         "title": "Line height",
         "description": "Choose spacing between lines.",
-        "enum": ["1", "1.15", "1.3", "1.5", "normal"],
+        "enum": [
+          "1",
+          "1.15",
+          "1.3",
+          "1.5",
+          "normal"
+        ],
         "default": "1.15"
       },
       "showFrame": {
@@ -170,5 +199,8 @@
       }
     }
   },
-  "language": ["en", "de"]
+  "language": [
+    "en",
+    "de"
+  ]
 }

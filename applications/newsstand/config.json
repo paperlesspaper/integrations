@@ -18,7 +18,9 @@
       "showTitleBar": true,
       "screenshots": {
         "800x480": "./screenshots/newsstand-top3-cover-800x480-landscape.png",
-        "480x800": "./screenshots/newsstand-top3-cover-480x800-portrait.png"
+        "480x800": "./screenshots/newsstand-top3-cover-480x800-portrait.png",
+        "1600x1200": "./screenshots/newsstand-top3-cover-1600x1200-landscape.png",
+        "1200x1600": "./screenshots/newsstand-top3-cover-1200x1600-portrait.png"
       }
     },
     {
@@ -27,7 +29,9 @@
       "showTitleBar": false,
       "screenshots": {
         "800x480": "./screenshots/newsstand-guardian-contain-800x480-landscape.png",
-        "480x800": "./screenshots/newsstand-guardian-contain-480x800-portrait.png"
+        "480x800": "./screenshots/newsstand-guardian-contain-480x800-portrait.png",
+        "1600x1200": "./screenshots/newsstand-guardian-contain-1600x1200-landscape.png",
+        "1200x1600": "./screenshots/newsstand-guardian-contain-1200x1600-portrait.png"
       }
     }
   ],

@@ -1,0 +1,1077 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="referrer" content="no-referrer" />
+    <meta
+      name="paperless:epd-optimize"
+      content='{"intent":"vivid","palette":"spectra6OriginalPalette","canvasDitherOptions":{"ditheringType":"quantizationOnly"}}'
+    />
+    <title>Chatwoot</title>
+    <link rel="stylesheet" href="/assets/paperless.css" />
+    <script src="/assets/paperless.iife.js"></script>
+    <style>
+      .cw-screen {
+        --cw-blue: var(--pp-blue);
+        --cw-green: var(--pp-green);
+        --cw-orange: #ff9800;
+        --cw-red: var(--pp-red);
+        display: grid;
+        gap: 9px;
+        grid-template-rows: auto minmax(0, 1fr) auto;
+        padding: 12px 14px 9px;
+      }
+
+      .cw-header {
+        display: grid;
+        gap: 8px;
+        grid-template-columns: minmax(210px, 1fr) repeat(3, minmax(78px, 0.34fr));
+        min-width: 0;
+      }
+
+      .cw-brand,
+      .cw-kpi,
+      .cw-panel {
+        border: 2px solid var(--pp-border);
+      }
+
+      .cw-brand {
+        align-items: center;
+        display: grid;
+        gap: 9px;
+        grid-template-columns: auto minmax(0, 1fr) auto;
+        min-width: 0;
+        padding: 8px 10px;
+      }
+
+      .cw-logo {
+        display: block;
+        height: 32px;
+        width: 32px;
+      }
+
+      .cw-brand-copy {
+        min-width: 0;
+      }
+
+      .cw-title,
+      .cw-subtitle,
+      .cw-kpi-label,
+      .cw-kpi-value,
+      .cw-panel-title,
+      .cw-panel-meta,
+      .cw-agent-name,
+      .cw-agent-email,
+      .cw-current-value,
+      .cw-current-label,
+      .cw-performance-value,
+      .cw-performance-label,
+      .cw-traffic-value,
+      .cw-traffic-day,
+      .cw-footer {
+        margin: 0;
+      }
+
+      .cw-title {
+        font-size: clamp(1.35rem, 4.8vh, 2.4rem);
+        font-weight: 950;
+        letter-spacing: -0.045em;
+        line-height: 0.88;
+      }
+
+      .cw-subtitle {
+        color: var(--pp-muted);
+        font-size: 0.61rem;
+        font-weight: 800;
+        letter-spacing: 0.07em;
+        line-height: 1;
+        margin-top: 4px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        text-transform: uppercase;
+        white-space: nowrap;
+      }
+
+      .cw-live {
+        align-items: center;
+        color: var(--cw-green);
+        display: flex;
+        font-size: 0.69rem;
+        font-weight: 900;
+        gap: 5px;
+        line-height: 1;
+        text-transform: uppercase;
+        white-space: nowrap;
+      }
+
+      .cw-live-dot {
+        background: currentColor;
+        border-radius: 50%;
+        height: 8px;
+        width: 8px;
+      }
+
+      .cw-kpi {
+        display: grid;
+        min-width: 0;
+        padding: 7px 9px;
+      }
+
+      .cw-kpi-label {
+        align-self: start;
+        color: var(--pp-muted);
+        font-size: 0.58rem;
+        font-weight: 900;
+        letter-spacing: 0.045em;
+        line-height: 1;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        text-transform: uppercase;
+        white-space: nowrap;
+      }
+
+      .cw-kpi-value {
+        align-self: end;
+        font-size: clamp(1.7rem, 6.1vh, 3rem);
+        font-weight: 950;
+        letter-spacing: -0.06em;
+        line-height: 0.78;
+        margin-top: 5px;
+      }
+
+      .cw-kpi.is-open {
+        border-bottom-color: var(--cw-blue);
+      }
+
+      .cw-kpi.is-open .cw-kpi-value {
+        color: var(--cw-blue);
+      }
+
+      .cw-kpi.is-unattended {
+        border-bottom-color: var(--cw-red);
+      }
+
+      .cw-kpi.is-unattended .cw-kpi-value {
+        color: var(--cw-red);
+      }
+
+      .cw-kpi.is-unassigned {
+        border-bottom-color: var(--cw-orange);
+      }
+
+      .cw-kpi.is-unassigned .cw-kpi-value {
+        color: var(--cw-orange);
+      }
+
+      .cw-main {
+        display: grid;
+        gap: 9px;
+        grid-template-columns: minmax(255px, 0.78fr) minmax(0, 1.22fr);
+        min-height: 0;
+        min-width: 0;
+      }
+
+      .cw-panel {
+        min-height: 0;
+        min-width: 0;
+        overflow: hidden;
+      }
+
+      .cw-panel-head {
+        align-items: end;
+        border-bottom: 2px solid var(--pp-border);
+        display: flex;
+        gap: 10px;
+        justify-content: space-between;
+        min-width: 0;
+        padding: 8px 10px 7px;
+      }
+
+      .cw-panel-title {
+        font-size: 0.86rem;
+        font-weight: 950;
+        line-height: 1;
+        min-width: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        text-transform: uppercase;
+        white-space: nowrap;
+      }
+
+      .cw-panel-meta {
+        color: var(--pp-muted);
+        flex: none;
+        font-size: 0.57rem;
+        font-weight: 850;
+        line-height: 1;
+        text-align: right;
+        text-transform: uppercase;
+        white-space: nowrap;
+      }
+
+      .cw-traffic-panel {
+        display: grid;
+        grid-template-rows: auto minmax(0, 1fr) auto;
+      }
+
+      .cw-traffic-chart {
+        align-items: stretch;
+        display: grid;
+        gap: 5px;
+        grid-template-columns: repeat(var(--day-count, 7), minmax(0, 1fr));
+        min-height: 0;
+        padding: 10px 10px 7px;
+      }
+
+      .cw-traffic-column {
+        display: grid;
+        gap: 4px;
+        grid-template-rows: auto minmax(0, 1fr) auto;
+        min-height: 0;
+        min-width: 0;
+      }
+
+      .cw-traffic-value {
+        font-size: 0.7rem;
+        font-weight: 950;
+        line-height: 1;
+        text-align: center;
+      }
+
+      .cw-traffic-track {
+        align-items: end;
+        border: 1px solid var(--pp-border);
+        display: flex;
+        min-height: 0;
+        padding: 2px;
+      }
+
+      .cw-traffic-fill {
+        background: var(--cw-blue);
+        min-height: 0;
+        width: 100%;
+      }
+
+      .cw-traffic-fill.is-zero {
+        background: transparent;
+        border-top: 2px solid var(--pp-border);
+        height: 1px !important;
+      }
+
+      .cw-traffic-day {
+        font-size: 0.55rem;
+        font-weight: 850;
+        line-height: 1;
+        overflow: hidden;
+        text-align: center;
+        text-overflow: ellipsis;
+        text-transform: uppercase;
+        white-space: nowrap;
+      }
+
+      .cw-traffic-foot {
+        align-items: center;
+        border-top: 1px solid var(--pp-border);
+        display: flex;
+        gap: 8px;
+        justify-content: space-between;
+        padding: 6px 10px;
+      }
+
+      .cw-traffic-total {
+        font-size: 0.62rem;
+        font-weight: 850;
+        line-height: 1;
+        margin: 0;
+      }
+
+      .cw-inbox-label {
+        border: 1px solid var(--pp-border);
+        font-size: 0.55rem;
+        font-weight: 900;
+        line-height: 1;
+        padding: 3px 5px;
+        text-transform: uppercase;
+      }
+
+      .cw-team-panel {
+        display: grid;
+        grid-template-rows: auto minmax(0, 1fr);
+      }
+
+      .cw-agent-list {
+        display: grid;
+        grid-template-rows: repeat(var(--agent-count, 1), minmax(0, 1fr));
+        min-height: 0;
+      }
+
+      .cw-agent-row {
+        align-items: center;
+        border-top: 1px solid var(--pp-border);
+        display: grid;
+        gap: 7px;
+        grid-template-columns: minmax(102px, 1.03fr) 68px minmax(104px, 0.95fr) 87px;
+        min-height: 0;
+        min-width: 0;
+        padding: 5px 8px;
+      }
+
+      .cw-agent-row:first-child {
+        border-top: 0;
+      }
+
+      .cw-agent-identity {
+        align-items: center;
+        display: grid;
+        gap: 7px;
+        grid-template-columns: auto minmax(0, 1fr);
+        min-width: 0;
+      }
+
+      .cw-avatar {
+        align-items: center;
+        border: 2px solid var(--cw-blue);
+        border-radius: 50%;
+        display: flex;
+        flex: none;
+        font-size: 0.61rem;
+        font-weight: 950;
+        height: 30px;
+        justify-content: center;
+        line-height: 1;
+        position: relative;
+        width: 30px;
+      }
+
+      .cw-availability {
+        background: var(--pp-bg);
+        border: 2px solid var(--pp-border);
+        border-radius: 50%;
+        bottom: -3px;
+        height: 9px;
+        position: absolute;
+        right: -3px;
+        width: 9px;
+      }
+
+      .cw-availability.available {
+        background: var(--cw-green);
+      }
+
+      .cw-availability.busy {
+        background: repeating-linear-gradient(
+          45deg,
+          var(--cw-orange) 0 2px,
+          var(--pp-bg) 2px 4px
+        );
+      }
+
+      .cw-agent-copy {
+        min-width: 0;
+      }
+
+      .cw-agent-name {
+        font-size: 0.72rem;
+        font-weight: 950;
+        line-height: 1;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .cw-agent-email {
+        color: var(--pp-muted);
+        font-size: 0.5rem;
+        line-height: 1;
+        margin-top: 3px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .cw-current {
+        display: grid;
+        gap: 2px 5px;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        min-width: 0;
+      }
+
+      .cw-current-value {
+        font-size: 0.96rem;
+        font-weight: 950;
+        line-height: 0.9;
+      }
+
+      .cw-current-value.is-unattended {
+        color: var(--cw-red);
+      }
+
+      .cw-current-label {
+        color: var(--pp-muted);
+        font-size: 0.42rem;
+        font-weight: 850;
+        line-height: 1;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        text-transform: uppercase;
+        white-space: nowrap;
+      }
+
+      .cw-spark-wrap {
+        display: grid;
+        gap: 3px;
+        min-width: 0;
+      }
+
+      .cw-spark-label {
+        color: var(--pp-muted);
+        font-size: 0.43rem;
+        font-weight: 850;
+        line-height: 1;
+        margin: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        text-transform: uppercase;
+        white-space: nowrap;
+      }
+
+      .cw-spark {
+        align-items: end;
+        border-bottom: 1px solid var(--pp-border);
+        display: grid;
+        gap: 2px;
+        grid-template-columns: repeat(var(--trend-count, 7), minmax(0, 1fr));
+        height: 27px;
+        min-width: 0;
+        padding: 0 1px 1px;
+      }
+
+      .cw-spark-bar {
+        background: var(--cw-performance-color, var(--cw-blue));
+        min-height: 1px;
+      }
+
+      .cw-performance {
+        display: grid;
+        gap: 3px;
+        min-width: 0;
+      }
+
+      .cw-rate-row {
+        align-items: baseline;
+        display: flex;
+        gap: 4px;
+        justify-content: space-between;
+      }
+
+      .cw-performance-value {
+        color: var(--cw-performance-color);
+        font-size: 0.68rem;
+        font-weight: 950;
+        line-height: 1;
+      }
+
+      .cw-performance-label {
+        color: var(--pp-muted);
+        font-size: 0.42rem;
+        font-weight: 850;
+        line-height: 1;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        text-transform: uppercase;
+        white-space: nowrap;
+      }
+
+      .cw-rate-track {
+        border: 1px solid var(--pp-border);
+        height: 7px;
+        padding: 1px;
+      }
+
+      .cw-rate-fill {
+        background: var(--cw-performance-color);
+        height: 100%;
+      }
+
+      .cw-response {
+        color: var(--pp-muted);
+        font-size: 0.46rem;
+        font-weight: 800;
+        line-height: 1;
+        margin: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .cw-empty {
+        align-items: center;
+        display: flex;
+        font-size: 0.8rem;
+        font-weight: 850;
+        justify-content: center;
+        min-height: 0;
+        padding: 16px;
+        text-align: center;
+      }
+
+      .cw-footer {
+        color: var(--pp-muted);
+        font-size: 0.51rem;
+        font-weight: 800;
+        line-height: 1;
+        overflow: hidden;
+        text-align: right;
+        text-overflow: ellipsis;
+        text-transform: uppercase;
+        white-space: nowrap;
+      }
+
+      .cw-error {
+        align-content: center;
+        border: 3px solid var(--pp-border);
+        display: grid;
+        gap: 8px;
+        height: 100%;
+        padding: 24px;
+      }
+
+      .cw-error h1,
+      .cw-error p {
+        margin: 0;
+      }
+
+      .cw-error h1 {
+        font-size: clamp(1.6rem, 6vmin, 3.8rem);
+        line-height: 0.95;
+      }
+
+      .cw-error p {
+        color: var(--pp-muted);
+        font-size: clamp(0.75rem, 2.2vmin, 1.15rem);
+      }
+
+      @media (max-width: 700px), (max-height: 560px) {
+        .cw-screen {
+          gap: 7px;
+          padding: 9px 10px 7px;
+        }
+
+        .cw-header,
+        .cw-main {
+          gap: 7px;
+        }
+
+        .cw-brand {
+          padding: 6px 8px;
+        }
+
+        .cw-logo {
+          height: 27px;
+          width: 27px;
+        }
+
+        .cw-kpi {
+          padding: 6px 7px;
+        }
+
+        .cw-main {
+          grid-template-columns: minmax(230px, 0.74fr) minmax(0, 1.26fr);
+        }
+
+        .cw-panel-head {
+          padding: 6px 8px 5px;
+        }
+
+        .cw-traffic-chart {
+          gap: 4px;
+          padding: 7px 8px 5px;
+        }
+
+        .cw-traffic-foot {
+          padding: 5px 8px;
+        }
+
+        .cw-agent-row {
+          gap: 5px;
+          grid-template-columns: minmax(92px, 1fr) 66px minmax(94px, 0.92fr) 76px;
+          padding: 4px 6px;
+        }
+
+        .cw-avatar {
+          height: 27px;
+          width: 27px;
+        }
+
+        .cw-spark {
+          height: 23px;
+        }
+      }
+
+      @media (orientation: portrait) {
+        .cw-screen {
+          padding: 12px 11px 9px;
+        }
+
+        .cw-header {
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+
+        .cw-brand {
+          grid-column: 1 / -1;
+          min-height: 50px;
+        }
+
+        .cw-kpi {
+          min-height: 58px;
+        }
+
+        .cw-main {
+          grid-template-columns: 1fr;
+          grid-template-rows: minmax(220px, 0.75fr) minmax(0, 1.25fr);
+        }
+
+        .cw-agent-row {
+          grid-template-columns: minmax(94px, 1fr) 66px minmax(92px, 1fr) 74px;
+        }
+      }
+
+      @media (max-width: 420px) {
+        .cw-agent-row {
+          grid-template-columns: minmax(80px, 1fr) 62px minmax(84px, 1fr) 66px;
+        }
+
+        .cw-agent-email,
+        .cw-response {
+          display: none;
+        }
+      }
+
+      @media (min-width: 900px) and (min-height: 900px) {
+        .cw-screen {
+          gap: 16px;
+          padding: 24px 28px 18px;
+        }
+
+        .cw-header,
+        .cw-main {
+          gap: 16px;
+        }
+
+        .cw-brand,
+        .cw-kpi,
+        .cw-panel {
+          border-width: 3px;
+        }
+
+        .cw-brand {
+          gap: 16px;
+          padding: 15px 18px;
+        }
+
+        .cw-logo {
+          height: 52px;
+          width: 52px;
+        }
+
+        .cw-live {
+          font-size: 1rem;
+        }
+
+        .cw-kpi {
+          padding: 13px 16px;
+        }
+
+        .cw-kpi-label,
+        .cw-panel-meta {
+          font-size: 0.9rem;
+        }
+
+        .cw-panel-head {
+          border-bottom-width: 3px;
+          padding: 14px 17px 12px;
+        }
+
+        .cw-panel-title {
+          font-size: 1.35rem;
+        }
+
+        .cw-traffic-chart {
+          gap: 10px;
+          padding: 18px 17px 12px;
+        }
+
+        .cw-traffic-value {
+          font-size: 1.1rem;
+        }
+
+        .cw-traffic-day,
+        .cw-traffic-total,
+        .cw-inbox-label {
+          font-size: 0.85rem;
+        }
+
+        .cw-traffic-foot {
+          padding: 11px 17px;
+        }
+
+        .cw-agent-row {
+          gap: 13px;
+          grid-template-columns: minmax(175px, 1.05fr) 100px minmax(165px, 0.95fr) 140px;
+          padding: 10px 14px;
+        }
+
+        .cw-avatar {
+          font-size: 0.94rem;
+          height: 48px;
+          width: 48px;
+        }
+
+        .cw-agent-name {
+          font-size: 1.15rem;
+        }
+
+        .cw-agent-email,
+        .cw-current-label,
+        .cw-spark-label,
+        .cw-performance-label,
+        .cw-response {
+          font-size: 0.73rem;
+        }
+
+        .cw-current-value {
+          font-size: 1.55rem;
+        }
+
+        .cw-spark {
+          gap: 4px;
+          height: 46px;
+        }
+
+        .cw-performance-value {
+          font-size: 1.1rem;
+        }
+
+        .cw-rate-track {
+          height: 11px;
+        }
+
+        .cw-footer {
+          font-size: 0.8rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="website-has-loading-element"></div>
+    <main class="pp-screen cw-screen" id="app">
+      <div class="cw-empty">Loading Chatwoot…</div>
+    </main>
+
+    <script>
+      (async function render() {
+        const {
+          waitForPayload,
+          getSettings,
+          getQuerySettings,
+          mergeSettings,
+          loadLanguageJson,
+          applyColorTheme,
+          escapeHtml,
+          fitAllText,
+          fitToScreen,
+          markLoading,
+          markReady,
+          markError,
+        } = window.PaperlessOpenIntegration;
+
+        const app = document.querySelector("#app");
+        const defaultMessages = {
+          title: "Chatwoot",
+          subtitle: "Conversation operations",
+          live: "Live",
+          open: "Open",
+          unattended: "Unattended",
+          unattendedShort: "Unatt.",
+          unassigned: "Unassigned",
+          traffic: "Conversation traffic",
+          lastDays: "Last {days} days",
+          allInboxes: "All inboxes",
+          team: "Conversations by agent",
+          agentsShown: "{count} agents",
+          current: "Current",
+          resolved: "Resolved",
+          resolutionRate: "Resolution rate",
+          firstResponse: "First response",
+          dailyResolutions: "Daily resolutions",
+          periodConversations: "{count} conversations in period",
+          noTraffic: "No traffic reported",
+          noAgents: "No agents reported",
+          updated: "Updated {time}",
+          sample: "Sample data",
+          errorTitle: "Chatwoot could not load",
+        };
+        const defaults = {
+          color: "dark",
+          baseUrl: "https://app.chatwoot.com",
+          accountId: 0,
+          apiAccessToken: "",
+          rangeDays: 7,
+          agentLimit: 4,
+          timezone: "Europe/Berlin",
+          showSource: true,
+          timeoutMs: 8000,
+        };
+        let messages = defaultMessages;
+        let locale = "en-US";
+
+        function t(key, values = {}) {
+          const template = typeof messages[key] === "string"
+            ? messages[key]
+            : defaultMessages[key] || key;
+          return template.replace(/\{(\w+)\}/g, (_match, name) => values[name] ?? "");
+        }
+
+        function number(value) {
+          const numeric = Number(value);
+          return new Intl.NumberFormat(locale, { maximumFractionDigits: 0 }).format(
+            Number.isFinite(numeric) ? numeric : 0,
+          );
+        }
+
+        function dateLabel(dateValue) {
+          const [year, month, day] = String(dateValue).split("-").map(Number);
+          const date = new Date(Date.UTC(year, month - 1, day, 12));
+          return new Intl.DateTimeFormat(locale, {
+            weekday: "short",
+            day: "numeric",
+          }).format(date);
+        }
+
+        function timeLabel(value) {
+          const date = new Date(value);
+          if (Number.isNaN(date.getTime())) return "";
+          return new Intl.DateTimeFormat(locale, {
+            hour: "2-digit",
+            minute: "2-digit",
+          }).format(date);
+        }
+
+        function duration(value) {
+          const seconds = Number(value);
+          if (!Number.isFinite(seconds) || seconds < 0) return "—";
+          if (seconds < 60) return `${Math.round(seconds)}s`;
+          if (seconds < 3600) return `${Math.round(seconds / 60)}m`;
+          const hours = seconds / 3600;
+          return hours < 10 ? `${hours.toFixed(1)}h` : `${Math.round(hours)}h`;
+        }
+
+        function availabilityClass(value) {
+          return ["available", "busy", "offline"].includes(value) ? value : "offline";
+        }
+
+        function performanceColor(rate) {
+          if (rate >= 85) return "var(--cw-green)";
+          if (rate >= 70) return "var(--cw-orange)";
+          return "var(--cw-red)";
+        }
+
+        function renderTraffic(data) {
+          const traffic = Array.isArray(data.traffic) ? data.traffic : [];
+          const max = Math.max(1, ...traffic.map((point) => Number(point.value) || 0));
+
+          if (!traffic.length) {
+            return `<div class="cw-empty">${escapeHtml(t("noTraffic"))}</div>`;
+          }
+
+          return traffic.map((point) => {
+            const value = Math.max(0, Number(point.value) || 0);
+            const percent = value > 0 ? Math.max(5, Math.round((value / max) * 100)) : 0;
+            return `
+              <div class="cw-traffic-column">
+                <p class="cw-traffic-value">${escapeHtml(number(value))}</p>
+                <div class="cw-traffic-track" aria-hidden="true">
+                  <div class="cw-traffic-fill ${value ? "" : "is-zero"}" style="height:${percent}%"></div>
+                </div>
+                <p class="cw-traffic-day">${escapeHtml(dateLabel(point.date))}</p>
+              </div>
+            `;
+          }).join("");
+        }
+
+        function renderSpark(agent) {
+          const trend = Array.isArray(agent.trend) ? agent.trend : [];
+          const max = Math.max(1, ...trend.map((point) => Number(point.value) || 0));
+          return trend.map((point) => {
+            const value = Math.max(0, Number(point.value) || 0);
+            const percent = value > 0 ? Math.max(7, Math.round((value / max) * 100)) : 3;
+            return `<span class="cw-spark-bar" style="height:${percent}%" title="${escapeHtml(`${dateLabel(point.date)}: ${number(value)}`)}"></span>`;
+          }).join("");
+        }
+
+        function renderAgent(agent) {
+          const rate = Math.min(100, Math.max(0, Number(agent.resolutionRate) || 0));
+          const availability = availabilityClass(agent.availability);
+          const initials = String(agent.initials || "?").slice(0, 2);
+          return `
+            <article class="cw-agent-row" style="--cw-performance-color:${performanceColor(rate)}">
+              <div class="cw-agent-identity">
+                <div class="cw-avatar">
+                  ${escapeHtml(initials)}
+                  <span class="cw-availability ${availability}" aria-label="${escapeHtml(availability)}"></span>
+                </div>
+                <div class="cw-agent-copy">
+                  <p class="cw-agent-name">${escapeHtml(agent.name || "Agent")}</p>
+                  <p class="cw-agent-email">${escapeHtml(agent.email || "")}</p>
+                </div>
+              </div>
+              <div class="cw-current">
+                <p class="cw-current-value">${escapeHtml(number(agent.open))}</p>
+                <p class="cw-current-value is-unattended">${escapeHtml(number(agent.unattended))}</p>
+                <p class="cw-current-label">${escapeHtml(t("open"))}</p>
+                <p class="cw-current-label">${escapeHtml(t("unattendedShort"))}</p>
+              </div>
+              <div class="cw-spark-wrap">
+                <p class="cw-spark-label">${escapeHtml(t("dailyResolutions"))}</p>
+                <div class="cw-spark" style="--trend-count:${Math.max(1, agent.trend?.length || 0)}" aria-label="${escapeHtml(t("dailyResolutions"))}">
+                  ${renderSpark(agent)}
+                </div>
+              </div>
+              <div class="cw-performance">
+                <div class="cw-rate-row">
+                  <p class="cw-performance-label">${escapeHtml(t("resolved"))}</p>
+                  <p class="cw-performance-value">${escapeHtml(`${rate}%`)}</p>
+                </div>
+                <div class="cw-rate-track" aria-label="${escapeHtml(t("resolutionRate"))}">
+                  <div class="cw-rate-fill" style="width:${rate}%"></div>
+                </div>
+                <p class="cw-response">${escapeHtml(t("firstResponse"))} ${escapeHtml(duration(agent.avgFirstResponseTime))}</p>
+              </div>
+            </article>
+          `;
+        }
+
+        function renderDashboard(data) {
+          const agents = Array.isArray(data.agents) ? data.agents : [];
+          const days = Math.max(1, Number(data.period?.days) || 7);
+          const sourceBits = [];
+          if (data.sample) sourceBits.push(t("sample"));
+          sourceBits.push(t("updated", { time: timeLabel(data.updatedAt) }));
+
+          app.innerHTML = `
+            <header class="cw-header">
+              <section class="cw-brand">
+                <img class="cw-logo" src="./assets/icon.svg" alt="" />
+                <div class="cw-brand-copy">
+                  <h1 class="cw-title pp-fit pp-fit-title">${escapeHtml(t("title"))}</h1>
+                  <p class="cw-subtitle">${escapeHtml(t("subtitle"))}</p>
+                </div>
+                <div class="cw-live"><span class="cw-live-dot"></span>${escapeHtml(t("live"))}</div>
+              </section>
+              <article class="cw-kpi is-open">
+                <p class="cw-kpi-label">${escapeHtml(t("open"))}</p>
+                <p class="cw-kpi-value">${escapeHtml(number(data.account?.open))}</p>
+              </article>
+              <article class="cw-kpi is-unattended">
+                <p class="cw-kpi-label">${escapeHtml(t("unattended"))}</p>
+                <p class="cw-kpi-value">${escapeHtml(number(data.account?.unattended))}</p>
+              </article>
+              <article class="cw-kpi is-unassigned">
+                <p class="cw-kpi-label">${escapeHtml(t("unassigned"))}</p>
+                <p class="cw-kpi-value">${escapeHtml(number(data.account?.unassigned))}</p>
+              </article>
+            </header>
+
+            <section class="cw-main">
+              <section class="cw-panel cw-traffic-panel">
+                <header class="cw-panel-head">
+                  <h2 class="cw-panel-title">${escapeHtml(t("traffic"))}</h2>
+                  <p class="cw-panel-meta">${escapeHtml(t("lastDays", { days }))}</p>
+                </header>
+                <div class="cw-traffic-chart" style="--day-count:${Math.max(1, data.traffic?.length || 0)}">
+                  ${renderTraffic(data)}
+                </div>
+                <footer class="cw-traffic-foot">
+                  <p class="cw-traffic-total">${escapeHtml(t("periodConversations", { count: number(data.period?.conversations) }))}</p>
+                  <span class="cw-inbox-label">${escapeHtml(t("allInboxes"))}</span>
+                </footer>
+              </section>
+
+              <section class="cw-panel cw-team-panel">
+                <header class="cw-panel-head">
+                  <h2 class="cw-panel-title">${escapeHtml(t("team"))}</h2>
+                  <p class="cw-panel-meta">${escapeHtml(t("agentsShown", { count: number(agents.length) }))}</p>
+                </header>
+                <div class="cw-agent-list" style="--agent-count:${Math.max(1, agents.length)}">
+                  ${agents.length ? agents.map(renderAgent).join("") : `<div class="cw-empty">${escapeHtml(t("noAgents"))}</div>`}
+                </div>
+              </section>
+            </section>
+
+            <footer class="cw-footer" ${data.showSource === false ? "hidden" : ""}>
+              ${escapeHtml([data.source || "Chatwoot", ...sourceBits].filter(Boolean).join(" · "))}
+            </footer>
+          `;
+        }
+
+        async function renderPayload(payload) {
+          try {
+            markLoading();
+            const language = await loadLanguageJson(payload);
+            messages = { ...defaultMessages, ...language.messages };
+            locale = language.language === "de" ? "de-DE" : "en-US";
+            document.documentElement.lang = language.language || "en";
+
+            const settings = mergeSettings(
+              defaults,
+              getSettings(payload),
+              getQuerySettings(),
+            );
+            applyColorTheme(settings.color, { defaultTheme: defaults.color });
+
+            const response = await fetch(new URL("./api/data", window.location.href), {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                baseUrl: settings.baseUrl,
+                accountId: settings.accountId,
+                apiAccessToken: settings.apiAccessToken,
+                rangeDays: settings.rangeDays,
+                agentLimit: settings.agentLimit,
+                timezone: settings.timezone,
+                showSource: settings.showSource,
+                timeoutMs: settings.timeoutMs,
+              }),
+            });
+
+            if (!response.ok) {
+              throw new Error(`Chatwoot API failed with ${response.status}`);
+            }
+
+            const data = await response.json();
+            renderDashboard(data);
+            await document.fonts?.ready;
+            fitAllText();
+            fitToScreen(app);
+            markReady();
+          } catch (error) {
+            app.innerHTML = `
+              <section class="cw-error">
+                <h1>${escapeHtml(t("errorTitle"))}</h1>
+                <p>${escapeHtml(error?.message || String(error))}</p>
+              </section>
+            `;
+            markError(error);
+          }
+        }
+
+        const payload = await waitForPayload({
+          timeoutMs: 500,
+          onUpdate: renderPayload,
+        });
+        await renderPayload(payload);
+      })();
+    </script>
+  </body>
+</html>

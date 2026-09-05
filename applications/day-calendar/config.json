@@ -11,7 +11,8 @@
     "showTime": false,
     "holidayRegion": "DE-BE",
     "latitude": 52.52,
-    "longitude": 13.405
+    "longitude": 13.405,
+    "timeZone": "Europe/Berlin"
   },
   "configVariants": [
     {
@@ -20,7 +21,10 @@
       "showTime": false,
       "language": "en-US",
       "screenshots": {
-        "800x480": "./screenshots/day-calendar-primary-dark-800x480-landscape.png"
+        "800x480": "./screenshots/day-calendar-primary-dark-800x480-landscape.png",
+        "480x800": "./screenshots/day-calendar-primary-dark-480x800-portrait.png",
+        "1600x1200": "./screenshots/day-calendar-primary-dark-1600x1200-landscape.png",
+        "1200x1600": "./screenshots/day-calendar-primary-dark-1200x1600-portrait.png"
       }
     },
     {
@@ -29,7 +33,10 @@
       "showTime": true,
       "language": "de",
       "screenshots": {
-        "800x480": "./screenshots/day-calendar-demotivational-de-800x480-landscape.png"
+        "800x480": "./screenshots/day-calendar-demotivational-de-800x480-landscape.png",
+        "480x800": "./screenshots/day-calendar-demotivational-de-480x800-portrait.png",
+        "1600x1200": "./screenshots/day-calendar-demotivational-de-1600x1200-landscape.png",
+        "1200x1600": "./screenshots/day-calendar-demotivational-de-1200x1600-portrait.png"
       }
     },
     {
@@ -38,7 +45,10 @@
       "showTime": false,
       "language": "en-US",
       "screenshots": {
-        "800x480": "./screenshots/day-calendar-funny-red-800x480-landscape.png"
+        "800x480": "./screenshots/day-calendar-funny-red-800x480-landscape.png",
+        "480x800": "./screenshots/day-calendar-funny-red-480x800-portrait.png",
+        "1600x1200": "./screenshots/day-calendar-funny-red-1600x1200-landscape.png",
+        "1200x1600": "./screenshots/day-calendar-funny-red-1200x1600-portrait.png"
       }
     },
     {
@@ -47,7 +57,10 @@
       "showTime": false,
       "language": "en-US",
       "screenshots": {
-        "800x480": "./screenshots/day-calendar-day-progress-800x480-landscape.png"
+        "800x480": "./screenshots/day-calendar-day-progress-800x480-landscape.png",
+        "480x800": "./screenshots/day-calendar-day-progress-480x800-portrait.png",
+        "1600x1200": "./screenshots/day-calendar-day-progress-1600x1200-landscape.png",
+        "1200x1600": "./screenshots/day-calendar-day-progress-1200x1600-portrait.png"
       }
     },
     {
@@ -57,7 +70,10 @@
       "language": "de",
       "holidayRegion": "DE-BE",
       "screenshots": {
-        "800x480": "./screenshots/day-calendar-holiday-observance-de-800x480-landscape.png"
+        "800x480": "./screenshots/day-calendar-holiday-observance-de-800x480-landscape.png",
+        "480x800": "./screenshots/day-calendar-holiday-observance-de-480x800-portrait.png",
+        "1600x1200": "./screenshots/day-calendar-holiday-observance-de-1600x1200-landscape.png",
+        "1200x1600": "./screenshots/day-calendar-holiday-observance-de-1200x1600-portrait.png"
       }
     },
     {
@@ -68,7 +84,10 @@
       "latitude": 52.52,
       "longitude": 13.405,
       "screenshots": {
-        "800x480": "./screenshots/day-calendar-season-daylight-800x480-landscape.png"
+        "800x480": "./screenshots/day-calendar-season-daylight-800x480-landscape.png",
+        "480x800": "./screenshots/day-calendar-season-daylight-480x800-portrait.png",
+        "1600x1200": "./screenshots/day-calendar-season-daylight-1600x1200-landscape.png",
+        "1200x1600": "./screenshots/day-calendar-season-daylight-1200x1600-portrait.png"
       }
     },
     {
@@ -77,7 +96,10 @@
       "showTime": false,
       "language": "de",
       "screenshots": {
-        "800x480": "./screenshots/day-calendar-word-phrase-de-800x480-landscape.png"
+        "800x480": "./screenshots/day-calendar-word-phrase-de-800x480-landscape.png",
+        "480x800": "./screenshots/day-calendar-word-phrase-de-480x800-portrait.png",
+        "1600x1200": "./screenshots/day-calendar-word-phrase-de-1600x1200-landscape.png",
+        "1200x1600": "./screenshots/day-calendar-word-phrase-de-1200x1600-portrait.png"
       }
     },
     {
@@ -86,7 +108,10 @@
       "showTime": false,
       "language": "en-US",
       "screenshots": {
-        "800x480": "./screenshots/day-calendar-curiosity-800x480-landscape.png"
+        "800x480": "./screenshots/day-calendar-curiosity-800x480-landscape.png",
+        "480x800": "./screenshots/day-calendar-curiosity-480x800-portrait.png",
+        "1600x1200": "./screenshots/day-calendar-curiosity-1600x1200-landscape.png",
+        "1200x1600": "./screenshots/day-calendar-curiosity-1200x1600-portrait.png"
       }
     }
   ],
@@ -142,6 +167,11 @@
         "type": "number",
         "title": "Longitude",
         "default": 13.405
+      },
+      "timeZone": {
+        "type": "string",
+        "title": "Display timezone for daylight",
+        "default": "Europe/Berlin"
       }
     }
   },

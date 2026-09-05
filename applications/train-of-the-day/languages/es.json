@@ -29,5 +29,6 @@
   "signature": "Rasgo distintivo",
   "errorTitle": "No se pudo cargar el tren",
   "imageFailed": "La imagen del tren no se pudo cargar.",
-  "listFailed": "La lista de trenes no se pudo cargar."
+  "listFailed": "La lista de trenes no se pudo cargar.",
+  "factsShown": "{shown} de {total} datos"
 }

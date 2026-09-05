@@ -1,0 +1,144 @@
+{
+  "name": "Mealie Meal Plan",
+  "version": "0.1.0",
+  "status": "alpha",
+  "description": "Read-only Mealie meal plans in the shared calendar layouts.",
+  "renderPage": "./render.html",
+  "icon": "./assets/icon.png",
+  "timezone": "Europe/Berlin",
+  "language": [
+    "de",
+    "en"
+  ],
+  "nativeSettings": {
+    "color": "green-light",
+    "title": "",
+    "sampleData": true,
+    "baseUrl": "",
+    "token": "",
+    "view": "week",
+    "timeZone": "Europe/Berlin",
+    "dayRange": 7,
+    "maxEvents": 30,
+    "showLocation": true,
+    "highlightToday": true,
+    "now": ""
+  },
+  "formSchema": {
+    "type": "object",
+    "properties": {
+      "title": {
+        "type": "string",
+        "default": "",
+        "title": "Display title",
+        "maxLength": 80
+      },
+      "sampleData": {
+        "type": "boolean",
+        "default": true,
+        "title": "Use clearly labelled demo data"
+      },
+      "baseUrl": {
+        "type": "string",
+        "default": "",
+        "title": "Instance base URL",
+        "format": "url"
+      },
+      "token": {
+        "type": "string",
+        "default": "",
+        "title": "Access token",
+        "format": "password"
+      },
+      "view": {
+        "type": "string",
+        "default": "week",
+        "title": "View",
+        "enum": [
+          "agenda",
+          "day",
+          "three-days",
+          "week",
+          "year"
+        ]
+      },
+      "timeZone": {
+        "type": "string",
+        "default": "Europe/Berlin",
+        "title": "Display timezone"
+      },
+      "dayRange": {
+        "type": "number",
+        "default": 7,
+        "title": "Days in agenda",
+        "minimum": 1,
+        "maximum": 31
+      },
+      "maxEvents": {
+        "type": "number",
+        "default": 30,
+        "title": "Maximum events",
+        "minimum": 1,
+        "maximum": 100
+      },
+      "showLocation": {
+        "type": "boolean",
+        "default": true,
+        "title": "Show room / meal type"
+      },
+      "highlightToday": {
+        "type": "boolean",
+        "default": true,
+        "title": "Highlight today"
+      },
+      "now": {
+        "type": "string",
+        "default": "",
+        "title": "Preview date (blank = today)",
+        "format": "date-time"
+      }
+    }
+  },
+  "configVariants": [
+    {
+      "color": "green-light",
+      "title": "",
+      "sampleData": true,
+      "baseUrl": "",
+      "token": "",
+      "view": "week",
+      "timeZone": "Europe/Berlin",
+      "dayRange": 7,
+      "maxEvents": 30,
+      "showLocation": true,
+      "highlightToday": true,
+      "now": "2026-09-07T09:00:00+02:00",
+      "screenshots": {
+        "800x480": "./screenshots/mealie-default-800x480.png",
+        "480x800": "./screenshots/mealie-default-480x800.png",
+        "1600x1200": "./screenshots/mealie-default-1600x1200.png",
+        "1200x1600": "./screenshots/mealie-default-1200x1600.png"
+      }
+    },
+    {
+      "color": "dark",
+      "title": "",
+      "sampleData": true,
+      "baseUrl": "",
+      "token": "",
+      "view": "agenda",
+      "timeZone": "Europe/Berlin",
+      "dayRange": 7,
+      "maxEvents": 30,
+      "showLocation": true,
+      "highlightToday": true,
+      "now": "2026-09-07T09:00:00+02:00",
+      "screenshots": {
+        "800x480": "./screenshots/mealie-dark-800x480.png",
+        "480x800": "./screenshots/mealie-dark-480x800.png",
+        "1600x1200": "./screenshots/mealie-dark-1600x1200.png",
+        "1200x1600": "./screenshots/mealie-dark-1200x1600.png"
+      }
+    }
+  ]
+}

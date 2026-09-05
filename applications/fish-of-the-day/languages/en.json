@@ -16,5 +16,6 @@
   "signature": "Silhouette note",
   "errorTitle": "Fish could not load",
   "imageFailed": "Fish image could not load.",
-  "listFailed": "Fish list could not load."
+  "listFailed": "Fish list could not load.",
+  "factsShown": "{shown} of {total} facts"
 }

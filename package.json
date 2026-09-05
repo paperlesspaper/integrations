@@ -9,11 +9,15 @@
     "copy:assets": "node scripts/copy-openintegration-assets.mjs",
     "postinstall": "npm run copy:assets",
     "docker:build": "docker build -t paperlesspaper-openintegrations:latest .",
-    "docker:run": "docker run --rm -p 3000:3000 paperlesspaper-openintegrations:latest"
+    "docker:run": "docker run --rm -p 3000:3000 paperlesspaper-openintegrations:latest",
+    "check:of-the-day": "node scripts/check-of-the-day-layouts.mjs",
+    "check:dashboards": "node scripts/check-dashboard-integrations.mjs"
   },
   "dependencies": {
     "@fontsource/open-sans": "5.2.7",
     "@paperlesspaper/openintegration": "file:vendor/openintegration",
-    "express": "^4.19.2"
+    "express": "^4.19.2",
+    "fast-xml-parser": "^5.11.1",
+    "suncalc": "^2.0.2"
   }
 }

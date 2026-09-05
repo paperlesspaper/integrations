@@ -61,3 +61,15 @@ It keeps the same base settings (`color`, `kind`, `showTime`), the same date/tim
 This integration declares `language: ["en", "de"]` in `config.json` and loads localized fixed UI copy from `languages/<code>.json` using the host-selected `payload.meta.language`.
 
 The calendar content language also follows the host-selected `payload.meta.language`. Direct preview URLs can still pass `?language=de` or `?language=en-US` to override the content language while testing.
+
+## Seven-day daylight trend
+
+`season-daylight` now calculates sunrise, sunset and daylight duration with SunCalc,
+shows the difference from yesterday, and plots the next seven days' changes relative
+to today. The `timeZone` setting defaults to `Europe/Berlin`; local-day calculations
+remain stable across daylight-saving transitions. Blue bars (orange in the dark theme)
+and an orange heading marker use Spectra 6 processing with dithering for orange.
+Polar day/night has an explicit duration and unavailable rise/set times are shown
+as a dash. These are astronomical estimates, not terrain-aware
+observations. The graph uses separate sunrise/sunset semantics, rather than ambiguous
+“sundawn/sundusk” labels.

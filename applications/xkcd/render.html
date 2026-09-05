@@ -14,7 +14,7 @@
       }
 
       .comic-frame {
-        width: min(100%, 1120px);
+        width: 100%;
         height: 100%;
         display: grid;
         grid-template-rows: auto auto minmax(0, 1fr) auto;
@@ -24,6 +24,11 @@
       }
 
       .comic-image {
+        display: block;
+        min-width: 0;
+        min-height: 0;
+        width: 100%;
+        height: 100%;
         max-width: 100%;
         max-height: 100%;
         object-fit: contain;
@@ -49,7 +54,10 @@
         width: 100%;
         height: 100%;
         min-height: 0;
+        overflow: hidden;
         display: grid;
+        grid-template-columns: minmax(0, 1fr);
+        grid-template-rows: minmax(0, 1fr);
         place-items: center;
       }
 
@@ -88,6 +96,7 @@
           mergeSettings,
           escapeHtml,
           fitHyphenatedText,
+          fitImage,
           fitToScreen,
           markLoading,
           markReady,
@@ -175,9 +184,19 @@
           const comic = await response.json();
           document.getElementById('comic-meta').textContent = `#${comic.num} / ${comic.year}-${comic.month}-${comic.day}`;
           document.getElementById('comic-title').innerHTML = escapeHtml(comic.title);
-          document.getElementById('comic-image').src = comic.img;
-          document.getElementById('comic-image').alt = comic.alt || comic.title;
+          const comicImage = document.getElementById('comic-image');
+          comicImage.src = comic.img;
+          comicImage.alt = comic.alt || comic.title;
           document.getElementById('comic-alt').innerHTML = escapeHtml(comic.alt || '');
+
+          if (!comicImage.complete || !comicImage.naturalWidth) {
+            await new Promise((resolve, reject) => {
+              comicImage.addEventListener('load', resolve, { once: true });
+              comicImage.addEventListener('error', () => reject(new Error('Comic image failed to load')), { once: true });
+            });
+          }
+          await comicImage.decode?.().catch(() => undefined);
+          fitImage(comicImage, 'contain');
 
           fitHyphenatedText(document.getElementById('comic-title'), {
             min: 28,

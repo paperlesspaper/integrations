@@ -1,0 +1,114 @@
+{
+  "name": "Umami Stats",
+  "version": "0.1.0",
+  "status": "alpha",
+  "description": "Visitors, pageviews, visits and a daily visitors chart from Umami.",
+  "renderPage": "./render.html",
+  "icon": "./assets/icon.png",
+  "timezone": "Europe/Berlin",
+  "language": [
+    "de",
+    "en"
+  ],
+  "nativeSettings": {
+    "color": "blue-light",
+    "title": "",
+    "sampleData": true,
+    "baseUrl": "",
+    "token": "",
+    "hosting": "cloud",
+    "websiteId": "",
+    "days": 7,
+    "timeZone": "Europe/Berlin"
+  },
+  "formSchema": {
+    "type": "object",
+    "properties": {
+      "title": {
+        "type": "string",
+        "default": "",
+        "title": "Display title",
+        "maxLength": 80
+      },
+      "sampleData": {
+        "type": "boolean",
+        "default": true,
+        "title": "Use clearly labelled demo data"
+      },
+      "baseUrl": {
+        "type": "string",
+        "default": "",
+        "title": "Instance base URL",
+        "format": "url"
+      },
+      "token": {
+        "type": "string",
+        "default": "",
+        "title": "Access token",
+        "format": "password"
+      },
+      "hosting": {
+        "type": "string",
+        "default": "cloud",
+        "title": "Hosting",
+        "enum": [
+          "cloud",
+          "self-hosted"
+        ]
+      },
+      "websiteId": {
+        "type": "string",
+        "default": "",
+        "title": "Website ID"
+      },
+      "days": {
+        "type": "number",
+        "default": 7,
+        "title": "Days",
+        "minimum": 1,
+        "maximum": 30
+      },
+      "timeZone": {
+        "type": "string",
+        "default": "Europe/Berlin",
+        "title": "Display timezone"
+      }
+    }
+  },
+  "configVariants": [
+    {
+      "color": "blue-light",
+      "title": "",
+      "sampleData": true,
+      "baseUrl": "",
+      "token": "",
+      "hosting": "cloud",
+      "websiteId": "",
+      "days": 7,
+      "timeZone": "Europe/Berlin",
+      "screenshots": {
+        "800x480": "./screenshots/umami-stats-default-800x480.png",
+        "480x800": "./screenshots/umami-stats-default-480x800.png",
+        "1600x1200": "./screenshots/umami-stats-default-1600x1200.png",
+        "1200x1600": "./screenshots/umami-stats-default-1200x1600.png"
+      }
+    },
+    {
+      "color": "dark",
+      "title": "",
+      "sampleData": true,
+      "baseUrl": "",
+      "token": "",
+      "hosting": "cloud",
+      "websiteId": "",
+      "days": 7,
+      "timeZone": "Europe/Berlin",
+      "screenshots": {
+        "800x480": "./screenshots/umami-stats-dark-800x480.png",
+        "480x800": "./screenshots/umami-stats-dark-480x800.png",
+        "1600x1200": "./screenshots/umami-stats-dark-1600x1200.png",
+        "1200x1600": "./screenshots/umami-stats-dark-1200x1600.png"
+      }
+    }
+  ]
+}

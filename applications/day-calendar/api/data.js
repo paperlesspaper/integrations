@@ -1,3 +1,9 @@
+import { getTimes, getPosition } from "suncalc";
+import {
+  dateKey as zonedDateKey,
+  localDateTime,
+  dateParts,
+} from "../../_shared/calendar-feed.js";
 import { curiositiesDe } from "./data/curiosities.de.js";
 import { curiositiesEn } from "./data/curiosities.en.js";
 import { demotivationalQuotesDe } from "./data/demotivational.de.js";
@@ -171,7 +177,11 @@ function normalizeEnum(value, allowed, fallback) {
 }
 
 function languageBase(language) {
-  return String(language || "en").toLowerCase().startsWith("de") ? "de" : "en";
+  return String(language || "en")
+    .toLowerCase()
+    .startsWith("de")
+    ? "de"
+    : "en";
 }
 
 function text(key, language, values = {}) {
@@ -251,7 +261,12 @@ function isoWeek(date) {
   const firstThursday = new Date(target.getFullYear(), 0, 4);
   const firstDayNumber = (firstThursday.getDay() + 6) % 7;
   firstThursday.setDate(firstThursday.getDate() - firstDayNumber + 3);
-  return 1 + Math.round((target.getTime() - firstThursday.getTime()) / (7 * 24 * 60 * 60 * 1000));
+  return (
+    1 +
+    Math.round(
+      (target.getTime() - firstThursday.getTime()) / (7 * 24 * 60 * 60 * 1000),
+    )
+  );
 }
 
 function dateKey(date) {
@@ -481,12 +496,20 @@ function buildDayProgressFact(now, language, dayOfYear) {
 
   return {
     title: text("dayProgress", language),
-    text: `${text("dayOfYear", language, { day: dayOfYear, year })}. ${text("percentComplete", language, {
-      percent,
-    })}.`,
-    meta: `${text("week", language, { week: isoWeek(now) })} - ${text("daysLeft", language, {
-      days: totalDays - dayOfYear,
-    })}`,
+    text: `${text("dayOfYear", language, { day: dayOfYear, year })}. ${text(
+      "percentComplete",
+      language,
+      {
+        percent,
+      },
+    )}.`,
+    meta: `${text("week", language, { week: isoWeek(now) })} - ${text(
+      "daysLeft",
+      language,
+      {
+        days: totalDays - dayOfYear,
+      },
+    )}`,
   };
 }
 
@@ -503,14 +526,19 @@ function findNextObservance(now, observances) {
 }
 
 function buildHolidayObservanceFact(now, language, holidayRegion) {
-  const observances = languageBase(language) === "de" ? observancesDe : observancesEn;
-  const holiday = holidayMap(now.getFullYear(), holidayRegion).get(dateKey(now));
+  const observances =
+    languageBase(language) === "de" ? observancesDe : observancesEn;
+  const holiday = holidayMap(now.getFullYear(), holidayRegion).get(
+    dateKey(now),
+  );
   const localizedHoliday = holiday ? holidayName(holiday, language) : "";
   const observance = observances[monthDayKey(now)];
 
   if (localizedHoliday || observance) {
     return {
-      title: localizedHoliday ? text("holiday", language) : text("observance", language),
+      title: localizedHoliday
+        ? text("holiday", language)
+        : text("observance", language),
       text: uniqueLabels([localizedHoliday, observance]).join(" - "),
       meta: regionName(holidayRegion, language),
     };
@@ -535,21 +563,15 @@ function seasonForDate(date, language) {
   return text("winter", language);
 }
 
-function daylightHours(date, latitude) {
-  const day = getDayOfYear(date);
-  const latRad = (latitude * Math.PI) / 180;
-  const declination = (23.44 * Math.PI / 180) * Math.sin((2 * Math.PI * (day - 81)) / 365);
-  const hourAngleInput = -Math.tan(latRad) * Math.tan(declination);
-
-  if (hourAngleInput >= 1) {
-    return 0;
+function daylightHours(date, latitude, longitude = 0) {
+  const sun = getTimes(date, latitude, longitude);
+  if (
+    Number.isFinite(sun.sunrise?.getTime()) &&
+    Number.isFinite(sun.sunset?.getTime())
+  ) {
+    return (sun.sunset - sun.sunrise) / 3600000;
   }
-
-  if (hourAngleInput <= -1) {
-    return 24;
-  }
-
-  return (24 / Math.PI) * Math.acos(hourAngleInput);
+  return getPosition(sun.solarNoon, latitude, longitude).altitude > 0 ? 24 : 0;
 }
 
 function formatDuration(hours, language) {
@@ -565,7 +587,8 @@ function formatSolarClock(hours, language) {
   }
 
   const dayMinutes = 24 * 60;
-  const normalizedMinutes = ((Math.round(hours * 60) % dayMinutes) + dayMinutes) % dayMinutes;
+  const normalizedMinutes =
+    ((Math.round(hours * 60) % dayMinutes) + dayMinutes) % dayMinutes;
   const whole = Math.floor(normalizedMinutes / 60);
   const minutes = normalizedMinutes % 60;
   const date = new Date(2000, 0, 1, whole, minutes);
@@ -575,27 +598,68 @@ function formatSolarClock(hours, language) {
   }).format(date);
 }
 
-function buildSeasonDaylightFact(now, language, latitude, longitude) {
-  const daylight = daylightHours(now, latitude);
-  const yesterday = daylightHours(addDays(now, -1), latitude);
+function buildSeasonDaylightFact(
+  now,
+  language,
+  latitude,
+  longitude,
+  timeZone = "Europe/Berlin",
+) {
+  const p = dateParts(now, timeZone);
+  const noon = localDateTime(p.year, p.month - 1, p.day, 12, 0, timeZone);
+  const daylight = daylightHours(noon, latitude, longitude);
+  const yesterday = daylightHours(
+    new Date(+noon - 86400000),
+    latitude,
+    longitude,
+  );
+  const sun = getTimes(noon, latitude, longitude);
+  const de = languageBase(language) === "de";
   const diffMinutes = Math.round((daylight - yesterday) * 60);
-  const timezoneOffsetHours = -now.getTimezoneOffset() / 60;
-  const solarNoon = 12 + timezoneOffsetHours - longitude / 15;
-  const sunrise = solarNoon - daylight / 2;
-  const sunset = solarNoon + daylight / 2;
-  const lightTrend = Math.abs(diffMinutes) < 1
-    ? text("sameLight", language)
-    : `${Math.abs(diffMinutes)} min ${diffMinutes > 0 ? text("moreLight", language) : text("lessLight", language)}`;
-
+  const trend = Array.from({ length: 7 }, (_, i) => {
+    const date = localDateTime(
+      p.year,
+      p.month - 1,
+      p.day + i + 1,
+      12,
+      0,
+      timeZone,
+    );
+    const duration = daylightHours(date, latitude, longitude);
+    return {
+      date: zonedDateKey(date, timeZone),
+      hours: duration,
+      deltaMinutes: Math.round((duration - daylight) * 60),
+    };
+  });
+  const clock = (date) =>
+    Number.isFinite(date?.getTime())
+      ? safeFormatter(language, {
+          hour: "2-digit",
+          minute: "2-digit",
+          timeZone,
+        }).format(date)
+      : "—";
+  const lightTrend =
+    Math.abs(diffMinutes) < 1
+      ? text("sameLight", language)
+      : `${Math.abs(diffMinutes)} min ${diffMinutes > 0 ? text("moreLight", language) : text("lessLight", language)}`;
+  const weekDelta = trend.at(-1).deltaMinutes;
   return {
-    title: seasonForDate(now, language),
+    title: seasonForDate(noon, language),
     text: `${formatDuration(daylight, language)} ${text("daylight", language)}`,
-    meta: `${text("sunrise", language)} ${formatSolarClock(sunrise, language)} - ${text("sunset", language)} ${formatSolarClock(sunset, language)} - ${lightTrend}`,
+    meta: `${text("sunrise", language)} ${clock(sun.sunrise)} · ${text("sunset", language)} ${clock(sun.sunset)}`,
+    lightTrend,
+    weekTrend: `${de ? "In 7 Tagen" : "In 7 days"}: ${weekDelta > 0 ? "+" : ""}${weekDelta} min`,
+    trend,
   };
 }
 
 function buildWordPhraseFact(language, dayOfYear) {
-  const item = dailyItem(languageBase(language) === "de" ? wordsDe : wordsEn, dayOfYear);
+  const item = dailyItem(
+    languageBase(language) === "de" ? wordsDe : wordsEn,
+    dayOfYear,
+  );
   return {
     title: item.title,
     text: item.text,
@@ -604,7 +668,10 @@ function buildWordPhraseFact(language, dayOfYear) {
 }
 
 function buildCuriosityFact(language, dayOfYear) {
-  const item = dailyItem(languageBase(language) === "de" ? curiositiesDe : curiositiesEn, dayOfYear);
+  const item = dailyItem(
+    languageBase(language) === "de" ? curiositiesDe : curiositiesEn,
+    dayOfYear,
+  );
   return {
     title: item.title,
     text: item.text,
@@ -620,7 +687,11 @@ function buildFact(kind, settings, now, dayOfYear) {
   }
 
   if (kind === "holiday-observance") {
-    return buildHolidayObservanceFact(now, settings.language, settings.holidayRegion);
+    return buildHolidayObservanceFact(
+      now,
+      settings.language,
+      settings.holidayRegion,
+    );
   }
 
   if (kind === "season-daylight") {
@@ -629,6 +700,7 @@ function buildFact(kind, settings, now, dayOfYear) {
       settings.language,
       settings.latitude,
       settings.longitude,
+      settings.timeZone,
     );
   }
 
@@ -656,30 +728,38 @@ export default async function handler({ query }) {
     kind,
     showTime,
     language,
-    holidayRegion: normalizeEnum(query.holidayRegion, Object.keys(regionNames), "DE-BE"),
+    holidayRegion: normalizeEnum(
+      query.holidayRegion,
+      Object.keys(regionNames),
+      "DE-BE",
+    ),
     latitude: numberValue(query.latitude, 52.52, -66, 66),
     longitude: numberValue(query.longitude, 13.405, -180, 180),
+    timeZone: stringValue(query.timeZone, "Europe/Berlin"),
   };
-  const fact = factKinds.has(kind) ? buildFact(kind, settings, now, dayOfYear) : null;
+  const fact = factKinds.has(kind)
+    ? buildFact(kind, settings, now, dayOfYear)
+    : null;
   const quotes = showQuote ? quoteCollection(kind, language) : [];
-  const quote = fact?.text || (showQuote ? quotes[dayOfYear % quotes.length] : "");
+  const quote =
+    fact?.text || (showQuote ? quotes[dayOfYear % quotes.length] : "");
 
   return {
     date: {
       formattedDate: safeDatePart(now, language, {
         month: "long",
-        day: "numeric"
+        day: "numeric",
       }),
       day: safeDatePart(now, language, { day: "numeric" }),
       month: safeDatePart(now, language, { month: "long" }),
       weekday: safeDatePart(now, language, { weekday: "long" }),
-      time: safeTime(now, language)
+      time: safeTime(now, language),
     },
     fact,
     quote,
     dayOfYear,
     settings,
-    updatedAt: now.toISOString()
+    updatedAt: now.toISOString(),
   };
 }
 

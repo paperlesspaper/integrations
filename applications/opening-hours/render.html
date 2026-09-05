@@ -86,14 +86,15 @@
 
       .hours-screen.has-no-week .hours-status {
         grid-template-columns: 1fr;
+        grid-template-rows: minmax(0, 1fr);
       }
 
       .status-panel {
         min-width: 0;
         min-height: 0;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
+        display: grid;
+        grid-template-rows: minmax(0, 1fr) auto auto;
+        align-content: stretch;
         padding: 22px;
         border: 3px solid currentColor;
         background: var(--pp-card);
@@ -113,6 +114,14 @@
         background: var(--hours-red);
       }
 
+      .status-hero {
+        min-width: 0;
+        min-height: 0;
+        display: grid;
+        place-items: center start;
+        overflow: hidden;
+      }
+
       .status-panel.is-open .today-label,
       .status-panel.is-closed .today-label,
       .status-panel.is-temporarily-closed .today-label,
@@ -122,6 +131,7 @@
 
       .status-label {
         margin: 0;
+        width: 100%;
         font-size: clamp(2.5rem, 9vh, 5.7rem);
         line-height: 0.9;
         font-weight: 950;
@@ -365,6 +375,106 @@
           font-size: 0.68rem;
         }
       }
+
+      @media (min-width: 900px) and (min-height: 900px) {
+        .hours-screen {
+          padding: 34px;
+          gap: 22px;
+        }
+
+        .hours-header {
+          gap: 28px;
+          padding-top: 24px;
+          padding-bottom: 18px;
+        }
+
+        .hours-header::before {
+          width: 112px;
+          height: 14px;
+          background:
+            radial-gradient(circle at 7px 7px, var(--hours-red) 0 6px, transparent 6.5px),
+            radial-gradient(circle at 55px 7px, var(--hours-blue) 0 6px, transparent 6.5px),
+            radial-gradient(circle at 103px 7px, var(--hours-green) 0 6px, transparent 6.5px);
+        }
+
+        .hours-kicker,
+        .section-label {
+          font-size: 1.15rem;
+        }
+
+        .hours-subtitle {
+          margin-top: 11px;
+          font-size: 1.45rem;
+        }
+
+        .hours-source {
+          padding: 11px 14px;
+          border-width: 3px;
+          font-size: 0.95rem;
+        }
+
+        .hours-status {
+          gap: 22px;
+        }
+
+        .status-panel {
+          padding: 32px;
+          border-width: 5px;
+        }
+
+        .status-next {
+          margin-top: 22px;
+          font-size: 2rem;
+        }
+
+        .today-hours {
+          margin-top: 34px;
+          padding-top: 22px;
+          border-top-width: 3px;
+        }
+
+        .today-label {
+          margin-bottom: 8px;
+          font-size: 1.05rem;
+        }
+
+        .today-value {
+          font-size: 2.45rem;
+        }
+
+        .week-panel {
+          gap: 14px;
+        }
+
+        .hours-list {
+          gap: 10px;
+        }
+
+        .hours-row {
+          gap: 14px;
+          padding: 12px 16px;
+          border-width: 3px;
+        }
+
+        .day-name,
+        .day-hours {
+          font-size: 1.42rem;
+        }
+
+        .hours-footer {
+          gap: 22px;
+          padding-top: 16px;
+        }
+
+        .contact-lines {
+          gap: 10px 20px;
+          font-size: 1.05rem;
+        }
+
+        .hours-updated {
+          font-size: 0.95rem;
+        }
+      }
     </style>
   </head>
   <body>
@@ -381,7 +491,9 @@
 
       <section class="hours-status">
         <article class="status-panel" id="status-panel">
-          <p class="status-label pp-fit" id="status-label" data-i18n="loading">Loading</p>
+          <div class="status-hero" id="status-hero">
+            <p class="status-label pp-fit" id="status-label" data-i18n="loading">Loading</p>
+          </div>
           <p class="status-next" id="next-change"></p>
           <div class="today-hours">
             <p class="today-label" data-i18n="today">Today</p>
@@ -410,7 +522,7 @@
           mergeSettings,
           applyColorTheme,
           escapeHtml,
-          fitAllText,
+          fitHyphenatedText,
           fitToScreen,
           markLoading,
           markReady,
@@ -570,6 +682,7 @@
           const statusPanel = document.getElementById("status-panel");
           const weekPanel = document.getElementById("week-panel");
           const contactLines = document.getElementById("contact-lines");
+          const showWeeklyHours = isEnabled(data.showWeeklyHours);
 
           document.getElementById("business-name").innerHTML = escapeHtml(
             data.businessName || settings.businessName,
@@ -589,8 +702,8 @@
           );
 
           statusPanel.className = `status-panel is-${data.status || "unknown"}`;
-          weekPanel.classList.toggle("is-hidden", !isEnabled(data.showWeeklyHours));
-          screen.classList.toggle("has-no-week", !isEnabled(data.showWeeklyHours));
+          weekPanel.classList.toggle("is-hidden", !showWeeklyHours);
+          screen.classList.toggle("has-no-week", !showWeeklyHours);
 
           document.getElementById("hours-list").innerHTML = (data.weeklyHours || [])
             .map((day) => `
@@ -613,7 +726,25 @@
           document.getElementById("updated-at").textContent =
             `${t("updated")} ${formatUpdated(data.updatedAt, data.timezone)}`;
 
-          fitAllText(".pp-fit", { min: 24, max: 78, step: 2 });
+          await document.fonts?.ready;
+          const largeFrame = Math.min(window.innerWidth, window.innerHeight) >= 900;
+          fitHyphenatedText(document.getElementById("business-name"), {
+            min: 24,
+            max: largeFrame ? 112 : 78,
+            step: 2,
+            tolerance: 6,
+          });
+
+          const statusMax = showWeeklyHours
+            ? Math.min(230, Math.round(Math.min(window.innerWidth * 0.22, window.innerHeight * 0.25)))
+            : Math.min(420, Math.round(Math.min(window.innerWidth * 0.38, window.innerHeight * 0.34)));
+          fitHyphenatedText(document.getElementById("status-label"), {
+            min: 32,
+            max: statusMax,
+            step: 2,
+            tolerance: 4,
+            fitParent: document.getElementById("status-hero"),
+          });
           fitToScreen();
           markReady({
             source: data.source,

@@ -13,14 +13,18 @@
       "index": null,
       "screenshots": {
         "800x480": "./screenshots/quote-daily-800x480-landscape.png",
-        "480x800": "./screenshots/quote-daily-480x800-portrait.png"
+        "480x800": "./screenshots/quote-daily-480x800-portrait.png",
+        "1600x1200": "./screenshots/quote-daily-1600x1200-landscape.png",
+        "1200x1600": "./screenshots/quote-daily-1200x1600-portrait.png"
       }
     },
     {
       "index": 7,
       "screenshots": {
         "800x480": "./screenshots/quote-index-7-800x480-landscape.png",
-        "480x800": "./screenshots/quote-index-7-480x800-portrait.png"
+        "480x800": "./screenshots/quote-index-7-480x800-portrait.png",
+        "1600x1200": "./screenshots/quote-index-7-1600x1200-landscape.png",
+        "1200x1600": "./screenshots/quote-index-7-1200x1600-portrait.png"
       }
     }
   ],

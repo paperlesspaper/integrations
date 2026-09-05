@@ -23,7 +23,9 @@
     "showFamily": false,
     "showHabitat": false,
     "showConservation": false,
-    "showCategory": false
+    "showCategory": false,
+    "showFactCount": false,
+    "showRotationCount": false
   },
   "configVariants": [
     {
@@ -47,8 +49,12 @@
       "showCategory": false,
       "screenshots": {
         "800x480": "./screenshots/tree-of-the-day-default-800x480-landscape.png",
-        "480x800": "./screenshots/tree-of-the-day-default-480x800-portrait.png"
-      }
+        "480x800": "./screenshots/tree-of-the-day-default-480x800-portrait.png",
+        "1600x1200": "./screenshots/tree-of-the-day-default-1600x1200-landscape.png",
+        "1200x1600": "./screenshots/tree-of-the-day-default-1200x1600-portrait.png"
+      },
+      "showFactCount": false,
+      "showRotationCount": false
     },
     {
       "color": "dark",
@@ -71,8 +77,12 @@
       "showCategory": true,
       "screenshots": {
         "800x480": "./screenshots/tree-of-the-day-bodhi-800x480-landscape.png",
-        "480x800": "./screenshots/tree-of-the-day-bodhi-480x800-portrait.png"
-      }
+        "480x800": "./screenshots/tree-of-the-day-bodhi-480x800-portrait.png",
+        "1600x1200": "./screenshots/tree-of-the-day-bodhi-1600x1200-landscape.png",
+        "1200x1600": "./screenshots/tree-of-the-day-bodhi-1200x1600-portrait.png"
+      },
+      "showFactCount": false,
+      "showRotationCount": false
     }
   ],
   "formSchema": {
@@ -128,6 +138,18 @@
         "type": "boolean",
         "title": "Show header",
         "default": true
+      },
+      "showFactCount": {
+        "type": "boolean",
+        "title": "Show fact count",
+        "description": "Show how many selected facts fit on the display. Hidden when all facts fit.",
+        "default": false
+      },
+      "showRotationCount": {
+        "type": "boolean",
+        "title": "Show rotation count",
+        "description": "Show the number of items in the current rotation. Requires the header to be enabled.",
+        "default": false
       },
       "showSpecies": {
         "type": "boolean",

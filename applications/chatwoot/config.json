@@ -1,0 +1,103 @@
+{
+  "name": "Chatwoot",
+  "version": "0.1.0",
+  "status": "alpha",
+  "description": "Shows live Chatwoot conversation load, recent conversation traffic, conversations per agent, and an individual performance chart for every displayed agent.",
+  "renderPage": "./render.html",
+  "icon": "./assets/icon.png",
+  "nativeSettings": {
+    "color": "dark",
+    "baseUrl": "https://app.chatwoot.com",
+    "accountId": 0,
+    "apiAccessToken": "",
+    "rangeDays": 7,
+    "agentLimit": 4,
+    "timezone": "Europe/Berlin",
+    "showSource": true,
+    "timeoutMs": 8000
+  },
+  "configVariants": [
+    {
+      "color": "dark",
+      "baseUrl": "https://app.chatwoot.com",
+      "accountId": 0,
+      "apiAccessToken": "",
+      "rangeDays": 7,
+      "agentLimit": 4,
+      "timezone": "Europe/Berlin",
+      "showSource": true,
+      "timeoutMs": 8000,
+      "screenshots": {
+        "800x480": "./screenshots/chatwoot-team-800x480-landscape.png",
+        "480x800": "./screenshots/chatwoot-team-480x800-portrait.png",
+        "1600x1200": "./screenshots/chatwoot-team-1600x1200-landscape.png",
+        "1200x1600": "./screenshots/chatwoot-team-1200x1600-portrait.png"
+      }
+    }
+  ],
+  "formSchema": {
+    "type": "object",
+    "properties": {
+      "baseUrl": {
+        "type": "string",
+        "title": "Chatwoot URL",
+        "description": "Your Chatwoot base URL. Use https://app.chatwoot.com for Chatwoot Cloud.",
+        "format": "url",
+        "default": "https://app.chatwoot.com"
+      },
+      "accountId": {
+        "type": "integer",
+        "title": "Account ID",
+        "description": "The numeric account ID shown in Chatwoot URLs such as /app/accounts/1/.",
+        "minimum": 0,
+        "default": 0
+      },
+      "apiAccessToken": {
+        "type": "string",
+        "title": "API access token",
+        "description": "A Chatwoot user access token with permission to read reports for this account.",
+        "format": "password",
+        "default": ""
+      },
+      "rangeDays": {
+        "type": "integer",
+        "title": "Reporting period in days",
+        "description": "Number of recent days used for traffic and agent performance charts.",
+        "minimum": 3,
+        "maximum": 7,
+        "default": 7
+      },
+      "agentLimit": {
+        "type": "integer",
+        "title": "Maximum agents",
+        "description": "Agents are ordered by current open workload and recent conversation volume.",
+        "minimum": 1,
+        "maximum": 6,
+        "default": 4
+      },
+      "timezone": {
+        "type": "string",
+        "title": "Timezone",
+        "description": "IANA timezone used to group report points into display days.",
+        "default": "Europe/Berlin"
+      },
+      "showSource": {
+        "type": "boolean",
+        "title": "Show source and update time",
+        "default": true
+      },
+      "timeoutMs": {
+        "type": "integer",
+        "title": "Request timeout",
+        "description": "Maximum duration of each Chatwoot API request in milliseconds.",
+        "minimum": 2000,
+        "maximum": 20000,
+        "default": 8000
+      }
+    }
+  },
+  "language": [
+    "en",
+    "de"
+  ]
+}

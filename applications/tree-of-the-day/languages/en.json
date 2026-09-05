@@ -18,5 +18,6 @@
   "selectedFrom": "{count} in rotation",
   "errorTitle": "Tree could not load",
   "imageFailed": "Tree image could not load.",
-  "listFailed": "Tree list could not load."
+  "listFailed": "Tree list could not load.",
+  "factsShown": "{shown} of {total} facts"
 }

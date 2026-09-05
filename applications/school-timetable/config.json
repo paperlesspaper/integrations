@@ -1,0 +1,144 @@
+{
+  "name": "School Timetable",
+  "version": "0.1.0",
+  "status": "alpha",
+  "description": "Manually maintained lessons in the shared calendar layouts.",
+  "renderPage": "./render.html",
+  "icon": "./assets/icon.png",
+  "timezone": "Europe/Berlin",
+  "language": [
+    "de",
+    "en"
+  ],
+  "nativeSettings": {
+    "color": "blue-light",
+    "title": "",
+    "sampleData": true,
+    "schedule": "",
+    "schoolName": "",
+    "view": "week",
+    "timeZone": "Europe/Berlin",
+    "dayRange": 7,
+    "maxEvents": 30,
+    "showLocation": true,
+    "highlightToday": true,
+    "now": ""
+  },
+  "formSchema": {
+    "type": "object",
+    "properties": {
+      "title": {
+        "type": "string",
+        "default": "",
+        "title": "Display title",
+        "maxLength": 80
+      },
+      "sampleData": {
+        "type": "boolean",
+        "default": true,
+        "title": "Use clearly labelled demo data"
+      },
+      "schedule": {
+        "type": "string",
+        "default": "",
+        "title": "One lesson per line: weekday (1–7) | start | end | subject | room",
+        "format": "textarea",
+        "maxLength": 20000
+      },
+      "schoolName": {
+        "type": "string",
+        "default": "",
+        "title": "Class or school"
+      },
+      "view": {
+        "type": "string",
+        "default": "week",
+        "title": "View",
+        "enum": [
+          "agenda",
+          "day",
+          "three-days",
+          "week",
+          "year"
+        ]
+      },
+      "timeZone": {
+        "type": "string",
+        "default": "Europe/Berlin",
+        "title": "Display timezone"
+      },
+      "dayRange": {
+        "type": "number",
+        "default": 7,
+        "title": "Days in agenda",
+        "minimum": 1,
+        "maximum": 31
+      },
+      "maxEvents": {
+        "type": "number",
+        "default": 30,
+        "title": "Maximum events",
+        "minimum": 1,
+        "maximum": 100
+      },
+      "showLocation": {
+        "type": "boolean",
+        "default": true,
+        "title": "Show room / meal type"
+      },
+      "highlightToday": {
+        "type": "boolean",
+        "default": true,
+        "title": "Highlight today"
+      },
+      "now": {
+        "type": "string",
+        "default": "",
+        "title": "Preview date (blank = today)",
+        "format": "date-time"
+      }
+    }
+  },
+  "configVariants": [
+    {
+      "color": "blue-light",
+      "title": "",
+      "sampleData": true,
+      "schedule": "",
+      "schoolName": "",
+      "view": "week",
+      "timeZone": "Europe/Berlin",
+      "dayRange": 7,
+      "maxEvents": 30,
+      "showLocation": true,
+      "highlightToday": true,
+      "now": "2026-09-07T09:00:00+02:00",
+      "screenshots": {
+        "800x480": "./screenshots/school-timetable-default-800x480.png",
+        "480x800": "./screenshots/school-timetable-default-480x800.png",
+        "1600x1200": "./screenshots/school-timetable-default-1600x1200.png",
+        "1200x1600": "./screenshots/school-timetable-default-1200x1600.png"
+      }
+    },
+    {
+      "color": "dark",
+      "title": "",
+      "sampleData": true,
+      "schedule": "",
+      "schoolName": "",
+      "view": "agenda",
+      "timeZone": "Europe/Berlin",
+      "dayRange": 7,
+      "maxEvents": 30,
+      "showLocation": true,
+      "highlightToday": true,
+      "now": "2026-09-07T09:00:00+02:00",
+      "screenshots": {
+        "800x480": "./screenshots/school-timetable-dark-800x480.png",
+        "480x800": "./screenshots/school-timetable-dark-480x800.png",
+        "1600x1200": "./screenshots/school-timetable-dark-1600x1200.png",
+        "1200x1600": "./screenshots/school-timetable-dark-1200x1600.png"
+      }
+    }
+  ]
+}

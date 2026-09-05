@@ -61,3 +61,22 @@ Constraints: use publicly available Wikipedia-style visual knowledge as referenc
 ## Sources
 
 Facts and visual prompts are based on Wikipedia pages for the listed species or individual trees. The source title and URL are included in [data/trees.js](./data/trees.js).
+
+## Shared display layout
+
+This integration uses the common illustrated daily-card renderer. It chooses a side-by-side
+or stacked composition from the artwork shape and display orientation, keeps the full image
+inside its allotted area, and scales typography for small and large display resolutions.
+
+- `textSize`: `small`, `middle` (default), or `big`.
+- `showHeader`: hides title, description, date and metadata when false.
+- `showFactCount`: optionally shows e.g. “5 of 6 facts” when selected facts do not all fit; defaults to false.
+- `showRotationCount`: optionally shows the item count in the rotation; defaults to false and requires the header.
+- Existing fact switches select the eligible facts. If they do not all fit legibly while
+  preserving the picture area, the renderer shows the first complete facts in their defined
+  priority order. The optional fact count is independent of the header. Facts are not paginated.
+- Deselecting all facts leaves no facts; disabling the header as well gives an image-only view.
+
+The shared rules and generation checklist live in
+[`@paperlesspaper/openintegration`'s guide](../../vendor/openintegration/of-the-day-integrations.md).
+Validate the installed runtime with `npm run check:of-the-day -- --full` from the repository root.

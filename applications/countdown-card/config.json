@@ -27,7 +27,9 @@
       "dateLabel": "Target",
       "screenshots": {
         "800x480": "./screenshots/countdown-card-launch-800x480-landscape.png",
-        "480x800": "./screenshots/countdown-card-launch-480x800-portrait.png"
+        "480x800": "./screenshots/countdown-card-launch-480x800-portrait.png",
+        "1600x1200": "./screenshots/countdown-card-launch-1600x1200-landscape.png",
+        "1200x1600": "./screenshots/countdown-card-launch-1200x1600-portrait.png"
       }
     },
     {
@@ -41,7 +43,9 @@
       "dateLabel": "Opened",
       "screenshots": {
         "800x480": "./screenshots/countdown-card-since-800x480-landscape.png",
-        "480x800": "./screenshots/countdown-card-since-480x800-portrait.png"
+        "480x800": "./screenshots/countdown-card-since-480x800-portrait.png",
+        "1600x1200": "./screenshots/countdown-card-since-1600x1200-landscape.png",
+        "1200x1600": "./screenshots/countdown-card-since-1200x1600-portrait.png"
       }
     }
   ],

@@ -41,7 +41,9 @@
       "maxLinkLength": 42,
       "screenshots": {
         "800x480": "./screenshots/mastodon-opensource-list-800x480-landscape.png",
-        "480x800": "./screenshots/mastodon-opensource-list-480x800-portrait.png"
+        "480x800": "./screenshots/mastodon-opensource-list-480x800-portrait.png",
+        "1600x1200": "./screenshots/mastodon-opensource-list-1600x1200-landscape.png",
+        "1200x1600": "./screenshots/mastodon-opensource-list-1200x1600-portrait.png"
       }
     },
     {
@@ -62,7 +64,9 @@
       "maxLinkLength": 36,
       "screenshots": {
         "800x480": "./screenshots/mastodon-science-profile-single-800x480-landscape.png",
-        "480x800": "./screenshots/mastodon-science-profile-single-480x800-portrait.png"
+        "480x800": "./screenshots/mastodon-science-profile-single-480x800-portrait.png",
+        "1600x1200": "./screenshots/mastodon-science-profile-single-1600x1200-landscape.png",
+        "1200x1600": "./screenshots/mastodon-science-profile-single-1200x1600-portrait.png"
       }
     }
   ],

@@ -31,7 +31,9 @@
       "showPlatformChanges": true,
       "screenshots": {
         "800x480": "./screenshots/deutsche-bahn-abfahrten-berlin-hbf-800x480-landscape.png",
-        "480x800": "./screenshots/deutsche-bahn-abfahrten-berlin-hbf-480x800-portrait.png"
+        "480x800": "./screenshots/deutsche-bahn-abfahrten-berlin-hbf-480x800-portrait.png",
+        "1600x1200": "./screenshots/deutsche-bahn-abfahrten-berlin-hbf-1600x1200-landscape.png",
+        "1200x1600": "./screenshots/deutsche-bahn-abfahrten-berlin-hbf-1200x1600-portrait.png"
       }
     },
     {
@@ -47,7 +49,9 @@
       "showPlatformChanges": true,
       "screenshots": {
         "800x480": "./screenshots/deutsche-bahn-abfahrten-hamburg-regional-800x480-landscape.png",
-        "480x800": "./screenshots/deutsche-bahn-abfahrten-hamburg-regional-480x800-portrait.png"
+        "480x800": "./screenshots/deutsche-bahn-abfahrten-hamburg-regional-480x800-portrait.png",
+        "1600x1200": "./screenshots/deutsche-bahn-abfahrten-hamburg-regional-1600x1200-landscape.png",
+        "1200x1600": "./screenshots/deutsche-bahn-abfahrten-hamburg-regional-1200x1600-portrait.png"
       }
     }
   ],

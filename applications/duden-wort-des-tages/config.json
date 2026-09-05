@@ -5,7 +5,9 @@
   "description": "Shows Duden's German word of the day with meaning, usage, origin, type, and frequency.",
   "renderPage": "./render.html",
   "icon": "./assets/icon.png",
-  "requiredPermissions": ["googleCalendar"],
+  "requiredPermissions": [
+    "googleCalendar"
+  ],
   "nativeSettings": {
     "wordPath": ""
   },
@@ -14,7 +16,9 @@
       "wordPath": "",
       "screenshots": {
         "800x480": "./screenshots/duden-wort-des-tages-word-of-the-day-800x480-landscape.png",
-        "480x800": "./screenshots/duden-wort-des-tages-word-of-the-day-480x800-portrait.png"
+        "480x800": "./screenshots/duden-wort-des-tages-word-of-the-day-480x800-portrait.png",
+        "1600x1200": "./screenshots/duden-wort-des-tages-word-of-the-day-1600x1200-landscape.png",
+        "1200x1600": "./screenshots/duden-wort-des-tages-word-of-the-day-1200x1600-portrait.png"
       }
     }
   ],
@@ -29,5 +33,11 @@
       }
     }
   },
-  "language": ["en", "de", "fr", "es", "it"]
+  "language": [
+    "en",
+    "de",
+    "fr",
+    "es",
+    "it"
+  ]
 }

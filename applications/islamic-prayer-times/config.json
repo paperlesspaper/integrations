@@ -61,7 +61,9 @@
       "ishaOffset": 0,
       "screenshots": {
         "800x480": "./screenshots/islamic-prayer-times-berlin-diyanet-800x480-landscape.png",
-        "480x800": "./screenshots/islamic-prayer-times-berlin-diyanet-480x800-portrait.png"
+        "480x800": "./screenshots/islamic-prayer-times-berlin-diyanet-480x800-portrait.png",
+        "1600x1200": "./screenshots/islamic-prayer-times-berlin-diyanet-1600x1200-landscape.png",
+        "1200x1600": "./screenshots/islamic-prayer-times-berlin-diyanet-1200x1600-portrait.png"
       }
     },
     {
@@ -92,7 +94,9 @@
       "ishaOffset": 2,
       "screenshots": {
         "800x480": "./screenshots/islamic-prayer-times-jakarta-iqamah-800x480-landscape.png",
-        "480x800": "./screenshots/islamic-prayer-times-jakarta-iqamah-480x800-portrait.png"
+        "480x800": "./screenshots/islamic-prayer-times-jakarta-iqamah-480x800-portrait.png",
+        "1600x1200": "./screenshots/islamic-prayer-times-jakarta-iqamah-1600x1200-landscape.png",
+        "1200x1600": "./screenshots/islamic-prayer-times-jakarta-iqamah-1200x1600-portrait.png"
       }
     }
   ],

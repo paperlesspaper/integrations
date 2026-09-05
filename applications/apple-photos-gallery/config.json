@@ -25,7 +25,9 @@
       "showCaptureDate": false,
       "screenshots": {
         "800x480": "./screenshots/apple-photos-gallery-first-cover-800x480-landscape.png",
-        "480x800": "./screenshots/apple-photos-gallery-first-cover-480x800-portrait.png"
+        "480x800": "./screenshots/apple-photos-gallery-first-cover-480x800-portrait.png",
+        "1600x1200": "./screenshots/apple-photos-gallery-first-cover-1600x1200-landscape.png",
+        "1200x1600": "./screenshots/apple-photos-gallery-first-cover-1200x1600-portrait.png"
       }
     },
     {
@@ -38,7 +40,9 @@
       "showCaptureDate": true,
       "screenshots": {
         "800x480": "./screenshots/apple-photos-gallery-first-metadata-800x480-landscape.png",
-        "480x800": "./screenshots/apple-photos-gallery-first-metadata-480x800-portrait.png"
+        "480x800": "./screenshots/apple-photos-gallery-first-metadata-480x800-portrait.png",
+        "1600x1200": "./screenshots/apple-photos-gallery-first-metadata-1600x1200-landscape.png",
+        "1200x1600": "./screenshots/apple-photos-gallery-first-metadata-1200x1600-portrait.png"
       }
     }
   ],

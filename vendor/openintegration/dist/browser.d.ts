@@ -12,7 +12,7 @@ export { fitImage, fitToScreen } from "./resize";
 export { detectOverflow } from "./overflow";
 export { escapeHtml } from "./html";
 export { fitOfTheDayLayout, renderOfTheDayLayout, waitForOfTheDayImage } from "./ofTheDay";
-export type { FitOfTheDayLayoutOptions, OfTheDayFact, OfTheDayImageOptions, OfTheDayLayoutElements, OfTheDayLayoutMode, OfTheDayMetaItem, OfTheDayTextSize, RenderOfTheDayLayoutOptions } from "./ofTheDay";
+export type { FitOfTheDayLayoutOptions, OfTheDayFact, OfTheDayFitReport, OfTheDayImageOptions, OfTheDayLayoutElements, OfTheDayLayoutMode, OfTheDayMetaItem, OfTheDayTextSize, RenderOfTheDayLayoutOptions } from "./ofTheDay";
 export { DEFAULT_CALENDAR_MESSAGES, DEFAULT_CALENDAR_SETTINGS, buildCalendarRange, fitCalendarLayout, normalizeCalendarSettings, prepareCalendarEvents, renderCalendarLayout, waitForCalendarImages } from "./calendar";
 export { bootCalendarApiIntegration } from "./calendarIntegration";
 export type { BootCalendarApiIntegrationOptions, CalendarApiData, CalendarApiIntegrationContext, CalendarApiRequestContext } from "./calendarIntegration";

@@ -49,7 +49,8 @@
         min-height: 0;
         display: grid;
         grid-template-columns: minmax(0, 1fr);
-        align-content: center;
+        grid-template-rows: minmax(0, 1fr) auto;
+        align-content: stretch;
         gap: 20px;
       }
 
@@ -57,18 +58,21 @@
         display: grid;
         grid-template-columns: 1.25fr 1fr 1fr;
         gap: 10px;
+        height: 100%;
         min-height: 0;
       }
 
       .countdown-values.days-only {
         grid-template-columns: minmax(0, 1fr);
+        grid-template-rows: minmax(0, 1fr);
       }
 
       .countdown-unit {
         min-width: 0;
         min-height: 0;
         display: grid;
-        align-content: center;
+        grid-template-rows: minmax(0, 1fr) auto;
+        align-content: stretch;
         gap: 8px;
         padding: 16px 12px;
         border: 3px solid var(--pp-border);
@@ -77,17 +81,26 @@
         text-align: center;
       }
 
+      .countdown-number-wrap {
+        min-width: 0;
+        min-height: 0;
+        display: grid;
+        place-items: center;
+        overflow: hidden;
+      }
+
       .countdown-number {
         display: block;
-        font-size: clamp(4.2rem, 21vh, 9.8rem);
+        width: 100%;
+        font-size: 9.8rem;
         line-height: 0.8;
         font-weight: 980;
         letter-spacing: 0;
-        overflow-wrap: anywhere;
+        white-space: nowrap;
       }
 
       .days-only .countdown-number {
-        font-size: clamp(6rem, 33vh, 15rem);
+        font-size: 15rem;
       }
 
       .countdown-label {
@@ -103,6 +116,10 @@
         grid-template-columns: minmax(0, 1fr) minmax(160px, 0.42fr);
         gap: 14px;
         align-items: stretch;
+      }
+
+      .countdown-meta.progress-hidden {
+        grid-template-columns: minmax(0, 1fr);
       }
 
       .date-card,
@@ -154,6 +171,75 @@
         display: none;
       }
 
+      @media (min-width: 900px) and (min-height: 900px) {
+        .countdown-screen {
+          padding: 36px;
+          gap: 24px;
+        }
+
+        .countdown-header {
+          gap: 24px;
+          padding-bottom: 20px;
+          border-bottom-width: 5px;
+        }
+
+        .countdown-state {
+          min-width: 170px;
+          padding: 14px 18px;
+          border-width: 4px;
+          font-size: 1.45rem;
+        }
+
+        .countdown-main {
+          gap: 26px;
+        }
+
+        .countdown-values {
+          gap: 18px;
+        }
+
+        .countdown-unit {
+          gap: 14px;
+          padding: 24px 18px;
+          border-width: 5px;
+        }
+
+        .countdown-label {
+          font-size: 1.55rem;
+        }
+
+        .countdown-meta {
+          grid-template-columns: minmax(0, 1fr) minmax(250px, 0.42fr);
+          gap: 20px;
+        }
+
+        .date-card,
+        .progress-card {
+          padding: 20px 22px;
+          border-width: 3px;
+        }
+
+        .meta-label,
+        .progress-label {
+          margin-bottom: 11px;
+          font-size: 1.05rem;
+        }
+
+        .meta-date {
+          font-size: 2.05rem;
+        }
+
+        .progress-track {
+          height: 24px;
+          border-width: 3px;
+        }
+
+        .progress-value {
+          margin-top: 12px;
+          font-size: 1.7rem;
+        }
+      }
+
       @media (orientation: portrait) {
         .countdown-screen {
           padding: 22px;
@@ -183,14 +269,6 @@
 
         .countdown-unit {
           padding: 13px;
-        }
-
-        .countdown-number {
-          font-size: clamp(4.2rem, 16vh, 7.8rem);
-        }
-
-        .days-only .countdown-number {
-          font-size: clamp(6.5rem, 24vh, 11rem);
         }
 
         .countdown-meta {
@@ -235,10 +313,6 @@
           border-width: 2px;
         }
 
-        .countdown-number {
-          font-size: clamp(3.25rem, 20vh, 7.2rem);
-        }
-
         .countdown-label,
         .meta-label,
         .progress-label {
@@ -267,20 +341,26 @@
       <section class="countdown-main">
         <div class="countdown-values" id="values">
           <article class="countdown-unit">
-            <span class="countdown-number pp-fit" id="days">0</span>
+            <div class="countdown-number-wrap">
+              <span class="countdown-number pp-fit" id="days">0</span>
+            </div>
             <span class="countdown-label" id="daysLabel">Days</span>
           </article>
           <article class="countdown-unit time-unit" id="hoursUnit">
-            <span class="countdown-number pp-fit" id="hours">0</span>
+            <div class="countdown-number-wrap">
+              <span class="countdown-number pp-fit" id="hours">0</span>
+            </div>
             <span class="countdown-label" id="hoursLabel">Hours</span>
           </article>
           <article class="countdown-unit time-unit" id="minutesUnit">
-            <span class="countdown-number pp-fit" id="minutes">0</span>
+            <div class="countdown-number-wrap">
+              <span class="countdown-number pp-fit" id="minutes">0</span>
+            </div>
             <span class="countdown-label" id="minutesLabel">Minutes</span>
           </article>
         </div>
 
-        <div class="countdown-meta">
+        <div class="countdown-meta" id="meta">
           <article class="date-card">
             <p class="meta-label" id="dateLabel">Target</p>
             <p class="meta-date" id="dateValue">2030-01-01</p>
@@ -471,11 +551,29 @@
             } else {
               progressCard.classList.add("is-hidden");
             }
+            document.getElementById("meta").classList.toggle(
+              "progress-hidden",
+              progressCard.classList.contains("is-hidden"),
+            );
 
             await document.fonts?.ready;
-            fitHyphenatedText(document.getElementById("title"), { min: 22, max: 82, step: 1, tolerance: 8 });
+            const largeFrame = Math.min(window.innerWidth, window.innerHeight) >= 900;
+            fitHyphenatedText(document.getElementById("title"), {
+              min: 22,
+              max: largeFrame ? 132 : 82,
+              step: 1,
+              tolerance: 8,
+            });
             document.querySelectorAll(".countdown-number").forEach((element) => {
-              fitHyphenatedText(element, { min: 28, max: 190, step: 1, tolerance: 8 });
+              const daysOnly = values.classList.contains("days-only");
+              fitHyphenatedText(element, {
+                min: 36,
+                max: largeFrame ? (daysOnly ? 560 : 420) : (daysOnly ? 230 : 190),
+                step: 2,
+                tolerance: 4,
+                nowrap: true,
+                fitParent: element.parentElement,
+              });
             });
             fitToScreen(document.getElementById("screen"));
             markReady({ mode: effectiveMode, showTime, showProgress: !progressCard.classList.contains("is-hidden") });

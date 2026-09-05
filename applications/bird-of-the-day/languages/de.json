@@ -17,5 +17,6 @@
   "signature": "Feldnotiz",
   "errorTitle": "Vogel konnte nicht geladen werden",
   "imageFailed": "Vogelbild konnte nicht geladen werden.",
-  "listFailed": "Vogelliste konnte nicht geladen werden."
+  "listFailed": "Vogelliste konnte nicht geladen werden.",
+  "factsShown": "{shown} von {total} Fakten"
 }

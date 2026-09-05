@@ -16,5 +16,6 @@
   "signature": "Silhouettenmerkmal",
   "errorTitle": "Fisch konnte nicht geladen werden",
   "imageFailed": "Fischbild konnte nicht geladen werden.",
-  "listFailed": "Fischliste konnte nicht geladen werden."
+  "listFailed": "Fischliste konnte nicht geladen werden.",
+  "factsShown": "{shown} von {total} Fakten"
 }

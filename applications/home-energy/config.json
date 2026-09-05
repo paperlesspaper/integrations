@@ -1,0 +1,108 @@
+{
+  "name": "Home Energy",
+  "version": "0.1.0",
+  "status": "alpha",
+  "description": "Solar, consumption, yield and battery values from Home Assistant.",
+  "renderPage": "./render.html",
+  "icon": "./assets/icon.png",
+  "timezone": "Europe/Berlin",
+  "language": [
+    "de",
+    "en"
+  ],
+  "nativeSettings": {
+    "color": "green-light",
+    "title": "",
+    "sampleData": true,
+    "baseUrl": "",
+    "token": "",
+    "solarEntity": "",
+    "consumptionEntity": "",
+    "yieldEntity": "",
+    "batteryEntity": ""
+  },
+  "formSchema": {
+    "type": "object",
+    "properties": {
+      "title": {
+        "type": "string",
+        "default": "",
+        "title": "Display title",
+        "maxLength": 80
+      },
+      "sampleData": {
+        "type": "boolean",
+        "default": true,
+        "title": "Use clearly labelled demo data"
+      },
+      "baseUrl": {
+        "type": "string",
+        "default": "",
+        "title": "Instance base URL",
+        "format": "url"
+      },
+      "token": {
+        "type": "string",
+        "default": "",
+        "title": "Access token",
+        "format": "password"
+      },
+      "solarEntity": {
+        "type": "string",
+        "default": "",
+        "title": "Solar power entity"
+      },
+      "consumptionEntity": {
+        "type": "string",
+        "default": "",
+        "title": "Home consumption entity"
+      },
+      "yieldEntity": {
+        "type": "string",
+        "default": "",
+        "title": "Today’s solar yield entity"
+      },
+      "batteryEntity": {
+        "type": "string",
+        "default": "",
+        "title": "Battery charge entity (optional)"
+      }
+    }
+  },
+  "configVariants": [
+    {
+      "color": "green-light",
+      "title": "",
+      "sampleData": true,
+      "baseUrl": "",
+      "token": "",
+      "solarEntity": "",
+      "consumptionEntity": "",
+      "yieldEntity": "",
+      "batteryEntity": "",
+      "screenshots": {
+        "800x480": "./screenshots/home-energy-default-800x480.png",
+        "480x800": "./screenshots/home-energy-default-480x800.png",
+        "1600x1200": "./screenshots/home-energy-default-1600x1200.png",
+        "1200x1600": "./screenshots/home-energy-default-1200x1600.png"
+      }
+    },
+    {
+      "color": "dark",
+      "title": "",
+      "sampleData": true,
+      "baseUrl": "",
+      "token": "",
+      "solarEntity": "",
+      "consumptionEntity": "",
+      "yieldEntity": "",
+      "batteryEntity": "",
+      "screenshots": {
+        "800x480": "./screenshots/home-energy-dark-800x480.png",
+        "480x800": "./screenshots/home-energy-dark-480x800.png",
+        "1600x1200": "./screenshots/home-energy-dark-1600x1200.png",
+        "1200x1600": "./screenshots/home-energy-dark-1200x1600.png"
+      }
+    }
+  ]
+}

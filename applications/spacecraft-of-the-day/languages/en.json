@@ -23,5 +23,6 @@
   "typeOrbiter": "Orbiter",
   "errorTitle": "Spacecraft could not load",
   "imageFailed": "Spacecraft image could not load.",
-  "listFailed": "Spacecraft list could not load."
+  "listFailed": "Spacecraft list could not load.",
+  "factsShown": "{shown} of {total} facts"
 }

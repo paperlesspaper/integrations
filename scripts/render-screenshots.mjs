@@ -41,6 +41,8 @@ async function loadEnv(filePath) {
 const resolutions = [
   { key: "800x480", orientation: "landscape", fileLabel: "800x480-landscape" },
   { key: "480x800", orientation: "portrait", fileLabel: "480x800-portrait" },
+  { key: "1600x1200", orientation: "landscape", fileLabel: "1600x1200-landscape" },
+  { key: "1200x1600", orientation: "portrait", fileLabel: "1200x1600-portrait" },
 ];
 
 const apps = [
@@ -985,16 +987,24 @@ function screenshotPath(slug, variantId, resolution) {
   return `./screenshots/${slug}-${variantId}-${resolution.fileLabel}.png`;
 }
 
-function configVariantsFor(app, selectedResolutions) {
-  return app.variants.map((variant) => ({
-    ...variant.values,
-    screenshots: Object.fromEntries(
-      selectedResolutions.map((resolution) => [
-        resolution.key,
-        screenshotPath(app.slug, variant.id, resolution),
-      ]),
-    ),
-  }));
+function configVariantsFor(app, selectedResolutions, currentVariants = []) {
+  return app.variants.map((variant, index) => {
+    const currentVariant = currentVariants[index];
+    const values = currentVariant && typeof currentVariant === "object" ? currentVariant : variant.values;
+
+    return {
+      ...values,
+      screenshots: {
+        ...(values.screenshots && typeof values.screenshots === "object" ? values.screenshots : {}),
+        ...Object.fromEntries(
+          selectedResolutions.map((resolution) => [
+            resolution.key,
+            screenshotPath(app.slug, variant.id, resolution),
+          ]),
+        ),
+      },
+    };
+  });
 }
 
 function withConfigVariants(config, configVariants) {
@@ -1024,8 +1034,18 @@ function withConfigVariants(config, configVariants) {
 async function updateConfig(app, selectedResolutions) {
   const configPath = join(applicationsRoot, app.slug, "config.json");
   const config = JSON.parse(await readFile(configPath, "utf8"));
-  const next = withConfigVariants(config, configVariantsFor(app, selectedResolutions));
+  const configVariants = configVariantsFor(
+    app,
+    selectedResolutions,
+    Array.isArray(config.configVariants) ? config.configVariants : [],
+  );
+  const next = withConfigVariants(config, configVariants);
   await writeFile(configPath, `${JSON.stringify(next, null, 2)}\n`);
+
+  return configVariants.map(({ screenshots: _screenshots, ...values }, index) => ({
+    id: app.variants[index].id,
+    values,
+  }));
 }
 
 function run(command, args) {
@@ -1090,7 +1110,7 @@ async function main() {
   }
 
   for (const app of selectedApps) {
-    await updateConfig(app, selectedResolutions);
+    app.variants = await updateConfig(app, selectedResolutions);
   }
 
   if (options.configOnly) {

@@ -420,6 +420,30 @@ Generated settings forms support the standard JSON Schema primitive `type` value
 - `bootCalendarApiIntegration(options)`
 - `validateConfig(config)`
 
+## Illustrated daily cards
+
+Use `renderOfTheDayLayout()`, `waitForOfTheDayImage()` and `fitOfTheDayLayout()` for
+illustrated tree/train/bird/spacecraft/fish/dinosaur-style daily cards. Keep item selection
+and localization in the integration; the shared runtime owns layout, image containment,
+responsive type, fact capacity and refitting after viewport changes.
+
+Use `layout: "auto"`, declare `textSize` (`small`, `middle`, `big`), `showHeader`, and the optional
+`showFactCount` / `showRotationCount` switches (both default to false), and
+pass a localized `factsShown` template (`"{shown} of {total} facts"`) without substituting
+its placeholders early. Fact order defines display priority. On a constrained display the
+renderer shows a bounded subset of complete facts with an opt-in count; it restores
+additional selected facts when a larger viewport can accommodate them. All facts deselected
+means no facts. Header disabled plus no facts gives an image-only view.
+
+Always wait for fonts and image decoding before fitting. Verify the returned `hasOverflow`
+and test 800x480, 480x800, 1600x1200 and 1200x1600 with long localized content, all text sizes,
+all/no facts and header/theme variants. Do not use whole-screen scaling, negative image
+translations or tiny-font overrides to compensate for a bad layout. The image box must fit
+its allocated stage; `object-fit: contain` alone is not a box-sizing guarantee.
+
+See [the illustrated daily-card guide](./of-the-day-integrations.md) for the rendering
+example, concrete type and image budgets, asset guidance and generation acceptance matrix.
+
 ## Shared calendar layouts
 
 Calendar integrations should keep authentication, API requests, recurrence expansion, and

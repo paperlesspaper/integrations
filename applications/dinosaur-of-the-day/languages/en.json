@@ -29,5 +29,6 @@
   "groupSauropodomorph": "Sauropodomorph",
   "groupAlvarezsaurid": "Alvarezsaurid",
   "imageFailed": "Dinosaur image could not load.",
-  "listFailed": "Dinosaur list could not load."
+  "listFailed": "Dinosaur list could not load.",
+  "factsShown": "{shown} of {total} facts"
 }

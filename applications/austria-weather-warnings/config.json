@@ -1,0 +1,86 @@
+{
+  "name": "Austria Weather Warnings",
+  "version": "0.1.0",
+  "status": "alpha",
+  "description": "Current and upcoming official GeoSphere warnings for one Austrian municipality.",
+  "renderPage": "./render.html",
+  "icon": "./assets/icon.png",
+  "timezone": "Europe/Berlin",
+  "language": [
+    "de",
+    "en"
+  ],
+  "nativeSettings": {
+    "color": "red-light",
+    "title": "",
+    "sampleData": false,
+    "latitude": 48.2082,
+    "longitude": 16.3738,
+    "includeUpcoming": true
+  },
+  "formSchema": {
+    "type": "object",
+    "properties": {
+      "title": {
+        "type": "string",
+        "default": "",
+        "title": "Display title",
+        "maxLength": 80
+      },
+      "sampleData": {
+        "type": "boolean",
+        "default": false,
+        "title": "Use clearly labelled demo data"
+      },
+      "latitude": {
+        "type": "number",
+        "default": 48.2082,
+        "title": "Latitude",
+        "minimum": 46,
+        "maximum": 49.1
+      },
+      "longitude": {
+        "type": "number",
+        "default": 16.3738,
+        "title": "Longitude",
+        "minimum": 9.5,
+        "maximum": 17.2
+      },
+      "includeUpcoming": {
+        "type": "boolean",
+        "default": true,
+        "title": "Include upcoming warnings"
+      }
+    }
+  },
+  "configVariants": [
+    {
+      "color": "red-light",
+      "title": "",
+      "sampleData": true,
+      "latitude": 48.2082,
+      "longitude": 16.3738,
+      "includeUpcoming": true,
+      "screenshots": {
+        "800x480": "./screenshots/austria-weather-warnings-default-800x480.png",
+        "480x800": "./screenshots/austria-weather-warnings-default-480x800.png",
+        "1600x1200": "./screenshots/austria-weather-warnings-default-1600x1200.png",
+        "1200x1600": "./screenshots/austria-weather-warnings-default-1200x1600.png"
+      }
+    },
+    {
+      "color": "dark",
+      "title": "",
+      "sampleData": true,
+      "latitude": 48.2082,
+      "longitude": 16.3738,
+      "includeUpcoming": true,
+      "screenshots": {
+        "800x480": "./screenshots/austria-weather-warnings-dark-800x480.png",
+        "480x800": "./screenshots/austria-weather-warnings-dark-480x800.png",
+        "1600x1200": "./screenshots/austria-weather-warnings-dark-1600x1200.png",
+        "1200x1600": "./screenshots/austria-weather-warnings-dark-1200x1600.png"
+      }
+    }
+  ]
+}

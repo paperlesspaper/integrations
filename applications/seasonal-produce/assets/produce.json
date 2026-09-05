@@ -1,0 +1,184 @@
+[
+  {
+    "de": "Apfel",
+    "en": "Apple",
+    "category": "fruit",
+    "harvest": [8, 9, 10],
+    "storage": [11, 12, 1, 2, 3, 4]
+  },
+  {
+    "de": "Birne",
+    "en": "Pear",
+    "category": "fruit",
+    "harvest": [8, 9, 10],
+    "storage": [11, 12, 1]
+  },
+  {
+    "de": "Erdbeere",
+    "en": "Strawberry",
+    "category": "fruit",
+    "harvest": [5, 6, 7],
+    "storage": []
+  },
+  {
+    "de": "Himbeere",
+    "en": "Raspberry",
+    "category": "fruit",
+    "harvest": [6, 7, 8, 9],
+    "storage": []
+  },
+  {
+    "de": "Kirsche",
+    "en": "Cherry",
+    "category": "fruit",
+    "harvest": [6, 7],
+    "storage": []
+  },
+  {
+    "de": "Pflaume",
+    "en": "Plum",
+    "category": "fruit",
+    "harvest": [7, 8, 9],
+    "storage": []
+  },
+  {
+    "de": "Quitte",
+    "en": "Quince",
+    "category": "fruit",
+    "harvest": [9, 10],
+    "storage": [11]
+  },
+  {
+    "de": "Rhabarber",
+    "en": "Rhubarb",
+    "category": "vegetable",
+    "harvest": [4, 5, 6],
+    "storage": []
+  },
+  {
+    "de": "Spargel",
+    "en": "Asparagus",
+    "category": "vegetable",
+    "harvest": [4, 5, 6],
+    "storage": []
+  },
+  {
+    "de": "Tomate",
+    "en": "Tomato",
+    "category": "vegetable",
+    "harvest": [7, 8, 9],
+    "storage": []
+  },
+  {
+    "de": "Zucchini",
+    "en": "Courgette",
+    "category": "vegetable",
+    "harvest": [6, 7, 8, 9, 10],
+    "storage": []
+  },
+  {
+    "de": "Kürbis",
+    "en": "Pumpkin",
+    "category": "vegetable",
+    "harvest": [8, 9, 10],
+    "storage": [11, 12, 1, 2]
+  },
+  {
+    "de": "Brokkoli",
+    "en": "Broccoli",
+    "category": "vegetable",
+    "harvest": [6, 7, 8, 9, 10],
+    "storage": []
+  },
+  {
+    "de": "Blumenkohl",
+    "en": "Cauliflower",
+    "category": "vegetable",
+    "harvest": [5, 6, 7, 8, 9, 10],
+    "storage": []
+  },
+  {
+    "de": "Karotte",
+    "en": "Carrot",
+    "category": "vegetable",
+    "harvest": [6, 7, 8, 9, 10, 11],
+    "storage": [12, 1, 2, 3, 4]
+  },
+  {
+    "de": "Kartoffel",
+    "en": "Potato",
+    "category": "vegetable",
+    "harvest": [6, 7, 8, 9, 10],
+    "storage": [11, 12, 1, 2, 3, 4]
+  },
+  {
+    "de": "Rote Bete",
+    "en": "Beetroot",
+    "category": "vegetable",
+    "harvest": [7, 8, 9, 10, 11],
+    "storage": [12, 1, 2, 3]
+  },
+  {
+    "de": "Grünkohl",
+    "en": "Kale",
+    "category": "vegetable",
+    "harvest": [11, 12, 1, 2],
+    "storage": []
+  },
+  {
+    "de": "Rosenkohl",
+    "en": "Brussels sprouts",
+    "category": "vegetable",
+    "harvest": [10, 11, 12, 1, 2],
+    "storage": []
+  },
+  {
+    "de": "Lauch",
+    "en": "Leek",
+    "category": "vegetable",
+    "harvest": [7, 8, 9, 10, 11, 12, 1, 2],
+    "storage": []
+  },
+  {
+    "de": "Spinat",
+    "en": "Spinach",
+    "category": "vegetable",
+    "harvest": [3, 4, 5, 9, 10, 11],
+    "storage": []
+  },
+  {
+    "de": "Feldsalat",
+    "en": "Lamb’s lettuce",
+    "category": "vegetable",
+    "harvest": [10, 11, 12, 1, 2, 3],
+    "storage": []
+  },
+  {
+    "de": "Radieschen",
+    "en": "Radish",
+    "category": "vegetable",
+    "harvest": [4, 5, 6, 7, 8, 9, 10],
+    "storage": []
+  },
+  {
+    "de": "Zwiebel",
+    "en": "Onion",
+    "category": "vegetable",
+    "harvest": [7, 8, 9, 10],
+    "storage": [11, 12, 1, 2, 3, 4]
+  },
+  {
+    "de": "Rotkohl",
+    "en": "Red cabbage",
+    "category": "vegetable",
+    "harvest": [8, 9, 10, 11],
+    "storage": [12, 1, 2, 3]
+  },
+  {
+    "de": "Pastinake",
+    "en": "Parsnip",
+    "category": "vegetable",
+    "harvest": [10, 11, 12, 1, 2, 3],
+    "storage": []
+  }
+]

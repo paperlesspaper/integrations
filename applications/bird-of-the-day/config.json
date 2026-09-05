@@ -21,7 +21,11 @@
     "showHabitat": false,
     "showSize": false,
     "showNesting": false,
-    "showOrder": false
+    "showOrder": false,
+    "textSize": "middle",
+    "showHeader": true,
+    "showFactCount": false,
+    "showRotationCount": false
   },
   "configVariants": [
     {
@@ -43,8 +47,14 @@
       "showOrder": false,
       "screenshots": {
         "800x480": "./screenshots/bird-of-the-day-800x480-landscape.png",
-        "480x800": "./screenshots/bird-of-the-day-480x800-portrait.png"
-      }
+        "480x800": "./screenshots/bird-of-the-day-480x800-portrait.png",
+        "1600x1200": "./screenshots/bird-of-the-day-1600x1200-landscape.png",
+        "1200x1600": "./screenshots/bird-of-the-day-1200x1600-portrait.png"
+      },
+      "textSize": "middle",
+      "showHeader": true,
+      "showFactCount": false,
+      "showRotationCount": false
     },
     {
       "color": "dark",
@@ -65,8 +75,14 @@
       "showOrder": false,
       "screenshots": {
         "800x480": "./screenshots/bird-of-the-day-swallow-800x480-landscape.png",
-        "480x800": "./screenshots/bird-of-the-day-swallow-480x800-portrait.png"
-      }
+        "480x800": "./screenshots/bird-of-the-day-swallow-480x800-portrait.png",
+        "1600x1200": "./screenshots/bird-of-the-day-swallow-1600x1200-landscape.png",
+        "1200x1600": "./screenshots/bird-of-the-day-swallow-1200x1600-portrait.png"
+      },
+      "textSize": "middle",
+      "showHeader": true,
+      "showFactCount": false,
+      "showRotationCount": false
     }
   ],
   "formSchema": {
@@ -165,6 +181,34 @@
       "showOrder": {
         "type": "boolean",
         "title": "Show bird order",
+        "default": false
+      },
+      "textSize": {
+        "type": "string",
+        "title": "Text size",
+        "enum": [
+          "small",
+          "middle",
+          "big"
+        ],
+        "default": "middle",
+        "description": "Larger text shows fewer facts when needed to keep the full image visible."
+      },
+      "showHeader": {
+        "type": "boolean",
+        "title": "Show header",
+        "default": true
+      },
+      "showFactCount": {
+        "type": "boolean",
+        "title": "Show fact count",
+        "description": "Show how many selected facts fit on the display. Hidden when all facts fit.",
+        "default": false
+      },
+      "showRotationCount": {
+        "type": "boolean",
+        "title": "Show rotation count",
+        "description": "Show the number of items in the current rotation. Requires the header to be enabled.",
         "default": false
       }
     }

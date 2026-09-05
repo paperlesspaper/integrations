@@ -29,5 +29,6 @@
   "signature": "Signe distinctif",
   "errorTitle": "Le train n'a pas pu être chargé",
   "imageFailed": "L'image du train n'a pas pu être chargée.",
-  "listFailed": "La liste des trains n'a pas pu être chargée."
+  "listFailed": "La liste des trains n'a pas pu être chargée.",
+  "factsShown": "{shown} faits sur {total}"
 }

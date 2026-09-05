@@ -1,0 +1,4 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" role="img" aria-label="Chatwoot">
+  <circle cx="8" cy="8" r="8" fill="#2781F6"/>
+  <path d="M11.417 11.417H7.708A3.708 3.708 0 1 1 11.417 7.708v3.709Z" fill="#fff" stroke="#fff" stroke-width=".1875"/>
+</svg>

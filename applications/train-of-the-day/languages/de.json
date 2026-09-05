@@ -29,5 +29,6 @@
   "signature": "Merkmal",
   "errorTitle": "Zug konnte nicht geladen werden",
   "imageFailed": "Zugbild konnte nicht geladen werden.",
-  "listFailed": "Zugliste konnte nicht geladen werden."
+  "listFailed": "Zugliste konnte nicht geladen werden.",
+  "factsShown": "{shown} von {total} Fakten"
 }

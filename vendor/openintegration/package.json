@@ -36,7 +36,8 @@
   },
   "files": [
     "dist",
-    "README.md"
+    "README.md",
+    "of-the-day-integrations.md"
   ],
   "scripts": {
     "build": "node scripts/build.mjs",

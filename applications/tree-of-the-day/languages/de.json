@@ -18,5 +18,6 @@
   "selectedFrom": "{count} in Rotation",
   "errorTitle": "Baum konnte nicht geladen werden",
   "imageFailed": "Baumbild konnte nicht geladen werden.",
-  "listFailed": "Baumliste konnte nicht geladen werden."
+  "listFailed": "Baumliste konnte nicht geladen werden.",
+  "factsShown": "{shown} von {total} Fakten"
 }

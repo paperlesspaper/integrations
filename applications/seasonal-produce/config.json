@@ -1,0 +1,81 @@
+{
+  "name": "Seasonal Produce",
+  "version": "0.1.0",
+  "status": "alpha",
+  "description": "Seasonal German produce, with fresh harvest and storage distinguished.",
+  "renderPage": "./render.html",
+  "icon": "./assets/icon.png",
+  "timezone": "Europe/Berlin",
+  "language": [
+    "de",
+    "en"
+  ],
+  "nativeSettings": {
+    "color": "green-light",
+    "title": "",
+    "month": 0,
+    "includeStorage": true,
+    "category": "all"
+  },
+  "formSchema": {
+    "type": "object",
+    "properties": {
+      "title": {
+        "type": "string",
+        "default": "",
+        "title": "Display title",
+        "maxLength": 80
+      },
+      "month": {
+        "type": "number",
+        "default": 0,
+        "title": "Month (0 = current)",
+        "minimum": 0,
+        "maximum": 12
+      },
+      "includeStorage": {
+        "type": "boolean",
+        "default": true,
+        "title": "Include stored produce"
+      },
+      "category": {
+        "type": "string",
+        "default": "all",
+        "title": "Produce",
+        "enum": [
+          "all",
+          "fruit",
+          "vegetable"
+        ]
+      }
+    }
+  },
+  "configVariants": [
+    {
+      "color": "green-light",
+      "title": "",
+      "month": 9,
+      "includeStorage": true,
+      "category": "all",
+      "screenshots": {
+        "800x480": "./screenshots/seasonal-produce-default-800x480.png",
+        "480x800": "./screenshots/seasonal-produce-default-480x800.png",
+        "1600x1200": "./screenshots/seasonal-produce-default-1600x1200.png",
+        "1200x1600": "./screenshots/seasonal-produce-default-1200x1600.png"
+      }
+    },
+    {
+      "color": "dark",
+      "title": "",
+      "month": 1,
+      "includeStorage": true,
+      "category": "all",
+      "screenshots": {
+        "800x480": "./screenshots/seasonal-produce-dark-800x480.png",
+        "480x800": "./screenshots/seasonal-produce-dark-480x800.png",
+        "1600x1200": "./screenshots/seasonal-produce-dark-1600x1200.png",
+        "1200x1600": "./screenshots/seasonal-produce-dark-1200x1600.png"
+      }
+    }
+  ]
+}

@@ -39,7 +39,9 @@
       "showDuration": true,
       "screenshots": {
         "800x480": "./screenshots/todoist-today-focus-800x480-landscape.png",
-        "480x800": "./screenshots/todoist-today-focus-480x800-portrait.png"
+        "480x800": "./screenshots/todoist-today-focus-480x800-portrait.png",
+        "1600x1200": "./screenshots/todoist-today-focus-1600x1200-landscape.png",
+        "1200x1600": "./screenshots/todoist-today-focus-1200x1600-portrait.png"
       }
     },
     {
@@ -59,7 +61,9 @@
       "showDuration": true,
       "screenshots": {
         "800x480": "./screenshots/todoist-weekly-plan-800x480-landscape.png",
-        "480x800": "./screenshots/todoist-weekly-plan-480x800-portrait.png"
+        "480x800": "./screenshots/todoist-weekly-plan-480x800-portrait.png",
+        "1600x1200": "./screenshots/todoist-weekly-plan-1600x1200-landscape.png",
+        "1200x1600": "./screenshots/todoist-weekly-plan-1200x1600-portrait.png"
       }
     }
   ],

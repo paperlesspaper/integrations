@@ -1,0 +1,128 @@
+{
+  "name": "Fuel Prices",
+  "version": "0.1.0",
+  "status": "alpha",
+  "description": "Nearby fuel prices from Tankerkönig.",
+  "renderPage": "./render.html",
+  "icon": "./assets/icon.png",
+  "timezone": "Europe/Berlin",
+  "language": [
+    "de",
+    "en"
+  ],
+  "nativeSettings": {
+    "color": "red-light",
+    "title": "",
+    "sampleData": true,
+    "apiKey": "",
+    "latitude": 52.52,
+    "longitude": 13.405,
+    "radius": 5,
+    "fuelType": "e10",
+    "openOnly": true,
+    "limit": 5
+  },
+  "formSchema": {
+    "type": "object",
+    "properties": {
+      "title": {
+        "type": "string",
+        "default": "",
+        "title": "Display title",
+        "maxLength": 80
+      },
+      "sampleData": {
+        "type": "boolean",
+        "default": true,
+        "title": "Use clearly labelled demo data"
+      },
+      "apiKey": {
+        "type": "string",
+        "default": "",
+        "title": "Tankerkönig API key",
+        "format": "password"
+      },
+      "latitude": {
+        "type": "number",
+        "default": 52.52,
+        "title": "Latitude",
+        "minimum": -90,
+        "maximum": 90
+      },
+      "longitude": {
+        "type": "number",
+        "default": 13.405,
+        "title": "Longitude",
+        "minimum": -180,
+        "maximum": 180
+      },
+      "radius": {
+        "type": "number",
+        "default": 5,
+        "title": "Search radius (km)",
+        "minimum": 1,
+        "maximum": 25
+      },
+      "fuelType": {
+        "type": "string",
+        "default": "e10",
+        "title": "Fuel type",
+        "enum": [
+          "e5",
+          "e10",
+          "diesel"
+        ]
+      },
+      "openOnly": {
+        "type": "boolean",
+        "default": true,
+        "title": "Only open stations"
+      },
+      "limit": {
+        "type": "number",
+        "default": 5,
+        "title": "Station limit",
+        "minimum": 1,
+        "maximum": 8
+      }
+    }
+  },
+  "configVariants": [
+    {
+      "color": "red-light",
+      "title": "",
+      "sampleData": true,
+      "apiKey": "",
+      "latitude": 52.52,
+      "longitude": 13.405,
+      "radius": 5,
+      "fuelType": "e10",
+      "openOnly": true,
+      "limit": 5,
+      "screenshots": {
+        "800x480": "./screenshots/fuel-prices-default-800x480.png",
+        "480x800": "./screenshots/fuel-prices-default-480x800.png",
+        "1600x1200": "./screenshots/fuel-prices-default-1600x1200.png",
+        "1200x1600": "./screenshots/fuel-prices-default-1200x1600.png"
+      }
+    },
+    {
+      "color": "dark",
+      "title": "",
+      "sampleData": true,
+      "apiKey": "",
+      "latitude": 52.52,
+      "longitude": 13.405,
+      "radius": 5,
+      "fuelType": "e10",
+      "openOnly": true,
+      "limit": 5,
+      "screenshots": {
+        "800x480": "./screenshots/fuel-prices-dark-800x480.png",
+        "480x800": "./screenshots/fuel-prices-dark-480x800.png",
+        "1600x1200": "./screenshots/fuel-prices-dark-1600x1200.png",
+        "1200x1600": "./screenshots/fuel-prices-dark-1200x1600.png"
+      }
+    }
+  ]
+}
