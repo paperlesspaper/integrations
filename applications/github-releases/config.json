@@ -1,0 +1,81 @@
+{
+  "name": "GitHub Releases",
+  "version": "0.1.0",
+  "status": "alpha",
+  "description": "Newest published releases for up to four GitHub repositories.",
+  "renderPage": "./render.html",
+  "icon": "./assets/icon.png",
+  "timezone": "Europe/Berlin",
+  "language": ["de", "en"],
+  "nativeSettings": {
+    "color": "blue-light",
+    "title": "",
+    "sampleData": false,
+    "repositories": "home-assistant/core\npaperless-ngx/paperless-ngx",
+    "token": "",
+    "includePrereleases": false
+  },
+  "formSchema": {
+    "type": "object",
+    "properties": {
+      "title": {
+        "type": "string",
+        "default": "",
+        "title": "Display title",
+        "maxLength": 80
+      },
+      "sampleData": {
+        "type": "boolean",
+        "default": false,
+        "title": "Use clearly labelled demo data"
+      },
+      "repositories": {
+        "type": "string",
+        "default": "home-assistant/core\npaperless-ngx/paperless-ngx",
+        "title": "owner/repository, one per line (maximum 4)",
+        "maxLength": 500
+      },
+      "token": {
+        "type": "string",
+        "default": "",
+        "title": "Access token",
+        "format": "password"
+      },
+      "includePrereleases": {
+        "type": "boolean",
+        "default": false,
+        "title": "Include pre-releases"
+      }
+    }
+  },
+  "configVariants": [
+    {
+      "color": "blue-light",
+      "title": "",
+      "sampleData": true,
+      "repositories": "home-assistant/core\npaperless-ngx/paperless-ngx",
+      "token": "",
+      "includePrereleases": false,
+      "screenshots": {
+        "800x480": "./screenshots/github-releases-default-800x480.png",
+        "480x800": "./screenshots/github-releases-default-480x800.png",
+        "1600x1200": "./screenshots/github-releases-default-1600x1200.png",
+        "1200x1600": "./screenshots/github-releases-default-1200x1600.png"
+      }
+    },
+    {
+      "color": "dark",
+      "title": "",
+      "sampleData": true,
+      "repositories": "home-assistant/core\npaperless-ngx/paperless-ngx",
+      "token": "",
+      "includePrereleases": false,
+      "screenshots": {
+        "800x480": "./screenshots/github-releases-dark-800x480.png",
+        "480x800": "./screenshots/github-releases-dark-480x800.png",
+        "1600x1200": "./screenshots/github-releases-dark-1600x1200.png",
+        "1200x1600": "./screenshots/github-releases-dark-1200x1600.png"
+      }
+    }
+  ]
+}

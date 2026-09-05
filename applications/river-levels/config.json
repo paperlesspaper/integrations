@@ -1,0 +1,64 @@
+{
+  "name": "River Levels",
+  "version": "0.1.0",
+  "status": "alpha",
+  "description": "Current water levels at up to three PEGELONLINE stations.",
+  "renderPage": "./render.html",
+  "icon": "./assets/icon.png",
+  "timezone": "Europe/Berlin",
+  "language": ["de", "en"],
+  "nativeSettings": {
+    "color": "blue-light",
+    "title": "",
+    "sampleData": false,
+    "stations": "KÖLN\nBONN"
+  },
+  "formSchema": {
+    "type": "object",
+    "properties": {
+      "title": {
+        "type": "string",
+        "default": "",
+        "title": "Display title",
+        "maxLength": 80
+      },
+      "sampleData": {
+        "type": "boolean",
+        "default": false,
+        "title": "Use clearly labelled demo data"
+      },
+      "stations": {
+        "type": "string",
+        "default": "KÖLN\nBONN",
+        "title": "Station names or UUIDs, one per line (maximum 3)",
+        "maxLength": 303
+      }
+    }
+  },
+  "configVariants": [
+    {
+      "color": "blue-light",
+      "title": "",
+      "sampleData": true,
+      "stations": "KÖLN\nBONN",
+      "screenshots": {
+        "800x480": "./screenshots/river-levels-default-800x480.png",
+        "480x800": "./screenshots/river-levels-default-480x800.png",
+        "1600x1200": "./screenshots/river-levels-default-1600x1200.png",
+        "1200x1600": "./screenshots/river-levels-default-1200x1600.png"
+      }
+    },
+    {
+      "color": "dark",
+      "title": "",
+      "sampleData": true,
+      "stations": "KÖLN\nBONN",
+      "screenshots": {
+        "800x480": "./screenshots/river-levels-dark-800x480.png",
+        "480x800": "./screenshots/river-levels-dark-480x800.png",
+        "1600x1200": "./screenshots/river-levels-dark-1600x1200.png",
+        "1200x1600": "./screenshots/river-levels-dark-1200x1600.png"
+      }
+    }
+  ]
+}

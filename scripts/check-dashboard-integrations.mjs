@@ -17,6 +17,10 @@ const slugs = [
   "home-assistant-sensors",
   "home-energy",
   "ebike-status",
+  "air-quality",
+  "river-levels",
+  "github-releases",
+  "paperless-ngx-inbox",
 ];
 const sizes = [
   [800, 480],
@@ -43,7 +47,11 @@ for (const slug of slugs) {
     `${slug}: manifest OK${out.includes("WARN") ? " (global-color warning)" : ""}`,
   );
 }
-await run(["--test", "tests/dashboard-integrations.test.mjs"]);
+await run([
+  "--test",
+  "tests/dashboard-integrations.test.mjs",
+  "tests/more-dashboard-integrations.test.mjs",
+]);
 console.log("Adapter regression tests OK");
 if (!process.argv.includes("--render")) process.exit(0);
 const port = Number(process.env.PAPERLESSPAPER_TEST_PORT || 3318);
@@ -114,13 +122,16 @@ try {
           waitUntil: "domcontentloaded",
         });
         await page.waitForFunction(
-          () => window.__dashboardTestInitSent && !!document.querySelector("#website-has-loaded"),
+          () =>
+            window.__dashboardTestInitSent &&
+            !!document.querySelector("#website-has-loaded"),
           { timeout: 30000 },
         );
         await new Promise((r) => setTimeout(r, 200));
         // A repeated INIT may have started another render after the first ready marker.
         await page.waitForFunction(
-          () => document.documentElement.dataset.paperlessRenderStatus === "ready",
+          () =>
+            document.documentElement.dataset.paperlessRenderStatus === "ready",
           { timeout: 30000 },
         );
         const metrics = await page.evaluate((expected) => {

@@ -1,0 +1,11 @@
+{
+  "title": "Paperless-ngx-Dokumente",
+  "sample": "BEISPIELDATEN",
+  "error": "Daten konnten nicht geladen werden.",
+  "setup": "Bitte Einstellungen und Verbindung prüfen.",
+  "updated": "Abgerufen",
+  "unavailable": "Nicht verfügbar",
+  "partial": "Einige Quellen sind nicht erreichbar",
+  "empty": "Keine Einträge gefunden.",
+  "shown": "{shown} von {total} Einträgen"
+}

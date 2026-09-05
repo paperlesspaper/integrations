@@ -1,0 +1,11 @@
+{
+  "title": "River Levels",
+  "sample": "SAMPLE DATA",
+  "error": "Could not load data.",
+  "setup": "Check settings and connection.",
+  "updated": "Retrieved",
+  "unavailable": "Unavailable",
+  "partial": "Some sources are unavailable",
+  "empty": "No entries found.",
+  "shown": "{shown} of {total} entries"
+}

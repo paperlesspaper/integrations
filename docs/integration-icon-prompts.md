@@ -1,5 +1,38 @@
 # Integration icon prompts
 
+## air-quality
+
+Saved asset: `applications/air-quality/assets/icon.png`
+
+Create one integration icon: a white cloud with three blue flowing air lines and one green leaf. Square 1024x1024 PNG, centered single coherent object with generous padding. Minimalistic high-resolution 2D illustration with subtle 3D beveled edges and gentle highlights matching existing paperlesspaper icons. Transparent alpha background, no painted checkerboard, no outside shadows, no text, no watermark. Prefer blue, green and orange; no yellow.
+
+Postprocessing: user-authorized Python (rembg/U2Net and Pillow), transparent 1024×1024 RGBA PNG.
+
+## river-levels
+
+Saved asset: `applications/river-levels/assets/icon.png`
+
+Create one integration icon: a blue water wave around a white vertical water-level gauge with orange markers, no digits. Square 1024x1024 PNG, centered single coherent object with generous padding. Minimalistic high-resolution 2D illustration with subtle 3D beveled edges and gentle highlights matching existing paperlesspaper icons. Transparent alpha background, no painted checkerboard, no outside shadows, no text, no watermark. Prefer blue, green and orange; no yellow.
+
+Postprocessing: user-authorized Python (rembg/U2Net and Pillow), transparent 1024×1024 RGBA PNG. A localized inner-wave mask removes remaining checkerboard pixels.
+
+## github-releases
+
+Saved asset: `applications/github-releases/assets/icon.png`
+
+Create one integration icon: a blue software package box with an orange upward arrow and small green release tag, no logos. Square 1024x1024 PNG, centered single coherent object with generous padding. Minimalistic high-resolution 2D illustration with subtle 3D beveled edges and gentle highlights matching existing paperlesspaper icons. Transparent alpha background, no painted checkerboard, no outside shadows, no text, no watermark. Prefer blue, green and orange; no yellow.
+
+Postprocessing: user-authorized Python (rembg/U2Net and Pillow), transparent 1024×1024 RGBA PNG.
+
+## paperless-ngx-inbox
+
+Saved asset: `applications/paperless-ngx-inbox/assets/icon.png`
+
+Create one integration icon: a green inbox tray holding two white document sheets with abstract blue lines. Square 1024x1024 PNG, centered single coherent object with generous padding. Minimalistic high-resolution 2D illustration with subtle 3D beveled edges and gentle highlights matching existing paperlesspaper icons. Transparent alpha background, no painted checkerboard, no outside shadows, no text, no watermark. Prefer blue, green and orange; no yellow.
+
+Postprocessing: user-authorized Python (rembg/U2Net and Pillow), transparent 1024×1024 RGBA PNG.
+
+
 Generated with the built-in Imagegen tool. Each icon was requested separately.
 
 The initial outputs painted a checkerboard instead of encoding transparency.
@@ -75,4 +108,3 @@ Use case: stylized-concept. Asset: a single square PNG icon for a paperlesspaper
 Saved asset: `applications/ebike-status/assets/icon.png`
 
 Use case: stylized-concept. Asset: a single square PNG icon for a paperlesspaper eInk integration. Subject: a green bicycle with a small battery symbol. High-resolution 2D digital icon, slightly 3D shading and highlights, smooth beveled edges, realistic but minimalistic, viewed from the top/front. Centered, fully visible with generous padding. Fully transparent alpha background, no shadows outside the object, no surrounding elements, no text, no numbers, no logos or watermark. 1024x1024.
-

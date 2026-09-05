@@ -1,6 +1,6 @@
 # Daily-use dashboard integrations
 
-Eleven integrations were added from the TRMNL / Home Assistant research, alongside
+Fifteen integrations were added from the TRMNL / Home Assistant research, alongside
 a seven-day daylight trend in the existing Day Calendar. The project color rules
 are in [AGENTS.md](../AGENTS.md#color-on-spectra-6-displays).
 
@@ -17,6 +17,10 @@ are in [AGENTS.md](../AGENTS.md#color-on-spectra-6-displays).
 | [Home Assistant Sensors](../applications/home-assistant-sensors/README.md) | Instance URL, token, selected entities | Labelled demo |
 | [Home Energy](../applications/home-energy/README.md) | Existing Home Assistant sensor mappings | Labelled demo |
 | [E-Bike Status](../applications/ebike-status/README.md) | Existing Home Assistant sensor mappings | Labelled demo |
+| [Air Quality](../applications/air-quality/README.md) | Coordinates; optional commercial API key | Live Berlin |
+| [River Levels](../applications/river-levels/README.md) | 1–3 PEGELONLINE station names / UUIDs | Live Cologne and Bonn |
+| [GitHub Releases](../applications/github-releases/README.md) | 1–4 repositories; optional token | Live Home Assistant and Paperless-ngx releases |
+| [Paperless-ngx Documents](../applications/paperless-ngx-inbox/README.md) | Instance URL + read token; optional search | Labelled demo |
 
 These are first versions. The per-integration READMEs describe supported fields,
 limits and omitted optional features. API failures produce error states; they do
@@ -27,7 +31,7 @@ copy follows the host's German or English language setting.
 ## Private services
 
 The integration server, rather than the eInk frame, fetches upstream data. For
-Home Assistant, Mealie or self-hosted Umami, run this provider on a trusted machine
+Home Assistant, Mealie, Paperless-ngx or self-hosted Umami, run this provider on a trusted machine
 that can reach the service, or provide a reachable HTTPS endpoint.
 
 By default the new adapters require HTTPS and reject private, loopback,
@@ -77,9 +81,9 @@ npm run check:dashboards
 npm run check:dashboards -- --render
 ```
 
-The first command validates all eleven manifests and runs the adapter regression
+The first command validates all fifteen manifests and runs the adapter regression
 tests. The rendering option checks the two declared variants at four sizes,
-generates 88 browser screenshots and writes a layout report to
+generates 120 browser screenshots and writes a layout report to
 `output/dashboard-integrations/layout-report.json`. It also checks a subsequent
 host update for each integration, including English language, title and theme.
 It requires Chrome; set
