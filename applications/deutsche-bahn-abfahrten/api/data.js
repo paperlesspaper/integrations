@@ -252,20 +252,49 @@ function productFromTrainClasses(classes) {
   return "regional";
 }
 
-function localDateTimeFromClock(clock, now = new Date()) {
+// DBF's IRIS API returns German wall-clock times without a date or offset.
+// Resolve them in Europe/Berlin, independently of the server/display timezone.
+function localDateTimeFromClock(clock, now, delayMinutes = 0) {
   const match = String(clock || "").match(/^(\d{1,2}):(\d{2})$/);
-  if (!match) {
-    return "";
+  if (!match || Number(match[1]) > 23 || Number(match[2]) > 59) return "";
+
+  const formatter = new Intl.DateTimeFormat("en-CA", {
+    timeZone: "Europe/Berlin", year: "numeric", month: "2-digit", day: "2-digit",
+    hour: "2-digit", minute: "2-digit", hourCycle: "h23",
+  });
+  const parts = (time) => Object.fromEntries(
+    formatter.formatToParts(time).map(({ type, value }) => [type, value])
+  );
+  const today = parts(now);
+  const localMidnight = Date.UTC(Number(today.year), Number(today.month) - 1, Number(today.day));
+  const candidates = [];
+  for (const day of [-1, 0, 1]) {
+    const wallTime = localMidnight + day * 86400000 + Number(match[1]) * 3600000 + Number(match[2]) * 60000;
+    // Berlin uses UTC+1 or UTC+2; round-trip validation handles DST transitions.
+    for (const offset of [1, 2]) {
+      const candidate = wallTime - offset * 3600000;
+      const local = parts(candidate);
+      const roundTrip = Date.UTC(Number(local.year), Number(local.month) - 1,
+        Number(local.day), Number(local.hour), Number(local.minute));
+      if (roundTrip === wallTime) candidates.push(candidate);
+    }
   }
+  // Include the delay when choosing the day, including departures across midnight.
+  candidates.sort((a, b) => Math.abs(a + delayMinutes * 60000 - now)
+    - Math.abs(b + delayMinutes * 60000 - now));
+  return candidates.length ? new Date(candidates[0]).toISOString() : "";
+}
 
-  const date = new Date(now);
-  date.setHours(Number(match[1]), Number(match[2]), 0, 0);
-
-  if (date.getTime() < now.getTime() - 6 * 60 * 60 * 1000) {
-    date.setDate(date.getDate() + 1);
-  }
-
-  return date.toISOString();
+function upcomingDepartures(departures, { now, duration, limit, products, showCancelled }) {
+  return departures
+    .filter((departure) => products.has(departure.product))
+    .filter((departure) => showCancelled || !departure.cancelled)
+    .filter((departure) => {
+      const when = Date.parse(departure.when);
+      return Number.isFinite(when) && when >= now && when <= now + duration * 60000;
+    })
+    .sort((a, b) => Date.parse(a.when) - Date.parse(b.when))
+    .slice(0, limit);
 }
 
 function addMinutes(isoDate, minutes) {
@@ -274,8 +303,7 @@ function addMinutes(isoDate, minutes) {
     return isoDate;
   }
 
-  date.setMinutes(date.getMinutes() + minutes);
-  return date.toISOString();
+  return new Date(date.getTime() + minutes * 60000).toISOString();
 }
 
 function compactFallbackRemark(message) {
@@ -291,10 +319,10 @@ function compactTrainName(value) {
     .trim();
 }
 
-function shapeFallbackDeparture(departure) {
-  const plannedWhen = localDateTimeFromClock(departure.scheduledDeparture);
+function shapeFallbackDeparture(departure, now) {
   const delayMinutes = Number(departure.delayDeparture);
   const safeDelay = Number.isFinite(delayMinutes) ? delayMinutes : 0;
+  const plannedWhen = localDateTimeFromClock(departure.scheduledDeparture, now, safeDelay);
   const remarks = []
     .concat(departure.messages?.delay || [])
     .concat(departure.messages?.qos || [])
@@ -336,23 +364,19 @@ function stationFromName(stationName, stationId) {
   };
 }
 
-async function fetchPrimaryDepartures({
-  duration,
-  limit,
-  locale,
-  products,
-  showCancelled,
-  stationId,
-  stationName,
-}) {
+async function fetchPrimaryDepartures(request) {
+  const { duration, locale, products, stationId, stationName, destination, now } = request;
   const station = await findStation(stationName, stationId);
+  const target = destination ? await findStation(destination, "") : null;
 
   const data = await fetchJson(
     apiBaseUrl,
     `/stops/${encodeURIComponent(station.id)}/departures`,
     {
       duration,
-      results: Math.min(30, Math.max(limit * 2, limit)),
+      when: new Date(now).toISOString(),
+      direction: target?.id,
+      ...Object.fromEntries(productNames.map((product) => [product, products.has(product)])),
       linesOfStops: false,
       remarks: true,
       language: locale.slice(0, 2),
@@ -360,11 +384,7 @@ async function fetchPrimaryDepartures({
     { timeoutMs: primaryTimeoutMs }
   );
 
-  const departures = departureArray(data)
-    .filter((departure) => products.has(productOf(departure)))
-    .filter((departure) => showCancelled || !departure.cancelled)
-    .slice(0, limit)
-    .map(shapeDeparture);
+  const departures = upcomingDepartures(departureArray(data).map(shapeDeparture), request);
 
   return {
     source: "v6.db.transport.rest",
@@ -376,29 +396,23 @@ async function fetchPrimaryDepartures({
   };
 }
 
-async function fetchFallbackDepartures({
-  duration,
-  limit,
-  products,
-  showCancelled,
-  stationId,
-  stationName,
-}) {
+async function fetchFallbackDepartures(request) {
+  const { duration, stationId, stationName, destination, now } = request;
   const data = await fetchJson(
     fallbackBaseUrl,
-    `/${encodeURIComponent(stationName)}.json`
+    `/${encodeURIComponent(stationId || stationName)}.json`,
+    {
+      version: 3,
+      // DBF accepts a regex; escape it so the setting is literal station text.
+      via: destination.replace(/[.*+?^${}()|[\]\\]/g, "\\$&").replace(/,/g, "\\x2c"),
+    }
   );
-  const latestAllowed = Date.now() + duration * 60 * 1000;
-  const departures = (Array.isArray(data?.departures) ? data.departures : [])
-    .filter((departure) => departure.scheduledDeparture)
-    .map(shapeFallbackDeparture)
-    .filter((departure) => products.has(departure.product))
-    .filter((departure) => showCancelled || !departure.cancelled)
-    .filter((departure) => {
-      const when = Date.parse(departure.when);
-      return Number.isFinite(when) && when <= latestAllowed;
-    })
-    .slice(0, limit);
+  const departures = upcomingDepartures(
+    (Array.isArray(data?.departures) ? data.departures : [])
+      .filter((departure) => departure.scheduledDeparture)
+      .map((departure) => shapeFallbackDeparture(departure, now)),
+    request
+  );
 
   return {
     source: "dbf.finalrewind.org",
@@ -419,6 +433,8 @@ export default async function handler({ query }) {
   const showCancelled = booleanOrDefault(query.showCancelled, true);
   const locale = stringOrDefault(query.locale, "de-DE");
   const request = {
+    now: Date.now(),
+    destination: stringOrDefault(query.destination, ""),
     duration,
     limit,
     locale,

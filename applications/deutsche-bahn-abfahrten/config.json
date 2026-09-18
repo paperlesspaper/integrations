@@ -15,7 +15,8 @@
     "locale": "de-DE",
     "timeZone": "Europe/Berlin",
     "showCancelled": true,
-    "showPlatformChanges": true
+    "showPlatformChanges": true,
+    "destination": ""
   },
   "configVariants": [
     {
@@ -73,7 +74,8 @@
       "duration": {
         "type": "number",
         "title": "Lookahead minutes",
-        "default": 90
+        "default": 90,
+        "description": "Show departures from now until this many minutes ahead (10–360). The fallback service may provide a shorter timetable."
       },
       "limit": {
         "type": "number",
@@ -105,6 +107,12 @@
         "type": "boolean",
         "title": "Highlight platform changes",
         "default": true
+      },
+      "destination": {
+        "type": "string",
+        "title": "Destination / via station",
+        "default": "",
+        "description": "Optional station served after departure, e.g. Basel SBB. Includes direct trains continuing beyond this station; no transfers."
       }
     }
   },

@@ -571,6 +571,7 @@
           color: "light",
           stationName: "Berlin Hbf",
           stationId: "",
+          destination: "",
           duration: 90,
           limit: 7,
           products: "nationalExpress,national,regionalExpress,regional,suburban,subway,tram,bus",
@@ -698,7 +699,7 @@
                 <div class="db-brand">
                   <span class="db-mark">DB</span>
                   <div>
-                    <p class="db-kicker">${escapeHtml(t("departures"))}</p>
+                    <p class="db-kicker">${escapeHtml(t("departures"))}${settings.destination ? ` → ${escapeHtml(settings.destination)}` : ""}</p>
                     <h1 class="db-station db-fit">${escapeHtml(stationName)}</h1>
                   </div>
                 </div>
@@ -725,7 +726,7 @@
               <div class="db-brand">
                 <span class="db-mark">DB</span>
                 <div>
-                  <p class="db-kicker">${escapeHtml(t("departures"))}</p>
+                  <p class="db-kicker">${escapeHtml(t("departures"))}${settings.destination ? ` → ${escapeHtml(settings.destination)}` : ""}</p>
                   <h1 class="db-station db-fit">${escapeHtml(stationName)}</h1>
                 </div>
               </div>
