@@ -1,0 +1,397 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="paperless:epd-optimize"
+      content='{"intent":"faithful","palette":"spectra6OriginalPalette","canvasDitherOptions":{"ditheringType":"errorDiffusion"}}'
+    />
+    <title>Meal Plan Calendar</title>
+    <link rel="stylesheet" href="/assets/paperless.css" />
+    <script src="/assets/paperless.iife.js"></script>
+    <style>
+      /* Sizes scale with the short display side (--u) and the fit factor (--s). */
+      .mp {
+        --u: 1px;
+        --s: 1;
+        --k: calc(var(--u) * var(--s));
+        --mp-hl: var(--pp-orange, #ff8000);
+        --mp-hl-ink: var(--pp-black);
+        --mp-line: calc(var(--u) * 2);
+        box-sizing: border-box;
+        width: 100vw;
+        height: 100vh;
+        padding: calc(var(--u) * 22) calc(var(--u) * 24) calc(var(--u) * 14);
+        display: flex;
+        flex-direction: column;
+        gap: calc(var(--k) * 10);
+        overflow: hidden;
+      }
+      .red-light .mp,
+      .blue-light .mp,
+      .green-light .mp,
+      .red-dark .mp,
+      .blue-dark .mp,
+      .green-dark .mp {
+        --mp-hl: var(--pp-accent);
+      }
+      .red-light .mp,
+      .blue-light .mp,
+      .red-dark .mp,
+      .blue-dark .mp {
+        --mp-hl-ink: var(--pp-white);
+      }
+      .mp *,
+      .mp *::before,
+      .mp *::after {
+        box-sizing: border-box;
+      }
+
+      .mp-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: calc(var(--u) * 16);
+        flex-shrink: 0;
+        padding-bottom: calc(var(--k) * 8);
+        border-bottom: calc(var(--u) * 5) solid var(--mp-hl);
+      }
+      .mp-head h1 {
+        margin: 0;
+        font-size: calc(var(--k) * 40);
+        font-weight: 800;
+        line-height: 1.05;
+        letter-spacing: -0.01em;
+        overflow-wrap: anywhere;
+      }
+      .mp-kicker {
+        flex-shrink: 0;
+        font-size: calc(var(--k) * 13);
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        padding: calc(var(--k) * 3) calc(var(--k) * 8);
+        border: var(--mp-line) solid var(--pp-fg);
+        border-radius: calc(var(--u) * 4);
+      }
+
+      .mp-days {
+        flex: 1;
+        min-height: 0;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+      }
+      .mp-day {
+        flex-shrink: 0;
+        min-width: 0;
+        padding: calc(var(--k) * 10) 0 calc(var(--k) * 4);
+      }
+      .mp-date {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        grid-template-areas: "num dt";
+        align-items: center;
+        column-gap: calc(var(--k) * 12);
+        padding-bottom: calc(var(--k) * 6);
+      }
+      .mp-num {
+        grid-area: num;
+        min-width: calc(var(--k) * 58);
+        text-align: center;
+        font-size: calc(var(--k) * 44);
+        font-weight: 400;
+        line-height: 1;
+        font-variant-numeric: tabular-nums;
+        padding: calc(var(--k) * 3) calc(var(--k) * 6);
+        border-radius: calc(var(--u) * 8);
+      }
+      .is-today .mp-num {
+        background: var(--mp-hl);
+        color: var(--mp-hl-ink);
+        font-weight: 700;
+      }
+      .mp-dt {
+        grid-area: dt;
+        display: flex;
+        flex-direction: column;
+        min-width: 0;
+      }
+      .mp-wd {
+        font-size: calc(var(--k) * 18);
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        line-height: 1.15;
+      }
+      .mp-mo {
+        font-size: calc(var(--k) * 14);
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        line-height: 1.2;
+      }
+      .mp-meals {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+      }
+      .mp-meal {
+        display: grid;
+        grid-template-columns: calc(var(--k) * 58) 1fr;
+        column-gap: calc(var(--k) * 12);
+        align-items: center;
+        min-width: 0;
+      }
+      /* Meal symbols without a background; the glyph slightly exceeds its layout box. */
+      .mp-slot {
+        justify-self: center;
+        display: grid;
+        place-items: center;
+        width: calc(var(--k) * 30);
+        height: calc(var(--k) * 30);
+        color: var(--pp-fg);
+      }
+      .mp-slot svg {
+        width: 100%;
+        height: 100%;
+        overflow: visible;
+        transform: scale(1.2);
+      }
+      .mp-meal.is-repeat .mp-slot {
+        visibility: hidden;
+      }
+      .mp--icons-color [data-slot="lunch"] .mp-slot {
+        color: var(--pp-orange, #ff8000);
+      }
+      .mp--icons-color [data-slot="dinner"] .mp-slot {
+        color: var(--pp-blue);
+      }
+      .mp--icons-color [data-slot="breakfast"] .mp-slot {
+        color: var(--pp-green);
+      }
+      .mp--icons-color .mp-meal.is-empty .mp-slot {
+        color: var(--pp-fg);
+      }
+      /* Blue on black is too weak: outline the dinner symbol on dark themes. */
+      .dark .mp--icons-color [data-slot="dinner"] .mp-slot path,
+      .white .mp--icons-color [data-slot="dinner"] .mp-slot path {
+        stroke: var(--pp-fg);
+        stroke-width: 1.2;
+      }
+      .mp-text {
+        min-width: 0;
+        padding: calc(var(--k) * 9) 0;
+        border-top: var(--mp-line) solid var(--pp-border);
+      }
+      .mp-title {
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 3;
+        overflow: hidden;
+        font-size: calc(var(--k) * 21);
+        font-weight: 500;
+        line-height: 1.22;
+        overflow-wrap: break-word;
+        hyphens: manual;
+      }
+      .mp-meal.is-empty .mp-title {
+        font-style: italic;
+        font-weight: 400;
+      }
+      .mp-nothing {
+        margin: 0;
+        padding: calc(var(--k) * 8) 0 calc(var(--k) * 8) calc(var(--k) * 70);
+        font-size: calc(var(--k) * 18);
+        font-style: italic;
+        border-top: var(--mp-line) solid var(--pp-border);
+      }
+
+      .mp-foot {
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: calc(var(--k) * 6) calc(var(--k) * 16);
+        padding-top: calc(var(--k) * 8);
+        border-top: var(--mp-line) solid var(--pp-border);
+        font-size: calc(var(--k) * 13);
+        font-weight: 600;
+      }
+      .mp-legend {
+        display: flex;
+        flex-wrap: wrap;
+        gap: calc(var(--k) * 4) calc(var(--k) * 14);
+      }
+      .mp-legend span {
+        display: inline-flex;
+        align-items: center;
+        gap: calc(var(--k) * 6);
+      }
+      .mp-legend .mp-slot {
+        width: calc(var(--k) * 16);
+        height: calc(var(--k) * 16);
+      }
+      .mp-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: calc(var(--k) * 4) calc(var(--k) * 14);
+        margin-left: auto;
+      }
+
+      /* Landscape: one column per day, like a paper week planner. */
+      @media (orientation: landscape) {
+        .mp {
+          padding: calc(var(--u) * 16) calc(var(--u) * 20) calc(var(--u) * 10);
+        }
+        .mp-head h1 {
+          font-size: calc(var(--k) * 30);
+        }
+        .mp-head {
+          border-bottom-width: calc(var(--u) * 4);
+        }
+        .mp-days {
+          flex-direction: row;
+        }
+        .mp-day {
+          flex: 1 1 0;
+          min-height: 0;
+          overflow: hidden;
+          padding: calc(var(--k) * 8) calc(var(--k) * 10) 0;
+          border-left: var(--mp-line) solid var(--pp-border);
+        }
+        .mp-day:first-child {
+          border-left: 0;
+          padding-left: 0;
+        }
+        .mp-day:last-child {
+          padding-right: 0;
+        }
+        .mp-date {
+          grid-template-columns: 1fr;
+          grid-template-areas:
+            "num"
+            "dt";
+          row-gap: calc(var(--k) * 4);
+          column-gap: calc(var(--k) * 6);
+        }
+        .mp-num {
+          justify-self: start;
+          min-width: calc(var(--k) * 48);
+          font-size: calc(var(--k) * 36);
+        }
+        .mp-wd {
+          font-size: calc(var(--k) * 15);
+          letter-spacing: 0.02em;
+        }
+        .mp-mo {
+          font-size: calc(var(--k) * 12);
+        }
+        .mp-legend .mp-slot {
+          margin-top: 0;
+        }
+        /* Narrow columns: the dish name flows around the meal symbol to use the full width. */
+        .mp-meal {
+          display: block;
+          padding: calc(var(--k) * 7) 0 calc(var(--k) * 8);
+          border-top: var(--mp-line) solid var(--pp-border);
+        }
+        .mp-meal::after {
+          content: "";
+          display: block;
+          clear: both;
+        }
+        /* Symbol box stays shorter than one text line (17 x 1.24) so only the first line indents. */
+        .mp-slot {
+          float: left;
+          width: calc(var(--k) * 19);
+          height: calc(var(--k) * 19);
+          margin: calc(var(--k) * 1) calc(var(--k) * 6) 0 0;
+        }
+        .mp-meal.is-repeat .mp-slot {
+          visibility: visible;
+        }
+        .mp-text {
+          display: block;
+          padding: 0;
+          border-top: 0;
+        }
+        .mp-title {
+          display: inline;
+          font-size: calc(var(--k) * 17);
+          line-height: 1.24;
+        }
+        .mp-nothing {
+          padding-left: 0;
+          font-size: calc(var(--k) * 15);
+        }
+      }
+
+      /* L frames (1600x1200 / 1200x1600): days in a grid; the 7" layout above stays untouched. */
+      .mp--large .mp-days {
+        display: grid;
+        grid-template-columns: repeat(var(--mp-cols, 1), minmax(0, 1fr));
+        grid-template-rows: repeat(var(--mp-rows, 1), auto);
+        grid-auto-flow: column;
+        align-content: start;
+      }
+      /* Portrait with many days: two columns read top to bottom, rows spread over the height. */
+      .mp--large:not(.mp--landscape) .mp-days.is-multi-col {
+        grid-template-rows: repeat(var(--mp-rows, 1), minmax(auto, 1fr));
+        align-content: stretch;
+      }
+      .mp--large:not(.mp--landscape) .mp-day:not(.is-first-col) {
+        padding-left: calc(var(--k) * 18);
+        border-left: var(--mp-line) solid var(--pp-border);
+      }
+      .mp--large:not(.mp--landscape) .mp-day:not(.is-last-col) {
+        padding-right: calc(var(--k) * 18);
+      }
+      /* Landscape: week columns; more than seven days wrap into a second week row. */
+      .mp--large.mp--landscape .mp-days {
+        grid-template-rows: repeat(var(--mp-rows, 1), minmax(0, 1fr));
+        grid-auto-flow: row;
+        align-content: stretch;
+      }
+      .mp--large.mp--landscape .mp-day {
+        padding: calc(var(--k) * 8) calc(var(--k) * 12) calc(var(--k) * 6);
+        border-left: var(--mp-line) solid var(--pp-border);
+      }
+      .mp--large.mp--landscape .mp-day.is-first-col {
+        padding-left: 0;
+        border-left: 0;
+      }
+      .mp--large.mp--landscape .mp-day.is-last-col {
+        padding-right: 0;
+      }
+      .mp--large.mp--landscape .mp-day:not(.is-first-row) {
+        padding-top: calc(var(--k) * 12);
+        border-top: calc(var(--u) * 3) solid var(--pp-fg);
+      }
+
+      .mp-error {
+        justify-content: center;
+        align-items: flex-start;
+      }
+      .mp-error h1 {
+        margin: 0;
+        font-size: calc(var(--u) * 34);
+        border-left: calc(var(--u) * 10) solid var(--pp-red);
+        padding-left: calc(var(--u) * 16);
+      }
+      .mp-error p {
+        margin: calc(var(--u) * 12) 0 0;
+        font-size: calc(var(--u) * 18);
+        max-width: 40em;
+        overflow-wrap: anywhere;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="website-has-loading-element"></div>
+    <main id="app" class="mp" aria-live="polite"></main>
+    <script type="module" src="./assets/render.js"></script>
+  </body>
+</html>

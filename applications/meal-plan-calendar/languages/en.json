@@ -1,0 +1,17 @@
+{
+  "locale": "en-GB",
+  "title": "Meal plan",
+  "sampleSource": "Sample data",
+  "notPlanned": "not planned yet",
+  "nothingPlanned": "Nothing planned",
+  "moreDays": "+{count} more days",
+  "moreDaysOne": "+1 more day",
+  "errorTitle": "Meal plan unavailable",
+  "errorHint": "Check the iCloud public calendar link in the settings.",
+  "slots": {
+    "breakfast": "Breakfast",
+    "lunch": "Lunch",
+    "dinner": "Dinner",
+    "other": "Meal"
+  }
+}

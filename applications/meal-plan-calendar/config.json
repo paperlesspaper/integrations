@@ -1,0 +1,142 @@
+{
+  "name": "Meal Plan Calendar",
+  "version": "0.1.0",
+  "status": "alpha",
+  "description": "Shows a family meal plan from a shared iCloud calendar with breakfast, lunch and dinner per day.",
+  "renderPage": "./render.html",
+  "icon": "./assets/icon.png",
+  "timezone": "Europe/Berlin",
+  "language": ["de", "en"],
+  "nativeSettings": {
+    "color": "light",
+    "title": "",
+    "calendarUrl": "",
+    "days": 5,
+    "startDay": "today",
+    "slots": "lunch-dinner",
+    "allDayMeal": "dinner",
+    "timeZone": "Europe/Berlin",
+    "iconStyle": "color",
+    "showHeader": true,
+    "showLegend": true
+  },
+  "formSchema": {
+    "type": "object",
+    "properties": {
+      "title": {
+        "type": "string",
+        "title": "Display title",
+        "description": "Leave empty for the localized default (\"Essensplan\" / \"Meal plan\").",
+        "maxLength": 60,
+        "default": ""
+      },
+      "calendarUrl": {
+        "type": "string",
+        "title": "iCloud public calendar link",
+        "description": "The webcal:// or HTTPS link from the calendar's \"Public Calendar\" sharing option. Anyone with this link can read the calendar. Leave empty to show sample data.",
+        "format": "password",
+        "default": ""
+      },
+      "days": {
+        "type": "integer",
+        "title": "Days to show",
+        "description": "Days that do not fit on the display are left out.",
+        "minimum": 1,
+        "maximum": 14,
+        "default": 5
+      },
+      "startDay": {
+        "type": "string",
+        "title": "Start with",
+        "enum": ["today", "monday"],
+        "enumNames": ["Today", "Monday of this week"],
+        "default": "today"
+      },
+      "slots": {
+        "type": "string",
+        "title": "Meals per day",
+        "description": "Meals shown as \"not planned yet\" when the calendar has no entry for them.",
+        "enum": ["lunch-dinner", "dinner", "all", "none"],
+        "enumNames": ["Lunch and dinner", "Dinner only", "Breakfast, lunch and dinner", "Only planned entries"],
+        "default": "lunch-dinner"
+      },
+      "allDayMeal": {
+        "type": "string",
+        "title": "All-day entries count as",
+        "description": "Timed entries are sorted by start time. Title prefixes such as \"Mittag:\" or \"Abend:\" always win.",
+        "enum": ["dinner", "lunch", "breakfast", "other"],
+        "enumNames": ["Dinner", "Lunch", "Breakfast", "Unassigned meal"],
+        "default": "dinner"
+      },
+      "timeZone": {
+        "type": "string",
+        "title": "Time zone",
+        "description": "IANA time zone, for example Europe/Berlin.",
+        "default": "Europe/Berlin"
+      },
+      "iconStyle": {
+        "type": "string",
+        "title": "Meal icons",
+        "description": "Colored symbols (orange sun, blue moon) or symbols in the text color.",
+        "enum": ["color", "mono"],
+        "enumNames": ["Colored symbols", "Plain symbols"],
+        "default": "color"
+      },
+      "showHeader": {
+        "type": "boolean",
+        "title": "Show header",
+        "default": true
+      },
+      "showLegend": {
+        "type": "boolean",
+        "title": "Show meal legend",
+        "description": "Legend at the bottom explaining the meal symbols (for example \"Lunch\" / \"Dinner\").",
+        "default": true
+      }
+    }
+  },
+  "configVariants": [
+    {
+      "color": "light",
+      "title": "",
+      "calendarUrl": "",
+      "days": 5,
+      "startDay": "today",
+      "slots": "lunch-dinner",
+      "allDayMeal": "dinner",
+      "timeZone": "Europe/Berlin",
+      "iconStyle": "color",
+      "showHeader": true,
+      "showLegend": true,
+      "sampleData": true,
+      "now": "2026-09-29T15:28:00.000Z",
+      "screenshots": {
+        "800x480": "./screenshots/meal-plan-calendar-default-800x480.png",
+        "480x800": "./screenshots/meal-plan-calendar-default-480x800.png",
+        "1600x1200": "./screenshots/meal-plan-calendar-default-1600x1200.png",
+        "1200x1600": "./screenshots/meal-plan-calendar-default-1200x1600.png"
+      }
+    },
+    {
+      "color": "dark",
+      "title": "",
+      "calendarUrl": "",
+      "days": 7,
+      "startDay": "monday",
+      "slots": "lunch-dinner",
+      "allDayMeal": "dinner",
+      "timeZone": "Europe/Berlin",
+      "iconStyle": "mono",
+      "showHeader": true,
+      "showLegend": true,
+      "sampleData": true,
+      "now": "2026-09-29T15:28:00.000Z",
+      "screenshots": {
+        "800x480": "./screenshots/meal-plan-calendar-dark-800x480.png",
+        "480x800": "./screenshots/meal-plan-calendar-dark-480x800.png",
+        "1600x1200": "./screenshots/meal-plan-calendar-dark-1600x1200.png",
+        "1200x1600": "./screenshots/meal-plan-calendar-dark-1200x1600.png"
+      }
+    }
+  ]
+}

@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <defs>
+    <linearGradient id="page" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="1" stop-color="#e6e9ef"/>
+    </linearGradient>
+    <linearGradient id="band" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ff9a2e"/>
+      <stop offset="1" stop-color="#e86a00"/>
+    </linearGradient>
+    <radialGradient id="plate" cx="0.42" cy="0.38" r="0.7">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="0.75" stop-color="#eef1f5"/>
+      <stop offset="1" stop-color="#cfd5de"/>
+    </radialGradient>
+    <radialGradient id="inner" cx="0.45" cy="0.4" r="0.65">
+      <stop offset="0" stop-color="#fafbfc"/>
+      <stop offset="1" stop-color="#dde2e9"/>
+    </radialGradient>
+    <linearGradient id="metal" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#5b6472"/>
+      <stop offset="0.5" stop-color="#9aa3b1"/>
+      <stop offset="1" stop-color="#4a525e"/>
+    </linearGradient>
+    <linearGradient id="ring" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#3a3f48"/>
+      <stop offset="0.5" stop-color="#8a929e"/>
+      <stop offset="1" stop-color="#2d3139"/>
+    </linearGradient>
+  </defs>
+  <!-- calendar page -->
+  <rect x="112" y="150" width="800" height="780" rx="110" fill="#b9c0cb"/>
+  <rect x="112" y="136" width="800" height="780" rx="110" fill="url(#page)"/>
+  <path d="M222 136h580a110 110 0 0 1 110 110v74H112v-74a110 110 0 0 1 110-110z" fill="url(#band)"/>
+  <rect x="112" y="310" width="800" height="12" fill="#c85a00" opacity="0.35"/>
+  <!-- binder rings -->
+  <rect x="300" y="86" width="56" height="150" rx="28" fill="url(#ring)"/>
+  <rect x="668" y="86" width="56" height="150" rx="28" fill="url(#ring)"/>
+  <!-- plate -->
+  <circle cx="512" cy="628" r="232" fill="#aab2be" opacity="0.55"/>
+  <circle cx="512" cy="616" r="232" fill="url(#plate)"/>
+  <circle cx="512" cy="616" r="160" fill="url(#inner)"/>
+  <circle cx="512" cy="616" r="160" fill="none" stroke="#c3cad4" stroke-width="6"/>
+  <!-- fork -->
+  <g fill="url(#metal)">
+    <rect x="198" y="430" width="16" height="120" rx="8"/>
+    <rect x="228" y="430" width="16" height="120" rx="8"/>
+    <rect x="258" y="430" width="16" height="120" rx="8"/>
+    <path d="M198 530h76v24a38 38 0 0 1-24 35l-2 214a12 12 0 0 1-24 0l-2-214a38 38 0 0 1-24-35z"/>
+  </g>
+  <!-- knife -->
+  <path d="M812 430c34 18 44 90 30 170l-10 12v193a13 13 0 0 1-26 0V440a10 10 0 0 1 6-10z" fill="url(#metal)"/>
+  <!-- food accent: sun-coloured dish -->
+  <circle cx="512" cy="616" r="92" fill="#ffd21f"/>
+  <circle cx="480" cy="590" r="30" fill="#fff3a6" opacity="0.8"/>
+  <circle cx="548" cy="648" r="22" fill="#2f9e44"/>
+  <circle cx="470" cy="652" r="16" fill="#e03131"/>
+</svg>

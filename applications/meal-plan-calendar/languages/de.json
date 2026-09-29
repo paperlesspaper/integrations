@@ -1,0 +1,17 @@
+{
+  "locale": "de-DE",
+  "title": "Essensplan",
+  "sampleSource": "Beispieldaten",
+  "notPlanned": "noch nicht geplant",
+  "nothingPlanned": "Nichts geplant",
+  "moreDays": "+{count} weitere Tage",
+  "moreDaysOne": "+1 weiterer Tag",
+  "errorTitle": "Essensplan nicht verfügbar",
+  "errorHint": "Prüfe den öffentlichen iCloud-Kalenderlink in den Einstellungen.",
+  "slots": {
+    "breakfast": "Frühstück",
+    "lunch": "Mittag",
+    "dinner": "Abend",
+    "other": "Gericht"
+  }
+}
