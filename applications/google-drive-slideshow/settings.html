@@ -1,0 +1,995 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Google Drive Slideshow settings</title>
+    <link rel="stylesheet" href="/assets/settings.css" />
+    <style>
+      .gdrive-settings main {
+        gap: 18px;
+        max-width: none;
+        padding-bottom: 28px;
+      }
+
+      .gdrive-settings .page-header {
+        display: grid;
+        gap: 6px;
+      }
+
+      .gdrive-settings .page-header h1 {
+        margin: 0;
+      }
+
+      .gdrive-settings .intro {
+        margin: 0;
+        color: var(--pp-settings-muted);
+        font-size: 0.88rem;
+        line-height: 1.45;
+      }
+
+      .gdrive-settings .tabs {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      .gdrive-settings .tabs button {
+        min-height: 40px;
+        padding: 8px 14px;
+        border: 1px solid var(--pp-settings-border);
+        border-radius: var(--pp-settings-radius);
+        background: var(--pp-settings-field);
+        color: var(--pp-settings-fg);
+        font: inherit;
+        font-weight: 700;
+        cursor: pointer;
+      }
+
+      .gdrive-settings .tabs button[aria-selected="true"] {
+        border-color: var(--pp-settings-accent);
+        background: var(--pp-settings-accent);
+        color: var(--pp-settings-accent-fg);
+      }
+
+      .gdrive-settings .panel {
+        display: grid;
+        gap: 14px;
+        padding: 14px 16px;
+        border: 1px solid var(--pp-settings-border);
+        border-radius: var(--pp-settings-radius);
+        background: var(--pp-settings-field);
+      }
+
+      .gdrive-settings .panel[hidden] {
+        display: none !important;
+      }
+
+      .gdrive-settings .help {
+        margin: 0;
+        font-size: 0.86rem;
+        line-height: 1.5;
+      }
+
+      .gdrive-settings .help a {
+        text-decoration: underline;
+      }
+
+      .gdrive-settings .field-checkbox {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-weight: 760;
+      }
+
+      .gdrive-settings .field-checkbox span {
+        text-transform: none;
+      }
+
+      .gdrive-settings #service-account-key {
+        min-height: 120px;
+        font-family: ui-monospace, monospace;
+        font-size: 0.82rem;
+      }
+
+      .gdrive-settings .email-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        align-items: center;
+      }
+
+      .gdrive-settings .email-row code {
+        flex: 1;
+        min-width: 0;
+        overflow-wrap: anywhere;
+        font-size: 0.82rem;
+        color: var(--pp-settings-fg);
+        padding: 8px 10px;
+        border: 1px solid var(--pp-settings-border);
+        border-radius: var(--pp-settings-radius);
+        background: var(--pp-settings-field);
+      }
+
+      .gdrive-settings .actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      .gdrive-settings button.action {
+        min-height: 40px;
+        padding: 8px 14px;
+        border: 1px solid var(--pp-settings-border);
+        border-radius: var(--pp-settings-radius);
+        background: var(--pp-settings-field);
+        color: var(--pp-settings-fg);
+        -webkit-text-fill-color: currentColor;
+        font: inherit;
+        font-weight: 700;
+        cursor: pointer;
+      }
+
+      .gdrive-settings button.action:hover {
+        background: var(--pp-settings-field-hover);
+        border-color: var(--pp-settings-border-strong);
+        color: var(--pp-settings-fg);
+      }
+
+      .gdrive-settings button.action:active {
+        color: var(--pp-settings-fg);
+        -webkit-text-fill-color: currentColor;
+        border-color: var(--pp-settings-accent);
+        background: color-mix(in srgb, var(--pp-settings-accent) 16%, var(--pp-settings-field));
+      }
+
+      .gdrive-settings button.action.primary {
+        border-color: var(--pp-settings-accent);
+        background: var(--pp-settings-accent);
+        color: var(--pp-settings-accent-fg);
+        -webkit-text-fill-color: currentColor;
+      }
+
+      .gdrive-settings button.action.primary:hover {
+        color: var(--pp-settings-accent-fg);
+        background: var(--pp-settings-accent);
+      }
+
+      .gdrive-settings button.action.primary:active {
+        color: var(--pp-settings-accent-fg);
+        -webkit-text-fill-color: currentColor;
+        background: color-mix(in srgb, var(--pp-settings-fg) 12%, var(--pp-settings-accent));
+      }
+
+      .gdrive-settings .email-row .action {
+        flex-shrink: 0;
+        white-space: nowrap;
+      }
+
+      .gdrive-settings button.action:disabled:not(.brightness-step-btn) {
+        opacity: 0.5;
+        cursor: wait;
+      }
+
+      .gdrive-settings select.folder-list {
+        min-height: 9rem;
+        height: auto;
+        padding: 8px 10px;
+        background-image: none;
+      }
+
+      .gdrive-settings .folder-pick {
+        display: grid;
+        gap: 10px;
+      }
+
+      .gdrive-settings .folder-pick-status {
+        margin: 0;
+        min-height: 1.25em;
+        font-size: 0.86rem;
+        line-height: 1.4;
+        color: var(--pp-settings-muted);
+      }
+
+      .gdrive-settings .folder-pick-status.is-error {
+        color: #b3261e;
+        font-weight: 700;
+      }
+
+      .gdrive-settings hr {
+        border: 0;
+        border-top: 1px solid var(--pp-settings-border);
+        margin: 8px 0 0;
+      }
+
+      .gdrive-settings .slideshow-section {
+        display: grid;
+        gap: 14px;
+      }
+
+      .gdrive-settings .slideshow-section h2 {
+        margin: 0;
+        font-size: 1.05rem;
+      }
+
+      .gdrive-settings .brightness-field {
+        display: grid;
+        gap: 8px;
+      }
+
+      .gdrive-settings .brightness-stepper {
+        --stepper-height: 40px;
+        display: flex;
+        align-items: stretch;
+        gap: 8px;
+        height: var(--stepper-height);
+        max-width: 12rem;
+      }
+
+      .gdrive-settings .brightness-stepper .brightness-step-btn,
+      .gdrive-settings .brightness-stepper .brightness-value {
+        box-sizing: border-box;
+        height: 100%;
+        min-height: 0;
+        max-height: 100%;
+        margin: 0;
+        line-height: 1;
+      }
+
+      .gdrive-settings .brightness-stepper button.action.brightness-step-btn {
+        min-height: 0;
+        padding: 0;
+      }
+
+      .gdrive-settings .brightness-stepper .brightness-step-btn {
+        flex: 0 0 2.75rem;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        appearance: none;
+        -webkit-appearance: none;
+        opacity: 1;
+        cursor: pointer;
+        color: var(--pp-settings-accent);
+        border: 1px solid var(--pp-settings-accent);
+        background: color-mix(in srgb, var(--pp-settings-accent) 16%, var(--pp-settings-bg));
+      }
+
+      .gdrive-settings .brightness-stepper .brightness-step-btn span {
+        display: block;
+        font-size: 1.35rem;
+        font-weight: 800;
+        line-height: 1;
+        color: inherit;
+        -webkit-text-fill-color: currentColor;
+        transform: translateY(-0.06em);
+      }
+
+      .gdrive-settings .brightness-stepper #brightness-down span {
+        transform: translateY(-0.11em);
+      }
+
+      .gdrive-settings .brightness-stepper .brightness-step-btn:not(:disabled):active {
+        background: color-mix(in srgb, var(--pp-settings-accent) 28%, var(--pp-settings-bg));
+      }
+
+      .gdrive-settings .brightness-stepper .brightness-step-btn:disabled {
+        opacity: 1;
+        cursor: not-allowed;
+        color: #4b5563;
+        border-color: #d1d5db;
+        background: #eceff3;
+      }
+
+      .gdrive-settings .brightness-stepper .brightness-step-btn:disabled span {
+        color: #4b5563;
+        -webkit-text-fill-color: #4b5563;
+      }
+
+      @media (prefers-color-scheme: dark) {
+        .gdrive-settings .brightness-stepper .brightness-step-btn:not(:disabled) {
+          background: color-mix(in srgb, var(--pp-settings-accent) 22%, var(--pp-settings-bg));
+        }
+
+        .gdrive-settings .brightness-stepper .brightness-step-btn:disabled {
+          color: #9ca3af;
+          border-color: #4b5563;
+          background: #1f2937;
+        }
+
+        .gdrive-settings .brightness-stepper .brightness-step-btn:disabled span {
+          color: #9ca3af;
+          -webkit-text-fill-color: #9ca3af;
+        }
+      }
+
+      .gdrive-settings .brightness-value {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid var(--pp-settings-border);
+        border-radius: var(--pp-settings-radius);
+        background: var(--pp-settings-field);
+        font-size: 1.1rem;
+        font-weight: 700;
+        line-height: 1;
+        font-variant-numeric: tabular-nums;
+      }
+
+      .gdrive-settings .fit-field {
+        display: grid;
+        gap: 8px;
+      }
+
+      .gdrive-settings .fit-picker {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+      }
+
+      .gdrive-settings .fit-option {
+        display: grid;
+        justify-items: center;
+        gap: 8px;
+        min-height: 6.5rem;
+        padding: 12px 10px;
+        border: 1px solid var(--pp-settings-border);
+        border-radius: var(--pp-settings-radius);
+        background: var(--pp-settings-field);
+        font: inherit;
+        font-weight: 700;
+        cursor: pointer;
+        color: var(--pp-settings-fg);
+        appearance: none;
+        -webkit-appearance: none;
+      }
+
+      .gdrive-settings .fit-option[aria-checked="true"] {
+        border-color: var(--pp-settings-accent);
+        background: color-mix(in srgb, var(--pp-settings-accent) 14%, var(--pp-settings-bg));
+        color: var(--pp-settings-accent);
+      }
+
+      .gdrive-settings .fit-option .fit-icon {
+        display: block;
+        width: 4rem;
+        height: 4rem;
+      }
+
+      .gdrive-settings .fit-option-label {
+        font-size: 0.86rem;
+        line-height: 1.2;
+        text-align: center;
+      }
+    </style>
+    <script src="/assets/paperless.iife.js"></script>
+  </head>
+  <body class="gdrive-settings">
+    <main>
+      <div class="page-header">
+        <h1 id="settings-title">Google Drive Slideshow</h1>
+        <p class="intro" id="settings-intro"></p>
+      </div>
+
+      <div class="tabs" role="tablist">
+        <button type="button" role="tab" id="tab-public" aria-controls="panel-public" aria-selected="true"></button>
+        <button type="button" role="tab" id="tab-private" aria-controls="panel-private" aria-selected="false"></button>
+      </div>
+
+      <section class="panel" id="panel-public" role="tabpanel" aria-labelledby="tab-public">
+        <p class="help" id="public-setup-help"></p>
+        <label id="label-folder-url">
+          <span id="label-folder-url-text"></span>
+          <input id="folder-url" type="text" autocomplete="off" />
+        </label>
+        <label id="label-resource-key">
+          <span id="label-resource-key-text"></span>
+          <input id="folder-resource-key" type="text" autocomplete="off" />
+        </label>
+        <label id="label-api-key">
+          <span id="label-api-key-text"></span>
+          <input id="api-key" type="password" autocomplete="off" />
+        </label>
+      </section>
+
+      <section class="panel" id="panel-private" role="tabpanel" aria-labelledby="tab-private" hidden>
+        <p class="help" id="private-setup-help"></p>
+        <label id="label-sa-key">
+          <span id="label-sa-key-text"></span>
+          <textarea id="service-account-key" spellcheck="false" autocomplete="off"></textarea>
+        </label>
+        <div class="email-row" id="sa-email-row" hidden>
+          <code id="service-account-email"></code>
+          <button type="button" class="action" id="copy-sa-email"></button>
+        </div>
+        <p class="help" id="private-share-help"></p>
+        <div class="folder-pick">
+          <div class="actions">
+            <button type="button" class="action primary" id="load-folders" disabled></button>
+          </div>
+          <p class="folder-pick-status" id="folder-pick-status" aria-live="polite"></p>
+          <label id="label-folder-pick">
+            <span id="label-folder-pick-text"></span>
+            <select id="folder-list" class="folder-list" size="6" disabled hidden></select>
+          </label>
+        </div>
+      </section>
+
+      <hr />
+      <section class="slideshow-section" aria-labelledby="slideshow-heading">
+      <h2 id="slideshow-heading"></h2>
+      <label id="label-order">
+        <span id="label-order-text"></span>
+        <select id="order"></select>
+      </label>
+      <div class="fit-field" id="label-fit">
+        <span id="label-fit-text"></span>
+        <div class="fit-picker" id="fit-picker" role="radiogroup" aria-labelledby="label-fit-text">
+          <button
+            type="button"
+            class="fit-option"
+            data-fit="cover"
+            role="radio"
+            aria-checked="true"
+          >
+            <svg class="fit-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <defs>
+                <pattern id="fit-cover-checker" width="4" height="4" patternUnits="userSpaceOnUse">
+                  <rect width="2" height="2" fill="currentColor" opacity="0.24" />
+                  <rect x="2" y="2" width="2" height="2" fill="currentColor" opacity="0.24" />
+                </pattern>
+              </defs>
+              <rect
+                x="-5.25"
+                y="1.55"
+                width="34.5"
+                height="20.9"
+                fill="url(#fit-cover-checker)"
+                stroke="currentColor"
+                stroke-width="0.75"
+                stroke-dasharray="2 1.5"
+              />
+              <rect
+                x="4.75"
+                y="1.15"
+                width="14.5"
+                height="21.7"
+                rx="0.9"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.35"
+              />
+            </svg>
+            <span class="fit-option-label" id="fit-cover-label">Cover</span>
+          </button>
+          <button
+            type="button"
+            class="fit-option"
+            data-fit="contain"
+            role="radio"
+            aria-checked="false"
+          >
+            <svg class="fit-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <defs>
+                <pattern id="fit-contain-checker" width="4" height="4" patternUnits="userSpaceOnUse">
+                  <rect width="2" height="2" fill="currentColor" opacity="0.24" />
+                  <rect x="2" y="2" width="2" height="2" fill="currentColor" opacity="0.24" />
+                </pattern>
+              </defs>
+              <rect
+                x="5.05"
+                y="7.35"
+                width="14.1"
+                height="8.55"
+                rx="0.35"
+                fill="url(#fit-contain-checker)"
+                stroke="currentColor"
+                stroke-width="0.75"
+                stroke-dasharray="2 1.5"
+              />
+              <rect
+                x="4.75"
+                y="1.15"
+                width="14.5"
+                height="21.7"
+                rx="0.9"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.35"
+              />
+            </svg>
+            <span class="fit-option-label" id="fit-contain-label">Contain</span>
+          </button>
+        </div>
+      </div>
+      <label id="label-slot">
+        <span id="label-slot-text"></span>
+        <input id="slot-minutes" type="number" min="1" max="1440" />
+      </label>
+      <label class="field-checkbox" id="label-filename">
+        <input id="show-filename" type="checkbox" />
+        <span id="label-filename-text"></span>
+      </label>
+      <div class="brightness-field" id="label-brightness">
+        <span id="label-brightness-text"></span>
+        <div class="brightness-stepper">
+          <button type="button" class="action brightness-step-btn" id="brightness-down" aria-label="Decrease brightness"><span aria-hidden="true">-</span></button>
+          <span class="brightness-value" id="brightness-value" aria-live="polite">0</span>
+          <button type="button" class="action brightness-step-btn" id="brightness-up" aria-label="Increase brightness"><span aria-hidden="true">+</span></button>
+        </div>
+      </div>
+      </section>
+    </main>
+    <script type="module">
+      import {
+        inferConnectionMode,
+        normalizeServiceAccountKeyInput,
+        sanitizeServiceAccountKeyText,
+      } from "./assets/drive-connection.js";
+
+      (() => {
+        const LINKS = {
+          apiKey: "https://developers.google.com/workspace/drive/api/get-api-key",
+          publicShare: "https://support.google.com/drive/answer/7166529",
+          driveApi: "https://developers.google.com/workspace/drive/api/quickstart/js",
+          saKey: "https://cloud.google.com/iam/docs/keys-create-delete#iam-service-account-keys-create-console",
+          serviceAccount: "https://cloud.google.com/iam/docs/service-accounts-create",
+        };
+
+        const defaults = {
+          connectionMode: "public",
+          folderUrl: "",
+          folderResourceKey: "",
+          apiKey: "",
+          serviceAccountKey: "",
+          serviceAccountEmail: "",
+          folderId: "",
+          folderName: "",
+          folderResourceKeyPrivate: "",
+          order: "random",
+          fit: "cover",
+          slotMinutes: 60,
+          showFilename: false,
+          brightnessBoost: 0,
+        };
+
+        const BRIGHTNESS_MIN = 0;
+        const BRIGHTNESS_MAX = 3;
+
+        const bridge = window.PaperlessOpenIntegration || {};
+        let copy = {};
+        let copyBase = null;
+        let copyLanguage = "";
+        let state = { ...defaults };
+        let foldersLoaded = [];
+        let eventsBound = false;
+        let applyingFromHost = false;
+        let pendingHostPayload = null;
+
+        const el = (id) => document.getElementById(id);
+
+        function t(key, values = {}) {
+          const template = copy[key] || key;
+          return template.replace(/\{(\w+)\}/g, (_m, name) => values[name] ?? "");
+        }
+
+        function normalizeBrightnessLevel(value) {
+          if (typeof value === "number" && Number.isFinite(value)) {
+            return Math.max(BRIGHTNESS_MIN, Math.min(BRIGHTNESS_MAX, Math.round(value)));
+          }
+          const match = String(value ?? "").trim().match(/^(\d)/);
+          if (!match) {
+            return BRIGHTNESS_MIN;
+          }
+          return Math.max(BRIGHTNESS_MIN, Math.min(BRIGHTNESS_MAX, Number(match[1])));
+        }
+
+        function syncBrightnessStepper() {
+          const level = normalizeBrightnessLevel(state.brightnessBoost);
+          state.brightnessBoost = level;
+          el("brightness-value").textContent = String(level);
+          el("brightness-down").disabled = level <= BRIGHTNESS_MIN;
+          el("brightness-up").disabled = level >= BRIGHTNESS_MAX;
+        }
+
+        function readFormConnectionState() {
+          return {
+            folderUrl: el("folder-url").value,
+            folderResourceKey: el("folder-resource-key").value,
+            apiKey: el("api-key").value,
+            serviceAccountKey: sanitizeServiceAccountKeyText(el("service-account-key").value),
+          };
+        }
+
+        function postSettings(patch) {
+          state = { ...state, ...readFormConnectionState(), ...patch };
+          syncSaEmail();
+          const payload = settingsPayload();
+          if (typeof bridge.postSettingsUpdate === "function") {
+            bridge.postSettingsUpdate(payload);
+          } else {
+            window.parent.postMessage(
+              {
+                type: "paperlesspaper:settings:update",
+                pluginSettings: payload,
+              },
+              "*",
+            );
+            window.parent.postMessage(
+              {
+                source: "paperlesspaper-plugin",
+                type: "UPDATE_SETTINGS",
+                payload,
+              },
+              "*",
+            );
+          }
+          reportHeight();
+        }
+
+        function settingsPayload() {
+          const mode = inferConnectionMode(state);
+          return {
+            connectionMode: mode,
+            folderUrl: state.folderUrl || "",
+            folderResourceKey: state.folderResourceKey || "",
+            apiKey: state.apiKey || "",
+            serviceAccountKey: normalizeServiceAccountKeyInput(
+              el("service-account-key").value || state.serviceAccountKey,
+            ),
+            serviceAccountEmail: state.serviceAccountEmail || "",
+            folderId: state.folderId || "",
+            folderName: state.folderName || "",
+            folderResourceKeyPrivate: state.folderResourceKeyPrivate || "",
+            order: state.order,
+            fit: state.fit,
+            slotMinutes: Number(state.slotMinutes) || 60,
+            showFilename: Boolean(state.showFilename),
+            brightnessBoost: state.brightnessBoost,
+          };
+        }
+
+        function setFolderPickStatus(message, isError = false) {
+          const node = el("folder-pick-status");
+          node.textContent = message || "";
+          node.classList.toggle("is-error", Boolean(isError && message));
+        }
+
+        function parseServiceAccountEmail(jsonText) {
+          const trimmed = String(jsonText || "").trim();
+          if (!trimmed) return "";
+          try {
+            const parsed = JSON.parse(trimmed);
+            return String(parsed.client_email || "").trim();
+          } catch {
+            return "";
+          }
+        }
+
+        function syncSaEmail() {
+          const email = parseServiceAccountEmail(el("service-account-key").value);
+          state.serviceAccountEmail = email;
+          el("service-account-email").textContent = email || "—";
+          el("sa-email-row").hidden = !email;
+          el("load-folders").disabled = !email;
+        }
+
+        function applyModeUi(mode) {
+          state.connectionMode =
+            mode === "serviceAccount" || mode === "service_account" ? "serviceAccount" : "public";
+          const isPublic = state.connectionMode === "public";
+          el("tab-public").setAttribute("aria-selected", isPublic ? "true" : "false");
+          el("tab-private").setAttribute("aria-selected", isPublic ? "false" : "true");
+          el("panel-public").hidden = !isPublic;
+          el("panel-private").hidden = isPublic;
+        }
+
+        function selectMode(mode) {
+          applyModeUi(mode);
+          postSettings({});
+        }
+
+        function applyCopy() {
+          el("settings-title").textContent = copy.settingsTitle || "Google Drive Slideshow";
+          el("settings-intro").textContent = copy.settingsIntro || "";
+          el("tab-public").textContent = copy.tabPublic || "Public folder";
+          el("tab-private").textContent = copy.tabPrivate || "Private folder";
+          el("public-setup-help").innerHTML = copy.publicSetupHelp || "";
+          el("private-setup-help").innerHTML = copy.privateSetupHelp || "";
+          el("private-share-help").innerHTML = copy.privateShareHelp || "";
+          el("label-folder-url-text").textContent = copy.labelFolderUrl || "";
+          el("label-resource-key-text").textContent = copy.labelResourceKey || "";
+          el("label-api-key-text").textContent = copy.labelApiKey || "";
+          el("label-sa-key-text").textContent = copy.labelServiceAccountKey || "";
+          el("copy-sa-email").textContent = copy.copyServiceAccountEmail || "Copy email";
+          el("load-folders").textContent = copy.loadFolders || "Load folders";
+          el("label-folder-pick-text").textContent = copy.labelFolderPick || "";
+          el("slideshow-heading").textContent = copy.slideshowHeading || "";
+          el("label-order-text").textContent = copy.labelOrder || "";
+          el("label-fit-text").textContent = copy.labelFit || "";
+          el("fit-cover-label").textContent = copy.fitCover || "Cover";
+          el("fit-contain-label").textContent = copy.fitContain || "Contain";
+          el("label-slot-text").textContent = copy.labelSlotMinutes || "";
+          el("label-filename-text").textContent = copy.labelShowFilename || "";
+          el("label-brightness-text").textContent = copy.labelBrightnessBoost || "";
+        }
+
+        function fillForm() {
+          applyModeUi(state.connectionMode);
+          el("folder-url").value = state.folderUrl || "";
+          el("folder-resource-key").value = state.folderResourceKey || "";
+          el("api-key").value = state.apiKey || "";
+          el("service-account-key").value = normalizeServiceAccountKeyInput(state.serviceAccountKey);
+          syncSaEmail();
+          el("order").value = state.order || "random";
+          syncFitUi(state.fit || "cover");
+          el("slot-minutes").value = String(state.slotMinutes || 60);
+          el("show-filename").checked = Boolean(state.showFilename);
+          syncBrightnessStepper();
+          rebuildFolderSelect(state.folderId);
+        }
+
+        function ensureSavedFolderInList() {
+          if (foldersLoaded.length > 0) {
+            return;
+          }
+          const folderId = String(state.folderId || "").trim();
+          const folderName = String(state.folderName || "").trim();
+          if (!folderId) {
+            return;
+          }
+          foldersLoaded = [
+            {
+              id: folderId,
+              name: folderName || folderId,
+              resourceKey: state.folderResourceKeyPrivate || "",
+            },
+          ];
+        }
+
+        function rebuildFolderSelect(selectedId) {
+          ensureSavedFolderInList();
+          const select = el("folder-list");
+          const label = el("label-folder-pick");
+          select.innerHTML = "";
+          const hasFolders = foldersLoaded.length > 0;
+          label.hidden = !hasFolders;
+          select.hidden = !hasFolders;
+          for (const folder of foldersLoaded) {
+            const option = document.createElement("option");
+            option.value = folder.id;
+            option.textContent = folder.name;
+            option.dataset.resourceKey = folder.resourceKey || "";
+            if (folder.id === selectedId) option.selected = true;
+            select.appendChild(option);
+          }
+          select.disabled = !hasFolders;
+        }
+
+        function initSelects() {
+          const orders = [
+            ["random", copy.orderRandom || "random"],
+            ["name", copy.orderName || "name"],
+            ["modified", copy.orderModified || "modified"],
+            ["created", copy.orderCreated || "created"],
+          ];
+          el("order").innerHTML = orders.map(([v, l]) => `<option value="${v}">${l}</option>`).join("");
+        }
+
+        function syncFitUi(fit) {
+          const value = fit === "contain" ? "contain" : "cover";
+          for (const button of document.querySelectorAll(".fit-option")) {
+            const selected = button.dataset.fit === value;
+            button.setAttribute("aria-checked", selected ? "true" : "false");
+          }
+        }
+
+        function mergeInitSettings(payload) {
+          const settings =
+            payload?.meta?.pluginSettings || payload?.settings || payload?.nativeSettings || {};
+          const merged = { ...defaults, ...settings };
+          const mode = inferConnectionMode(merged);
+          const legacyPrivateResourceKey =
+            mode === "serviceAccount" && !settings.folderResourceKeyPrivate
+              ? settings.folderResourceKey || ""
+              : "";
+          return {
+            ...defaults,
+            connectionMode: mode,
+            folderUrl: settings.folderUrl || "",
+            folderResourceKey: settings.folderResourceKey || "",
+            apiKey: settings.apiKey || "",
+            serviceAccountKey: normalizeServiceAccountKeyInput(settings.serviceAccountKey),
+            serviceAccountEmail: settings.serviceAccountEmail || "",
+            folderId: settings.folderId || "",
+            folderName: settings.folderName || "",
+            folderResourceKeyPrivate:
+              settings.folderResourceKeyPrivate || legacyPrivateResourceKey || "",
+            order: settings.order || defaults.order,
+            fit: settings.fit || defaults.fit,
+            slotMinutes: settings.slotMinutes ?? defaults.slotMinutes,
+            showFilename: settings.showFilename === true || settings.showFilename === "true",
+            brightnessBoost: normalizeBrightnessLevel(
+              settings.brightnessBoost ?? defaults.brightnessBoost,
+            ),
+          };
+        }
+
+        async function loadCopy(language) {
+          const lang = ["en", "de", "fr", "es", "it"].includes(language) ? language : "en";
+          const response = await fetch(`./languages/${lang}.json`, { cache: "no-store" });
+          if (!response.ok) {
+            copy = {};
+            return;
+          }
+          copy = await response.json();
+        }
+
+        async function loadFolders() {
+          setFolderPickStatus(copy.loadingFolders || "Loading folders…");
+          el("load-folders").disabled = true;
+          try {
+            const response = await fetch(new URL("./api/folders", window.location.href), {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ serviceAccountKey: el("service-account-key").value }),
+              cache: "no-store",
+            });
+            const data = await response.json();
+            if (data.error) {
+              throw new Error(data.error);
+            }
+            foldersLoaded = Array.isArray(data.folders) ? data.folders : [];
+            rebuildFolderSelect(state.folderId);
+            if (!foldersLoaded.length) {
+              setFolderPickStatus(
+                copy.noFoldersFound || "No folders found. Share a folder with the service account first.",
+                true,
+              );
+            } else {
+              setFolderPickStatus(copy.foldersLoaded || "Folders loaded.");
+            }
+          } catch (error) {
+            setFolderPickStatus(error.message, true);
+          } finally {
+            syncSaEmail();
+            reportHeight();
+          }
+        }
+
+        function bindEvents() {
+          el("tab-public").addEventListener("click", () => selectMode("public"));
+          el("tab-private").addEventListener("click", () => selectMode("serviceAccount"));
+
+          el("folder-url").addEventListener("input", (e) => postSettings({ folderUrl: e.target.value }));
+          el("folder-resource-key").addEventListener("input", (e) => postSettings({ folderResourceKey: e.target.value }));
+          el("api-key").addEventListener("input", (e) => postSettings({ apiKey: e.target.value }));
+          el("service-account-key").addEventListener("input", (e) => {
+            syncSaEmail();
+            postSettings({ serviceAccountKey: e.target.value });
+          });
+          el("copy-sa-email").addEventListener("click", async () => {
+            const email = state.serviceAccountEmail;
+            if (!email) return;
+            try {
+              await navigator.clipboard.writeText(email);
+              setFolderPickStatus(copy.emailCopied || "Email copied.");
+            } catch {
+              setFolderPickStatus(email);
+            }
+          });
+          el("load-folders").addEventListener("click", () => loadFolders());
+          el("folder-list").addEventListener("change", (e) => {
+            const option = e.target.selectedOptions[0];
+            const folderId = option?.value || "";
+            const folderName = option?.textContent || "";
+            const resourceKey = option?.dataset?.resourceKey || "";
+            postSettings({
+              folderId,
+              folderName,
+              folderResourceKeyPrivate: resourceKey,
+            });
+          });
+          el("order").addEventListener("change", (e) => postSettings({ order: e.target.value }));
+          for (const button of document.querySelectorAll(".fit-option")) {
+            button.addEventListener("click", () => {
+              const fit = button.dataset.fit === "contain" ? "contain" : "cover";
+              if (state.fit === fit) return;
+              postSettings({ fit });
+              syncFitUi(fit);
+            });
+          }
+          el("slot-minutes").addEventListener("input", (e) => postSettings({ slotMinutes: Number(e.target.value) }));
+          el("show-filename").addEventListener("change", (e) => postSettings({ showFilename: e.target.checked }));
+          el("brightness-down").addEventListener("click", () => {
+            const current = normalizeBrightnessLevel(state.brightnessBoost);
+            if (current <= BRIGHTNESS_MIN) return;
+            postSettings({ brightnessBoost: current - 1 });
+            syncBrightnessStepper();
+          });
+          el("brightness-up").addEventListener("click", () => {
+            const current = normalizeBrightnessLevel(state.brightnessBoost);
+            if (current >= BRIGHTNESS_MAX) return;
+            postSettings({ brightnessBoost: current + 1 });
+            syncBrightnessStepper();
+          });
+        }
+
+        function buildHelpTemplates() {
+          if (!copyBase) {
+            copyBase = { ...copy };
+          }
+          const base = copyBase;
+          copy.publicSetupHelp = `${base.publicSetupHelp || ""} <a href="${LINKS.apiKey}" target="_blank" rel="noreferrer">${copy.linkApiKey || "API key"}</a> · <a href="${LINKS.publicShare}" target="_blank" rel="noreferrer">${copy.linkPublicShare || "Share folder"}</a>`;
+          copy.privateSetupHelp = `${base.privateSetupHelp || ""} <a href="${LINKS.driveApi}" target="_blank" rel="noreferrer">${copy.linkDriveApi || "Drive API"}</a> · <a href="${LINKS.serviceAccount}" target="_blank" rel="noreferrer">${copy.linkServiceAccount || "Service account"}</a> · <a href="${LINKS.saKey}" target="_blank" rel="noreferrer">${copy.linkServiceAccountKey || "JSON key"}</a>`;
+          copy.privateShareHelp = `<a href="${LINKS.publicShare}" target="_blank" rel="noreferrer">${copy.linkShareFolder || "Share folder"}</a> — ${base.privateShareHelp || ""}`;
+        }
+
+        function reportHeight() {
+          if (typeof bridge.postSettingsHeight === "function") {
+            bridge.postSettingsHeight(undefined, { minHeight: 560 });
+          }
+        }
+
+        async function applyHostPayload(payload) {
+          if (applyingFromHost) {
+            pendingHostPayload = payload;
+            return;
+          }
+          applyingFromHost = true;
+          try {
+            const language = String(payload?.meta?.language || "en").split("-")[0].toLowerCase();
+            if (!copyLanguage || language !== copyLanguage) {
+              await loadCopy(language);
+              copyLanguage = language;
+              copyBase = null;
+              buildHelpTemplates();
+              applyCopy();
+              initSelects();
+            }
+            state = mergeInitSettings(payload);
+            fillForm();
+            reportHeight();
+            if (!eventsBound) {
+              bindEvents();
+              eventsBound = true;
+            }
+          } finally {
+            applyingFromHost = false;
+            if (pendingHostPayload) {
+              const next = pendingHostPayload;
+              pendingHostPayload = null;
+              applyHostPayload(next).catch((error) => setFolderPickStatus(error.message, true));
+            }
+          }
+        }
+
+        if (typeof bridge.setupSettingsPage === "function") {
+          bridge.setupSettingsPage({
+            minHeight: 560,
+            onPayload: (payload) => {
+              applyHostPayload(payload).catch((error) => setFolderPickStatus(error.message, true));
+            },
+          });
+        } else {
+          window.addEventListener("message", (event) => {
+            const message = event.data;
+            const payload =
+              message && (message.type === "INIT" || message.cmd === "message")
+                ? message.data
+                : message?.payload;
+            if (payload && typeof payload === "object") {
+              applyHostPayload(payload).catch((error) => setFolderPickStatus(error.message, true));
+            }
+          });
+          if (typeof bridge.postSettingsReady === "function") {
+            bridge.postSettingsReady();
+          } else {
+            window.parent.postMessage({ type: "paperlesspaper:settings:ready" }, "*");
+          }
+        }
+      })();
+    </script>
+  </body>
+</html>

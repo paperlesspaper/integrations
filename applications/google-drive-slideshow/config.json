@@ -1,0 +1,58 @@
+{
+  "name": "Google Drive Slideshow",
+  "version": "0.2.1",
+  "status": "alpha",
+  "description": "Shows one image at a time from a Google Drive folder (public link or private folder via your service account), advancing on a fixed time slot.",
+  "renderPage": "./render.html",
+  "settingsPage": "./settings.html",
+  "settingsPageOnly": true,
+  "icon": "./assets/icon.png",
+  "nativeSettings": {
+    "color": "light",
+    "connectionMode": "public",
+    "folderUrl": "",
+    "folderResourceKey": "",
+    "apiKey": "",
+    "serviceAccountKey": "",
+    "serviceAccountEmail": "",
+    "folderId": "",
+    "folderName": "",
+    "folderResourceKeyPrivate": "",
+    "order": "random",
+    "fit": "cover",
+    "slotMinutes": 60,
+    "showFilename": false,
+    "brightnessBoost": 0
+  },
+  "configVariants": [
+    {
+      "color": "light",
+      "connectionMode": "public",
+      "folderUrl": "",
+      "folderResourceKey": "",
+      "apiKey": "",
+      "order": "random",
+      "fit": "cover",
+      "slotMinutes": 60,
+      "showFilename": false,
+      "brightnessBoost": 0
+    },
+    {
+      "color": "light",
+      "connectionMode": "public",
+      "folderUrl": "",
+      "folderResourceKey": "",
+      "apiKey": "",
+      "order": "modified",
+      "fit": "contain",
+      "slotMinutes": 60,
+      "showFilename": true,
+      "brightnessBoost": 0
+    }
+  ],
+  "formSchema": {
+    "type": "object",
+    "properties": {}
+  },
+  "language": ["en", "de", "fr", "es", "it"]
+}

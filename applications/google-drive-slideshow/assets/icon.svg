@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Google Drive Slideshow integration icon">
+  <defs>
+    <filter id="shadow" x="40" y="56" width="432" height="400" color-interpolation-filters="sRGB" filterUnits="userSpaceOnUse">
+      <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#000000" flood-opacity=".18"/>
+    </filter>
+  </defs>
+  <rect width="512" height="512" fill="none"/>
+  <g filter="url(#shadow)">
+    <!-- back: green -->
+    <g transform="translate(72 108) rotate(-14 100 120)">
+      <rect x="0" y="0" width="200" height="240" rx="10" fill="#f8f6f2" stroke="#1f2937" stroke-width="2"/>
+      <rect x="14" y="14" width="172" height="172" rx="6" fill="#0f9d58"/>
+    </g>
+    <!-- middle: yellow -->
+    <g transform="translate(156 92) rotate(8 100 120)">
+      <rect x="0" y="0" width="200" height="240" rx="10" fill="#f8f6f2" stroke="#1f2937" stroke-width="2"/>
+      <rect x="14" y="14" width="172" height="172" rx="6" fill="#f4b400"/>
+    </g>
+    <!-- front: blue with G -->
+    <g transform="translate(240 76) rotate(-4 100 120)">
+      <rect x="0" y="0" width="200" height="240" rx="10" fill="#f8f6f2" stroke="#1f2937" stroke-width="2"/>
+      <rect x="14" y="14" width="172" height="172" rx="6" fill="#4285f4"/>
+      <text x="100" y="118" fill="#ffffff" font-family="Arial, Helvetica, sans-serif" font-size="108" font-weight="700" text-anchor="middle" dominant-baseline="middle">G</text>
+    </g>
+  </g>
+</svg>

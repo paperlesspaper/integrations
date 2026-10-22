@@ -1,0 +1,674 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="paperless:epd-optimize" content='{"intent":"natural"}'>
+    <title>Google Drive Slideshow</title>
+    <link rel="stylesheet" href="/assets/paperless.css">
+    <script src="/assets/paperless.iife.js"></script>
+    <style>
+      .photo-screen {
+        position: relative;
+        display: grid;
+        width: 100vw;
+        height: 100vh;
+        padding: 0;
+        overflow: hidden;
+        background: var(--pp-bg);
+        color: var(--pp-fg);
+      }
+
+      .photo-image {
+        width: 100%;
+        height: 100%;
+        min-width: 0;
+        min-height: 0;
+        display: block;
+        object-position: center;
+        background: var(--pp-card);
+      }
+
+      .photo-screen.is-contain {
+        padding: clamp(12px, 2.5vw, 28px);
+        gap: clamp(10px, 2vw, 20px);
+        grid-template-rows: minmax(0, 1fr) auto;
+      }
+
+      .photo-screen.is-contain .photo-image {
+        border: 2px solid var(--pp-border);
+        border-radius: clamp(8px, 1.5vw, 18px);
+      }
+
+      .photo-details {
+        position: absolute;
+        z-index: 2;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        display: none;
+        align-items: flex-end;
+        justify-content: space-between;
+        gap: 20px;
+        padding: clamp(32px, 7vw, 86px) clamp(18px, 3.5vw, 44px) clamp(16px, 3vw, 34px);
+        background: linear-gradient(to top, rgba(0, 0, 0, 0.82), rgba(0, 0, 0, 0));
+        color: #fff;
+      }
+
+      .photo-details.is-visible {
+        display: flex;
+      }
+
+      .photo-screen.is-contain .photo-details {
+        position: static;
+        min-height: 54px;
+        padding: 0 2px;
+        background: none;
+        color: var(--pp-fg);
+      }
+
+      .photo-filename {
+        margin: 0;
+        font-size: clamp(1rem, 2vw, 2rem);
+        line-height: 1.12;
+        font-weight: 760;
+        overflow-wrap: anywhere;
+      }
+
+      .photo-position {
+        flex: 0 0 auto;
+        margin: 0;
+        padding: 7px 11px;
+        border: 1px solid currentColor;
+        border-radius: 999px;
+        font-size: clamp(0.74rem, 1.25vw, 1.05rem);
+        line-height: 1;
+        font-weight: 750;
+        white-space: nowrap;
+      }
+
+      .sample-badge {
+        position: absolute;
+        z-index: 3;
+        top: clamp(12px, 2.5vw, 28px);
+        right: clamp(12px, 2.5vw, 28px);
+        display: none;
+        padding: 7px 11px;
+        border: 1px solid rgba(255, 255, 255, 0.7);
+        border-radius: 999px;
+        background: rgba(0, 0, 0, 0.68);
+        color: #fff;
+        font-size: clamp(0.68rem, 1.15vw, 0.94rem);
+        line-height: 1;
+        font-weight: 750;
+      }
+
+      .sample-badge.is-visible {
+        display: block;
+      }
+
+      .photo-status {
+        position: absolute;
+        inset: 0;
+        display: grid;
+        place-items: center;
+        padding: 24px;
+        text-align: center;
+        background: var(--pp-bg);
+        color: var(--pp-fg);
+      }
+
+      .photo-status h1 {
+        margin: 0 0 10px;
+        font-size: clamp(2rem, 5vw, 4rem);
+        line-height: 1.05;
+      }
+
+      .photo-status p {
+        max-width: 58ch;
+        margin: 0 auto;
+        font-size: clamp(1rem, 2vw, 1.4rem);
+        line-height: 1.35;
+        opacity: 0.82;
+      }
+
+      .auth-overlay {
+        position: absolute;
+        z-index: 4;
+        left: clamp(12px, 2.5vw, 28px);
+        right: clamp(12px, 2.5vw, 28px);
+        bottom: clamp(12px, 2.5vw, 28px);
+        display: none;
+        padding: clamp(14px, 2.5vw, 22px) clamp(16px, 3vw, 28px);
+        border: 2px solid var(--pp-border);
+        border-radius: clamp(8px, 1.5vw, 16px);
+        background: color-mix(in srgb, var(--pp-bg) 92%, var(--pp-fg));
+        color: var(--pp-fg);
+        box-shadow: 0 8px 28px rgba(0, 0, 0, 0.18);
+      }
+
+      .auth-overlay.is-visible {
+        display: block;
+      }
+
+      .auth-overlay h2 {
+        margin: 0 0 8px;
+        font-size: clamp(1rem, 2vw, 1.55rem);
+        line-height: 1.15;
+        font-weight: 800;
+      }
+
+      .auth-overlay p {
+        margin: 0;
+        font-size: clamp(0.82rem, 1.45vw, 1.1rem);
+        line-height: 1.35;
+        opacity: 0.9;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="website-has-loading-element"></div>
+    <main class="photo-screen" id="photo-screen">
+      <img class="photo-image" id="photo-image" alt="">
+      <section class="photo-details" id="photo-details" aria-label="">
+        <p class="photo-filename" id="photo-filename"></p>
+        <p class="photo-position" id="photo-position"></p>
+      </section>
+      <p class="sample-badge" id="sample-badge"></p>
+      <aside class="auth-overlay" id="auth-overlay" aria-live="polite">
+        <h2 id="auth-overlay-title"></h2>
+        <p id="auth-overlay-message"></p>
+      </aside>
+      <section class="photo-status" id="photo-status">
+        <div>
+          <h1>Google Drive Slideshow</h1>
+          <p>Loading your Google Drive folder…</p>
+        </div>
+      </section>
+    </main>
+    <script type="module">
+      import {
+        normalizeBrightnessBoost,
+        brightnessBoostCssFilter,
+        brightnessBoostEpdMeta,
+        defaultEpdOptimizeMeta,
+      } from "./assets/brightness-boost.js";
+      import {
+        inferConnectionMode,
+        normalizeServiceAccountKeyInput,
+      } from "./assets/drive-connection.js";
+
+      (async function render() {
+        const {
+          waitForPayload,
+          getSettings,
+          getQuerySettings,
+          mergeSettings,
+          loadLanguageJson,
+          applyColorTheme,
+          escapeHtml,
+          fitAllText,
+          fitToScreen,
+          markLoading,
+          markReady,
+          markError,
+        } = window.PaperlessOpenIntegration;
+
+        const defaultMessages = {
+          title: "Google Drive Slideshow",
+          loading: "Loading your Google Drive folder…",
+          errorTitle: "Google Drive Slideshow could not load",
+          apiFailed: "Google Drive request failed with {status}",
+          imageFailed: "The selected Google Drive photo could not be displayed.",
+          photoDetailsLabel: "Photo details",
+          photoPosition: "Photo {index} of {count}",
+          sample: "Preview folder",
+          authOverlayTitle: "Check Google Drive settings",
+          authOverlayMessage:
+            "Open this paper’s settings on your phone. Verify the API key and public folder link, or your service account key, folder share, and selected folder.",
+          emptyFolderTitle: "Folder is empty",
+          emptyFolderMessage:
+            "Add JPEG, PNG, WebP, or GIF photos to the folder root (not in subfolders), then refresh this paper.",
+        };
+        const defaults = {
+          color: "light",
+          connectionMode: "public",
+          folderUrl: "",
+          folderResourceKey: "",
+          apiKey: "",
+          serviceAccountKey: "",
+          folderId: "",
+          folderName: "",
+          folderResourceKeyPrivate: "",
+          order: "random",
+          fit: "cover",
+          slotMinutes: 60,
+          showFilename: false,
+          brightnessBoost: 0,
+        };
+        let lastBlobUrl = "";
+
+        function applyBrightnessBoost(level) {
+          const meta = document.querySelector('meta[name="paperless:epd-optimize"]');
+          const image = document.getElementById("photo-image");
+          if (!meta) {
+            return;
+          }
+          const epdMeta = brightnessBoostEpdMeta(level);
+          if (!epdMeta) {
+            if (image) {
+              image.style.filter = "";
+            }
+            meta.setAttribute("content", JSON.stringify(defaultEpdOptimizeMeta()));
+            return;
+          }
+          if (image) {
+            image.style.filter = brightnessBoostCssFilter(level);
+          }
+          meta.setAttribute("content", JSON.stringify(epdMeta));
+        }
+        let messages = defaultMessages;
+        let renderRequest = 0;
+        let hasDisplayedPhoto = false;
+        let lastReadyMeta = null;
+        let lastSourceIdentity = "";
+
+        function t(key, values = {}) {
+          const template = typeof messages[key] === "string" ? messages[key] : defaultMessages[key] || key;
+          return template.replace(/\{(\w+)\}/g, (_match, name) => values[name] ?? "");
+        }
+
+        function isEnabled(value) {
+          return value === true || value === "true" || value === "1";
+        }
+
+        async function loadMessages(payload) {
+          let result;
+          if (typeof loadLanguageJson === "function") {
+            result = await loadLanguageJson(payload);
+          } else {
+            const requested = String(payload?.meta?.language || "en").split("-")[0].toLowerCase();
+            const language = ["en", "de", "fr", "es", "it"].includes(requested) ? requested : "en";
+            const response = await fetch(`./languages/${language}.json`, { cache: "no-store" });
+            if (!response.ok) {
+              throw new Error(`Could not load language JSON: ${response.status}`);
+            }
+            result = { language, messages: await response.json() };
+          }
+          messages = { ...defaultMessages, ...result.messages };
+          document.documentElement.lang = result.language || "en";
+          document.getElementById("photo-details").setAttribute("aria-label", t("photoDetailsLabel"));
+        }
+
+        function showStatus(title, message) {
+          const status = document.getElementById("photo-status");
+          status.innerHTML = `<div><h1>${escapeHtml(title)}</h1><p>${escapeHtml(message)}</p></div>`;
+          status.style.display = "grid";
+        }
+
+        function hideStatus() {
+          document.getElementById("photo-status").style.display = "none";
+        }
+
+        function hideAuthOverlay() {
+          document.getElementById("auth-overlay").classList.remove("is-visible");
+        }
+
+        function showAuthOverlay() {
+          document.getElementById("auth-overlay-title").textContent = t("authOverlayTitle");
+          document.getElementById("auth-overlay-message").textContent = t("authOverlayMessage");
+          document.getElementById("auth-overlay").classList.add("is-visible");
+        }
+
+        function revokeLastBlobUrl() {
+          if (lastBlobUrl && lastBlobUrl.startsWith("blob:")) {
+            URL.revokeObjectURL(lastBlobUrl);
+          }
+          lastBlobUrl = "";
+        }
+
+        function beginRender() {
+          if (hasDisplayedPhoto) {
+            return;
+          }
+          markLoading?.();
+          showStatus(t("title"), t("loading"));
+        }
+
+        function statusForError(error) {
+          if (error?.errorKind === "empty") {
+            return { title: t("emptyFolderTitle"), message: t("emptyFolderMessage") };
+          }
+          return { title: t("errorTitle"), message: error.message };
+        }
+
+        function failRender(error, request) {
+          if (request !== renderRequest) {
+            return;
+          }
+          const kind = error?.errorKind;
+          const isAuth = kind === "auth";
+          const isEmpty = kind === "empty";
+          const { title, message } = statusForError(error);
+          if (hasDisplayedPhoto) {
+            console.warn(error);
+            if (isAuth) {
+              hideStatus();
+              showAuthOverlay();
+            } else if (isEmpty) {
+              hideAuthOverlay();
+              showStatus(title, message);
+            } else {
+              hideStatus();
+              hideAuthOverlay();
+            }
+            markReady?.(lastReadyMeta || {});
+            return;
+          }
+          hideAuthOverlay();
+          markError?.(error);
+          showStatus(title, message);
+        }
+
+        function capturePhotoSnapshot() {
+          const image = document.getElementById("photo-image");
+          const screen = document.getElementById("photo-screen");
+          const details = document.getElementById("photo-details");
+          const badge = document.getElementById("sample-badge");
+          return {
+            imageSrc: image.src,
+            imageAlt: image.alt,
+            imageObjectFit: image.style.objectFit,
+            screenContain: screen.classList.contains("is-contain"),
+            filename: document.getElementById("photo-filename").textContent,
+            position: document.getElementById("photo-position").textContent,
+            detailsVisible: details.classList.contains("is-visible"),
+            badgeVisible: badge.classList.contains("is-visible"),
+            readyMeta: lastReadyMeta,
+          };
+        }
+
+        function restorePhotoSnapshot(snapshot) {
+          if (!snapshot) {
+            return;
+          }
+          const image = document.getElementById("photo-image");
+          const screen = document.getElementById("photo-screen");
+          const details = document.getElementById("photo-details");
+          const badge = document.getElementById("sample-badge");
+          screen.classList.toggle("is-contain", snapshot.screenContain);
+          image.style.objectFit = snapshot.imageObjectFit;
+          image.alt = snapshot.imageAlt;
+          image.src = snapshot.imageSrc;
+          document.getElementById("photo-filename").textContent = snapshot.filename;
+          document.getElementById("photo-position").textContent = snapshot.position;
+          details.classList.toggle("is-visible", snapshot.detailsVisible);
+          badge.classList.toggle("is-visible", snapshot.badgeVisible);
+        }
+
+        function paperIdFromPayload(payload) {
+          const meta = payload?.meta;
+          if (!meta || typeof meta !== "object") {
+            return "";
+          }
+          return String(
+            meta.paperId ||
+              meta.paperUUID ||
+              meta.integrationInstanceId ||
+              meta.pluginInstanceId ||
+              "",
+          ).trim();
+        }
+
+        function sourceIdentity(settings) {
+          const connectionMode = inferConnectionMode(settings);
+          if (connectionMode === "serviceAccount") {
+            return `serviceAccount:${String(settings.folderId || "").trim()}`;
+          }
+          return `public:${String(settings.folderUrl || "").trim()}`;
+        }
+
+        function resetDisplayedPhotoState() {
+          hasDisplayedPhoto = false;
+          lastReadyMeta = null;
+          revokeLastBlobUrl();
+        }
+
+        function apiBody(settings, payload) {
+          const connectionMode = inferConnectionMode(settings);
+          const body = {
+            color: settings.color,
+            connectionMode,
+            order: settings.order,
+            fit: settings.fit,
+            slotMinutes: settings.slotMinutes,
+            showFilename: settings.showFilename,
+            paperId: paperIdFromPayload(payload),
+          };
+          if (connectionMode === "serviceAccount") {
+            body.serviceAccountKey = normalizeServiceAccountKeyInput(settings.serviceAccountKey);
+            body.folderId = settings.folderId;
+            body.folderResourceKeyPrivate =
+              settings.folderResourceKeyPrivate || settings.folderResourceKey || "";
+          } else {
+            body.folderUrl = settings.folderUrl;
+            body.folderResourceKey = settings.folderResourceKey;
+            body.apiKey = settings.apiKey;
+          }
+          return body;
+        }
+
+        function apiErrorFromPayload(parsed, status) {
+          const err = new Error(parsed?.error || t("apiFailed", { status }));
+          const kind = String(parsed?.errorKind || "").toLowerCase();
+          err.errorKind =
+            kind === "auth" || kind === "empty" || kind === "unsupported" ? kind : "transient";
+          return err;
+        }
+
+        async function readApiError(response) {
+          const text = await response.text();
+          if (!text) {
+            const err = new Error(t("apiFailed", { status: response.status }));
+            err.errorKind = response.status === 401 || response.status === 403 ? "auth" : "transient";
+            return err;
+          }
+          try {
+            const parsed = JSON.parse(text);
+            return apiErrorFromPayload(parsed, response.status);
+          } catch {
+            const err = new Error(text.split("\n")[0].replace(/^Error:\s*/, ""));
+            err.errorKind = "transient";
+            return err;
+          }
+        }
+
+        async function fetchDriveBytes(url, accessToken) {
+          const response = await fetch(url, {
+            method: "GET",
+            cache: "no-store",
+            headers: { authorization: `Bearer ${accessToken}` },
+          });
+          if (!response.ok) {
+            const err = new Error(t("imageFailed"));
+            err.errorKind = response.status === 401 || response.status === 403 ? "auth" : "transient";
+            throw err;
+          }
+          const buffer = await response.arrayBuffer();
+          const type = response.headers.get("content-type") || "image/jpeg";
+          return new Blob([buffer], { type });
+        }
+
+        async function privateImageBlob(data) {
+          const token = data.accessToken;
+          const fileId = data.fileId;
+          if (!token || !fileId) {
+            const err = new Error(t("imageFailed"));
+            err.errorKind = "auth";
+            throw err;
+          }
+          if (data.thumbnailLink) {
+            try {
+              const thumbUrl = String(data.thumbnailLink).replace(/=s\d+$/i, "=s1600");
+              return await fetchDriveBytes(thumbUrl, token);
+            } catch (error) {
+              if (error.errorKind === "auth") {
+                throw error;
+              }
+            }
+          }
+          const mediaUrl = `https://www.googleapis.com/drive/v3/files/${encodeURIComponent(fileId)}?alt=media`;
+          return fetchDriveBytes(mediaUrl, token);
+        }
+
+        async function resolveImageSources(data) {
+          if (data.connectionMode === "serviceAccount" || data.accessToken) {
+            const blob = await privateImageBlob(data);
+            revokeLastBlobUrl();
+            lastBlobUrl = URL.createObjectURL(blob);
+            return [lastBlobUrl];
+          }
+          if (Array.isArray(data.imageUrls) && data.imageUrls.length) {
+            return data.imageUrls;
+          }
+          return data.imageUrl ? [data.imageUrl] : [];
+        }
+
+        function payloadFromMessage(event) {
+          const message = event.data;
+          if (!message || typeof message !== "object") {
+            return null;
+          }
+          if (message.type !== "INIT" && message.cmd !== "message") {
+            return null;
+          }
+          return message.data && typeof message.data === "object" ? message.data : null;
+        }
+
+        async function renderPayload(payload) {
+          const request = ++renderRequest;
+          try {
+            beginRender();
+            await loadMessages(payload);
+            const settings = mergeSettings(defaults, getSettings(payload), getQuerySettings());
+            settings.serviceAccountKey = normalizeServiceAccountKeyInput(settings.serviceAccountKey);
+            settings.slotMinutes = Math.max(1, Math.min(1440, Number(settings.slotMinutes) || 60));
+            const identity = sourceIdentity(settings);
+            if (identity !== lastSourceIdentity) {
+              lastSourceIdentity = identity;
+              resetDisplayedPhotoState();
+            }
+            applyColorTheme?.(settings.color, { defaultTheme: defaults.color });
+            applyBrightnessBoost(normalizeBrightnessBoost(settings.brightnessBoost));
+
+            const response = await fetch(new URL("./api/data", window.location.href), {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(apiBody(settings, payload)),
+              cache: "no-store",
+            });
+            if (!response.ok) {
+              throw await readApiError(response);
+            }
+            const data = await response.json();
+            if (data.error) {
+              throw apiErrorFromPayload(data, response.status);
+            }
+            if (request !== renderRequest) {
+              return;
+            }
+            hideAuthOverlay();
+
+            const screen = document.getElementById("photo-screen");
+            const image = document.getElementById("photo-image");
+            const details = document.getElementById("photo-details");
+            const filename = document.getElementById("photo-filename");
+            const position = document.getElementById("photo-position");
+            const badge = document.getElementById("sample-badge");
+            const fit = settings.fit === "contain" ? "contain" : "cover";
+            const rollback = hasDisplayedPhoto ? capturePhotoSnapshot() : null;
+
+            screen.classList.toggle("is-contain", fit === "contain");
+            image.style.objectFit = fit;
+            image.alt = data.name || t("title");
+
+            const showFilename = isEnabled(settings.showFilename) && data.name;
+            filename.textContent = showFilename ? data.name : "";
+            position.textContent = t("photoPosition", { index: data.index, count: data.total });
+            details.classList.toggle("is-visible", Boolean(showFilename));
+
+            badge.textContent = t("sample");
+            badge.classList.toggle("is-visible", data.source === "sample");
+
+            const imageUrls = await resolveImageSources(data);
+            let imageUrlIndex = 0;
+            let readyMarked = false;
+            const readyMeta = { source: data.source, index: data.index, total: data.total, name: data.name };
+            const finishReady = async () => {
+              if (request !== renderRequest || readyMarked) {
+                return;
+              }
+              readyMarked = true;
+              hasDisplayedPhoto = true;
+              lastReadyMeta = readyMeta;
+              hideStatus();
+              await fitAllText?.();
+              await fitToScreen?.();
+              markReady(readyMeta);
+            };
+
+            image.onload = () => {
+              finishReady().catch((error) => {
+                if (rollback) {
+                  restorePhotoSnapshot(rollback);
+                }
+                failRender(error, request);
+              });
+            };
+            image.onerror = () => {
+              if (request !== renderRequest) {
+                return;
+              }
+              imageUrlIndex += 1;
+              if (imageUrlIndex < imageUrls.length) {
+                image.src = imageUrls[imageUrlIndex];
+                return;
+              }
+              if (rollback) {
+                restorePhotoSnapshot(rollback);
+                failRender(new Error(t("imageFailed")), request);
+                return;
+              }
+              failRender(new Error(t("imageFailed")), request);
+            };
+            if (!imageUrls.length) {
+              throw new Error(t("imageFailed"));
+            }
+            image.src = imageUrls[0];
+            if (image.complete && image.naturalWidth > 0) {
+              await finishReady();
+            }
+          } catch (error) {
+            failRender(error, request);
+          }
+        }
+
+        function handlePayloadMessage(event) {
+          const payload = payloadFromMessage(event);
+          if (payload) {
+            renderPayload(payload);
+          }
+        }
+
+        try {
+          const payload = await waitForPayload({ timeoutMs: 500, onUpdate: renderPayload });
+          await renderPayload(payload);
+        } catch (error) {
+          failRender(error, renderRequest);
+        } finally {
+          window.addEventListener("message", handlePayloadMessage);
+        }
+      })();
+    </script>
+  </body>
+</html>
