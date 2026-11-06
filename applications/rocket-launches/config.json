@@ -46,6 +46,7 @@
       },
       "timeZone": {
         "type": "string",
+        "format": "timezone",
         "default": "Europe/Berlin",
         "title": "Display timezone"
       }

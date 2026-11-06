@@ -165,6 +165,7 @@
       },
       "timezone": {
         "type": "string",
+        "format": "timezone",
         "title": "Timezone",
         "description": "IANA timezone used for the latest activity date.",
         "default": "Europe/Berlin"

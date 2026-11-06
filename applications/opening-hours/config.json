@@ -130,6 +130,7 @@
       },
       "timezone": {
         "type": "string",
+        "format": "timezone",
         "title": "Timezone",
         "description": "IANA timezone used for manual hours, such as Europe/Berlin.",
         "default": "Europe/Berlin"

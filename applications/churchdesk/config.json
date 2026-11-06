@@ -93,6 +93,7 @@
       },
       "timeZone": {
         "type": "string",
+        "format": "timezone",
         "title": "Zeitzone",
         "description": "IANA-Zeitzone, zum Beispiel Europe/Berlin.",
         "default": "Europe/Berlin"

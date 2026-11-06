@@ -170,6 +170,7 @@
       },
       "timeZone": {
         "type": "string",
+        "format": "timezone",
         "title": "Display timezone for daylight",
         "default": "Europe/Berlin"
       }

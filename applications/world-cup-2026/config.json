@@ -102,21 +102,8 @@
       },
       "timeZone": {
         "type": "string",
+        "format": "timezone",
         "title": "Time zone",
-        "enum": [
-          "America/Chicago",
-          "America/Denver",
-          "America/Los_Angeles",
-          "America/Mexico_City",
-          "America/New_York",
-          "America/Toronto",
-          "Europe/Berlin",
-          "Europe/London",
-          "Europe/Madrid",
-          "Europe/Paris",
-          "Europe/Stockholm",
-          "UTC"
-        ],
         "default": "Europe/Berlin"
       },
       "highlightGlobalMatches": {

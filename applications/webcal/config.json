@@ -95,6 +95,7 @@
       },
       "timeZone": {
         "type": "string",
+        "format": "timezone",
         "title": "Time zone",
         "description": "IANA time zone used for visible ranges and floating event times.",
         "default": "Europe/Berlin"
