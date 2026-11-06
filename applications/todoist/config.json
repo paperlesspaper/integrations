@@ -126,6 +126,7 @@
       },
       "timezone": {
         "type": "string",
+        "format": "timezone",
         "title": "Timezone",
         "description": "IANA timezone used for due dates, such as Europe/Berlin.",
         "default": "Europe/Berlin"

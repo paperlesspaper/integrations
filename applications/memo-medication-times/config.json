@@ -120,6 +120,7 @@
       },
       "timezone": {
         "type": "string",
+        "format": "timezone",
         "title": "Timezone",
         "description": "IANA timezone used for rendering dates and times.",
         "default": "Europe/Berlin"

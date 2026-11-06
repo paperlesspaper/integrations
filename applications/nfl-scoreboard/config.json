@@ -170,6 +170,7 @@
       },
       "timeZone": {
         "type": "string",
+        "format": "timezone",
         "title": "Time zone",
         "default": "America/New_York",
         "description": "IANA time zone such as America/New_York, Europe/Berlin, or UTC."

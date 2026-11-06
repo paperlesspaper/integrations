@@ -95,6 +95,7 @@
       },
       "timeZone": {
         "type": "string",
+        "format": "timezone",
         "title": "Time zone",
         "description": "IANA time zone used to query and display the calendar, for example Europe/Berlin.",
         "default": "Europe/Berlin"

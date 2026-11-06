@@ -95,6 +95,7 @@
       },
       "timeZone": {
         "type": "string",
+        "format": "timezone",
         "title": "Time zone",
         "default": "Europe/Berlin"
       },
