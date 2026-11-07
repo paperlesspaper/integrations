@@ -305,3 +305,9 @@ or user-provided settings, never in committed files or screenshot variants. Pref
 7. Run `npm run screenshots -- --app <slug>` to refresh variants.
 
 Use the smallest provider that works: plain manifest settings first, a custom settings page when the user experience needs it, and server routes only when browser-side rendering cannot call the upstream service directly.
+
+## Layout integration
+
+The [Layout integration](applications/layout/README.md) combines two to four existing
+contents using the first-party host editor, with custom HTML/CSS and per-area image
+processing. It requires the matching web/API and shared-runtime changes.
