@@ -1,0 +1,10 @@
+{
+  "name": "Layout",
+  "version": "0.1.0",
+  "description": "Combine two to four images and integrations in columns, rows, a grid or your own HTML/CSS layout. Configure contents in the paperlesspaper Layout editor.",
+  "renderPage": "./render.html",
+  "language": ["de", "en"],
+  "nativeSettings": { "color": "blue-light" },
+  "formSchema": { "type": "object", "properties": {} },
+  "hostEditor": "layout"
+}
