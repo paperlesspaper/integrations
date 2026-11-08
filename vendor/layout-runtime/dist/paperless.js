@@ -28,7 +28,7 @@ function announceEmbeddedListener() {
 }
 function acceptsEmbeddedInit(event) {
   const context = embeddedContext();
-  if (!context) return true;
+  if (!context) return !(window.parent !== window && window.name.startsWith("paperless-slot:"));
   const message = event.data;
   return event.source === window.parent && event.origin === context.parentOrigin && message?.type === "INIT" && message.renderId === context.renderId && message.regionId === context.regionId;
 }
