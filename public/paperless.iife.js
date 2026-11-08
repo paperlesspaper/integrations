@@ -29,11 +29,16 @@ var PaperlessOpenIntegration = (() => {
     applyColorTheme: () => applyColorTheme,
     applyColorThemeFromQuery: () => applyColorThemeFromQuery,
     bootCalendarApiIntegration: () => bootCalendarApiIntegration,
+    bootDashboardIntegration: () => bootDashboardIntegration,
+    bootDepartureIntegration: () => bootDepartureIntegration,
+    bootLayoutIntegration: () => bootLayoutIntegration,
     buildCalendarRange: () => buildCalendarRange,
     detectOverflow: () => detectOverflow,
     escapeHtml: () => escapeHtml,
     fitAllText: () => fitAllText,
     fitCalendarLayout: () => fitCalendarLayout,
+    fitDashboard: () => fitDashboard,
+    fitDepartureBoard: () => fitDepartureBoard,
     fitHyphenatedText: () => fitHyphenatedText,
     fitImage: () => fitImage,
     fitOfTheDayLayout: () => fitOfTheDayLayout,
@@ -60,15 +65,139 @@ var PaperlessOpenIntegration = (() => {
     prepareCalendarEvents: () => prepareCalendarEvents,
     prepareHyphenation: () => prepareHyphenation,
     renderCalendarLayout: () => renderCalendarLayout,
+    renderDashboard: () => renderDashboard,
+    renderDepartureBoard: () => renderDepartureBoard,
+    renderLayout: () => renderLayout,
     renderOfTheDayLayout: () => renderOfTheDayLayout,
     resolveLanguage: () => resolveLanguage,
+    sanitizeLayoutHtml: () => sanitizeLayoutHtml,
     setupSettingsPage: () => setupSettingsPage,
     stripSoftHyphens: () => stripSoftHyphens,
     validateConfig: () => validateConfig,
+    validateLayoutRects: () => validateLayoutRects,
     waitForCalendarImages: () => waitForCalendarImages,
     waitForOfTheDayImage: () => waitForOfTheDayImage,
     waitForPayload: () => waitForPayload
   });
+
+  // src/renderEmbedded.ts
+  function installEmbeddedRenderBridge() {
+    if (window.parent === window || !window.name.startsWith("paperless-slot:"))
+      return;
+    let context;
+    window.addEventListener(
+      "message",
+      (event) => {
+        const ownCalendar = event.source === window && event.origin === location.origin && event.data?.type === "GOOGLECALENDAR";
+        const valid = context && event.source === window.parent && event.origin === context.parentOrigin && event.data?.type === "INIT" && event.data.renderId === context.renderId && event.data.regionId === context.regionId;
+        if (!valid && !ownCalendar) event.stopImmediatePropagation();
+      },
+      true
+    );
+    try {
+      context = JSON.parse(window.name.slice("paperless-slot:".length));
+      if (!context || typeof context.renderId !== "string" || !context.renderId || typeof context.regionId !== "string" || !context.regionId || !["http:", "https:"].includes(new URL(context.parentOrigin).protocol) || new URL(context.parentOrigin).origin !== context.parentOrigin) {
+        context = void 0;
+        return;
+      }
+    } catch {
+      context = void 0;
+      return;
+    }
+    let initialized = false;
+    let completed = false;
+    const notify = () => {
+      if (!initialized || completed) return;
+      const status = document.documentElement?.dataset.paperlessRenderStatus;
+      if (!document.querySelector("#website-has-loaded") && status !== "error")
+        return;
+      completed = true;
+      window.parent.postMessage(
+        {
+          ...context,
+          type: "PAPERLESS_RENDER_STATUS",
+          status: status === "error" ? "error" : "ready",
+          processing: document.querySelector('meta[name="paperless:epd-optimize"]')?.getAttribute("content")
+        },
+        context.parentOrigin
+      );
+    };
+    window.addEventListener(
+      "message",
+      (event) => {
+        if (event.source !== window.parent || event.origin !== context.parentOrigin || event.data?.type !== "INIT" || event.data.renderId !== context.renderId || event.data.regionId !== context.regionId || initialized)
+          return;
+        initialized = true;
+        const kind = event.data.data?.kind;
+        if (typeof kind !== "string" || kind === "google-calendar") {
+          document.querySelector("#website-has-loaded")?.remove();
+          document.documentElement.dataset.paperlessRenderStatus = "loading";
+        }
+        setTimeout(notify, 0);
+        const calendar = event.data.data?.calendarData;
+        if (event.data.data?.kind === "google-calendar" && calendar)
+          queueMicrotask(
+            () => window.postMessage(
+              { cmd: "message", type: "GOOGLECALENDAR", data: calendar.events },
+              location.origin
+            )
+          );
+      },
+      true
+    );
+    document.addEventListener("DOMContentLoaded", () => {
+      new MutationObserver(notify).observe(document.documentElement, {
+        subtree: true,
+        childList: true,
+        attributes: true
+      });
+    });
+    window.addEventListener(
+      "load",
+      () => {
+        window.parent.postMessage(
+          { ...context, type: "PAPERLESS_RENDER_HELLO" },
+          context.parentOrigin
+        );
+      },
+      { once: true }
+    );
+  }
+
+  // src/embedded.ts
+  function embeddedContext() {
+    if (typeof window === "undefined" || window.parent === window || !window.name.startsWith("paperless-slot:"))
+      return;
+    try {
+      const value = JSON.parse(window.name.slice("paperless-slot:".length));
+      if (typeof value.renderId === "string" && typeof value.regionId === "string" && typeof value.parentOrigin === "string" && /^https?:\/\//.test(value.parentOrigin))
+        return value;
+    } catch {
+    }
+  }
+  function postEmbeddedStatus(status, error) {
+    const context = embeddedContext();
+    if (!context) return;
+    const processing = document.querySelector('meta[name="paperless:epd-optimize"]')?.getAttribute("content");
+    window.parent.postMessage(
+      { type: "PAPERLESS_RENDER_STATUS", ...context, status, error, processing },
+      context.parentOrigin
+    );
+  }
+  function announceEmbeddedListener() {
+    const context = embeddedContext();
+    if (context)
+      window.parent.postMessage(
+        { type: "PAPERLESS_RENDER_HELLO", ...context },
+        context.parentOrigin
+      );
+  }
+  function acceptsEmbeddedInit(event) {
+    const context = embeddedContext();
+    if (!context) return !(window.parent !== window && window.name.startsWith("paperless-slot:"));
+    const message = event.data;
+    return event.source === window.parent && event.origin === context.parentOrigin && message?.type === "INIT" && message.renderId === context.renderId && message.regionId === context.regionId;
+  }
 
   // src/ready.ts
   var loadingMarkerId = "website-has-loading-element";
@@ -121,6 +250,7 @@ var PaperlessOpenIntegration = (() => {
       delete doc.documentElement.dataset[renderErrorDataKey];
     }
     appendHiddenMarker(loadingMarkerId);
+    postEmbeddedStatus("loading");
   }
   function markReady() {
     const doc = getDocument();
@@ -131,6 +261,7 @@ var PaperlessOpenIntegration = (() => {
     doc.documentElement.dataset[renderStatusDataKey] = "ready";
     delete doc.documentElement.dataset[renderErrorDataKey];
     appendHiddenMarker(loadedMarkerId, "ready");
+    postEmbeddedStatus("ready");
   }
   function markError(error) {
     if (error !== void 0) {
@@ -144,26 +275,128 @@ var PaperlessOpenIntegration = (() => {
       block.textContent = "Unable to render this integration.";
       doc.body.append(block);
     }
-    markReady();
     if (doc) {
+      doc.getElementById(loadingMarkerId)?.remove();
+      appendHiddenMarker(loadedMarkerId, "error");
       doc.documentElement.dataset[renderStatusDataKey] = "error";
       doc.documentElement.dataset[renderErrorDataKey] = error instanceof Error ? error.message : String(error || "unknown error");
+      postEmbeddedStatus("error", doc.documentElement.dataset[renderErrorDataKey]);
     }
   }
 
-  // src/runtime.ts
+  // src/html.ts
+  function escapeHtml(value) {
+    return String(value ?? "").replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll('"', "&quot;").replaceAll("'", "&#39;");
+  }
+
+  // src/language.ts
   function isRecord(value) {
+    return Boolean(value) && typeof value === "object" && !Array.isArray(value);
+  }
+  function isLanguageCode(value) {
+    return typeof value === "string" && /^[A-Za-z]{2,3}(?:-[A-Za-z0-9]{2,8})*$/.test(value.trim());
+  }
+  function normalizeLanguage(value) {
+    const trimmed = value?.trim();
+    return trimmed && isLanguageCode(trimmed) ? trimmed : void 0;
+  }
+  function payloadManifestLanguages(payload) {
+    const meta = isRecord(payload?.meta) ? payload.meta : void 0;
+    const manifest = isRecord(meta?.pluginManifest) ? meta.pluginManifest : void 0;
+    return Array.isArray(manifest?.language) ? manifest.language.filter(isLanguageCode) : [];
+  }
+  function defaultFetch(input, init) {
+    if (typeof fetch !== "function") {
+      throw new Error("fetch is not available to load language JSON");
+    }
+    return fetch(input, init);
+  }
+  function languagePath(basePath, language) {
+    return `${basePath.replace(/\/+$/, "")}/${encodeURIComponent(language)}.json`;
+  }
+  function getPayloadLanguage(payload) {
+    const meta = isRecord(payload?.meta) ? payload.meta : void 0;
+    return normalizeLanguage(typeof meta?.language === "string" ? meta.language : void 0);
+  }
+  function resolveLanguage({
+    requested,
+    supported = [],
+    defaultLanguage
+  }) {
+    const supportedCodes = supported.filter(isLanguageCode);
+    const requestedCode = normalizeLanguage(requested);
+    if (requestedCode) {
+      const exact = supportedCodes.find((code) => code === requestedCode);
+      if (exact) {
+        return exact;
+      }
+      const exactInsensitive = supportedCodes.find(
+        (code) => code.toLowerCase() === requestedCode.toLowerCase()
+      );
+      if (exactInsensitive) {
+        return exactInsensitive;
+      }
+      const requestedBase = requestedCode.split("-")[0]?.toLowerCase();
+      const base = supportedCodes.find((code) => code.toLowerCase() === requestedBase);
+      if (base) {
+        return base;
+      }
+    }
+    const defaultCode = normalizeLanguage(defaultLanguage);
+    if (defaultCode) {
+      const defaultMatch = supportedCodes.find((code) => code === defaultCode);
+      if (defaultMatch) {
+        return defaultMatch;
+      }
+      const defaultInsensitive = supportedCodes.find(
+        (code) => code.toLowerCase() === defaultCode.toLowerCase()
+      );
+      if (defaultInsensitive) {
+        return defaultInsensitive;
+      }
+      if (supportedCodes.length === 0) {
+        return defaultCode;
+      }
+    }
+    return supportedCodes[0] ?? "de";
+  }
+  async function loadLanguageJson(payload, options = {}) {
+    const supported = options.supported ?? payloadManifestLanguages(payload);
+    const defaultLanguage = options.defaultLanguage ?? supported[0] ?? "de";
+    const language = resolveLanguage({
+      defaultLanguage,
+      requested: options.requested ?? getPayloadLanguage(payload),
+      supported
+    });
+    const response = await (options.fetch ?? defaultFetch)(
+      languagePath(options.basePath ?? "./languages", language)
+    );
+    if (!response.ok) {
+      throw new Error(`Could not load language JSON for ${language}: ${response.status}`);
+    }
+    const messages = await response.json();
+    if (!isRecord(messages)) {
+      throw new Error(`Language JSON for ${language} must contain an object`);
+    }
+    return {
+      language,
+      messages
+    };
+  }
+
+  // src/runtime.ts
+  function isRecord2(value) {
     return Boolean(value) && typeof value === "object" && !Array.isArray(value);
   }
   function normalizePayload(value) {
     if (Array.isArray(value)) {
       return { data: value };
     }
-    if (!isRecord(value)) {
+    if (!isRecord2(value)) {
       return void 0;
     }
     const data = value.data;
-    if ((isRecord(data) || Array.isArray(data)) && (value.type === "INIT" || value.cmd === "message")) {
+    if ((isRecord2(data) || Array.isArray(data)) && (value.type === "INIT" || value.cmd === "message")) {
       return Array.isArray(data) ? { data } : data;
     }
     return value;
@@ -188,8 +421,8 @@ var PaperlessOpenIntegration = (() => {
     }
   }
   function waitForPayload(options = {}) {
-    const { fallback = {}, allowedOrigins, onUpdate } = options;
-    const timeoutMs = options.timeoutMs ?? options.timeout ?? 500;
+    const { fallback = {}, allowedOrigins, onUpdate, source } = options;
+    const timeoutMs = embeddedContext() ? -1 : options.timeoutMs ?? options.timeout ?? 500;
     if (typeof window === "undefined") {
       return Promise.resolve(fallback);
     }
@@ -219,7 +452,9 @@ var PaperlessOpenIntegration = (() => {
         resolve(payload);
       };
       const onMessage = (event) => {
-        if (!originAllowed(event.origin, allowedOrigins)) {
+        if (source && event.source !== source) return;
+        if (typeof event.data?.type === "string" && event.data.type.startsWith("PAPERLESS_")) return;
+        if (!acceptsEmbeddedInit(event) || !originAllowed(event.origin, allowedOrigins)) {
           return;
         }
         const payload = normalizePayload(event.data);
@@ -228,6 +463,7 @@ var PaperlessOpenIntegration = (() => {
         }
       };
       window.addEventListener("message", onMessage);
+      announceEmbeddedListener();
       if (timeoutMs >= 0) {
         timer = setTimeout(() => finish(fallback), timeoutMs);
       }
@@ -235,7 +471,7 @@ var PaperlessOpenIntegration = (() => {
   }
 
   // src/settings.ts
-  function isRecord2(value) {
+  function isRecord3(value) {
     return Boolean(value) && typeof value === "object" && !Array.isArray(value);
   }
   var pluginMessageSource = "paperlesspaper-plugin";
@@ -256,7 +492,7 @@ var PaperlessOpenIntegration = (() => {
   }
   function getSettings(payload, defaults) {
     const settings = payload?.meta;
-    if (!isRecord2(settings) || !isRecord2(settings.pluginSettings)) {
+    if (!isRecord3(settings) || !isRecord3(settings.pluginSettings)) {
       return mergeSettings(defaults);
     }
     return mergeSettings(defaults, settings.pluginSettings);
@@ -286,29 +522,29 @@ var PaperlessOpenIntegration = (() => {
     target.postMessage(message, options.targetOrigin ?? "*");
   }
   function payloadFromSettingsMessage(message) {
-    if (!isRecord2(message)) {
+    if (!isRecord3(message)) {
       return void 0;
     }
-    if (isRecord2(message.data) && (message.type === "INIT" || message.cmd === "message")) {
+    if (isRecord3(message.data) && (message.type === "INIT" || message.cmd === "message")) {
       return message.data;
     }
-    if (isRecord2(message.payload)) {
+    if (isRecord3(message.payload)) {
       return message.payload;
     }
     return void 0;
   }
   function getSettingsFromMessage(message, defaults) {
-    if (!isRecord2(message)) {
+    if (!isRecord3(message)) {
       return void 0;
     }
     const payload = payloadFromSettingsMessage(message);
     if (payload) {
       return getSettings(payload, defaults);
     }
-    if (isRecord2(message.pluginSettings)) {
+    if (isRecord3(message.pluginSettings)) {
       return mergeSettings(defaults, message.pluginSettings);
     }
-    if (isRecord2(message.settings)) {
+    if (isRecord3(message.settings)) {
       return mergeSettings(defaults, message.settings);
     }
     return void 0;
@@ -454,101 +690,6 @@ var PaperlessOpenIntegration = (() => {
     };
   }
 
-  // src/language.ts
-  function isRecord3(value) {
-    return Boolean(value) && typeof value === "object" && !Array.isArray(value);
-  }
-  function isLanguageCode(value) {
-    return typeof value === "string" && /^[A-Za-z]{2,3}(?:-[A-Za-z0-9]{2,8})*$/.test(value.trim());
-  }
-  function normalizeLanguage(value) {
-    const trimmed = value?.trim();
-    return trimmed && isLanguageCode(trimmed) ? trimmed : void 0;
-  }
-  function payloadManifestLanguages(payload) {
-    const meta = isRecord3(payload?.meta) ? payload.meta : void 0;
-    const manifest = isRecord3(meta?.pluginManifest) ? meta.pluginManifest : void 0;
-    return Array.isArray(manifest?.language) ? manifest.language.filter(isLanguageCode) : [];
-  }
-  function defaultFetch(input, init) {
-    if (typeof fetch !== "function") {
-      throw new Error("fetch is not available to load language JSON");
-    }
-    return fetch(input, init);
-  }
-  function languagePath(basePath, language) {
-    return `${basePath.replace(/\/+$/, "")}/${encodeURIComponent(language)}.json`;
-  }
-  function getPayloadLanguage(payload) {
-    const meta = isRecord3(payload?.meta) ? payload.meta : void 0;
-    return normalizeLanguage(typeof meta?.language === "string" ? meta.language : void 0);
-  }
-  function resolveLanguage({
-    requested,
-    supported = [],
-    defaultLanguage
-  }) {
-    const supportedCodes = supported.filter(isLanguageCode);
-    const requestedCode = normalizeLanguage(requested);
-    if (requestedCode) {
-      const exact = supportedCodes.find((code) => code === requestedCode);
-      if (exact) {
-        return exact;
-      }
-      const exactInsensitive = supportedCodes.find(
-        (code) => code.toLowerCase() === requestedCode.toLowerCase()
-      );
-      if (exactInsensitive) {
-        return exactInsensitive;
-      }
-      const requestedBase = requestedCode.split("-")[0]?.toLowerCase();
-      const base = supportedCodes.find((code) => code.toLowerCase() === requestedBase);
-      if (base) {
-        return base;
-      }
-    }
-    const defaultCode = normalizeLanguage(defaultLanguage);
-    if (defaultCode) {
-      const defaultMatch = supportedCodes.find((code) => code === defaultCode);
-      if (defaultMatch) {
-        return defaultMatch;
-      }
-      const defaultInsensitive = supportedCodes.find(
-        (code) => code.toLowerCase() === defaultCode.toLowerCase()
-      );
-      if (defaultInsensitive) {
-        return defaultInsensitive;
-      }
-      if (supportedCodes.length === 0) {
-        return defaultCode;
-      }
-    }
-    return supportedCodes[0] ?? "de";
-  }
-  async function loadLanguageJson(payload, options = {}) {
-    const supported = options.supported ?? payloadManifestLanguages(payload);
-    const defaultLanguage = options.defaultLanguage ?? supported[0] ?? "de";
-    const language = resolveLanguage({
-      defaultLanguage,
-      requested: options.requested ?? getPayloadLanguage(payload),
-      supported
-    });
-    const response = await (options.fetch ?? defaultFetch)(
-      languagePath(options.basePath ?? "./languages", language)
-    );
-    if (!response.ok) {
-      throw new Error(`Could not load language JSON for ${language}: ${response.status}`);
-    }
-    const messages = await response.json();
-    if (!isRecord3(messages)) {
-      throw new Error(`Language JSON for ${language} must contain an object`);
-    }
-    return {
-      language,
-      messages
-    };
-  }
-
   // src/theme.ts
   var COLOR_THEMES = [
     "dark",
@@ -660,6 +801,259 @@ var PaperlessOpenIntegration = (() => {
     for (const element of document.querySelectorAll(selector)) {
       fitText(element, options);
     }
+  }
+
+  // src/departures.ts
+  var fallbackMessages = {
+    departures: "Departures",
+    next: "Next departure",
+    time: "Time",
+    line: "Line",
+    direction: "Destination",
+    platform: "Platform",
+    platformShort: "Pl.",
+    planned: "Sched.",
+    forecast: "Forecast",
+    onTime: "On time",
+    timetable: "Timetable",
+    changed: "Platform change",
+    updated: "Updated",
+    example: "Example data",
+    window: "Next {minutes} min",
+    more: "+{count} more",
+    partial: "Limited timetable extract",
+    empty: "No matching departures",
+    emptyHint: "Check the station, filters or time window.",
+    errorTitle: "Departures unavailable",
+    upstream: "The source is unavailable. Please try again later.",
+    loading: "Loading departures",
+    filter: "Filter",
+    cancelled: "Cancelled"
+  };
+  var yes = (value) => value === true || value === "true" || value === 1 || value === "1";
+  function renderDepartureBoard(app, data, settings, copy = {}, brand = "") {
+    const e = escapeHtml;
+    const messages = { ...fallbackMessages };
+    for (const [key, value] of Object.entries(copy)) if (typeof value === "string") messages[key] = value;
+    const locale = String(settings.locale || document.documentElement.lang || "en-GB");
+    const timeZone = String(settings.timeZone || "Europe/Zurich");
+    const time = new Intl.DateTimeFormat(locale, { timeZone, hour: "2-digit", minute: "2-digit", hourCycle: "h23" });
+    const clock = (value) => value && Number.isFinite(Date.parse(value)) ? time.format(new Date(value)) : "\u2014";
+    const stamp = data.updatedAt && Number.isFinite(Date.parse(data.updatedAt)) ? new Date(data.updatedAt) : null;
+    const date = stamp ? new Intl.DateTimeFormat(locale, { timeZone, day: "2-digit", month: "short" }).format(stamp) : "\u2014";
+    const status = (row) => row.cancelled ? messages.cancelled : row.delayMinutes == null ? messages.timetable : row.delayMinutes === 0 ? messages.onTime : `${row.delayMinutes > 0 ? "+" : ""}${row.delayMinutes} min`;
+    const statusClass = (row) => row.cancelled ? "cancelled" : (row.delayMinutes ?? 0) > 0 ? "delay" : "";
+    const changed = (row) => yes(settings.showPlatformChanges) && row.platformChanged;
+    const departures = data.departures.slice(0, 100);
+    const first = departures[0];
+    const filter = [settings.destination, settings.lines, settings.transport === "all" ? "" : settings.transport].filter(Boolean).join(" \xB7 ");
+    app.classList.add("pp-departures");
+    app.dataset.more = String(Math.max(0, Number(data.more) || 0));
+    app.dataset.moreLabel = messages.more;
+    app.innerHTML = `<header><div class="heading"><p class="eyebrow">${e(messages.departures)} \xB7 ${e(brand)}</p><h1>${e(data.station?.name || settings.stationName || "\u2014")}</h1></div><div class="header-meta">${data.sample ? `<span class="sample">${e(messages.example)}</span>` : ""}${e(date)}</div></header>
+          ${first ? `<section class="hero ${first.cancelled ? "is-cancelled" : ""}">
+            <div class="hero-time"><p class="eyebrow">${e(messages.next)}</p><div class="hero-clock">${e(clock(first.when))}</div><div class="small">${e(first.cancelled ? messages.cancelled : first.delayMinutes != null ? messages.forecast : messages.timetable)}${first.plannedWhen && first.when !== first.plannedWhen ? ` \xB7 ${e(messages.planned)} ${e(clock(first.plannedWhen))}` : ""}</div></div>
+            <div class="hero-main"><span class="line">${e(first.line)}</span><h2>${e(first.direction || "\u2014")}</h2><div class="hero-status"><span class="status ${statusClass(first)}">${e(status(first))}</span><span class="small">${e(first.operator || "")}</span></div></div>
+            <div class="platform"><span class="small">${e(messages.platform)}</span><strong class="${changed(first) ? "changed" : ""}">${e(first.platform || "\u2014")}</strong>${changed(first) ? `<div class="changed-label">\u2194 ${e(messages.changed)}<br>${e(first.plannedPlatform)} \u2192 ${e(first.platform)}</div>` : ""}</div>
+          </section><section class="board"><div class="board-head"><span>${e(messages.time)}</span><span>${e(messages.line)}</span><span>${e(messages.direction)}</span><span>${e(messages.platformShort)}</span></div>${departures.slice(1).map((row) => `<div class="row ${row.cancelled ? "is-cancelled" : ""}"><div class="row-clock"><span class="row-time">${e(clock(row.when))}</span><br><span class="status ${statusClass(row)}">${e(status(row))}</span></div><div><span class="line">${e(row.line)}</span></div><div class="destination">${e(row.direction || "\u2014")}</div><div class="row-platform"><span class="${changed(row) ? "changed" : ""}">${changed(row) ? "\u2194 " : ""}${e(row.platform || "\u2014")}</span></div></div>`).join("")}</section>` : `<section class="empty"><h2>${e(messages.empty)}</h2><p>${e(messages.emptyHint)}</p></section>`}
+          <footer><div class="footer-row"><span>${e(messages.window.replace("{minutes}", String(data.duration ?? settings.duration ?? 90)))}</span><span class="filter">${filter ? `${e(messages.filter)}: ${e(filter)}` : ""}</span><strong class="more"></strong></div><div class="footer-row"><span class="footer-note">${e(data.source)}${data.partial ? ` \xB7 ${e(messages.partial)}` : ""}</span><span>${e(messages.updated)} ${e(clock(data.updatedAt))}</span></div></footer>`;
+  }
+  function fitDepartureBoard(app) {
+    const title = app.querySelector("h1");
+    if (title) fitText(title, { min: 18, max: Math.min(65, window.innerWidth * 0.06, window.innerHeight * 0.06) });
+    const destination = app.querySelector(".hero h2");
+    if (destination) fitText(destination, { min: 17, max: Math.min(52, window.innerWidth * 0.05, window.innerHeight * 0.05) });
+    const rows = [...app.querySelectorAll(".row")];
+    rows.forEach((row) => row.hidden = false);
+    const board = app.querySelector(".board");
+    let hidden = 0;
+    if (board) for (let i = rows.length - 1; i >= 0 && rows[i].getBoundingClientRect().bottom > board.getBoundingClientRect().bottom + 1; i--) {
+      rows[i].hidden = true;
+      hidden++;
+    }
+    const more = app.querySelector(".more");
+    const count = hidden + Number(app.dataset.more || 0);
+    if (more) more.textContent = count ? (app.dataset.moreLabel || fallbackMessages.more).replace("{count}", String(count)) : "";
+  }
+  async function bootDepartureIntegration(options) {
+    const app = typeof options.target === "string" ? document.querySelector(options.target) : options.target || document.querySelector("#app");
+    if (!app) throw Error("Missing departure board target");
+    app.classList.add("pp-departures");
+    let sequence = 0;
+    let controller;
+    async function renderPayload(payload2) {
+      const target = app;
+      const version = ++sequence;
+      controller?.abort();
+      controller = new AbortController();
+      const signal = controller.signal;
+      markLoading();
+      let messages = { ...fallbackMessages };
+      try {
+        const localized = await loadLanguageJson(payload2);
+        if (version !== sequence) return;
+        for (const [key, value] of Object.entries(localized.messages)) if (typeof value === "string") messages[key] = value;
+        document.documentElement.lang = localized.language;
+        const settings = mergeSettings(options.defaults, getSettings(payload2), getQuerySettings());
+        applyColorTheme(String(settings.color || options.defaults.color || "red-light"), { defaultTheme: normalizeColorTheme(String(options.defaults.color || "red-light")) });
+        target.innerHTML = `<section class="empty"><h2>${escapeHtml(messages.loading)}</h2></section>`;
+        const response = await fetch(new URL(options.apiPath || "./api/data", location.href), {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(settings),
+          signal
+        });
+        if (!response.ok) throw Error("upstream");
+        const data = await response.json();
+        if (version !== sequence) return;
+        if (data.error) throw Error(String(data.error));
+        if (!Array.isArray(data.departures)) throw Error("upstream");
+        renderDepartureBoard(target, data, { ...settings, timeZone: settings.timeZone || options.timeZone, locale: settings.locale || options.locale || localized.language }, messages, options.brand);
+        await document.fonts?.ready;
+        if (version !== sequence) return;
+        fitDepartureBoard(target);
+        markReady();
+      } catch (error) {
+        if (version !== sequence || signal.aborted) return;
+        const key = error instanceof Error ? error.message : "upstream";
+        target.innerHTML = `<section class="empty"><p class="eyebrow">${escapeHtml(options.brand)}</p><h2>${escapeHtml(messages.errorTitle)}</h2><p>${escapeHtml(messages[key] || messages.upstream)}</p></section>`;
+        markError(error);
+      }
+    }
+    window.addEventListener("resize", () => fitDepartureBoard(app));
+    const payload = await waitForPayload({ timeoutMs: 500, onUpdate: renderPayload });
+    await renderPayload(payload);
+  }
+
+  // src/dashboard.ts
+  var safe = (v, n = 180) => escapeHtml(String(v ?? "").slice(0, n));
+  var tone = (v) => ["green", "blue", "red", "orange"].includes(String(v)) ? String(v) : "accent";
+  var iconPaths = {
+    leaf: '<path d="M7 27C2 9 15 4 28 4c1 14-4 26-21 23ZM7 28 23 10"/>',
+    bread: '<path d="M8 11C1 6 1 24 8 22v9h20v-9c7 2 7-16 0-11-3-10-17-10-20 0ZM15 15v9m7-9v9"/>',
+    bottle: '<path d="M14 3h8v7l5 6v16H9V16l5-6ZM9 21h18"/>',
+    cup: '<path d="M6 12h20v13c0 10-20 10-20 0ZM26 15h4c9 0 5 12-4 10M10 3v4m7-4v4m7-4v4"/>',
+    cart: '<path d="M3 4h5l4 21h17l4-15H10M14 31h1m11 0h1"/>',
+    plant: '<path d="M9 23h20l-4 11H13ZM19 23V11M19 18C5 21 4 9 7 5c9 0 14 7 12 13ZM19 13c0-9 7-12 13-11 1 8-5 13-13 11Z"/>',
+    bird: '<path d="M5 27c12 7 24-2 22-12l7-4-8-2c-6-7-13-2-13 4L3 19l10 1c-2 3-5 5-8 7ZM17 29l-2 5m9-7 2 7"/>'
+  };
+  var iconHtml = (name) => name && iconPaths[name] ? `<svg class="pp-dash-icon" viewBox="0 0 38 38" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">${iconPaths[name]}</svg>` : "";
+  var list = (v, n = 100) => Array.isArray(v) ? v.slice(0, n) : [];
+  function renderDashboard(target, data, settings, messages = {}) {
+    const msg = (key, fallback) => String(messages[key] || fallback);
+    const locale = document.documentElement.lang === "de" ? "de-DE" : "en-GB";
+    const nf = new Intl.NumberFormat(locale, { maximumFractionDigits: 1 });
+    const format = (value) => value === null || value === void 0 ? "\u2014" : typeof value === "number" ? nf.format(value) : String(value);
+    const rowHtml = (r) => `<article class="pp-dash-row pp-dash-${tone(r.tone)}"><div class="pp-dash-row-main">${iconHtml(r.icon)}<div><h2>${safe(r.title)}</h2>${r.detail ? `<p>${safe(r.detail)}</p>` : ""}</div></div>${r.badge ? `<strong class="pp-dash-badge">${safe(r.badge, 48)}</strong>` : ""}</article>`;
+    let stamp = "\u2014";
+    if (data.updatedAt && Number.isFinite(Date.parse(data.updatedAt))) {
+      stamp = new Intl.DateTimeFormat(locale, { dateStyle: "short", timeStyle: "short", timeZone: String(settings.timeZone || "Europe/Berlin") }).format(new Date(data.updatedAt));
+    }
+    const metrics = list(data.metrics, 4);
+    const rows = list(data.rows);
+    const columns = list(data.columns, 4);
+    const heatmap = list(data.heatmap, 371);
+    const chart = data.chart;
+    let graphic = "";
+    if (chart) {
+      const points = list(chart.points, 72);
+      const valid = points.filter((p) => p.value !== null && Number.isFinite(p.value));
+      const min = Math.min(0, ...valid.map((p) => Number(p.value)));
+      const max = Math.max(1, ...valid.map((p) => Number(p.value)));
+      const xy = (p, i) => `${20 + i * 760 / Math.max(1, points.length - 1)},${140 - (Number(p.value) - min) / (max - min) * 120}`;
+      const segments = [];
+      let current = [];
+      points.forEach((p, i) => {
+        if (p.value !== null && Number.isFinite(p.value)) current.push(xy(p, i));
+        else if (current.length) {
+          segments.push(current.join(" "));
+          current = [];
+        }
+      });
+      if (current.length) segments.push(current.join(" "));
+      graphic = `<section class="pp-dash-chart"><h2>${safe(chart.label)}${chart.unit ? ` \xB7 ${safe(chart.unit)}` : ""}</h2><svg viewBox="0 0 800 162" role="img" aria-label="${safe(chart.label)}"><path d="M20 140H780" stroke="currentColor" fill="none"/>${segments.map((points2) => `<polyline points="${points2}" fill="none" stroke="var(--pp-accent)" stroke-width="5"/>`).join("")}</svg><div class="pp-dash-axis"><span>${safe(points[0]?.label)}</span><span>${safe(nf.format(min))} \u2013 ${safe(nf.format(max))} ${safe(chart.unit)}</span><span>${safe(points.at(-1)?.label)}</span></div></section>`;
+    }
+    if (heatmap.length) {
+      const max = Math.max(1, ...heatmap.map((x) => x.count));
+      const weekday = (/* @__PURE__ */ new Date(`${heatmap[0].date}T12:00:00Z`)).getUTCDay();
+      graphic += `<section class="pp-dash-activity"><div class="pp-dash-heatmap">${Array.from({ length: weekday }, () => '<span class="pp-dash-day pp-dash-spacer"></span>').join("")}${heatmap.map((d) => `<span class="pp-dash-day ${d.count > 0 ? "pp-dash-active" : ""}" title="${safe(d.date)}: ${safe(d.count)}" style="--level:${d.count > max / 2 ? 1 : 0.55}"></span>`).join("")}</div><div class="pp-dash-axis"><span>${safe(heatmap[0]?.date)}</span><span>${safe(msg("contributions", "Contributions"))}</span><span>${safe(heatmap.at(-1)?.date)}</span></div></section>`;
+    }
+    const content = columns.length ? `<div class="pp-dash-board">${columns.map((c) => `<section class="pp-dash-column"><h2>${safe(c.title)}</h2><div class="pp-dash-list">${list(c.rows).map(rowHtml).join("")}</div><small class="pp-dash-column-count" data-total="${Number(c.total ?? c.rows.length)}"></small></section>`).join("")}</div>` : `<div class="pp-dash-list">${rows.map(rowHtml).join("")}</div>`;
+    target.classList.add("pp-dashboard");
+    target.innerHTML = `<header class="pp-dash-header"><div class="pp-dash-eyebrow">${safe(data.sample ? msg("sample", "DEMO DATA") : data.source)}</div><h1>${safe(settings.title || messages.title || "Dashboard", 80)}</h1>${data.subtitle ? `<p>${safe(data.subtitle)}</p>` : ""}</header>${metrics.length ? `<section class="pp-dash-metrics">${metrics.map((m) => `<article class="pp-dash-metric pp-dash-${tone(m.tone)}"><p>${safe(m.label)}</p><strong>${safe(format(m.value), 40)}<small>${safe(m.unit)}</small></strong></article>`).join("")}</section>` : ""}<section class="pp-dash-content">${graphic}${content}${!rows.length && !columns.length && !graphic && !metrics.length ? `<p class="pp-dash-empty">${safe(msg("empty", "No entries"))}</p>` : ""}</section><p class="pp-dash-note">${safe(data.partial ? msg("partial", "Partial data") + " \xB7 " : "")}${safe(data.note, 280)}</p><footer class="pp-dash-footer"><span class="pp-dash-count" data-total="${Number(data.total ?? rows.length)}">${safe(data.source)}</span><span>${safe(msg("updated", "Retrieved"))} ${safe(stamp)}</span></footer>`;
+    target.dataset.moreLabel = msg("more", "+{count} more");
+  }
+  function fitDashboard(target) {
+    target.querySelectorAll(".pp-dash-row").forEach((r) => {
+      r.hidden = false;
+    });
+    const content = target.querySelector(".pp-dash-content");
+    if (!content) return;
+    const lists = Array.from(target.querySelectorAll(".pp-dash-list"));
+    for (const container of lists) {
+      const rows = Array.from(container.querySelectorAll(".pp-dash-row"));
+      let visible = rows.length;
+      const overflow = () => {
+        const last = rows[visible - 1];
+        const limit = target.querySelector(".pp-dash-board") ? container.getBoundingClientRect().bottom : content.getBoundingClientRect().bottom;
+        return last && last.getBoundingClientRect().bottom > limit + 1;
+      };
+      while (visible > 0 && overflow()) rows[--visible].hidden = true;
+      const count = container.parentElement?.querySelector(".pp-dash-column-count") || target.querySelector(".pp-dash-count");
+      if (count) {
+        const hidden = Math.max(0, Number(count.dataset.total || rows.length) - visible);
+        count.textContent = hidden ? (target.dataset.moreLabel || "+{count} more").replace("{count}", String(hidden)) : "";
+      }
+    }
+  }
+  async function bootDashboardIntegration(options) {
+    const target = typeof options.target === "string" ? document.querySelector(options.target) : options.target || document.querySelector("#app");
+    if (!target) throw new Error("Dashboard target not found");
+    let revision = 0;
+    let controller;
+    async function renderPayload(payload2) {
+      const current = ++revision;
+      controller?.abort();
+      controller = new AbortController();
+      const activeController = controller;
+      const signal = activeController.signal;
+      markLoading();
+      let messages = {};
+      try {
+        const loaded = await loadLanguageJson(payload2, { supported: ["de", "en"] });
+        if (current !== revision) return;
+        messages = loaded.messages;
+        document.documentElement.lang = loaded.language;
+        const settings = mergeSettings(options.defaults, getSettings(payload2), getQuerySettings());
+        applyColorTheme(String(settings.color || ""), { defaultTheme: normalizeColorTheme(String(options.defaults.color || "blue-light")) });
+        const url = new URL(options.apiPath || "./api/data", location.href);
+        if (url.origin !== location.origin) throw new Error("Dashboard API must be same-origin");
+        const timer = setTimeout(() => activeController.abort(), 45e3);
+        let response;
+        try {
+          response = await fetch(url, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ ...settings, language: loaded.language }), signal });
+        } finally {
+          clearTimeout(timer);
+        }
+        if (!response.ok) throw new Error("Provider request failed");
+        const data = await response.json();
+        if (current !== revision) return;
+        renderDashboard(target, data, settings, messages);
+        await document.fonts?.ready;
+        if (current !== revision) return;
+        fitDashboard(target);
+        markReady();
+      } catch {
+        if (current !== revision) return;
+        const title = String(messages.error || "Could not load data");
+        target.classList.add("pp-dashboard");
+        target.innerHTML = `<header class="pp-dash-header"><h1>${safe(title)}</h1></header><p>${safe(messages.setup || "Check the integration settings and connection.", 300)}</p>`;
+        markError(new Error(title));
+      }
+    }
+    window.addEventListener("resize", () => fitDashboard(target));
+    const payload = await waitForPayload({ timeoutMs: 500, onUpdate: renderPayload });
+    await renderPayload(payload);
   }
 
   // src/hyphenation.ts
@@ -896,11 +1290,6 @@ var PaperlessOpenIntegration = (() => {
     };
   }
 
-  // src/html.ts
-  function escapeHtml(value) {
-    return String(value ?? "").replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll('"', "&quot;").replaceAll("'", "&#39;");
-  }
-
   // src/ofTheDay.ts
   var states = /* @__PURE__ */ new WeakMap();
   var textSizes = ["small", "middle", "big"];
@@ -1120,6 +1509,9 @@ var PaperlessOpenIntegration = (() => {
   // src/calendar.ts
   var DEFAULT_CALENDAR_SETTINGS = {
     view: "agenda",
+    fontSize: 100,
+    noPadding: false,
+    fullWeekdayNames: false,
     locale: "en",
     dayRange: 14,
     maxEvents: 20,
@@ -1127,17 +1519,45 @@ var PaperlessOpenIntegration = (() => {
     highlightScale: 1,
     showLocation: true,
     showEventIcons: true,
-    showEventImages: true
+    showEventImages: true,
+    timelineShowSidebar: true,
+    timelineShowNow: true,
+    timelineShowGaps: true,
+    timelineGapMinutes: 30,
+    showDaySummary: false,
+    automaticEventIcons: false,
+    showHeader: true,
+    personalTitle: "",
+    personalSubtitle: "",
+    informationDensity: "comfortable"
   };
   var DEFAULT_CALENDAR_MESSAGES = {
     allDay: "All day",
     empty: "No events",
     moreEvents: "+{count} more",
     today: "Today",
-    untitled: "Untitled event"
+    tomorrow: "Tomorrow",
+    nextEvent: "Up next",
+    ongoing: "Now",
+    later: "Coming up",
+    untitled: "Untitled event",
+    dayAtGlance: "Your day at a glance",
+    remainingOne: "1 timed event remaining",
+    remainingMany: "{count} timed events remaining",
+    allDayCount: "{count} all-day",
+    noMoreToday: "No more timed events today",
+    freeAfter: "No timed events after {time}",
+    asOf: "As of {time}",
+    timelineDue: "Due today",
+    timelineGap: "{duration} free",
+    timelineRemaining: "{count} remaining",
+    timelineFinished: "No more appointments today"
   };
   var VIEW_ALIASES = {
+    "day-timeline": "day-timeline",
     agenda: "agenda",
+    "agenda-modern": "agenda-modern",
+    "today-next": "today-next",
     day: "day",
     "3-days": "three-days",
     "3days": "three-days",
@@ -1145,13 +1565,20 @@ var PaperlessOpenIntegration = (() => {
     "three-day": "three-days",
     "three-days": "three-days",
     week: "week",
+    "rolling-week": "rolling-week",
+    "rolling-week-list": "rolling-week-list",
     year: "year"
   };
   var VIEW_CLASSES = [
+    "pp-cal--view-day-timeline",
     "pp-cal--view-agenda",
+    "pp-cal--view-agenda-modern",
+    "pp-cal--view-today-next",
     "pp-cal--view-day",
     "pp-cal--view-three-days",
     "pp-cal--view-week",
+    "pp-cal--view-rolling-week",
+    "pp-cal--view-rolling-week-list",
     "pp-cal--view-year"
   ];
   var DATE_KEY_PATTERN = /^\d{4}-\d{2}-\d{2}$/;
@@ -1215,6 +1642,9 @@ var PaperlessOpenIntegration = (() => {
     const dayRangeValue = source.dayRange ?? source.daysAhead;
     return {
       view,
+      fontSize: clampNumber(source.fontSize, base.fontSize, 75, 150),
+      noPadding: parseBoolean(source.noPadding, base.noPadding),
+      fullWeekdayNames: parseBoolean(source.fullWeekdayNames, base.fullWeekdayNames),
       locale: validLocale(localeValue, base.locale),
       timeZone: validTimeZone(source.timeZone ?? base.timeZone),
       dayRange: clampInteger(dayRangeValue, base.dayRange, 1, 366),
@@ -1223,7 +1653,17 @@ var PaperlessOpenIntegration = (() => {
       highlightScale: clampNumber(source.highlightScale, base.highlightScale, 1, 3),
       showLocation: parseBoolean(source.showLocation, base.showLocation),
       showEventIcons: parseBoolean(source.showEventIcons, base.showEventIcons),
-      showEventImages: parseBoolean(source.showEventImages, base.showEventImages)
+      showEventImages: parseBoolean(source.showEventImages, base.showEventImages),
+      timelineShowSidebar: parseBoolean(source.timelineShowSidebar, base.timelineShowSidebar),
+      timelineShowNow: parseBoolean(source.timelineShowNow, base.timelineShowNow),
+      timelineShowGaps: parseBoolean(source.timelineShowGaps, base.timelineShowGaps),
+      timelineGapMinutes: clampInteger(source.timelineGapMinutes, base.timelineGapMinutes, 15, 240),
+      showDaySummary: parseBoolean(source.showDaySummary, base.showDaySummary),
+      automaticEventIcons: parseBoolean(source.automaticEventIcons, base.automaticEventIcons),
+      showHeader: parseBoolean(source.showHeader, base.showHeader),
+      personalTitle: text(source.personalTitle ?? base.personalTitle).slice(0, 100),
+      personalSubtitle: text(source.personalSubtitle ?? base.personalSubtitle).slice(0, 160),
+      informationDensity: ["automatic", "comfortable", "compact", "spacious"].includes(text(source.informationDensity)) ? source.informationDensity : base.informationDensity
     };
   }
   function pad(value) {
@@ -1283,10 +1723,12 @@ var PaperlessOpenIntegration = (() => {
     const referenceKey = dateKeyFromDate(normalizeNow(now), settings.timeZone);
     let startKey = referenceKey;
     let endKey = addDaysToKey(startKey, 1);
-    if (settings.view === "agenda") {
+    if (["agenda", "agenda-modern", "today-next"].includes(settings.view)) {
       endKey = addDaysToKey(startKey, settings.dayRange);
     } else if (settings.view === "three-days") {
       endKey = addDaysToKey(startKey, 3);
+    } else if (settings.view === "rolling-week" || settings.view === "rolling-week-list") {
+      endKey = addDaysToKey(startKey, 7);
     } else if (settings.view === "week") {
       const day = dateKeyToUtcDate(referenceKey).getUTCDay();
       startKey = addDaysToKey(referenceKey, -((day + 6) % 7));
@@ -1455,12 +1897,81 @@ var PaperlessOpenIntegration = (() => {
       return "";
     }
   }
+  var calendarIconAliases = {
+    appointment: "calendar",
+    birthday: "birthday-cake",
+    work: "suitcase",
+    office: "suitcase",
+    briefcase: "suitcase",
+    meeting: "group",
+    call: "phone",
+    dentist: "healthcare",
+    doctor: "healthcare",
+    health: "healthcare",
+    medical: "healthcare",
+    school: "open-book",
+    shopping: "shopping-bag",
+    flight: "airplane",
+    travel: "airplane",
+    trip: "airplane",
+    plane: "airplane",
+    holiday: "airplane",
+    vacation: "beach-bag",
+    focus: "star",
+    reminder: "warning-triangle",
+    video: "video-camera"
+  };
+  var calendarIconArt = {
+    calendar: '<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M7 3v4m10-4v4M3 11h18"/>',
+    "birthday-cake": '<path d="M4 21V11h16v10H4Zm0-6c3 4 5-4 8 0s5-4 8 0M8 11V7m8 4V7m-4 4V5M8 3v1m8-1v1m-4-3v1"/>',
+    suitcase: '<rect x="3" y="7" width="18" height="14" rx="2"/><path d="M8 7V3h8v4M3 12h18m-11 0v3h2v-3"/>',
+    healthcare: '<path d="M9 3h6v6h6v6h-6v6H9v-6H3V9h6Z"/>',
+    group: '<circle cx="9" cy="7" r="3"/><path d="M2 21v-4a7 7 0 0 1 14 0v4m0-17a3 3 0 0 1 0 6m3 3a5 5 0 0 1 3 5v3"/>',
+    phone: '<path d="m5 3 4 4-2 3a17 17 0 0 0 7 7l3-2 4 4-3 3C9 20 4 15 2 6Z"/>',
+    "shopping-bag": '<path d="M4 8h16l1 13H3ZM8 8V6a4 4 0 0 1 8 0v2"/>',
+    airplane: '<path d="m3 10 7 2V3l2-2 2 2v9l7-2v3l-7 3v4l3 2H7l3-2v-4l-7-3Z"/>',
+    "open-book": '<path d="M12 5v16M12 5C8 2 5 3 2 3v16c4-1 7 0 10 2 3-2 6-3 10-2V3c-3 0-6-1-10 2Z"/>',
+    star: '<path d="m12 2 3 6 7 1-5 5 1 7-6-3-6 3 1-7-5-5 7-1Z"/>',
+    "video-camera": '<rect x="2" y="5" width="14" height="14" rx="2"/><path d="m16 9 6-4v14l-6-4"/>',
+    music: '<path d="M10 18V5l11-3v13M10 8l11-3"/><ellipse cx="6" cy="18" rx="4" ry="3"/><ellipse cx="17" cy="15" rx="4" ry="3"/>',
+    coffee: '<path d="M3 8h14v7a7 7 0 0 1-14 0Zm14 0h2a3 3 0 0 1 0 6h-2M7 2v3m5-3v3M2 23h19"/>',
+    bicycle: '<circle cx="5" cy="17" r="4"/><circle cx="19" cy="17" r="4"/><path d="m5 17 5-10 9 10H5m4-7h7m-3-6h3l3 13M8 7h4"/>'
+  };
+  var iconRules = [
+    [/(?:^|[^\p{L}])(?:geburtstag|geburtstagsfeier|birthday)(?:$|[^\p{L}])/u, "birthday-cake"],
+    [/(?:^|[^\p{L}])(?:zahnarzt|arzt|ärztin|arzttermin|dentist|doctor|physio|impfung|vaccination)(?:$|[^\p{L}])/u, "healthcare"],
+    [/(?:^|[^\p{L}])(?:flug|flight|airport|flughafen)(?:$|[^\p{L}])/u, "airplane"],
+    [/(?:^|[^\p{L}])(?:schule|school|elternabend|unterricht|kita)(?:$|[^\p{L}])/u, "open-book"],
+    [/(?:^|[^\p{L}])(?:einkaufen|einkauf|shopping|wochenmarkt|supermarkt)(?:$|[^\p{L}])/u, "shopping-bag"],
+    [/(?:^|[^\p{L}])(?:telefonat|anruf|call)(?:$|[^\p{L}])/u, "phone"],
+    [/(?:^|[^\p{L}])(?:konzert|concert|jazz|chor|probe)(?:$|[^\p{L}])/u, "music"],
+    [/(?:^|[^\p{L}])(?:kino|cinema|movie|filmabend|videokonferenz)(?:$|[^\p{L}])/u, "video-camera"],
+    [/(?:^|[^\p{L}])(?:fahrrad|radtour|cycling|bicycle)(?:$|[^\p{L}])/u, "bicycle"],
+    [/(?:^|[^\p{L}])(?:kaffee|coffee|frühstück|teamfrühstück|brunch)(?:$|[^\p{L}])/u, "coffee"],
+    [/(?:^|[^\p{L}])(?:meeting|besprechung|standup|stand-up|teammeeting)(?:$|[^\p{L}])/u, "group"],
+    [/(?:^|[^\p{L}])(?:arbeit|work|büro|office)(?:$|[^\p{L}])/u, "suitcase"]
+  ];
+  function decorateCalendarEvent(event, settings) {
+    let tokenIcon = "";
+    const strip = (value) => text(value).replace(/\[icon:([^\]\n]+)\]/gi, (_, name) => {
+      tokenIcon || (tokenIcon = normalizeIconName(name));
+      return "";
+    }).trim();
+    const isTask = event.kind === "task" || /\[todo\]/i.test(text(event.title) + " " + text(event.description));
+    const title = strip(event.title).replace(/\[todo\]/gi, "").trim();
+    strip(event.description);
+    const explicit = normalizeIconName(event.iconName) || tokenIcon;
+    const suggested = settings.automaticEventIcons ? iconRules.find(([pattern]) => pattern.test(title.toLocaleLowerCase(settings.locale)))?.[1] : "";
+    return { ...event, title, ...isTask ? { kind: "task" } : {}, iconName: explicit || suggested || "" };
+  }
   function renderEventIcon(event, settings, aliases) {
     const iconName = normalizeIconName(event.iconName);
     if (!settings.showEventIcons || !iconName) {
       return "";
     }
-    const iconClass = normalizeIconName(aliases[iconName] ?? iconName);
+    const iconClass = normalizeIconName(aliases[iconName] ?? calendarIconAliases[iconName] ?? iconName);
+    const art = calendarIconArt[iconClass];
+    if (art) return `<span class="pp-cal-event-icon" data-icon="${escapeHtml(iconClass)}" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${art}</svg></span>`;
     return `<span class="pp-cal-event-icon" aria-hidden="true"><i class="iconoir-${escapeHtml(
       iconClass
     )}"></i></span>`;
@@ -1488,23 +1999,71 @@ var PaperlessOpenIntegration = (() => {
       )}</dd></div>`;
     }).join("")}</dl>`;
   }
+  var calendarColorCache = /* @__PURE__ */ new Map();
+  function calendarPaletteColor(value) {
+    if (typeof value !== "string") return "";
+    const raw = value.trim().toLowerCase();
+    if (calendarColorCache.has(raw)) return calendarColorCache.get(raw);
+    let rgb;
+    const hex = /^#([0-9a-f]{3}|[0-9a-f]{4}|[0-9a-f]{6}|[0-9a-f]{8})$/.exec(raw)?.[1];
+    if (hex) {
+      if (hex.length === 4 && hex[3] === "0" || hex.length === 8 && hex.slice(6) === "00") return "";
+      const full = hex.length <= 4 ? [...hex.slice(0, 3)].map((c) => c + c).join("") : hex.slice(0, 6);
+      rgb = [0, 2, 4].map((i) => parseInt(full.slice(i, i + 2), 16));
+    } else if (/^[a-z]{1,30}$/.test(raw) && !["transparent", "currentcolor", "inherit", "initial", "unset", "revert", "revert-layer"].includes(raw)) {
+      const probe = document.createElement("span");
+      probe.style.color = raw;
+      if (probe.style.color) {
+        document.body.append(probe);
+        const computed = getComputedStyle(probe).color;
+        probe.remove();
+        const match = /^rgb\(\s*(\d+),\s*(\d+),\s*(\d+)\s*\)$/.exec(computed);
+        if (match) rgb = match.slice(1).map(Number);
+      }
+    }
+    let color = "";
+    if (rgb) {
+      const [red, green, blue] = rgb.map((channel) => channel / 255);
+      const max = Math.max(red, green, blue), min = Math.min(red, green, blue), delta = max - min;
+      if (!max || delta / max < 0.15) {
+        color = min > 0.9 ? "white" : "black";
+      } else {
+        const hue = ((max === red ? (green - blue) / delta : max === green ? (blue - red) / delta + 2 : (red - green) / delta + 4) * 60 + 360) % 360;
+        color = hue < 45 || hue >= 300 ? "red" : hue < 70 ? "yellow" : hue < 170 ? "green" : "blue";
+      }
+    }
+    if (calendarColorCache.size >= 256) calendarColorCache.clear();
+    calendarColorCache.set(raw, color);
+    return color;
+  }
+  function calendarEventColors(event) {
+    const color = calendarPaletteColor(event.color) || calendarPaletteColor(event.calendarColor);
+    if (!color) return { className: "", style: "" };
+    const foreground = ["white", "yellow", "green"].includes(color) ? "black" : "white";
+    return {
+      className: `has-source-color pp-cal-event--color-${color}`,
+      style: ` style="--pp-cal-event-bg:var(--pp-${color});--pp-cal-event-fg:var(--pp-${foreground})"`
+    };
+  }
   function renderEventCard(item, settings, messages, aliases, compact = false, showDetails = !compact) {
     const event = item.event;
+    const colors = calendarEventColors(event);
     const title = hasText2(event.title) ? event.title : messages.untitled;
-    const location = settings.showLocation && hasText2(event.location) ? `<p class="pp-cal-event-location">${escapeHtml(event.location)}</p>` : "";
+    const location2 = settings.showLocation && hasText2(event.location) ? `<p class="pp-cal-event-location">${escapeHtml(event.location)}</p>` : "";
     const details = showDetails ? renderDetails(event) : "";
     const classes = [
       "pp-cal-event",
+      colors.className,
       compact ? "pp-cal-event--compact" : "",
       details ? "pp-cal-event--with-details" : ""
     ].filter(Boolean).join(" ");
-    return `<article class="${classes}" data-date="${escapeHtml(item.dateKey)}">
+    return `<article class="${classes}"${colors.style} data-date="${escapeHtml(item.dateKey)}">
     <p class="pp-cal-event-time">${escapeHtml(eventTimeText(event, settings, messages))}</p>
     <div class="pp-cal-event-content">
       <div class="pp-cal-event-heading">${renderEventIcon(event, settings, aliases)}<h2 class="pp-cal-event-title">${escapeHtml(
       title
     )}</h2></div>
-      ${location}
+      ${location2}
       ${renderEventImage(event, settings)}
     </div>
     ${details}
@@ -1523,7 +2082,7 @@ var PaperlessOpenIntegration = (() => {
     return template.replace("{count}", String(count));
   }
   function dateHeader(dateKey, settings) {
-    const weekday = formatCivilDate(dateKey, settings.locale, { weekday: "short" });
+    const weekday = formatCivilDate(dateKey, settings.locale, { weekday: settings.fullWeekdayNames ? "long" : "short" });
     const date = formatCivilDate(dateKey, settings.locale, { month: "short", day: "numeric" });
     return `<span class="pp-cal-column-weekday">${escapeHtml(
       weekday
@@ -1545,7 +2104,51 @@ var PaperlessOpenIntegration = (() => {
       )}</span><span class="pp-cal-day-date">${escapeHtml(
         date
       )}</span></h2><div class="pp-cal-day-events">${items.map((item) => renderEventCard(item, settings, messages, aliases)).join("")}</div></section>`;
-    }).join("")}${hidden > 0 ? `<p class="pp-cal-more">${escapeHtml(moreEventsLabel(messages.moreEvents, hidden))}</p>` : ""}</div>`;
+    }).join("")}${classicMore(messages, hidden)}</div>`;
+  }
+  function classicMore(messages, count) {
+    return `<p class="pp-cal-more" data-classic-more data-base-count="${count}" data-template="${escapeHtml(messages.moreEvents)}"${count ? "" : " hidden"}>${escapeHtml(moreEventsLabel(messages.moreEvents, count))}</p>`;
+  }
+  function renderModernDate(dateKey, settings, messages, todayKey) {
+    const relative = dateKey === todayKey ? messages.today : dateKey === addDaysToKey(todayKey, 1) ? messages.tomorrow : "";
+    return `<header class="pp-cal-modern-date${dateKey === todayKey && settings.highlightToday ? " is-today" : ""}">
+    <time datetime="${escapeHtml(dateKey)}" class="pp-cal-modern-number">${escapeHtml(formatCivilDate(dateKey, settings.locale, { day: "numeric" }))}</time>
+    <div><p class="pp-cal-modern-relative">${escapeHtml(relative || formatCivilDate(dateKey, settings.locale, { month: "short" }))}</p>
+    <p class="pp-cal-modern-weekday">${escapeHtml(formatCivilDate(dateKey, settings.locale, { weekday: "long" }))}</p>${settings.view === "today-next" && dateKey === todayKey ? `<p class="pp-cal-focus-month">${escapeHtml(formatCivilDate(dateKey, settings.locale, { month: "long", year: "numeric" }))}</p>` : ""}</div>
+  </header>`;
+  }
+  function modernMore(messages, count) {
+    return `<p class="pp-cal-more pp-cal-modern-more" data-base-count="${count}" data-template="${escapeHtml(messages.moreEvents)}"${count ? "" : " hidden"}>${escapeHtml(moreEventsLabel(messages.moreEvents, count))}</p>`;
+  }
+  function renderModernAgenda(events, settings, messages, aliases, todayKey) {
+    const visible = events.slice(0, settings.maxEvents);
+    return `<section class="pp-cal-modern-list" data-modern-list>${visible.length ? Array.from(
+      eventsByDate(visible),
+      ([dateKey, items]) => `<section class="pp-cal-modern-group">${renderModernDate(dateKey, settings, messages, todayKey)}<div class="pp-cal-modern-events">${items.map((item) => renderEventCard(item, settings, messages, aliases)).join("")}</div></section>`
+    ).join("") : `<p class="pp-cal-empty">${escapeHtml(messages.empty)}</p>`}${modernMore(messages, events.length - visible.length)}</section>`;
+  }
+  function renderTodayNext(events, settings, messages, aliases, todayKey, now) {
+    const today = events.filter((item) => item.dateKey === todayKey);
+    const later = events.filter((item) => item.dateKey > todayKey);
+    const featured = today.find((item) => {
+      if (!item.startDate) return false;
+      const end = new Date(item.event.end?.dateTime || "").getTime();
+      return (Number.isFinite(end) ? end : item.startDate.getTime() + 30 * 6e4) > now.getTime();
+    });
+    const remaining = today.filter((item) => item !== featured);
+    const isFinished = (item) => {
+      if (!item.startDate) return false;
+      const end = new Date(item.event.end?.dateTime || "").getTime();
+      return (Number.isFinite(end) ? end : item.startDate.getTime() + 30 * 6e4) <= now.getTime();
+    };
+    const ordered = featured ? [featured, ...remaining.filter((item) => !isFinished(item)), ...remaining.filter(isFinished)] : today;
+    const visible = ordered.slice(0, settings.maxEvents);
+    return `<div class="pp-cal-focus-layout"><section class="pp-cal-focus-today">
+    ${renderModernDate(todayKey, settings, messages, todayKey)}
+    <section class="pp-cal-modern-list pp-cal-focus-list" data-modern-list>${visible.length ? visible.map((item) => item === featured ? `<div class="pp-cal-featured"><p class="pp-cal-modern-relative">${escapeHtml(item.startDate.getTime() <= now.getTime() ? messages.ongoing : messages.nextEvent)}</p>${renderEventCard(item, settings, messages, aliases)}</div>` : renderEventCard(item, settings, messages, aliases)).join("") : `<p class="pp-cal-empty">${escapeHtml(messages.empty)}</p>`}
+      ${modernMore(messages, today.length - visible.length)}</section>
+    </section><section class="pp-cal-focus-later"><h2 class="pp-cal-later-title">${escapeHtml(messages.later)}</h2>
+    ${renderModernAgenda(later, settings, messages, aliases, todayKey)}</section></div>`;
   }
   function renderDayColumns(range, events, settings, messages, aliases, todayKey) {
     const grouped = eventsByDate(events);
@@ -1557,22 +2160,254 @@ var PaperlessOpenIntegration = (() => {
       return `<section class="${classes}"><header class="pp-cal-column-heading">${dateHeader(
         dateKey,
         settings
-      )}</header><div class="pp-cal-column-events">${visible.length ? `${visible.map((item) => renderEventCard(item, settings, messages, aliases, true, true)).join("")}${hidden > 0 ? `<p class="pp-cal-more">${escapeHtml(moreEventsLabel(messages.moreEvents, hidden))}</p>` : ""}` : `<div class="pp-cal-empty">${escapeHtml(messages.empty)}</div>`}</div></section>`;
+      )}</header><div class="pp-cal-column-events">${visible.length ? `${visible.map((item) => renderEventCard(item, settings, messages, aliases, true, true)).join("")}${classicMore(messages, hidden)}` : `<div class="pp-cal-empty">${escapeHtml(messages.empty)}</div>`}</div></section>`;
     }).join("")}</section>`;
+  }
+  function clockMinutes(date, timeZone) {
+    const parts = new Intl.DateTimeFormat("en-GB", {
+      hour: "2-digit",
+      minute: "2-digit",
+      hourCycle: "h23",
+      ...timeZone ? { timeZone } : {}
+    }).formatToParts(date);
+    return Number(parts.find((part) => part.type === "hour")?.value || 0) * 60 + Number(parts.find((part) => part.type === "minute")?.value || 0);
+  }
+  function weekSlot(item, settings) {
+    if (hasText2(item.event.start.date) || !item.startDate) return null;
+    const zone = settings.timeZone ?? validTimeZone(item.event.start.timeZone);
+    const start = dateKeyFromDate(item.startDate, zone) < item.dateKey ? 0 : clockMinutes(item.startDate, zone);
+    const endDate = new Date(text(item.event.end?.dateTime));
+    const validEnd = !Number.isNaN(endDate.getTime()) && endDate > item.startDate;
+    const end = validEnd ? dateKeyFromDate(endDate, zone) > item.dateKey ? 1440 : clockMinutes(endDate, zone) : start + 30;
+    return { item, start, end: Math.min(1440, Math.max(start + 1, end)), lane: 0, lanes: 1 };
+  }
+  function positionWeekSlots(slots) {
+    const sorted = [...slots].sort((a, b) => a.start - b.start || b.end - a.end);
+    let group = [];
+    let ends = [];
+    let groupEnd = -1;
+    const finish = () => group.forEach((slot) => {
+      slot.lanes = ends.length;
+    });
+    for (const slot of sorted) {
+      if (slot.start >= groupEnd) {
+        finish();
+        group = [];
+        ends = [];
+      }
+      let lane = ends.findIndex((end) => end <= slot.start);
+      if (lane < 0) lane = ends.length;
+      ends[lane] = slot.end;
+      slot.lane = lane;
+      group.push(slot);
+      groupEnd = Math.max(...ends);
+    }
+    finish();
+    return sorted;
   }
   function renderWeek(range, events, settings, messages, aliases, todayKey) {
     const grouped = eventsByDate(events);
-    const perDayLimit = Math.min(settings.maxEvents, 4);
-    return `<section class="pp-cal-week">${range.dateKeys.map((dateKey) => {
+    const days = range.dateKeys.map((dateKey) => {
       const items = grouped.get(dateKey) || [];
-      const visible = items.slice(0, perDayLimit);
-      const hidden = items.length - visible.length;
-      const classes = settings.highlightToday && dateKey === todayKey ? "pp-cal-week-cell is-today" : "pp-cal-week-cell";
-      return `<section class="${classes}"><header class="pp-cal-week-heading">${dateHeader(
+      const visible = items.slice(0, settings.maxEvents);
+      const slots2 = visible.map((item) => weekSlot(item, settings)).filter(
+        (slot) => slot !== null
+      );
+      return {
         dateKey,
-        settings
-      )}</header><div class="pp-cal-week-events">${visible.map((item) => renderEventCard(item, settings, messages, aliases, true)).join("")}${hidden > 0 ? `<p class="pp-cal-more">${escapeHtml(moreEventsLabel(messages.moreEvents, hidden))}</p>` : ""}</div></section>`;
-    }).join("")}</section>`;
+        allDay: visible.filter((item) => !weekSlot(item, settings)),
+        slots: positionWeekSlots(slots2),
+        hidden: items.length - visible.length
+      };
+    });
+    const slots = settings.view === "rolling-week" ? events.map((item) => weekSlot(item, settings)).filter((slot) => slot !== null) : days.flatMap((day) => day.slots);
+    const startHour = Math.max(0, Math.floor(Math.min(8 * 60, ...slots.map((slot) => slot.start)) / 60));
+    const endHour = Math.min(24, Math.ceil(Math.max(18 * 60, ...slots.map((slot) => slot.end)) / 60));
+    const minutes = (endHour - startHour) * 60;
+    const hasAllDay = days.some((day) => day.allDay.length);
+    const hasHidden = days.some((day) => day.hidden);
+    const hourLabel = (hour) => new Intl.DateTimeFormat(settings.locale, {
+      hour: "2-digit",
+      minute: "2-digit",
+      timeZone: "UTC"
+    }).format(new Date(Date.UTC(2026, 0, 1, hour)));
+    const hours = Array.from({ length: endHour - startHour + 1 }, (_, i) => startHour + i);
+    const todayClass = (dateKey) => settings.highlightToday && dateKey === todayKey ? " is-today" : "";
+    return `<section class="pp-cal-week" style="--pp-cal-hours:${endHour - startHour};--pp-cal-days:${days.length}">
+    <div class="pp-cal-week-head"><div></div>${days.map(
+      ({ dateKey }) => `<header class="pp-cal-week-heading${todayClass(dateKey)}">${settings.view === "rolling-week" ? rollingDayHeader(dateKey, settings, messages, todayKey) : dateHeader(dateKey, settings)}</header>`
+    ).join("")}</div>
+    ${hasAllDay ? `<div class="pp-cal-week-all-day"><span class="pp-cal-week-all-day-label">${escapeHtml(messages.allDay)}</span>${days.map(
+      (day) => `<div class="pp-cal-week-all-day-events">${day.allDay.slice(0, 2).map(
+        (item) => renderEventCard(item, settings, messages, aliases, true)
+      ).join("")}${day.allDay.length > 2 ? `<span class="pp-cal-more">${escapeHtml(moreEventsLabel(messages.moreEvents, day.allDay.length - 2))}</span>` : ""}</div>`
+    ).join("")}</div>` : ""}
+    <div class="pp-cal-week-grid"><div class="pp-cal-week-hours">${hours.map(
+      (hour, index) => `<span class="pp-cal-hour" style="top:${index / (endHour - startHour) * 100}%">${escapeHtml(hourLabel(hour))}</span>`
+    ).join("")}</div>${days.map(
+      (day) => `<section class="pp-cal-week-cell${todayClass(day.dateKey)}" data-date="${day.dateKey}">${hours.slice(0, -1).map(
+        (_hour, index) => `<div class="pp-cal-hour-rule" style="top:${index / (endHour - startHour) * 100}%" aria-hidden="true"></div>`
+      ).join("")}${day.slots.map((slot) => {
+        const top = (slot.start - startHour * 60) / minutes * 100;
+        const height = (slot.end - slot.start) / minutes * 100;
+        return `<div title="${escapeHtml(eventTimeText(slot.item.event, settings, messages))} \xB7 ${escapeHtml(slot.item.event.title || messages.untitled)}" class="pp-cal-week-slot${slot.end - slot.start < 60 ? " is-short" : ""}${slot.end - slot.start < 30 ? " is-tiny" : ""}" data-start="${slot.start}" data-end="${slot.end}" data-lane="${slot.lane}" data-lanes="${slot.lanes}" style="top:${top}%;height:${height}%;left:${slot.lane / slot.lanes * 100}%;width:${100 / slot.lanes}%">${renderEventCard(slot.item, settings, messages, aliases, true)}</div>`;
+      }).join("")}</section>`
+    ).join("")}</div>
+    ${hasHidden ? `<div class="pp-cal-week-overflow"><div></div>${days.map((day) => `<span class="pp-cal-more">${day.hidden ? escapeHtml(moreEventsLabel(messages.moreEvents, day.hidden)) : ""}</span>`).join("")}</div>` : ""}
+  </section>`;
+  }
+  function renderDayTimeline(events, settings, messages, aliases, todayKey, now) {
+    const timed = events.filter((item) => item.startDate && !hasText2(item.event.start.date) && item.event.kind !== "task");
+    const tasks = events.filter((item) => item.event.kind === "task");
+    const allDay = events.filter((item) => hasText2(item.event.start.date) && item.event.kind !== "task");
+    const remaining = timed.filter((item) => {
+      const end2 = new Date(text(item.event.end?.dateTime));
+      return item.startDate >= now || !Number.isNaN(end2.getTime()) && end2 > now;
+    });
+    const next = remaining.find((item) => item.startDate > now) ?? remaining[0];
+    const slots = timed.map((item) => weekSlot(item, settings)).filter(Boolean);
+    const start = Math.max(0, Math.floor(Math.min(8 * 60, ...slots.map((slot) => slot.start)) / 60) * 60);
+    const end = Math.min(1440, Math.ceil(Math.max(18 * 60, ...slots.map((slot) => slot.end)) / 60) * 60);
+    const span = end - start;
+    const percentage = (minute) => (minute - start) / span * 100;
+    const hourLabel = (minute) => new Intl.DateTimeFormat(settings.locale, { hour: "2-digit", minute: "2-digit", timeZone: "UTC" }).format(new Date(Date.UTC(2026, 0, 1, 0, minute)));
+    const hours = Array.from({ length: Math.floor(span / 60) + 1 }, (_, i) => start + i * 60);
+    const gaps = [];
+    if (settings.timelineShowGaps && !allDay.length && timed.every((item) => {
+      const endDate = new Date(text(item.event.end?.dateTime));
+      const slot = weekSlot(item, settings);
+      return endDate > item.startDate && Math.abs((endDate.getTime() - item.startDate.getTime()) / 6e4 - (slot.end - slot.start)) < 1;
+    })) {
+      let previousEnd;
+      for (const slot of [...slots].filter((slot2) => slot2.item.event.busy !== false).sort((a, b) => a.start - b.start)) {
+        if (previousEnd !== void 0 && slot.start - previousEnd >= settings.timelineGapMinutes) gaps.push({ start: previousEnd, end: slot.start });
+        previousEnd = Math.max(previousEnd ?? 0, slot.end);
+      }
+    }
+    const nowMinutes = clockMinutes(now, settings.timeZone);
+    const sideRow = (item) => `<div class="pp-cal-timeline-side-row" data-timeline-row><div><p class="pp-cal-timeline-side-time">${escapeHtml(eventTimeText(item.event, settings, messages))}</p><p class="pp-cal-timeline-side-title">${escapeHtml(item.event.title || messages.untitled)}</p></div></div>`;
+    const sideItems = [...tasks, ...allDay];
+    const visibleSide = sideItems.slice(0, settings.maxEvents);
+    const overflow = timed.length - Math.min(timed.length, settings.maxEvents);
+    return `<section class="pp-cal-timeline${settings.timelineShowSidebar ? "" : " pp-cal-timeline--wide"}">
+    <header class="pp-cal-timeline-heading"><h1><strong>${escapeHtml(formatCivilDate(todayKey, settings.locale, { weekday: "long" }))}</strong> ${escapeHtml(formatCivilDate(todayKey, settings.locale, { day: "numeric", month: "long" }))}</h1><span>${escapeHtml(messages.timelineRemaining.replace("{count}", String(remaining.length)))}</span></header>
+    <div class="pp-cal-timeline-main"><section class="pp-cal-timeline-day">
+      ${!settings.timelineShowSidebar && sideItems.length ? `<div class="pp-cal-timeline-inline" data-timeline-list>${visibleSide.map((item) => sideRow(item)).join("")}${modernMore(messages, sideItems.length - visibleSide.length)}</div>` : ""}
+      <div class="pp-cal-timeline-grid" data-start="${start}" data-end="${end}">
+        ${hours.map((minute) => `<div class="pp-cal-timeline-hour" style="top:${percentage(minute)}%"><span>${escapeHtml(hourLabel(minute))}</span></div>`).join("")}
+        <div class="pp-cal-timeline-track">${gaps.map((gap) => `<div class="pp-cal-timeline-gap" style="top:${percentage((gap.start + gap.end) / 2)}%"><span>${escapeHtml(messages.timelineGap.replace("{duration}", formatTimelineDuration(gap.end - gap.start, settings.locale)))}</span></div>`).join("")}
+        ${slots.slice(0, settings.maxEvents).map((slot) => {
+      const isNow = slot.item.startDate <= now && new Date(text(slot.item.event.end?.dateTime)) > now;
+      return `<div class="pp-cal-timeline-slot${isNow ? " is-current" : ""}" title="${escapeHtml(eventTimeText(slot.item.event, settings, messages))} \xB7 ${escapeHtml(slot.item.event.title || messages.untitled)}" data-start="${slot.start}" data-end="${slot.end}">${renderEventCard(slot.item, settings, messages, aliases, true, false)}</div>`;
+    }).join("")}
+        ${!timed.length ? `<p class="pp-cal-timeline-empty">${escapeHtml(messages.empty)}</p>` : ""}
+        </div>
+        ${settings.timelineShowNow && nowMinutes >= start && nowMinutes <= end ? `<div class="pp-cal-timeline-now" style="top:${percentage(nowMinutes)}%"><span>${escapeHtml(messages.ongoing)}</span></div>` : ""}
+      </div><p class="pp-cal-more pp-cal-timeline-overflow" data-template="${escapeHtml(messages.moreEvents)}" data-base-count="${overflow}"${overflow ? "" : " hidden"}>${escapeHtml(moreEventsLabel(messages.moreEvents, overflow))}</p>
+    </section>
+    ${settings.timelineShowSidebar ? `<aside class="pp-cal-timeline-sidebar"><section class="pp-cal-timeline-next"><p class="pp-cal-timeline-label">${escapeHtml(next && next.startDate <= now ? messages.ongoing : messages.nextEvent)}</p>${next ? `<p class="pp-cal-timeline-clock">${escapeHtml(formatTime(next.event.start, settings.locale, settings.timeZone))}</p>${renderEventCard(next, settings, messages, aliases, false, false)}` : `<p class="pp-cal-timeline-finished">${escapeHtml(messages.timelineFinished)}</p>`}</section>
+      <section class="pp-cal-timeline-side-list" data-timeline-list><h2 class="pp-cal-timeline-label">${escapeHtml(tasks.length ? messages.timelineDue : messages.allDay)}</h2>${visibleSide.map((item) => sideRow(item)).join("")}${!sideItems.length ? `<p class="pp-cal-timeline-none">${escapeHtml(messages.empty)}</p>` : ""}${modernMore(messages, sideItems.length - visibleSide.length)}</section></aside>` : ""}
+    </div></section>`;
+  }
+  function formatTimelineDuration(minutes, locale) {
+    const hours = Math.floor(minutes / 60), rest = minutes % 60;
+    const format = (value, unit) => new Intl.NumberFormat(locale, { style: "unit", unit, unitDisplay: "short" }).format(value);
+    return [hours ? format(hours, "hour") : "", rest ? format(rest, "minute") : ""].filter(Boolean).join(" ");
+  }
+  function fitDayTimeline(target) {
+    const grid = target.querySelector(".pp-cal-timeline-grid");
+    const track = target.querySelector(".pp-cal-timeline-track");
+    if (!grid || !track || !grid.clientHeight) return;
+    const scale = parseFloat(target.style.getPropertyValue("--pp-cal-font-scale")) || 1;
+    const start = Number(grid.dataset.start), span = Number(grid.dataset.end) - start;
+    const nodes = [...track.querySelectorAll(".pp-cal-timeline-slot")];
+    const counter = target.querySelector(".pp-cal-timeline-overflow");
+    counter.hidden = true;
+    const minHeight = Math.min(grid.clientHeight, Math.max(26, Math.min(58, window.innerWidth * 0.04)) * scale);
+    const positioned = positionWeekSlots(nodes.map((node) => {
+      node.hidden = false;
+      const height = Math.min(grid.clientHeight, Math.max(minHeight, (Number(node.dataset.end) - Number(node.dataset.start)) / span * grid.clientHeight));
+      const top = Math.min(grid.clientHeight - height, (Number(node.dataset.start) - start) / span * grid.clientHeight);
+      return { node, start: top, end: top + height, lane: 0, lanes: 1 };
+    }));
+    const maxLanes = Math.max(1, Math.floor(track.clientWidth / (110 * scale)));
+    let hidden = Number(counter.dataset.baseCount || 0);
+    for (const slot of positioned) {
+      if (slot.lane >= maxLanes) {
+        slot.node.hidden = true;
+        hidden++;
+        continue;
+      }
+      const lanes = Math.min(slot.lanes, maxLanes);
+      Object.assign(slot.node.style, { top: `${slot.start}px`, height: `${slot.end - slot.start}px`, left: `${slot.lane / lanes * 100}%`, width: `${100 / lanes}%` });
+      slot.node.classList.toggle("is-short", slot.end - slot.start < 48 * scale);
+      slot.node.classList.remove("hide-location", "hide-time");
+      const card = slot.node.querySelector(".pp-cal-event");
+      const content = card.querySelector(".pp-cal-event-content");
+      const time = card.querySelector(".pp-cal-event-time");
+      const style = getComputedStyle(card);
+      const required = () => (slot.node.classList.contains("is-short") ? Math.max(content.scrollHeight, time.offsetHeight) : content.scrollHeight + time.offsetHeight + (parseFloat(style.gap) || 0)) + (parseFloat(style.paddingTop) || 0) + (parseFloat(style.paddingBottom) || 0);
+      if (required() > card.clientHeight + 1) slot.node.classList.add("hide-location");
+      if (required() > card.clientHeight + 1) slot.node.classList.add("hide-time");
+    }
+    counter.textContent = moreEventsLabel(counter.dataset.template || "", hidden);
+    counter.hidden = !hidden;
+    for (const gap of track.querySelectorAll(".pp-cal-timeline-gap")) {
+      gap.hidden = false;
+      const r = gap.getBoundingClientRect();
+      if (nodes.some((node) => !node.hidden && node.getBoundingClientRect().bottom > r.top && node.getBoundingClientRect().top < r.bottom)) gap.hidden = true;
+    }
+    const hours = [...grid.querySelectorAll(".pp-cal-timeline-hour")];
+    const stride = Math.max(span > 600 ? 2 : 1, Math.ceil(26 * scale / (grid.clientHeight / (hours.length - 1))));
+    hours.forEach((node, index) => {
+      node.hidden = index % stride !== 0 && index !== hours.length - 1;
+    });
+    const next = target.querySelector(".pp-cal-timeline-next");
+    if (next) {
+      next.style.fontSize = "";
+      next.classList.remove("is-tight");
+      const max = parseFloat(getComputedStyle(next).fontSize);
+      fitText(next, { min: max * 0.72, max, step: 0.5, tolerance: 1 });
+      if (next.scrollHeight > next.clientHeight + 1) {
+        next.classList.add("is-tight");
+        fitText(next, { min: max * 0.72, max, step: 0.5, tolerance: 1 });
+      }
+    }
+    for (const list2 of target.querySelectorAll("[data-timeline-list]")) {
+      const rows = [...list2.querySelectorAll("[data-timeline-row]")];
+      const more = list2.querySelector(".pp-cal-modern-more");
+      let count = Number(more.dataset.baseCount || 0);
+      rows.forEach((row) => {
+        row.hidden = false;
+      });
+      more.hidden = !count;
+      for (const row of [...rows].reverse()) {
+        if (list2.scrollHeight <= list2.clientHeight + 1 && list2.scrollWidth <= list2.clientWidth + 1) break;
+        row.hidden = true;
+        count++;
+        more.hidden = false;
+        more.textContent = moreEventsLabel(more.dataset.template || "", count);
+      }
+      more.textContent = moreEventsLabel(more.dataset.template || "", count);
+    }
+  }
+  function rollingDayHeader(dateKey, settings, messages, todayKey) {
+    const dayName = dateKey === todayKey ? messages.today : formatCivilDate(dateKey, settings.locale, { weekday: settings.fullWeekdayNames ? "long" : "short" });
+    return `<span class="pp-cal-column-weekday">${escapeHtml(dayName)}</span><time class="pp-cal-rolling-number" datetime="${dateKey}">${escapeHtml(formatCivilDate(dateKey, settings.locale, { day: "numeric" }))}</time>`;
+  }
+  function renderRollingWeek(range, events, settings, messages, aliases, todayKey) {
+    return `<div class="pp-cal-rolling-grid-wide">${renderWeek(range, events, settings, messages, aliases, todayKey)}</div>
+    <div class="pp-cal-rolling-grid-stacked">${[range.dateKeys.slice(0, 4), range.dateKeys.slice(4)].map((dateKeys) => renderWeek({ ...range, dateKeys }, events, settings, messages, aliases, todayKey)).join("")}</div>`;
+  }
+  function renderRollingList(range, events, settings, messages, aliases, todayKey) {
+    const grouped = eventsByDate(events);
+    return `<div class="pp-cal-rolling-list">${range.dateKeys.map((dateKey) => {
+      const items = grouped.get(dateKey) || [];
+      const visible = items.slice(0, settings.maxEvents);
+      return `<section class="pp-cal-rolling-day${dateKey === todayKey && settings.highlightToday ? " is-today" : ""}" data-date="${dateKey}">
+      <header class="pp-cal-rolling-heading">${rollingDayHeader(dateKey, settings, messages, todayKey)}</header>
+      <div class="pp-cal-rolling-events">${visible.length ? visible.map((item) => renderEventCard(item, settings, messages, aliases, true, true)).join("") : `<p class="pp-cal-empty">${escapeHtml(messages.empty)}</p>`}${modernMore(messages, items.length - visible.length)}</div></section>`;
+    }).join("")}</div>`;
   }
   function renderYear(range, events, settings, todayKey) {
     const grouped = eventsByDate(events);
@@ -1608,6 +2443,32 @@ var PaperlessOpenIntegration = (() => {
     }
     return `<header class="pp-cal-header"><div class="pp-cal-header-main">${hasText2(header.kicker) ? `<p class="pp-cal-kicker">${escapeHtml(header.kicker)}</p>` : ""}${hasText2(header.title) ? `<h1 class="pp-cal-title">${escapeHtml(header.title)}</h1>` : ""}${hasText2(header.subtitle) ? `<p class="pp-cal-subtitle">${escapeHtml(header.subtitle)}</p>` : ""}</div>${hasText2(header.source) ? `<p class="pp-cal-source">${escapeHtml(header.source)}</p>` : ""}</header>`;
   }
+  function renderDaySummary(events, settings, messages, todayKey, now) {
+    if (!settings.showDaySummary) return "";
+    const today = events.filter((item) => item.dateKey === todayKey && (settings.view !== "day-timeline" || item.event.kind !== "task"));
+    const allDay = today.filter((item) => hasText2(item.event.start.date)).length;
+    const remaining = today.filter((item) => {
+      if (!item.startDate || hasText2(item.event.start.date)) return false;
+      const end = new Date(text(item.event.end?.dateTime));
+      return Math.max(item.startDate.getTime(), Number.isNaN(end.getTime()) ? 0 : end.getTime()) > now.getTime() || item.startDate.getTime() === now.getTime();
+    });
+    const count = remaining.length;
+    const parts = [count ? count === 1 ? messages.remainingOne : messages.remainingMany.replace("{count}", String(count)) : messages.noMoreToday];
+    if (allDay) parts.push(messages.allDayCount.replace("{count}", String(allDay)));
+    const next = remaining[0];
+    let detail = "";
+    if (next) {
+      const ongoing = next.startDate.getTime() <= now.getTime();
+      detail = `${ongoing ? messages.ongoing : messages.nextEvent} \xB7 ${formatTime(next.event.start, settings.locale, settings.timeZone)} \xB7 ${text(next.event.title) || messages.untitled}`;
+    }
+    const ends = remaining.map((item) => new Date(text(item.event.end?.dateTime)));
+    if (count && !allDay && ends.every((end, i) => !Number.isNaN(end.getTime()) && end > remaining[i].startDate && dateKeyFromDate(end, settings.timeZone) === todayKey)) {
+      const last = new Date(Math.max(...ends.map((end) => end.getTime())));
+      parts.push(messages.freeAfter.replace("{time}", formatTime({ dateTime: last.toISOString() }, settings.locale, settings.timeZone)));
+    }
+    const stamp = messages.asOf.replace("{time}", formatTime({ dateTime: now.toISOString() }, settings.locale, settings.timeZone));
+    return `<aside class="pp-cal-day-summary"><div class="pp-cal-summary-heading"><strong>${escapeHtml(messages.dayAtGlance)}</strong><span>${escapeHtml(stamp)}</span></div><p class="pp-cal-summary-count">${escapeHtml(parts.join(" \xB7 "))}</p>${detail ? `<p class="pp-cal-summary-next">${escapeHtml(detail)}</p>` : ""}</aside>`;
+  }
   function renderTodayBanner(settings, messages, todayKey) {
     if (!settings.highlightToday) {
       return "";
@@ -1622,29 +2483,115 @@ var PaperlessOpenIntegration = (() => {
       weekday
     )}</span><time datetime="${escapeHtml(todayKey)}">${escapeHtml(date)}</time></section>`;
   }
+  var calendarEpdOverrides = /* @__PURE__ */ new WeakMap();
+  function preserveCalendarPigments(enabled) {
+    let meta = document.querySelector('meta[name="paperless:epd-optimize"]');
+    let previous = calendarEpdOverrides.get(document);
+    if (previous && previous.meta !== meta) {
+      calendarEpdOverrides.delete(document);
+      previous = void 0;
+    }
+    if (!enabled) {
+      if (previous) {
+        if (previous.original === null) previous.meta.remove();
+        else previous.meta.content = previous.original;
+        calendarEpdOverrides.delete(document);
+      }
+      return;
+    }
+    const original = previous ? previous.original : meta?.getAttribute("content") ?? null;
+    let settings = {};
+    try {
+      const parsed = JSON.parse(original || "{}");
+      if (parsed && typeof parsed === "object" && !Array.isArray(parsed)) settings = parsed;
+    } catch {
+    }
+    if (settings.enabled === false) return;
+    if (!meta) {
+      meta = document.createElement("meta");
+      meta.name = "paperless:epd-optimize";
+      document.head.append(meta);
+    }
+    if (!previous) calendarEpdOverrides.set(document, { meta, original });
+    meta.content = JSON.stringify({
+      ...settings,
+      intent: settings.intent || "readable",
+      palette: "spectra6OriginalPalette",
+      canvasDitherOptions: {
+        ...settings.canvasDitherOptions && typeof settings.canvasDitherOptions === "object" ? settings.canvasDitherOptions : {},
+        ditheringType: "errorDiffusion"
+      }
+    });
+  }
   function renderCalendarLayout(options) {
     const target = resolveTarget2(options.target);
     const settings = normalizeCalendarSettings(options.settings);
     const messages = { ...DEFAULT_CALENDAR_MESSAGES, ...options.messages };
     const now = normalizeNow(options.now);
     const range = buildCalendarRange(settings, now);
-    const events = prepareCalendarEvents(options.events || [], settings, now);
+    const events = prepareCalendarEvents((options.events || []).map((event) => decorateCalendarEvent(event, settings)), settings, now);
     const todayKey = dateKeyFromDate(now, settings.timeZone);
     const aliases = options.iconAliases || {};
     target.classList.add("pp-screen", "pp-cal-screen");
     target.classList.remove(...VIEW_CLASSES);
     target.classList.add(`pp-cal--view-${settings.view}`);
+    target.dataset.informationDensity = settings.informationDensity;
+    target.dataset.calendarFontScale = String(settings.fontSize / 100);
+    target.style.setProperty("--pp-cal-font-scale", String(settings.fontSize / 100));
+    target.classList.toggle("pp-cal--personal-header", Boolean(settings.showHeader && (settings.personalTitle || settings.personalSubtitle)));
+    target.classList.toggle("pp-cal--no-padding", settings.noPadding);
+    target.classList.toggle("pp-cal--full-weekdays", settings.fullWeekdayNames);
     if (options.className) {
       target.classList.add(...options.className.split(/\s+/).filter(Boolean));
     }
-    const content = settings.view === "year" ? renderYear(range, events, settings, todayKey) : settings.view === "week" ? renderWeek(range, events, settings, messages, aliases, todayKey) : settings.view === "day" || settings.view === "three-days" ? renderDayColumns(range, events, settings, messages, aliases, todayKey) : renderAgenda(events, settings, messages, aliases, todayKey);
-    target.innerHTML = `<section class="pp-cal-shell">${renderHeader(options.header)}${renderTodayBanner(
+    const modern = settings.view === "agenda-modern" || settings.view === "today-next";
+    target.classList.toggle("pp-cal--modern", modern);
+    const rolling = settings.view === "rolling-week" || settings.view === "rolling-week-list";
+    target.classList.toggle("pp-cal--rolling", rolling);
+    let content;
+    switch (settings.view) {
+      case "day-timeline":
+        content = renderDayTimeline(events, settings, messages, aliases, todayKey, now);
+        break;
+      case "rolling-week":
+        content = renderRollingWeek(range, events, settings, messages, aliases, todayKey);
+        break;
+      case "rolling-week-list":
+        content = renderRollingList(range, events, settings, messages, aliases, todayKey);
+        break;
+      case "today-next":
+        content = renderTodayNext(events, settings, messages, aliases, todayKey, now);
+        break;
+      case "agenda-modern":
+        content = renderModernAgenda(events, settings, messages, aliases, todayKey);
+        break;
+      case "year":
+        content = renderYear(range, events, settings, todayKey);
+        break;
+      case "week":
+        content = renderWeek(range, events, settings, messages, aliases, todayKey);
+        break;
+      case "day":
+      case "three-days":
+        content = renderDayColumns(range, events, settings, messages, aliases, todayKey);
+        break;
+      default:
+        content = renderAgenda(events, settings, messages, aliases, todayKey);
+    }
+    const week = settings.view === "week";
+    const header = settings.showHeader ? {
+      ...options.header,
+      ...settings.personalTitle ? { title: settings.personalTitle, kicker: "" } : {},
+      ...settings.personalSubtitle ? { subtitle: settings.personalSubtitle } : {}
+    } : void 0;
+    target.innerHTML = `<section class="pp-cal-shell">${renderHeader(header)}${renderDaySummary(events, settings, messages, todayKey, now)}${week || modern || rolling || settings.view === "day-timeline" ? "" : renderTodayBanner(
       settings,
       messages,
       todayKey
-    )}<section class="pp-cal-body"><h1 class="pp-cal-range-title">${escapeHtml(
+    )}<section class="pp-cal-body">${week || settings.view === "today-next" || settings.view === "day-timeline" ? "" : `<h1 class="pp-cal-range-title">${escapeHtml(
       formatRangeTitle(range, settings)
-    )}</h1><div class="pp-cal-content pp-fit">${content}</div></section></section>`;
+    )}</h1>`}<div class="pp-cal-content pp-fit">${content}</div></section></section>`;
+    preserveCalendarPigments((week || modern || rolling || settings.view === "day-timeline") && Boolean(target.querySelector(".has-source-color")));
     const shell = target.querySelector(".pp-cal-shell");
     const body = target.querySelector(".pp-cal-content");
     if (!shell || !body) {
@@ -1652,18 +2599,231 @@ var PaperlessOpenIntegration = (() => {
     }
     return { target, shell, body, settings, events, range };
   }
+  function fitWeekGrid(target) {
+    for (const grid of target.querySelectorAll(".pp-cal-week-grid")) {
+      if (grid.clientHeight <= 0) continue;
+      const fontScale = parseFloat(target.style.getPropertyValue("--pp-cal-font-scale")) || 1;
+      const rolling = target.classList.contains("pp-cal--view-rolling-week");
+      const minimumHeight = (rolling ? Math.min(52, Math.max(32, window.innerWidth * 0.033)) : Math.min(24, Math.max(16, window.innerWidth * 0.024))) * fontScale;
+      for (const column of grid.querySelectorAll(".pp-cal-week-cell")) {
+        const nodes = Array.from(column.querySelectorAll(".pp-cal-week-slot"));
+        const positioned = nodes.map((node) => {
+          var _a, _b;
+          (_a = node.dataset).top ?? (_a.top = node.style.top);
+          (_b = node.dataset).height ?? (_b.height = node.style.height);
+          const height = Math.min(grid.clientHeight, Math.max(
+            minimumHeight,
+            parseFloat(node.dataset.height) / 100 * grid.clientHeight
+          ));
+          const start = Math.min(
+            grid.clientHeight - height,
+            parseFloat(node.dataset.top) / 100 * grid.clientHeight
+          );
+          return { item: node, start, end: start + height, lane: 0, lanes: 1 };
+        });
+        const slots = positionWeekSlots(positioned);
+        for (const slot of slots) {
+          const node = slot.item;
+          node.style.top = `${slot.start / grid.clientHeight * 100}%`;
+          node.style.height = `${(slot.end - slot.start) / grid.clientHeight * 100}%`;
+          node.style.left = `${slot.lane / slot.lanes * 100}%`;
+          node.style.width = `${100 / slot.lanes}%`;
+          node.classList.toggle("is-compact", slot.end - slot.start < (rolling ? 28 : 36) * fontScale);
+          node.classList.remove("hide-time");
+          const card = node.querySelector(".pp-cal-event");
+          const content = node.querySelector(".pp-cal-event-content");
+          const time = node.querySelector(".pp-cal-event-time");
+          const style = getComputedStyle(card);
+          const requiredHeight = content.scrollHeight + time.offsetHeight + parseFloat(style.paddingTop || "0") + parseFloat(style.paddingBottom || "0") + (parseFloat(style.gap) || 0) + 3;
+          node.classList.toggle("hide-time", requiredHeight > card.clientHeight);
+        }
+      }
+    }
+  }
+  function fitModernCalendar(target) {
+    const scale = parseFloat(target.style.getPropertyValue("--pp-cal-font-scale")) || 1;
+    const body = target.querySelector(".pp-cal-content");
+    if (!body) return;
+    const base = Math.min(30, Math.max(22, window.innerWidth * 0.028)) * scale;
+    body.style.fontSize = `${base}px`;
+    if (target.dataset.informationDensity === "automatic") {
+      target.querySelectorAll(".pp-cal-event, .pp-cal-modern-group, .pp-cal-featured").forEach((node) => {
+        node.hidden = false;
+      });
+      target.querySelectorAll(".pp-cal-modern-more").forEach((node) => {
+        node.hidden = !Number(node.dataset.baseCount || 0);
+      });
+      for (const list2 of target.querySelectorAll("[data-modern-list]")) {
+        fitText(list2, { min: base * 0.88, max: base * 1.12, step: 0.5, tolerance: 1 });
+      }
+    } else {
+      target.querySelectorAll("[data-modern-list]").forEach((node) => {
+        node.style.fontSize = "";
+      });
+    }
+    for (const list2 of target.querySelectorAll("[data-modern-list]")) {
+      const cards = Array.from(list2.querySelectorAll(".pp-cal-event"));
+      const groups = Array.from(list2.querySelectorAll(".pp-cal-modern-group"));
+      const counter = list2.querySelector(".pp-cal-modern-more");
+      cards.forEach((card) => {
+        card.hidden = false;
+      });
+      groups.forEach((group) => {
+        group.hidden = false;
+      });
+      let hidden = Number(counter.dataset.baseCount || 0);
+      const update = () => {
+        counter.hidden = hidden === 0;
+        counter.textContent = moreEventsLabel(counter.dataset.template || "", hidden);
+        groups.forEach((group) => {
+          group.hidden = !group.querySelector(".pp-cal-event:not([hidden])");
+        });
+      };
+      update();
+      while (list2.scrollHeight > list2.clientHeight + 1 || list2.scrollWidth > list2.clientWidth + 1) {
+        const card = [...cards].reverse().find((card2) => !card2.hidden && !card2.closest(".pp-cal-featured")) || [...cards].reverse().find((card2) => !card2.hidden);
+        if (!card) break;
+        card.hidden = true;
+        const featured = card.closest(".pp-cal-featured");
+        if (featured) featured.hidden = true;
+        hidden += 1;
+        update();
+      }
+    }
+  }
+  function fitRollingList(target) {
+    for (const list2 of target.querySelectorAll(".pp-cal-rolling-events")) {
+      const cards = Array.from(list2.querySelectorAll(".pp-cal-event"));
+      const counter = list2.querySelector(".pp-cal-modern-more");
+      cards.forEach((card) => {
+        card.hidden = false;
+      });
+      counter.hidden = !Number(counter.dataset.baseCount || 0);
+      list2.style.fontSize = "";
+      if (target.dataset.informationDensity === "automatic") {
+        const base = parseFloat(getComputedStyle(list2).fontSize);
+        fitText(list2, { min: base * 0.88, max: base * 1.12, step: 0.5, tolerance: 1 });
+      }
+      let hidden = Number(counter.dataset.baseCount || 0);
+      const update = () => {
+        counter.hidden = hidden === 0;
+        counter.textContent = moreEventsLabel(counter.dataset.template || "", hidden);
+      };
+      update();
+      while (list2.scrollHeight > list2.clientHeight + 1 || list2.scrollWidth > list2.clientWidth + 1) {
+        const card = [...cards].reverse().find((card2) => !card2.hidden);
+        if (!card) break;
+        card.hidden = true;
+        hidden += 1;
+        update();
+      }
+    }
+  }
+  var weekResizeObservers = /* @__PURE__ */ new WeakMap();
   function fitCalendarLayout(layoutOrTarget, options = {}) {
     const target = typeof layoutOrTarget === "string" || layoutOrTarget instanceof HTMLElement ? resolveTarget2(layoutOrTarget) : layoutOrTarget.target;
+    const density = target.dataset.informationDensity || "comfortable";
+    const factor = density === "compact" ? 0.88 : density === "spacious" ? 1.12 : 1;
+    target.style.setProperty("--pp-cal-font-scale", String((Number(target.dataset.calendarFontScale) || 1) * factor));
     const body = target.querySelector(".pp-cal-content");
+    for (const node of target.querySelectorAll(".pp-cal-title, .pp-cal-subtitle")) {
+      node.style.fontSize = "";
+      const max = parseFloat(getComputedStyle(node).fontSize);
+      fitText(node, { min: max * 0.7, max, step: 0.5, tolerance: 1 });
+    }
     const view = VIEW_CLASSES.find((className) => target.classList.contains(className));
-    const defaults = view === "pp-cal--view-year" ? { min: 5, max: 12 } : view === "pp-cal--view-week" ? { min: 7, max: 14 } : { min: 9, max: 17 };
-    if (body) {
-      fitText(body, {
-        min: options.min ?? defaults.min,
-        max: options.max ?? defaults.max,
-        step: options.step ?? 0.5,
-        tolerance: options.tolerance ?? 8
+    const defaults = view === "pp-cal--view-year" ? { min: 5, max: 12 } : { min: 9, max: 17 };
+    weekResizeObservers.get(target)?.disconnect();
+    weekResizeObservers.delete(target);
+    if (view === "pp-cal--view-day-timeline") {
+      fitDayTimeline(target);
+      if (typeof ResizeObserver !== "undefined") {
+        const observer = new ResizeObserver(() => fitDayTimeline(target));
+        observer.observe(target);
+        weekResizeObservers.set(target, observer);
+      }
+      return;
+    }
+    if (target.classList.contains("pp-cal--modern")) {
+      target.querySelectorAll(".pp-cal-featured").forEach((node) => {
+        node.hidden = false;
       });
+      fitModernCalendar(target);
+      if (typeof ResizeObserver !== "undefined") {
+        const observer = new ResizeObserver(() => {
+          target.querySelectorAll(".pp-cal-featured").forEach((node) => {
+            node.hidden = false;
+          });
+          fitModernCalendar(target);
+        });
+        observer.observe(target);
+        weekResizeObservers.set(target, observer);
+      }
+      return;
+    }
+    if (view === "pp-cal--view-rolling-week-list") {
+      fitRollingList(target);
+      if (typeof ResizeObserver !== "undefined") {
+        const observer = new ResizeObserver(() => fitRollingList(target));
+        observer.observe(target);
+        weekResizeObservers.set(target, observer);
+      }
+      return;
+    }
+    if (view === "pp-cal--view-week" || view === "pp-cal--view-rolling-week") {
+      fitWeekGrid(target);
+      const grids = target.querySelectorAll(".pp-cal-week-grid");
+      if (grids.length && typeof ResizeObserver !== "undefined") {
+        const observer = new ResizeObserver(() => fitWeekGrid(target));
+        grids.forEach((grid) => observer.observe(grid));
+        weekResizeObservers.set(target, observer);
+      }
+      return;
+    }
+    const fontScale = parseFloat(target.style.getPropertyValue("--pp-cal-font-scale")) || 1;
+    if (body) {
+      const fit = () => {
+        const cards = Array.from(body.querySelectorAll(".pp-cal-event"));
+        const groups = Array.from(body.querySelectorAll(".pp-cal-day-group"));
+        const counters = Array.from(body.querySelectorAll("[data-classic-more]"));
+        const counts = new Map(counters.map((node) => [node, Number(node.dataset.baseCount || 0)]));
+        cards.forEach((node) => {
+          node.hidden = false;
+        });
+        groups.forEach((node) => {
+          node.hidden = false;
+        });
+        const update = () => {
+          for (const [node, count] of counts) {
+            node.hidden = count === 0;
+            node.textContent = moreEventsLabel(node.dataset.template || "", count);
+          }
+          groups.forEach((group) => {
+            group.hidden = !group.querySelector(".pp-cal-event:not([hidden])");
+          });
+        };
+        update();
+        fitText(body, {
+          min: (options.min ?? (density === "automatic" && view !== "pp-cal--view-year" ? 14 : defaults.min)) * fontScale,
+          max: (options.max ?? defaults.max) * fontScale * (density === "automatic" ? 1.12 : 1),
+          step: options.step ?? 0.5,
+          tolerance: options.tolerance ?? 2
+        });
+        while (counters.length && (body.scrollHeight > body.clientHeight + 1 || body.scrollWidth > body.clientWidth + 1)) {
+          const card = cards.filter((node) => !node.hidden).sort((a, b) => b.getBoundingClientRect().bottom - a.getBoundingClientRect().bottom)[0];
+          if (!card) break;
+          const counter = card.closest(".pp-cal-column")?.querySelector("[data-classic-more]") ?? counters[0];
+          card.hidden = true;
+          counts.set(counter, (counts.get(counter) || 0) + 1);
+          update();
+        }
+      };
+      fit();
+      if (typeof ResizeObserver !== "undefined") {
+        const observer = new ResizeObserver(fit);
+        observer.observe(target);
+        weekResizeObservers.set(target, observer);
+      }
     }
     if (options.fitScreen !== false) {
       fitToScreen(target, { padding: options.screenPadding ?? 0 });
@@ -1715,7 +2875,7 @@ var PaperlessOpenIntegration = (() => {
   }
   function calendarMessages(messages) {
     const result = {};
-    for (const key of ["allDay", "empty", "moreEvents", "today", "untitled"]) {
+    for (const key of ["allDay", "empty", "moreEvents", "today", "tomorrow", "nextEvent", "ongoing", "later", "untitled", "dayAtGlance", "remainingOne", "remainingMany", "allDayCount", "noMoreToday", "freeAfter", "asOf", "timelineDue", "timelineGap", "timelineRemaining", "timelineFinished"]) {
       const value = stringValue(messages[key]);
       if (value) {
         result[key] = value;
@@ -1821,7 +2981,10 @@ var PaperlessOpenIntegration = (() => {
           ...requestContext,
           data
         };
-        const events = options.mapEvents?.(context) ?? responseEvents(data);
+        const events = (options.mapEvents?.(context) ?? responseEvents(data)).map((event) => ({
+          ...event,
+          calendarColor: stringValue(data.calendarColor) || event.calendarColor
+        }));
         const header = options.resolveHeader ? options.resolveHeader(context) : defaultHeader(context, fallbackTitle);
         const layout = renderCalendarLayout({
           target: options.target ?? "#app",
@@ -1934,5 +3097,319 @@ var PaperlessOpenIntegration = (() => {
       warnings
     };
   }
+
+  // src/layout.ts
+  var tags = /* @__PURE__ */ new Set([
+    "DIV",
+    "SECTION",
+    "MAIN",
+    "HEADER",
+    "FOOTER",
+    "ASIDE",
+    "ARTICLE",
+    "P",
+    "SPAN",
+    "H1",
+    "H2",
+    "H3",
+    "H4",
+    "STRONG",
+    "EM",
+    "SMALL",
+    "BR",
+    "HR",
+    "UL",
+    "OL",
+    "LI",
+    "STYLE",
+    "PAPERLESS-SLOT"
+  ]);
+  function safeCss(css) {
+    if (css.length > 32e3 || /url\s*\(|@import|@font-face|image-set\s*\(|expression\s*\(|\\|\/\*/i.test(
+      css
+    ))
+      throw new Error(
+        "Layout CSS must not load external resources or use escapes/comments."
+      );
+    return css;
+  }
+  function sanitizeLayoutHtml(html) {
+    if (html.length > 32e3) throw new Error("Layout HTML is too large.");
+    const doc = new DOMParser().parseFromString(html, "text/html");
+    for (const element of [...doc.querySelectorAll("*")]) {
+      if (["HTML", "HEAD", "BODY"].includes(element.tagName)) continue;
+      if (!tags.has(element.tagName))
+        throw new Error(
+          `Layout HTML does not support <${element.tagName.toLowerCase()}>.`
+        );
+      for (const attribute of [...element.attributes]) {
+        if (!["class", "id", "name", "style", "aria-label"].includes(attribute.name))
+          throw new Error(`Layout HTML does not support ${attribute.name}.`);
+        if (attribute.name === "style") safeCss(attribute.value);
+      }
+      if (element.tagName === "STYLE") safeCss(element.textContent || "");
+    }
+    return doc.head.innerHTML + doc.body.innerHTML;
+  }
+  function validateLayoutRects(rects, width, height) {
+    if (rects.length < 2 || rects.length > 4)
+      throw new Error("A layout needs two to four slots.");
+    rects.forEach((rect, index) => {
+      if (![rect.x, rect.y, rect.width, rect.height].every(Number.isInteger) || rect.width < 16 || rect.height < 16 || rect.x < 0 || rect.y < 0 || rect.x + rect.width > width || rect.y + rect.height > height)
+        throw new Error(
+          "Every slot must fit inside the display and be at least 16 \xD7 16 pixels."
+        );
+      for (const other of rects.slice(0, index)) {
+        if (rect.x < other.x + other.width && rect.x + rect.width > other.x && rect.y < other.y + other.height && rect.y + rect.height > other.y)
+          throw new Error("Layout slots must not overlap.");
+      }
+    });
+  }
+  function processingSettings(profile, inherited) {
+    if (profile === "photo")
+      return JSON.stringify({
+        intent: "natural",
+        options: { ditheringType: "errorDiffusion" }
+      });
+    if (profile === "readable") return JSON.stringify({ intent: "readable" });
+    if (profile === "quantization")
+      return JSON.stringify({
+        intent: "readable",
+        options: { ditheringType: "quantizationOnly" }
+      });
+    return inherited || JSON.stringify({ intent: "readable" });
+  }
+  async function renderLayout(target, config, signal) {
+    if (!config || !Array.isArray(config.regions) || config.regions.length < 2 || config.regions.length > 4 || !config.renderId)
+      throw new Error("Select two to four contents for this layout.");
+    const ids = config.regions.map((region) => region.id);
+    if (new Set(ids).size !== ids.length || ids.some((id) => !/^[a-z][a-z0-9-]{0,31}$/.test(id)))
+      throw new Error(
+        "Slot names must be unique and use letters, numbers or hyphens."
+      );
+    const shadow = target.shadowRoot || target.attachShadow({ mode: "open" });
+    const gap = Math.max(0, Math.min(64, Number(config.gap) || 0));
+    const ratio = Math.max(0.25, Math.min(4, Number(config.ratio) || 1));
+    const columns = config.layout === "rows" ? "1fr" : config.layout === "grid" ? "1fr 1fr" : `${ratio}fr ${config.regions.slice(1).map(() => "1fr").join(" ")}`;
+    const rows = config.layout === "rows" ? `${ratio}fr ${config.regions.slice(1).map(() => "1fr").join(" ")}` : config.layout === "grid" && config.regions.length > 2 ? "1fr 1fr" : "1fr";
+    shadow.innerHTML = `<style>
+    :host { display:block; width:100%; height:100%; }
+    * { box-sizing:border-box; animation:none!important; transition:none!important; }
+    .paperless-layout { display:grid; width:100%; height:100%; grid-template-columns:${columns}; grid-template-rows:${rows}; gap:${gap}px; }
+    paperless-slot { display:block; min-width:0; min-height:0; overflow:hidden; }
+    paperless-slot > iframe, paperless-slot > img { display:block; border:0; width:100%; height:100%; }
+  </style>` + (config.layout === "custom" ? sanitizeLayoutHtml(config.html || "") : `<div class="paperless-layout">${ids.map((id) => `<paperless-slot name="${id}"></paperless-slot>`).join("")}</div>`);
+    if (config.layout === "custom") {
+      const customStyle = document.createElement("style");
+      customStyle.textContent = safeCss(config.css || "");
+      shadow.append(customStyle);
+    }
+    const slots = [...shadow.querySelectorAll("paperless-slot")];
+    if (slots.length !== ids.length || slots.some((slot) => !ids.includes(slot.getAttribute("name") || "")) || new Set(slots.map((slot) => slot.getAttribute("name"))).size !== ids.length)
+      throw new Error(
+        "Custom HTML must contain exactly one paperless-slot for each configured slot name."
+      );
+    const inherited = /* @__PURE__ */ new Map();
+    const timeout = setTimeout(
+      () => cancel(
+        new Error("Layout contents did not finish loading within 12 seconds.")
+      ),
+      12e3
+    );
+    let rejectWait = () => {
+    };
+    const canceled = new Promise((_, reject) => {
+      rejectWait = reject;
+    });
+    function cancel(error) {
+      rejectWait(error);
+    }
+    const abort = () => cancel(new DOMException("Layout replaced", "AbortError"));
+    signal.addEventListener("abort", abort, { once: true });
+    const cleanups = [];
+    try {
+      if (signal.aborted) throw new DOMException("Layout replaced", "AbortError");
+      const tasks = config.regions.map(async (region) => {
+        const slot = slots.find(
+          (slot2) => slot2.getAttribute("name") === region.id
+        );
+        const url = new URL(region.url, location.href);
+        if (!["https:", "http:"].includes(url.protocol) || url.username || url.password)
+          throw new Error("Invalid content URL.");
+        if (region.type === "image") {
+          const img = document.createElement("img");
+          img.alt = "";
+          img.style.objectFit = region.fit === "contain" ? "contain" : "cover";
+          img.style.objectPosition = `${Math.max(
+            0,
+            Math.min(100, region.focalX ?? 50)
+          )}% ${Math.max(0, Math.min(100, region.focalY ?? 50))}%`;
+          img.src = url.href;
+          slot.replaceChildren(img);
+          await img.decode();
+          if (!img.naturalWidth)
+            throw new Error(`Image in ${region.id} could not be loaded.`);
+          inherited.set(region.id, JSON.stringify({ intent: "natural" }));
+          return;
+        }
+        await new Promise((resolve, reject) => {
+          const frame = document.createElement("iframe");
+          frame.title = region.id;
+          frame.referrerPolicy = "no-referrer";
+          frame.setAttribute("sandbox", "allow-scripts allow-same-origin");
+          frame.name = "paperless-slot:" + JSON.stringify({
+            renderId: config.renderId,
+            regionId: region.id,
+            parentOrigin: location.origin
+          });
+          let initialized = false;
+          let finished = false;
+          const onMessage = (event) => {
+            if (event.source !== frame.contentWindow || event.origin !== url.origin)
+              return;
+            const message = event.data;
+            if (!message || message.renderId !== config.renderId || message.regionId !== region.id)
+              return;
+            if (message.type === "PAPERLESS_RENDER_HELLO" && !initialized) {
+              initialized = true;
+              frame.contentWindow.postMessage(
+                {
+                  type: "INIT",
+                  cmd: "message",
+                  renderId: config.renderId,
+                  regionId: region.id,
+                  data: region.payload || {}
+                },
+                url.origin
+              );
+            }
+            if (message.type === "PAPERLESS_RENDER_STATUS" && initialized && !finished) {
+              if (message.status === "error") {
+                finished = true;
+                reject(new Error(`Content ${region.id} could not be rendered.`));
+              }
+              if (message.status === "ready") {
+                finished = true;
+                inherited.set(
+                  region.id,
+                  typeof message.processing === "string" ? message.processing : null
+                );
+                resolve();
+              }
+            }
+          };
+          window.addEventListener("message", onMessage);
+          cleanups.push(() => window.removeEventListener("message", onMessage));
+          frame.src = url.href;
+          slot.replaceChildren(frame);
+        });
+      });
+      await Promise.race([Promise.all(tasks), canceled]);
+      await document.fonts?.ready;
+      await new Promise(
+        (resolve) => requestAnimationFrame(() => requestAnimationFrame(() => resolve()))
+      );
+      if (signal.aborted) throw new DOMException("Layout replaced", "AbortError");
+      const rects = config.regions.map((region) => {
+        const slot = slots.find(
+          (slot2) => slot2.getAttribute("name") === region.id
+        );
+        for (let element = slot; element; element = element.parentElement || (element.getRootNode() === shadow ? target : null)) {
+          const style = getComputedStyle(element);
+          if (style.transform !== "none" || style.clipPath !== "none" || style.maskImage && style.maskImage !== "none" || style.filter !== "none" || style.mixBlendMode !== "normal" || Number(style.opacity) !== 1 || [
+            style.borderTopLeftRadius,
+            style.borderTopRightRadius,
+            style.borderBottomLeftRadius,
+            style.borderBottomRightRadius
+          ].some((value) => parseFloat(value) !== 0))
+            throw new Error(
+              "Slots require rectangular, opaque areas without transforms or clipping."
+            );
+        }
+        const bounds = slot.getBoundingClientRect();
+        const x = Math.round(bounds.left), y = Math.round(bounds.top);
+        return {
+          id: region.id,
+          x,
+          y,
+          width: Math.round(bounds.right) - x,
+          height: Math.round(bounds.bottom) - y,
+          processing: processingSettings(
+            (!region.processing || region.processing === "inherit") && region.type === "image" ? "photo" : region.processing,
+            inherited.get(region.id)
+          )
+        };
+      });
+      validateLayoutRects(rects, innerWidth, innerHeight);
+      let meta = document.querySelector(
+        'meta[name="paperless:regions"]'
+      );
+      if (!meta) {
+        meta = document.createElement("meta");
+        meta.name = "paperless:regions";
+        document.head.append(meta);
+      }
+      meta.content = JSON.stringify(rects);
+    } finally {
+      clearTimeout(timeout);
+      signal.removeEventListener("abort", abort);
+      cleanups.forEach((cleanup) => cleanup());
+    }
+  }
+  async function bootLayoutIntegration(target) {
+    let active;
+    let hostOrigin;
+    window.addEventListener("message", (event) => {
+      if (event.source === window.parent && event.data?.type === "INIT" && event.data?.data?.layout)
+        hostOrigin = event.origin;
+    });
+    const notifyHost = (payload, status, error) => {
+      if (hostOrigin && window.parent !== window)
+        window.parent.postMessage(
+          {
+            type: "PAPERLESS_LAYOUT_STATUS",
+            renderId: payload.layout?.renderId,
+            status,
+            error
+          },
+          hostOrigin
+        );
+    };
+    const render = async (payload) => {
+      active?.abort();
+      const controller = new AbortController();
+      active = controller;
+      markLoading();
+      document.querySelector('meta[name="paperless:regions"]')?.remove();
+      try {
+        const config = payload.layout;
+        applyColorTheme(config?.color || "blue-light");
+        await renderLayout(target, config, controller.signal);
+        if (!controller.signal.aborted) {
+          markReady();
+          notifyHost(payload, "ready");
+        }
+      } catch (error) {
+        if (!controller.signal.aborted) {
+          markError(error);
+          notifyHost(
+            payload,
+            "error",
+            error instanceof Error ? error.message : "Layout failed"
+          );
+        }
+      }
+    };
+    await render(
+      await waitForPayload({
+        timeoutMs: -1,
+        onUpdate: render,
+        source: window.parent
+      })
+    );
+  }
+
+  // src/browser.ts
+  if (typeof window !== "undefined") installEmbeddedRenderBridge();
   return __toCommonJS(browser_exports);
 })();
