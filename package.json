@@ -15,7 +15,7 @@
   },
   "dependencies": {
     "@fontsource/open-sans": "5.2.7",
-    "@paperlesspaper/openintegration": "file:vendor/openintegration",
+    "@paperlesspaper/openintegration": "0.2.0",
     "express": "^4.19.2",
     "fast-xml-parser": "^5.11.1",
     "suncalc": "^2.0.2"

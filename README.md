@@ -205,7 +205,7 @@ Open Integrations should render within `100vw` by `100vh`, avoid browser-only ch
 
 ## OpenIntegration CLI
 
-This repo installs `@paperlesspaper/openintegration` from `vendor/openintegration`, so after `npm install` the CLI can be run with `npx paperlesspaper-openintegration`.
+This repo installs an exact version of `@paperlesspaper/openintegration` from npm, so after `npm install` the CLI can be run with `npx paperlesspaper-openintegration`.
 
 Create a starter integration:
 

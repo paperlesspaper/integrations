@@ -43,8 +43,8 @@ This repository depends on the sibling source repository:
 - `/Users/utzel/htdocs/paperlesspaper-openintegration`
 
 Treat that sibling as the canonical source for `@paperlesspaper/openintegration`.
-The copy under `vendor/openintegration` in this repository is a built snapshot used
-by `package.json`, Docker builds, and deployments; it is not the canonical source.
+This repository consumes an exact npm release of `@paperlesspaper/openintegration`.
+The installed package is a build artifact, not the canonical source.
 
 Before creating a new integration, read
 `/Users/utzel/htdocs/paperlesspaper-openintegration/README.md` and use it as the
@@ -60,19 +60,18 @@ manifest-validation, or rendering behavior:
 1. Inspect the sibling source repository before working around the behavior in an
    individual integration.
 2. Make shared-library changes in the sibling repository's `src/` files, not in
-   its generated `dist/` directory and not directly in this repository's vendored
-   `dist/` files.
+   its generated `dist/` directory or in the installed package under
+   `node_modules/`.
 3. In the sibling repository, run `npm run build`, `npm test`, and
    `npm run typecheck`.
-4. Sync the sibling's `package.json`, `README.md`, and built `dist/` directory into
-   `vendor/openintegration` here.
-5. Run `npm install` here so `node_modules/@paperlesspaper/openintegration` and the
-   generated files in `public/` are refreshed from the vendored snapshot.
+4. Pack and validate the complete SDK release, then publish it to npm when authorized.
+5. Update the exact SDK version and lockfile here. Run `npm ci` to refresh the
+   installed package and generated files in `public/`.
 6. Validate and render the affected integrations in this repository.
 
 Keep changes in the two repositories clearly separated when reviewing, staging,
 or committing. Do not assume that changing the sibling source automatically
-updates the vendored dependency consumed by this repository.
+updates the npm dependency consumed by this repository.
 
 If the sibling repository is not part of the active writable workspace, report
 that limitation and ask for it to be added as a workspace root before attempting

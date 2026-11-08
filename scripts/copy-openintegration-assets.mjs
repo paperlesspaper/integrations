@@ -1,4 +1,4 @@
-import { copyFile, mkdir, readdir, readFile, writeFile } from 'node:fs/promises';
+import { copyFile, mkdir, readdir, readFile } from 'node:fs/promises';
 import { spawn } from 'node:child_process';
 import path from 'node:path';
 
@@ -25,13 +25,6 @@ for (const [sourceName, targetName] of assets) {
   await copyFile(source, target);
   console.log(`copied ${sourceName} -> ${path.relative(process.cwd(), target)}`);
 }
-
-// The additive bundle is built from the canonical SDK layout branch. Preserve
-// the provider's existing shared exports while installing layout lifecycle support.
-const runtimePath = path.join(publicDir, 'paperless.iife.js');
-const layoutAddon = await readFile(path.join(process.cwd(), 'vendor/layout-runtime/dist/layout-addon.iife.js'), 'utf8');
-await writeFile(runtimePath, `${await readFile(runtimePath, 'utf8')}\n${layoutAddon}`);
-console.log('extended public/paperless.iife.js with the layout runtime');
 
 const publicFontsDir = path.join(publicDir, 'fonts');
 await mkdir(publicFontsDir, { recursive: true });
