@@ -1,0 +1,138 @@
+{
+  "name": "Nearby Bird Sightings",
+  "version": "0.1.0",
+  "status": "alpha",
+  "description": "Recent bird observations around your chosen location.",
+  "renderPage": "./render.html",
+  "icon": "./assets/icon.png",
+  "timezone": "Europe/Berlin",
+  "language": ["de", "en"],
+  "nativeSettings": {
+    "color": "green-light",
+    "title": "",
+    "sampleData": false,
+    "timeZone": "Europe/Berlin",
+    "locationName": "",
+    "latitude": 52.52,
+    "longitude": 13.405,
+    "apiKey": "",
+    "radiusKm": 25,
+    "days": 7
+  },
+  "formSchema": {
+    "type": "object",
+    "properties": {
+      "title": {
+        "type": "string",
+        "title": "Custom display title",
+        "default": ""
+      },
+      "sampleData": {
+        "type": "boolean",
+        "title": "Use labelled demo data",
+        "default": false
+      },
+      "timeZone": {
+        "type": "string",
+        "format": "timezone",
+        "title": "Display time zone",
+        "default": "Europe/Berlin"
+      },
+      "locationName": {
+        "type": "string",
+        "title": "Location name",
+        "default": ""
+      },
+      "latitude": {
+        "type": "number",
+        "title": "Latitude",
+        "default": 52.52,
+        "minimum": -90,
+        "maximum": 90
+      },
+      "longitude": {
+        "type": "number",
+        "title": "Longitude",
+        "default": 13.405,
+        "minimum": -180,
+        "maximum": 180
+      },
+      "apiKey": {
+        "type": "string",
+        "title": "eBird API key",
+        "default": "",
+        "format": "password"
+      },
+      "radiusKm": {
+        "type": "number",
+        "title": "Search radius (km)",
+        "default": 25,
+        "minimum": 1,
+        "maximum": 50
+      },
+      "days": {
+        "type": "number",
+        "title": "Observation lookback (days)",
+        "default": 7,
+        "minimum": 1,
+        "maximum": 30
+      }
+    }
+  },
+  "configVariants": [
+    {
+      "color": "green-light",
+      "title": "",
+      "sampleData": true,
+      "timeZone": "Europe/Berlin",
+      "locationName": "",
+      "latitude": 52.52,
+      "longitude": 13.405,
+      "apiKey": "",
+      "radiusKm": 25,
+      "days": 7,
+      "screenshots": {
+        "800x480": "./screenshots/ebird-sightings-light-800x480.png",
+        "480x800": "./screenshots/ebird-sightings-light-480x800.png",
+        "1600x1200": "./screenshots/ebird-sightings-light-1600x1200.png",
+        "1200x1600": "./screenshots/ebird-sightings-light-1200x1600.png"
+      }
+    },
+    {
+      "color": "green-dark",
+      "title": "",
+      "sampleData": true,
+      "timeZone": "Europe/Berlin",
+      "locationName": "",
+      "latitude": 52.52,
+      "longitude": 13.405,
+      "apiKey": "",
+      "radiusKm": 25,
+      "days": 7,
+      "screenshots": {
+        "800x480": "./screenshots/ebird-sightings-dark-800x480.png",
+        "480x800": "./screenshots/ebird-sightings-dark-480x800.png",
+        "1600x1200": "./screenshots/ebird-sightings-dark-1600x1200.png",
+        "1200x1600": "./screenshots/ebird-sightings-dark-1200x1600.png"
+      }
+    },
+    {
+      "color": "dark",
+      "title": "",
+      "sampleData": true,
+      "timeZone": "Europe/Berlin",
+      "locationName": "",
+      "latitude": 52.52,
+      "longitude": 13.405,
+      "apiKey": "",
+      "radiusKm": 25,
+      "days": 7,
+      "screenshots": {
+        "800x480": "./screenshots/ebird-sightings-black-800x480.png",
+        "480x800": "./screenshots/ebird-sightings-black-480x800.png",
+        "1600x1200": "./screenshots/ebird-sightings-black-1600x1200.png",
+        "1200x1600": "./screenshots/ebird-sightings-black-1200x1600.png"
+      }
+    }
+  ]
+}

@@ -1,0 +1,123 @@
+{
+  "name": "Notion Database",
+  "version": "0.1.0",
+  "status": "alpha",
+  "description": "Display pages from a Notion data source with status and a selected detail.",
+  "renderPage": "./render.html",
+  "icon": "./assets/icon.png",
+  "timezone": "Europe/Berlin",
+  "language": ["de", "en"],
+  "nativeSettings": {
+    "color": "blue-light",
+    "title": "",
+    "sampleData": false,
+    "timeZone": "Europe/Berlin",
+    "token": "",
+    "dataSourceId": "",
+    "statusProperty": "Status",
+    "detailProperty": "",
+    "filterJson": ""
+  },
+  "formSchema": {
+    "type": "object",
+    "properties": {
+      "title": {
+        "type": "string",
+        "title": "Custom display title",
+        "default": ""
+      },
+      "sampleData": {
+        "type": "boolean",
+        "title": "Use labelled demo data",
+        "default": false
+      },
+      "timeZone": {
+        "type": "string",
+        "format": "timezone",
+        "title": "Display time zone",
+        "default": "Europe/Berlin"
+      },
+      "token": {
+        "type": "string",
+        "title": "Notion integration token",
+        "default": "",
+        "format": "password"
+      },
+      "dataSourceId": {
+        "type": "string",
+        "title": "Notion data source ID",
+        "default": ""
+      },
+      "statusProperty": {
+        "type": "string",
+        "title": "Status property name",
+        "default": "Status"
+      },
+      "detailProperty": {
+        "type": "string",
+        "title": "Detail property name",
+        "default": ""
+      },
+      "filterJson": {
+        "type": "string",
+        "title": "Optional Notion filter (JSON)",
+        "default": "",
+        "format": "textarea",
+        "maxLength": 8000
+      }
+    }
+  },
+  "configVariants": [
+    {
+      "color": "blue-light",
+      "title": "",
+      "sampleData": true,
+      "timeZone": "Europe/Berlin",
+      "token": "",
+      "dataSourceId": "",
+      "statusProperty": "Status",
+      "detailProperty": "",
+      "filterJson": "",
+      "screenshots": {
+        "800x480": "./screenshots/notion-light-800x480.png",
+        "480x800": "./screenshots/notion-light-480x800.png",
+        "1600x1200": "./screenshots/notion-light-1600x1200.png",
+        "1200x1600": "./screenshots/notion-light-1200x1600.png"
+      }
+    },
+    {
+      "color": "blue-dark",
+      "title": "",
+      "sampleData": true,
+      "timeZone": "Europe/Berlin",
+      "token": "",
+      "dataSourceId": "",
+      "statusProperty": "Status",
+      "detailProperty": "",
+      "filterJson": "",
+      "screenshots": {
+        "800x480": "./screenshots/notion-dark-800x480.png",
+        "480x800": "./screenshots/notion-dark-480x800.png",
+        "1600x1200": "./screenshots/notion-dark-1600x1200.png",
+        "1200x1600": "./screenshots/notion-dark-1200x1600.png"
+      }
+    },
+    {
+      "color": "dark",
+      "title": "",
+      "sampleData": true,
+      "timeZone": "Europe/Berlin",
+      "token": "",
+      "dataSourceId": "",
+      "statusProperty": "Status",
+      "detailProperty": "",
+      "filterJson": "",
+      "screenshots": {
+        "800x480": "./screenshots/notion-black-800x480.png",
+        "480x800": "./screenshots/notion-black-480x800.png",
+        "1600x1200": "./screenshots/notion-black-1600x1200.png",
+        "1200x1600": "./screenshots/notion-black-1200x1600.png"
+      }
+    }
+  ]
+}

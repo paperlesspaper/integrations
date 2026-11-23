@@ -1,0 +1,95 @@
+{
+  "name": "Upcoming Movies",
+  "version": "0.1.0",
+  "status": "alpha",
+  "description": "Upcoming cinema releases with TMDB posters, dates and synopses. Migrated from paperlesspaper-apps.",
+  "renderPage": "./render.html",
+  "icon": "./assets/icon.png",
+  "timezone": "Europe/Berlin",
+  "language": [
+    "de",
+    "en"
+  ],
+  "nativeSettings": {
+    "color": "blue-light",
+    "title": "",
+    "sampleData": false,
+    "apiKey": "",
+    "region": "DE",
+    "count": 6,
+    "showOverview": true
+  },
+  "formSchema": {
+    "type": "object",
+    "properties": {
+      "title": {
+        "type": "string",
+        "default": "",
+        "title": "Display title (optional)",
+        "maxLength": 80
+      },
+      "sampleData": {
+        "type": "boolean",
+        "default": false,
+        "title": "Use labelled demo data"
+      },
+      "apiKey": {
+        "type": "string",
+        "default": "",
+        "title": "API key",
+        "format": "password"
+      },
+      "region": {
+        "type": "string",
+        "default": "DE",
+        "title": "Cinema release country (ISO code)",
+        "pattern": "^[A-Za-z]{2}$",
+        "maxLength": 2
+      },
+      "count": {
+        "type": "integer",
+        "default": 6,
+        "title": "Number of movies",
+        "minimum": 1,
+        "maximum": 6
+      },
+      "showOverview": {
+        "type": "boolean",
+        "default": true,
+        "title": "Show synopsis in landscape"
+      }
+    }
+  },
+  "configVariants": [
+    {
+      "color": "blue-light",
+      "title": "",
+      "sampleData": true,
+      "apiKey": "",
+      "region": "DE",
+      "count": 6,
+      "showOverview": true,
+      "screenshots": {
+        "800x480": "./screenshots/upcoming-movies-default-800x480.png",
+        "480x800": "./screenshots/upcoming-movies-default-480x800.png",
+        "1600x1200": "./screenshots/upcoming-movies-default-1600x1200.png",
+        "1200x1600": "./screenshots/upcoming-movies-default-1200x1600.png"
+      }
+    },
+    {
+      "color": "blue-dark",
+      "title": "",
+      "sampleData": true,
+      "apiKey": "",
+      "region": "DE",
+      "count": 6,
+      "showOverview": true,
+      "screenshots": {
+        "800x480": "./screenshots/upcoming-movies-dark-800x480.png",
+        "480x800": "./screenshots/upcoming-movies-dark-480x800.png",
+        "1600x1200": "./screenshots/upcoming-movies-dark-1600x1200.png",
+        "1200x1600": "./screenshots/upcoming-movies-dark-1200x1600.png"
+      }
+    }
+  ]
+}

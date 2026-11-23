@@ -72,7 +72,7 @@ export function publicAddress(address) {
 
 export async function getText(
   value,
-  { headers = {}, maxBytes = 2 * 1024 * 1024, redirects = 0 } = {},
+  { headers = {}, maxBytes = 2 * 1024 * 1024, redirects = 0, method = "GET", body } = {},
 ) {
   let u;
   try {
@@ -122,6 +122,7 @@ export async function getText(
     const req = (u.protocol === "https:" ? httpsRequest : httpRequest)(
       u,
       {
+        method,
         headers: {
           Accept: "application/json, application/xml;q=0.9, */*;q=0.1",
           "User-Agent": "paperlesspaper-openintegrations/0.1.0",
@@ -156,11 +157,11 @@ export async function getText(
     const deadline = setTimeout(() => req.destroy(), 12000);
     req.on("close", () => clearTimeout(deadline));
     req.on("error", fail);
-    req.end();
+    req.end(body);
   });
   if (result.status >= 300 && result.status < 400 && result.location) {
     if (
-      Object.keys(headers).some((k) => /authorization|api.key/i.test(k)) ||
+      method !== "GET" || Object.keys(headers).some((k) => /authorization|token|key|secret|cookie/i.test(k)) ||
       redirects >= 3
     )
       throw new Error("Source redirect refused");
@@ -179,6 +180,8 @@ export async function getJson(url, options = {}) {
   const key = createHash("sha256")
     .update(url)
     .update(JSON.stringify(options.headers || {}))
+    .update(options.method || "GET")
+    .update(options.body || "")
     .digest("hex");
   const hit = cache.get(key);
   if (options.ttl && hit?.until > Date.now()) return hit.data;

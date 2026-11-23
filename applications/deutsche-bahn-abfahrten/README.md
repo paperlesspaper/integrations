@@ -2,6 +2,19 @@
 
 Shows upcoming realtime departures for a Deutsche Bahn station.
 
+DB and SBB use the same departure-board renderer from
+`@paperlesspaper/openintegration`: station header, next departure, consistent
+time/line/destination/platform columns, localized statuses and counted overflow.
+The default is `red-light`; existing global theme, locale and timezone settings
+remain effective. Cancelled trains retain an explicit localized status in both
+orientations. Text clipping uses generous line height and ink padding so
+descenders remain visible. Long names are shortened with an ellipsis.
+
+See the [shared DB/SBB visual comparison](../../docs/screenshots/departures/README.md).
+Run `node scripts/check-departure-layouts.mjs` for both integrations' layout and
+descender regression checks, and `node --test tests/deutsche-bahn-abfahrten.test.mjs`
+for provider behavior.
+
 ## Links
 
 - [Demo](https://integrations.paperlesspaper.de/deutsche-bahn-abfahrten/run)

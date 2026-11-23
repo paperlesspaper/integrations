@@ -1,6 +1,6 @@
 {
   "name": "Nextcloud Calendar",
-  "version": "0.1.0",
+  "version": "0.3.1",
   "status": "alpha",
   "description": "Shows events from a private Nextcloud calendar through read-only CalDAV requests.",
   "renderPage": "./render.html",
@@ -14,13 +14,27 @@
     "calendarName": "",
     "calendarPath": "",
     "view": "agenda",
+    "fontSize": 100,
+    "noPadding": false,
+    "fullWeekdayNames": false,
     "locale": "en-GB",
     "timeZone": "Europe/Berlin",
     "dayRange": 14,
     "maxEvents": 20,
     "highlightToday": true,
     "highlightScale": 1.15,
-    "showLocation": true
+    "showLocation": true,
+    "showDaySummary": false,
+    "automaticEventIcons": false,
+    "showEventIcons": true,
+    "showHeader": true,
+    "personalTitle": "",
+    "personalSubtitle": "",
+    "informationDensity": "comfortable",
+    "timelineShowSidebar": true,
+    "timelineShowNow": true,
+    "timelineShowGaps": true,
+    "timelineGapMinutes": 30
   },
   "configVariants": [
     {
@@ -41,7 +55,9 @@
       "now": "2026-07-22T10:00:00.000Z",
       "screenshots": {
         "800x480": "./screenshots/nextcloud-calendar-agenda-800x480-landscape.png",
-        "480x800": "./screenshots/nextcloud-calendar-agenda-480x800-portrait.png"
+        "480x800": "./screenshots/nextcloud-calendar-agenda-480x800-portrait.png",
+        "1600x1200": "./screenshots/nextcloud-calendar-agenda-1600x1200-landscape.png",
+        "1200x1600": "./screenshots/nextcloud-calendar-agenda-1200x1600-portrait.png"
       }
     },
     {
@@ -62,7 +78,9 @@
       "now": "2026-07-22T10:00:00.000Z",
       "screenshots": {
         "800x480": "./screenshots/nextcloud-calendar-week-800x480-landscape.png",
-        "480x800": "./screenshots/nextcloud-calendar-week-480x800-portrait.png"
+        "480x800": "./screenshots/nextcloud-calendar-week-480x800-portrait.png",
+        "1600x1200": "./screenshots/nextcloud-calendar-week-1600x1200-landscape.png",
+        "1200x1600": "./screenshots/nextcloud-calendar-week-1200x1600-portrait.png"
       }
     }
   ],
@@ -103,10 +121,54 @@
       },
       "view": {
         "type": "string",
-        "title": "View",
-        "enum": ["agenda", "day", "three-days", "week", "year"],
-        "enumNames": ["Agenda", "Day", "3 days", "Week", "Year"],
+        "title": "View & design",
+        "description": "Choose an agenda, Today & next, or the next 7 days as day lists or a time grid. Rolling views start today. Day, 3-day, calendar week and year views are also available. Day timeline shows today with a time axis and an optional next-event sidebar.",
+        "enum": [
+          "agenda",
+          "day",
+          "three-days",
+          "week",
+          "year",
+          "agenda-modern",
+          "today-next",
+          "rolling-week-list",
+          "rolling-week",
+          "day-timeline"
+        ],
+        "enumNames": [
+          "Agenda (classic)",
+          "Day",
+          "3 days",
+          "Week",
+          "Year",
+          "Agenda (modern)",
+          "Today & next",
+          "Next 7 days (list)",
+          "Next 7 days (time grid)",
+          "Day timeline (minimal)"
+        ],
         "default": "agenda"
+      },
+      "fontSize": {
+        "type": "number",
+        "title": "Font size (%)",
+        "description": "Scale calendar text from 75% to 150%. Dense views may reduce text to fit.",
+        "minimum": 75,
+        "maximum": 150,
+        "step": 5,
+        "default": 100
+      },
+      "noPadding": {
+        "type": "boolean",
+        "title": "Remove outer padding",
+        "description": "Use the full display area without an outer margin around the calendar.",
+        "default": false
+      },
+      "fullWeekdayNames": {
+        "type": "boolean",
+        "title": "Full weekday names",
+        "description": "Spell out weekdays in day, 3-day and week views.",
+        "default": false
       },
       "locale": {
         "type": "string",
@@ -154,8 +216,91 @@
         "type": "boolean",
         "title": "Show event locations",
         "default": true
+      },
+      "showDaySummary": {
+        "type": "boolean",
+        "title": "Day at a glance",
+        "description": "Show remaining timed events, all-day events, the next appointment and the last known end time today. Based on loaded calendar data at the displayed update time.",
+        "default": false
+      },
+      "automaticEventIcons": {
+        "type": "boolean",
+        "title": "Suggest event icons automatically",
+        "description": "Recognize common German and English event titles locally. Explicit [icon:…] codes take priority. Requires Show event icons.",
+        "default": false
+      },
+      "showEventIcons": {
+        "type": "boolean",
+        "title": "Show event icons",
+        "default": true
+      },
+      "showHeader": {
+        "type": "boolean",
+        "title": "Show calendar header",
+        "description": "Show the provider heading or your personal heading. The day summary is controlled separately.",
+        "default": true
+      },
+      "personalTitle": {
+        "type": "string",
+        "title": "Personal heading",
+        "description": "For example: Our week. Leave blank to keep the existing heading.",
+        "maxLength": 100,
+        "default": ""
+      },
+      "personalSubtitle": {
+        "type": "string",
+        "title": "Personal subtitle",
+        "description": "For example: Family Müller · Home & away. Leave blank to keep the existing subtitle.",
+        "maxLength": 160,
+        "default": ""
+      },
+      "informationDensity": {
+        "type": "string",
+        "title": "Information density",
+        "description": "Automatic fits text to the available space. Standard preserves the existing layout; compact shows more, spacious emphasizes readability. Font size remains independently adjustable. Extra appointments in modern and rolling lists are counted as + more.",
+        "enum": [
+          "automatic",
+          "comfortable",
+          "compact",
+          "spacious"
+        ],
+        "enumNames": [
+          "Automatic",
+          "Standard",
+          "Compact",
+          "Spacious"
+        ],
+        "default": "comfortable"
+      },
+      "timelineShowSidebar": {
+        "type": "boolean",
+        "title": "Timeline: next event and due list",
+        "description": "Show the next appointment and today’s [todo] deadlines/all-day events next to the timeline. In portrait they move below it.",
+        "default": true
+      },
+      "timelineShowNow": {
+        "type": "boolean",
+        "title": "Timeline: current time marker",
+        "description": "Show a red Now marker at the last calendar refresh, without a numeric clock label.",
+        "default": true
+      },
+      "timelineShowGaps": {
+        "type": "boolean",
+        "title": "Timeline: free time gaps",
+        "description": "Label gaps between known timed commitments. All-day events or missing end times suppress gap labels. Based only on loaded events.",
+        "default": true
+      },
+      "timelineGapMinutes": {
+        "type": "integer",
+        "title": "Timeline: minimum gap (minutes)",
+        "minimum": 15,
+        "maximum": 240,
+        "default": 30
       }
     }
   },
-  "language": ["en", "de"]
+  "language": [
+    "en",
+    "de"
+  ]
 }

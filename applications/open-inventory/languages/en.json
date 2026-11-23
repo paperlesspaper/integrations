@@ -1,0 +1,32 @@
+{
+  "title": "Open Inventory",
+  "sample": "DEMO DATA",
+  "empty": "No stock items available.",
+  "more": "+{count} more",
+  "updated": "Retrieved",
+  "partial": "Partial data",
+  "error": "Could not load inventory",
+  "setup": "Check the Open Inventory URL, API key with read access and connectivity in settings. Then reload the item selection.",
+  "settings": {
+    "intro": "Connect your Open Inventory instance and choose the stock to display. An API key with read access is sufficient.",
+    "baseUrl": "Open Inventory URL",
+    "apiKey": "API key",
+    "connect": "Test connection & load items",
+    "resourceId": "Item",
+    "all": "All stock-tracked items",
+    "selected": "Selected item",
+    "view": "View",
+    "stock": "Stock overview",
+    "lowStock": "Only low and empty stock",
+    "maxItems": "Maximum rows",
+    "search": "Filter by name or SKU (all items)",
+    "title": "Custom display title (optional)",
+    "timeZone": "Time zone",
+    "sampleData": "Use labelled demo data",
+    "loading": "Testing connection …",
+    "connected": "{count} stock items loaded.",
+    "failed": "Connection failed. Check URL, API key with stock read permission and connectivity. Local instances require an integration-server allowlist entry.",
+    "changed": "Setting updated. Finish by saving in Paperlesspaper.",
+    "invalidTimeZone": "Enter a valid time zone, e.g. Europe/Berlin."
+  }
+}

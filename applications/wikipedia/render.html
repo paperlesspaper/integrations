@@ -1,0 +1,79 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="paperless:epd-optimize" content='{"intent":"faithful","palette":"spectra6OriginalPalette","canvasDitherOptions":{"ditheringType":"errorDiffusion"}}' />
+    <title>Wikipedia</title>
+    <link rel="stylesheet" href="/assets/paperless.css" />
+    <script src="/assets/paperless.iife.js"></script>
+    <style>
+      * { box-sizing: border-box; }
+      #app { width:100vw; height:100vh; padding:4vmin; display:flex; flex-direction:column; gap:2.4vmin; }
+      h1,h2,p,figure { margin:0; }
+      a { color:inherit; text-decoration:none; }
+      header { flex-shrink:0; border-bottom:5px solid var(--pp-accent); padding-bottom:2vmin; }
+      .masthead { display:flex; justify-content:space-between; gap:16px; align-items:baseline; font-size:clamp(13px,2.5vmin,26px); margin-bottom:1vmin; }
+      .brand { font-family:Georgia,serif; font-weight:700; letter-spacing:.04em; }
+      h1 { font-size:clamp(30px,6.5vmin,72px); line-height:1.1; font-weight:800; text-wrap:balance; overflow-wrap:anywhere; }
+      .edition { font-weight:800; color:var(--pp-accent); }
+      .demo { display:inline-block; background:var(--pp-accent); color:var(--pp-bg); font-size:clamp(12px,2vmin,20px); font-weight:800; padding:3px 7px; }
+      .demo-note { border-top:1px solid var(--pp-border); padding-top:1.5vmin; display:flex; justify-content:space-between; gap:12px; font-size:clamp(11px,2vmin,20px); flex-shrink:0; }
+      .content { flex:1; min-height:0; }
+      .message { font-size:clamp(22px,4vmin,44px); line-height:1.4; padding-top:5vmin; }
+      /* Preserve the original full-width photo, bold title and dated extract. */
+      #app.primary { padding:0; gap:0; }
+      .hero { flex:0 0 40vh; height:40vh; width:100%; object-fit:cover; }
+      .article-body { display:flex; flex-direction:column; flex:1; min-height:0; padding:3vmin 4vmin; gap:2vmin; }
+      .article-title { max-height:20vh; flex-shrink:0; line-height:1.3; }
+      .article-title a { display:block; }
+      .extract { flex:1; min-height:0; line-height:1.5; font-size:5vmin; overflow-wrap:anywhere; }
+      .extract strong { font-weight:800; }
+      .primary .demo-note { margin:0 4vmin 2vmin; }
+      .onthisday h1 { text-transform:uppercase; font-size:8vmin; }
+      .events { min-height:0; display:flex; flex-direction:column; justify-content:flex-start; gap:3vmin; font-size:5vmin; line-height:1.5; }
+      .event-image { float:right; width:clamp(64px,15vmin,120px); height:clamp(64px,15vmin,120px); object-fit:cover; margin:0 0 1vmin 3vmin; }
+      .event { display:flow-root; margin:0; overflow-wrap:anywhere; }
+      .year { font-weight:800; text-decoration:underline; text-decoration-color:var(--pp-accent); text-decoration-thickness:.13em; text-underline-offset:.12em; }
+      .ranking-stage { display:flex; gap:4vmin; }
+      .lead { flex:0 0 32%; min-width:0; min-height:0; display:flex; flex-direction:column; gap:1.5vmin; }
+      .lead-image { flex:1; min-height:0; width:100%; object-fit:contain; background:var(--pp-bg); }
+      .lead figcaption { font-size:clamp(18px,3.5vmin,36px); font-weight:800; overflow-wrap:anywhere; }
+      .no-image { flex:1; display:flex; align-items:center; justify-content:center; border:2px solid var(--pp-border); text-align:center; padding:15px; font-size:3vmin; }
+      .ranking { min-width:0; min-height:0; flex:1; display:flex; flex-direction:column; font-size:clamp(17px,3.5vmin,32px); }
+      .columns,.row { display:grid; grid-template-columns:2.2em minmax(0,1fr) 5.3em; align-items:center; gap:1.5vmin; }
+      .with-image .lead { flex-basis:25%; }
+      .trends .columns,.trends .row { grid-template-columns:2em minmax(0,1fr) 5.2em 4.4em 5.4em; }
+      .columns { flex-shrink:0; font-weight:700; padding-bottom:1vmin; }
+      .columns > span { font-size:clamp(11px,2.2vmin,20px); }
+      .columns .metric { white-space:normal; line-height:1.15; }
+      .rows { flex:1; min-height:0; display:flex; flex-direction:column; }
+      .row { flex:1; min-height:0; border-top:1px solid var(--pp-border); padding:1.1vmin 0; }
+      .rank { font-weight:800; color:var(--pp-accent); }
+      .row-title { font-weight:650; line-height:1.2; overflow-wrap:anywhere; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
+      .metric { text-align:right; font-variant-numeric:tabular-nums; white-space:nowrap; }
+      .delta { font-size:.8em; font-weight:800; }
+      .delta.up { background:var(--pp-green); color:var(--pp-white); padding:3px; }
+      .delta.down { background:var(--pp-red); color:var(--pp-white); padding:3px; }
+      .spark { height:1.8em; display:flex; gap:3px; align-items:flex-end; }
+      .spark i { flex:1; min-width:1px; background:var(--pp-fg); }
+      .spark i:last-child { background:var(--pp-accent); }
+      .spark i.missing { height:4px!important; background:transparent; border:1px solid var(--pp-fg); }
+      .partial { font-size:clamp(11px,2vmin,19px); }
+      @media (orientation:portrait) {
+        .ranking-stage { flex-direction:column; gap:2vmin; }
+        .lead { flex:0 0 25%; flex-direction:row; align-items:center; gap:4vmin; }
+        .lead-image { width:42%; height:100%; flex:0 0 42%; }
+        .with-image .lead { flex-basis:22%; }
+        .lead figcaption { flex:1; font-size:5vmin; }
+        .trends .ranking { font-size:clamp(16px,3.7vmin,32px); }
+        .trends .columns,.trends .row { gap:1vmin; grid-template-columns:1.6em minmax(0,1fr) 4.1em 3.7em 4.2em; }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="website-has-loading-element"></div>
+    <main id="app" aria-live="polite"></main>
+    <script type="module" src="./assets/render.js"></script>
+  </body>
+</html>

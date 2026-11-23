@@ -7,5 +7,20 @@
   "sampleSource": "Beispieldaten",
   "source": "Proton",
   "today": "Heute",
-  "untitled": "Termin ohne Titel"
+  "untitled": "Termin ohne Titel",
+  "tomorrow": "Morgen",
+  "nextEvent": "Als Nächstes",
+  "ongoing": "Jetzt",
+  "later": "Die nächsten Tage",
+  "dayAtGlance": "Dein Tag auf einen Blick",
+  "remainingOne": "Noch 1 Termin",
+  "remainingMany": "Noch {count} Termine",
+  "allDayCount": "{count} ganztägig",
+  "noMoreToday": "Heute keine weiteren Termine mit Uhrzeit",
+  "freeAfter": "Ab {time} keine weiteren Termine",
+  "asOf": "Stand {time}",
+  "timelineDue": "Heute fällig",
+  "timelineGap": "{duration} frei",
+  "timelineRemaining": "Noch {count} Termine",
+  "timelineFinished": "Heute keine weiteren Termine"
 }

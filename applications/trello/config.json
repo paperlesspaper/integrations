@@ -1,0 +1,112 @@
+{
+  "name": "Trello Board",
+  "version": "0.1.0",
+  "status": "alpha",
+  "description": "A compact Kanban board with up to three selected Trello lists.",
+  "renderPage": "./render.html",
+  "icon": "./assets/icon.png",
+  "timezone": "Europe/Berlin",
+  "language": ["de", "en"],
+  "nativeSettings": {
+    "color": "blue-light",
+    "title": "",
+    "sampleData": false,
+    "timeZone": "Europe/Berlin",
+    "apiKey": "",
+    "token": "",
+    "boardId": "",
+    "listIds": ""
+  },
+  "formSchema": {
+    "type": "object",
+    "properties": {
+      "title": {
+        "type": "string",
+        "title": "Custom display title",
+        "default": ""
+      },
+      "sampleData": {
+        "type": "boolean",
+        "title": "Use labelled demo data",
+        "default": false
+      },
+      "timeZone": {
+        "type": "string",
+        "format": "timezone",
+        "title": "Display time zone",
+        "default": "Europe/Berlin"
+      },
+      "apiKey": {
+        "type": "string",
+        "title": "Trello API key",
+        "default": ""
+      },
+      "token": {
+        "type": "string",
+        "title": "Trello read token",
+        "default": "",
+        "format": "password"
+      },
+      "boardId": {
+        "type": "string",
+        "title": "Board ID",
+        "default": ""
+      },
+      "listIds": {
+        "type": "string",
+        "title": "Up to three list IDs, comma-separated",
+        "default": ""
+      }
+    }
+  },
+  "configVariants": [
+    {
+      "color": "blue-light",
+      "title": "",
+      "sampleData": true,
+      "timeZone": "Europe/Berlin",
+      "apiKey": "",
+      "token": "",
+      "boardId": "",
+      "listIds": "",
+      "screenshots": {
+        "800x480": "./screenshots/trello-light-800x480.png",
+        "480x800": "./screenshots/trello-light-480x800.png",
+        "1600x1200": "./screenshots/trello-light-1600x1200.png",
+        "1200x1600": "./screenshots/trello-light-1200x1600.png"
+      }
+    },
+    {
+      "color": "blue-dark",
+      "title": "",
+      "sampleData": true,
+      "timeZone": "Europe/Berlin",
+      "apiKey": "",
+      "token": "",
+      "boardId": "",
+      "listIds": "",
+      "screenshots": {
+        "800x480": "./screenshots/trello-dark-800x480.png",
+        "480x800": "./screenshots/trello-dark-480x800.png",
+        "1600x1200": "./screenshots/trello-dark-1600x1200.png",
+        "1200x1600": "./screenshots/trello-dark-1200x1600.png"
+      }
+    },
+    {
+      "color": "dark",
+      "title": "",
+      "sampleData": true,
+      "timeZone": "Europe/Berlin",
+      "apiKey": "",
+      "token": "",
+      "boardId": "",
+      "listIds": "",
+      "screenshots": {
+        "800x480": "./screenshots/trello-black-800x480.png",
+        "480x800": "./screenshots/trello-black-480x800.png",
+        "1600x1200": "./screenshots/trello-black-1600x1200.png",
+        "1200x1600": "./screenshots/trello-black-1200x1600.png"
+      }
+    }
+  ]
+}

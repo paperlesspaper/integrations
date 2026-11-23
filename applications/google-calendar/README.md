@@ -114,13 +114,19 @@ time grid splits into four plus three days with the same hour scale. When space 
 appointments. In **Today & next**, `maxEvents` applies separately to today and the
 upcoming list. Existing saved view values and the default classic agenda are preserved.
 
+<!-- calendar-screenshots:start -->
 ## Screenshots
 
-- [Agenda, landscape](screenshots/google-calendar-light-800x480-landscape.png)
-- [Agenda, portrait](screenshots/google-calendar-light-480x800-portrait.png)
-- [Week, landscape](screenshots/google-calendar-highlight-800x480-landscape.png)
-- [Week, portrait](screenshots/google-calendar-highlight-480x800-portrait.png)
+Fresh renders with fictional events. Catalog PNGs are processed for the Spectra 6 palette.
 
+[All ten views, icons, images and event concepts](../../docs/screenshots/calendars/README.md) · [Interactive gallery](../../docs/screenshots/calendars/index.html)
+
+| Variant | 7.3″ landscape | 7.3″ portrait | 13″ landscape | 13″ portrait |
+| --- | --- | --- | --- | --- |
+| Google Calendar · Agenda (classic) | [<img src="../../docs/screenshots/calendars/providers/google-calendar-agenda-1-light-800x480-epd.png" alt="Google Calendar · Agenda (classic), 800 × 480" width="200">](../../docs/screenshots/calendars/providers/google-calendar-agenda-1-light-800x480-epd.png) | [<img src="../../docs/screenshots/calendars/providers/google-calendar-agenda-1-light-480x800-epd.png" alt="Google Calendar · Agenda (classic), 480 × 800" width="200">](../../docs/screenshots/calendars/providers/google-calendar-agenda-1-light-480x800-epd.png) | [<img src="../../docs/screenshots/calendars/providers/google-calendar-agenda-1-light-1600x1200-epd.png" alt="Google Calendar · Agenda (classic), 1600 × 1200" width="200">](../../docs/screenshots/calendars/providers/google-calendar-agenda-1-light-1600x1200-epd.png) | [<img src="../../docs/screenshots/calendars/providers/google-calendar-agenda-1-light-1200x1600-epd.png" alt="Google Calendar · Agenda (classic), 1200 × 1600" width="200">](../../docs/screenshots/calendars/providers/google-calendar-agenda-1-light-1200x1600-epd.png) |
+| Google Calendar · Calendar week | [<img src="../../docs/screenshots/calendars/providers/google-calendar-week-2-red-light-800x480-epd.png" alt="Google Calendar · Calendar week, 800 × 480" width="200">](../../docs/screenshots/calendars/providers/google-calendar-week-2-red-light-800x480-epd.png) | [<img src="../../docs/screenshots/calendars/providers/google-calendar-week-2-red-light-480x800-epd.png" alt="Google Calendar · Calendar week, 480 × 800" width="200">](../../docs/screenshots/calendars/providers/google-calendar-week-2-red-light-480x800-epd.png) | [<img src="../../docs/screenshots/calendars/providers/google-calendar-week-2-red-light-1600x1200-epd.png" alt="Google Calendar · Calendar week, 1600 × 1200" width="200">](../../docs/screenshots/calendars/providers/google-calendar-week-2-red-light-1600x1200-epd.png) | [<img src="../../docs/screenshots/calendars/providers/google-calendar-week-2-red-light-1200x1600-epd.png" alt="Google Calendar · Calendar week, 1200 × 1600" width="200">](../../docs/screenshots/calendars/providers/google-calendar-week-2-red-light-1200x1600-epd.png) |
+
+<!-- calendar-screenshots:end -->
 
 <!-- calendar-personal:start -->
 ## Personal calendar options
@@ -144,7 +150,7 @@ Common icons are bundled SVG artwork and work offline. Other explicit Iconoir na
 
 Suggested setup: modern agenda or Today & next, `showDaySummary: true`, `automaticEventIcons: true`, `informationDensity: "automatic"`, and your own title. Extra features are opt-in so existing displays keep their presentation.
 
-The screenshot variants include 7.3-inch and 13-inch displays in both orientations.
+[Examples on 7.3-inch and 13-inch displays](../../docs/screenshots/calendars/README.md) · [Interactive gallery](../../docs/screenshots/calendars/index.html)
 <!-- calendar-personal:end -->
 
 ## Minimal day timeline

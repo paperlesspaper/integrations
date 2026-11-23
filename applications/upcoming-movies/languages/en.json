@@ -1,0 +1,11 @@
+{
+  "title": "Coming to cinemas",
+  "sample": "DEMO DATA",
+  "updated": "Updated",
+  "error": "Could not load data",
+  "setup": "Add a TMDB API key in settings or on the server.",
+  "empty": "No upcoming movies found.",
+  "shown": "{shown} of {total}",
+  "unknownDate": "Date to be announced",
+  "noPoster": "No poster"
+}

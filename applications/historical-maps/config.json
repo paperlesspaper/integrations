@@ -1,0 +1,100 @@
+{
+  "name": "Historical Maps",
+  "version": "0.1.0",
+  "status": "alpha",
+  "description": "Historical maps in original colour, with daily rotation and visible creator and collection credits. Inspired by thefinkus/trmnl-maps; scans from the Library of Congress.",
+  "renderPage": "./render.html",
+  "icon": "./assets/icon.png",
+  "language": [
+    "de",
+    "en"
+  ],
+  "timezone": "Europe/Berlin",
+  "nativeSettings": {
+    "color": "blue-light",
+    "mapId": "",
+    "view": "detail",
+    "timeZone": "Europe/Berlin",
+    "dayOffset": 0,
+    "showDescription": false
+  },
+  "formSchema": {
+    "type": "object",
+    "properties": {
+      "mapId": {
+        "type": "string",
+        "title": "Map / Karte",
+        "description": "Empty = daily rotation / Leer = täglich wechselnd",
+        "enum": [
+          "",
+          "yellowstone-1878",
+          "switzerland-1794",
+          "east-asia-1873",
+          "paris-1878",
+          "paris-environs-1878"
+        ],
+        "default": ""
+      },
+      "view": {
+        "type": "string",
+        "title": "View / Ansicht",
+        "description": "detail = cropped detail / Ausschnitt; complete = complete sheet / ganzes Blatt",
+        "enum": [
+          "detail",
+          "complete"
+        ],
+        "default": "detail"
+      },
+      "timeZone": {
+        "type": "string",
+        "format": "timezone",
+        "title": "Time zone / Zeitzone",
+        "description": "IANA time zone for daily rotation, e.g. Europe/Berlin",
+        "default": "Europe/Berlin"
+      },
+      "dayOffset": {
+        "type": "integer",
+        "title": "Day offset / Tagesversatz",
+        "description": "Moves the daily rotation forward or backward; ignored for a pinned map.",
+        "minimum": -3650,
+        "maximum": 3650,
+        "default": 0
+      },
+      "showDescription": {
+        "type": "boolean",
+        "title": "Show description / Beschreibung anzeigen",
+        "default": false
+      }
+    }
+  },
+  "configVariants": [
+    {
+      "color": "blue-light",
+      "mapId": "yellowstone-1878",
+      "view": "detail",
+      "timeZone": "Europe/Berlin",
+      "dayOffset": 0,
+      "showDescription": false,
+      "screenshots": {
+        "800x480": "./screenshots/historical-maps-yellowstone-800x480.png",
+        "480x800": "./screenshots/historical-maps-yellowstone-480x800.png",
+        "1600x1200": "./screenshots/historical-maps-yellowstone-1600x1200.png",
+        "1200x1600": "./screenshots/historical-maps-yellowstone-1200x1600.png"
+      }
+    },
+    {
+      "color": "dark",
+      "mapId": "paris-1878",
+      "view": "complete",
+      "timeZone": "Europe/Berlin",
+      "dayOffset": 0,
+      "showDescription": false,
+      "screenshots": {
+        "800x480": "./screenshots/historical-maps-paris-dark-800x480.png",
+        "480x800": "./screenshots/historical-maps-paris-dark-480x800.png",
+        "1600x1200": "./screenshots/historical-maps-paris-dark-1600x1200.png",
+        "1200x1600": "./screenshots/historical-maps-paris-dark-1200x1600.png"
+      }
+    }
+  ]
+}

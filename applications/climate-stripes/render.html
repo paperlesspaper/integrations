@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="paperless:epd-optimize" content='{"intent":"faithful","canvasDitherOptions":{"ditheringType":"errorDiffusion","colorMatching":"rgb","toneMapping":{"mode":"off","saturation":0},"dynamicRangeCompression":false}}'>
+  <title>Climate Stripes</title>
+  <link rel="stylesheet" href="/assets/paperless.css">
+  <script src="/assets/paperless.iife.js"></script>
+  <style>
+    #screen { width:100%; height:100%; margin:0; padding:0; }
+    #chart { display:block; width:100%; height:100%; object-fit:fill; }
+  </style>
+</head>
+<body>
+  <div id="website-has-loading-element"></div>
+  <main id="screen">
+    <img id="chart" alt="">
+  </main>
+  <script type="module">
+    import { selectChart } from './data/selection.js';
+    const { waitForPayload, getSettings, getQuerySettings, mergeSettings, loadLanguageJson, applyColorTheme, markLoading, markReady, markError } = window.PaperlessOpenIntegration;
+    const defaults = { color:'blue-light', location:'globe', style:'stripes' };
+    let revision = 0;
+    let catalog;
+    async function renderPayload(payload) {
+      const current = ++revision;
+      markLoading();
+      try {
+        const settings = mergeSettings(defaults, getSettings(payload), getQuerySettings());
+        applyColorTheme(settings.color, { defaultTheme:defaults.color });
+        const { messages, language } = await loadLanguageJson(payload);
+        if (!catalog) {
+          const response = await fetch('./data/locations.json');
+          if (!response.ok) throw new Error('Climate location catalog could not load');
+          catalog = await response.json();
+        }
+        const chart = selectChart(catalog, settings);
+        const img = new Image();
+        await new Promise((resolve, reject) => {
+          const timer = setTimeout(() => { img.src=''; reject(new Error('Climate chart load timed out')); }, 20000);
+          img.onload = () => { clearTimeout(timer); resolve(); };
+          img.onerror = () => { clearTimeout(timer); reject(new Error('Climate chart could not load')); };
+          img.src = chart.imageUrl;
+        });
+        await img.decode();
+        if (current !== revision) return;
+        document.documentElement.lang = language;
+        const label = chart.id === 'globe' ? messages.globe : chart.location.replace(/^<|>$/g,'');
+        img.id = 'chart';
+        img.alt = `${messages.title}: ${label}, ${chart.start} ${messages.to} ${chart.end}`;
+        document.querySelector('#chart').replaceWith(img);
+        await document.fonts.ready;
+        if (current === revision) markReady();
+      } catch (error) { if (current === revision) markError(error); }
+    }
+    const payload = await waitForPayload({ timeoutMs:500, onUpdate:renderPayload });
+    await renderPayload(payload);
+  </script>
+</body>
+</html>

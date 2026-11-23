@@ -1,0 +1,16 @@
+{
+  "title": "Map archive",
+  "daily": "Daily",
+  "pinned": "Selected",
+  "detail": "Detail",
+  "complete": "Complete sheet",
+  "reuse": "Free-to-use scans",
+  "errorTitle": "Map could not load",
+  "error": "Please check the settings and local map files.",
+  "catalogFailed": "The local map catalogue is missing or empty.",
+  "imageFailed": "The map image could not load.",
+  "unknownMap": "This map is not in the catalogue. Please select an available map.",
+  "invalidTimeZone": "Invalid time zone. Use an IANA zone such as Europe/Berlin.",
+  "invalidOffset": "Day offset must be an integer between −3650 and 3650.",
+  "invalidView": "Please select detail or complete sheet."
+}

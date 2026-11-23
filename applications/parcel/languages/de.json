@@ -1,0 +1,21 @@
+{
+  "title": "Paketübersicht",
+  "sample": "DEMODATEN",
+  "updated": "Stand",
+  "error": "Daten konnten nicht geladen werden",
+  "setup": "Parcel-API-Schlüssel und Premium-Zugang prüfen.",
+  "empty": "Keine Sendungen vorhanden.",
+  "shown": "{shown} von {total}",
+  "expected": "Voraussichtlich",
+  "unknownTitle": "Sendung",
+  "status0": "Zugestellt",
+  "status1": "Keine Aktualisierung",
+  "status2": "Unterwegs",
+  "status3": "Abholbereit",
+  "status4": "In Zustellung",
+  "status5": "Nicht gefunden",
+  "status6": "Zustellversuch fehlgeschlagen",
+  "status7": "Problem mit der Sendung",
+  "status8": "Angekündigt",
+  "statusUnknown": "Status unbekannt"
+}

@@ -1,0 +1,132 @@
+{
+  "name": "Microsoft To Do",
+  "version": "0.1.0",
+  "status": "alpha",
+  "description": "Your Microsoft To Do list with due dates and important tasks.",
+  "renderPage": "./render.html",
+  "icon": "./assets/icon.png",
+  "timezone": "Europe/Berlin",
+  "language": ["de", "en"],
+  "nativeSettings": {
+    "color": "blue-light",
+    "title": "",
+    "sampleData": false,
+    "timeZone": "Europe/Berlin",
+    "accessToken": "",
+    "refreshToken": "",
+    "clientId": "",
+    "clientSecret": "",
+    "tenant": "common",
+    "listId": ""
+  },
+  "formSchema": {
+    "type": "object",
+    "properties": {
+      "title": {
+        "type": "string",
+        "title": "Custom display title",
+        "default": ""
+      },
+      "sampleData": {
+        "type": "boolean",
+        "title": "Use labelled demo data",
+        "default": false
+      },
+      "timeZone": {
+        "type": "string",
+        "format": "timezone",
+        "title": "Display time zone",
+        "default": "Europe/Berlin"
+      },
+      "accessToken": {
+        "type": "string",
+        "title": "Access token (or use refresh token below)",
+        "default": "",
+        "format": "password"
+      },
+      "refreshToken": {
+        "type": "string",
+        "title": "OAuth refresh token",
+        "default": "",
+        "format": "password"
+      },
+      "clientId": {
+        "type": "string",
+        "title": "OAuth client ID",
+        "default": ""
+      },
+      "clientSecret": {
+        "type": "string",
+        "title": "OAuth client secret",
+        "default": "",
+        "format": "password"
+      },
+      "tenant": {
+        "type": "string",
+        "title": "Microsoft tenant",
+        "default": "common"
+      },
+      "listId": {
+        "type": "string",
+        "title": "Task list ID (empty = default list)",
+        "default": ""
+      }
+    }
+  },
+  "configVariants": [
+    {
+      "color": "blue-light",
+      "title": "",
+      "sampleData": true,
+      "timeZone": "Europe/Berlin",
+      "accessToken": "",
+      "refreshToken": "",
+      "clientId": "",
+      "clientSecret": "",
+      "tenant": "common",
+      "listId": "",
+      "screenshots": {
+        "800x480": "./screenshots/microsoft-to-do-light-800x480.png",
+        "480x800": "./screenshots/microsoft-to-do-light-480x800.png",
+        "1600x1200": "./screenshots/microsoft-to-do-light-1600x1200.png",
+        "1200x1600": "./screenshots/microsoft-to-do-light-1200x1600.png"
+      }
+    },
+    {
+      "color": "blue-dark",
+      "title": "",
+      "sampleData": true,
+      "timeZone": "Europe/Berlin",
+      "accessToken": "",
+      "refreshToken": "",
+      "clientId": "",
+      "clientSecret": "",
+      "tenant": "common",
+      "listId": "",
+      "screenshots": {
+        "800x480": "./screenshots/microsoft-to-do-dark-800x480.png",
+        "480x800": "./screenshots/microsoft-to-do-dark-480x800.png",
+        "1600x1200": "./screenshots/microsoft-to-do-dark-1600x1200.png",
+        "1200x1600": "./screenshots/microsoft-to-do-dark-1200x1600.png"
+      }
+    },
+    {
+      "color": "dark",
+      "title": "",
+      "sampleData": true,
+      "timeZone": "Europe/Berlin",
+      "accessToken": "",
+      "refreshToken": "",
+      "clientId": "",
+      "clientSecret": "",
+      "tenant": "common",
+      "listId": "",
+      "screenshots": {
+        "800x480": "./screenshots/microsoft-to-do-black-800x480.png",
+        "480x800": "./screenshots/microsoft-to-do-black-480x800.png",
+        "1600x1200": "./screenshots/microsoft-to-do-black-1600x1200.png",
+        "1200x1600": "./screenshots/microsoft-to-do-black-1200x1600.png"
+      }
+    }
+  ]
+}

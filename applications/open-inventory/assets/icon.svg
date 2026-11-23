@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-labelledby="title">
+  <title id="title">Open Inventory</title>
+  <rect width="256" height="256" rx="56" fill="#665cff"/>
+  <path d="M64 80 128 48l64 32-64 32-64-32Z" fill="#fff"/>
+  <path d="m64 96 56 28v72l-56-28V96Zm128 0-56 28v72l56-28V96Z" fill="#fff" opacity=".82"/>
+  <path d="M120 124h16v72h-16z" fill="#fff" opacity=".5"/>
+</svg>

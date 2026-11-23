@@ -202,6 +202,8 @@ function normalizeEvent(event, filters, timeZone) {
   return {
     id: String(event.id || ""),
     title: String(event.title || "Termin"),
+    ...(typeof event.color === "string" ? { color: event.color } : {}),
+    ...(typeof event.calendarColor === "string" ? { calendarColor: event.calendarColor } : {}),
     startDate: new Date(startMs).toISOString(),
     endDate: new Date(endMs).toISOString(),
     allDay: Boolean(event.allDay),

@@ -1,0 +1,1354 @@
+[
+  {
+    "id": "206",
+    "file": "./assets/206.svg",
+    "title": "Zeichen 206 - Halt! Vorfahrt gewähren! StVO 2017.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Zeichen_206_-_Halt%21_Vorfahrt_gew%C3%A4hren%21_StVO_2017.svg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/a/ab/Zeichen_206_-_Halt%21_Vorfahrt_gew%C3%A4hren%21_StVO_2017.svg",
+    "license": "public domain",
+    "modifications": "Semantic colors mapped to native Spectra 6: blue #154889 → #0000ff, red #c1121c → #ff0000, yellow #f7ba0b → #ffff00, near-black #0c0b09 → #000000. Geometry unchanged."
+  },
+  {
+    "id": "205",
+    "file": "./assets/205.svg",
+    "title": "Zeichen 205 - Vorfahrt gewähren! StVO 1970.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Zeichen_205_-_Vorfahrt_gew%C3%A4hren%21_StVO_1970.svg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/6/6f/Zeichen_205_-_Vorfahrt_gew%C3%A4hren%21_StVO_1970.svg",
+    "license": "public domain",
+    "modifications": "Semantic colors mapped to native Spectra 6: blue #154889 → #0000ff, red #c1121c → #ff0000, yellow #f7ba0b → #ffff00, near-black #0c0b09 → #000000. Geometry unchanged."
+  },
+  {
+    "id": "306",
+    "file": "./assets/306.svg",
+    "title": "Zeichen 306 - Vorfahrtstraße, StVO 1970.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Zeichen_306_-_Vorfahrtstra%C3%9Fe%2C_StVO_1970.svg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/f/ff/Zeichen_306_-_Vorfahrtstra%C3%9Fe%2C_StVO_1970.svg",
+    "license": "public domain",
+    "modifications": "Semantic colors mapped to native Spectra 6: blue #154889 → #0000ff, red #c1121c → #ff0000, yellow #f7ba0b → #ffff00, near-black #0c0b09 → #000000. Geometry unchanged."
+  },
+  {
+    "id": "301",
+    "file": "./assets/301.svg",
+    "title": "Zeichen 301 - Vorfahrt, StVO 1970.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Zeichen_301_-_Vorfahrt%2C_StVO_1970.svg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/2/2a/Zeichen_301_-_Vorfahrt%2C_StVO_1970.svg",
+    "license": "public domain",
+    "modifications": "Semantic colors mapped to native Spectra 6: blue #154889 → #0000ff, red #c1121c → #ff0000, yellow #f7ba0b → #ffff00, near-black #0c0b09 → #000000. Geometry unchanged."
+  },
+  {
+    "id": "267",
+    "file": "./assets/267.svg",
+    "title": "Zeichen 267 - Verbot der Einfahrt, StVO 1970.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Zeichen_267_-_Verbot_der_Einfahrt%2C_StVO_1970.svg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/7/77/Zeichen_267_-_Verbot_der_Einfahrt%2C_StVO_1970.svg",
+    "license": "public domain",
+    "modifications": "Semantic colors mapped to native Spectra 6: blue #154889 → #0000ff, red #c1121c → #ff0000, yellow #f7ba0b → #ffff00, near-black #0c0b09 → #000000. Geometry unchanged."
+  },
+  {
+    "id": "250",
+    "file": "./assets/250.svg",
+    "title": "Zeichen 250 - Verbot für Fahrzeuge aller Art, StVO 1970.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Zeichen_250_-_Verbot_f%C3%BCr_Fahrzeuge_aller_Art%2C_StVO_1970.svg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/4/46/Zeichen_250_-_Verbot_f%C3%BCr_Fahrzeuge_aller_Art%2C_StVO_1970.svg",
+    "license": "public domain",
+    "modifications": "Semantic colors mapped to native Spectra 6: blue #154889 → #0000ff, red #c1121c → #ff0000, yellow #f7ba0b → #ffff00, near-black #0c0b09 → #000000. Geometry unchanged."
+  },
+  {
+    "id": "274-30",
+    "file": "./assets/274-30.svg",
+    "title": "Zeichen 274-30 - Zulässige Höchstgeschwindigkeit, StVO 2017.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Zeichen_274-30_-_Zul%C3%A4ssige_H%C3%B6chstgeschwindigkeit%2C_StVO_2017.svg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/f/f4/Zeichen_274-30_-_Zul%C3%A4ssige_H%C3%B6chstgeschwindigkeit%2C_StVO_2017.svg",
+    "license": "public domain",
+    "modifications": "Semantic colors mapped to native Spectra 6: blue #154889 → #0000ff, red #c1121c → #ff0000, yellow #f7ba0b → #ffff00, near-black #0c0b09 → #000000. Geometry unchanged."
+  },
+  {
+    "id": "274.1",
+    "file": "./assets/274.1.svg",
+    "title": "Zeichen 274.1 - Beginn einer Tempo 30-Zone, StVO 2013.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Zeichen_274.1_-_Beginn_einer_Tempo_30-Zone%2C_StVO_2013.svg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/e/eb/Zeichen_274.1_-_Beginn_einer_Tempo_30-Zone%2C_StVO_2013.svg",
+    "license": "public domain",
+    "modifications": "Semantic colors mapped to native Spectra 6: blue #154889 → #0000ff, red #c1121c → #ff0000, yellow #f7ba0b → #ffff00, near-black #0c0b09 → #000000. Geometry unchanged."
+  },
+  {
+    "id": "283",
+    "file": "./assets/283.svg",
+    "title": "Zeichen 283 - Absolutes Haltverbot, StVO 2017.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Zeichen_283_-_Absolutes_Haltverbot%2C_StVO_2017.svg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/1/1b/Zeichen_283_-_Absolutes_Haltverbot%2C_StVO_2017.svg",
+    "license": "public domain",
+    "modifications": "Semantic colors mapped to native Spectra 6: blue #154889 → #0000ff, red #c1121c → #ff0000, yellow #f7ba0b → #ffff00, near-black #0c0b09 → #000000. Geometry unchanged."
+  },
+  {
+    "id": "286",
+    "file": "./assets/286.svg",
+    "title": "Zeichen 286 - Eingeschränktes Halteverbot, StVO 1970.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Zeichen_286_-_Eingeschr%C3%A4nktes_Halteverbot%2C_StVO_1970.svg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/5/55/Zeichen_286_-_Eingeschr%C3%A4nktes_Halteverbot%2C_StVO_1970.svg",
+    "license": "public domain",
+    "modifications": "Semantic colors mapped to native Spectra 6: blue #154889 → #0000ff, red #c1121c → #ff0000, yellow #f7ba0b → #ffff00, near-black #0c0b09 → #000000. Geometry unchanged."
+  },
+  {
+    "id": "208",
+    "file": "./assets/208.svg",
+    "title": "Zeichen 208 - Dem Gegenverkehr Vorrang gewähren! 600x600, StVO 1992.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Zeichen_208_-_Dem_Gegenverkehr_Vorrang_gew%C3%A4hren%21_600x600%2C_StVO_1992.svg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/8/89/Zeichen_208_-_Dem_Gegenverkehr_Vorrang_gew%C3%A4hren%21_600x600%2C_StVO_1992.svg",
+    "license": "public domain",
+    "modifications": "Semantic colors mapped to native Spectra 6: blue #154889 → #0000ff, red #c1121c → #ff0000, yellow #f7ba0b → #ffff00, near-black #0c0b09 → #000000. Geometry unchanged."
+  },
+  {
+    "id": "308",
+    "file": "./assets/308.svg",
+    "title": "Zeichen 308 - Vorrang vor dem Gegenverkehr, StVO 1992.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Zeichen_308_-_Vorrang_vor_dem_Gegenverkehr%2C_StVO_1992.svg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/f/f8/Zeichen_308_-_Vorrang_vor_dem_Gegenverkehr%2C_StVO_1992.svg",
+    "license": "public domain",
+    "modifications": "Semantic colors mapped to native Spectra 6: blue #154889 → #0000ff, red #c1121c → #ff0000, yellow #f7ba0b → #ffff00, near-black #0c0b09 → #000000. Geometry unchanged."
+  },
+  {
+    "id": "220-20",
+    "file": "./assets/220-20.svg",
+    "title": "Zeichen 220-20 - Einbahnstraße, rechtsweisend, StVO 2017.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Zeichen_220-20_-_Einbahnstra%C3%9Fe%2C_rechtsweisend%2C_StVO_2017.svg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/9/94/Zeichen_220-20_-_Einbahnstra%C3%9Fe%2C_rechtsweisend%2C_StVO_2017.svg",
+    "license": "public domain",
+    "modifications": "Semantic colors mapped to native Spectra 6: blue #154889 → #0000ff, red #c1121c → #ff0000, yellow #f7ba0b → #ffff00, near-black #0c0b09 → #000000. Geometry unchanged."
+  },
+  {
+    "id": "314",
+    "file": "./assets/314.svg",
+    "title": "Zeichen 314 - Parken, StVO 2017.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Zeichen_314_-_Parken%2C_StVO_2017.svg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/a/a2/Zeichen_314_-_Parken%2C_StVO_2017.svg",
+    "license": "public domain",
+    "modifications": "Semantic colors mapped to native Spectra 6: blue #154889 → #0000ff, red #c1121c → #ff0000, yellow #f7ba0b → #ffff00, near-black #0c0b09 → #000000. Geometry unchanged."
+  },
+  {
+    "id": "325.1",
+    "file": "./assets/325.1.svg",
+    "title": "Zeichen 325.1 - Beginn eines verkehrsberuhigten Bereichs, StVO 2009.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Zeichen_325.1_-_Beginn_eines_verkehrsberuhigten_Bereichs%2C_StVO_2009.svg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/e/e2/Zeichen_325.1_-_Beginn_eines_verkehrsberuhigten_Bereichs%2C_StVO_2009.svg",
+    "license": "public domain",
+    "modifications": "Semantic colors mapped to native Spectra 6: blue #154889 → #0000ff, red #c1121c → #ff0000, yellow #f7ba0b → #ffff00, near-black #0c0b09 → #000000. Geometry unchanged."
+  },
+  {
+    "id": "327",
+    "file": "./assets/327.svg",
+    "title": "Zeichen 327-50 - Tunnel, mit Längenangabe in m, StVO 2006.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Zeichen_327-50_-_Tunnel%2C_mit_L%C3%A4ngenangabe_in_m%2C_StVO_2006.svg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/4/4b/Zeichen_327-50_-_Tunnel%2C_mit_L%C3%A4ngenangabe_in_m%2C_StVO_2006.svg",
+    "license": "public domain",
+    "modifications": "Semantic colors mapped to native Spectra 6: blue #154889 → #0000ff, red #c1121c → #ff0000, yellow #f7ba0b → #ffff00, near-black #0c0b09 → #000000. Geometry unchanged."
+  },
+  {
+    "id": "101",
+    "file": "./assets/101.svg",
+    "title": "Zeichen 101 - Gefahrstelle, StVO 1970.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Zeichen_101_-_Gefahrstelle%2C_StVO_1970.svg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/0/02/Zeichen_101_-_Gefahrstelle%2C_StVO_1970.svg",
+    "license": "public domain",
+    "modifications": "Semantic red, blue, yellow, green and near-black mapped to native Spectra 6 colors. Geometry unchanged."
+  },
+  {
+    "id": "102",
+    "file": "./assets/102.svg",
+    "title": "Zeichen 102 - Kreuzung oder Einmündung mit Vorfahrt von rechts, StVO 1970.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Zeichen_102_-_Kreuzung_oder_Einm%C3%BCndung_mit_Vorfahrt_von_rechts%2C_StVO_1970.svg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/f/f0/Zeichen_102_-_Kreuzung_oder_Einm%C3%BCndung_mit_Vorfahrt_von_rechts%2C_StVO_1970.svg",
+    "license": "public domain",
+    "modifications": "Semantic red, blue, yellow, green and near-black mapped to native Spectra 6 colors. Geometry unchanged."
+  },
+  {
+    "id": "103-20",
+    "file": "./assets/103-20.svg",
+    "title": "Zeichen 103-20 - Kurve (rechts), StVO 1992.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Zeichen_103-20_-_Kurve_%28rechts%29%2C_StVO_1992.svg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/a/a8/Zeichen_103-20_-_Kurve_%28rechts%29%2C_StVO_1992.svg",
+    "license": "public domain",
+    "modifications": "Semantic red, blue, yellow, green and near-black mapped to native Spectra 6 colors. Geometry unchanged."
+  },
+  {
+    "id": "105-20",
+    "file": "./assets/105-20.svg",
+    "title": "Zeichen 105-20 - Doppelkurve (zunächst rechts), StVO 1992.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Zeichen_105-20_-_Doppelkurve_%28zun%C3%A4chst_rechts%29%2C_StVO_1992.svg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/7/74/Zeichen_105-20_-_Doppelkurve_%28zun%C3%A4chst_rechts%29%2C_StVO_1992.svg",
+    "license": "public domain",
+    "modifications": "Semantic red, blue, yellow, green and near-black mapped to native Spectra 6 colors. Geometry unchanged."
+  },
+  {
+    "id": "112",
+    "file": "./assets/112.svg",
+    "title": "Zeichen 112 – Unebene Fahrbahn, StVO 1970.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Zeichen_112_%E2%80%93_Unebene_Fahrbahn%2C_StVO_1970.svg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/9/9e/Zeichen_112_%E2%80%93_Unebene_Fahrbahn%2C_StVO_1970.svg",
+    "license": "public domain",
+    "modifications": "Semantic red, blue, yellow, green and near-black mapped to native Spectra 6 colors. Geometry unchanged."
+  },
+  {
+    "id": "114",
+    "file": "./assets/114.svg",
+    "title": "Zeichen 114 - Schleuder- oder Rutschgefahr, StVO 2013.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Zeichen_114_-_Schleuder-_oder_Rutschgefahr%2C_StVO_2013.svg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/b/b4/Zeichen_114_-_Schleuder-_oder_Rutschgefahr%2C_StVO_2013.svg",
+    "license": "public domain",
+    "modifications": "Semantic red, blue, yellow, green and near-black mapped to native Spectra 6 colors. Geometry unchanged."
+  },
+  {
+    "id": "123",
+    "file": "./assets/123.svg",
+    "title": "Zeichen 123 - Arbeitsstelle, StVO 2013.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Zeichen_123_-_Arbeitsstelle%2C_StVO_2013.svg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/a/a9/Zeichen_123_-_Arbeitsstelle%2C_StVO_2013.svg",
+    "license": "public domain",
+    "modifications": "Semantic red, blue, yellow, green and near-black mapped to native Spectra 6 colors. Geometry unchanged."
+  },
+  {
+    "id": "124",
+    "file": "./assets/124.svg",
+    "title": "Zeichen 124 - Stau, StVO 1992.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Zeichen_124_-_Stau%2C_StVO_1992.svg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/b/bc/Zeichen_124_-_Stau%2C_StVO_1992.svg",
+    "license": "public domain",
+    "modifications": "Semantic red, blue, yellow, green and near-black mapped to native Spectra 6 colors. Geometry unchanged."
+  },
+  {
+    "id": "133-10",
+    "file": "./assets/133-10.svg",
+    "title": "Zeichen 133-10 - Fußgänger (Aufstellung rechts), StVO 1992.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Zeichen_133-10_-_Fu%C3%9Fg%C3%A4nger_%28Aufstellung_rechts%29%2C_StVO_1992.svg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/3/31/Zeichen_133-10_-_Fu%C3%9Fg%C3%A4nger_%28Aufstellung_rechts%29%2C_StVO_1992.svg",
+    "license": "public domain",
+    "modifications": "Semantic red, blue, yellow, green and near-black mapped to native Spectra 6 colors. Geometry unchanged."
+  },
+  {
+    "id": "136-10",
+    "file": "./assets/136-10.svg",
+    "title": "Zeichen 136-10 - Kinder, Aufstellung rechts, StVO 1992.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Zeichen_136-10_-_Kinder%2C_Aufstellung_rechts%2C_StVO_1992.svg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/7/70/Zeichen_136-10_-_Kinder%2C_Aufstellung_rechts%2C_StVO_1992.svg",
+    "license": "public domain",
+    "modifications": "Semantic red, blue, yellow, green and near-black mapped to native Spectra 6 colors. Geometry unchanged."
+  },
+  {
+    "id": "138-10",
+    "file": "./assets/138-10.svg",
+    "title": "Zeichen 138-10 - Radverkehr, StVO 2013.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Zeichen_138-10_-_Radverkehr%2C_StVO_2013.svg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/a/ae/Zeichen_138-10_-_Radverkehr%2C_StVO_2013.svg",
+    "license": "public domain",
+    "modifications": "Semantic red, blue, yellow, green and near-black mapped to native Spectra 6 colors. Geometry unchanged."
+  },
+  {
+    "id": "142-10",
+    "file": "./assets/142-10.svg",
+    "title": "Zeichen 142-10 - Wildwechsel, Aufstellung rechts, StVO 1992.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Zeichen_142-10_-_Wildwechsel%2C_Aufstellung_rechts%2C_StVO_1992.svg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/6/68/Zeichen_142-10_-_Wildwechsel%2C_Aufstellung_rechts%2C_StVO_1992.svg",
+    "license": "public domain",
+    "modifications": "Semantic red, blue, yellow, green and near-black mapped to native Spectra 6 colors. Geometry unchanged."
+  },
+  {
+    "id": "151",
+    "file": "./assets/151.svg",
+    "title": "Zeichen 151 - Bahnübergang, StVO 2013.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Zeichen_151_-_Bahn%C3%BCbergang%2C_StVO_2013.svg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/8/88/Zeichen_151_-_Bahn%C3%BCbergang%2C_StVO_2013.svg",
+    "license": "public domain",
+    "modifications": "Semantic red, blue, yellow, green and near-black mapped to native Spectra 6 colors. Geometry unchanged."
+  },
+  {
+    "id": "215",
+    "file": "./assets/215.svg",
+    "title": "Zeichen 215 - Kreisverkehr, StVO 2000.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Zeichen_215_-_Kreisverkehr%2C_StVO_2000.svg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/7/72/Zeichen_215_-_Kreisverkehr%2C_StVO_2000.svg",
+    "license": "public domain",
+    "modifications": "Semantic red, blue, yellow, green and near-black mapped to native Spectra 6 colors. Geometry unchanged."
+  },
+  {
+    "id": "222",
+    "file": "./assets/222.svg",
+    "title": "Zeichen 222 - Vorgeschriebene Vorbeifahrt, Rechts vorbei, StVO 2017.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Zeichen_222_-_Vorgeschriebene_Vorbeifahrt%2C_Rechts_vorbei%2C_StVO_2017.svg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/8/82/Zeichen_222_-_Vorgeschriebene_Vorbeifahrt%2C_Rechts_vorbei%2C_StVO_2017.svg",
+    "license": "public domain",
+    "modifications": "Semantic red, blue, yellow, green and near-black mapped to native Spectra 6 colors. Geometry unchanged."
+  },
+  {
+    "id": "224",
+    "file": "./assets/224.svg",
+    "title": "Zeichen 224 - Haltestelle, StVO 2017.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Zeichen_224_-_Haltestelle%2C_StVO_2017.svg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/a/a6/Zeichen_224_-_Haltestelle%2C_StVO_2017.svg",
+    "license": "public domain",
+    "modifications": "Semantic red, blue, yellow, green and near-black mapped to native Spectra 6 colors. Geometry unchanged."
+  },
+  {
+    "id": "237",
+    "file": "./assets/237.svg",
+    "title": "Zeichen 237 - Sonderweg Radfahrer, StVO 1992.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Zeichen_237_-_Sonderweg_Radfahrer%2C_StVO_1992.svg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/9/91/Zeichen_237_-_Sonderweg_Radfahrer%2C_StVO_1992.svg",
+    "license": "public domain",
+    "modifications": "Semantic red, blue, yellow, green and near-black mapped to native Spectra 6 colors. Geometry unchanged."
+  },
+  {
+    "id": "239",
+    "file": "./assets/239.svg",
+    "title": "Zeichen 239 - Sonderweg Fußgänger, StVO 1992.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Zeichen_239_-_Sonderweg_Fu%C3%9Fg%C3%A4nger%2C_StVO_1992.svg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/5/5a/Zeichen_239_-_Sonderweg_Fu%C3%9Fg%C3%A4nger%2C_StVO_1992.svg",
+    "license": "public domain",
+    "modifications": "Semantic red, blue, yellow, green and near-black mapped to native Spectra 6 colors. Geometry unchanged."
+  },
+  {
+    "id": "240",
+    "file": "./assets/240.svg",
+    "title": "Zeichen 240 - Gemeinsamer Fuß- und Radweg, StVO 1992.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Zeichen_240_-_Gemeinsamer_Fu%C3%9F-_und_Radweg%2C_StVO_1992.svg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/0/08/Zeichen_240_-_Gemeinsamer_Fu%C3%9F-_und_Radweg%2C_StVO_1992.svg",
+    "license": "public domain",
+    "modifications": "Semantic red, blue, yellow, green and near-black mapped to native Spectra 6 colors. Geometry unchanged."
+  },
+  {
+    "id": "241-30",
+    "file": "./assets/241-30.svg",
+    "title": "Zeichen 241-30 - getrennter Rad- und Fußweg, StVO 1992.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Zeichen_241-30_-_getrennter_Rad-_und_Fu%C3%9Fweg%2C_StVO_1992.svg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/8/86/Zeichen_241-30_-_getrennter_Rad-_und_Fu%C3%9Fweg%2C_StVO_1992.svg",
+    "license": "public domain",
+    "modifications": "Semantic red, blue, yellow, green and near-black mapped to native Spectra 6 colors. Geometry unchanged."
+  },
+  {
+    "id": "244.1",
+    "file": "./assets/244.1.svg",
+    "title": "Zeichen 244.1 - Beginn einer Fahrradstraße, StVO 2013.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Zeichen_244.1_-_Beginn_einer_Fahrradstra%C3%9Fe%2C_StVO_2013.svg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/3/3c/Zeichen_244.1_-_Beginn_einer_Fahrradstra%C3%9Fe%2C_StVO_2013.svg",
+    "license": "public domain",
+    "modifications": "Semantic red, blue, yellow, green and near-black mapped to native Spectra 6 colors. Geometry unchanged."
+  },
+  {
+    "id": "276",
+    "file": "./assets/276.svg",
+    "title": "Zeichen 276 - Überholverbot für Kraftfahrzeuge aller Art, StVO 1992.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Zeichen_276_-_%C3%9Cberholverbot_f%C3%BCr_Kraftfahrzeuge_aller_Art%2C_StVO_1992.svg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/5/5e/Zeichen_276_-_%C3%9Cberholverbot_f%C3%BCr_Kraftfahrzeuge_aller_Art%2C_StVO_1992.svg",
+    "license": "public domain",
+    "modifications": "Semantic red, blue, yellow, green and near-black mapped to native Spectra 6 colors. Geometry unchanged."
+  },
+  {
+    "id": "282",
+    "file": "./assets/282.svg",
+    "title": "Zeichen 282 - Ende sämtlicher Streckenverbote, StVO 1970.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Zeichen_282_-_Ende_s%C3%A4mtlicher_Streckenverbote%2C_StVO_1970.svg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/d/d3/Zeichen_282_-_Ende_s%C3%A4mtlicher_Streckenverbote%2C_StVO_1970.svg",
+    "license": "public domain",
+    "modifications": "Semantic red, blue, yellow, green and near-black mapped to native Spectra 6 colors. Geometry unchanged."
+  },
+  {
+    "id": "330.1",
+    "file": "./assets/330.1.svg",
+    "title": "Zeichen 330.1 - Autobahn, StVO 2013.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Zeichen_330.1_-_Autobahn%2C_StVO_2013.svg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/0/07/Zeichen_330.1_-_Autobahn%2C_StVO_2013.svg",
+    "license": "public domain",
+    "modifications": "Semantic red, blue, yellow, green and near-black mapped to native Spectra 6 colors. Geometry unchanged."
+  },
+  {
+    "id": "103-10",
+    "file": "./assets/103-10.svg",
+    "title": "Zeichen 103-10 - Kurve (links), StVO 1992.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Zeichen_103-10_-_Kurve_%28links%29%2C_StVO_1992.svg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/b/be/Zeichen_103-10_-_Kurve_%28links%29%2C_StVO_1992.svg",
+    "license": "public domain",
+    "modifications": "Semantic red, blue, yellow, green and near-black mapped to native Spectra 6 colors. Geometry unchanged."
+  },
+  {
+    "id": "105-10",
+    "file": "./assets/105-10.svg",
+    "title": "Zeichen 105-10 - Doppelkurve (zunächst links), StVO 1992.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Zeichen_105-10_-_Doppelkurve_%28zun%C3%A4chst_links%29%2C_StVO_1992.svg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/e/e8/Zeichen_105-10_-_Doppelkurve_%28zun%C3%A4chst_links%29%2C_StVO_1992.svg",
+    "license": "public domain",
+    "modifications": "Semantic red, blue, yellow, green and near-black mapped to native Spectra 6 colors. Geometry unchanged."
+  },
+  {
+    "id": "108-10",
+    "file": "./assets/108-10.svg",
+    "title": "Zeichen 108-10 - Gefälle, StVO 2017.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Zeichen_108-10_-_Gef%C3%A4lle%2C_StVO_2017.svg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/3/3e/Zeichen_108-10_-_Gef%C3%A4lle%2C_StVO_2017.svg",
+    "license": "public domain",
+    "modifications": "Semantic red, blue, yellow, green and near-black mapped to native Spectra 6 colors. Geometry unchanged."
+  },
+  {
+    "id": "110-12",
+    "file": "./assets/110-12.svg",
+    "title": "Zeichen 110-12 - Steigung, StVO 2017.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Zeichen_110-12_-_Steigung%2C_StVO_2017.svg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/b/b8/Zeichen_110-12_-_Steigung%2C_StVO_2017.svg",
+    "license": "public domain",
+    "modifications": "Semantic red, blue, yellow, green and near-black mapped to native Spectra 6 colors. Geometry unchanged."
+  },
+  {
+    "id": "117-10",
+    "file": "./assets/117-10.svg",
+    "title": "Zeichen 117-10 - Seitenwind von rechts, StVO 1992.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Zeichen_117-10_-_Seitenwind_von_rechts%2C_StVO_1992.svg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/0/05/Zeichen_117-10_-_Seitenwind_von_rechts%2C_StVO_1992.svg",
+    "license": "public domain",
+    "modifications": "Semantic red, blue, yellow, green and near-black mapped to native Spectra 6 colors. Geometry unchanged."
+  },
+  {
+    "id": "120",
+    "file": "./assets/120.svg",
+    "title": "Zeichen 120 - Verengte Fahrbahn, StVO 1970.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Zeichen_120_-_Verengte_Fahrbahn%2C_StVO_1970.svg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/0/08/Zeichen_120_-_Verengte_Fahrbahn%2C_StVO_1970.svg",
+    "license": "public domain",
+    "modifications": "Semantic red, blue, yellow, green and near-black mapped to native Spectra 6 colors. Geometry unchanged."
+  },
+  {
+    "id": "121-10",
+    "file": "./assets/121-10.svg",
+    "title": "Zeichen 121-10 - einseitig (rechts) verengte Fahrbahn, StVO 1992.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Zeichen_121-10_-_einseitig_%28rechts%29_verengte_Fahrbahn%2C_StVO_1992.svg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/1/15/Zeichen_121-10_-_einseitig_%28rechts%29_verengte_Fahrbahn%2C_StVO_1992.svg",
+    "license": "public domain",
+    "modifications": "Semantic red, blue, yellow, green and near-black mapped to native Spectra 6 colors. Geometry unchanged."
+  },
+  {
+    "id": "121-20",
+    "file": "./assets/121-20.svg",
+    "title": "Zeichen 121-20 - einseitig (links) verengte Fahrbahn, StVO 1992.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Zeichen_121-20_-_einseitig_%28links%29_verengte_Fahrbahn%2C_StVO_1992.svg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/a/a6/Zeichen_121-20_-_einseitig_%28links%29_verengte_Fahrbahn%2C_StVO_1992.svg",
+    "license": "public domain",
+    "modifications": "Semantic red, blue, yellow, green and near-black mapped to native Spectra 6 colors. Geometry unchanged."
+  },
+  {
+    "id": "125",
+    "file": "./assets/125.svg",
+    "title": "Zeichen 125 - Gegenverkehr, StVO 1992.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Zeichen_125_-_Gegenverkehr%2C_StVO_1992.svg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/d/d6/Zeichen_125_-_Gegenverkehr%2C_StVO_1992.svg",
+    "license": "public domain",
+    "modifications": "Semantic red, blue, yellow, green and near-black mapped to native Spectra 6 colors. Geometry unchanged."
+  },
+  {
+    "id": "131",
+    "file": "./assets/131.svg",
+    "title": "Zeichen 131 - Lichtzeichenanlage, StVO 1970.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Zeichen_131_-_Lichtzeichenanlage%2C_StVO_1970.svg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/4/45/Zeichen_131_-_Lichtzeichenanlage%2C_StVO_1970.svg",
+    "license": "public domain",
+    "modifications": "Semantic red, blue, yellow, green and near-black mapped to native Spectra 6 colors. Geometry unchanged."
+  },
+  {
+    "id": "157-10",
+    "file": "./assets/157-10.svg",
+    "title": "Zeichen 157-10 - Dreistreifige Bake (rechts), StVO 1992.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Zeichen_157-10_-_Dreistreifige_Bake_%28rechts%29%2C_StVO_1992.svg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/9/95/Zeichen_157-10_-_Dreistreifige_Bake_%28rechts%29%2C_StVO_1992.svg",
+    "license": "public domain",
+    "modifications": "Semantic red, blue, yellow, green and near-black mapped to native Spectra 6 colors. Geometry unchanged.",
+    "licenseDetail": "CC0 1.0 Universal Public Domain Dedication",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/"
+  },
+  {
+    "id": "159-10",
+    "file": "./assets/159-10.svg",
+    "title": "Zeichen 159-10 - zweistreifige Bake (Aufstellung rechts), StVO 1992.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Zeichen_159-10_-_zweistreifige_Bake_%28Aufstellung_rechts%29%2C_StVO_1992.svg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/8/8b/Zeichen_159-10_-_zweistreifige_Bake_%28Aufstellung_rechts%29%2C_StVO_1992.svg",
+    "license": "public domain",
+    "modifications": "Semantic red, blue, yellow, green and near-black mapped to native Spectra 6 colors. Geometry unchanged."
+  },
+  {
+    "id": "162-10",
+    "file": "./assets/162-10.svg",
+    "title": "Zeichen 162-10 - einstreifige Bake (Aufstellung rechts), StVO 1992.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Zeichen_162-10_-_einstreifige_Bake_%28Aufstellung_rechts%29%2C_StVO_1992.svg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/5/54/Zeichen_162-10_-_einstreifige_Bake_%28Aufstellung_rechts%29%2C_StVO_1992.svg",
+    "license": "public domain",
+    "modifications": "Semantic red, blue, yellow, green and near-black mapped to native Spectra 6 colors. Geometry unchanged."
+  },
+  {
+    "id": "201-50",
+    "file": "./assets/201-50.svg",
+    "title": "Zeichen 201-50 – Andreaskreuz - Dem Schienenverkehr Vorrang gewähren! StVO 1992.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Zeichen_201-50_%E2%80%93_Andreaskreuz_-_Dem_Schienenverkehr_Vorrang_gew%C3%A4hren%21_StVO_1992.svg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/8/8e/Zeichen_201-50_%E2%80%93_Andreaskreuz_-_Dem_Schienenverkehr_Vorrang_gew%C3%A4hren%21_StVO_1992.svg",
+    "license": "public domain",
+    "modifications": "Semantic red, blue, yellow, green and near-black mapped to native Spectra 6 colors. Geometry unchanged."
+  },
+  {
+    "id": "209",
+    "file": "./assets/209.svg",
+    "title": "Zeichen 209 - Vorgeschriebene Fahrtrichtung, rechts, StVO 2017.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Zeichen_209_-_Vorgeschriebene_Fahrtrichtung%2C_rechts%2C_StVO_2017.svg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/b/b9/Zeichen_209_-_Vorgeschriebene_Fahrtrichtung%2C_rechts%2C_StVO_2017.svg",
+    "license": "public domain",
+    "modifications": "Semantic red, blue, yellow, green and near-black mapped to native Spectra 6 colors. Geometry unchanged."
+  },
+  {
+    "id": "209-10",
+    "file": "./assets/209-10.svg",
+    "title": "Zeichen 209-10 - Vorgeschriebene Fahrtrichtung, links, StVO 2017.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Zeichen_209-10_-_Vorgeschriebene_Fahrtrichtung%2C_links%2C_StVO_2017.svg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/c/c2/Zeichen_209-10_-_Vorgeschriebene_Fahrtrichtung%2C_links%2C_StVO_2017.svg",
+    "license": "public domain",
+    "modifications": "Semantic red, blue, yellow, green and near-black mapped to native Spectra 6 colors. Geometry unchanged."
+  },
+  {
+    "id": "209-30",
+    "file": "./assets/209-30.svg",
+    "title": "Zeichen 209-30 - Vorgeschriebene Fahrtrichtung, Geradeaus, StVO 2017.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Zeichen_209-30_-_Vorgeschriebene_Fahrtrichtung%2C_Geradeaus%2C_StVO_2017.svg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/b/bc/Zeichen_209-30_-_Vorgeschriebene_Fahrtrichtung%2C_Geradeaus%2C_StVO_2017.svg",
+    "license": "public domain",
+    "modifications": "Semantic red, blue, yellow, green and near-black mapped to native Spectra 6 colors. Geometry unchanged."
+  },
+  {
+    "id": "214",
+    "file": "./assets/214.svg",
+    "title": "Zeichen 214 - Vorgeschriebene Fahrtrichtung, Geradeaus oder rechts, StVO 2017.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Zeichen_214_-_Vorgeschriebene_Fahrtrichtung%2C_Geradeaus_oder_rechts%2C_StVO_2017.svg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/2/20/Zeichen_214_-_Vorgeschriebene_Fahrtrichtung%2C_Geradeaus_oder_rechts%2C_StVO_2017.svg",
+    "license": "public domain",
+    "modifications": "Semantic red, blue, yellow, green and near-black mapped to native Spectra 6 colors. Geometry unchanged."
+  },
+  {
+    "id": "214-30",
+    "file": "./assets/214-30.svg",
+    "title": "Zeichen 214-30 - Vorgeschriebene Fahrtrichtung, Rechts oder links, StVO 2017.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Zeichen_214-30_-_Vorgeschriebene_Fahrtrichtung%2C_Rechts_oder_links%2C_StVO_2017.svg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/9/94/Zeichen_214-30_-_Vorgeschriebene_Fahrtrichtung%2C_Rechts_oder_links%2C_StVO_2017.svg",
+    "license": "public domain",
+    "modifications": "Semantic red, blue, yellow, green and near-black mapped to native Spectra 6 colors. Geometry unchanged."
+  },
+  {
+    "id": "222-10",
+    "file": "./assets/222-10.svg",
+    "title": "Zeichen 222-10 - Vorgeschriebene Vorbeifahrt, Links vorbei, StVO 2017.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Zeichen_222-10_-_Vorgeschriebene_Vorbeifahrt%2C_Links_vorbei%2C_StVO_2017.svg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/1/1b/Zeichen_222-10_-_Vorgeschriebene_Vorbeifahrt%2C_Links_vorbei%2C_StVO_2017.svg",
+    "license": "public domain",
+    "modifications": "Semantic red, blue, yellow, green and near-black mapped to native Spectra 6 colors. Geometry unchanged."
+  },
+  {
+    "id": "229",
+    "file": "./assets/229.svg",
+    "title": "Zeichen 229 - Taxenstand, StVO 1994.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Zeichen_229_-_Taxenstand%2C_StVO_1994.svg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/2/22/Zeichen_229_-_Taxenstand%2C_StVO_1994.svg",
+    "license": "public domain",
+    "modifications": "Semantic red, blue, yellow, green and near-black mapped to native Spectra 6 colors. Geometry unchanged."
+  },
+  {
+    "id": "238",
+    "file": "./assets/238.svg",
+    "title": "Zeichen 238 - Sonderweg Reiter, StVO 1992.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Zeichen_238_-_Sonderweg_Reiter%2C_StVO_1992.svg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/a/a6/Zeichen_238_-_Sonderweg_Reiter%2C_StVO_1992.svg",
+    "license": "public domain",
+    "modifications": "Semantic red, blue, yellow, green and near-black mapped to native Spectra 6 colors. Geometry unchanged."
+  },
+  {
+    "id": "242.1",
+    "file": "./assets/242.1.svg",
+    "title": "Zeichen 242.1 - Beginn einer Fußgängerzone, StVO 2009.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Zeichen_242.1_-_Beginn_einer_Fu%C3%9Fg%C3%A4ngerzone%2C_StVO_2009.svg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/8/8b/Zeichen_242.1_-_Beginn_einer_Fu%C3%9Fg%C3%A4ngerzone%2C_StVO_2009.svg",
+    "license": "public domain",
+    "modifications": "Semantic red, blue, yellow, green and near-black mapped to native Spectra 6 colors. Geometry unchanged."
+  },
+  {
+    "id": "242.2",
+    "file": "./assets/242.2.svg",
+    "title": "Zeichen 242.2 - Ende einer Fußgängerzone, StVO 2009.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Zeichen_242.2_-_Ende_einer_Fu%C3%9Fg%C3%A4ngerzone%2C_StVO_2009.svg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/7/78/Zeichen_242.2_-_Ende_einer_Fu%C3%9Fg%C3%A4ngerzone%2C_StVO_2009.svg",
+    "license": "public domain",
+    "modifications": "Semantic red, blue, yellow, green and near-black mapped to native Spectra 6 colors. Geometry unchanged."
+  },
+  {
+    "id": "244.2",
+    "file": "./assets/244.2.svg",
+    "title": "Zeichen 244.2 - Ende einer Fahrradstraße, StVO 2013.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Zeichen_244.2_-_Ende_einer_Fahrradstra%C3%9Fe%2C_StVO_2013.svg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/f/f1/Zeichen_244.2_-_Ende_einer_Fahrradstra%C3%9Fe%2C_StVO_2013.svg",
+    "license": "public domain",
+    "modifications": "Semantic red, blue, yellow, green and near-black mapped to native Spectra 6 colors. Geometry unchanged."
+  },
+  {
+    "id": "245",
+    "file": "./assets/245.svg",
+    "title": "Zeichen 245 - Bussonderfahrstreifen, StVO 2013.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Zeichen_245_-_Bussonderfahrstreifen%2C_StVO_2013.svg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/0/05/Zeichen_245_-_Bussonderfahrstreifen%2C_StVO_2013.svg",
+    "license": "public domain",
+    "modifications": "Semantic red, blue, yellow, green and near-black mapped to native Spectra 6 colors. Geometry unchanged."
+  },
+  {
+    "id": "251",
+    "file": "./assets/251.svg",
+    "title": "Zeichen 251 - Verbot für Kraftwagen und sonstige mehrspurige Kraftfahrzeuge, StVO 1992.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Zeichen_251_-_Verbot_f%C3%BCr_Kraftwagen_und_sonstige_mehrspurige_Kraftfahrzeuge%2C_StVO_1992.svg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/6/6c/Zeichen_251_-_Verbot_f%C3%BCr_Kraftwagen_und_sonstige_mehrspurige_Kraftfahrzeuge%2C_StVO_1992.svg",
+    "license": "public domain",
+    "modifications": "Semantic red, blue, yellow, green and near-black mapped to native Spectra 6 colors. Geometry unchanged."
+  },
+  {
+    "id": "253",
+    "file": "./assets/253.svg",
+    "title": "Zeichen 253 - Verbot für Kraftfahrzeuge mit einem zulässigen Gesamtgewicht, StVO 1992.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Zeichen_253_-_Verbot_f%C3%BCr_Kraftfahrzeuge_mit_einem_zul%C3%A4ssigen_Gesamtgewicht%2C_StVO_1992.svg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/9/9a/Zeichen_253_-_Verbot_f%C3%BCr_Kraftfahrzeuge_mit_einem_zul%C3%A4ssigen_Gesamtgewicht%2C_StVO_1992.svg",
+    "license": "public domain",
+    "modifications": "Semantic red, blue, yellow, green and near-black mapped to native Spectra 6 colors. Geometry unchanged."
+  },
+  {
+    "id": "254",
+    "file": "./assets/254.svg",
+    "title": "Zeichen 254 - Verbot für Radfahrer, StVO 1992.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Zeichen_254_-_Verbot_f%C3%BCr_Radfahrer%2C_StVO_1992.svg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/b/b0/Zeichen_254_-_Verbot_f%C3%BCr_Radfahrer%2C_StVO_1992.svg",
+    "license": "public domain",
+    "modifications": "Semantic red, blue, yellow, green and near-black mapped to native Spectra 6 colors. Geometry unchanged."
+  },
+  {
+    "id": "255",
+    "file": "./assets/255.svg",
+    "title": "Zeichen 255 - Verbot für Krafträder, auch mit Beiwagen, Kleinkrafträder und Mofas, StVO 1992.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Zeichen_255_-_Verbot_f%C3%BCr_Kraftr%C3%A4der%2C_auch_mit_Beiwagen%2C_Kleinkraftr%C3%A4der_und_Mofas%2C_StVO_1992.svg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/a/ae/Zeichen_255_-_Verbot_f%C3%BCr_Kraftr%C3%A4der%2C_auch_mit_Beiwagen%2C_Kleinkraftr%C3%A4der_und_Mofas%2C_StVO_1992.svg",
+    "license": "public domain",
+    "modifications": "Semantic red, blue, yellow, green and near-black mapped to native Spectra 6 colors. Geometry unchanged."
+  },
+  {
+    "id": "259",
+    "file": "./assets/259.svg",
+    "title": "Zeichen 259 - Verbot für Fußgänger, StVO 1992.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Zeichen_259_-_Verbot_f%C3%BCr_Fu%C3%9Fg%C3%A4nger%2C_StVO_1992.svg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/f/f6/Zeichen_259_-_Verbot_f%C3%BCr_Fu%C3%9Fg%C3%A4nger%2C_StVO_1992.svg",
+    "license": "public domain",
+    "modifications": "Semantic red, blue, yellow, green and near-black mapped to native Spectra 6 colors. Geometry unchanged."
+  },
+  {
+    "id": "260",
+    "file": "./assets/260.svg",
+    "title": "Zeichen 260 - Verbot für Krafträder und Mofas und sonstige mehrspurige Kraftfahrzeuge, StVO 1992.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Zeichen_260_-_Verbot_f%C3%BCr_Kraftr%C3%A4der_und_Mofas_und_sonstige_mehrspurige_Kraftfahrzeuge%2C_StVO_1992.svg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/b/bf/Zeichen_260_-_Verbot_f%C3%BCr_Kraftr%C3%A4der_und_Mofas_und_sonstige_mehrspurige_Kraftfahrzeuge%2C_StVO_1992.svg",
+    "license": "public domain",
+    "modifications": "Semantic red, blue, yellow, green and near-black mapped to native Spectra 6 colors. Geometry unchanged."
+  },
+  {
+    "id": "261",
+    "file": "./assets/261.svg",
+    "title": "Zeichen 261 - Verbot für kennzeichnungspflichtige Kraftfahrzeuge mit gefährlichen Gütern, StVO 1988.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Zeichen_261_-_Verbot_f%C3%BCr_kennzeichnungspflichtige_Kraftfahrzeuge_mit_gef%C3%A4hrlichen_G%C3%BCtern%2C_StVO_1988.svg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/5/5d/Zeichen_261_-_Verbot_f%C3%BCr_kennzeichnungspflichtige_Kraftfahrzeuge_mit_gef%C3%A4hrlichen_G%C3%BCtern%2C_StVO_1988.svg",
+    "license": "public domain",
+    "modifications": "Semantic red, blue, yellow, green and near-black mapped to native Spectra 6 colors. Geometry unchanged. Orange hazard panels mapped to #ff8000 and rendered with error-diffusion dithering on Spectra 6."
+  },
+  {
+    "id": "262-5,5",
+    "file": "./assets/262-5,5.svg",
+    "title": "Zeichen 262-5,5 - Verbot für Fahrzeuge über angegebene tatsächliche Masse, StVO 2017.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Zeichen_262-5%2C5_-_Verbot_f%C3%BCr_Fahrzeuge_%C3%BCber_angegebene_tats%C3%A4chliche_Masse%2C_StVO_2017.svg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/b/ba/Zeichen_262-5%2C5_-_Verbot_f%C3%BCr_Fahrzeuge_%C3%BCber_angegebene_tats%C3%A4chliche_Masse%2C_StVO_2017.svg",
+    "license": "public domain",
+    "modifications": "Semantic red, blue, yellow, green and near-black mapped to native Spectra 6 colors. Geometry unchanged."
+  },
+  {
+    "id": "264-2",
+    "file": "./assets/264-2.svg",
+    "title": "Zeichen 264-2 - Verbot für Fahrzeuge über angegebene tatsächliche Breite, StVO 2017.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Zeichen_264-2_-_Verbot_f%C3%BCr_Fahrzeuge_%C3%BCber_angegebene_tats%C3%A4chliche_Breite%2C_StVO_2017.svg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/3/3c/Zeichen_264-2_-_Verbot_f%C3%BCr_Fahrzeuge_%C3%BCber_angegebene_tats%C3%A4chliche_Breite%2C_StVO_2017.svg",
+    "license": "public domain",
+    "modifications": "Semantic red, blue, yellow, green and near-black mapped to native Spectra 6 colors. Geometry unchanged."
+  },
+  {
+    "id": "265-3,8",
+    "file": "./assets/265-3,8.svg",
+    "title": "Zeichen 265-3,8 - Verbot für Fahrzeuge über angegebene tatsächliche Höhe, StVO 2017.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Zeichen_265-3%2C8_-_Verbot_f%C3%BCr_Fahrzeuge_%C3%BCber_angegebene_tats%C3%A4chliche_H%C3%B6he%2C_StVO_2017.svg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/9/98/Zeichen_265-3%2C8_-_Verbot_f%C3%BCr_Fahrzeuge_%C3%BCber_angegebene_tats%C3%A4chliche_H%C3%B6he%2C_StVO_2017.svg",
+    "license": "public domain",
+    "modifications": "Semantic red, blue, yellow, green and near-black mapped to native Spectra 6 colors. Geometry unchanged."
+  },
+  {
+    "id": "266-10",
+    "file": "./assets/266-10.svg",
+    "title": "Zeichen 266-10 - Verbot für Fahrzeuge über angegebene tatsächliche Länge, StVO 2017.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Zeichen_266-10_-_Verbot_f%C3%BCr_Fahrzeuge_%C3%BCber_angegebene_tats%C3%A4chliche_L%C3%A4nge%2C_StVO_2017.svg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/9/9b/Zeichen_266-10_-_Verbot_f%C3%BCr_Fahrzeuge_%C3%BCber_angegebene_tats%C3%A4chliche_L%C3%A4nge%2C_StVO_2017.svg",
+    "license": "public domain",
+    "modifications": "Semantic red, blue, yellow, green and near-black mapped to native Spectra 6 colors. Geometry unchanged."
+  },
+  {
+    "id": "268",
+    "file": "./assets/268.svg",
+    "title": "Zeichen 268 - Schneeketten sind vorgeschrieben, StVO 1992.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Zeichen_268_-_Schneeketten_sind_vorgeschrieben%2C_StVO_1992.svg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/6/6f/Zeichen_268_-_Schneeketten_sind_vorgeschrieben%2C_StVO_1992.svg",
+    "license": "public domain",
+    "modifications": "Semantic red, blue, yellow, green and near-black mapped to native Spectra 6 colors. Geometry unchanged."
+  },
+  {
+    "id": "269",
+    "file": "./assets/269.svg",
+    "title": "Zeichen 269 - Verbot für Fahrzeuge mit wassergefährdender Ladung, StVO 1988.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Zeichen_269_-_Verbot_f%C3%BCr_Fahrzeuge_mit_wassergef%C3%A4hrdender_Ladung%2C_StVO_1988.svg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/c/cc/Zeichen_269_-_Verbot_f%C3%BCr_Fahrzeuge_mit_wassergef%C3%A4hrdender_Ladung%2C_StVO_1988.svg",
+    "license": "public domain",
+    "modifications": "Semantic red, blue, yellow, green and near-black mapped to native Spectra 6 colors. Geometry unchanged. Orange hazard panels mapped to #ff8000 and rendered with error-diffusion dithering on Spectra 6."
+  },
+  {
+    "id": "272",
+    "file": "./assets/272.svg",
+    "title": "Zeichen 272, Verbot des Wendens, StVO 1992.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Zeichen_272%2C_Verbot_des_Wendens%2C_StVO_1992.svg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/2/2c/Zeichen_272%2C_Verbot_des_Wendens%2C_StVO_1992.svg",
+    "license": "public domain",
+    "modifications": "Semantic red, blue, yellow, green and near-black mapped to native Spectra 6 colors. Geometry unchanged."
+  },
+  {
+    "id": "274.2",
+    "file": "./assets/274.2.svg",
+    "title": "Zeichen 274.2 - Ende einer Tempo 30-Zone (einseitig), StVO 2013.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Zeichen_274.2_-_Ende_einer_Tempo_30-Zone_%28einseitig%29%2C_StVO_2013.svg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/1/14/Zeichen_274.2_-_Ende_einer_Tempo_30-Zone_%28einseitig%29%2C_StVO_2013.svg",
+    "license": "public domain",
+    "modifications": "Semantic red, blue, yellow, green and near-black mapped to native Spectra 6 colors. Geometry unchanged."
+  },
+  {
+    "id": "275-30",
+    "file": "./assets/275-30.svg",
+    "title": "Zeichen 275-30 - Vorgeschriebene Mindestgeschwindigkeit, StVO 2017.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Zeichen_275-30_-_Vorgeschriebene_Mindestgeschwindigkeit%2C_StVO_2017.svg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/3/30/Zeichen_275-30_-_Vorgeschriebene_Mindestgeschwindigkeit%2C_StVO_2017.svg",
+    "license": "public domain",
+    "modifications": "Semantic red, blue, yellow, green and near-black mapped to native Spectra 6 colors. Geometry unchanged."
+  },
+  {
+    "id": "278-30",
+    "file": "./assets/278-30.svg",
+    "title": "Zeichen 278-30 - Ende der zulässigen Höchstgeschwindigkeit, StVO 2017.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Zeichen_278-30_-_Ende_der_zul%C3%A4ssigen_H%C3%B6chstgeschwindigkeit%2C_StVO_2017.svg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/4/46/Zeichen_278-30_-_Ende_der_zul%C3%A4ssigen_H%C3%B6chstgeschwindigkeit%2C_StVO_2017.svg",
+    "license": "public domain",
+    "modifications": "Semantic red, blue, yellow, green and near-black mapped to native Spectra 6 colors. Geometry unchanged."
+  },
+  {
+    "id": "280",
+    "file": "./assets/280.svg",
+    "title": "Zeichen 280 - Ende des Überholverbotes für Kraftfahrzeuge aller Art, StVO 1992.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Zeichen_280_-_Ende_des_%C3%9Cberholverbotes_f%C3%BCr_Kraftfahrzeuge_aller_Art%2C_StVO_1992.svg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/a/a2/Zeichen_280_-_Ende_des_%C3%9Cberholverbotes_f%C3%BCr_Kraftfahrzeuge_aller_Art%2C_StVO_1992.svg",
+    "license": "public domain",
+    "modifications": "Semantic red, blue, yellow, green and near-black mapped to native Spectra 6 colors. Geometry unchanged."
+  },
+  {
+    "id": "290.1",
+    "file": "./assets/290.1.svg",
+    "title": "Zeichen 290.1 - Beginn eines eingeschränkten Haltverbotes für eine Zone, StVO 2009.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Zeichen_290.1_-_Beginn_eines_eingeschr%C3%A4nkten_Haltverbotes_f%C3%BCr_eine_Zone%2C_StVO_2009.svg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/a/ac/Zeichen_290.1_-_Beginn_eines_eingeschr%C3%A4nkten_Haltverbotes_f%C3%BCr_eine_Zone%2C_StVO_2009.svg",
+    "license": "public domain",
+    "modifications": "Semantic red, blue, yellow, green and near-black mapped to native Spectra 6 colors. Geometry unchanged."
+  },
+  {
+    "id": "307",
+    "file": "./assets/307.svg",
+    "title": "Zeichen 307 - Ende der Vorfahrtstraße, StVO 1981.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Zeichen_307_-_Ende_der_Vorfahrtstra%C3%9Fe%2C_StVO_1981.svg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/2/22/Zeichen_307_-_Ende_der_Vorfahrtstra%C3%9Fe%2C_StVO_1981.svg",
+    "license": "public domain",
+    "modifications": "Semantic red, blue, yellow, green and near-black mapped to native Spectra 6 colors. Geometry unchanged."
+  },
+  {
+    "id": "310",
+    "file": "./assets/310.svg",
+    "title": "Zeichen 310 - Ortstafel Vorderseite, StVO 2017.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Zeichen_310_-_Ortstafel_Vorderseite%2C_StVO_2017.svg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/2/23/Zeichen_310_-_Ortstafel_Vorderseite%2C_StVO_2017.svg",
+    "license": "public domain",
+    "modifications": "Semantic red, blue, yellow, green and near-black mapped to native Spectra 6 colors. Geometry unchanged."
+  },
+  {
+    "id": "311",
+    "file": "./assets/311.svg",
+    "title": "Zeichen 311 - Ortstafel Rückseite, StVO 2017.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Zeichen_311_-_Ortstafel_R%C3%BCckseite%2C_StVO_2017.svg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/3/3d/Zeichen_311_-_Ortstafel_R%C3%BCckseite%2C_StVO_2017.svg",
+    "license": "public domain",
+    "modifications": "Semantic red, blue, yellow, green and near-black mapped to native Spectra 6 colors. Geometry unchanged."
+  },
+  {
+    "id": "314.1",
+    "file": "./assets/314.1.svg",
+    "title": "Zeichen 314.1 - Beginn einer Parkraumbewirtschaftungszone, StVO 2009.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Zeichen_314.1_-_Beginn_einer_Parkraumbewirtschaftungszone%2C_StVO_2009.svg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/5/56/Zeichen_314.1_-_Beginn_einer_Parkraumbewirtschaftungszone%2C_StVO_2009.svg",
+    "license": "public domain",
+    "modifications": "Semantic red, blue, yellow, green and near-black mapped to native Spectra 6 colors. Geometry unchanged."
+  },
+  {
+    "id": "314.2",
+    "file": "./assets/314.2.svg",
+    "title": "Zeichen 314.2 - Ende einer Parkraumbewirtschaftungszone, StVO 2009.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Zeichen_314.2_-_Ende_einer_Parkraumbewirtschaftungszone%2C_StVO_2009.svg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/4/49/Zeichen_314.2_-_Ende_einer_Parkraumbewirtschaftungszone%2C_StVO_2009.svg",
+    "license": "public domain",
+    "modifications": "Semantic red, blue, yellow, green and near-black mapped to native Spectra 6 colors. Geometry unchanged."
+  },
+  {
+    "id": "315-55",
+    "file": "./assets/315-55.svg",
+    "title": "Zeichen 315-55 - Parken halb auf Gehwegen in Fahrtrichtung rechts, StVO 1992.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Zeichen_315-55_-_Parken_halb_auf_Gehwegen_in_Fahrtrichtung_rechts%2C_StVO_1992.svg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/4/4b/Zeichen_315-55_-_Parken_halb_auf_Gehwegen_in_Fahrtrichtung_rechts%2C_StVO_1992.svg",
+    "license": "public domain",
+    "modifications": "Semantic red, blue, yellow, green and near-black mapped to native Spectra 6 colors. Geometry unchanged."
+  },
+  {
+    "id": "325.2",
+    "file": "./assets/325.2.svg",
+    "title": "Zeichen 325.2 - Ende eines verkehrsberuhigten Bereichs, StVO 2009.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Zeichen_325.2_-_Ende_eines_verkehrsberuhigten_Bereichs%2C_StVO_2009.svg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/3/3d/Zeichen_325.2_-_Ende_eines_verkehrsberuhigten_Bereichs%2C_StVO_2009.svg",
+    "license": "public domain",
+    "modifications": "Semantic red, blue, yellow, green and near-black mapped to native Spectra 6 colors. Geometry unchanged."
+  },
+  {
+    "id": "328",
+    "file": "./assets/328.svg",
+    "title": "Zeichen 328 - Nothalte- und Pannenbucht, StVO 2006.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Zeichen_328_-_Nothalte-_und_Pannenbucht%2C_StVO_2006.svg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/6/63/Zeichen_328_-_Nothalte-_und_Pannenbucht%2C_StVO_2006.svg",
+    "license": "public domain",
+    "modifications": "Semantic red, blue, yellow, green and near-black mapped to native Spectra 6 colors. Geometry unchanged."
+  },
+  {
+    "id": "330.2",
+    "file": "./assets/330.2.svg",
+    "title": "Zeichen 330.2 - Ende der Autobahn, StVO 2013.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Zeichen_330.2_-_Ende_der_Autobahn%2C_StVO_2013.svg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/6/62/Zeichen_330.2_-_Ende_der_Autobahn%2C_StVO_2013.svg",
+    "license": "public domain",
+    "modifications": "Semantic red, blue, yellow, green and near-black mapped to native Spectra 6 colors. Geometry unchanged."
+  },
+  {
+    "id": "331.1",
+    "file": "./assets/331.1.svg",
+    "title": "Zeichen 331.1 - Kraftfahrstraße, StVO 2013.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Zeichen_331.1_-_Kraftfahrstra%C3%9Fe%2C_StVO_2013.svg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/7/77/Zeichen_331.1_-_Kraftfahrstra%C3%9Fe%2C_StVO_2013.svg",
+    "license": "public domain",
+    "modifications": "Semantic red, blue, yellow, green and near-black mapped to native Spectra 6 colors. Geometry unchanged."
+  },
+  {
+    "id": "331.2",
+    "file": "./assets/331.2.svg",
+    "title": "Zeichen 331.2 - Ende der Kraftfahrstraße, StVO 2013.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Zeichen_331.2_-_Ende_der_Kraftfahrstra%C3%9Fe%2C_StVO_2013.svg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/6/62/Zeichen_331.2_-_Ende_der_Kraftfahrstra%C3%9Fe%2C_StVO_2013.svg",
+    "license": "public domain",
+    "modifications": "Semantic red, blue, yellow, green and near-black mapped to native Spectra 6 colors. Geometry unchanged."
+  },
+  {
+    "id": "350-10",
+    "file": "./assets/350-10.svg",
+    "title": "Zeichen 350-10 - Fußgängerüberweg (rechts), StVO 1992.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Zeichen_350-10_-_Fu%C3%9Fg%C3%A4nger%C3%BCberweg_%28rechts%29%2C_StVO_1992.svg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/6/60/Zeichen_350-10_-_Fu%C3%9Fg%C3%A4nger%C3%BCberweg_%28rechts%29%2C_StVO_1992.svg",
+    "license": "public domain",
+    "modifications": "Semantic red, blue, yellow, green and near-black mapped to native Spectra 6 colors. Geometry unchanged."
+  },
+  {
+    "id": "357",
+    "file": "./assets/357.svg",
+    "title": "Zeichen 357 - Sackgasse, StVO 1992.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Zeichen_357_-_Sackgasse%2C_StVO_1992.svg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/8/88/Zeichen_357_-_Sackgasse%2C_StVO_1992.svg",
+    "license": "public domain",
+    "modifications": "Semantic red, blue, yellow, green and near-black mapped to native Spectra 6 colors. Geometry unchanged."
+  },
+  {
+    "id": "358",
+    "file": "./assets/358.svg",
+    "title": "Zeichen 358 - Erste Hilfe, StVO 1992.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Zeichen_358_-_Erste_Hilfe%2C_StVO_1992.svg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/4/44/Zeichen_358_-_Erste_Hilfe%2C_StVO_1992.svg",
+    "license": "public domain",
+    "modifications": "Semantic red, blue, yellow, green and near-black mapped to native Spectra 6 colors. Geometry unchanged."
+  },
+  {
+    "id": "354",
+    "file": "./assets/354.svg",
+    "title": "Zeichen 354 - Wasserschutzgebiet, StVO 1988.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Zeichen_354_-_Wasserschutzgebiet%2C_StVO_1988.svg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/e/e3/Zeichen_354_-_Wasserschutzgebiet%2C_StVO_1988.svg",
+    "license": "public domain",
+    "modifications": "Semantic red, blue, yellow, green and near-black mapped to native Spectra 6 colors. Geometry unchanged."
+  },
+  {
+    "id": "101-10",
+    "file": "./assets/101-10.svg",
+    "title": "Zeichen 101-10 - Flugbetrieb, Aufstellung rechts, StVO 2017.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Zeichen_101-10_-_Flugbetrieb%2C_Aufstellung_rechts%2C_StVO_2017.svg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/4/42/Zeichen_101-10_-_Flugbetrieb%2C_Aufstellung_rechts%2C_StVO_2017.svg",
+    "license": "public domain",
+    "modifications": "Semantic red, blue, yellow, green and near-black mapped to native Spectra 6 colors. Geometry unchanged."
+  },
+  {
+    "id": "101-11",
+    "file": "./assets/101-11.svg",
+    "title": "Zeichen 101-11 - Fußgängerüberweg, StVO 2017.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Zeichen_101-11_-_Fu%C3%9Fg%C3%A4nger%C3%BCberweg%2C_StVO_2017.svg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/7/73/Zeichen_101-11_-_Fu%C3%9Fg%C3%A4nger%C3%BCberweg%2C_StVO_2017.svg",
+    "license": "public domain",
+    "modifications": "Semantic red, blue, yellow, green and near-black mapped to native Spectra 6 colors. Geometry unchanged."
+  },
+  {
+    "id": "101-12",
+    "file": "./assets/101-12.svg",
+    "title": "Zeichen 101-12 - Viehtrieb, StVO 2017.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Zeichen_101-12_-_Viehtrieb%2C_StVO_2017.svg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/b/b4/Zeichen_101-12_-_Viehtrieb%2C_StVO_2017.svg",
+    "license": "public domain",
+    "modifications": "Semantic red, blue, yellow, green and near-black mapped to native Spectra 6 colors. Geometry unchanged."
+  },
+  {
+    "id": "101-13",
+    "file": "./assets/101-13.svg",
+    "title": "Zeichen 101-13 - Reiter, StVO 2017.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Zeichen_101-13_-_Reiter%2C_StVO_2017.svg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/0/07/Zeichen_101-13_-_Reiter%2C_StVO_2017.svg",
+    "license": "public domain",
+    "modifications": "Semantic red, blue, yellow, green and near-black mapped to native Spectra 6 colors. Geometry unchanged."
+  },
+  {
+    "id": "101-14",
+    "file": "./assets/101-14.svg",
+    "title": "Zeichen 101-14 - Amphibienwanderung, StVO 2017.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Zeichen_101-14_-_Amphibienwanderung%2C_StVO_2017.svg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/8/82/Zeichen_101-14_-_Amphibienwanderung%2C_StVO_2017.svg",
+    "license": "public domain",
+    "modifications": "Semantic red, blue, yellow, green and near-black mapped to native Spectra 6 colors. Geometry unchanged."
+  },
+  {
+    "id": "101-15",
+    "file": "./assets/101-15.svg",
+    "title": "Zeichen 101-15 - Steinschlag, StVO 2017.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Zeichen_101-15_-_Steinschlag%2C_StVO_2017.svg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/f/f8/Zeichen_101-15_-_Steinschlag%2C_StVO_2017.svg",
+    "license": "public domain",
+    "modifications": "Semantic red, blue, yellow, green and near-black mapped to native Spectra 6 colors. Geometry unchanged."
+  },
+  {
+    "id": "101-51",
+    "file": "./assets/101-51.svg",
+    "title": "Zeichen 101-51 - Schnee- oder Eisglätte, StVO 2017.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Zeichen_101-51_-_Schnee-_oder_Eisgl%C3%A4tte%2C_StVO_2017.svg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/7/71/Zeichen_101-51_-_Schnee-_oder_Eisgl%C3%A4tte%2C_StVO_2017.svg",
+    "license": "public domain",
+    "modifications": "Semantic red, blue, yellow, green and near-black mapped to native Spectra 6 colors. Geometry unchanged."
+  },
+  {
+    "id": "101-52",
+    "file": "./assets/101-52.svg",
+    "title": "Zeichen 101-52 - Splitt, Schotter, StVO 2017.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Zeichen_101-52_-_Splitt%2C_Schotter%2C_StVO_2017.svg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/d/d6/Zeichen_101-52_-_Splitt%2C_Schotter%2C_StVO_2017.svg",
+    "license": "public domain",
+    "modifications": "Semantic red, blue, yellow, green and near-black mapped to native Spectra 6 colors. Geometry unchanged."
+  },
+  {
+    "id": "101-53",
+    "file": "./assets/101-53.svg",
+    "title": "Zeichen 101-53 - Ufer, StVO 2017.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Zeichen_101-53_-_Ufer%2C_StVO_2017.svg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/1/19/Zeichen_101-53_-_Ufer%2C_StVO_2017.svg",
+    "license": "public domain",
+    "modifications": "Semantic red, blue, yellow, green and near-black mapped to native Spectra 6 colors. Geometry unchanged."
+  },
+  {
+    "id": "101-54",
+    "file": "./assets/101-54.svg",
+    "title": "Zeichen 101-54 - Unzureichendes Lichtraumprofil, StVO 2017.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Zeichen_101-54_-_Unzureichendes_Lichtraumprofil%2C_StVO_2017.svg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/f/f6/Zeichen_101-54_-_Unzureichendes_Lichtraumprofil%2C_StVO_2017.svg",
+    "license": "public domain",
+    "modifications": "Semantic red, blue, yellow, green and near-black mapped to native Spectra 6 colors. Geometry unchanged."
+  },
+  {
+    "id": "211",
+    "file": "./assets/211.svg",
+    "title": "Zeichen 211 - Vorgeschriebene Fahrtrichtung, hier rechts, StVO 2017.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Zeichen_211_-_Vorgeschriebene_Fahrtrichtung%2C_hier_rechts%2C_StVO_2017.svg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/d/d7/Zeichen_211_-_Vorgeschriebene_Fahrtrichtung%2C_hier_rechts%2C_StVO_2017.svg",
+    "license": "public domain",
+    "modifications": "Semantic red, blue, yellow, green and near-black mapped to native Spectra 6 colors. Geometry unchanged."
+  },
+  {
+    "id": "211-10",
+    "file": "./assets/211-10.svg",
+    "title": "Zeichen 211-10 - Vorgeschriebene Fahrtrichtung, hier links, StVO 2017.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Zeichen_211-10_-_Vorgeschriebene_Fahrtrichtung%2C_hier_links%2C_StVO_2017.svg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/5/53/Zeichen_211-10_-_Vorgeschriebene_Fahrtrichtung%2C_hier_links%2C_StVO_2017.svg",
+    "license": "public domain",
+    "modifications": "Semantic red, blue, yellow, green and near-black mapped to native Spectra 6 colors. Geometry unchanged."
+  },
+  {
+    "id": "214-10",
+    "file": "./assets/214-10.svg",
+    "title": "Zeichen 214-10 - Vorgeschriebene Fahrtrichtung, Geradeaus oder links, StVO 2017.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Zeichen_214-10_-_Vorgeschriebene_Fahrtrichtung%2C_Geradeaus_oder_links%2C_StVO_2017.svg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/b/b9/Zeichen_214-10_-_Vorgeschriebene_Fahrtrichtung%2C_Geradeaus_oder_links%2C_StVO_2017.svg",
+    "license": "public domain",
+    "modifications": "Semantic red, blue, yellow, green and near-black mapped to native Spectra 6 colors. Geometry unchanged."
+  },
+  {
+    "id": "223.1-50",
+    "file": "./assets/223.1-50.svg",
+    "title": "Zeichen 223.1-50 - Seitenstreifen befahren, 2 Fahrstreifen u. Seitenstreifen, StVO 2017.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Zeichen_223.1-50_-_Seitenstreifen_befahren%2C_2_Fahrstreifen_u._Seitenstreifen%2C_StVO_2017.svg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/5/51/Zeichen_223.1-50_-_Seitenstreifen_befahren%2C_2_Fahrstreifen_u._Seitenstreifen%2C_StVO_2017.svg",
+    "license": "public domain",
+    "modifications": "Semantic red, blue, yellow, green and near-black mapped to native Spectra 6 colors. Geometry unchanged."
+  },
+  {
+    "id": "223.2-50",
+    "file": "./assets/223.2-50.svg",
+    "title": "Zeichen 223.2-50 - Seitenstreifen nicht mehr befahren, 2 Fahrstreifen u. Seitenstreifen, StVO 2017.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Zeichen_223.2-50_-_Seitenstreifen_nicht_mehr_befahren%2C_2_Fahrstreifen_u._Seitenstreifen%2C_StVO_2017.svg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/2/2f/Zeichen_223.2-50_-_Seitenstreifen_nicht_mehr_befahren%2C_2_Fahrstreifen_u._Seitenstreifen%2C_StVO_2017.svg",
+    "license": "public domain",
+    "modifications": "Semantic red, blue, yellow, green and near-black mapped to native Spectra 6 colors. Geometry unchanged."
+  },
+  {
+    "id": "223.3-50",
+    "file": "./assets/223.3-50.svg",
+    "title": "Zeichen 223.3-50 - Seitenstreifen räumen, 2 Fahrstreifen u. Seitenstreifen, StVO 2017.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Zeichen_223.3-50_-_Seitenstreifen_r%C3%A4umen%2C_2_Fahrstreifen_u._Seitenstreifen%2C_StVO_2017.svg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/a/a2/Zeichen_223.3-50_-_Seitenstreifen_r%C3%A4umen%2C_2_Fahrstreifen_u._Seitenstreifen%2C_StVO_2017.svg",
+    "license": "public domain",
+    "modifications": "Semantic red, blue, yellow, green and near-black mapped to native Spectra 6 colors. Geometry unchanged."
+  },
+  {
+    "id": "257-54",
+    "file": "./assets/257-54.svg",
+    "title": "Zeichen 257-54 - Verbot für Kraftomnibusse, StVO 2017.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Zeichen_257-54_-_Verbot_f%C3%BCr_Kraftomnibusse%2C_StVO_2017.svg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/f/fe/Zeichen_257-54_-_Verbot_f%C3%BCr_Kraftomnibusse%2C_StVO_2017.svg",
+    "license": "public domain",
+    "modifications": "Semantic red, blue, yellow, green and near-black mapped to native Spectra 6 colors. Geometry unchanged."
+  },
+  {
+    "id": "257-56",
+    "file": "./assets/257-56.svg",
+    "title": "Zeichen 257-56 - Verbot für Personenkraftwagen mit Anhänger, StVO 2017.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Zeichen_257-56_-_Verbot_f%C3%BCr_Personenkraftwagen_mit_Anh%C3%A4nger%2C_StVO_2017.svg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/d/d8/Zeichen_257-56_-_Verbot_f%C3%BCr_Personenkraftwagen_mit_Anh%C3%A4nger%2C_StVO_2017.svg",
+    "license": "public domain",
+    "modifications": "Semantic red, blue, yellow, green and near-black mapped to native Spectra 6 colors. Geometry unchanged."
+  },
+  {
+    "id": "257-59",
+    "file": "./assets/257-59.svg",
+    "title": "Zeichen 257-59 - Verbot für Elektrokleinstfahrzeuge im Sinne der Elektrokleinstfahrzeuge-Verordnung (eKFV).svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Zeichen_257-59_-_Verbot_f%C3%BCr_Elektrokleinstfahrzeuge_im_Sinne_der_Elektrokleinstfahrzeuge-Verordnung_%28eKFV%29.svg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/0/06/Zeichen_257-59_-_Verbot_f%C3%BCr_Elektrokleinstfahrzeuge_im_Sinne_der_Elektrokleinstfahrzeuge-Verordnung_%28eKFV%29.svg",
+    "license": "public domain",
+    "modifications": "Semantic red, blue, yellow, green and near-black mapped to native Spectra 6 colors. Geometry unchanged."
+  },
+  {
+    "id": "263-8",
+    "file": "./assets/263-8.svg",
+    "title": "Zeichen 263-8 - Verbot für Fahrzeuge über angegebene tatsächliche Achslast, StVO 2017.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Zeichen_263-8_-_Verbot_f%C3%BCr_Fahrzeuge_%C3%BCber_angegebene_tats%C3%A4chliche_Achslast%2C_StVO_2017.svg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/e/ef/Zeichen_263-8_-_Verbot_f%C3%BCr_Fahrzeuge_%C3%BCber_angegebene_tats%C3%A4chliche_Achslast%2C_StVO_2017.svg",
+    "license": "public domain",
+    "modifications": "Semantic red, blue, yellow, green and near-black mapped to native Spectra 6 colors. Geometry unchanged."
+  },
+  {
+    "id": "270.1",
+    "file": "./assets/270.1.svg",
+    "title": "Zeichen 270.1 - Beginn eines Verkehrsverbots zur Verminderung schädlicher Luftverunreinigungen in einer Zone. I, StVO 2007.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Zeichen_270.1_-_Beginn_eines_Verkehrsverbots_zur_Verminderung_sch%C3%A4dlicher_Luftverunreinigungen_in_einer_Zone._I%2C_StVO_2007.svg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/a/a4/Zeichen_270.1_-_Beginn_eines_Verkehrsverbots_zur_Verminderung_sch%C3%A4dlicher_Luftverunreinigungen_in_einer_Zone._I%2C_StVO_2007.svg",
+    "license": "public domain",
+    "modifications": "Semantic red, blue, yellow, green and near-black mapped to native Spectra 6 colors. Geometry unchanged."
+  },
+  {
+    "id": "270.2",
+    "file": "./assets/270.2.svg",
+    "title": "Zeichen 270.2 - Ende eines Verkehrsverbots zur Verminderung schädlicher Luftverunreinigungen in einer Zone, StVO 2007.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Zeichen_270.2_-_Ende_eines_Verkehrsverbots_zur_Verminderung_sch%C3%A4dlicher_Luftverunreinigungen_in_einer_Zone%2C_StVO_2007.svg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/f/f3/Zeichen_270.2_-_Ende_eines_Verkehrsverbots_zur_Verminderung_sch%C3%A4dlicher_Luftverunreinigungen_in_einer_Zone%2C_StVO_2007.svg",
+    "license": "public domain",
+    "modifications": "Semantic red, blue, yellow, green and near-black mapped to native Spectra 6 colors. Geometry unchanged."
+  },
+  {
+    "id": "273-70",
+    "file": "./assets/273-70.svg",
+    "title": "Zeichen 273-70 - Verbot des Unterschreitens des angegebenen Mindestabstandes, StVO 2017.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Zeichen_273-70_-_Verbot_des_Unterschreitens_des_angegebenen_Mindestabstandes%2C_StVO_2017.svg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/7/7b/Zeichen_273-70_-_Verbot_des_Unterschreitens_des_angegebenen_Mindestabstandes%2C_StVO_2017.svg",
+    "license": "public domain",
+    "modifications": "Semantic red, blue, yellow, green and near-black mapped to native Spectra 6 colors. Geometry unchanged."
+  },
+  {
+    "id": "277",
+    "file": "./assets/277.svg",
+    "title": "Zeichen 277 - Überholverbot für Kraftfahrzeuge mit einem zulässigen Gesamtgewicht über 2,8 t, einschließlich ihrer Anhänger, StVO 1992.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Zeichen_277_-_%C3%9Cberholverbot_f%C3%BCr_Kraftfahrzeuge_mit_einem_zul%C3%A4ssigen_Gesamtgewicht_%C3%BCber_2%2C8_t%2C_einschlie%C3%9Flich_ihrer_Anh%C3%A4nger%2C_StVO_1992.svg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/a/ad/Zeichen_277_-_%C3%9Cberholverbot_f%C3%BCr_Kraftfahrzeuge_mit_einem_zul%C3%A4ssigen_Gesamtgewicht_%C3%BCber_2%2C8_t%2C_einschlie%C3%9Flich_ihrer_Anh%C3%A4nger%2C_StVO_1992.svg",
+    "license": "public domain",
+    "modifications": "Semantic red, blue, yellow, green and near-black mapped to native Spectra 6 colors. Geometry unchanged."
+  },
+  {
+    "id": "279-30",
+    "file": "./assets/279-30.svg",
+    "title": "Zeichen 279-30 - Ende der vorgeschriebenen Mindestgeschwindigkeit, StVO 2017.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Zeichen_279-30_-_Ende_der_vorgeschriebenen_Mindestgeschwindigkeit%2C_StVO_2017.svg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/b/b6/Zeichen_279-30_-_Ende_der_vorgeschriebenen_Mindestgeschwindigkeit%2C_StVO_2017.svg",
+    "license": "public domain",
+    "modifications": "Semantic red, blue, yellow, green and near-black mapped to native Spectra 6 colors. Geometry unchanged."
+  },
+  {
+    "id": "281",
+    "file": "./assets/281.svg",
+    "title": "Zeichen 281 - Ende des Überholverbots für Kraftfahrzeuge mit einem zulässigen Gesamtgewicht über 3,5 t, StVO 1992.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Zeichen_281_-_Ende_des_%C3%9Cberholverbots_f%C3%BCr_Kraftfahrzeuge_mit_einem_zul%C3%A4ssigen_Gesamtgewicht_%C3%BCber_3%2C5_t%2C_StVO_1992.svg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/9/9d/Zeichen_281_-_Ende_des_%C3%9Cberholverbots_f%C3%BCr_Kraftfahrzeuge_mit_einem_zul%C3%A4ssigen_Gesamtgewicht_%C3%BCber_3%2C5_t%2C_StVO_1992.svg",
+    "license": "public domain",
+    "modifications": "Semantic red, blue, yellow, green and near-black mapped to native Spectra 6 colors. Geometry unchanged."
+  },
+  {
+    "id": "290.2",
+    "file": "./assets/290.2.svg",
+    "title": "Zeichen 290.2 - Ende eines eingeschränkten Haltverbotes für eine Zone, StVO 2009.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Zeichen_290.2_-_Ende_eines_eingeschr%C3%A4nkten_Haltverbotes_f%C3%BCr_eine_Zone%2C_StVO_2009.svg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/e/ef/Zeichen_290.2_-_Ende_eines_eingeschr%C3%A4nkten_Haltverbotes_f%C3%BCr_eine_Zone%2C_StVO_2009.svg",
+    "license": "public domain",
+    "modifications": "Semantic red, blue, yellow, green and near-black mapped to native Spectra 6 colors. Geometry unchanged."
+  },
+  {
+    "id": "283-10",
+    "file": "./assets/283-10.svg",
+    "title": "Zeichen 283-10 - Absolutes Haltverbot (Anfang), Aufstellung rechts, StVO 2013.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Zeichen_283-10_-_Absolutes_Haltverbot_%28Anfang%29%2C_Aufstellung_rechts%2C_StVO_2013.svg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/8/80/Zeichen_283-10_-_Absolutes_Haltverbot_%28Anfang%29%2C_Aufstellung_rechts%2C_StVO_2013.svg",
+    "license": "public domain",
+    "modifications": "Semantic red, blue, yellow, green and near-black mapped to native Spectra 6 colors. Geometry unchanged."
+  },
+  {
+    "id": "283-20",
+    "file": "./assets/283-20.svg",
+    "title": "Zeichen 283-20 - Absolutes Haltverbot (Ende), Aufstellung rechts, StVO 2013.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Zeichen_283-20_-_Absolutes_Haltverbot_%28Ende%29%2C_Aufstellung_rechts%2C_StVO_2013.svg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/e/ee/Zeichen_283-20_-_Absolutes_Haltverbot_%28Ende%29%2C_Aufstellung_rechts%2C_StVO_2013.svg",
+    "license": "public domain",
+    "modifications": "Semantic red, blue, yellow, green and near-black mapped to native Spectra 6 colors. Geometry unchanged."
+  },
+  {
+    "id": "283-30",
+    "file": "./assets/283-30.svg",
+    "title": "Zeichen 283-30 - Absolutes Haltverbot (Mitte), Aufstellung rechts, StVO 2013.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Zeichen_283-30_-_Absolutes_Haltverbot_%28Mitte%29%2C_Aufstellung_rechts%2C_StVO_2013.svg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/6/68/Zeichen_283-30_-_Absolutes_Haltverbot_%28Mitte%29%2C_Aufstellung_rechts%2C_StVO_2013.svg",
+    "license": "public domain",
+    "modifications": "Semantic red, blue, yellow, green and near-black mapped to native Spectra 6 colors. Geometry unchanged."
+  },
+  {
+    "id": "274.1-20",
+    "file": "./assets/274.1-20.svg",
+    "title": "Zeichen 274.1-20 - Beginn einer Tempo 20-Zone in verkehrsberuhigten Geschäftsbereichen (einseitig), StVO 2013.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Zeichen_274.1-20_-_Beginn_einer_Tempo_20-Zone_in_verkehrsberuhigten_Gesch%C3%A4ftsbereichen_%28einseitig%29%2C_StVO_2013.svg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/b/bc/Zeichen_274.1-20_-_Beginn_einer_Tempo_20-Zone_in_verkehrsberuhigten_Gesch%C3%A4ftsbereichen_%28einseitig%29%2C_StVO_2013.svg",
+    "license": "public domain",
+    "modifications": "Semantic red, blue, yellow, green and near-black mapped to native Spectra 6 colors. Geometry unchanged."
+  },
+  {
+    "id": "257-50",
+    "file": "./assets/257-50.svg",
+    "title": "Zeichen 257-50 - Verbot für Mofas, StVO 2017.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Zeichen_257-50_-_Verbot_f%C3%BCr_Mofas%2C_StVO_2017.svg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/f/f6/Zeichen_257-50_-_Verbot_f%C3%BCr_Mofas%2C_StVO_2017.svg",
+    "license": "public domain",
+    "modifications": "Semantic red, blue, yellow, green and near-black mapped to native Spectra 6 colors. Geometry unchanged."
+  },
+  {
+    "id": "257-58",
+    "file": "./assets/257-58.svg",
+    "title": "Zeichen 257-58 - Verbot für Kraftfahrzeuge und Züge, die nicht schneller als 25 km-h fahren können oder dürfen, StVO 2017.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Zeichen_257-58_-_Verbot_f%C3%BCr_Kraftfahrzeuge_und_Z%C3%BCge%2C_die_nicht_schneller_als_25_km-h_fahren_k%C3%B6nnen_oder_d%C3%BCrfen%2C_StVO_2017.svg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/b/b0/Zeichen_257-58_-_Verbot_f%C3%BCr_Kraftfahrzeuge_und_Z%C3%BCge%2C_die_nicht_schneller_als_25_km-h_fahren_k%C3%B6nnen_oder_d%C3%BCrfen%2C_StVO_2017.svg",
+    "license": "public domain",
+    "modifications": "Semantic red, blue, yellow, green and near-black mapped to native Spectra 6 colors. Geometry unchanged."
+  },
+  {
+    "id": "316",
+    "file": "./assets/316.svg",
+    "title": "Zeichen 316 - Parken und Reisen, StVO 1992.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Zeichen_316_-_Parken_und_Reisen%2C_StVO_1992.svg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/7/7f/Zeichen_316_-_Parken_und_Reisen%2C_StVO_1992.svg",
+    "license": "public domain",
+    "modifications": "Semantic red, blue, yellow, green and near-black mapped to native Spectra 6 colors. Geometry unchanged."
+  },
+  {
+    "id": "317",
+    "file": "./assets/317.svg",
+    "title": "Zeichen 317 - Wandererparkplatz, StVO 1992.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Zeichen_317_-_Wandererparkplatz%2C_StVO_1992.svg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/b/ba/Zeichen_317_-_Wandererparkplatz%2C_StVO_1992.svg",
+    "license": "public domain",
+    "modifications": "Semantic red, blue, yellow, green and near-black mapped to native Spectra 6 colors. Geometry unchanged."
+  },
+  {
+    "id": "318",
+    "file": "./assets/318.svg",
+    "title": "Zeichen 318 - Parkscheibe, StVO 2013.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Zeichen_318_-_Parkscheibe%2C_StVO_2013.svg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/c/c4/Zeichen_318_-_Parkscheibe%2C_StVO_2013.svg",
+    "license": "public domain",
+    "modifications": "Semantic red, blue, yellow, green and near-black mapped to native Spectra 6 colors. Geometry unchanged."
+  },
+  {
+    "id": "333",
+    "file": "./assets/333.svg",
+    "title": "Zeichen 333 - Pfeilschild - Ausfahrt von der Autobahn, StVO 1980.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Zeichen_333_-_Pfeilschild_-_Ausfahrt_von_der_Autobahn%2C_StVO_1980.svg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/e/e5/Zeichen_333_-_Pfeilschild_-_Ausfahrt_von_der_Autobahn%2C_StVO_1980.svg",
+    "license": "public domain",
+    "modifications": "Semantic red, blue, yellow, green and near-black mapped to native Spectra 6 colors. Geometry unchanged."
+  },
+  {
+    "id": "350.1",
+    "file": "./assets/350.1.svg",
+    "title": "Zeichen 350.1 - Radschnellweg; StVO 2020.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Zeichen_350.1_-_Radschnellweg%3B_StVO_2020.svg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/a/a1/Zeichen_350.1_-_Radschnellweg%3B_StVO_2020.svg",
+    "license": "public domain",
+    "modifications": "Semantic red, blue, yellow, green and near-black mapped to native Spectra 6 colors. Geometry unchanged."
+  },
+  {
+    "id": "350.2",
+    "file": "./assets/350.2.svg",
+    "title": "Zeichen 350.2 - Ende des Radschnellwegs; StVO 2020.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Zeichen_350.2_-_Ende_des_Radschnellwegs%3B_StVO_2020.svg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/a/a5/Zeichen_350.2_-_Ende_des_Radschnellwegs%3B_StVO_2020.svg",
+    "license": "public domain",
+    "modifications": "Semantic red, blue, yellow, green and near-black mapped to native Spectra 6 colors. Geometry unchanged."
+  },
+  {
+    "id": "356",
+    "file": "./assets/356.svg",
+    "title": "Zeichen 356 - Verkehrshelfer, StVO 1992.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Zeichen_356_-_Verkehrshelfer%2C_StVO_1992.svg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/8/89/Zeichen_356_-_Verkehrshelfer%2C_StVO_1992.svg",
+    "license": "public domain",
+    "modifications": "Semantic red, blue, yellow, green and near-black mapped to native Spectra 6 colors. Geometry unchanged."
+  },
+  {
+    "id": "357-50",
+    "file": "./assets/357-50.svg",
+    "title": "Zeichen 357-50 - Durchlässige Sackgasse für Fußgänger und Radverkehr, StVO 2009.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Zeichen_357-50_-_Durchl%C3%A4ssige_Sackgasse_f%C3%BCr_Fu%C3%9Fg%C3%A4nger_und_Radverkehr%2C_StVO_2009.svg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/2/2d/Zeichen_357-50_-_Durchl%C3%A4ssige_Sackgasse_f%C3%BCr_Fu%C3%9Fg%C3%A4nger_und_Radverkehr%2C_StVO_2009.svg",
+    "license": "public domain",
+    "modifications": "Semantic red, blue, yellow, green and near-black mapped to native Spectra 6 colors. Geometry unchanged."
+  },
+  {
+    "id": "363",
+    "file": "./assets/363.svg",
+    "title": "Zeichen 363 - Polizei, StVO 1992.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Zeichen_363_-_Polizei%2C_StVO_1992.svg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/6/65/Zeichen_363_-_Polizei%2C_StVO_1992.svg",
+    "license": "public domain",
+    "modifications": "Semantic red, blue, yellow, green and near-black mapped to native Spectra 6 colors. Geometry unchanged."
+  },
+  {
+    "id": "365-51",
+    "file": "./assets/365-51.svg",
+    "title": "Zeichen 365-51 - Notrufsäule, StVO 2006.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Zeichen_365-51_-_Notrufs%C3%A4ule%2C_StVO_2006.svg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/b/b7/Zeichen_365-51_-_Notrufs%C3%A4ule%2C_StVO_2006.svg",
+    "license": "public domain",
+    "modifications": "Semantic red, blue, yellow, green and near-black mapped to native Spectra 6 colors. Geometry unchanged."
+  },
+  {
+    "id": "365-65",
+    "file": "./assets/365-65.svg",
+    "title": "Zeichen 365-65 - Ladestation für Elektrofahrzeuge, StVO 2014.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Zeichen_365-65_-_Ladestation_f%C3%BCr_Elektrofahrzeuge%2C_StVO_2014.svg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/d/db/Zeichen_365-65_-_Ladestation_f%C3%BCr_Elektrofahrzeuge%2C_StVO_2014.svg",
+    "license": "public domain",
+    "modifications": "Semantic red, blue, yellow, green and near-black mapped to native Spectra 6 colors. Geometry unchanged."
+  },
+  {
+    "id": "385",
+    "file": "./assets/385.svg",
+    "title": "Zeichen 385 - Ortshinweistafel, StVO 1988.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Zeichen_385_-_Ortshinweistafel%2C_StVO_1988.svg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/f/fc/Zeichen_385_-_Ortshinweistafel%2C_StVO_1988.svg",
+    "license": "public domain",
+    "modifications": "Semantic red, blue, yellow, green and near-black mapped to native Spectra 6 colors. Geometry unchanged."
+  },
+  {
+    "id": "1004-30",
+    "file": "./assets/1004-30.svg",
+    "title": "Zusatzzeichen 1004-30 - nach 100 m, StVO 1992.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Zusatzzeichen_1004-30_-_nach_100_m%2C_StVO_1992.svg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/b/bb/Zusatzzeichen_1004-30_-_nach_100_m%2C_StVO_1992.svg",
+    "license": "public domain",
+    "modifications": "Semantic red, blue, yellow, green and near-black mapped to native Spectra 6 colors. Geometry unchanged."
+  },
+  {
+    "id": "1001-30",
+    "file": "./assets/1001-30.svg",
+    "title": "Zusatzzeichen 1001-30 - auf ... m, StVO 1992.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Zusatzzeichen_1001-30_-_auf_..._m%2C_StVO_1992.svg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/f/f8/Zusatzzeichen_1001-30_-_auf_..._m%2C_StVO_1992.svg",
+    "license": "public domain",
+    "modifications": "Semantic red, blue, yellow, green and near-black mapped to native Spectra 6 colors. Geometry unchanged."
+  },
+  {
+    "id": "1020-30",
+    "file": "./assets/1020-30.svg",
+    "title": "Zusatzzeichen 1020-30 - Anlieger frei (600x330), StVO 1992.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Zusatzzeichen_1020-30_-_Anlieger_frei_%28600x330%29%2C_StVO_1992.svg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/c/c1/Zusatzzeichen_1020-30_-_Anlieger_frei_%28600x330%29%2C_StVO_1992.svg",
+    "license": "public domain",
+    "modifications": "Semantic red, blue, yellow, green and near-black mapped to native Spectra 6 colors. Geometry unchanged."
+  },
+  {
+    "id": "1022-10",
+    "file": "./assets/1022-10.svg",
+    "title": "Zusatzzeichen 1022-10 - Radfahrer frei, StVO 1992.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Zusatzzeichen_1022-10_-_Radfahrer_frei%2C_StVO_1992.svg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/0/04/Zusatzzeichen_1022-10_-_Radfahrer_frei%2C_StVO_1992.svg",
+    "license": "public domain",
+    "modifications": "Semantic red, blue, yellow, green and near-black mapped to native Spectra 6 colors. Geometry unchanged."
+  },
+  {
+    "id": "1040-30",
+    "file": "./assets/1040-30.svg",
+    "title": "Zusatzzeichen 1040-30 - Zeitliche Beschränkung (16 - 18 h), 330x600, StVO 1992.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Zusatzzeichen_1040-30_-_Zeitliche_Beschr%C3%A4nkung_%2816_-_18_h%29%2C_330x600%2C_StVO_1992.svg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/3/38/Zusatzzeichen_1040-30_-_Zeitliche_Beschr%C3%A4nkung_%2816_-_18_h%29%2C_330x600%2C_StVO_1992.svg",
+    "license": "public domain",
+    "modifications": "Semantic red, blue, yellow, green and near-black mapped to native Spectra 6 colors. Geometry unchanged."
+  }
+]

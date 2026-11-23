@@ -1,0 +1,84 @@
+{
+  "name": "Climate Stripes",
+  "version": "0.1.0",
+  "status": "alpha",
+  "description": "Show warming stripes for the globe, countries and cities using the original Show Your Stripes charts.",
+  "renderPage": "./render.html",
+  "settingsPage": "./settings.html",
+  "language": [
+    "en",
+    "de"
+  ],
+  "nativeSettings": {
+    "color": "blue-light",
+    "location": "globe",
+    "style": "stripes"
+  },
+  "formSchema": {
+    "type": "object",
+    "properties": {
+      "location": {
+        "type": "string",
+        "title": "Location",
+        "default": "globe",
+        "inStettingsPage": true
+      },
+      "style": {
+        "type": "string",
+        "title": "Chart style",
+        "enum": [
+          "stripes",
+          "labelled",
+          "bars",
+          "bars-scale"
+        ],
+        "enumNames": [
+          "Warming stripes",
+          "Labelled stripes",
+          "Bars",
+          "Bars with scale"
+        ],
+        "default": "stripes"
+      }
+    }
+  },
+  "icon": "./assets/icon.png",
+  "configVariants": [
+    {
+      "location": "globe",
+      "style": "labelled",
+      "color": "blue-light",
+      "screenshots": {
+        "800x480": "./screenshots/labelled-blue-light-800x480.png",
+        "480x800": "./screenshots/labelled-blue-light-480x800.png"
+      }
+    },
+    {
+      "location": "globe",
+      "style": "bars-scale",
+      "color": "blue-dark",
+      "screenshots": {
+        "800x480": "./screenshots/bars-scale-blue-dark-800x480.png",
+        "480x800": "./screenshots/bars-scale-blue-dark-480x800.png"
+      }
+    },
+    {
+      "location": "globe",
+      "style": "stripes",
+      "color": "blue-light",
+      "screenshots": {
+        "800x480": "./screenshots/stripes-blue-light-800x480.png",
+        "480x800": "./screenshots/stripes-blue-light-480x800.png"
+      }
+    },
+    {
+      "location": "globe",
+      "style": "bars",
+      "color": "blue-dark",
+      "screenshots": {
+        "800x480": "./screenshots/bars-blue-dark-800x480.png",
+        "480x800": "./screenshots/bars-blue-dark-480x800.png"
+      }
+    }
+  ]
+}

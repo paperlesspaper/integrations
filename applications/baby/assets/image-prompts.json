@@ -1,0 +1,70 @@
+{
+  "mode": "Built-in image_gen",
+  "createdAt": "2026-09-22",
+  "assets": [
+    {
+      "id": "pregnancy-early",
+      "prompt": "Use case: illustration-story. Asset type: illustration for a small six-color e-ink baby development display. Style: warm contemporary children's book editorial illustration, confident clean black contours, flat cobalt blue and warm orange accents, natural warm skin tones, minimal detail, no gradients or stippling. Pure white background. One centered complete scene with generous white margin, square composition, all limbs fully in frame. No letters, numbers, labels, watermark, frame or decorative floating objects. People wear simple blue or white clothes. Not a medical diagram. Subject: An adult woman in early pregnancy sits peacefully reading a small book, small belly, one hand resting on abdomen."
+    },
+    {
+      "id": "pregnancy-middle",
+      "prompt": "Use case: illustration-story. Asset type: illustration for a small six-color e-ink baby development display. Style: warm contemporary children's book editorial illustration, confident clean black contours, flat cobalt blue and warm orange accents, natural warm skin tones, minimal detail, no gradients or stippling. Pure white background. One centered complete scene with generous white margin, square composition, all limbs fully in frame. No letters, numbers, labels, watermark, frame or decorative floating objects. People wear simple blue or white clothes. Not a medical diagram. Subject: An adult pregnant woman in second trimester stands in profile with a gently rounded belly, both hands resting on her belly, wearing a cobalt blue loose dress."
+    },
+    {
+      "id": "pregnancy-late",
+      "prompt": "Use case: illustration-story. Asset type: illustration for a small six-color e-ink baby development display. Style: warm contemporary children's book editorial illustration, confident clean black contours, flat cobalt blue and warm orange accents, natural warm skin tones, minimal detail, no gradients or stippling. Pure white background. One centered complete scene with generous white margin, square composition, all limbs fully in frame. No letters, numbers, labels, watermark, frame or decorative floating objects. People wear simple blue or white clothes. Not a medical diagram. Subject: An adult woman in late pregnancy with a large round belly sits comfortably on a simple chair, hand on belly, calm expectant expression."
+    },
+    {
+      "id": "newborn",
+      "prompt": "Use case: illustration-story. Asset type: illustration for a small six-color e-ink baby development display. Style: warm contemporary children's book editorial illustration, confident clean black contours, flat cobalt blue and warm orange accents, natural warm skin tones, minimal detail, no gradients or stippling. Pure white background. One centered complete scene with generous white margin, square composition, all limbs fully in frame. No letters, numbers, labels, watermark, frame or decorative floating objects. People wear simple blue or white clothes. Not a medical diagram. Subject: An awake adult parent seated and lovingly cradling a fully clothed newborn, safely supporting its head and neck, looking at each other."
+    },
+    {
+      "id": "month-02",
+      "prompt": "Use case: illustration-story. Asset type: illustration for a small six-color e-ink baby development display. Style: warm contemporary children's book editorial illustration, confident clean black contours, flat cobalt blue and warm orange accents, natural warm skin tones, minimal detail, no gradients or stippling. Pure white background. One centered complete scene with generous white margin, square composition, all limbs fully in frame. No letters, numbers, labels, watermark, frame or decorative floating objects. People wear simple blue or white clothes. Not a medical diagram. Subject: A smiling two-month-old infant lying on its back on a simple firm floor play mat, wearing blue onesie, looking up toward an adult parent's face entering scene, adult kneeling alongside."
+    },
+    {
+      "id": "month-04",
+      "prompt": "Use case: illustration-story. Asset type: illustration for a small six-color e-ink baby development display. Style: warm contemporary children's book editorial illustration, confident clean black contours, flat cobalt blue and warm orange accents, natural warm skin tones, minimal detail, no gradients or stippling. Pure white background. One centered complete scene with generous white margin, square composition, all limbs fully in frame. No letters, numbers, labels, watermark, frame or decorative floating objects. People wear simple blue or white clothes. Not a medical diagram. Subject: An awake four-month-old baby doing supervised tummy time on a simple floor mat, supporting chest on forearms, head raised, an adult's attentive face and hand alongside."
+    },
+    {
+      "id": "month-06",
+      "prompt": "Use case: illustration-story. Asset type: illustration for a small six-color e-ink baby development display. Style: warm contemporary children's book editorial illustration, confident clean black contours, flat cobalt blue and warm orange accents, natural warm skin tones, minimal detail, no gradients or stippling. Pure white background. One centered complete scene with generous white margin, square composition, all limbs fully in frame. No letters, numbers, labels, watermark, frame or decorative floating objects. People wear simple blue or white clothes. Not a medical diagram. Subject: A six-month-old baby lying on its back on a firm play mat, reaching both hands toward one large orange baby-safe ring held by a nearby adult."
+    },
+    {
+      "id": "month-09",
+      "prompt": "Use case: illustration-story. Asset type: illustration for a small six-color e-ink baby development display. Style: warm contemporary children's book editorial illustration, confident clean black contours, flat cobalt blue and warm orange accents, natural warm skin tones, minimal detail, no gradients or stippling. Pure white background. One centered complete scene with generous white margin, square composition, all limbs fully in frame. No letters, numbers, labels, watermark, frame or decorative floating objects. People wear simple blue or white clothes. Not a medical diagram. Subject: A nine-month-old baby sitting on floor independently, holding one large blue block and one large orange block, smiling. No tiny parts."
+    },
+    {
+      "id": "month-12",
+      "prompt": "Use case: illustration-story. Asset type: illustration for a small six-color e-ink baby development display. Style: warm contemporary children's book editorial illustration, confident clean black contours, flat cobalt blue and warm orange accents, natural warm skin tones, minimal detail, no gradients or stippling. Pure white background. One centered complete scene with generous white margin, square composition, all limbs fully in frame. No letters, numbers, labels, watermark, frame or decorative floating objects. People wear simple blue or white clothes. Not a medical diagram. Subject: A one-year-old child in blue clothes standing holding a stable low blue sofa with both hands, barefoot, an attentive adult kneeling close."
+    },
+    {
+      "id": "month-15",
+      "prompt": "Use case: illustration-story. Asset type: illustration for a small six-color e-ink baby development display. Style: warm contemporary children's book editorial illustration, confident clean black contours, flat cobalt blue and warm orange accents, natural warm skin tones, minimal detail, no gradients or stippling. Pure white background. One centered complete scene with generous white margin, square composition, all limbs fully in frame. No letters, numbers, labels, watermark, frame or decorative floating objects. People wear simple blue or white clothes. Not a medical diagram. Subject: A fifteen-month-old toddler taking a few steps toward a crouching adult with open arms, joyful, barefoot, plain uncluttered floor."
+    },
+    {
+      "id": "month-18",
+      "prompt": "Use case: illustration-story. Asset type: illustration for a small six-color e-ink baby development display. Style: warm contemporary children's book editorial illustration, confident clean black contours, flat cobalt blue and warm orange accents, natural warm skin tones, minimal detail, no gradients or stippling. Pure white background. One centered complete scene with generous white margin, square composition, all limbs fully in frame. No letters, numbers, labels, watermark, frame or decorative floating objects. People wear simple blue or white clothes. Not a medical diagram. Subject: An eighteen-month-old toddler seated at a low table making large scribbles with a thick orange crayon on plain white paper, adult seated beside watching."
+    },
+    {
+      "id": "month-24",
+      "prompt": "Use case: illustration-story. Asset type: illustration for a small six-color e-ink baby development display. Style: warm contemporary children's book editorial illustration, confident clean black contours, flat cobalt blue and warm orange accents, natural warm skin tones, minimal detail, no gradients or stippling. Pure white background. One centered complete scene with generous white margin, square composition, all limbs fully in frame. No letters, numbers, labels, watermark, frame or decorative floating objects. People wear simple blue or white clothes. Not a medical diagram. Subject: A two-year-old toddler in blue overalls gently kicking a large orange ball on a plain floor, full body, balanced pose."
+    },
+    {
+      "id": "month-30",
+      "prompt": "Use case: illustration-story. Asset type: illustration for a small six-color e-ink baby development display. Style: warm contemporary children's book editorial illustration, confident clean black contours, flat cobalt blue and warm orange accents, natural warm skin tones, minimal detail, no gradients or stippling. Pure white background. One centered complete scene with generous white margin, square composition, all limbs fully in frame. No letters, numbers, labels, watermark, frame or decorative floating objects. People wear simple blue or white clothes. Not a medical diagram. Subject: A two-and-a-half-year-old toddler doing pretend play, giving a toy teddy bear a drink from a large toy cup, sitting on the floor."
+    },
+    {
+      "id": "month-36",
+      "prompt": "Use case: illustration-story. Asset type: illustration for a small six-color e-ink baby development display. Style: warm contemporary children's book editorial illustration, confident clean black contours, flat cobalt blue and warm orange accents, natural warm skin tones, minimal detail, no gradients or stippling. Pure white background. One centered complete scene with generous white margin, square composition, all limbs fully in frame. No letters, numbers, labels, watermark, frame or decorative floating objects. People wear simple blue or white clothes. Not a medical diagram. Subject: A three-year-old child sitting beside a parent, together looking at an open picture book with simple animal pictures, no written text."
+    },
+    {
+      "id": "month-48",
+      "prompt": "Use case: illustration-story. Asset type: illustration for a small six-color e-ink baby development display. Style: warm contemporary children's book editorial illustration, confident clean black contours, flat cobalt blue and warm orange accents, natural warm skin tones, minimal detail, no gradients or stippling. Pure white background. One centered complete scene with generous white margin, square composition, all limbs fully in frame. No letters, numbers, labels, watermark, frame or decorative floating objects. People wear simple blue or white clothes. Not a medical diagram. Subject: Two four-year-old children building a simple tower with large orange and blue blocks on the floor, friendly collaborative play."
+    },
+    {
+      "id": "month-60",
+      "prompt": "Use case: illustration-story. Asset type: illustration for a small six-color e-ink baby development display. Style: warm contemporary children's book editorial illustration, confident clean black contours, flat cobalt blue and warm orange accents, natural warm skin tones, minimal detail, no gradients or stippling. Pure white background. One centered complete scene with generous white margin, square composition, all limbs fully in frame. No letters, numbers, labels, watermark, frame or decorative floating objects. People wear simple blue or white clothes. Not a medical diagram. Subject: Two five-year-old children taking turns in a simple ball game, one gently tossing a large orange ball toward the other, cheerful scene."
+    }
+  ]
+}

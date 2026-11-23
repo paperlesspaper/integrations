@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Climate Stripes Settings</title>
+  <script src="/assets/paperless.iife.js"></script>
+  <style>
+    :root { font-family:system-ui,sans-serif; color-scheme:light dark; }
+    body { margin:0; padding:16px; } label { display:block; margin:0 0 16px; font-weight:600; }
+    select { display:block; width:100%; margin-top:6px; padding:10px; font:inherit; }
+    #status { font-size:14px; }
+  </style>
+</head>
+<body>
+  <label><span id="regionLabel">Region</span><select id="region"></select></label>
+  <label><span id="countryLabel">Country</span><select id="country"></select></label>
+  <label><span id="locationLabel">City or area</span><select id="location"></select></label>
+  <p id="status" role="status"></p>
+  <p>Charts: Ed Hawkins, University of Reading · <a href="https://showyourstripes.info/" target="_blank" rel="noreferrer">Show Your Stripes</a> · <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noreferrer">CC BY 4.0</a>. Resized and color-converted for the display.</p>
+  <script type="module">
+    const bridge = window.PaperlessOpenIntegration;
+    const region = document.querySelector('#region'), country = document.querySelector('#country'), location = document.querySelector('#location');
+    let rows = [], settings = { location:'globe' };
+    function options(select, items, value) {
+      select.replaceChildren(...items.map(([id,name]) => new Option(name.replace(/^<|>$/g,''),id)));
+      select.value = value;
+      if (select.selectedIndex < 0) select.selectedIndex = 0;
+      select.disabled = items.length <= 1;
+    }
+    function populate(selected = settings.location) {
+      const row = rows.find(r => r.id === selected) || rows[0];
+      if (!row) return;
+      options(region, [...new Set(rows.map(r=>r.region))].map(v=>[v,v.replaceAll('_',' ')]), row.region);
+      populateCountries(row.country, row.id);
+    }
+    function populateCountries(selected='', id='') {
+      options(country,[...new Set(rows.filter(r=>r.region===region.value).map(r=>r.country))].map(v=>[v,v || 'Global']),selected);
+      populateLocations(id);
+    }
+    function populateLocations(id='') {
+      options(location,rows.filter(r=>r.region===region.value && r.country===country.value).map(r=>[r.id,r.location]),id);
+    }
+    function save() { settings = { ...settings, location:location.value }; bridge.postSettingsUpdate({ location:settings.location }); }
+    let languageRevision = 0;
+    function isObject(value) { return value !== null && typeof value === 'object' && !Array.isArray(value); }
+    async function apply(message) {
+      // The app sends settings/app.language; the preview sends meta.pluginSettings/language.
+      const payload = message?.type === 'INIT' && isObject(message.payload) ? message.payload : message;
+      const meta = isObject(payload?.meta) ? payload.meta : {};
+      const normalized = { meta:{ ...meta,
+        pluginSettings:isObject(payload?.settings) ? payload.settings : meta.pluginSettings,
+        language:payload?.app?.language ?? meta.language,
+      } };
+      settings = { ...settings, ...bridge.getSettings(normalized) };
+      populate();
+      const revision = ++languageRevision;
+      try {
+        const { messages, language } = await bridge.loadLanguageJson(normalized);
+        if (revision !== languageRevision) return;
+        document.documentElement.lang = language;
+        for (const key of ['region','country','location']) document.querySelector(`#${key}Label`).textContent=messages[key];
+      } catch(error) {
+        if (revision === languageRevision) document.querySelector('#status').textContent = error.message;
+      }
+    }
+    region.onchange=()=>{populateCountries();save();};
+    country.onchange=()=>{populateLocations();save();};
+    location.onchange=save;
+    bridge.observeSettingsHeight({ minHeight:300 });
+    // Start listening before the host responds to READY.
+    const initial = bridge.waitForPayload({ timeoutMs:500, onUpdate:apply }).then(apply);
+    bridge.postSettingsReady();
+    try {
+      const response = await fetch('./data/locations.json');
+      if (!response.ok) throw new Error('Location catalog could not load');
+      rows = await response.json();
+      // Incoming messages already update settings, even while the catalog is loading.
+      populate();
+      await initial;
+    } catch(error) { document.querySelector('#status').textContent = error.message; }
+  </script>
+</body>
+</html>

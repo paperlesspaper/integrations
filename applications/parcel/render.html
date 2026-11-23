@@ -1,0 +1,31 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="paperless:epd-optimize" content='{"intent":"faithful","palette":"spectra6OriginalPalette","canvasDitherOptions":{"ditheringType":"errorDiffusion"}}'>
+<title>Parcel · Package Overview</title><link rel="stylesheet" href="/assets/paperless.css"><script src="/assets/paperless.iife.js"></script>
+<style>
+* { box-sizing: border-box; }
+#app { width:100vw;height:100vh;padding:clamp(18px,3vmin,42px);display:flex;flex-direction:column;gap:clamp(14px,2.5vmin,30px); }
+header { display:flex;align-items:center;justify-content:space-between;gap:20px;border-bottom:5px solid var(--pp-accent);padding-bottom:12px;flex:none; }
+h1 { margin:0;font-size:clamp(26px,4.6vmin,54px);line-height:1.12;overflow-wrap:anywhere; }
+.eyebrow { margin:0 0 6px;font-size:clamp(12px,1.8vmin,22px);font-weight:800;letter-spacing:.08em;text-transform:uppercase; }
+#content { flex:1;min-height:0;min-width:0; }
+footer { display:flex;justify-content:space-between;gap:16px;flex:none;font-size:clamp(11px,1.65vmin,19px);border-top:1px solid var(--pp-border);padding-top:9px; }
+footer span { min-width:0;overflow-wrap:anywhere; }
+.sample { color:var(--pp-accent);font-weight:800; }
+.empty,.error { display:flex;flex-direction:column;justify-content:center;height:100%;gap:20px; }
+.empty { font-size:clamp(25px,4.8vmin,55px); }
+.error p { font-size:clamp(18px,3vmin,32px); }
+.clamp { display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden;overflow-wrap:anywhere; }
+@media(orientation:portrait) { #app { padding:clamp(22px,4.6vw,48px); } }
+#content { display:flex;flex-direction:column;gap:12px; }
+.delivery { border-left:7px solid var(--pp-accent);padding:4px 0 6px 15px; }
+.delivery[data-status="7"],.delivery[data-status="6"] { border-color:var(--pp-red); }
+.delivery[data-status="3"],.delivery[data-status="0"] { border-color:var(--pp-green); }
+.delivery-top { display:flex;gap:15px;justify-content:space-between;align-items:start; }
+.delivery h2 { margin:0;font-size:clamp(21px,3.3vmin,39px);line-height:1.15;flex:1; }
+.badge { padding:3px 7px;border:2px solid var(--pp-fg);font-size:clamp(12px,1.8vmin,20px);font-weight:800;max-width:42%; }
+.delivery[data-status="7"] .badge,.delivery[data-status="6"] .badge { color:var(--pp-white);background:var(--pp-red);border-color:var(--pp-red); }
+.delivery p { margin:6px 0 0;font-size:clamp(14px,2.2vmin,26px);line-height:1.25; }
+.meta { font-weight:700; }
+@media(orientation:portrait) { .delivery { padding-top:7px;padding-bottom:10px; }.delivery-top { flex-direction:column;gap:8px; }.badge {max-width:100%;}.delivery h2 {font-size:clamp(23px,5vw,42px);} }
+</style></head><body><div id="website-has-loading-element"></div><main id="app" aria-live="polite"></main><script type="module" src="./assets/render.js"></script></body></html>

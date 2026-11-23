@@ -1,0 +1,17 @@
+{
+  "featured": "Featured article",
+  "onthisday": "On this day",
+  "top": "Top Wikipedia",
+  "views": "Views",
+  "change": "vs yesterday",
+  "history": "7 days",
+  "new": "New",
+  "missing": "No data",
+  "partial": "Some comparison data is unavailable",
+  "emptyArticle": "No featured article is available for this edition today.",
+  "emptyEvents": "No historical events are available for this edition today.",
+  "error": "Wikipedia could not be loaded. Please try again later.",
+  "demo": "DEMO DATA",
+  "rank": "Rank",
+  "photoMissing": "No article image available"
+}

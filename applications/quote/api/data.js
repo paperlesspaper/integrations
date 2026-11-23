@@ -22,13 +22,16 @@ const quotes = [
 ];
 
 function normalizeIndex(value) {
-  const number = Number(value);
+  // Empty optional settings mean daily rotation; Number(null/"") would pin quote 0.
+  const explicitIndex = typeof value === 'number' ||
+    (typeof value === 'string' && value.trim() !== '');
+  const number = explicitIndex ? Number(value) : NaN;
   if (Number.isFinite(number)) {
     return Math.abs(Math.floor(number)) % quotes.length;
   }
 
-  const start = new Date(Date.UTC(new Date().getUTCFullYear(), 0, 0));
   const today = new Date();
+  const start = new Date(Date.UTC(today.getUTCFullYear(), 0, 0));
   const diff = today - start;
   const day = Math.floor(diff / 86400000);
   return day % quotes.length;

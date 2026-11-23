@@ -1,0 +1,30 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="paperless:epd-optimize" content='{"intent":"faithful","palette":"spectra6OriginalPalette","canvasDitherOptions":{"ditheringType":"errorDiffusion"}}'>
+<title>Upcoming Movies</title><link rel="stylesheet" href="/assets/paperless.css"><script src="/assets/paperless.iife.js"></script>
+<style>
+* { box-sizing: border-box; }
+#app { width:100vw;height:100vh;padding:clamp(18px,3vmin,42px);display:flex;flex-direction:column;gap:clamp(14px,2.5vmin,30px); }
+header { display:flex;align-items:center;justify-content:space-between;gap:20px;border-bottom:5px solid var(--pp-accent);padding-bottom:12px;flex:none; }
+h1 { margin:0;font-size:clamp(26px,4.6vmin,54px);line-height:1.12;overflow-wrap:anywhere; }
+.eyebrow { margin:0 0 6px;font-size:clamp(12px,1.8vmin,22px);font-weight:800;letter-spacing:.08em;text-transform:uppercase; }
+#content { flex:1;min-height:0;min-width:0; }
+footer { display:flex;justify-content:space-between;gap:16px;flex:none;font-size:clamp(11px,1.65vmin,19px);border-top:1px solid var(--pp-border);padding-top:9px; }
+footer span { min-width:0;overflow-wrap:anywhere; }
+.sample { color:var(--pp-accent);font-weight:800; }
+.empty,.error { display:flex;flex-direction:column;justify-content:center;height:100%;gap:20px; }
+.empty { font-size:clamp(25px,4.8vmin,55px); }
+.error p { font-size:clamp(18px,3vmin,32px); }
+.clamp { display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden;overflow-wrap:anywhere; }
+@media(orientation:portrait) { #app { padding:clamp(22px,4.6vw,48px); } }
+#app {padding:clamp(10px,2vmin,24px);gap:12px;} header {padding-bottom:8px;border-width:4px;} h1 {font-size:clamp(23px,3.5vmin,42px);} header .eyebrow {margin:0;font-size:12px;}
+#content {display:grid;grid-template-columns:repeat(var(--columns),minmax(0,1fr));gap:clamp(8px,1.5vmin,20px);}
+.movie {min-height:0;min-width:0;display:flex;flex-direction:column;gap:7px;overflow:hidden;}
+.poster {flex:0 1 58%;min-height:0;display:flex;align-items:center;justify-content:center;background:var(--pp-card);border:1px solid var(--pp-border);overflow:hidden;}
+.poster img {width:100%;height:100%;object-fit:contain;display:block;} .poster span {font-size:14px;text-align:center;padding:8px;}
+.movie h2 {margin:0;font-size:clamp(16px,2.7vmin,33px);line-height:1.15;flex:none;}
+.release {margin:0;font-size:clamp(12px,1.8vmin,22px);font-weight:800;color:var(--pp-accent);flex:none;}
+.overview {font-size:clamp(12px,1.85vmin,23px);line-height:1.35;margin:0;flex:1;min-height:0;overflow:hidden;overflow-wrap:anywhere;}
+footer {font-size:clamp(9px,1.4vmin,16px);align-items:center;gap:10px;}.attribution {flex:1;} .tmdb-logo {width:50px;height:20px;object-fit:contain;flex:none;}
+@media(orientation:portrait) { #app {padding:14px;} #content {grid-template-columns:repeat(var(--portrait-columns),minmax(0,1fr));grid-template-rows:repeat(var(--rows),minmax(0,1fr));gap:12px;} .movie {position:relative;gap:0;} .poster {flex:1;border:0;} .poster img {object-fit:cover;} .overview {display:none;}.movie-caption {position:absolute;bottom:0;left:0;right:0;padding:7px;background:var(--pp-bg);border-top:4px solid var(--pp-accent);}.movie h2 {font-size:clamp(17px,3.7vw,40px);}.release {font-size:clamp(12px,2.6vw,25px);margin-bottom:4px;} }
+</style></head><body><div id="website-has-loading-element"></div><main id="app" aria-live="polite"></main><script type="module" src="./assets/render.js"></script></body></html>

@@ -1,0 +1,32 @@
+{
+  "title": "Open Inventory",
+  "sample": "BEISPIELDATEN",
+  "empty": "Keine Bestandsartikel vorhanden.",
+  "more": "+{count} weitere",
+  "updated": "Abgerufen",
+  "partial": "Unvollständige Daten",
+  "error": "Bestand konnte nicht geladen werden",
+  "setup": "Bitte Open-Inventory-URL, API-Key mit Leserechten und Erreichbarkeit in den Einstellungen prüfen. Danach den Artikel erneut laden.",
+  "settings": {
+    "intro": "Verbinde deine Open-Inventory-Instanz und wähle die Bestände für dein Display. Ein API-Key mit Leserechten genügt.",
+    "baseUrl": "Open-Inventory-URL",
+    "apiKey": "API-Key",
+    "connect": "Verbindung prüfen & Artikel laden",
+    "resourceId": "Artikel",
+    "all": "Alle Bestandsartikel",
+    "selected": "Ausgewählter Artikel",
+    "view": "Ansicht",
+    "stock": "Bestandsübersicht",
+    "lowStock": "Nur knappe und leere Bestände",
+    "maxItems": "Maximale Zeilenzahl",
+    "search": "Nach Name oder Artikelnummer filtern (alle Artikel)",
+    "title": "Eigener Anzeigetitel (optional)",
+    "timeZone": "Zeitzone",
+    "sampleData": "Gekennzeichnete Beispieldaten verwenden",
+    "loading": "Verbindung wird geprüft …",
+    "connected": "{count} Bestandsartikel geladen.",
+    "failed": "Verbindung fehlgeschlagen. URL, API-Key mit Bestandsleserechten und Erreichbarkeit prüfen. Lokale Instanzen benötigen eine Freigabe am Integrationsserver.",
+    "changed": "Einstellung übernommen. Zum Abschluss in Paperlesspaper speichern.",
+    "invalidTimeZone": "Bitte eine gültige Zeitzone eingeben, z. B. Europe/Berlin."
+  }
+}

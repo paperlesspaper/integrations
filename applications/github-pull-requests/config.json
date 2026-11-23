@@ -1,0 +1,113 @@
+{
+  "name": "GitHub Reviews & CI",
+  "version": "0.1.0",
+  "status": "alpha",
+  "description": "Open pull requests, requested reviews and CI status of the latest commit.",
+  "renderPage": "./render.html",
+  "icon": "./assets/icon.png",
+  "timezone": "Europe/Berlin",
+  "language": ["de", "en"],
+  "nativeSettings": {
+    "color": "blue-light",
+    "title": "",
+    "sampleData": false,
+    "timeZone": "Europe/Berlin",
+    "token": "",
+    "username": "",
+    "mode": "review-requested",
+    "repository": ""
+  },
+  "formSchema": {
+    "type": "object",
+    "properties": {
+      "title": {
+        "type": "string",
+        "title": "Custom display title",
+        "default": ""
+      },
+      "sampleData": {
+        "type": "boolean",
+        "title": "Use labelled demo data",
+        "default": false
+      },
+      "timeZone": {
+        "type": "string",
+        "format": "timezone",
+        "title": "Display time zone",
+        "default": "Europe/Berlin"
+      },
+      "token": {
+        "type": "string",
+        "title": "GitHub access token",
+        "default": "",
+        "format": "password"
+      },
+      "username": {
+        "type": "string",
+        "title": "GitHub username",
+        "default": ""
+      },
+      "mode": {
+        "type": "string",
+        "title": "Pull requests to display",
+        "default": "review-requested",
+        "enum": ["review-requested", "author", "involves"]
+      },
+      "repository": {
+        "type": "string",
+        "title": "Optional owner/repository filter",
+        "default": ""
+      }
+    }
+  },
+  "configVariants": [
+    {
+      "color": "blue-light",
+      "title": "",
+      "sampleData": true,
+      "timeZone": "Europe/Berlin",
+      "token": "",
+      "username": "",
+      "mode": "review-requested",
+      "repository": "",
+      "screenshots": {
+        "800x480": "./screenshots/github-pull-requests-light-800x480.png",
+        "480x800": "./screenshots/github-pull-requests-light-480x800.png",
+        "1600x1200": "./screenshots/github-pull-requests-light-1600x1200.png",
+        "1200x1600": "./screenshots/github-pull-requests-light-1200x1600.png"
+      }
+    },
+    {
+      "color": "blue-dark",
+      "title": "",
+      "sampleData": true,
+      "timeZone": "Europe/Berlin",
+      "token": "",
+      "username": "",
+      "mode": "review-requested",
+      "repository": "",
+      "screenshots": {
+        "800x480": "./screenshots/github-pull-requests-dark-800x480.png",
+        "480x800": "./screenshots/github-pull-requests-dark-480x800.png",
+        "1600x1200": "./screenshots/github-pull-requests-dark-1600x1200.png",
+        "1200x1600": "./screenshots/github-pull-requests-dark-1200x1600.png"
+      }
+    },
+    {
+      "color": "dark",
+      "title": "",
+      "sampleData": true,
+      "timeZone": "Europe/Berlin",
+      "token": "",
+      "username": "",
+      "mode": "review-requested",
+      "repository": "",
+      "screenshots": {
+        "800x480": "./screenshots/github-pull-requests-black-800x480.png",
+        "480x800": "./screenshots/github-pull-requests-black-480x800.png",
+        "1600x1200": "./screenshots/github-pull-requests-black-1600x1200.png",
+        "1200x1600": "./screenshots/github-pull-requests-black-1200x1600.png"
+      }
+    }
+  ]
+}

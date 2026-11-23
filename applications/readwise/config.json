@@ -1,0 +1,107 @@
+{
+  "name": "Readwise",
+  "version": "0.1.0",
+  "status": "alpha",
+  "description": "A rotating highlight from your Readwise Daily Review.",
+  "renderPage": "./render.html",
+  "icon": "./assets/icon.png",
+  "timezone": "Europe/Berlin",
+  "language": [
+    "de",
+    "en"
+  ],
+  "nativeSettings": {
+    "color": "green-light",
+    "title": "",
+    "sampleData": false,
+    "apiToken": "",
+    "rotation": "daily",
+    "highlightIndex": 0,
+    "showNote": true,
+    "timeZone": "Europe/Berlin"
+  },
+  "formSchema": {
+    "type": "object",
+    "properties": {
+      "title": {
+        "type": "string",
+        "default": "",
+        "title": "Display title (optional)",
+        "maxLength": 80
+      },
+      "sampleData": {
+        "type": "boolean",
+        "default": false,
+        "title": "Use labelled demo data"
+      },
+      "apiToken": {
+        "type": "string",
+        "default": "",
+        "title": "Readwise access token",
+        "format": "password"
+      },
+      "rotation": {
+        "type": "string",
+        "default": "daily",
+        "title": "Highlight rotation",
+        "enum": [
+          "daily",
+          "hourly",
+          "fixed"
+        ]
+      },
+      "highlightIndex": {
+        "type": "integer",
+        "default": 0,
+        "title": "Highlight offset (starts at zero)",
+        "minimum": 0,
+        "maximum": 1000
+      },
+      "showNote": {
+        "type": "boolean",
+        "default": true,
+        "title": "Show personal note"
+      },
+      "timeZone": {
+        "type": "string",
+        "format": "timezone",
+        "default": "Europe/Berlin",
+        "title": "Display timezone"
+      }
+    }
+  },
+  "configVariants": [
+    {
+      "color": "green-light",
+      "title": "",
+      "sampleData": true,
+      "apiToken": "",
+      "rotation": "daily",
+      "highlightIndex": 0,
+      "showNote": true,
+      "timeZone": "Europe/Berlin",
+      "screenshots": {
+        "800x480": "./screenshots/readwise-default-800x480.png",
+        "480x800": "./screenshots/readwise-default-480x800.png",
+        "1600x1200": "./screenshots/readwise-default-1600x1200.png",
+        "1200x1600": "./screenshots/readwise-default-1200x1600.png"
+      }
+    },
+    {
+      "color": "green-dark",
+      "title": "",
+      "sampleData": true,
+      "apiToken": "",
+      "rotation": "daily",
+      "highlightIndex": 0,
+      "showNote": true,
+      "timeZone": "Europe/Berlin",
+      "screenshots": {
+        "800x480": "./screenshots/readwise-dark-800x480.png",
+        "480x800": "./screenshots/readwise-dark-480x800.png",
+        "1600x1200": "./screenshots/readwise-dark-1600x1200.png",
+        "1200x1600": "./screenshots/readwise-dark-1200x1600.png"
+      }
+    }
+  ]
+}

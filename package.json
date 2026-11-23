@@ -11,7 +11,10 @@
     "docker:build": "docker build -t paperlesspaper-openintegrations:latest .",
     "docker:run": "docker run --rm -p 3000:3000 paperlesspaper-openintegrations:latest",
     "check:of-the-day": "node scripts/check-of-the-day-layouts.mjs",
-    "check:dashboards": "node scripts/check-dashboard-integrations.mjs"
+    "check:dashboards": "node scripts/check-dashboard-integrations.mjs",
+    "check:bambu-lab": "paperless check applications/bambu-lab/config.json && node --test tests/bambu-lab.test.mjs && node scripts/check-bambu-lab-layouts.mjs",
+    "check:parcel-readwise-movies": "node scripts/check-parcel-readwise-movies.mjs",
+    "check:connected": "node --test tests/connected-integrations.test.mjs && node scripts/check-connected-integrations.mjs"
   },
   "dependencies": {
     "@fontsource/open-sans": "5.2.7",
@@ -19,7 +22,8 @@
     "express": "^4.19.2",
     "fast-xml-parser": "^5.11.1",
     "parse5": "8.0.1",
-    "suncalc": "^2.0.2"
+    "suncalc": "^2.0.2",
+    "mqtt": "^5.16.0"
   },
   "devDependencies": {
     "jsdom": "26.1.0"

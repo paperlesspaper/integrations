@@ -525,13 +525,14 @@ async function requestCalendarUrl({
   headers = {},
   body,
   followRedirects = true,
-  maxBytes = DEFAULT_MAX_BYTES
+  maxBytes = DEFAULT_MAX_BYTES,
+  timeoutMs = REQUEST_TIMEOUT_MS
 }) {
   let currentUrl = new URL(normalizeFeedUrl(url, { allowHttp }));
   let currentMethod = method;
   let currentBody = body;
   let currentHeaders = { ...headers };
-  const deadline = Date.now() + REQUEST_TIMEOUT_MS;
+  const deadline = Date.now() + timeoutMs;
 
   for (let redirectCount = 0; redirectCount <= MAX_REDIRECTS; redirectCount += 1) {
     const remainingBeforeLookup = deadline - Date.now();
@@ -695,7 +696,31 @@ export async function fetchCalDavCalendar({
     xml.matchAll(/<(?:[\w.-]+:)?calendar-data\b[^>]*>([\s\S]*?)<\/(?:[\w.-]+:)?calendar-data>/gi),
     (match) => xmlDecode(match[1].trim())
   ).filter(Boolean);
-  return calendars;
+  let calendarColor = "";
+  try {
+    const metadata = await requestCalendarUrl({
+      url, allowHttp: effectiveAllowHttp, method: "PROPFIND", followRedirects: false,
+      timeoutMs: 2500, maxBytes: 128 * 1024,
+      headers: {
+        Accept: "application/xml,text/xml",
+        Authorization: `Basic ${Buffer.from(`${username}:${appPassword}`).toString("base64")}`,
+        "Content-Type": "application/xml; charset=utf-8", Depth: "0", "User-Agent": USER_AGENT
+      },
+      body: '<?xml version="1.0"?><d:propfind xmlns:d="DAV:" xmlns:a="http://apple.com/ns/ical/"><d:prop><a:calendar-color /></d:prop></d:propfind>'
+    });
+    if (metadata.status >= 200 && metadata.status < 300) {
+      // Only accept successful property groups, never a DAV 404 propstat.
+      const groups = metadata.text.match(/<(?:[\w.-]+:)?propstat\b[^>]*>[\s\S]*?<\/(?:[\w.-]+:)?propstat>/gi) || [];
+      for (const group of groups) {
+        if (!/<(?:[\w.-]+:)?status\b[^>]*>[^<]*\s200(?:\s|<)/i.test(group)) continue;
+        const value = group.match(/<(?:[\w.-]+:)?calendar-color\b[^>]*>([^<]*)<\/(?:[\w.-]+:)?calendar-color>/i)?.[1];
+        if (value) { calendarColor = value.trim(); break; }
+      }
+    }
+  } catch {
+    // Some CalDAV servers do not expose this optional property.
+  }
+  return { calendars, calendarColor };
 }
 
 function unfoldIcalendar(value) {

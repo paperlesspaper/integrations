@@ -1,0 +1,13 @@
+{
+  "title": "A thought for today",
+  "sample": "DEMO DATA",
+  "updated": "Updated",
+  "error": "Could not load data",
+  "setup": "Check your Readwise account and API token.",
+  "empty": "No Daily Review available yet. Open Readwise to create your daily selection.",
+  "shown": "{shown} of {total}",
+  "note": "My note",
+  "excerpt": "Excerpt",
+  "highlight": "Highlight {shown} / {total}",
+  "dailyReview": "Readwise · Daily Review"
+}

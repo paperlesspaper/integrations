@@ -1,0 +1,93 @@
+{
+  "name": "Tides",
+  "version": "0.1.0",
+  "status": "alpha",
+  "description": "Upcoming high and low tides and predicted water level from NOAA.",
+  "renderPage": "./render.html",
+  "icon": "./assets/icon.png",
+  "timezone": "Europe/Berlin",
+  "language": ["de", "en"],
+  "nativeSettings": {
+    "color": "blue-light",
+    "title": "",
+    "sampleData": false,
+    "timeZone": "Europe/Berlin",
+    "stationId": "9414290",
+    "stationName": "San Francisco"
+  },
+  "formSchema": {
+    "type": "object",
+    "properties": {
+      "title": {
+        "type": "string",
+        "title": "Custom display title",
+        "default": ""
+      },
+      "sampleData": {
+        "type": "boolean",
+        "title": "Use labelled demo data",
+        "default": false
+      },
+      "timeZone": {
+        "type": "string",
+        "format": "timezone",
+        "title": "Display time zone",
+        "default": "Europe/Berlin"
+      },
+      "stationId": {
+        "type": "string",
+        "title": "NOAA station ID",
+        "default": "9414290"
+      },
+      "stationName": {
+        "type": "string",
+        "title": "Station label",
+        "default": "San Francisco"
+      }
+    }
+  },
+  "configVariants": [
+    {
+      "color": "blue-light",
+      "title": "",
+      "sampleData": true,
+      "timeZone": "Europe/Berlin",
+      "stationId": "9414290",
+      "stationName": "San Francisco",
+      "screenshots": {
+        "800x480": "./screenshots/tides-light-800x480.png",
+        "480x800": "./screenshots/tides-light-480x800.png",
+        "1600x1200": "./screenshots/tides-light-1600x1200.png",
+        "1200x1600": "./screenshots/tides-light-1200x1600.png"
+      }
+    },
+    {
+      "color": "blue-dark",
+      "title": "",
+      "sampleData": true,
+      "timeZone": "Europe/Berlin",
+      "stationId": "9414290",
+      "stationName": "San Francisco",
+      "screenshots": {
+        "800x480": "./screenshots/tides-dark-800x480.png",
+        "480x800": "./screenshots/tides-dark-480x800.png",
+        "1600x1200": "./screenshots/tides-dark-1600x1200.png",
+        "1200x1600": "./screenshots/tides-dark-1200x1600.png"
+      }
+    },
+    {
+      "color": "dark",
+      "title": "",
+      "sampleData": true,
+      "timeZone": "Europe/Berlin",
+      "stationId": "9414290",
+      "stationName": "San Francisco",
+      "screenshots": {
+        "800x480": "./screenshots/tides-black-800x480.png",
+        "480x800": "./screenshots/tides-black-480x800.png",
+        "1600x1200": "./screenshots/tides-black-1600x1200.png",
+        "1200x1600": "./screenshots/tides-black-1200x1600.png"
+      }
+    }
+  ]
+}

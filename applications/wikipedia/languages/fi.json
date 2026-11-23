@@ -1,0 +1,17 @@
+{
+  "featured": "Päivän artikkeli",
+  "onthisday": "Tänä päivänä",
+  "top": "Top Wikipedia",
+  "views": "Katselut",
+  "change": "eiliseen nähden",
+  "history": "7 päivää",
+  "new": "Uusi",
+  "missing": "Ei tietoja",
+  "partial": "Osa vertailutiedoista puuttuu",
+  "emptyArticle": "Tälle kieliversiolle ei ole saatavilla päivän artikkelia tänään.",
+  "emptyEvents": "Tälle kieliversiolle ei ole saatavilla historiallisia tapahtumia tänään.",
+  "error": "Wikipediaa ei voitu ladata. Yritä myöhemmin uudelleen.",
+  "demo": "ESIMERKKITIEDOT",
+  "rank": "Sijoitus",
+  "photoMissing": "Kuvaa ei saatavilla"
+}

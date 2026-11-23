@@ -1,0 +1,106 @@
+{
+  "name": "Parcel · Package Overview",
+  "version": "0.1.0",
+  "status": "alpha",
+  "description": "Active and recent Parcel deliveries with expected dates and delivery status.",
+  "renderPage": "./render.html",
+  "icon": "./assets/icon.png",
+  "timezone": "Europe/Berlin",
+  "language": [
+    "de",
+    "en"
+  ],
+  "nativeSettings": {
+    "color": "blue-light",
+    "title": "",
+    "sampleData": false,
+    "apiKey": "",
+    "filterMode": "active",
+    "limit": 4,
+    "showTrackingNumber": false,
+    "timeZone": "Europe/Berlin"
+  },
+  "formSchema": {
+    "type": "object",
+    "properties": {
+      "title": {
+        "type": "string",
+        "default": "",
+        "title": "Display title (optional)",
+        "maxLength": 80
+      },
+      "sampleData": {
+        "type": "boolean",
+        "default": false,
+        "title": "Use labelled demo data"
+      },
+      "apiKey": {
+        "type": "string",
+        "default": "",
+        "title": "API key",
+        "format": "password"
+      },
+      "filterMode": {
+        "type": "string",
+        "default": "active",
+        "title": "Deliveries",
+        "enum": [
+          "active",
+          "recent"
+        ]
+      },
+      "limit": {
+        "type": "integer",
+        "default": 4,
+        "title": "Maximum deliveries",
+        "minimum": 1,
+        "maximum": 8
+      },
+      "showTrackingNumber": {
+        "type": "boolean",
+        "default": false,
+        "title": "Show tracking numbers"
+      },
+      "timeZone": {
+        "type": "string",
+        "format": "timezone",
+        "default": "Europe/Berlin",
+        "title": "Display timezone"
+      }
+    }
+  },
+  "configVariants": [
+    {
+      "color": "blue-light",
+      "title": "",
+      "sampleData": true,
+      "apiKey": "",
+      "filterMode": "active",
+      "limit": 4,
+      "showTrackingNumber": false,
+      "timeZone": "Europe/Berlin",
+      "screenshots": {
+        "800x480": "./screenshots/parcel-default-800x480.png",
+        "480x800": "./screenshots/parcel-default-480x800.png",
+        "1600x1200": "./screenshots/parcel-default-1600x1200.png",
+        "1200x1600": "./screenshots/parcel-default-1200x1600.png"
+      }
+    },
+    {
+      "color": "blue-dark",
+      "title": "",
+      "sampleData": true,
+      "apiKey": "",
+      "filterMode": "active",
+      "limit": 4,
+      "showTrackingNumber": false,
+      "timeZone": "Europe/Berlin",
+      "screenshots": {
+        "800x480": "./screenshots/parcel-dark-800x480.png",
+        "480x800": "./screenshots/parcel-dark-480x800.png",
+        "1600x1200": "./screenshots/parcel-dark-1600x1200.png",
+        "1200x1600": "./screenshots/parcel-dark-1200x1600.png"
+      }
+    }
+  ]
+}

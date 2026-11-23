@@ -1,0 +1,69 @@
+{
+  "generatedAt": "2026-09-26",
+  "tool": "built-in image_gen",
+  "assets": [
+    {
+      "slug": "proton-calendar",
+      "prompt": "Use case: stylized-concept. Create ONE high-resolution 2D digital integration icon for paperlesspaper. Square 1024x1024 PNG with genuinely transparent alpha background, no painted checkerboard. Realistic but minimalistic, subtle 3D shading and highlights, smooth beveled edges, viewed slightly from above with a nearly front-facing readable silhouette. Single coherent centered object, fully visible, generous balanced padding of about 12 percent. No surrounding objects, no ground or cast shadows outside the icon, no text, no letters, no numbers, no watermark. Crisp and recognizable at 48 pixels. Subject: a white calendar page with rich violet header and two small silver binding loops. On its face a few simple violet calendar squares and a prominent integrated violet shield with a white closed padlock symbol, expressing private secure Proton Calendar. Opaque white paper, restrained purple palette.",
+      "savedAsset": "applications/proton-calendar/assets/icon.png",
+      "width": 1254,
+      "height": 1254,
+      "transparent": true,
+      "frontendMediaUrl": "https://media.paperlesspaper.de/t/paperlesspaper-website/proton-calendar-icon-20260926.png"
+    },
+    {
+      "slug": "apple-calendar",
+      "prompt": "Use case: stylized-concept. Create ONE high-resolution 2D digital integration icon for paperlesspaper. Square 1024x1024 PNG with genuinely transparent alpha background, no painted checkerboard. Realistic but minimalistic, subtle 3D shading and highlights, smooth beveled edges, viewed slightly from above with a nearly front-facing readable silhouette. Single coherent centered object, fully visible, generous balanced padding of about 12 percent. No surrounding objects, no ground or cast shadows outside the icon, no text, no letters, no numbers, no watermark. Crisp and recognizable at 48 pixels. Subject: an elegant white calendar page with vivid red header and two small silver binding loops, subtle stacked paper edge. A neat three by three arrangement of charcoal date squares with one red selected square. Clean restrained Apple Calendar inspired red and white design, no Apple logo, absolutely no typography.",
+      "savedAsset": "applications/apple-calendar/assets/icon.png",
+      "width": 1254,
+      "height": 1254,
+      "transparent": true,
+      "frontendMediaUrl": "https://media.paperlesspaper.de/t/paperlesspaper-website/apple-calendar-icon-20260926.png"
+    },
+    {
+      "slug": "outlook-calendar",
+      "prompt": "Use case: stylized-concept. Create ONE high-resolution 2D digital integration icon for paperlesspaper. Square 1024x1024 PNG with genuinely transparent alpha background, no painted checkerboard. Realistic but minimalistic, subtle 3D shading and highlights, smooth beveled edges, viewed slightly from above with a nearly front-facing readable silhouette. Single coherent centered object, fully visible, generous balanced padding of about 12 percent. No surrounding objects, no ground or cast shadows outside the icon, no text, no letters, no numbers, no watermark. Crisp and recognizable at 48 pixels. Subject: a white calendar page with saturated Microsoft Outlook blue header and two small silver binding loops. A neat grid of blue date squares and one small integrated blue clock badge at lower right with white face and two dark hands. Restrained blue and white design, no letters or numbers.",
+      "savedAsset": "applications/outlook-calendar/assets/icon.png",
+      "width": 1254,
+      "height": 1254,
+      "transparent": true,
+      "frontendMediaUrl": "https://media.paperlesspaper.de/t/paperlesspaper-website/outlook-calendar-icon-20260926.png"
+    },
+    {
+      "slug": "nextcloud-photos",
+      "prompt": "Use case: stylized-concept. Create ONE high-resolution 2D digital integration icon for paperlesspaper. Square 1024x1024 PNG with genuinely transparent alpha background, no painted checkerboard. Realistic but minimalistic, subtle 3D shading and highlights, smooth beveled edges, viewed slightly from above with a nearly front-facing readable silhouette. Single coherent centered object, fully visible, generous balanced padding of about 12 percent. No surrounding objects, no ground or cast shadows outside the icon, no text, no letters, no numbers, no watermark. Crisp and recognizable at 48 pixels. Subject: two slightly overlapping white photo prints, the foremost showing a simple green mountain landscape, blue sky and small orange sun. A small saturated Nextcloud blue cloud badge integrated at lower right, with the white Nextcloud three connected circles symbol. Cohesive blue green white palette, minimal details.",
+      "savedAsset": "applications/nextcloud-photos/assets/icon.png",
+      "width": 1254,
+      "height": 1254,
+      "transparent": true,
+      "frontendMediaUrl": "https://media.paperlesspaper.de/t/paperlesspaper-website/nextcloud-photos-icon-20260926.png"
+    },
+    {
+      "slug": "nextcloud-calendar",
+      "prompt": "Use case: stylized-concept. Create ONE high-resolution 2D digital integration icon for paperlesspaper. Square 1024x1024 PNG with genuinely transparent alpha background, no painted checkerboard. Realistic but minimalistic, subtle 3D shading and highlights, smooth beveled edges, viewed slightly from above with a nearly front-facing readable silhouette. Single coherent centered object, fully visible, generous balanced padding of about 12 percent. No surrounding objects, no ground or cast shadows outside the icon, no text, no letters, no numbers, no watermark. Crisp and recognizable at 48 pixels. Subject: a white calendar page with saturated Nextcloud blue header and two small silver binding loops. A neat grid of blue date squares. A small blue cloud badge integrated at lower right carrying the white Nextcloud symbol: one larger central circular ring joined horizontally to a smaller ring on each side. Cohesive blue and white palette.",
+      "savedAsset": "applications/nextcloud-calendar/assets/icon.png",
+      "width": 1254,
+      "height": 1254,
+      "transparent": true,
+      "frontendMediaUrl": "https://media.paperlesspaper.de/t/paperlesspaper-website/nextcloud-calendar-icon-20260926.png"
+    },
+    {
+      "slug": "webcal",
+      "prompt": "Use case: stylized-concept. Create ONE high-resolution 2D digital integration icon for paperlesspaper. Square 1024x1024 PNG with genuinely transparent alpha background, no painted checkerboard. Realistic but minimalistic, subtle 3D shading and highlights, smooth beveled edges, viewed slightly from above with a nearly front-facing readable silhouette. Single coherent centered object, fully visible, generous balanced padding of about 12 percent. No surrounding objects, no ground or cast shadows outside the icon, no text, no letters, no numbers, no watermark. Crisp and recognizable at 48 pixels. Subject: a white calendar page with fresh green header and two small silver binding loops, a neat grid of green date squares. A small orange badge with two interlocking white chain links integrated at lower right, conveying a subscribed Webcal and iCalendar feed. Restrained green orange and white palette.",
+      "savedAsset": "applications/webcal/assets/icon.png",
+      "width": 1254,
+      "height": 1254,
+      "transparent": true,
+      "frontendMediaUrl": "https://media.paperlesspaper.de/t/paperlesspaper-website/webcal-icon-20260926.png"
+    },
+    {
+      "slug": "caldav",
+      "prompt": "Use case: stylized-concept. Create ONE high-resolution 2D digital integration icon for paperlesspaper. Square 1024x1024 PNG with genuinely transparent alpha background, no painted checkerboard. Realistic but minimalistic, subtle 3D shading and highlights, smooth beveled edges, viewed slightly from above with a nearly front-facing readable silhouette. Single coherent centered object, fully visible, generous balanced padding of about 12 percent. No surrounding objects, no ground or cast shadows outside the icon, no text, no letters, no numbers, no watermark. Crisp and recognizable at 48 pixels. Subject: a white calendar page with saturated blue header and two small silver binding loops, a neat three by three grid of blue date squares, and subtle stacked paper edges. A small integrated orange circular badge at lower right contains a simple white connected-network symbol, three round nodes connected by a Y-shaped line, expressing provider-independent CalDAV calendar access. Restrained blue orange and white palette. Match a cohesive family of clean polished calendar icons.",
+      "savedAsset": "applications/caldav/assets/icon.png",
+      "width": 1254,
+      "height": 1254,
+      "transparent": true,
+      "frontendMediaUrl": "https://media.paperlesspaper.de/t/paperlesspaper-website/caldav-icon-20260926.png"
+    }
+  ]
+}

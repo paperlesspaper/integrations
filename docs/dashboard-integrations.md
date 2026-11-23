@@ -1,11 +1,12 @@
 # Daily-use dashboard integrations
 
-Fifteen integrations were added from the TRMNL / Home Assistant research, alongside
-a seven-day daylight trend in the existing Day Calendar. The project color rules
+The original fifteen integrations from the TRMNL / Home Assistant research are
+joined by Bambu Lab cloud print monitoring. Day Calendar also includes a seven-day daylight trend. The project color rules
 are in [AGENTS.md](../AGENTS.md#color-on-spectra-6-displays).
 
 | Integration | Connection | First-run behavior |
 | --- | --- | --- |
+| [Bambu Lab · Now Printing](../applications/bambu-lab/README.md) | MakerWorld/Bambu access token; optional printer serial number | Labelled demo |
 | [Fuel Prices](../applications/fuel-prices/README.md) | Personal Tankerkönig API key | Labelled demo |
 | [Seasonal Produce](../applications/seasonal-produce/README.md) | Local German harvest/storage guide | Current month |
 | [School Timetable](../applications/school-timetable/README.md) | Manually entered weekly lessons | Labelled demo |
@@ -76,12 +77,22 @@ browser. Form password controls conceal input visually but are not a secret vaul
 
 ## Validation
 
+Bambu Lab has its own adapter and 96-case layout/update suite, including long
+model names, missing images and error states:
+
+```sh
+npm run check:bambu-lab
+npm run screenshots -- --app bambu-lab
+```
+
+The original dashboard collection uses:
+
 ```sh
 npm run check:dashboards
 npm run check:dashboards -- --render
 ```
 
-The first command validates all fifteen manifests and runs the adapter regression
+The first command validates the original fifteen manifests and runs the adapter regression
 tests. The rendering option checks the two declared variants at four sizes,
 generates 120 browser screenshots and writes a layout report to
 `output/dashboard-integrations/layout-report.json`. It also checks a subsequent

@@ -8,5 +8,20 @@
   "privateEvent": "Private event",
   "errorTitle": "Outlook Calendar unavailable",
   "source": "Microsoft Graph",
-  "sampleSource": "Sample data"
+  "sampleSource": "Sample data",
+  "tomorrow": "Tomorrow",
+  "nextEvent": "Up next",
+  "ongoing": "Now",
+  "later": "Coming up",
+  "dayAtGlance": "Your day at a glance",
+  "remainingOne": "1 timed event remaining",
+  "remainingMany": "{count} timed events remaining",
+  "allDayCount": "{count} all-day",
+  "noMoreToday": "No more timed events today",
+  "freeAfter": "No timed events after {time}",
+  "asOf": "As of {time}",
+  "timelineDue": "Due today",
+  "timelineGap": "{duration} free",
+  "timelineRemaining": "{count} remaining",
+  "timelineFinished": "No more appointments today"
 }

@@ -47,6 +47,27 @@ const resolutions = [
 
 const apps = [
   {
+    slug: "sbb-abfahrten",
+    variants: [
+      { id: "red-light", values: { color: "red-light", sampleData: true } },
+      { id: "blue-dark", values: { color: "blue-dark", sampleData: true } },
+    ],
+  },
+  ...['parcel', 'readwise', 'upcoming-movies'].map((slug) => ({
+    slug,
+    variants: [
+      { id: 'default', values: { sampleData: true } },
+      { id: 'dark', values: { sampleData: true } },
+    ],
+  })),
+  {
+    slug: "bambu-lab",
+    variants: [
+      { id: "default", values: { color: "blue-light", sampleData: true, demoState: "printing", token: "", deviceId: "", historyLimit: 3, showMaterial: true, showHeader: true } },
+      { id: "dark", values: { color: "dark", sampleData: true, demoState: "finished", token: "", deviceId: "", historyLimit: 3, showMaterial: true, showHeader: true } },
+    ],
+  },
+  {
     slug: "apple-photos-gallery",
     variants: [
       {

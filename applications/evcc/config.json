@@ -1,0 +1,106 @@
+{
+  "name": "EVCC Charging",
+  "version": "0.1.0",
+  "status": "alpha",
+  "description": "Battery, charging power, energy added and solar share for an EVCC charge point.",
+  "renderPage": "./render.html",
+  "icon": "./assets/icon.png",
+  "timezone": "Europe/Berlin",
+  "language": ["de", "en"],
+  "nativeSettings": {
+    "color": "green-light",
+    "title": "",
+    "sampleData": false,
+    "timeZone": "Europe/Berlin",
+    "baseUrl": "http://evcc.local:7070",
+    "token": "",
+    "loadpoint": 1
+  },
+  "formSchema": {
+    "type": "object",
+    "properties": {
+      "title": {
+        "type": "string",
+        "title": "Custom display title",
+        "default": ""
+      },
+      "sampleData": {
+        "type": "boolean",
+        "title": "Use labelled demo data",
+        "default": false
+      },
+      "timeZone": {
+        "type": "string",
+        "format": "timezone",
+        "title": "Display time zone",
+        "default": "Europe/Berlin"
+      },
+      "baseUrl": {
+        "type": "string",
+        "title": "EVCC base URL",
+        "default": "http://evcc.local:7070",
+        "format": "uri"
+      },
+      "token": {
+        "type": "string",
+        "title": "Reverse-proxy bearer token (optional)",
+        "default": "",
+        "format": "password"
+      },
+      "loadpoint": {
+        "type": "number",
+        "title": "Loadpoint number (1-based)",
+        "default": 1,
+        "minimum": 1,
+        "maximum": 64
+      }
+    }
+  },
+  "configVariants": [
+    {
+      "color": "green-light",
+      "title": "",
+      "sampleData": true,
+      "timeZone": "Europe/Berlin",
+      "baseUrl": "http://evcc.local:7070",
+      "token": "",
+      "loadpoint": 1,
+      "screenshots": {
+        "800x480": "./screenshots/evcc-light-800x480.png",
+        "480x800": "./screenshots/evcc-light-480x800.png",
+        "1600x1200": "./screenshots/evcc-light-1600x1200.png",
+        "1200x1600": "./screenshots/evcc-light-1200x1600.png"
+      }
+    },
+    {
+      "color": "green-dark",
+      "title": "",
+      "sampleData": true,
+      "timeZone": "Europe/Berlin",
+      "baseUrl": "http://evcc.local:7070",
+      "token": "",
+      "loadpoint": 1,
+      "screenshots": {
+        "800x480": "./screenshots/evcc-dark-800x480.png",
+        "480x800": "./screenshots/evcc-dark-480x800.png",
+        "1600x1200": "./screenshots/evcc-dark-1600x1200.png",
+        "1200x1600": "./screenshots/evcc-dark-1200x1600.png"
+      }
+    },
+    {
+      "color": "dark",
+      "title": "",
+      "sampleData": true,
+      "timeZone": "Europe/Berlin",
+      "baseUrl": "http://evcc.local:7070",
+      "token": "",
+      "loadpoint": 1,
+      "screenshots": {
+        "800x480": "./screenshots/evcc-black-800x480.png",
+        "480x800": "./screenshots/evcc-black-480x800.png",
+        "1600x1200": "./screenshots/evcc-black-1600x1200.png",
+        "1200x1600": "./screenshots/evcc-black-1200x1600.png"
+      }
+    }
+  ]
+}

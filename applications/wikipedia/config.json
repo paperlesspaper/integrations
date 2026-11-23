@@ -1,0 +1,152 @@
+{
+  "name": "Wikipedia",
+  "version": "1.0.0",
+  "description": "Featured articles, historical events and the most-viewed Wikipedia articles with daily changes and seven-day trends.",
+  "renderPage": "./render.html",
+  "icon": "./assets/icon.png",
+  "language": [
+    "de",
+    "en",
+    "fr",
+    "es",
+    "it",
+    "pt",
+    "nl",
+    "pl",
+    "sv",
+    "fi"
+  ],
+  "timezone": "UTC",
+  "nativeSettings": {
+    "color": "blue-light",
+    "kind": "primary",
+    "edition": "auto",
+    "limit": 10,
+    "limitCharacters": 550,
+    "showImage": true
+  },
+  "formSchema": {
+    "type": "object",
+    "properties": {
+      "kind": {
+        "type": "string",
+        "title": "Ansicht / View",
+        "enum": [
+          "primary",
+          "onthisday",
+          "trends"
+        ],
+        "enumNames": [
+          "Artikel des Tages / Featured article",
+          "An diesem Tag / On this day",
+          "Trends / Trends"
+        ],
+        "default": "primary"
+      },
+      "edition": {
+        "type": "string",
+        "title": "Wikipedia-Sprachausgabe / Wikipedia language edition",
+        "enum": [
+          "auto",
+          "de",
+          "en",
+          "fr",
+          "es",
+          "it",
+          "pt",
+          "nl",
+          "pl",
+          "sv",
+          "fi"
+        ],
+        "enumNames": [
+          "Automatisch (Anzeigesprache)",
+          "Deutsch",
+          "Englisch (English)",
+          "Französisch (Français)",
+          "Spanisch (Español)",
+          "Italienisch (Italiano)",
+          "Portugiesisch (Português)",
+          "Niederländisch (Nederlands)",
+          "Polnisch (Polski)",
+          "Schwedisch (Svenska)",
+          "Finnisch (Suomi)"
+        ],
+        "default": "auto"
+      },
+      "limit": {
+        "type": "integer",
+        "title": "Maximale Einträge / Maximum entries",
+        "minimum": 1,
+        "maximum": 20,
+        "default": 10
+      },
+      "limitCharacters": {
+        "type": "integer",
+        "title": "Artikellänge / Article characters",
+        "minimum": 100,
+        "maximum": 2000,
+        "default": 550
+      },
+      "showImage": {
+        "type": "boolean",
+        "title": "Artikelbild anzeigen / Show article image",
+        "default": true
+      }
+    }
+  },
+  "configVariants": [
+    {
+      "color": "blue-light",
+      "kind": "primary",
+      "edition": "auto",
+      "limit": 10,
+      "limitCharacters": 550,
+      "sampleData": true,
+      "screenshots": {
+        "800x480": "./screenshots/wikipedia-primary-800x480.png",
+        "480x800": "./screenshots/wikipedia-primary-480x800.png"
+      },
+      "showImage": true
+    },
+    {
+      "color": "blue-light",
+      "kind": "onthisday",
+      "edition": "auto",
+      "limit": 10,
+      "limitCharacters": 550,
+      "sampleData": true,
+      "screenshots": {
+        "800x480": "./screenshots/wikipedia-onthisday-800x480.png",
+        "480x800": "./screenshots/wikipedia-onthisday-480x800.png"
+      },
+      "showImage": true
+    },
+    {
+      "color": "blue-light",
+      "kind": "trends",
+      "edition": "auto",
+      "limit": 10,
+      "limitCharacters": 550,
+      "sampleData": true,
+      "screenshots": {
+        "800x480": "./screenshots/wikipedia-thumbnail-800x480.png",
+        "480x800": "./screenshots/wikipedia-thumbnail-480x800.png"
+      },
+      "showImage": true
+    },
+    {
+      "color": "blue-light",
+      "kind": "trends",
+      "edition": "auto",
+      "limit": 10,
+      "limitCharacters": 550,
+      "sampleData": true,
+      "screenshots": {
+        "800x480": "./screenshots/wikipedia-trends-800x480.png",
+        "480x800": "./screenshots/wikipedia-trends-480x800.png"
+      },
+      "showImage": false
+    }
+  ]
+}

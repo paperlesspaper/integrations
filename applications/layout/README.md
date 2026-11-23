@@ -41,11 +41,9 @@ Deploy the host API/renderer and updated shared runtime with this integration. S
 `LAYOUT_RENDER_URL` on the API and `REACT_APP_LAYOUT_RENDER_URL` on the web app for local
 or staging providers; defaults point at the production integration URL.
 
-## Shared runtime snapshot
+## Shared runtime
 
-`vendor/layout-runtime` is built from the canonical `openintegration` layout branch.
-The asset copy script appends its `dist/layout-addon.iife.js` to the existing shared
-browser runtime, retaining the provider's calendar and other integration exports.
-The addon updates public lifecycle helpers and bridges older embedded readiness markers.
-To update it, build/test/typecheck the SDK, copy package.json, README.md and dist into
-this snapshot, then run `npm install` here. Do not edit generated bundles directly.
+Layout support is included in the exact `@paperlesspaper/openintegration` npm
+release declared in the root package.json. The asset copy script copies that
+release's browser runtime and styles into public/. Build, test, and publish changes
+from the canonical SDK repository, then update the pinned dependency here.

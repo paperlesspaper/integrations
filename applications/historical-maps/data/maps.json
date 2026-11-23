@@ -1,0 +1,171 @@
+[
+  {
+    "id": "yellowstone-1878",
+    "locId": "97683605",
+    "year": "1878",
+    "creator": "F. V. Hayden · Geological Survey of the Territories",
+    "originalTitle": "Preliminary geological map of the Yellowstone National Park",
+    "contributors": [
+      "Geological and Geographical Survey of the Territories (U.S.)",
+      "Hayden, F. V. (Ferdinand Vandeveer), 1829–1887"
+    ],
+    "focus": [
+      52,
+      49
+    ],
+    "de": {
+      "title": "Yellowstone",
+      "description": "Vulkanische Landschaft in Farbe: eine geologische Karte des Nationalparks aus dem Jahr 1878."
+    },
+    "en": {
+      "title": "Yellowstone",
+      "description": "A volcanic landscape in colour: a geological map of the national park published in 1878."
+    },
+    "image": "./assets/yellowstone-1878.jpg",
+    "sourceUrl": "https://www.loc.gov/item/97683605/",
+    "credit": "Library of Congress, Geography and Map Division",
+    "rights": "Free to use and reuse; no item-specific restrictive Rights Advisory identified.",
+    "rightsUrl": "https://www.loc.gov/item/97683605/#rights-and-access",
+    "retrievedAt": "2026-10-06",
+    "downloadUrl": "https://tile.loc.gov/image-services/iiif/service:gmd:gmd426:g4262:g4262y:ye000002/full/2400,/0/default.jpg",
+    "modifications": "Reduced-resolution JPEG of the original colour scan; optional viewport crop. Display colours are approximated by Spectra 6 error-diffusion dithering. No AI colourisation.",
+    "sha256": "0518eff47768ea9d000d843355802ebd26c4d8df079506aaa68178f92e046457"
+  },
+  {
+    "id": "switzerland-1794",
+    "locId": "2009579456",
+    "year": "1794",
+    "creator": "Robert Laurie & James Whittle",
+    "originalTitle": "A new map of Switzerland : divided into the thirteen cantons with their allies & their subjects",
+    "contributors": [
+      "Robert Laurie and James Whittle"
+    ],
+    "focus": [
+      50,
+      50
+    ],
+    "de": {
+      "title": "Die Schweizer Kantone",
+      "description": "Die Schweiz mit ihren dreizehn Kantonen, Verbündeten und Untertanengebieten. Veröffentlicht in London."
+    },
+    "en": {
+      "title": "The Swiss cantons",
+      "description": "Switzerland with its thirteen cantons, allies and subject territories. Published in London."
+    },
+    "image": "./assets/switzerland-1794.jpg",
+    "sourceUrl": "https://www.loc.gov/item/2009579456/",
+    "credit": "Library of Congress, Geography and Map Division",
+    "rights": "Free to use and reuse; no item-specific restrictive Rights Advisory identified.",
+    "rightsUrl": "https://www.loc.gov/item/2009579456/#rights-and-access",
+    "retrievedAt": "2026-10-06",
+    "mirrorUrl": "https://commons.wikimedia.org/wiki/File:A_new_map_of_Switzerland_-_divided_into_the_thirteen_cantons_with_their_allies_%26_their_subjects_LOC_2009579456.jpg",
+    "downloadUrl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/72/A_new_map_of_Switzerland_-_divided_into_the_thirteen_cantons_with_their_allies_%26_their_subjects_LOC_2009579456.jpg/3840px-A_new_map_of_Switzerland_-_divided_into_the_thirteen_cantons_with_their_allies_%26_their_subjects_LOC_2009579456.jpg",
+    "mirrorRights": "Public domain",
+    "modifications": "Reduced-resolution JPEG of the original colour scan; optional viewport crop. Display colours are approximated by Spectra 6 error-diffusion dithering. No AI colourisation.",
+    "sha256": "9272f64f8e1cb49a46bf949085eb3b9496466afef5a28215473d35a358bd9b99"
+  },
+  {
+    "id": "east-asia-1873",
+    "locId": "2006627863",
+    "year": "1873",
+    "creator": "August Petermann & Ernst Debes · Justus Perthes",
+    "originalTitle": "China (östl. Theil), Korea und Japan im Massstabe von 1:7.500.000",
+    "contributors": [
+      "Petermann, A. (August), 1822–1878",
+      "Debes, E. (Ernst), 1840–1923"
+    ],
+    "focus": [
+      55,
+      50
+    ],
+    "de": {
+      "title": "China, Korea & Japan",
+      "description": "Handkolorierte Atlaskarte aus Gotha. Feine Schraffen zeichnen die Gebirge; Ausschnitte zeigen Shanghai, Edo und den Kanton-Fluss."
+    },
+    "en": {
+      "title": "China, Korea & Japan",
+      "description": "A hand-coloured atlas sheet from Gotha. Hachures trace the mountains; insets show Shanghai, Edo and the Canton River."
+    },
+    "image": "./assets/east-asia-1873.jpg",
+    "sourceUrl": "https://www.loc.gov/item/2006627863/",
+    "credit": "Library of Congress, Geography and Map Division",
+    "rights": "Free to use and reuse; no item-specific restrictive Rights Advisory identified.",
+    "rightsUrl": "https://www.loc.gov/item/2006627863/#rights-and-access",
+    "retrievedAt": "2026-10-06",
+    "mirrorUrl": "https://commons.wikimedia.org/wiki/File:China_(%C3%B6stl._Theil),_Korea_und_Japan_im_Massstabe_von_1-7.500.000_LOC_2006627863.jpg",
+    "downloadUrl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/73/China_%28%C3%B6stl._Theil%29%2C_Korea_und_Japan_im_Massstabe_von_1-7.500.000_LOC_2006627863.jpg/3840px-China_%28%C3%B6stl._Theil%29%2C_Korea_und_Japan_im_Massstabe_von_1-7.500.000_LOC_2006627863.jpg",
+    "mirrorRights": "Public domain",
+    "modifications": "Reduced-resolution JPEG of the original colour scan; optional viewport crop. Display colours are approximated by Spectra 6 error-diffusion dithering. No AI colourisation.",
+    "sha256": "4b268ae53408c76f112175d12d11a8cc512af0253eadf4b8070347b979e2aab4"
+  },
+  {
+    "id": "paris-1878",
+    "locId": "2012586602",
+    "year": "c. 1878",
+    "creator": "F. Dufour · Garnier frères · Dufrénoy",
+    "originalTitle": "Nouveau Paris monumental : itinéraire pratique de l'étranger dans Paris",
+    "contributors": [
+      "Dufour, F.",
+      "Garnier frères",
+      "Dufrénoy (Firm), printer"
+    ],
+    "focus": [
+      50,
+      50
+    ],
+    "de": {
+      "title": "Paris monumental",
+      "description": "Paris aus der Vogelperspektive: Ein historischer Stadtplan mit kleinen Ansichten ausgewählter Bauwerke."
+    },
+    "en": {
+      "title": "Paris monumental",
+      "description": "Paris from a bird’s-eye perspective: a historical city map with miniature views of selected buildings."
+    },
+    "image": "./assets/paris-1878.jpg",
+    "sourceUrl": "https://www.loc.gov/item/2012586602/",
+    "credit": "Library of Congress, Geography and Map Division",
+    "rights": "Free to use and reuse; no item-specific restrictive Rights Advisory identified.",
+    "rightsUrl": "https://www.loc.gov/item/2012586602/#rights-and-access",
+    "retrievedAt": "2026-10-06",
+    "mirrorUrl": "https://commons.wikimedia.org/wiki/File:Nouveau_Paris_monumental_-_itin%C3%A9raire_pratique_de_l%27%C3%A9tranger_dans_Paris_LOC_2012586602.jpg",
+    "downloadUrl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/4d/Nouveau_Paris_monumental_-_itin%C3%A9raire_pratique_de_l%27%C3%A9tranger_dans_Paris_LOC_2012586602.jpg/3840px-Nouveau_Paris_monumental_-_itin%C3%A9raire_pratique_de_l%27%C3%A9tranger_dans_Paris_LOC_2012586602.jpg",
+    "mirrorRights": "Public domain",
+    "modifications": "Reduced-resolution JPEG of the original colour scan; optional viewport crop. Display colours are approximated by Spectra 6 error-diffusion dithering. No AI colourisation.",
+    "sha256": "07e61755d8823e5c0ef6215191ecc5aab81fa212d833058276359521b93dc4b3"
+  },
+  {
+    "id": "paris-environs-1878",
+    "locId": "2012586603",
+    "year": "1878",
+    "creator": "Ed. Dumas-Vorzet · Institut géographique de Paris · Becquet frères",
+    "originalTitle": "Paris et ses environs : 1878",
+    "contributors": [
+      "Dumas-Vorzet, Ed. (Eduard)",
+      "Institut géographique de Paris",
+      "Becquet frères, printer"
+    ],
+    "focus": [
+      50,
+      50
+    ],
+    "de": {
+      "title": "Paris & Umgebung",
+      "description": "Ein handkolorierter Stadtplan mit Nebenkarten des Umlands und des Straßenbahnnetzes, auf Leinen montiert."
+    },
+    "en": {
+      "title": "Paris & surroundings",
+      "description": "A hand-coloured city map with insets of the surrounding area and tramway network, mounted on linen."
+    },
+    "image": "./assets/paris-environs-1878.jpg",
+    "sourceUrl": "https://www.loc.gov/item/2012586603/",
+    "credit": "Library of Congress, Geography and Map Division",
+    "rights": "Free to use and reuse; no item-specific restrictive Rights Advisory identified.",
+    "rightsUrl": "https://www.loc.gov/item/2012586603/#rights-and-access",
+    "retrievedAt": "2026-10-06",
+    "mirrorUrl": "https://commons.wikimedia.org/wiki/File:Paris_et_ses_environs_-_1878_LOC_2012586603.jpg",
+    "downloadUrl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5a/Paris_et_ses_environs_-_1878_LOC_2012586603.jpg/3840px-Paris_et_ses_environs_-_1878_LOC_2012586603.jpg",
+    "mirrorRights": "Public domain",
+    "modifications": "Reduced-resolution JPEG of the original colour scan; optional viewport crop. Display colours are approximated by Spectra 6 error-diffusion dithering. No AI colourisation.",
+    "sha256": "d27c6e6b899f0d1df70e38b79f7d06289a2f5219ed7aca9531c7a2452c658391"
+  }
+]
