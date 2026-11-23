@@ -1,0 +1,16 @@
+{
+  "title": "Kartenarchiv",
+  "daily": "Täglich",
+  "pinned": "Ausgewählt",
+  "detail": "Ausschnitt",
+  "complete": "Ganzes Blatt",
+  "reuse": "Frei nutzbare Scans",
+  "errorTitle": "Karte konnte nicht geladen werden",
+  "error": "Bitte Einstellungen und lokale Kartendateien prüfen.",
+  "catalogFailed": "Der lokale Kartenkatalog fehlt oder ist leer.",
+  "imageFailed": "Die Kartendatei konnte nicht geladen werden.",
+  "unknownMap": "Diese Karte ist nicht im Katalog. Bitte eine vorhandene Karte auswählen.",
+  "invalidTimeZone": "Ungültige Zeitzone. Bitte beispielsweise Europe/Berlin verwenden.",
+  "invalidOffset": "Der Tagesversatz muss eine ganze Zahl zwischen −3650 und 3650 sein.",
+  "invalidView": "Bitte Ausschnitt oder ganzes Blatt auswählen."
+}

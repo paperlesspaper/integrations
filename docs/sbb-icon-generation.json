@@ -1,0 +1,12 @@
+{
+  "tool": "built-in image_gen",
+  "date": "2026-10-06",
+  "source": "/Users/utzel/.codex/generated_images/01a11104-0084-7f03-bdd1-a770ac94f4a7/exec-b9bbd7c4-b5ba-4893-a43a-031918c6301e.png",
+  "asset": "applications/sbb-abfahrten/assets/icon.png",
+  "dimensions": [1254, 1254],
+  "sha256": "6dca382f7958328d7e50577e60e0e124f902e8109a1731dc7b114dbd9eae1b5b",
+  "validation": "Square RGBA PNG with genuine alpha transparency; 871223 fully transparent pixels, 682389 pixels above alpha 250. Seven bottom-edge pixels have negligible alpha 1; all other edge pixels are fully transparent.",
+  "guide": "https://docs.paperlesspaper.de/open-integration/icons",
+  "prompt": "Use case: stylized-concept. Create one high-resolution 2D digital application icon for a paperlesspaper eInk display integration showing Swiss SBB train departures, featuring slightly 3D shading and highlights to give it depth. Subject: one compact modern Swiss passenger train cab in red and white with a broad dark windscreen, simple headlights and a subtly visible silver roof, viewed from above at a gentle elevated front angle so the train is immediately recognizable. Smooth beveled edges, realistic but minimalistic, polished restrained dimensional shading contained entirely inside the object. Strong simple centered silhouette, entire object visible with balanced generous transparent padding; readable at small app-icon sizes. Square PNG, preferably 1024x1024. Genuinely fully transparent alpha background, no floor, no cast shadow outside the object, no surrounding elements, no backdrop, no enclosing app tile, no painted checkerboard. No letters, numbers, text, watermark, official SBB logo, clock or extra symbols. Red, white and charcoal dominate, clean highlights. Follow the paperlesspaper integration icon visual guide.",
+  "postprocessing": "None. Original PNG copied unchanged, preserving generated alpha transparency."
+}

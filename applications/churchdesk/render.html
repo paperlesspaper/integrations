@@ -36,6 +36,9 @@
         title: "Churchdesk",
         rotaUrl: "https://app.churchdesk.com/rota/a8e746dc-c9b1-4e8f-8937-6768dc896afb",
         view: "agenda",
+        fontSize: 100,
+        noPadding: false,
+        fullWeekdayNames: false,
         locale: "de-DE",
         timeZone: "Europe/Berlin",
         dayRange: 14,
@@ -79,6 +82,8 @@
         return {
           id: event.id,
           title: event.title,
+          color: event.color,
+          calendarColor: event.calendarColor,
           start: allDay
             ? { date: event.dayKey }
             : { dateTime: event.startDate, timeZone },

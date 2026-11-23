@@ -6,7 +6,7 @@
   "renderPage": "./render.html",
   "icon": "./assets/icon.png",
   "nativeSettings": {
-    "color": "light",
+    "color": "red-light",
     "stationName": "Berlin Hbf",
     "stationId": "",
     "duration": 90,

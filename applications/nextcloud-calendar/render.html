@@ -6,6 +6,7 @@
     <meta name="paperless:epd-optimize" content='{"intent":"readable"}' />
     <title>Nextcloud Calendar</title>
     <link rel="stylesheet" href="/assets/paperless.css?v=0.1.3-calendar-api" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/iconoir-icons/iconoir@7.11.0/css/iconoir.css" />
     <script src="/assets/paperless.iife.js?v=0.1.3-calendar-api"></script>
   </head>
   <body>
@@ -23,6 +24,15 @@
           calendarName: "",
           calendarPath: "",
           view: "agenda",
+          fontSize: 100,
+          showDaySummary: false,
+          automaticEventIcons: false,
+          showHeader: true,
+          personalTitle: "",
+          personalSubtitle: "",
+          informationDensity: "comfortable",
+          noPadding: false,
+          fullWeekdayNames: false,
           locale: "en-GB",
           timeZone: "Europe/Berlin",
           dayRange: 14,
@@ -30,7 +40,7 @@
           highlightToday: true,
           highlightScale: 1.15,
           showLocation: true,
-          showEventIcons: false,
+          showEventIcons: true,
           showEventImages: false,
         };
         window.__paperlessRenderDone = bootCalendarApiIntegration({

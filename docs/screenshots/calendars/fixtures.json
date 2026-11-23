@@ -1,0 +1,316 @@
+{
+  "now": "2026-07-24T10:00:00Z",
+  "events": [
+    {
+      "id": "1",
+      "summary": "Teamfrühstück",
+      "location": "Büro · Küche",
+      "color": "#0000ff",
+      "start": {
+        "dateTime": "2026-07-24T09:30:00+02:00"
+      },
+      "end": {
+        "dateTime": "2026-07-24T10:00:00+02:00"
+      }
+    },
+    {
+      "id": "2",
+      "summary": "Entwurf besprechen",
+      "location": "Studio 2",
+      "color": "#0000ff",
+      "start": {
+        "dateTime": "2026-07-24T14:00:00+02:00"
+      },
+      "end": {
+        "dateTime": "2026-07-24T15:30:00+02:00"
+      }
+    },
+    {
+      "id": "3",
+      "summary": "Abend am See",
+      "location": "Strandbad",
+      "color": "#00ff00",
+      "start": {
+        "dateTime": "2026-07-24T18:00:00+02:00"
+      },
+      "end": {
+        "dateTime": "2026-07-24T20:00:00+02:00"
+      }
+    },
+    {
+      "id": "4",
+      "summary": "Mamas Geburtstag",
+      "start": {
+        "date": "2026-07-25"
+      },
+      "end": {
+        "date": "2026-07-26"
+      },
+      "color": "#ff0000"
+    },
+    {
+      "id": "5",
+      "summary": "Wochenmarkt",
+      "location": "Marktplatz",
+      "color": "#00ff00",
+      "start": {
+        "dateTime": "2026-07-25T10:00:00+02:00"
+      },
+      "end": {
+        "dateTime": "2026-07-25T11:00:00+02:00"
+      }
+    },
+    {
+      "id": "6",
+      "summary": "Zahnarzt",
+      "location": "Praxis am Markt",
+      "color": "#ff0000",
+      "start": {
+        "dateTime": "2026-07-27T08:30:00+02:00"
+      },
+      "end": {
+        "dateTime": "2026-07-27T09:00:00+02:00"
+      }
+    },
+    {
+      "id": "7",
+      "summary": "Projektstart",
+      "location": "Büro",
+      "color": "#0000ff",
+      "start": {
+        "dateTime": "2026-07-27T11:00:00+02:00"
+      },
+      "end": {
+        "dateTime": "2026-07-27T12:00:00+02:00"
+      }
+    },
+    {
+      "id": "8",
+      "summary": "Kurzurlaub",
+      "start": {
+        "date": "2026-07-28"
+      },
+      "end": {
+        "date": "2026-07-30"
+      },
+      "color": "#00ff00"
+    },
+    {
+      "id": "9",
+      "summary": "Brunch",
+      "location": "Café am Park",
+      "color": "#00ff00",
+      "start": {
+        "dateTime": "2026-07-28T11:00:00+02:00"
+      },
+      "end": {
+        "dateTime": "2026-07-28T12:30:00+02:00"
+      }
+    },
+    {
+      "id": "10",
+      "summary": "Museum",
+      "location": "Innenstadt",
+      "color": "#00ff00",
+      "start": {
+        "dateTime": "2026-07-29T15:00:00+02:00"
+      },
+      "end": {
+        "dateTime": "2026-07-29T17:00:00+02:00"
+      }
+    },
+    {
+      "id": "11",
+      "summary": "Designreview",
+      "location": "Studio 2",
+      "color": "#0000ff",
+      "start": {
+        "dateTime": "2026-07-30T09:00:00+02:00"
+      },
+      "end": {
+        "dateTime": "2026-07-30T10:00:00+02:00"
+      }
+    },
+    {
+      "id": "12",
+      "summary": "Telefonat",
+      "location": "Online",
+      "color": "#ff0000",
+      "start": {
+        "dateTime": "2026-07-30T09:30:00+02:00"
+      },
+      "end": {
+        "dateTime": "2026-07-30T10:30:00+02:00"
+      }
+    }
+  ],
+  "features": [
+    {
+      "id": "concert",
+      "summary": "[icon:meeting] Jazz im Hof",
+      "location": "Kulturhof · Innenhof",
+      "color": "#0000ff",
+      "start": {
+        "dateTime": "2026-07-24T19:30:00+02:00"
+      },
+      "end": {
+        "dateTime": "2026-07-24T22:00:00+02:00"
+      },
+      "description": "<img src=\"https://calendar-preview.example/jazz.svg\">"
+    },
+    {
+      "id": "market",
+      "summary": "[icon:shopping] Designmarkt",
+      "location": "Alte Fabrik",
+      "color": "#0000ff",
+      "start": {
+        "dateTime": "2026-07-25T10:00:00+02:00"
+      },
+      "end": {
+        "dateTime": "2026-07-25T17:00:00+02:00"
+      },
+      "description": "Details: https://calendar-preview.example/market"
+    },
+    {
+      "id": "cinema",
+      "summary": "[icon:video] Kino unter Sternen",
+      "location": "Stadtgarten",
+      "color": "#0000ff",
+      "start": {
+        "dateTime": "2026-07-25T20:15:00+02:00"
+      },
+      "end": {
+        "dateTime": "2026-07-25T22:30:00+02:00"
+      },
+      "attachments": [
+        {
+          "mimeType": "image/svg+xml",
+          "fileUrl": "https://calendar-preview.example/cinema.svg"
+        }
+      ]
+    },
+    {
+      "id": "art",
+      "summary": "[icon:school] Offenes Atelier",
+      "location": "Kulturhof · Studio 4",
+      "color": "#0000ff",
+      "start": {
+        "dateTime": "2026-07-26T11:00:00+02:00"
+      },
+      "end": {
+        "dateTime": "2026-07-26T13:00:00+02:00"
+      }
+    }
+  ],
+  "timeline": [
+    {
+      "id": "tl1",
+      "summary": "[icon:work] Projektplanung",
+      "location": "Studio 2",
+      "color": "#0000ff",
+      "start": {
+        "dateTime": "2026-07-24T09:00:00+02:00"
+      },
+      "end": {
+        "dateTime": "2026-07-24T10:00:00+02:00"
+      }
+    },
+    {
+      "id": "tl2",
+      "summary": "Design besprechen",
+      "location": "Besprechungsraum",
+      "color": "#0000ff",
+      "start": {
+        "dateTime": "2026-07-24T10:30:00+02:00"
+      },
+      "end": {
+        "dateTime": "2026-07-24T11:30:00+02:00"
+      }
+    },
+    {
+      "id": "tl3",
+      "summary": "[icon:coffee] Mittagspause",
+      "location": "Café am Park",
+      "color": "#00ff00",
+      "start": {
+        "dateTime": "2026-07-24T12:30:00+02:00"
+      },
+      "end": {
+        "dateTime": "2026-07-24T13:15:00+02:00"
+      }
+    },
+    {
+      "id": "tl4",
+      "summary": "[icon:meeting] Team-Workshop",
+      "location": "Werkstatt",
+      "color": "#0000ff",
+      "start": {
+        "dateTime": "2026-07-24T14:00:00+02:00"
+      },
+      "end": {
+        "dateTime": "2026-07-24T15:30:00+02:00"
+      }
+    },
+    {
+      "id": "tl5",
+      "summary": "Telefonat",
+      "location": "Online",
+      "color": "#ff0000",
+      "start": {
+        "dateTime": "2026-07-24T14:30:00+02:00"
+      },
+      "end": {
+        "dateTime": "2026-07-24T15:00:00+02:00"
+      }
+    },
+    {
+      "id": "tl6",
+      "summary": "[icon:music] Konzert im Hof",
+      "location": "Kulturhof",
+      "color": "#00ff00",
+      "start": {
+        "dateTime": "2026-07-24T19:00:00+02:00"
+      },
+      "end": {
+        "dateTime": "2026-07-24T21:00:00+02:00"
+      }
+    },
+    {
+      "id": "tl7",
+      "summary": "[todo] Entwurf verschicken",
+      "location": "",
+      "color": "#0000ff",
+      "start": {
+        "dateTime": "2026-07-24T16:00:00+02:00"
+      },
+      "end": {
+        "dateTime": "2026-07-24T16:00:00+02:00"
+      }
+    },
+    {
+      "id": "tl8",
+      "summary": "[todo] Tickets reservieren",
+      "location": "",
+      "color": "#0000ff",
+      "start": {
+        "dateTime": "2026-07-24T18:00:00+02:00"
+      },
+      "end": {
+        "dateTime": "2026-07-24T18:00:00+02:00"
+      }
+    },
+    {
+      "id": "tl9",
+      "summary": "[todo] Reisekosten abgeben",
+      "location": "",
+      "color": "#0000ff",
+      "start": {
+        "dateTime": "2026-07-24T23:59:00+02:00"
+      },
+      "end": {
+        "dateTime": "2026-07-24T23:59:00+02:00"
+      }
+    }
+  ],
+  "notes": "Synthetic fixture metadata API and public image URLs are intercepted by the renderer. No live calendar accounts are used."
+}

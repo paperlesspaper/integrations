@@ -1,0 +1,11 @@
+{
+  "title": "Demnächst im Kino",
+  "sample": "DEMODATEN",
+  "updated": "Stand",
+  "error": "Daten konnten nicht geladen werden",
+  "setup": "TMDB-API-Schlüssel in den Einstellungen oder auf dem Server hinterlegen.",
+  "empty": "Keine kommenden Filme gefunden.",
+  "shown": "{shown} von {total}",
+  "unknownDate": "Termin offen",
+  "noPoster": "Kein Poster"
+}

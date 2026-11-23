@@ -1,0 +1,17 @@
+{
+  "featured": "Article du jour",
+  "onthisday": "Ce jour-là",
+  "top": "Top Wikipédia",
+  "views": "Vues",
+  "change": "depuis la veille",
+  "history": "7 jours",
+  "new": "Nouveau",
+  "missing": "Indisponible",
+  "partial": "Certaines données de comparaison sont indisponibles",
+  "emptyArticle": "Aucun article du jour disponible pour cette édition aujourd’hui.",
+  "emptyEvents": "Aucun événement historique disponible pour cette édition aujourd’hui.",
+  "error": "Impossible de charger Wikipédia. Veuillez réessayer plus tard.",
+  "demo": "DONNÉES EXEMPLE",
+  "rank": "Rang",
+  "photoMissing": "Aucune image disponible"
+}

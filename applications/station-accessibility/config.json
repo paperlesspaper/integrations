@@ -1,0 +1,113 @@
+{
+  "name": "Station Accessibility",
+  "version": "0.1.0",
+  "status": "alpha",
+  "description": "Elevator and escalator status at selected DB stations.",
+  "renderPage": "./render.html",
+  "icon": "./assets/icon.png",
+  "timezone": "Europe/Berlin",
+  "language": ["de", "en"],
+  "nativeSettings": {
+    "color": "blue-light",
+    "title": "",
+    "sampleData": false,
+    "timeZone": "Europe/Berlin",
+    "stationIds": "1071",
+    "clientId": "",
+    "apiKey": "",
+    "facilityType": "elevators"
+  },
+  "formSchema": {
+    "type": "object",
+    "properties": {
+      "title": {
+        "type": "string",
+        "title": "Custom display title",
+        "default": ""
+      },
+      "sampleData": {
+        "type": "boolean",
+        "title": "Use labelled demo data",
+        "default": false
+      },
+      "timeZone": {
+        "type": "string",
+        "format": "timezone",
+        "title": "Display time zone",
+        "default": "Europe/Berlin"
+      },
+      "stationIds": {
+        "type": "string",
+        "title": "DB station numbers, comma-separated",
+        "default": "1071"
+      },
+      "clientId": {
+        "type": "string",
+        "title": "DB API client ID",
+        "default": ""
+      },
+      "apiKey": {
+        "type": "string",
+        "title": "DB API key",
+        "default": "",
+        "format": "password"
+      },
+      "facilityType": {
+        "type": "string",
+        "title": "Facilities",
+        "default": "elevators",
+        "enum": ["elevators", "all"]
+      }
+    }
+  },
+  "configVariants": [
+    {
+      "color": "blue-light",
+      "title": "",
+      "sampleData": true,
+      "timeZone": "Europe/Berlin",
+      "stationIds": "1071",
+      "clientId": "",
+      "apiKey": "",
+      "facilityType": "elevators",
+      "screenshots": {
+        "800x480": "./screenshots/station-accessibility-light-800x480.png",
+        "480x800": "./screenshots/station-accessibility-light-480x800.png",
+        "1600x1200": "./screenshots/station-accessibility-light-1600x1200.png",
+        "1200x1600": "./screenshots/station-accessibility-light-1200x1600.png"
+      }
+    },
+    {
+      "color": "blue-dark",
+      "title": "",
+      "sampleData": true,
+      "timeZone": "Europe/Berlin",
+      "stationIds": "1071",
+      "clientId": "",
+      "apiKey": "",
+      "facilityType": "elevators",
+      "screenshots": {
+        "800x480": "./screenshots/station-accessibility-dark-800x480.png",
+        "480x800": "./screenshots/station-accessibility-dark-480x800.png",
+        "1600x1200": "./screenshots/station-accessibility-dark-1600x1200.png",
+        "1200x1600": "./screenshots/station-accessibility-dark-1200x1600.png"
+      }
+    },
+    {
+      "color": "dark",
+      "title": "",
+      "sampleData": true,
+      "timeZone": "Europe/Berlin",
+      "stationIds": "1071",
+      "clientId": "",
+      "apiKey": "",
+      "facilityType": "elevators",
+      "screenshots": {
+        "800x480": "./screenshots/station-accessibility-black-800x480.png",
+        "480x800": "./screenshots/station-accessibility-black-480x800.png",
+        "1600x1200": "./screenshots/station-accessibility-black-1600x1200.png",
+        "1200x1600": "./screenshots/station-accessibility-black-1200x1600.png"
+      }
+    }
+  ]
+}

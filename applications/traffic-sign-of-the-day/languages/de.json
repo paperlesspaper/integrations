@@ -1,0 +1,12 @@
+{
+  "kicker": "Verkehrsschild des Tages",
+  "country": "Deutschland",
+  "sign": "Zeichen",
+  "meaning": "Bedeutung",
+  "behavior": "So verhältst du dich",
+  "detail": "Wichtig zu wissen",
+  "source": "Quelle",
+  "factsShown": "{shown} von {total} Erklärungen",
+  "rotation": "{count} Schilder im Wechsel",
+  "errorTitle": "Schild konnte nicht geladen werden"
+}

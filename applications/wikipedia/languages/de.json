@@ -1,0 +1,17 @@
+{
+  "featured": "Artikel des Tages",
+  "onthisday": "An diesem Tag",
+  "top": "Top Wikipedia",
+  "views": "Aufrufe",
+  "change": "zum Vortag",
+  "history": "7 Tage",
+  "new": "Neu",
+  "missing": "Keine Daten",
+  "partial": "Vergleichsdaten teilweise nicht verfügbar",
+  "emptyArticle": "Für diese Ausgabe ist heute kein Artikel des Tages verfügbar.",
+  "emptyEvents": "Für diese Ausgabe sind heute keine Ereignisse verfügbar.",
+  "error": "Wikipedia konnte nicht geladen werden. Bitte später erneut versuchen.",
+  "demo": "BEISPIELDATEN",
+  "rank": "Rang",
+  "photoMissing": "Kein Artikelbild verfügbar"
+}

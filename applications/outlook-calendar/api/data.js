@@ -325,12 +325,12 @@ function graphPageUrl(value) {
   return url;
 }
 
-async function graphJson(url, token) {
+async function graphJson(url, token, timeoutMs = REQUEST_TIMEOUT_MS) {
   const response = await fetch(graphPageUrl(url), {
     method: "GET",
     cache: "no-store",
     redirect: "error",
-    signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS),
+    signal: AbortSignal.timeout(timeoutMs),
     headers: {
       accept: "application/json",
       authorization: `Bearer ${token}`,
@@ -364,6 +364,12 @@ function calendarViewUrl(credentials, range) {
 
 async function graphEvents(credentials, options, range) {
   const token = await accessToken(credentials);
+  const metadataUrl = calendarViewUrl(credentials, range);
+  metadataUrl.pathname = metadataUrl.pathname.replace(/\/calendarView$/, "");
+  metadataUrl.search = "";
+  metadataUrl.searchParams.set("$select", "hexColor,color");
+  // Calendar appearance is optional; unavailable metadata must not prevent event display.
+  const metadataPromise = graphJson(metadataUrl.href, token, 2500).catch(() => ({}));
   let next = calendarViewUrl(credentials, range).href;
   const rawEvents = [];
   let pageCount = 0;
@@ -388,7 +394,14 @@ async function graphEvents(credentials, options, range) {
     .filter(Boolean)
     .sort((left, right) => eventSortValue(left) - eventSortValue(right));
 
-  return { events, pageCount, truncated };
+  const metadata = await metadataPromise;
+  const presetColors = {
+    lightBlue: "blue", lightGreen: "green", lightOrange: "orange", lightGray: "gray",
+    lightYellow: "yellow", lightTeal: "teal", lightPink: "pink", lightBrown: "brown", lightRed: "red"
+  };
+  const calendarColor = /^#[0-9a-f]{6}$/i.test(metadata.hexColor || "")
+    ? metadata.hexColor : presetColors[metadata.color] || "";
+  return { events, pageCount, truncated, calendarColor };
 }
 
 function sampleEvents(range, options) {
@@ -516,6 +529,7 @@ export default async function outlookCalendar({ query = {} } = {}) {
     timeZone: configuration.options.timeZone,
     range: { start: startKey, endExclusive: endKey },
     events: result.events,
+    calendarColor: result.calendarColor,
     truncated: result.truncated,
     pageCount: result.pageCount
   };

@@ -1,0 +1,11 @@
+{
+  "title": "Notion Datenbank",
+  "sample": "BEISPIELDATEN",
+  "empty": "Keine Einträge vorhanden.",
+  "more": "+{count} weitere",
+  "updated": "Abgerufen",
+  "partial": "Unvollständige Daten",
+  "contributions": "Beiträge",
+  "error": "Daten konnten nicht geladen werden",
+  "setup": "Bitte Zugangsdaten, Quelle und Erreichbarkeit in den Einstellungen prüfen. Hinweise stehen in der README dieser Integration."
+}

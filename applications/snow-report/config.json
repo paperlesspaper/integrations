@@ -1,0 +1,126 @@
+{
+  "name": "Snow Report",
+  "version": "0.1.0",
+  "status": "alpha",
+  "description": "Modelled snow depth, forecast snowfall and optional lift/run status.",
+  "renderPage": "./render.html",
+  "icon": "./assets/icon.png",
+  "timezone": "Europe/Berlin",
+  "language": ["de", "en"],
+  "nativeSettings": {
+    "color": "blue-light",
+    "title": "",
+    "sampleData": false,
+    "timeZone": "Europe/Berlin",
+    "locationName": "Zugspitze",
+    "latitude": 47.42,
+    "longitude": 10.98,
+    "weatherApiKey": "",
+    "resortFeedUrl": ""
+  },
+  "formSchema": {
+    "type": "object",
+    "properties": {
+      "title": {
+        "type": "string",
+        "title": "Custom display title",
+        "default": ""
+      },
+      "sampleData": {
+        "type": "boolean",
+        "title": "Use labelled demo data",
+        "default": false
+      },
+      "timeZone": {
+        "type": "string",
+        "format": "timezone",
+        "title": "Display time zone",
+        "default": "Europe/Berlin"
+      },
+      "locationName": {
+        "type": "string",
+        "title": "Location name",
+        "default": "Zugspitze"
+      },
+      "latitude": {
+        "type": "number",
+        "title": "Latitude",
+        "default": 47.42,
+        "minimum": -90,
+        "maximum": 90
+      },
+      "longitude": {
+        "type": "number",
+        "title": "Longitude",
+        "default": 10.98,
+        "minimum": -180,
+        "maximum": 180
+      },
+      "weatherApiKey": {
+        "type": "string",
+        "title": "Open-Meteo commercial API key (optional)",
+        "default": "",
+        "format": "password"
+      },
+      "resortFeedUrl": {
+        "type": "string",
+        "title": "Optional resort status JSON URL",
+        "default": "",
+        "format": "uri"
+      }
+    }
+  },
+  "configVariants": [
+    {
+      "color": "blue-light",
+      "title": "",
+      "sampleData": true,
+      "timeZone": "Europe/Berlin",
+      "locationName": "Zugspitze",
+      "latitude": 47.42,
+      "longitude": 10.98,
+      "weatherApiKey": "",
+      "resortFeedUrl": "",
+      "screenshots": {
+        "800x480": "./screenshots/snow-report-light-800x480.png",
+        "480x800": "./screenshots/snow-report-light-480x800.png",
+        "1600x1200": "./screenshots/snow-report-light-1600x1200.png",
+        "1200x1600": "./screenshots/snow-report-light-1200x1600.png"
+      }
+    },
+    {
+      "color": "blue-dark",
+      "title": "",
+      "sampleData": true,
+      "timeZone": "Europe/Berlin",
+      "locationName": "Zugspitze",
+      "latitude": 47.42,
+      "longitude": 10.98,
+      "weatherApiKey": "",
+      "resortFeedUrl": "",
+      "screenshots": {
+        "800x480": "./screenshots/snow-report-dark-800x480.png",
+        "480x800": "./screenshots/snow-report-dark-480x800.png",
+        "1600x1200": "./screenshots/snow-report-dark-1600x1200.png",
+        "1200x1600": "./screenshots/snow-report-dark-1200x1600.png"
+      }
+    },
+    {
+      "color": "dark",
+      "title": "",
+      "sampleData": true,
+      "timeZone": "Europe/Berlin",
+      "locationName": "Zugspitze",
+      "latitude": 47.42,
+      "longitude": 10.98,
+      "weatherApiKey": "",
+      "resortFeedUrl": "",
+      "screenshots": {
+        "800x480": "./screenshots/snow-report-black-800x480.png",
+        "480x800": "./screenshots/snow-report-black-480x800.png",
+        "1600x1200": "./screenshots/snow-report-black-1600x1200.png",
+        "1200x1600": "./screenshots/snow-report-black-1200x1600.png"
+      }
+    }
+  ]
+}

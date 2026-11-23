@@ -1,0 +1,11 @@
+{
+  "title": "Nearby Bird Sightings",
+  "sample": "DEMO DATA",
+  "empty": "No entries available.",
+  "more": "+{count} more",
+  "updated": "Retrieved",
+  "partial": "Partial data",
+  "contributions": "Contributions",
+  "error": "Could not load data",
+  "setup": "Check credentials, source and connectivity in settings. See this integration’s README for setup instructions."
+}

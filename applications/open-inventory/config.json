@@ -1,0 +1,155 @@
+{
+  "name": "Open Inventory",
+  "version": "0.1.0",
+  "status": "alpha",
+  "description": "Stock levels, low-stock alerts and individual inventory items from your Open Inventory instance.",
+  "renderPage": "./render.html",
+  "settingsPage": "./settings.html",
+  "icon": "./assets/icon.png",
+  "language": [
+    "de",
+    "en"
+  ],
+  "timezone": "Europe/Berlin",
+  "nativeSettings": {
+    "color": "blue-light",
+    "title": "",
+    "sampleData": false,
+    "timeZone": "Europe/Berlin",
+    "baseUrl": "",
+    "apiKey": "",
+    "resourceId": "",
+    "view": "stock",
+    "search": "",
+    "maxItems": 12
+  },
+  "formSchema": {
+    "type": "object",
+    "properties": {
+      "baseUrl": {
+        "type": "string",
+        "title": "Open Inventory URL",
+        "format": "uri",
+        "maxLength": 2048,
+        "placeholder": "https://inventory.example.com",
+        "default": "",
+        "inStettingsPage": true
+      },
+      "apiKey": {
+        "type": "string",
+        "title": "Open Inventory API key (read)",
+        "format": "password",
+        "maxLength": 4096,
+        "default": "",
+        "inStettingsPage": true
+      },
+      "resourceId": {
+        "type": "string",
+        "title": "Inventory item (empty = all tracked items)",
+        "default": "",
+        "inStettingsPage": true
+      },
+      "view": {
+        "type": "string",
+        "title": "View",
+        "enum": [
+          "stock",
+          "low-stock"
+        ],
+        "default": "stock",
+        "inStettingsPage": true
+      },
+      "search": {
+        "type": "string",
+        "title": "Filter by item name or SKU",
+        "maxLength": 120,
+        "default": "",
+        "inStettingsPage": true
+      },
+      "maxItems": {
+        "type": "integer",
+        "title": "Maximum rows",
+        "minimum": 1,
+        "maximum": 50,
+        "default": 12,
+        "inStettingsPage": true
+      },
+      "title": {
+        "type": "string",
+        "title": "Display title",
+        "maxLength": 80,
+        "default": "",
+        "inStettingsPage": true
+      },
+      "timeZone": {
+        "type": "string",
+        "format": "timezone",
+        "title": "Display time zone",
+        "default": "Europe/Berlin",
+        "inStettingsPage": true
+      },
+      "sampleData": {
+        "type": "boolean",
+        "title": "Use labelled demo data",
+        "default": false,
+        "inStettingsPage": true
+      }
+    }
+  },
+  "configVariants": [
+    {
+      "color": "blue-light",
+      "title": "",
+      "sampleData": true,
+      "timeZone": "Europe/Berlin",
+      "baseUrl": "",
+      "apiKey": "",
+      "resourceId": "",
+      "view": "stock",
+      "search": "",
+      "maxItems": 12,
+      "screenshots": {
+        "800x480": "./screenshots/open-inventory-overview-800x480.png",
+        "480x800": "./screenshots/open-inventory-overview-480x800.png",
+        "1600x1200": "./screenshots/open-inventory-overview-1600x1200.png",
+        "1200x1600": "./screenshots/open-inventory-overview-1200x1600.png"
+      }
+    },
+    {
+      "color": "blue-dark",
+      "title": "",
+      "sampleData": true,
+      "timeZone": "Europe/Berlin",
+      "baseUrl": "",
+      "apiKey": "",
+      "resourceId": "",
+      "view": "low-stock",
+      "search": "",
+      "maxItems": 12,
+      "screenshots": {
+        "800x480": "./screenshots/open-inventory-low-stock-800x480.png",
+        "480x800": "./screenshots/open-inventory-low-stock-480x800.png",
+        "1600x1200": "./screenshots/open-inventory-low-stock-1600x1200.png",
+        "1200x1600": "./screenshots/open-inventory-low-stock-1200x1600.png"
+      }
+    },
+    {
+      "color": "dark",
+      "title": "",
+      "sampleData": true,
+      "timeZone": "Europe/Berlin",
+      "baseUrl": "",
+      "apiKey": "",
+      "resourceId": "demo-oak",
+      "view": "stock",
+      "search": "",
+      "maxItems": 12,
+      "screenshots": {
+        "800x480": "./screenshots/open-inventory-item-800x480.png",
+        "480x800": "./screenshots/open-inventory-item-480x800.png",
+        "1600x1200": "./screenshots/open-inventory-item-1600x1200.png",
+        "1200x1600": "./screenshots/open-inventory-item-1200x1600.png"
+      }
+    }
+  ]
+}

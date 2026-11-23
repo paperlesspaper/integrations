@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="paperless:epd-optimize" content='{"intent":"readable"}' />
+  <title>SBB Abfahrten</title>
+  <link rel="stylesheet" href="/assets/paperless.css" />
+  <script src="/assets/paperless.iife.js"></script>
+</head>
+<body>
+  <div id="website-has-loading-element"></div>
+  <main id="app"></main>
+  <script>
+    window.__paperlessRenderDone = window.PaperlessOpenIntegration.bootDepartureIntegration({
+      brand: "SBB / CFF / FFS", timeZone: "Europe/Zurich",
+      defaults: {"color": "red-light", "stationName": "Zürich HB", "stationId": "", "duration": 90, "limit": 7, "transport": "all", "destination": "", "lines": "", "showPlatformChanges": true, "sampleData": false}
+    });
+  </script>
+</body>
+</html>

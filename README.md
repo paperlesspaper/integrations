@@ -58,8 +58,62 @@ and eInk styling remain shared. Individual providers may offer fewer views when 
 is limited.
 
 Common settings include `view`, `locale`, `timeZone`, `dayRange`, `maxEvents`, `highlightToday`,
-`highlightScale`, and `showLocation`. Each integration adds only the connection and presentation
+`highlightScale`, `showLocation`, `fontSize` (75–150%, default 100%), `noPadding`, and `fullWeekdayNames`. Each integration adds only the connection and presentation
 options required by its datasource.
+
+#### Calendar designs, images and icons
+
+Google, Apple, Outlook, Nextcloud, Proton, CalDAV and Webcal now offer ten calendar
+views: classic and modern agenda, Today & next, day, three days, calendar week,
+the next seven days as a list or time grid, and year. Google Calendar also supports
+`[icon:…]` shortcodes and automatic image discovery from event descriptions,
+public image attachments and linked websites' preview metadata. Icons and images
+can be enabled independently.
+
+[![Calendar design overview](docs/screenshots/calendars/overview.png)](docs/screenshots/calendars/README.md)
+
+**[Complete screenshot collection](docs/screenshots/calendars/README.md)** ·
+[Interactive gallery](docs/screenshots/calendars/index.html) ·
+[Google image sources and settings](applications/google-calendar/README.md#icons-and-images)
+
+The collection contains **224 captures**, each as a browser PNG and a
+processed Spectra 6 PNG: all ten views, personal options, icons/images, seven provider catalog
+previews and three event-layout concepts. It covers **7.3-inch and 13-inch**
+displays in both orientations, with light/dark comparisons for the shared views,
+features and concepts. All calendar data and artwork are fictional examples.
+
+| Icon shortcodes | Icons together with event images |
+| --- | --- |
+| [![Icon shortcodes](docs/screenshots/calendars/features/icons-blue-light-800x480-epd.png)](docs/screenshots/calendars/features/icons-blue-light-1600x1200-epd.png) | [![Icons and event images](docs/screenshots/calendars/features/icons-and-images-blue-light-800x480-epd.png)](docs/screenshots/calendars/features/icons-and-images-blue-light-1600x1200-epd.png) |
+
+**Implementation status:** the calendar views, Google image discovery and icon
+shortcodes are implemented. The **event magazine, event programme and event
+poster remain separate design prototypes**, not selectable integration views.
+They are clearly marked as concepts in the screenshot collection. Private Google
+Drive images still require a separate authorized adapter. The production provider deploys updates automatically when a release is merged
+into `main`.
+
+| Event magazine · concept | Event programme · concept | Event poster · concept |
+| --- | --- | --- |
+| [![Event magazine concept](docs/screenshots/calendars/concepts/magazine-blue-light-800x480-epd.png)](docs/screenshots/calendars/concepts/magazine-blue-light-1600x1200-epd.png) | [![Event programme concept](docs/screenshots/calendars/concepts/program-blue-light-800x480-epd.png)](docs/screenshots/calendars/concepts/program-blue-light-1600x1200-epd.png) | [![Event poster concept](docs/screenshots/calendars/concepts/spotlight-blue-light-800x480-epd.png)](docs/screenshots/calendars/concepts/spotlight-blue-light-1600x1200-epd.png) |
+
+#### Minimal day timeline
+
+Select **Day timeline (minimal)** in any of the seven calendar integrations. Inspired by [this minimal calendar design](https://www.reddit.com/r/trmnl/comments/1xhfqqt/clean_minimal_calendar_plugin/), it combines a colored daily timeline, a large next-event time and a due list. Sidebar, time marker and free-gap labels are independently configurable. Use `[todo]` in an event title for deadlines.
+
+[Settings and behavior](applications/google-calendar/README.md#minimal-day-timeline) · [All sizes and themes](docs/screenshots/calendars/README.md)
+
+[![Minimal day timeline](docs/screenshots/calendars/views/day-timeline-blue-light-800x480-epd.png)](docs/screenshots/calendars/views/day-timeline-blue-light-1600x1200-epd.png)
+
+#### Optional personal calendar features
+
+All seven calendar integrations now offer **Day at a glance**, **automatic German/English icon suggestions**, **a personal heading and subtitle**, and **automatic / standard / compact / spacious information density**. Every feature can be controlled separately. Existing `fontSize`, image, location and manual `[icon:…]` options continue to work; explicit icons take priority. Extra features default off and density defaults to the existing standard layout.
+
+The automatic mode reuses shared text fitting and the calendar's resize handling. The day summary uses the loaded events in the configured timezone and shows its update time.
+
+[Settings and behavior](applications/google-calendar/README.md#personal-calendar-options) · [Examples at both sizes and orientations](docs/screenshots/calendars/README.md) · [Interactive gallery](docs/screenshots/calendars/index.html)
+
+![Personal calendar with automatic density](docs/screenshots/calendars/personal/day-at-glance-blue-light-800x480-epd.png)
 
 | Integration | Datasource and access model |
 | --- | --- |
@@ -78,6 +132,29 @@ inspection can expose them. Use a trusted HTTPS deployment, disable request-body
 routes, grant read-only access where possible, and revoke or rotate exposed credentials and sharing
 links.
 
+## Baby · Pregnancy and development
+
+[Baby](applications/baby/README.md) is a static, illustrated pregnancy and child-development
+calendar in German and English. It separates the estimated due date from the actual birth
+date, provides sourced weekly pregnancy content and developmental references through age
+five, and supports corrected age for premature babies. Choose drawn or classic 3D images
+before and after birth, with more intermediate stages and optional daily knowledge / activity
+cards. Content rotates within sourced age bands instead of inventing day-specific milestones.
+The labelled pregnancy demo can preview weeks 0–41.
+
+## Bambu Lab · Now Printing
+
+Displays the current or latest cloud print with a model image, estimated finish time,
+planned filament and recent print history. Supports German/English and all four display sizes.
+Start with the labelled demo, then enter your MakerWorld/Bambu access token and disable demo mode.
+Cloud history supplies estimates rather than live printer telemetry; SD-card/LAN-only prints may be absent.
+
+- [Setup, settings and troubleshooting](applications/bambu-lab/README.md)
+- [Local preview](http://localhost:3000/bambu-lab/run) (after `npm start`)
+- [Install manifest](https://integrations.paperlesspaper.de/bambu-lab/config.json) (after deployment)
+- Check: `npm run check:bambu-lab`
+- Refresh all eight eInk previews: `npm run screenshots -- --app bambu-lab`
+
 ## Available Integrations
 
 The production base URL is:
@@ -92,6 +169,10 @@ For local development, use `http://localhost:3000/<slug>/config.json`.
 
 | Icon                                                                                                       | Integration                                                                         | Demo                                                                          | Manifest URL                                                                             | Description                                                                                                                                    |
 | ---------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- | ----------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
+| <img src="applications/parcel/assets/icon.png" alt="" width="200" height="200"> | [Parcel · Paketübersicht](applications/parcel/README.md) | [run](https://integrations.paperlesspaper.de/parcel/run) | [config](https://integrations.paperlesspaper.de/parcel/config.json) | Active and recent Parcel deliveries, expected dates and actionable status labels. |
+| <img src="applications/readwise/assets/icon.png" alt="" width="200" height="200"> | [Readwise](applications/readwise/README.md) | [run](https://integrations.paperlesspaper.de/readwise/run) | [config](https://integrations.paperlesspaper.de/readwise/config.json) | A rotating Daily Review highlight with title, author and personal note. |
+| <img src="applications/upcoming-movies/assets/icon.png" alt="" width="200" height="200"> | [Upcoming Movies](applications/upcoming-movies/README.md) | [run](https://integrations.paperlesspaper.de/upcoming-movies/run) | [config](https://integrations.paperlesspaper.de/upcoming-movies/config.json) | TMDB cinema posters, release dates and synopses, migrated from paperlesspaper-apps. |
+| <img src="applications/bambu-lab/assets/icon.png" alt="" width="200" height="200"> | [Bambu Lab · Now Printing](applications/bambu-lab/README.md) | [run](https://integrations.paperlesspaper.de/bambu-lab/run) | [config](https://integrations.paperlesspaper.de/bambu-lab/config.json) | Bambu Lab cloud prints with model images, estimated finish time, filament and recent history. |
 | <img src="applications/austria-weather-warnings/assets/icon.png" alt="" width="200" height="200"> | [Austria Weather Warnings](applications/austria-weather-warnings/README.md) | [run](https://integrations.paperlesspaper.de/austria-weather-warnings/run) | [config](https://integrations.paperlesspaper.de/austria-weather-warnings/config.json) | Current and upcoming official GeoSphere warnings for one Austrian municipality. |
 | <img src="applications/ebike-status/assets/icon.png" alt="" width="200" height="200"> | [E-Bike Status](applications/ebike-status/README.md) | [run](https://integrations.paperlesspaper.de/ebike-status/run) | [config](https://integrations.paperlesspaper.de/ebike-status/config.json) | Battery and ride telemetry from Home Assistant, including Specialized Turbo. |
 | <img src="applications/air-quality/assets/icon.png" alt="" width="200" height="200"> | [Air Quality](applications/air-quality/README.md) | [run](https://integrations.paperlesspaper.de/air-quality/run) | [config](https://integrations.paperlesspaper.de/air-quality/config.json) | European air quality, particulate matter and six-hour outlook from Open-Meteo/CAMS. |
@@ -123,6 +204,7 @@ For local development, use `http://localhost:3000/<slug>/config.json`.
 | <img src="applications/daily-buddhism-wisdom/assets/icon.png" alt="" width="200" height="200">             | [Daily Buddhism Wisdom](applications/daily-buddhism-wisdom/README.md)               | [run](https://integrations.paperlesspaper.de/daily-buddhism-wisdom/run)       | [config](https://integrations.paperlesspaper.de/daily-buddhism-wisdom/config.json)       | Shows a daily Buddhist wisdom quote from Buddha API.                                                                                           |
 | <img src="applications/day-calendar/assets/icon.png" alt="" width="200" height="200">                      | [Day Calendar](applications/day-calendar/README.md)                                 | [run](https://integrations.paperlesspaper.de/day-calendar/run)                | [config](https://integrations.paperlesspaper.de/day-calendar/config.json)                | Shows the current day with optional demotivational quotes or funny facts from the paperlesspaper DayCalendar app.                              |
 | <img src="applications/deutsche-bahn-abfahrten/assets/icon.png" alt="" width="200" height="200">           | [Deutsche Bahn Abfahrten](applications/deutsche-bahn-abfahrten/README.md)           | [run](https://integrations.paperlesspaper.de/deutsche-bahn-abfahrten/run)     | [config](https://integrations.paperlesspaper.de/deutsche-bahn-abfahrten/config.json)     | Shows a compact station-board view of upcoming realtime departures for a Deutsche Bahn station.                                                |
+| <img src="applications/sbb-abfahrten/assets/icon.png" alt="" width="200" height="200"> | [SBB Abfahrten](applications/sbb-abfahrten/README.md) | [run](https://integrations.paperlesspaper.de/sbb-abfahrten/run) | [config](https://integrations.paperlesspaper.de/sbb-abfahrten/config.json) | Swiss departures with available delay forecasts, platform changes and station, destination and line filters. |
 | <img src="applications/dinosaur-of-the-day/assets/icon.png" alt="" width="200" height="200">               | [Dinosaur of the Day](applications/dinosaur-of-the-day/README.md)                   | [run](https://integrations.paperlesspaper.de/dinosaur-of-the-day/run)         | [config](https://integrations.paperlesspaper.de/dinosaur-of-the-day/config.json)         | Shows one deterministic daily dinosaur with display-friendly silhouette artwork and compact Wikipedia-sourced facts.                           |
 | <img src="applications/duden-wort-des-tages/assets/icon.png" alt="" width="200" height="200">              | [Duden Wort des Tages](applications/duden-wort-des-tages/README.md)                 | [run](https://integrations.paperlesspaper.de/duden-wort-des-tages/run)        | [config](https://integrations.paperlesspaper.de/duden-wort-des-tages/config.json)        | Shows Duden's German word of the day with meaning, usage, origin, type, and frequency.                                                         |
 | <img src="applications/dwd-pollenflug/assets/icon.png" alt="" width="200" height="200">                    | [DWD Pollenflug](applications/dwd-pollenflug/README.md)                             | [run](https://integrations.paperlesspaper.de/dwd-pollenflug/run)              | [config](https://integrations.paperlesspaper.de/dwd-pollenflug/config.json)              | Shows current DWD pollen forecasts for a German forecast region.                                                                               |
@@ -141,6 +223,7 @@ For local development, use `http://localhost:3000/<slug>/config.json`.
 | <img src="applications/losung/assets/icon.png" alt="" width="200" height="200">                            | [Losung](applications/losung/README.md)                                             | [run](https://integrations.paperlesspaper.de/losung/run)                      | [config](https://integrations.paperlesspaper.de/losung/config.json)                      | Shows the daily Losung and Lehrtext Bible readings from losungen.de.                                                                           |
 | <img src="applications/mastodon/assets/icon.png" alt="" width="200" height="200">                          | [Mastodon](applications/mastodon/README.md)                                         | [run](https://integrations.paperlesspaper.de/mastodon/run)                    | [config](https://integrations.paperlesspaper.de/mastodon/config.json)                    | Shows Mastodon timelines, hashtag streams, and profile feeds as compact eInk-friendly social cards.                                            |
 | <img src="applications/memo-medication-times/assets/icon.png" alt="" width="200" height="200">             | [Memo Medication Times](applications/memo-medication-times/README.md)               | [run](https://integrations.paperlesspaper.de/memo-medication-times/run)       | [config](https://integrations.paperlesspaper.de/memo-medication-times/config.json)       | Shows ANABOX smart medication intake times with medication colors, date header, last update, and a full-screen reminder during intake windows. |
+| <img src="applications/climate-stripes/assets/icon.png" alt="" width="200" height="200"> | [Climate Stripes](applications/climate-stripes/README.md) | [run](https://integrations.paperlesspaper.de/climate-stripes/run) | [config](https://integrations.paperlesspaper.de/climate-stripes/config.json) | Original warming stripes and temperature bars for countries and cities. |
 | <img src="applications/moon-phase/assets/icon.png" alt="" width="200" height="200">                        | [Moon Phase](applications/moon-phase/README.md)                                     | [run](https://integrations.paperlesspaper.de/moon-phase/run)                  | [config](https://integrations.paperlesspaper.de/moon-phase/config.json)                  | Shows the moon phase for a chosen date, with illumination, moon age, hemisphere, and an optional next major phase estimate.                    |
 | <img src="applications/newsstand/assets/icon.png" alt="" width="200" height="200">                         | [Newsstand](applications/newsstand/README.md)                                       | [run](https://integrations.paperlesspaper.de/newsstand/run)                   | [config](https://integrations.paperlesspaper.de/newsstand/config.json)                   | Shows a fresh newspaper front page from Riley Walz's Papers archive.                                                                           |
 | <img src="applications/nextcloud-calendar/assets/icon.png" alt="" width="200" height="200">             | [Nextcloud Calendar](applications/nextcloud-calendar/README.md)                     | [run](https://integrations.paperlesspaper.de/nextcloud-calendar/run)          | [config](https://integrations.paperlesspaper.de/nextcloud-calendar/config.json)          | Shows events from a private Nextcloud calendar through read-only CalDAV requests.                                                              |
@@ -158,13 +241,16 @@ For local development, use `http://localhost:3000/<slug>/config.json`.
 | <img src="applications/todoist/assets/icon.png" alt="" width="200" height="200">                          | [Todoist](applications/todoist/README.md)                                           | [run](https://integrations.paperlesspaper.de/todoist/run)                    | [config](https://integrations.paperlesspaper.de/todoist/config.json)                    | Shows Todoist tasks for today, the next seven days, a project, or a custom filter.                                                              |
 | <img src="applications/tour-de-france/assets/icon.png" alt="" width="200" height="200">                    | [Tour de France](applications/tour-de-france/README.md)                             | [run](https://integrations.paperlesspaper.de/tour-de-france/run)              | [config](https://integrations.paperlesspaper.de/tour-de-france/config.json)              | Shows the current, next, or selected Tour de France 2026 stage with route details, profile imagery, and best-effort official ranking data.     |
 | <img src="applications/train-of-the-day/assets/icon.png" alt="" width="200" height="200">                  | [Train of the Day](applications/train-of-the-day/README.md)                         | [run](https://integrations.paperlesspaper.de/train-of-the-day/run)            | [config](https://integrations.paperlesspaper.de/train-of-the-day/config.json)            | Shows one deterministic daily train with first-car artwork and compact facts, focused mostly on European trains.                               |
+| <img src="applications/historical-maps/assets/icon.png" alt="" width="200" height="200"> | [Historical Maps](applications/historical-maps/README.md) | [run](https://integrations.paperlesspaper.de/historical-maps/run) | [config](https://integrations.paperlesspaper.de/historical-maps/config.json) | Five historical colour maps with daily rotation, visible source credits and full-sheet or detail views. Inspired by thefinkus/trmnl-maps; Library of Congress scans. |
 | <img src="applications/travel-map/assets/icon.png" alt="" width="200" height="200">                        | [Travel Map](applications/travel-map/README.md)                                     | [run](https://integrations.paperlesspaper.de/travel-map/run)                  | [config](https://integrations.paperlesspaper.de/travel-map/config.json)                  | Shows a personal visited map for countries, US states, or German Bundesländer with year-based coloring.                                        |
+| <img src="applications/traffic-sign-of-the-day/assets/icon.png" alt="Vorfahrt-gewähren-Schild" width="200" height="200"> | [Verkehrsschild des Tages](applications/traffic-sign-of-the-day/README.md) | [run](https://integrations.paperlesspaper.de/traffic-sign-of-the-day/run) | [config](https://integrations.paperlesspaper.de/traffic-sign-of-the-day/config.json) | 150 deutsche Verkehrszeichen mit täglichem Wechsel, Bedeutung, Verhaltensregeln und Hinweisen; gemeinsames Layout wie Zug und Baum des Tages. |
 | <img src="applications/tree-of-the-day/assets/icon.png" alt="" width="200" height="200">                   | [Tree of the Day](applications/tree-of-the-day/README.md)                           | [run](https://integrations.paperlesspaper.de/tree-of-the-day/run)             | [config](https://integrations.paperlesspaper.de/tree-of-the-day/config.json)             | Shows one deterministic daily tree with generated botanical artwork and compact Wikipedia-sourced facts.                                       |
 | <img src="applications/uptime-kuma-monitor/assets/icon.png" alt="" width="200" height="200">               | [Uptime Kuma Monitor](applications/uptime-kuma-monitor/README.md)                   | [run](https://integrations.paperlesspaper.de/uptime-kuma-monitor/run)         | [config](https://integrations.paperlesspaper.de/uptime-kuma-monitor/config.json)         | Shows public Uptime Kuma status pages with monitor states, 24-hour uptime, heartbeat history, incidents, and maintenance windows.              |
 | <img src="applications/vocabulary/assets/icon.png" alt="" width="200" height="200">                       | [Vocabulary](applications/vocabulary/README.md)                                     | [run](https://integrations.paperlesspaper.de/vocabulary/run)                  | [config](https://integrations.paperlesspaper.de/vocabulary/config.json)                  | Shows a new word each day with pronunciation, meaning, example usage, related words, and a reflection prompt.                                  |
 | <img src="applications/waste-collection-schedule/assets/icon.png" alt="" width="200" height="200">         | [Waste Collection Schedule](applications/waste-collection-schedule/README.md)       | [run](https://integrations.paperlesspaper.de/waste-collection-schedule/run)   | [config](https://integrations.paperlesspaper.de/waste-collection-schedule/config.json)   | Shows upcoming waste collection dates from an ICS/iCal feed or manual recurring schedules.                                                     |
 | <img src="applications/weather/assets/icon.png" alt="" width="200" height="200">                           | [Weather](applications/weather/README.md)                                           | [run](https://integrations.paperlesspaper.de/weather/run)                     | [config](https://integrations.paperlesspaper.de/weather/config.json)                     | Shows current weather and a three-day forecast from Open-Meteo.                                                                                |
 | <img src="applications/webcal/assets/icon.png" alt="" width="200" height="200">                           | [Webcal & iCalendar](applications/webcal/README.md)                                 | [run](https://integrations.paperlesspaper.de/webcal/run)                      | [config](https://integrations.paperlesspaper.de/webcal/config.json)                      | Shows events from a Webcal subscription or an HTTP(S) iCalendar feed URL.                                                                      |
+| <img src="applications/wikipedia/assets/icon.png" alt="" width="200" height="200"> | [Wikipedia](applications/wikipedia/README.md) | [run](https://integrations.paperlesspaper.de/wikipedia/run) | [config](https://integrations.paperlesspaper.de/wikipedia/config.json) | Featured articles, historical events and most-viewed articles with daily changes and seven-day trends in ten editions. |
 | <img src="applications/world-cup-2026/assets/icon.png" alt="" width="200" height="200">                    | [World Cup 2026](applications/world-cup-2026/README.md)                             | [run](https://integrations.paperlesspaper.de/world-cup-2026/run)              | [config](https://integrations.paperlesspaper.de/world-cup-2026/config.json)              | Shows World Cup 2026 fixtures, latest results, and the favorite-team group table in an eInk-friendly tournament dashboard.                     |
 | <img src="applications/your-life-in-weeks/assets/icon.png" alt="" width="200" height="200">                | [Your Life in Weeks](applications/your-life-in-weeks/README.md)                     | [run](https://integrations.paperlesspaper.de/your-life-in-weeks/run)          | [config](https://integrations.paperlesspaper.de/your-life-in-weeks/config.json)          | Shows a week-by-week lifetime grid from a configurable birth date, with age, progress, and current-week markers.                               |
 | <img src="applications/xkcd/assets/icon.png" alt="" width="200" height="200">                              | [XKCD](applications/xkcd/README.md)                                                 | [run](https://integrations.paperlesspaper.de/xkcd/run)                        | [config](https://integrations.paperlesspaper.de/xkcd/config.json)                        | Shows the latest, random, or offset XKCD comic.                                                                                                |
@@ -205,7 +291,7 @@ Open Integrations should render within `100vw` by `100vh`, avoid browser-only ch
 
 ## OpenIntegration CLI
 
-This repo installs an exact version of `@paperlesspaper/openintegration` from npm, so after `npm install` the CLI can be run with `npx paperlesspaper-openintegration`.
+This repo installs `@paperlesspaper/openintegration` from `vendor/openintegration`, so after `npm install` the CLI can be run with `npx paperlesspaper-openintegration`.
 
 Create a starter integration:
 
@@ -264,7 +350,20 @@ npm run screenshots -- --config-only
 npm run screenshots -- --app weather --resolution 800x480
 ```
 
-Generated screenshots are ignored by git under `output/` and `applications/*/screenshots/`.
+Temporary render output under `output/` is ignored by git. Catalog previews in
+`applications/*/screenshots/` are versioned alongside their manifests.
+
+Regenerate the complete calendar comparison, including icons, image sources,
+event-layout concepts and all seven providers' catalog previews:
+
+```sh
+node scripts/render-calendar-screenshots.mjs
+node scripts/build-calendar-screenshot-gallery.mjs
+```
+
+The permanent comparison images and gallery live in
+[`docs/screenshots/calendars/`](docs/screenshots/calendars/README.md), outside the
+ignored temporary output directory. See that README for fixture and validation details.
 
 ## Docker
 
@@ -306,8 +405,8 @@ or user-provided settings, never in committed files or screenshot variants. Pref
 
 Use the smallest provider that works: plain manifest settings first, a custom settings page when the user experience needs it, and server routes only when browser-side rendering cannot call the upstream service directly.
 
-## Layout integration
+## Connected dashboards
 
-The [Layout integration](applications/layout/README.md) combines two to four existing
-contents using the first-party host editor, with custom HTML/CSS and per-area image
-processing. It requires the matching web/API and shared-runtime changes.
+The [connected integration guide](docs/connected-integrations.md) covers 18 additional integrations: Bring!, plant care, EVCC, TeslaMate, Notion, Microsoft To Do, Trello, GitHub Reviews & CI, GitHub Activity, UniFi, tides, snow reports, aurora forecasts, eBird, station accessibility, WooCommerce, Shopify and YouTube Analytics. Each folder includes setup instructions, German/English copy, an icon and display variants. WooCommerce and Shopify share the commerce adapter basis.
+
+Run `npm run check:connected` to validate adapters and render all themes/sizes, including processed Spectra 6 previews. The gallery is written to `output/connected-integrations/index.html`.

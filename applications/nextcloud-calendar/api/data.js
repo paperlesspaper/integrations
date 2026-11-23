@@ -284,7 +284,7 @@ async function davRequest(initialUrl, options) {
 
 function propfindXml(properties) {
   return `<?xml version="1.0" encoding="utf-8"?>
-<d:propfind xmlns:d="DAV:" xmlns:c="urn:ietf:params:xml:ns:caldav">
+<d:propfind xmlns:d="DAV:" xmlns:c="urn:ietf:params:xml:ns:caldav" xmlns:a="http://apple.com/ns/ical/">
   <d:prop>${properties.join("")}</d:prop>
 </d:propfind>`;
 }
@@ -354,6 +354,7 @@ function parseCalendars(xml, baseUrl, allowedOrigin) {
         url,
         name: firstElementText(properties, "displayname") || decodedLastPathSegment(url),
         pathName: decodedLastPathSegment(url),
+        color: firstElementText(properties, "calendar-color"),
       });
       if (calendars.length > MAX_CALENDARS) {
         throw new Error(`Nextcloud returned more than ${MAX_CALENDARS} calendars.`);
@@ -372,6 +373,7 @@ async function discoverCalendars(calendarHome, requestOptions) {
     label: "Nextcloud calendar discovery",
     body: propfindXml([
       "<d:displayname />",
+      "<a:calendar-color />",
       "<d:resourcetype />",
       "<c:supported-calendar-component-set />",
     ]),
@@ -595,6 +597,8 @@ function canonicalEvent(value) {
   return {
     id: String(event.id || ""),
     title: String(event.title || ""),
+    ...(typeof event.color === "string" ? { color: event.color } : {}),
+    ...(typeof event.calendarColor === "string" ? { calendarColor: event.calendarColor } : {}),
     start: {
       ...(start.date ? { date: String(start.date).slice(0, 10) } : {}),
       ...(start.dateTime ? { dateTime: String(start.dateTime) } : {}),
@@ -763,6 +767,7 @@ export default async function handler({ query = {} } = {}) {
     sample: false,
     source: "nextcloud-caldav",
     calendarName: calendar.name,
+    calendarColor: calendar.color,
     calendarPath: calendar.url.pathname,
     discoveredCalendars: calendars.length,
     expandedByServer: report.expandedByServer,

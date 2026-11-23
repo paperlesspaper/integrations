@@ -1,0 +1,2190 @@
+[
+  {
+    "id": "206",
+    "name": "Stop!",
+    "officialName": "Halt. Vorfahrt gewähren.",
+    "meaning": "Du musst vollständig anhalten und dem Verkehr auf der anderen Straße Vorfahrt lassen.",
+    "behavior": "An der Haltlinie stoppen. Ohne Haltlinie dort halten, wo du die andere Straße überblickst.",
+    "detail": "Ist die Sicht an der Haltlinie verdeckt, vorsichtig vorrollen und an der Sichtlinie erneut anhalten.",
+    "annex": 2,
+    "references": [
+      "anlage_2.html",
+      "__8.html"
+    ],
+    "artwork": "Zeichen 206 - Halt! Vorfahrt gewähren! StVO 2017.svg"
+  },
+  {
+    "id": "205",
+    "name": "Vorfahrt gewähren",
+    "officialName": "Vorfahrt gewähren.",
+    "meaning": "Der Verkehr auf der anderen Straße hat Vorfahrt, von links und von rechts.",
+    "behavior": "Langsam heranfahren, die Kreuzung überblicken und nötigenfalls warten.",
+    "detail": "Anders als beim Stoppschild musst du bei freier, übersichtlicher Kreuzung nicht immer anhalten.",
+    "annex": 2,
+    "references": [
+      "anlage_2.html",
+      "__8.html"
+    ],
+    "artwork": "Zeichen 205 - Vorfahrt gewähren! StVO 1970.svg"
+  },
+  {
+    "id": "306",
+    "name": "Vorfahrtstraße",
+    "officialName": "Vorfahrtstraße",
+    "meaning": "Du hast an Kreuzungen Vorfahrt, bis Zeichen 205, 206 oder 307 die Regelung beendet.",
+    "behavior": "Zeigt ein Zusatzschild einen abknickenden Verlauf, musst du beim Folgen dieses Verlaufs blinken.",
+    "detail": "Außerhalb geschlossener Ortschaften darfst du auf der Fahrbahn dieser Straße nicht parken.",
+    "annex": 3,
+    "references": [
+      "anlage_3.html"
+    ],
+    "artwork": "Zeichen 306 - Vorfahrtstraße, StVO 1970.svg"
+  },
+  {
+    "id": "301",
+    "name": "Vorfahrt",
+    "officialName": "Vorfahrt",
+    "meaning": "Du hast an der nächsten Kreuzung oder Einmündung Vorfahrt.",
+    "behavior": "Beobachte trotzdem den Querverkehr und fahre nur weiter, wenn die Kreuzung frei ist.",
+    "detail": "Das Zeichen gilt nur für die nächste Kreuzung. Es macht die Straße nicht zur Vorfahrtstraße.",
+    "annex": 3,
+    "references": [
+      "anlage_3.html",
+      "__1.html",
+      "__11.html"
+    ],
+    "artwork": "Zeichen 301 - Vorfahrt, StVO 1970.svg"
+  },
+  {
+    "id": "267",
+    "name": "Einfahrt verboten",
+    "officialName": "Verbot der Einfahrt",
+    "meaning": "Von dieser Seite darfst du mit einem Fahrzeug nicht in die Fahrbahn hineinfahren.",
+    "behavior": "Wähle eine andere, erlaubte Zufahrt. Das Verbot gilt grundsätzlich auch für Fahrräder.",
+    "detail": "Zusatzzeichen können Ausnahmen erlauben. Das Schild allein verbietet nicht jede Nutzung der Straße.",
+    "annex": 2,
+    "references": [
+      "anlage_2.html"
+    ],
+    "artwork": "Zeichen 267 - Verbot der Einfahrt, StVO 1970.svg"
+  },
+  {
+    "id": "250",
+    "name": "Fahrzeuge verboten",
+    "officialName": "Verbot für Fahrzeuge aller Art",
+    "meaning": "Hier ist Fahrzeugverkehr grundsätzlich verboten, auch mit dem Fahrrad.",
+    "behavior": "Nicht hineinfahren. Zu Fuß darfst du weitergehen; Fahrräder und Krafträder darfst du schieben.",
+    "detail": "Handfahrzeuge, etwa Handkarren, sind ausgenommen. Beachte auch Ausnahmen auf Zusatzzeichen.",
+    "annex": 2,
+    "references": [
+      "anlage_2.html"
+    ],
+    "artwork": "Zeichen 250 - Verbot für Fahrzeuge aller Art, StVO 1970.svg"
+  },
+  {
+    "id": "274-30",
+    "name": "Höchstens 30 km/h",
+    "officialName": "Zulässige Höchstgeschwindigkeit",
+    "meaning": "Ab diesem Schild darfst du höchstens 30 km/h fahren.",
+    "behavior": "Schon am Schild auf höchstens 30 abbremsen. Bei schlechter Sicht oder Gefahr noch langsamer fahren.",
+    "detail": "Das ist eine Höchstgeschwindigkeit, kein vorgeschriebenes Tempo. Es ist keine Tempo-30-Zone.",
+    "annex": 2,
+    "references": [
+      "anlage_2.html",
+      "__3.html"
+    ],
+    "artwork": "Zeichen 274-30 - Zulässige Höchstgeschwindigkeit, StVO 2017.svg"
+  },
+  {
+    "id": "274.1",
+    "name": "Tempo-30-Zone",
+    "officialName": "Beginn einer Tempo 30-Zone",
+    "meaning": "In der gesamten Zone gilt höchstens Tempo 30, bis das Zonen-Ende angezeigt wird.",
+    "behavior": "Auch nach Kreuzungen höchstens 30 fahren. Innerhalb der Zone gilt grundsätzlich rechts vor links.",
+    "detail": "Achte trotzdem auf Vorfahrtzeichen. Eine Kreuzung allein beendet die Zone nicht.",
+    "annex": 2,
+    "references": [
+      "anlage_2.html",
+      "__45.html"
+    ],
+    "artwork": "Zeichen 274.1 - Beginn einer Tempo 30-Zone, StVO 2013.svg"
+  },
+  {
+    "id": "283",
+    "name": "Absolutes Haltverbot",
+    "officialName": "Absolutes Haltverbot",
+    "meaning": "Auf der Fahrbahn darfst du hier nicht freiwillig halten, auch nicht ganz kurz.",
+    "behavior": "Zum Einsteigenlassen oder Ausladen eine erlaubte Stelle suchen. Verkehrsbedingtes Warten bleibt nötig.",
+    "detail": "Gilt auf der Schildseite bis zur nächsten Kreuzung oder Einmündung dort, sofern kein Zeichen es vorher ändert.",
+    "annex": 2,
+    "references": [
+      "anlage_2.html",
+      "__12.html"
+    ],
+    "artwork": "Zeichen 283 - Absolutes Haltverbot, StVO 2017.svg"
+  },
+  {
+    "id": "286",
+    "name": "Eingeschränktes Haltverbot",
+    "officialName": "Eingeschränktes Haltverbot",
+    "meaning": "Auf der Fahrbahn darfst du kurz halten, aber grundsätzlich nicht parken.",
+    "behavior": "Höchstens drei Minuten halten. Zum Ein- oder Aussteigen und zügigen Be- oder Entladen darf es länger sein.",
+    "detail": "Wer sein Fahrzeug verlässt, parkt auch vor Ablauf von drei Minuten. Die genannten Ausnahmen bleiben erlaubt.",
+    "annex": 2,
+    "references": [
+      "anlage_2.html",
+      "__12.html"
+    ],
+    "artwork": "Zeichen 286 - Eingeschränktes Halteverbot, StVO 1970.svg"
+  },
+  {
+    "id": "208",
+    "name": "Gegenverkehr zuerst",
+    "officialName": "Vorrang des Gegenverkehrs",
+    "meaning": "An dieser Engstelle musst du dem Gegenverkehr den Vorrang lassen.",
+    "behavior": "Vor der Engstelle warten, wenn du sonst entgegenkommende Fahrzeuge behindern würdest.",
+    "detail": "Der rote Pfeil steht für deine Fahrtrichtung. Auf der Gegenseite steht meist das blaue Zeichen 308.",
+    "annex": 2,
+    "references": [
+      "anlage_2.html"
+    ],
+    "artwork": "Zeichen 208 - Dem Gegenverkehr Vorrang gewähren! 600x600, StVO 1992.svg"
+  },
+  {
+    "id": "308",
+    "name": "Du hast Vorrang",
+    "officialName": "Vorrang vor dem Gegenverkehr",
+    "meaning": "An dieser Engstelle hast du Vorrang vor entgegenkommenden Fahrzeugen.",
+    "behavior": "Vorsichtig in die freie Engstelle fahren. Ist schon jemand darin, eine sichere Durchfahrt ermöglichen.",
+    "detail": "Der weiße Pfeil zeigt deine Richtung. Vorrang ist kein Grund, eine gefährliche Situation zu erzwingen.",
+    "annex": 3,
+    "references": [
+      "anlage_3.html",
+      "__1.html"
+    ],
+    "artwork": "Zeichen 308 - Vorrang vor dem Gegenverkehr, StVO 1992.svg"
+  },
+  {
+    "id": "220-20",
+    "name": "Einbahnstraße",
+    "officialName": "Einbahnstraße, rechtsweisend",
+    "meaning": "Fahrzeuge dürfen die Straße nur in Richtung des Pfeils befahren.",
+    "behavior": "Folge der Pfeilrichtung. Wende nicht, um anschließend gegen die vorgeschriebene Richtung zu fahren.",
+    "detail": "Zusatzzeichen können Radverkehr in Gegenrichtung erlauben. Rechne dann mit entgegenkommenden Fahrrädern.",
+    "annex": 2,
+    "references": [
+      "anlage_2.html",
+      "__41.html"
+    ],
+    "artwork": "Zeichen 220-20 - Einbahnstraße, rechtsweisend, StVO 2017.svg"
+  },
+  {
+    "id": "314",
+    "name": "Parken erlaubt",
+    "officialName": "Parken",
+    "meaning": "Hier darfst du parken. Zusatzzeichen können die Erlaubnis einschränken.",
+    "behavior": "Prüfe Parkdauer, Gebühren und Vorgaben zu Parkscheibe, Parkschein oder besonderem Parkausweis.",
+    "detail": "Ein Zusatzschild kann Plätze etwa für Bewohner oder bestimmte Fahrzeuge reservieren. Beachte die Markierungen.",
+    "annex": 3,
+    "references": [
+      "anlage_3.html"
+    ],
+    "artwork": "Zeichen 314 - Parken, StVO 2017.svg"
+  },
+  {
+    "id": "325.1",
+    "name": "Verkehrsberuhigter Bereich",
+    "officialName": "Beginn eines verkehrsberuhigten Bereichs",
+    "meaning": "Fahre Schrittgeschwindigkeit. Menschen dürfen die ganze Straße nutzen; Kinder dürfen dort spielen.",
+    "behavior": "Fußverkehr weder gefährden noch behindern, nötigenfalls warten. Parken nur auf gekennzeichneten Flächen.",
+    "detail": "Ein-/Aussteigen und Be-/Entladen sind ausgenommen. Beim Ausfahren musst du jede Gefährdung anderer ausschließen.",
+    "annex": 3,
+    "references": [
+      "anlage_3.html",
+      "__10.html"
+    ],
+    "artwork": "Zeichen 325.1 - Beginn eines verkehrsberuhigten Bereichs, StVO 2009.svg"
+  },
+  {
+    "id": "327",
+    "name": "Tunnel",
+    "officialName": "Tunnel",
+    "meaning": "Du fährst in einen Tunnel. Hier gelten besondere Regeln für Licht und Fahrmanöver.",
+    "behavior": "Abblendlicht einschalten. Im Tunnel darfst du nicht wenden.",
+    "detail": "Bei Panne oder Notfall möglichst eine vorhandene Nothalte- und Pannenbucht nutzen.",
+    "annex": 3,
+    "references": [
+      "anlage_3.html"
+    ],
+    "artwork": "Zeichen 327-50 - Tunnel, mit Längenangabe in m, StVO 2006.svg"
+  },
+  {
+    "id": "101",
+    "name": "Gefahrstelle",
+    "officialName": "Gefahrstelle",
+    "meaning": "Das Schild warnt vor einer Gefahr, die erhöhte Aufmerksamkeit verlangt.",
+    "behavior": "Verringere dein Tempo passend zur Situation und sei bereit, rechtzeitig anzuhalten.",
+    "detail": "Ein Zusatzzeichen kann die Gefahr genauer benennen oder die Länge der gefährlichen Strecke angeben.",
+    "annex": 1,
+    "references": [
+      "anlage_1.html",
+      "__40.html",
+      "__3.html"
+    ],
+    "artwork": "Zeichen 101 - Gefahrstelle, StVO 1970.svg"
+  },
+  {
+    "id": "102",
+    "name": "Rechts vor links",
+    "officialName": "Kreuzung oder Einmündung mit Vorfahrt von rechts",
+    "meaning": "Es folgt eine Kreuzung oder Einmündung, an der rechts vor links gilt.",
+    "behavior": "Fahre langsam heran. Fahrzeuge von rechts haben Vorfahrt; warte, wenn nötig.",
+    "detail": "Das schwarze Kreuz warnt vor gleichrangigen Straßen. Es bedeutet nicht, dass du selbst Vorfahrt hast.",
+    "annex": 1,
+    "references": [
+      "anlage_1.html",
+      "__40.html",
+      "__8.html"
+    ],
+    "artwork": "Zeichen 102 - Kreuzung oder Einmündung mit Vorfahrt von rechts, StVO 1970.svg"
+  },
+  {
+    "id": "103-20",
+    "name": "Rechtskurve",
+    "officialName": "Kurve, rechts",
+    "meaning": "Du näherst dich einer gefährlichen Rechtskurve.",
+    "behavior": "Vor der Kurve das Tempo verringern. Bleibe auf deiner Fahrbahnseite und fahre die Kurve nicht zu schnell an.",
+    "detail": "Fahre nur so schnell, dass du innerhalb der sichtbaren Strecke anhalten kannst.",
+    "annex": 1,
+    "references": [
+      "anlage_1.html",
+      "__40.html",
+      "__3.html",
+      "__2.html"
+    ],
+    "artwork": "Zeichen 103-20 - Kurve (rechts), StVO 1992.svg"
+  },
+  {
+    "id": "105-20",
+    "name": "Doppelkurve",
+    "officialName": "Doppelkurve, zunächst rechts",
+    "meaning": "Es folgen gefährliche Kurven in wechselnder Richtung. Die erste führt hier nach rechts.",
+    "behavior": "Verringere dein Tempo vor der ersten Kurve und bleibe auch danach aufmerksam.",
+    "detail": "Das Symbol zeigt die erste Kurvenrichtung. Es sagt nichts über den genauen Radius oder die Länge aus.",
+    "annex": 1,
+    "references": [
+      "anlage_1.html",
+      "__40.html",
+      "__3.html"
+    ],
+    "artwork": "Zeichen 105-20 - Doppelkurve (zunächst rechts), StVO 1992.svg"
+  },
+  {
+    "id": "112",
+    "name": "Unebene Fahrbahn",
+    "officialName": "Unebene Fahrbahn",
+    "meaning": "Es folgen Unebenheiten, etwa Bodenwellen oder Vertiefungen in der Fahrbahn.",
+    "behavior": "Verringere dein Tempo rechtzeitig, damit du dein Fahrzeug sicher unter Kontrolle behältst.",
+    "detail": "Passe die Geschwindigkeit auch an Fahrzeug und Ladung an. Ein Zusatzschild kann die Gefahrstrecke angeben.",
+    "annex": 1,
+    "references": [
+      "anlage_1.html",
+      "__40.html",
+      "__3.html"
+    ],
+    "artwork": "Zeichen 112 – Unebene Fahrbahn, StVO 1970.svg"
+  },
+  {
+    "id": "114",
+    "name": "Rutschgefahr",
+    "officialName": "Schleuder- oder Rutschgefahr",
+    "meaning": "Die Fahrbahn kann bei Nässe oder Schmutz besonders rutschig sein.",
+    "behavior": "Fahre langsamer und mit ausreichendem Abstand. Vermeide abrupte Lenk- und Bremsmanöver.",
+    "detail": "Das Schild nennt keine feste Höchstgeschwindigkeit. Du musst dein Tempo an die tatsächliche Haftung anpassen.",
+    "annex": 1,
+    "references": [
+      "anlage_1.html",
+      "__40.html",
+      "__3.html",
+      "__4.html"
+    ],
+    "artwork": "Zeichen 114 - Schleuder- oder Rutschgefahr, StVO 2013.svg"
+  },
+  {
+    "id": "123",
+    "name": "Arbeitsstelle",
+    "officialName": "Arbeitsstelle",
+    "meaning": "Es folgen Straßenarbeiten. Rechne mit Menschen, Arbeitsfahrzeugen und einer geänderten Verkehrsführung.",
+    "behavior": "Tempo verringern und auf Absperrungen, Ampeln sowie weitere Verkehrszeichen achten.",
+    "detail": "Das Gefahrzeichen allein schreibt kein bestimmtes Tempolimit vor. Zusätzliche Geschwindigkeitszeichen gelten trotzdem.",
+    "annex": 1,
+    "references": [
+      "anlage_1.html",
+      "__40.html",
+      "__3.html"
+    ],
+    "artwork": "Zeichen 123 - Arbeitsstelle, StVO 2013.svg"
+  },
+  {
+    "id": "124",
+    "name": "Staugefahr",
+    "officialName": "Stau",
+    "meaning": "Auf der folgenden Strecke musst du mit einem Stau oder plötzlich stockendem Verkehr rechnen.",
+    "behavior": "Beobachte den Verkehr weit voraus, halte Abstand und verringere dein Tempo rechtzeitig.",
+    "detail": "Auf Autobahnen und außerorts mit mindestens zwei Fahrstreifen je Richtung: bei Schrittgeschwindigkeit oder Stillstand Rettungsgasse bilden.",
+    "annex": 1,
+    "references": [
+      "anlage_1.html",
+      "__40.html",
+      "__3.html",
+      "__4.html",
+      "__11.html"
+    ],
+    "artwork": "Zeichen 124 - Stau, StVO 1992.svg"
+  },
+  {
+    "id": "133-10",
+    "name": "Achtung, Fußgänger",
+    "officialName": "Fußgänger",
+    "meaning": "Hier ist besonders mit Menschen zu rechnen, die auf die Fahrbahn treten oder sie überqueren.",
+    "behavior": "Langsamer fahren, die Fahrbahnränder beobachten und bremsbereit bleiben.",
+    "detail": "Dieses Dreieck warnt vor Fußverkehr. Es kennzeichnet keinen Zebrastreifen und schafft allein keinen Vorrang.",
+    "annex": 1,
+    "references": [
+      "anlage_1.html",
+      "__40.html",
+      "__3.html"
+    ],
+    "artwork": "Zeichen 133-10 - Fußgänger (Aufstellung rechts), StVO 1992.svg"
+  },
+  {
+    "id": "136-10",
+    "name": "Achtung, Kinder",
+    "officialName": "Kinder",
+    "meaning": "Hier können Kinder unvermittelt auf die Fahrbahn laufen, etwa nahe einer Schule oder einem Spielplatz.",
+    "behavior": "Verringere dein Tempo und sei bremsbereit, damit du Kinder nicht gefährdest.",
+    "detail": "Kinder können Entfernungen und Geschwindigkeiten falsch einschätzen. Rechne mit unerwartetem Verhalten.",
+    "annex": 1,
+    "references": [
+      "anlage_1.html",
+      "__40.html",
+      "__3.html"
+    ],
+    "artwork": "Zeichen 136-10 - Kinder, Aufstellung rechts, StVO 1992.svg"
+  },
+  {
+    "id": "138-10",
+    "name": "Achtung, Radverkehr",
+    "officialName": "Radverkehr",
+    "meaning": "Das Schild warnt vor Radverkehr, der die Fahrbahn kreuzen oder auf sie einfahren kann.",
+    "behavior": "Verringere dein Tempo, beobachte beide Seiten und sei bereit zu bremsen.",
+    "detail": "Das dreieckige Warnschild ist kein Radwegzeichen. Die Vorfahrt richtet sich nach der jeweiligen Situation.",
+    "annex": 1,
+    "references": [
+      "anlage_1.html",
+      "__40.html",
+      "__3.html"
+    ],
+    "artwork": "Zeichen 138-10 - Radverkehr, StVO 2013.svg"
+  },
+  {
+    "id": "142-10",
+    "name": "Wildwechsel",
+    "officialName": "Wildwechsel",
+    "meaning": "Wildtiere können auf diesem Abschnitt die Fahrbahn überqueren.",
+    "behavior": "Fahre langsamer und beobachte die Straßenränder. Halte dein Fahrzeug jederzeit sicher unter Kontrolle.",
+    "detail": "Das Schild warnt vor einer Gefahrstrecke. Ein Zusatzzeichen kann angeben, wie lang sie ist.",
+    "annex": 1,
+    "references": [
+      "anlage_1.html",
+      "__40.html",
+      "__3.html"
+    ],
+    "artwork": "Zeichen 142-10 - Wildwechsel, Aufstellung rechts, StVO 1992.svg"
+  },
+  {
+    "id": "151",
+    "name": "Bahnübergang",
+    "officialName": "Bahnübergang",
+    "meaning": "Du näherst dich einem Bahnübergang. Rechne mit einem kreuzenden Zug.",
+    "behavior": "Nähere dich mit mäßigem Tempo. Ab diesem Schild bis einschließlich des Übergangs keine Kraftfahrzeuge überholen.",
+    "detail": "Bei Zugannäherung, Warnsignal, gelbem oder rotem Licht oder sich senkender bzw. geschlossener Schranke warten.",
+    "annex": 1,
+    "references": [
+      "anlage_1.html",
+      "__40.html",
+      "__19.html"
+    ],
+    "artwork": "Zeichen 151 - Bahnübergang, StVO 2013.svg"
+  },
+  {
+    "id": "215",
+    "name": "Kreisverkehr",
+    "officialName": "Kreisverkehr",
+    "meaning": "Fahre im Kreisverkehr in Pfeilrichtung. Mit Zeichen 205 an der Einfahrt hat der Verkehr im Kreis Vorfahrt.",
+    "behavior": "Bei dieser Kombination beim Einfahren nicht blinken. Beim Ausfahren rechts blinken und auf Fuß- und Radverkehr achten.",
+    "detail": "Auf der Kreisfahrbahn darfst du nicht halten. Die Mittelinsel ist für normale Pkw tabu.",
+    "annex": 2,
+    "references": [
+      "anlage_2.html",
+      "__8.html",
+      "__9.html"
+    ],
+    "artwork": "Zeichen 215 - Kreisverkehr, StVO 2000.svg"
+  },
+  {
+    "id": "222",
+    "name": "Rechts vorbei",
+    "officialName": "Vorgeschriebene Vorbeifahrt, rechts vorbei",
+    "meaning": "An dieser Verkehrsinsel oder diesem Hindernis musst du rechts vorbeifahren.",
+    "behavior": "Ordne dich rechtzeitig ein und fahre auf der vom Pfeil vorgegebenen Seite vorbei.",
+    "detail": "Das Schild ordnet die Vorbeifahrt an. Es ist keine Aufforderung, an der nächsten Kreuzung rechts abzubiegen.",
+    "annex": 2,
+    "references": [
+      "anlage_2.html"
+    ],
+    "artwork": "Zeichen 222 - Vorgeschriebene Vorbeifahrt, Rechts vorbei, StVO 2017.svg"
+  },
+  {
+    "id": "224",
+    "name": "Haltestelle",
+    "officialName": "Haltestelle",
+    "meaning": "Hier halten Linienverkehr oder Schulbusse. Bis 15 Meter vor und hinter dem Schild ist Parken verboten.",
+    "behavior": "An haltenden Bussen vorsichtig vorbeifahren. Steht ein Bus mit Warnblinker, gilt Schrittgeschwindigkeit.",
+    "detail": "Bei Warnblinker gilt das auch für Gegenverkehr auf derselben Fahrbahn. Ermögliche Linien- und Schulbussen das Abfahren.",
+    "annex": 2,
+    "references": [
+      "anlage_2.html",
+      "__20.html"
+    ],
+    "artwork": "Zeichen 224 - Haltestelle, StVO 2017.svg"
+  },
+  {
+    "id": "237",
+    "name": "Radweg",
+    "officialName": "Radweg",
+    "meaning": "Radverkehr muss diesen Radweg in der ausgeschilderten Fahrtrichtung benutzen.",
+    "behavior": "Mit dem Auto darfst du den Weg nicht befahren, sofern kein Zusatzzeichen eine Ausnahme erlaubt.",
+    "detail": "Ein blaues Radwegschild ordnet die Benutzungspflicht an. Ein rechter Radweg ohne Schild darf benutzt werden.",
+    "annex": 2,
+    "references": [
+      "anlage_2.html",
+      "__2.html"
+    ],
+    "artwork": "Zeichen 237 - Sonderweg Radfahrer, StVO 1992.svg"
+  },
+  {
+    "id": "239",
+    "name": "Gehweg",
+    "officialName": "Gehweg",
+    "meaning": "Dieser Weg ist für den Fußverkehr bestimmt. Anderer Verkehr darf ihn grundsätzlich nicht benutzen.",
+    "behavior": "Mit dem Auto nicht hineinfahren. Erlaubt ein Zusatzzeichen Fahrverkehr, gilt Schrittgeschwindigkeit.",
+    "detail": "Auch mit Freigabe darfst du zu Fuß Gehende weder gefährden noch behindern. Wenn nötig, musst du warten.",
+    "annex": 2,
+    "references": [
+      "anlage_2.html",
+      "__2.html"
+    ],
+    "artwork": "Zeichen 239 - Sonderweg Fußgänger, StVO 1992.svg"
+  },
+  {
+    "id": "240",
+    "name": "Gemeinsamer Geh- und Radweg",
+    "officialName": "Gemeinsamer Geh- und Radweg",
+    "meaning": "Fuß- und Radverkehr teilen sich diesen Weg. Für Radverkehr besteht eine Benutzungspflicht.",
+    "behavior": "Als Radfahrer auf den Fußverkehr Rücksicht nehmen und nötigenfalls langsamer fahren.",
+    "detail": "Fußverkehr darf weder gefährdet noch behindert werden. Autos dürfen nur bei ausdrücklicher Freigabe hinein.",
+    "annex": 2,
+    "references": [
+      "anlage_2.html",
+      "__2.html"
+    ],
+    "artwork": "Zeichen 240 - Gemeinsamer Fuß- und Radweg, StVO 1992.svg"
+  },
+  {
+    "id": "241-30",
+    "name": "Getrennter Rad- und Gehweg",
+    "officialName": "Getrennter Rad- und Gehweg",
+    "meaning": "Rad- und Fußverkehr haben jeweils einen eigenen Bereich. Die Symbole zeigen die zugehörige Seite.",
+    "behavior": "Als Radfahrer den ausgeschilderten Radweg benutzen und auf dem Radwegteil bleiben.",
+    "detail": "Die senkrechte Linie unterscheidet dieses Schild vom gemeinsamen Geh- und Radweg mit waagerechter Trennung.",
+    "annex": 2,
+    "references": [
+      "anlage_2.html",
+      "__2.html"
+    ],
+    "artwork": "Zeichen 241-30 - getrennter Rad- und Fußweg, StVO 1992.svg"
+  },
+  {
+    "id": "244.1",
+    "name": "Fahrradstraße",
+    "officialName": "Beginn einer Fahrradstraße",
+    "meaning": "Fahrräder und E-Scooter sind erlaubt. Autos dürfen nur mit Zusatzfreigabe längs durch die Straße fahren.",
+    "behavior": "Für den Fahrverkehr gilt höchstens Tempo 30. Radverkehr darf weder gefährdet noch behindert werden.",
+    "detail": "Radfahrer dürfen nebeneinander fahren; das Schild gibt keine Vorfahrt. Andere Fahrzeuge dürfen die Straße an Kreuzungen queren.",
+    "annex": 2,
+    "references": [
+      "anlage_2.html"
+    ],
+    "artwork": "Zeichen 244.1 - Beginn einer Fahrradstraße, StVO 2013.svg"
+  },
+  {
+    "id": "276",
+    "name": "Überholverbot",
+    "officialName": "Überholverbot für Kraftfahrzeuge aller Art",
+    "meaning": "Mit einem Kraftfahrzeug darfst du mehrspurige Kraftfahrzeuge und Motorräder mit Beiwagen nicht überholen.",
+    "behavior": "Bleibe hinter diesen Fahrzeugen, auch wenn die Gegenfahrbahn gerade frei erscheint.",
+    "detail": "Einspurige Fahrzeuge fallen nicht unter dieses Schild. Überholen ist trotzdem nur mit sicherem Abstand und freier Sicht erlaubt.",
+    "annex": 2,
+    "references": [
+      "anlage_2.html",
+      "__5.html"
+    ],
+    "artwork": "Zeichen 276 - Überholverbot für Kraftfahrzeuge aller Art, StVO 1992.svg"
+  },
+  {
+    "id": "282",
+    "name": "Streckenverbote enden",
+    "officialName": "Ende sämtlicher streckenbezogener Geschwindigkeitsbeschränkungen und Überholverbote",
+    "meaning": "Die durch Schilder angeordneten Tempolimits und Überholverbote für diese Strecke enden hier.",
+    "behavior": "Beachte danach die allgemeinen Geschwindigkeitsgrenzen für Straße und Fahrzeug sowie weitere Verkehrszeichen.",
+    "detail": "Das bedeutet nicht automatisch freie Fahrt ohne Tempolimit. Auch Überholen bleibt bei unklarer Verkehrslage verboten.",
+    "annex": 2,
+    "references": [
+      "anlage_2.html",
+      "__3.html",
+      "__5.html"
+    ],
+    "artwork": "Zeichen 282 - Ende sämtlicher Streckenverbote, StVO 1970.svg"
+  },
+  {
+    "id": "330.1",
+    "name": "Autobahn",
+    "officialName": "Autobahn",
+    "meaning": "Ab hier gelten die Autobahnregeln. Kraftfahrzeuge und mitgeführte Anhänger müssen bauartbedingt über 60 km/h erreichen können.",
+    "behavior": "Beim Einfahren hat der Verkehr auf der durchgehenden Fahrbahn Vorfahrt. Wenden und Rückwärtsfahren sind verboten.",
+    "detail": "Freiwilliges Halten ist auch auf dem Seitenstreifen verboten. Die 60-km/h-Regel ist keine Mindestfahrgeschwindigkeit.",
+    "annex": 3,
+    "references": [
+      "anlage_3.html",
+      "__18.html"
+    ],
+    "artwork": "Zeichen 330.1 - Autobahn, StVO 2013.svg"
+  },
+  {
+    "id": "103-10",
+    "name": "Linkskurve",
+    "officialName": "Kurve, links",
+    "meaning": "Vor dir liegt eine gefährliche Linkskurve.",
+    "behavior": "Verringere das Tempo vor der Kurve und bleibe auf deiner Fahrbahnseite.",
+    "detail": "Schneide die Kurve nicht. Du musst innerhalb der sichtbaren Strecke anhalten können.",
+    "annex": 1,
+    "references": [
+      "anlage_1.html",
+      "__3.html",
+      "__2.html",
+      "__40.html"
+    ],
+    "artwork": "Zeichen 103-10 - Kurve (links), StVO 1992.svg"
+  },
+  {
+    "id": "105-10",
+    "name": "Doppelkurve nach links",
+    "officialName": "Doppelkurve, zunächst links",
+    "meaning": "Es folgen gefährliche Kurven in wechselnder Richtung, zuerst nach links.",
+    "behavior": "Fahre schon vor der ersten Kurve langsamer und bleibe auch danach aufmerksam.",
+    "detail": "Der Pfeilverlauf zeigt die erste Kurvenrichtung, aber weder Kurvenradius noch Streckenlänge.",
+    "annex": 1,
+    "references": [
+      "anlage_1.html",
+      "__3.html",
+      "__40.html"
+    ],
+    "artwork": "Zeichen 105-10 - Doppelkurve (zunächst links), StVO 1992.svg"
+  },
+  {
+    "id": "108-10",
+    "name": "10 Prozent Gefälle",
+    "officialName": "Gefälle",
+    "meaning": "Die Straße führt steil bergab. Hier beträgt das Gefälle 10 Prozent.",
+    "behavior": "Wähle ein angepasstes Tempo und nutze einen geeigneten Gang zur Motorbremsung.",
+    "detail": "10 Prozent bedeuten 10 Meter Höhenunterschied auf 100 Meter waagerechter Strecke, nicht 10 Grad.",
+    "annex": 1,
+    "references": [
+      "anlage_1.html",
+      "__3.html",
+      "__40.html"
+    ],
+    "artwork": "Zeichen 108-10 - Gefälle, StVO 2017.svg"
+  },
+  {
+    "id": "110-12",
+    "name": "12 Prozent Steigung",
+    "officialName": "Steigung",
+    "meaning": "Die Straße führt steil bergauf. Hier beträgt die Steigung 12 Prozent.",
+    "behavior": "Passe Gang und Tempo rechtzeitig an. Halte ausreichend Abstand zu langsameren Fahrzeugen.",
+    "detail": "Rechne besonders hinter schweren Fahrzeugen mit geringem Tempo und vermeide riskantes Überholen.",
+    "annex": 1,
+    "references": [
+      "anlage_1.html",
+      "__3.html",
+      "__4.html",
+      "__40.html"
+    ],
+    "artwork": "Zeichen 110-12 - Steigung, StVO 2017.svg"
+  },
+  {
+    "id": "117-10",
+    "name": "Seitenwind",
+    "officialName": "Seitenwind",
+    "meaning": "Auf der folgenden Strecke kann starker Wind von der Seite dein Fahrzeug versetzen.",
+    "behavior": "Tempo verringern, das Lenkrad sicher halten und auf plötzliche Böen vorbereitet sein.",
+    "detail": "Besonders an Brücken, Waldlücken und beim Überholen großer Fahrzeuge kann sich der Wind abrupt ändern.",
+    "annex": 1,
+    "references": [
+      "anlage_1.html",
+      "__3.html",
+      "__40.html"
+    ],
+    "artwork": "Zeichen 117-10 - Seitenwind von rechts, StVO 1992.svg"
+  },
+  {
+    "id": "120",
+    "name": "Verengte Fahrbahn",
+    "officialName": "Verengte Fahrbahn",
+    "meaning": "Die Fahrbahn wird von beiden Seiten schmaler.",
+    "behavior": "Langsamer fahren und prüfen, ob für dich und den Gegenverkehr genügend Platz bleibt.",
+    "detail": "Das Dreieck regelt keinen Vorrang. Beachte zusätzliche Zeichen und verständige dich nötigenfalls.",
+    "annex": 1,
+    "references": [
+      "anlage_1.html",
+      "__1.html",
+      "__3.html",
+      "__40.html"
+    ],
+    "artwork": "Zeichen 120 - Verengte Fahrbahn, StVO 1970.svg"
+  },
+  {
+    "id": "121-10",
+    "name": "Rechts wird es eng",
+    "officialName": "Einseitig verengte Fahrbahn, rechts",
+    "meaning": "Die Fahrbahn wird auf der rechten Seite schmaler.",
+    "behavior": "Verringere dein Tempo und beobachte Gegenverkehr sowie Fahrzeuge auf benachbarten Fahrstreifen.",
+    "detail": "Endet auf einer mehrspurigen Fahrbahn ein Fahrstreifen, gilt unmittelbar vor der Verengung das Reißverschlussverfahren.",
+    "annex": 1,
+    "references": [
+      "anlage_1.html",
+      "__3.html",
+      "__7.html",
+      "__40.html"
+    ],
+    "artwork": "Zeichen 121-10 - einseitig (rechts) verengte Fahrbahn, StVO 1992.svg"
+  },
+  {
+    "id": "121-20",
+    "name": "Links wird es eng",
+    "officialName": "Einseitig verengte Fahrbahn, links",
+    "meaning": "Die Fahrbahn wird auf der linken Seite schmaler.",
+    "behavior": "Fahre aufmerksam an die Engstelle heran und halte ausreichend seitlichen Abstand.",
+    "detail": "Das Schild allein gibt dir keinen Vorrang. Zusätzliche Vorrangzeichen und die Verkehrssituation sind entscheidend.",
+    "annex": 1,
+    "references": [
+      "anlage_1.html",
+      "__1.html",
+      "__3.html",
+      "__40.html"
+    ],
+    "artwork": "Zeichen 121-20 - einseitig (links) verengte Fahrbahn, StVO 1992.svg"
+  },
+  {
+    "id": "125",
+    "name": "Achtung, Gegenverkehr",
+    "officialName": "Gegenverkehr",
+    "meaning": "Auf dem nächsten Abschnitt ist mit Verkehr aus der Gegenrichtung zu rechnen.",
+    "behavior": "Bleibe rechts und rechne nicht mehr mit einer Fahrbahn nur für deine Richtung.",
+    "detail": "Das Schild kann etwa nach einer Einbahnstraße oder an einer Baustelle vor Gegenverkehr warnen.",
+    "annex": 1,
+    "references": [
+      "anlage_1.html",
+      "__2.html",
+      "__3.html",
+      "__40.html"
+    ],
+    "artwork": "Zeichen 125 - Gegenverkehr, StVO 1992.svg"
+  },
+  {
+    "id": "131",
+    "name": "Ampel voraus",
+    "officialName": "Lichtzeichenanlage",
+    "meaning": "Du näherst dich einer Ampel, die möglicherweise erst spät zu erkennen ist.",
+    "behavior": "Tempo anpassen und auf wartende Fahrzeuge vor der Ampel achten.",
+    "detail": "Das Dreieck ist nur die Warnung. An der Ampel musst du die tatsächlich gezeigten Lichtzeichen beachten.",
+    "annex": 1,
+    "references": [
+      "anlage_1.html",
+      "__3.html",
+      "__37.html",
+      "__40.html"
+    ],
+    "artwork": "Zeichen 131 - Lichtzeichenanlage, StVO 1970.svg"
+  },
+  {
+    "id": "157-10",
+    "name": "Bahnübergang in 240 m",
+    "officialName": "Dreistreifige Bake",
+    "meaning": "Die drei roten Streifen kündigen einen Bahnübergang in der Regel etwa 240 Meter voraus an.",
+    "behavior": "Nähere dich aufmerksam und mit mäßigem Tempo. Sei bereit, rechtzeitig vor dem Übergang anzuhalten.",
+    "detail": "Bei abweichenden Abständen steht die Entfernung in Metern auf der Bake oberhalb der Streifen.",
+    "annex": 1,
+    "references": [
+      "anlage_1.html",
+      "__19.html",
+      "__40.html"
+    ],
+    "artwork": "Zeichen 157-10 - Dreistreifige Bake (rechts), StVO 1992.svg"
+  },
+  {
+    "id": "159-10",
+    "name": "Bahnübergang in 160 m",
+    "officialName": "Zweistreifige Bake",
+    "meaning": "Die zwei roten Streifen stehen in der Regel etwa 160 Meter vor einem Bahnübergang.",
+    "behavior": "Beobachte Signale und Schranken. Plane ein, vor dem Übergang rechtzeitig anhalten zu können.",
+    "detail": "Eine auf der Bake angegebene Meterzahl gilt anstelle des üblichen Abstands.",
+    "annex": 1,
+    "references": [
+      "anlage_1.html",
+      "__19.html",
+      "__40.html"
+    ],
+    "artwork": "Zeichen 159-10 - zweistreifige Bake (Aufstellung rechts), StVO 1992.svg"
+  },
+  {
+    "id": "162-10",
+    "name": "Bahnübergang in 80 m",
+    "officialName": "Einstreifige Bake",
+    "meaning": "Der einzelne rote Streifen steht in der Regel etwa 80 Meter vor dem Bahnübergang.",
+    "behavior": "Fahre mit mäßigem Tempo weiter und halte bei Warnsignalen oder Zugannäherung vor dem Übergang an.",
+    "detail": "Fahre nur auf die Gleise, wenn du sie ohne Warten vollständig wieder verlassen kannst.",
+    "annex": 1,
+    "references": [
+      "anlage_1.html",
+      "__19.html",
+      "__40.html"
+    ],
+    "artwork": "Zeichen 162-10 - einstreifige Bake (Aufstellung rechts), StVO 1992.svg"
+  },
+  {
+    "id": "201-50",
+    "name": "Andreaskreuz",
+    "officialName": "Andreaskreuz",
+    "meaning": "Am Bahnübergang hat der Schienenverkehr Vorrang.",
+    "behavior": "Bei Zugannäherung, Warnsignal, gelbem oder rotem Licht oder geschlossener bzw. sinkender Schranke warten.",
+    "detail": "Parken ist beiderseits des Zeichens innerorts bis 5 Meter und außerorts bis 50 Meter verboten.",
+    "annex": 2,
+    "references": [
+      "anlage_2.html",
+      "__19.html"
+    ],
+    "artwork": "Zeichen 201-50 – Andreaskreuz - Dem Schienenverkehr Vorrang gewähren! StVO 1992.svg"
+  },
+  {
+    "id": "209",
+    "name": "Rechts abbiegen",
+    "officialName": "Vorgeschriebene Fahrtrichtung, rechts",
+    "meaning": "An der folgenden Kreuzung oder Einmündung musst du rechts abbiegen.",
+    "behavior": "Rechtzeitig rechts blinken, passend einordnen und auf Fuß- und Radverkehr achten.",
+    "detail": "Die vorgeschriebene Richtung gibt dir keine Vorfahrt. Ampeln und Vorfahrtregeln bleiben zu beachten.",
+    "annex": 2,
+    "references": [
+      "anlage_2.html",
+      "__9.html"
+    ],
+    "artwork": "Zeichen 209 - Vorgeschriebene Fahrtrichtung, rechts, StVO 2017.svg"
+  },
+  {
+    "id": "209-10",
+    "name": "Links abbiegen",
+    "officialName": "Vorgeschriebene Fahrtrichtung, links",
+    "meaning": "An der folgenden Kreuzung oder Einmündung musst du links abbiegen.",
+    "behavior": "Links blinken, richtig einordnen und entgegenkommende Fahrzeuge durchfahren lassen.",
+    "detail": "Achte beim Abbiegen auch auf querenden Fuß- und Radverkehr. Das Schild verschafft keinen Vorrang.",
+    "annex": 2,
+    "references": [
+      "anlage_2.html",
+      "__9.html"
+    ],
+    "artwork": "Zeichen 209-10 - Vorgeschriebene Fahrtrichtung, links, StVO 2017.svg"
+  },
+  {
+    "id": "209-30",
+    "name": "Nur geradeaus",
+    "officialName": "Vorgeschriebene Fahrtrichtung, geradeaus",
+    "meaning": "Du musst an dieser Stelle geradeaus weiterfahren.",
+    "behavior": "Bleibe in der vorgeschriebenen Richtung; links oder rechts abzubiegen ist hier nicht erlaubt.",
+    "detail": "Das Schild legt die Richtung fest. Vorfahrt und Ampelsignale gelten unabhängig davon weiter.",
+    "annex": 2,
+    "references": [
+      "anlage_2.html",
+      "__8.html",
+      "__37.html"
+    ],
+    "artwork": "Zeichen 209-30 - Vorgeschriebene Fahrtrichtung, Geradeaus, StVO 2017.svg"
+  },
+  {
+    "id": "214",
+    "name": "Geradeaus oder rechts",
+    "officialName": "Vorgeschriebene Fahrtrichtung, geradeaus oder rechts",
+    "meaning": "Du darfst hier geradeaus fahren oder rechts abbiegen.",
+    "behavior": "Wähle rechtzeitig den passenden Fahrstreifen und blinke, wenn du rechts abbiegst.",
+    "detail": "Links abzubiegen ist hier nicht erlaubt. Beim Rechtsabbiegen Fuß- und Radverkehr beachten.",
+    "annex": 2,
+    "references": [
+      "anlage_2.html",
+      "__9.html"
+    ],
+    "artwork": "Zeichen 214 - Vorgeschriebene Fahrtrichtung, Geradeaus oder rechts, StVO 2017.svg"
+  },
+  {
+    "id": "214-30",
+    "name": "Rechts oder links",
+    "officialName": "Vorgeschriebene Fahrtrichtung, rechts oder links",
+    "meaning": "Hier musst du nach rechts oder links abbiegen. Geradeaus darfst du nicht weiterfahren.",
+    "behavior": "Ordne dich rechtzeitig ein und kündige deine gewählte Abbiegerichtung mit dem Blinker an.",
+    "detail": "Auch bei vorgeschriebener Fahrtrichtung gelten die normalen Abbiege- und Vorfahrtregeln.",
+    "annex": 2,
+    "references": [
+      "anlage_2.html",
+      "__8.html",
+      "__9.html"
+    ],
+    "artwork": "Zeichen 214-30 - Vorgeschriebene Fahrtrichtung, Rechts oder links, StVO 2017.svg"
+  },
+  {
+    "id": "222-10",
+    "name": "Links vorbei",
+    "officialName": "Vorgeschriebene Vorbeifahrt, links vorbei",
+    "meaning": "An dieser Insel oder diesem Hindernis musst du links vorbeifahren.",
+    "behavior": "Folge dem schräg nach links gerichteten Pfeil und achte dabei auf andere Fahrzeuge.",
+    "detail": "Das Schild bestimmt die Seite der Vorbeifahrt, nicht die Abbiegerichtung an der nächsten Kreuzung.",
+    "annex": 2,
+    "references": [
+      "anlage_2.html"
+    ],
+    "artwork": "Zeichen 222-10 - Vorgeschriebene Vorbeifahrt, Links vorbei, StVO 2017.svg"
+  },
+  {
+    "id": "229",
+    "name": "Taxenstand",
+    "officialName": "Taxenstand",
+    "meaning": "Dieser Bereich ist für Taxen reserviert, die zur Fahrgastbeförderung bereitstehen.",
+    "behavior": "Mit einem privaten Auto darfst du hier auch nicht kurz zum Aussteigenlassen halten.",
+    "detail": "Pfeile, eine angegebene Taxenzahl oder eine Grenzmarkierung können die Länge des Taxenstands festlegen.",
+    "annex": 2,
+    "references": [
+      "anlage_2.html"
+    ],
+    "artwork": "Zeichen 229 - Taxenstand, StVO 1994.svg"
+  },
+  {
+    "id": "238",
+    "name": "Reitweg",
+    "officialName": "Reitweg",
+    "meaning": "Wer reitet oder ein Pferd führt, muss diesen Weg statt der Fahrbahn benutzen.",
+    "behavior": "Mit dem Auto darfst du den Reitweg ohne ausdrückliche Zusatzfreigabe nicht befahren.",
+    "detail": "Freigegebener anderer Verkehr muss auf Pferde Rücksicht nehmen und sein Tempo nötigenfalls anpassen.",
+    "annex": 2,
+    "references": [
+      "anlage_2.html"
+    ],
+    "artwork": "Zeichen 238 - Sonderweg Reiter, StVO 1992.svg"
+  },
+  {
+    "id": "242.1",
+    "name": "Fußgängerzone",
+    "officialName": "Beginn einer Fußgängerzone",
+    "meaning": "Dieser Bereich ist dem Fußverkehr vorbehalten. Fahrverkehr ist grundsätzlich nicht erlaubt.",
+    "behavior": "Nur mit passender Zusatzfreigabe hineinfahren; dann gilt Schrittgeschwindigkeit.",
+    "detail": "Auch bei erlaubter Zufahrt darfst du Fußverkehr weder gefährden noch behindern und musst nötigenfalls warten.",
+    "annex": 2,
+    "references": [
+      "anlage_2.html"
+    ],
+    "artwork": "Zeichen 242.1 - Beginn einer Fußgängerzone, StVO 2009.svg"
+  },
+  {
+    "id": "242.2",
+    "name": "Fußgängerzone endet",
+    "officialName": "Ende einer Fußgängerzone",
+    "meaning": "Hier endet die durch das Zonenschild angeordnete Fußgängerzone.",
+    "behavior": "Beachte die Regeln der anschließenden Straße und fahre beim Einordnen besonders vorsichtig.",
+    "detail": "Fährst du dabei etwa über einen abgesenkten Bordstein auf die Fahrbahn, musst du jede Gefährdung anderer ausschließen.",
+    "annex": 2,
+    "references": [
+      "anlage_2.html",
+      "__10.html"
+    ],
+    "artwork": "Zeichen 242.2 - Ende einer Fußgängerzone, StVO 2009.svg"
+  },
+  {
+    "id": "244.2",
+    "name": "Fahrradstraße endet",
+    "officialName": "Ende einer Fahrradstraße",
+    "meaning": "Die besonderen Regeln der Fahrradstraße enden an diesem Schild.",
+    "behavior": "Beachte die anschließende Beschilderung und passe Tempo und Fahrweise der Straße an.",
+    "detail": "Ein zusätzlich angeordnetes Tempolimit oder eine Tempo-30-Zone wird dadurch nicht aufgehoben.",
+    "annex": 2,
+    "references": [
+      "anlage_2.html",
+      "__3.html"
+    ],
+    "artwork": "Zeichen 244.2 - Ende einer Fahrradstraße, StVO 2013.svg"
+  },
+  {
+    "id": "245",
+    "name": "Busfahrstreifen",
+    "officialName": "Bussonderfahrstreifen",
+    "meaning": "Dieser Fahrstreifen ist für Linienbusse und entsprechend gekennzeichneten Schul- und Behindertenverkehr bestimmt.",
+    "behavior": "Mit einem normalen Pkw darfst du ihn ohne ausdrückliche Freigabe nicht benutzen.",
+    "detail": "Auch Taxis, Fahrräder oder Elektroautos benötigen ein passendes Zusatzzeichen zur Benutzung.",
+    "annex": 2,
+    "references": [
+      "anlage_2.html"
+    ],
+    "artwork": "Zeichen 245 - Bussonderfahrstreifen, StVO 2013.svg"
+  },
+  {
+    "id": "251",
+    "name": "Kraftwagen verboten",
+    "officialName": "Verbot für Kraftwagen",
+    "meaning": "Kraftwagen und sonstige mehrspurige Kraftfahrzeuge dürfen hier nicht fahren.",
+    "behavior": "Mit dem Pkw eine erlaubte andere Strecke wählen und mögliche Zusatzzeichen beachten.",
+    "detail": "Das Pkw-Symbol steht auch für andere mehrspurige Kraftfahrzeuge, nicht nur für Personenwagen.",
+    "annex": 2,
+    "references": [
+      "anlage_2.html"
+    ],
+    "artwork": "Zeichen 251 - Verbot für Kraftwagen und sonstige mehrspurige Kraftfahrzeuge, StVO 1992.svg"
+  },
+  {
+    "id": "253",
+    "name": "Schwere Fahrzeuge verboten",
+    "officialName": "Verbot für Kraftfahrzeuge über 3,5 t",
+    "meaning": "Das Verbot betrifft Kraftfahrzeuge über 3,5 Tonnen zulässiger Gesamtmasse samt Anhängern sowie Zugmaschinen.",
+    "behavior": "Prüfe die zulässige Gesamtmasse deiner Fahrzeugkombination, bevor du diese Strecke nutzt.",
+    "detail": "Personenkraftwagen und Kraftomnibusse sind ausgenommen. Das Lkw-Symbol betrifft nicht nur Lastkraftwagen.",
+    "annex": 2,
+    "references": [
+      "anlage_2.html"
+    ],
+    "artwork": "Zeichen 253 - Verbot für Kraftfahrzeuge mit einem zulässigen Gesamtgewicht, StVO 1992.svg"
+  },
+  {
+    "id": "254",
+    "name": "Radverkehr verboten",
+    "officialName": "Verbot für Radverkehr",
+    "meaning": "Hier dürfen weder Fahrräder noch Elektrokleinstfahrzeuge wie E-Scooter fahren.",
+    "behavior": "Wähle als Radfahrer eine erlaubte andere Route. Beachte das Verbot auch auf dem E-Scooter.",
+    "detail": "Das Fahrrad im roten Kreis ist ein Verbot; das Fahrrad im blauen Kreis kennzeichnet einen Radweg.",
+    "annex": 2,
+    "references": [
+      "anlage_2.html"
+    ],
+    "artwork": "Zeichen 254 - Verbot für Radfahrer, StVO 1992.svg"
+  },
+  {
+    "id": "255",
+    "name": "Krafträder verboten",
+    "officialName": "Verbot für Krafträder",
+    "meaning": "Motorräder, auch mit Beiwagen, sowie Kleinkrafträder und Mofas dürfen hier nicht fahren.",
+    "behavior": "Mit diesen Fahrzeugen eine andere erlaubte Strecke wählen.",
+    "detail": "Das Zeichen verbietet nicht automatisch Fahrräder oder Pkw. Weitere Schilder können zusätzliche Verbote anordnen.",
+    "annex": 2,
+    "references": [
+      "anlage_2.html"
+    ],
+    "artwork": "Zeichen 255 - Verbot für Krafträder, auch mit Beiwagen, Kleinkrafträder und Mofas, StVO 1992.svg"
+  },
+  {
+    "id": "259",
+    "name": "Fußverkehr verboten",
+    "officialName": "Verbot für Fußgänger",
+    "meaning": "Zu Fuß darfst du diesen Verkehrsbereich nicht benutzen.",
+    "behavior": "Wähle einen erlaubten Gehweg oder eine andere sichere Verbindung.",
+    "detail": "Der rote Kreis verbietet Fußverkehr. Das blaue Gehwegzeichen weist dagegen einen Weg für Fußverkehr aus.",
+    "annex": 2,
+    "references": [
+      "anlage_2.html"
+    ],
+    "artwork": "Zeichen 259 - Verbot für Fußgänger, StVO 1992.svg"
+  },
+  {
+    "id": "260",
+    "name": "Kraftfahrzeuge verboten",
+    "officialName": "Verbot für Kraftfahrzeuge",
+    "meaning": "Krafträder, Kleinkrafträder, Mofas, Kraftwagen und sonstige mehrspurige Kraftfahrzeuge dürfen hier nicht fahren.",
+    "behavior": "Mit dem Auto oder Motorrad eine andere Route nehmen; mögliche Zusatzfreigaben genau prüfen.",
+    "detail": "Normaler Fahrradverkehr wird durch dieses Zeichen nicht verboten. Es ist kein Verbot für Fahrzeuge aller Art.",
+    "annex": 2,
+    "references": [
+      "anlage_2.html"
+    ],
+    "artwork": "Zeichen 260 - Verbot für Krafträder und Mofas und sonstige mehrspurige Kraftfahrzeuge, StVO 1992.svg"
+  },
+  {
+    "id": "261",
+    "name": "Gefahrgut verboten",
+    "officialName": "Verbot für kennzeichnungspflichtige Kraftfahrzeuge mit gefährlichen Gütern",
+    "meaning": "Kennzeichnungspflichtige Kraftfahrzeuge mit gefährlichen Gütern dürfen hier nicht fahren.",
+    "behavior": "Bei einem kennzeichnungspflichtigen Gefahrguttransport eine zulässige andere Route wählen.",
+    "detail": "Entscheidend ist die Kennzeichnungspflicht des Transports, nicht allein das Mitführen irgendeines gefährlichen Produkts.",
+    "annex": 2,
+    "references": [
+      "anlage_2.html"
+    ],
+    "artwork": "Zeichen 261 - Verbot für kennzeichnungspflichtige Kraftfahrzeuge mit gefährlichen Gütern, StVO 1988.svg"
+  },
+  {
+    "id": "262-5,5",
+    "name": "Höchstens 5,5 Tonnen",
+    "officialName": "Tatsächliche Masse",
+    "meaning": "Fahrzeuge mit mehr als 5,5 Tonnen tatsächlicher Masse einschließlich Ladung dürfen hier nicht fahren.",
+    "behavior": "Berücksichtige das aktuelle Gewicht von Fahrzeug und Ladung, nicht nur den Wert im Fahrzeugschein.",
+    "detail": "Bei einem normalen Zug gilt die Grenze für jedes Fahrzeug einzeln; für Sattelkraftfahrzeuge gelten besondere Regeln.",
+    "annex": 2,
+    "references": [
+      "anlage_2.html"
+    ],
+    "artwork": "Zeichen 262-5,5 - Verbot für Fahrzeuge über angegebene tatsächliche Masse, StVO 2017.svg"
+  },
+  {
+    "id": "264-2",
+    "name": "Höchstens 2 Meter breit",
+    "officialName": "Tatsächliche Breite",
+    "meaning": "Fahrzeuge über 2 Meter tatsächlicher Breite dürfen hier nicht fahren.",
+    "behavior": "Rechne Außenspiegel und seitlich überstehende Ladung zur Breite hinzu.",
+    "detail": "Die reine Karosseriebreite reicht zur Prüfung nicht. Auch ein Pkw kann mit Spiegeln breiter als 2 Meter sein.",
+    "annex": 2,
+    "references": [
+      "anlage_2.html"
+    ],
+    "artwork": "Zeichen 264-2 - Verbot für Fahrzeuge über angegebene tatsächliche Breite, StVO 2017.svg"
+  },
+  {
+    "id": "265-3,8",
+    "name": "Höchstens 3,8 Meter hoch",
+    "officialName": "Tatsächliche Höhe",
+    "meaning": "Fahrzeuge mit mehr als 3,8 Metern tatsächlicher Höhe dürfen hier nicht durchfahren.",
+    "behavior": "Berücksichtige auch Dachboxen, Fahrräder auf dem Dach und andere Ladung.",
+    "detail": "Kennst du die Gesamthöhe nicht sicher, kläre sie vor der Durchfahrt und suche gegebenenfalls eine andere Route.",
+    "annex": 2,
+    "references": [
+      "anlage_2.html"
+    ],
+    "artwork": "Zeichen 265-3,8 - Verbot für Fahrzeuge über angegebene tatsächliche Höhe, StVO 2017.svg"
+  },
+  {
+    "id": "266-10",
+    "name": "Höchstens 10 Meter lang",
+    "officialName": "Tatsächliche Länge",
+    "meaning": "Fahrzeuge und Fahrzeugkombinationen über 10 Meter tatsächlicher Länge dürfen hier nicht fahren.",
+    "behavior": "Prüfe die gesamte Länge einschließlich Anhänger und überstehender Ladung.",
+    "detail": "Bei Fahrzeugkombinationen zählt hier die Gesamtlänge, nicht die Länge jedes einzelnen Fahrzeugs.",
+    "annex": 2,
+    "references": [
+      "anlage_2.html"
+    ],
+    "artwork": "Zeichen 266-10 - Verbot für Fahrzeuge über angegebene tatsächliche Länge, StVO 2017.svg"
+  },
+  {
+    "id": "268",
+    "name": "Schneekettenpflicht",
+    "officialName": "Schneeketten vorgeschrieben",
+    "meaning": "Die folgende Straße darfst du nur mit Schneeketten befahren.",
+    "behavior": "Lege geeignete Schneeketten an, bevor du auf die ausgeschilderte Strecke fährst.",
+    "detail": "Mit Schneeketten gilt auch unter günstigen Umständen höchstens Tempo 50. Winterreifen allein ersetzen die Ketten nicht.",
+    "annex": 2,
+    "references": [
+      "anlage_2.html",
+      "__3.html"
+    ],
+    "artwork": "Zeichen 268 - Schneeketten sind vorgeschrieben, StVO 1992.svg"
+  },
+  {
+    "id": "269",
+    "name": "Wassergefährdende Ladung",
+    "officialName": "Verbot für Fahrzeuge mit wassergefährdender Ladung",
+    "meaning": "Mit mehr als 20 Litern wassergefährdender Ladung darfst du diese Straße nicht benutzen.",
+    "behavior": "Prüfe Art und Menge deiner Ladung und wähle bei Überschreitung eine andere Strecke.",
+    "detail": "Dieses Zeichen ist ein Fahrverbot für betroffene Transporte. Das blaue Wasserschutzgebiet-Schild ist dagegen ein Hinweis.",
+    "annex": 2,
+    "references": [
+      "anlage_2.html"
+    ],
+    "artwork": "Zeichen 269 - Verbot für Fahrzeuge mit wassergefährdender Ladung, StVO 1988.svg"
+  },
+  {
+    "id": "272",
+    "name": "Wenden verboten",
+    "officialName": "Verbot des Wendens",
+    "meaning": "Du darfst an dieser Stelle mit deinem Fahrzeug nicht wenden.",
+    "behavior": "Fahre weiter und suche bei Bedarf eine erlaubte und sichere Wendemöglichkeit.",
+    "detail": "Das Zeichen allein verbietet nicht das Linksabbiegen. Dafür können andere Verkehrszeichen oder Regeln gelten.",
+    "annex": 2,
+    "references": [
+      "anlage_2.html"
+    ],
+    "artwork": "Zeichen 272, Verbot des Wendens, StVO 1992.svg"
+  },
+  {
+    "id": "274.2",
+    "name": "Tempo-30-Zone endet",
+    "officialName": "Ende einer Tempo 30-Zone",
+    "meaning": "Hier endet die für die Zone angeordnete Höchstgeschwindigkeit von 30 km/h.",
+    "behavior": "Beachte anschließend andere Tempolimits und die allgemeinen Regeln der Straße.",
+    "detail": "Innerorts gilt ohne andere Anordnung grundsätzlich höchstens Tempo 50. Die Situation kann weniger erfordern.",
+    "annex": 2,
+    "references": [
+      "anlage_2.html",
+      "__3.html"
+    ],
+    "artwork": "Zeichen 274.2 - Ende einer Tempo 30-Zone (einseitig), StVO 2013.svg"
+  },
+  {
+    "id": "275-30",
+    "name": "Mindestens 30 km/h",
+    "officialName": "Vorgeschriebene Mindestgeschwindigkeit",
+    "meaning": "Hier darfst du grundsätzlich nicht langsamer als 30 km/h fahren.",
+    "behavior": "Fahre trotzdem langsamer, wenn Verkehr, Straße, Sicht oder Wetter es verlangen.",
+    "detail": "Fahrzeuge, die 30 km/h nicht erreichen können oder dürfen, dürfen einen so gekennzeichneten Fahrstreifen nicht benutzen.",
+    "annex": 2,
+    "references": [
+      "anlage_2.html"
+    ],
+    "artwork": "Zeichen 275-30 - Vorgeschriebene Mindestgeschwindigkeit, StVO 2017.svg"
+  },
+  {
+    "id": "278-30",
+    "name": "Tempo-30-Limit endet",
+    "officialName": "Ende der zulässigen Höchstgeschwindigkeit",
+    "meaning": "Das zuvor angeordnete streckenbezogene Tempolimit von 30 km/h endet hier.",
+    "behavior": "Beachte danach die allgemeinen Höchstgeschwindigkeiten und weitere Beschränkungen.",
+    "detail": "Dieses runde Schild ist kein Ende einer Tempo-30-Zone. Dafür gibt es ein eigenes rechteckiges Zeichen.",
+    "annex": 2,
+    "references": [
+      "anlage_2.html",
+      "__3.html"
+    ],
+    "artwork": "Zeichen 278-30 - Ende der zulässigen Höchstgeschwindigkeit, StVO 2017.svg"
+  },
+  {
+    "id": "280",
+    "name": "Überholverbot endet",
+    "officialName": "Ende des Überholverbots für Kraftfahrzeuge aller Art",
+    "meaning": "Das durch Zeichen 276 angeordnete Überholverbot endet hier.",
+    "behavior": "Überhole nur bei freier Sicht, ausreichendem Abstand und klarer Verkehrslage.",
+    "detail": "Andere Verbote, etwa ein Tempolimit oder eine durchgezogene Linie, werden dadurch nicht aufgehoben.",
+    "annex": 2,
+    "references": [
+      "anlage_2.html",
+      "__5.html"
+    ],
+    "artwork": "Zeichen 280 - Ende des Überholverbotes für Kraftfahrzeuge aller Art, StVO 1992.svg"
+  },
+  {
+    "id": "290.1",
+    "name": "Haltverbotszone",
+    "officialName": "Beginn eines eingeschränkten Haltverbots für eine Zone",
+    "meaning": "In dieser Zone darfst du grundsätzlich nicht länger als drei Minuten halten.",
+    "behavior": "Ein- und Aussteigen sowie zügiges Be- und Entladen sind ausgenommen. Beachte erlaubte Parkflächen.",
+    "detail": "Das Verbot gilt auf allen öffentlichen Verkehrsflächen der Zone, soweit dort keine abweichende Regelung besteht.",
+    "annex": 2,
+    "references": [
+      "anlage_2.html"
+    ],
+    "artwork": "Zeichen 290.1 - Beginn eines eingeschränkten Haltverbotes für eine Zone, StVO 2009.svg"
+  },
+  {
+    "id": "307",
+    "name": "Vorfahrtstraße endet",
+    "officialName": "Ende der Vorfahrtstraße",
+    "meaning": "Hier endet die durch Zeichen 306 angeordnete Vorfahrtstraße.",
+    "behavior": "Prüfe an der nächsten Kreuzung die Vorfahrtzeichen. Ohne besondere Regelung gilt grundsätzlich rechts vor links.",
+    "detail": "Das Schild allein ordnet weder einen Halt noch ein sofortiges Vorfahrtgewähren an.",
+    "annex": 3,
+    "references": [
+      "anlage_3.html",
+      "__8.html"
+    ],
+    "artwork": "Zeichen 307 - Ende der Vorfahrtstraße, StVO 1981.svg"
+  },
+  {
+    "id": "310",
+    "name": "Ortseingang",
+    "officialName": "Ortstafel Vorderseite",
+    "meaning": "Ab hier gelten die Verkehrsregeln innerhalb geschlossener Ortschaften.",
+    "behavior": "Fahre ab dem Schild grundsätzlich höchstens 50 km/h, sofern keine andere Geschwindigkeit angeordnet ist.",
+    "detail": "Die gelbe Ortstafel hat Regelwirkung. Eine grüne Ortshinweistafel setzt diese Regeln nicht in Kraft.",
+    "annex": 3,
+    "references": [
+      "anlage_3.html",
+      "__3.html"
+    ],
+    "artwork": "Zeichen 310 - Ortstafel Vorderseite, StVO 2017.svg"
+  },
+  {
+    "id": "311",
+    "name": "Ortsausgang",
+    "officialName": "Ortstafel Rückseite",
+    "meaning": "Hier endet die geschlossene Ortschaft. Es gelten nun die Regeln für außerorts.",
+    "behavior": "Prüfe das für dein Fahrzeug und die Straße geltende Tempo sowie weitere Verkehrszeichen.",
+    "detail": "Für Pkw ohne Anhänger gilt auf gewöhnlichen Landstraßen grundsätzlich höchstens Tempo 100, nicht für alle Fahrzeuge.",
+    "annex": 3,
+    "references": [
+      "anlage_3.html",
+      "__3.html"
+    ],
+    "artwork": "Zeichen 311 - Ortstafel Rückseite, StVO 2017.svg"
+  },
+  {
+    "id": "314.1",
+    "name": "Parkraumbewirtschaftungszone",
+    "officialName": "Beginn einer Parkraumbewirtschaftungszone",
+    "meaning": "In dieser Zone ist Parken grundsätzlich nur mit Parkschein oder Parkscheibe erlaubt.",
+    "behavior": "Prüfe auf Zusatzzeichen, welcher Nachweis, welche Zeiten und welche Höchstparkdauer gelten.",
+    "detail": "Die Zone erlaubt kein Parken an ansonsten verbotenen Stellen. Bewohner können mit Parkausweis ausgenommen sein.",
+    "annex": 3,
+    "references": [
+      "anlage_3.html"
+    ],
+    "artwork": "Zeichen 314.1 - Beginn einer Parkraumbewirtschaftungszone, StVO 2009.svg"
+  },
+  {
+    "id": "314.2",
+    "name": "Parkzone endet",
+    "officialName": "Ende einer Parkraumbewirtschaftungszone",
+    "meaning": "Hier endet die durch das Zonenschild angeordnete Parkraumbewirtschaftung.",
+    "behavior": "Prüfe an deinem nächsten Parkplatz die dort geltenden Schilder und allgemeinen Parkregeln.",
+    "detail": "Das Ende der Zone bedeutet nicht, dass du nun überall kostenlos oder unbegrenzt parken darfst.",
+    "annex": 3,
+    "references": [
+      "anlage_3.html",
+      "__12.html",
+      "__13.html"
+    ],
+    "artwork": "Zeichen 314.2 - Ende einer Parkraumbewirtschaftungszone, StVO 2009.svg"
+  },
+  {
+    "id": "315-55",
+    "name": "Halb auf dem Gehweg parken",
+    "officialName": "Parken auf Gehwegen, halb in Fahrtrichtung rechts",
+    "meaning": "Hier ist Parken in der abgebildeten Stellung teilweise auf dem Gehweg erlaubt.",
+    "behavior": "Stelle dein Fahrzeug genau wie gezeigt ab und beachte Zusatzzeichen zur Parkdauer oder Berechtigung.",
+    "detail": "Fahrzeuge mit mehr als 2,8 Tonnen zulässiger Gesamtmasse dürfen diese Gehweg-Parkerlaubnis nicht nutzen.",
+    "annex": 3,
+    "references": [
+      "anlage_3.html"
+    ],
+    "artwork": "Zeichen 315-55 - Parken halb auf Gehwegen in Fahrtrichtung rechts, StVO 1992.svg"
+  },
+  {
+    "id": "325.2",
+    "name": "Verkehrsberuhigter Bereich endet",
+    "officialName": "Ende eines verkehrsberuhigten Bereichs",
+    "meaning": "Du verlässt den verkehrsberuhigten Bereich und fährst in eine andere Straße ein.",
+    "behavior": "Lass andere Verkehrsteilnehmer durch und schließe beim Ausfahren jede Gefährdung aus.",
+    "detail": "Hier gilt für dich beim Ausfahren nicht einfach rechts vor links, sondern die besondere Sorgfaltspflicht aus § 10.",
+    "annex": 3,
+    "references": [
+      "anlage_3.html",
+      "__10.html"
+    ],
+    "artwork": "Zeichen 325.2 - Ende eines verkehrsberuhigten Bereichs, StVO 2009.svg"
+  },
+  {
+    "id": "328",
+    "name": "Nothaltebucht",
+    "officialName": "Nothalte- und Pannenbucht",
+    "meaning": "Diese Bucht ist zum Halten bei einem Notfall oder einer Panne bestimmt.",
+    "behavior": "Benutze sie nur, wenn tatsächlich ein Notfall oder eine Panne vorliegt.",
+    "detail": "Sie ist kein Parkplatz für eine Pause, ein Telefonat oder einen Fahrerwechsel.",
+    "annex": 3,
+    "references": [
+      "anlage_3.html"
+    ],
+    "artwork": "Zeichen 328 - Nothalte- und Pannenbucht, StVO 2006.svg"
+  },
+  {
+    "id": "330.2",
+    "name": "Autobahn endet",
+    "officialName": "Ende der Autobahn",
+    "meaning": "Ab diesem Schild gelten die besonderen Autobahnregeln nicht mehr.",
+    "behavior": "Achte auf die anschließende Straßenart, neue Tempolimits und mögliche Kreuzungen.",
+    "detail": "Das Ende allein bestimmt keine neue konkrete Höchstgeschwindigkeit. Allgemeine und ausgeschilderte Grenzen gelten weiter.",
+    "annex": 3,
+    "references": [
+      "anlage_3.html",
+      "__3.html",
+      "__18.html"
+    ],
+    "artwork": "Zeichen 330.2 - Ende der Autobahn, StVO 2013.svg"
+  },
+  {
+    "id": "331.1",
+    "name": "Kraftfahrstraße",
+    "officialName": "Kraftfahrstraße",
+    "meaning": "Hier dürfen nur Kraftfahrzeuge und Anhänger fahren, die bauartbedingt mehr als 60 km/h erreichen können.",
+    "behavior": "Wende nicht und fahre nicht rückwärts. Zu Fuß oder mit dem Fahrrad darfst du hier nicht unterwegs sein.",
+    "detail": "Das Schild allein erlaubt kein höheres Tempo und garantiert keine baulich getrennten Richtungsfahrbahnen.",
+    "annex": 3,
+    "references": [
+      "anlage_3.html",
+      "__18.html",
+      "__3.html"
+    ],
+    "artwork": "Zeichen 331.1 - Kraftfahrstraße, StVO 2013.svg"
+  },
+  {
+    "id": "331.2",
+    "name": "Kraftfahrstraße endet",
+    "officialName": "Ende der Kraftfahrstraße",
+    "meaning": "Hier enden die besonderen Regeln für die Kraftfahrstraße.",
+    "behavior": "Stelle dich auf die folgende Straßenführung und möglicherweise langsamere Verkehrsteilnehmer ein.",
+    "detail": "Andere angeordnete Beschränkungen gelten weiter. Das Schild hebt nicht pauschal alle Tempolimits auf.",
+    "annex": 3,
+    "references": [
+      "anlage_3.html",
+      "__3.html",
+      "__18.html"
+    ],
+    "artwork": "Zeichen 331.2 - Ende der Kraftfahrstraße, StVO 2013.svg"
+  },
+  {
+    "id": "350-10",
+    "name": "Fußgängerüberweg",
+    "officialName": "Fußgängerüberweg",
+    "meaning": "Hier befindet sich ein Zebrastreifen, an dem Fußverkehr die Fahrbahn überqueren kann.",
+    "behavior": "Erkennbar querungswillige Menschen zu Fuß oder im Rollstuhl passieren lassen; mäßig heranfahren und nötigenfalls warten.",
+    "detail": "Am Überweg ist Überholen verboten. Halten ist auf dem Überweg und bis 5 Meter davor verboten.",
+    "annex": 3,
+    "references": [
+      "anlage_3.html",
+      "__26.html",
+      "__12.html",
+      "anlage_2.html"
+    ],
+    "artwork": "Zeichen 350-10 - Fußgängerüberweg (rechts), StVO 1992.svg"
+  },
+  {
+    "id": "357",
+    "name": "Sackgasse",
+    "officialName": "Sackgasse",
+    "meaning": "Diese Straße hat für den durchgehenden Fahrzeugverkehr keinen Ausgang.",
+    "behavior": "Plane ein, dass du mit dem Auto wieder umkehren musst. Achte auf Platz zum sicheren Wenden.",
+    "detail": "Zusätzliche Fuß- oder Fahrradsymbole können anzeigen, dass es für diese Verkehrsarten doch eine Verbindung gibt.",
+    "annex": 3,
+    "references": [
+      "anlage_3.html"
+    ],
+    "artwork": "Zeichen 357 - Sackgasse, StVO 1992.svg"
+  },
+  {
+    "id": "358",
+    "name": "Erste Hilfe",
+    "officialName": "Erste Hilfe",
+    "meaning": "Dieses Hinweisschild kennzeichnet eine Stelle, an der Erste Hilfe geleistet werden kann.",
+    "behavior": "Beachte eine angegebene Richtung oder Entfernung, wenn du die Hilfsstelle suchst.",
+    "detail": "Das Schild gibt dir keine Sonderrechte im Verkehr und ist weder eine Vorfahrtregel noch eine Parkerlaubnis.",
+    "annex": 3,
+    "references": [
+      "anlage_3.html"
+    ],
+    "artwork": "Zeichen 358 - Erste Hilfe, StVO 1992.svg"
+  },
+  {
+    "id": "354",
+    "name": "Wasserschutzgebiet",
+    "officialName": "Wasserschutzgebiet",
+    "meaning": "Du fährst durch ein Gebiet, in dem Wasser besonders geschützt wird.",
+    "behavior": "Achte darauf, dass weder Kraftstoff noch Öl oder andere wassergefährdende Stoffe austreten.",
+    "detail": "Das blaue Schild allein ist kein Fahrverbot. Ein solches kann zusätzlich durch Zeichen 269 angeordnet sein.",
+    "annex": 3,
+    "references": [
+      "anlage_3.html"
+    ],
+    "artwork": "Zeichen 354 - Wasserschutzgebiet, StVO 1988.svg"
+  },
+  {
+    "id": "101-10",
+    "name": "Flugbetrieb",
+    "officialName": "Flugbetrieb",
+    "meaning": "Tieffliegende Flugzeuge können dich auf diesem Abschnitt durch Lärm oder ihren Anblick überraschen.",
+    "behavior": "Bleibe auf den Straßenverkehr konzentriert und rechne mit unerwarteten Reaktionen anderer.",
+    "detail": "Das Warnschild gibt keine feste Höchstgeschwindigkeit vor. Passe dein Tempo der Situation an.",
+    "annex": 1,
+    "references": [
+      "anlage_1.html",
+      "__3.html",
+      "__40.html",
+      "https://www.verwaltungsvorschriften-im-internet.de/BMVBW-S32-0001-KF10-BS-A008.htm"
+    ],
+    "artwork": "Zeichen 101-10 - Flugbetrieb, Aufstellung rechts, StVO 2017.svg"
+  },
+  {
+    "id": "101-11",
+    "name": "Zebrastreifen voraus",
+    "officialName": "Fußgängerüberweg",
+    "meaning": "Du näherst dich einem Fußgängerüberweg, der möglicherweise erst spät zu erkennen ist.",
+    "behavior": "Verringere dein Tempo und achte auf Menschen, die den Zebrastreifen benutzen wollen.",
+    "detail": "Das Dreieck kündigt den Überweg an. Das blaue Zeichen 350 steht am Überweg selbst.",
+    "annex": 1,
+    "references": [
+      "anlage_1.html",
+      "__26.html",
+      "__40.html",
+      "https://www.verwaltungsvorschriften-im-internet.de/BMVBW-S32-0001-KF10-BS-A008.htm"
+    ],
+    "artwork": "Zeichen 101-11 - Fußgängerüberweg, StVO 2017.svg"
+  },
+  {
+    "id": "101-12",
+    "name": "Viehtrieb",
+    "officialName": "Viehtrieb",
+    "meaning": "Nutztiere können hier die Straße überqueren oder auf ihr geführt werden.",
+    "behavior": "Fahre langsam und mit ausreichendem Abstand an Tiere heran. Warte, wenn die Straße nicht frei ist.",
+    "detail": "Vermeide unnötiges Hupen und abrupte Manöver, damit Tiere nicht erschrecken.",
+    "annex": 1,
+    "references": [
+      "anlage_1.html",
+      "__1.html",
+      "__3.html",
+      "__16.html",
+      "__40.html",
+      "https://www.verwaltungsvorschriften-im-internet.de/BMVBW-S32-0001-KF10-BS-A008.htm"
+    ],
+    "artwork": "Zeichen 101-12 - Viehtrieb, StVO 2017.svg"
+  },
+  {
+    "id": "101-13",
+    "name": "Achtung, Reiter",
+    "officialName": "Reiter",
+    "meaning": "Auf dieser Strecke musst du besonders mit Reitern oder geführten Pferden rechnen.",
+    "behavior": "Verringere das Tempo und halte beim Vorbeifahren ausreichend Abstand.",
+    "detail": "Pferde können auf Lärm und schnelle Bewegungen erschrecken. Dieses Dreieck kennzeichnet keinen Reitweg.",
+    "annex": 1,
+    "references": [
+      "anlage_1.html",
+      "__1.html",
+      "__3.html",
+      "__40.html",
+      "https://www.verwaltungsvorschriften-im-internet.de/BMVBW-S32-0001-KF10-BS-A008.htm"
+    ],
+    "artwork": "Zeichen 101-13 - Reiter, StVO 2017.svg"
+  },
+  {
+    "id": "101-14",
+    "name": "Amphibienwanderung",
+    "officialName": "Amphibienwanderung",
+    "meaning": "Auf der folgenden Strecke können Amphibien die Fahrbahn überqueren.",
+    "behavior": "Fahre aufmerksam und langsamer. Rechne auch mit Menschen, die Tiere am Straßenrand sammeln.",
+    "detail": "Vermeide gefährliche Ausweichmanöver. Das Zeichen selbst ordnet keine bestimmte Geschwindigkeit an.",
+    "annex": 1,
+    "references": [
+      "anlage_1.html",
+      "__1.html",
+      "__3.html",
+      "__40.html",
+      "https://www.verwaltungsvorschriften-im-internet.de/BMVBW-S32-0001-KF10-BS-A008.htm"
+    ],
+    "artwork": "Zeichen 101-14 - Amphibienwanderung, StVO 2017.svg"
+  },
+  {
+    "id": "101-15",
+    "name": "Steinschlag",
+    "officialName": "Steinschlag",
+    "meaning": "Hier können Steine auf die Straße fallen oder bereits auf der Fahrbahn liegen.",
+    "behavior": "Verringere dein Tempo und beobachte die Fahrbahn, damit du rechtzeitig reagieren kannst.",
+    "detail": "Fahre nicht hastig durch die Gefahrenstelle. Auch kleinere Steine können die Haftung beeinträchtigen.",
+    "annex": 1,
+    "references": [
+      "anlage_1.html",
+      "__3.html",
+      "__40.html",
+      "https://www.verwaltungsvorschriften-im-internet.de/BMVBW-S32-0001-KF10-BS-A008.htm"
+    ],
+    "artwork": "Zeichen 101-15 - Steinschlag, StVO 2017.svg"
+  },
+  {
+    "id": "101-51",
+    "name": "Schnee- oder Eisglätte",
+    "officialName": "Schnee- oder Eisglätte",
+    "meaning": "Auf diesem Abschnitt besteht besondere Gefahr durch Schnee oder Eis auf der Fahrbahn.",
+    "behavior": "Fahre vorsichtig, halte mehr Abstand und vermeide abrupte Lenk- und Bremsmanöver.",
+    "detail": "Das Schild warnt vor der Gefahr. Deine Geschwindigkeit muss zur tatsächlichen Fahrbahnhaftung passen.",
+    "annex": 1,
+    "references": [
+      "anlage_1.html",
+      "__3.html",
+      "__4.html",
+      "__40.html",
+      "https://www.verwaltungsvorschriften-im-internet.de/BMVBW-S32-0001-KF10-BS-A008.htm"
+    ],
+    "artwork": "Zeichen 101-51 - Schnee- oder Eisglätte, StVO 2017.svg"
+  },
+  {
+    "id": "101-52",
+    "name": "Splitt und Schotter",
+    "officialName": "Splitt, Schotter",
+    "meaning": "Lose Steinchen können die Haftung verringern und von anderen Fahrzeugen hochgeschleudert werden.",
+    "behavior": "Verringere dein Tempo und halte ausreichend Abstand zum vorausfahrenden Fahrzeug.",
+    "detail": "Vermeide heftiges Bremsen und Lenken auf dem losen Untergrund.",
+    "annex": 1,
+    "references": [
+      "anlage_1.html",
+      "__3.html",
+      "__4.html",
+      "__40.html",
+      "https://www.verwaltungsvorschriften-im-internet.de/BMVBW-S32-0001-KF10-BS-A008.htm"
+    ],
+    "artwork": "Zeichen 101-52 - Splitt, Schotter, StVO 2017.svg"
+  },
+  {
+    "id": "101-53",
+    "name": "Ufer",
+    "officialName": "Ufer",
+    "meaning": "Die Straße führt an ein Ufer oder an eine Stelle mit Absturzgefahr ins Wasser.",
+    "behavior": "Fahre langsam und beobachte Straßenverlauf, Fahrbahnrand und mögliche Absperrungen.",
+    "detail": "Das Zeichen warnt vor dem Wasser. Es ist kein Hinweis auf eine erlaubte Zufahrt ins Gewässer.",
+    "annex": 1,
+    "references": [
+      "anlage_1.html",
+      "__3.html",
+      "__40.html",
+      "https://www.verwaltungsvorschriften-im-internet.de/BMVBW-S32-0001-KF10-BS-A008.htm"
+    ],
+    "artwork": "Zeichen 101-53 - Ufer, StVO 2017.svg"
+  },
+  {
+    "id": "101-54",
+    "name": "Enger Durchfahrtsraum",
+    "officialName": "Unzureichendes Lichtraumprofil",
+    "meaning": "Der freie Raum neben oder über der Fahrbahn kann eingeschränkt sein, etwa durch Bäume.",
+    "behavior": "Prüfe besonders mit hohen oder breiten Fahrzeugen, ob ausreichend Platz für Fahrzeug und Ladung bleibt.",
+    "detail": "Das Dreieck nennt keine feste Maßgrenze. Zusätzliche Höhen- oder Breitenverbote sind gesondert zu beachten.",
+    "annex": 1,
+    "references": [
+      "anlage_1.html",
+      "__3.html",
+      "__23.html",
+      "__40.html",
+      "https://www.verwaltungsvorschriften-im-internet.de/BMVBW-S32-0001-KF10-BS-A008.htm"
+    ],
+    "artwork": "Zeichen 101-54 - Unzureichendes Lichtraumprofil, StVO 2017.svg"
+  },
+  {
+    "id": "211",
+    "name": "Hier rechts",
+    "officialName": "Vorgeschriebene Fahrtrichtung, hier rechts",
+    "meaning": "Du musst direkt vor diesem Schild nach rechts fahren.",
+    "behavior": "Rechtzeitig blinken, langsam abbiegen und auf Fuß- und Radverkehr achten.",
+    "detail": "Der waagerechte Pfeil gilt an dieser Stelle. Das abgewinkelte Zeichen 209 kündigt die folgende Abbiegestelle an.",
+    "annex": 2,
+    "references": [
+      "anlage_2.html",
+      "__9.html",
+      "https://www.verwaltungsvorschriften-im-internet.de/BMVBW-S32-0001-KF10-BS-A008.htm"
+    ],
+    "artwork": "Zeichen 211 - Vorgeschriebene Fahrtrichtung, hier rechts, StVO 2017.svg"
+  },
+  {
+    "id": "211-10",
+    "name": "Hier links",
+    "officialName": "Vorgeschriebene Fahrtrichtung, hier links",
+    "meaning": "Du musst direkt vor diesem Schild nach links fahren.",
+    "behavior": "Links blinken und beim Abbiegen Gegenverkehr sowie querenden Fuß- und Radverkehr beachten.",
+    "detail": "Der Pfeil ordnet die Richtung an. Er gibt dir weder Vorfahrt noch Vorrang beim Abbiegen.",
+    "annex": 2,
+    "references": [
+      "anlage_2.html",
+      "__8.html",
+      "__9.html",
+      "https://www.verwaltungsvorschriften-im-internet.de/BMVBW-S32-0001-KF10-BS-A008.htm"
+    ],
+    "artwork": "Zeichen 211-10 - Vorgeschriebene Fahrtrichtung, hier links, StVO 2017.svg"
+  },
+  {
+    "id": "214-10",
+    "name": "Geradeaus oder links",
+    "officialName": "Vorgeschriebene Fahrtrichtung, geradeaus oder links",
+    "meaning": "Hier darfst du geradeaus weiterfahren oder links abbiegen.",
+    "behavior": "Ordne dich rechtzeitig ein. Beim Linksabbiegen blinken und den Gegenverkehr durchfahren lassen.",
+    "detail": "Rechts abzubiegen ist durch diese Richtungsanordnung nicht erlaubt.",
+    "annex": 2,
+    "references": [
+      "anlage_2.html",
+      "__9.html",
+      "https://www.verwaltungsvorschriften-im-internet.de/BMVBW-S32-0001-KF10-BS-A008.htm"
+    ],
+    "artwork": "Zeichen 214-10 - Vorgeschriebene Fahrtrichtung, Geradeaus oder links, StVO 2017.svg"
+  },
+  {
+    "id": "223.1-50",
+    "name": "Seitenstreifen freigegeben",
+    "officialName": "Seitenstreifen befahren",
+    "meaning": "Der Seitenstreifen ist ab hier als zusätzlicher Fahrstreifen freigegeben.",
+    "behavior": "Benutze ihn wie einen rechten Fahrstreifen und beachte das Rechtsfahrgebot.",
+    "detail": "Ohne Freigabe ist der Seitenstreifen kein normaler Fahrstreifen. Das Schild zeigt hier zwei weitere Fahrstreifen.",
+    "annex": 2,
+    "references": [
+      "anlage_2.html",
+      "__2.html",
+      "https://www.verwaltungsvorschriften-im-internet.de/BMVBW-S32-0001-KF10-BS-A008.htm"
+    ],
+    "artwork": "Zeichen 223.1-50 - Seitenstreifen befahren, 2 Fahrstreifen u. Seitenstreifen, StVO 2017.svg"
+  },
+  {
+    "id": "223.2-50",
+    "name": "Seitenstreifenfreigabe endet",
+    "officialName": "Seitenstreifen nicht mehr befahren",
+    "meaning": "Hier endet die Freigabe des Seitenstreifens als Fahrstreifen.",
+    "behavior": "Benutze ab hier die regulären Fahrstreifen und fahre nicht weiter auf dem Seitenstreifen.",
+    "detail": "Eine angekündigte Aufhebung musst du rechtzeitig einplanen. Der Wechsel darf niemanden gefährden.",
+    "annex": 2,
+    "references": [
+      "anlage_2.html",
+      "__7.html",
+      "https://www.verwaltungsvorschriften-im-internet.de/BMVBW-S32-0001-KF10-BS-A008.htm"
+    ],
+    "artwork": "Zeichen 223.2-50 - Seitenstreifen nicht mehr befahren, 2 Fahrstreifen u. Seitenstreifen, StVO 2017.svg"
+  },
+  {
+    "id": "223.3-50",
+    "name": "Seitenstreifen räumen",
+    "officialName": "Seitenstreifen räumen",
+    "meaning": "Du musst den bisher befahrenen Seitenstreifen verlassen.",
+    "behavior": "Wechsle mit Blinker, ausreichender Lücke und sorgfältiger Beobachtung auf den benachbarten Fahrstreifen.",
+    "detail": "Der Wechselpfeil gibt dir keinen Vorrang beim Einordnen. Schließe eine Gefährdung anderer aus.",
+    "annex": 2,
+    "references": [
+      "anlage_2.html",
+      "__7.html",
+      "https://www.verwaltungsvorschriften-im-internet.de/BMVBW-S32-0001-KF10-BS-A008.htm"
+    ],
+    "artwork": "Zeichen 223.3-50 - Seitenstreifen räumen, 2 Fahrstreifen u. Seitenstreifen, StVO 2017.svg"
+  },
+  {
+    "id": "257-54",
+    "name": "Busse verboten",
+    "officialName": "Verbot für Kraftomnibusse",
+    "meaning": "Kraftomnibusse dürfen diese Straße nicht befahren.",
+    "behavior": "Mit einem Bus eine erlaubte andere Route wählen und Zusatzzeichen auf mögliche Ausnahmen prüfen.",
+    "detail": "Das Bussymbol im roten Kreis ist ein Verbot. Der blaue Busfahrstreifen ist eine andere Anordnung.",
+    "annex": 2,
+    "references": [
+      "anlage_2.html",
+      "__39.html",
+      "https://www.verwaltungsvorschriften-im-internet.de/BMVBW-S32-0001-KF10-BS-A008.htm"
+    ],
+    "artwork": "Zeichen 257-54 - Verbot für Kraftomnibusse, StVO 2017.svg"
+  },
+  {
+    "id": "257-56",
+    "name": "Pkw mit Anhänger verboten",
+    "officialName": "Verbot für Personenkraftwagen mit Anhänger",
+    "meaning": "Mit einem Pkw und angehängtem Anhänger darfst du hier nicht fahren.",
+    "behavior": "Wähle mit deinem Gespann eine andere zugelassene Strecke.",
+    "detail": "Das Verbot gilt auch für kleine Anhänger. Das Schild allein verbietet keinen Pkw ohne Anhänger.",
+    "annex": 2,
+    "references": [
+      "anlage_2.html",
+      "__39.html",
+      "https://www.verwaltungsvorschriften-im-internet.de/BMVBW-S32-0001-KF10-BS-A008.htm"
+    ],
+    "artwork": "Zeichen 257-56 - Verbot für Personenkraftwagen mit Anhänger, StVO 2017.svg"
+  },
+  {
+    "id": "257-59",
+    "name": "E-Scooter verboten",
+    "officialName": "Verbot für Elektrokleinstfahrzeuge im Sinne der eKFV",
+    "meaning": "Elektrokleinstfahrzeuge wie E-Scooter dürfen diesen Verkehrsbereich nicht befahren.",
+    "behavior": "Wähle mit dem E-Scooter einen anderen erlaubten Weg.",
+    "detail": "Ein Fahrrad wird durch dieses Zeichen allein nicht verboten. Andere Verkehrszeichen bleiben zu beachten.",
+    "annex": 2,
+    "references": [
+      "anlage_2.html",
+      "__39.html",
+      "https://www.verwaltungsvorschriften-im-internet.de/BMVBW-S32-0001-KF10-BS-A008.htm"
+    ],
+    "artwork": "Zeichen 257-59 - Verbot für Elektrokleinstfahrzeuge im Sinne der Elektrokleinstfahrzeuge-Verordnung (eKFV).svg"
+  },
+  {
+    "id": "263-8",
+    "name": "Höchstens 8 Tonnen Achslast",
+    "officialName": "Tatsächliche Achslast",
+    "meaning": "Fahrzeuge mit mehr als 8 Tonnen tatsächlicher Last auf einer Achse dürfen hier nicht fahren.",
+    "behavior": "Prüfe die tatsächlichen Achslasten einschließlich der Ladung vor der Durchfahrt.",
+    "detail": "Die Grenze bezieht sich auf die einzelne Achse, nicht auf das Gesamtgewicht des Fahrzeugs.",
+    "annex": 2,
+    "references": [
+      "anlage_2.html",
+      "https://www.verwaltungsvorschriften-im-internet.de/BMVBW-S32-0001-KF10-BS-A008.htm"
+    ],
+    "artwork": "Zeichen 263-8 - Verbot für Fahrzeuge über angegebene tatsächliche Achslast, StVO 2017.svg"
+  },
+  {
+    "id": "270.1",
+    "name": "Umweltzone",
+    "officialName": "Beginn einer Verkehrsverbotszone zur Verminderung schädlicher Luftverunreinigungen",
+    "meaning": "In dieser Zone ist Kraftfahrzeugverkehr grundsätzlich verboten; Ausnahmen werden gesondert geregelt.",
+    "behavior": "Prüfe Zusatzzeichen zur benötigten Umweltplakette und ob für dein Fahrzeug eine Ausnahme gilt.",
+    "detail": "Das Zonenschild allein nennt keine Plakettenfarbe. Die konkrete Freigabe ergibt sich aus der Zusatzbeschilderung.",
+    "annex": 2,
+    "references": [
+      "anlage_2.html",
+      "https://www.verwaltungsvorschriften-im-internet.de/BMVBW-S32-0001-KF10-BS-A008.htm"
+    ],
+    "artwork": "Zeichen 270.1 - Beginn eines Verkehrsverbots zur Verminderung schädlicher Luftverunreinigungen in einer Zone. I, StVO 2007.svg"
+  },
+  {
+    "id": "270.2",
+    "name": "Umweltzone endet",
+    "officialName": "Ende einer Verkehrsverbotszone zur Verminderung schädlicher Luftverunreinigungen",
+    "meaning": "Hier endet die durch Zeichen 270.1 ausgewiesene Umweltzone.",
+    "behavior": "Beachte danach weiterhin andere Fahrverbote und die allgemeinen Verkehrsregeln.",
+    "detail": "Das Schild hebt nur diese Zonenregelung auf. Andere Beschränkungen, etwa ein Tempolimit, bleiben bestehen.",
+    "annex": 2,
+    "references": [
+      "anlage_2.html",
+      "https://www.verwaltungsvorschriften-im-internet.de/BMVBW-S32-0001-KF10-BS-A008.htm"
+    ],
+    "artwork": "Zeichen 270.2 - Ende eines Verkehrsverbots zur Verminderung schädlicher Luftverunreinigungen in einer Zone, StVO 2007.svg"
+  },
+  {
+    "id": "273-70",
+    "name": "70 Meter Mindestabstand",
+    "officialName": "Verbot des Unterschreitens des angegebenen Mindestabstandes",
+    "meaning": "Betroffene Kraftfahrzeuge über 3,5 t und Zugmaschinen müssen zu Fahrzeugen gleicher Art mindestens 70 m Abstand halten.",
+    "behavior": "Halte als Fahrer eines betroffenen Fahrzeugs die angegebene Lücke auch bei langsamem Verkehr frei.",
+    "detail": "Pkw und Kraftomnibusse sind ausgenommen. Die allgemeinen Regeln zum Sicherheitsabstand gelten trotzdem für alle.",
+    "annex": 2,
+    "references": [
+      "anlage_2.html",
+      "__4.html",
+      "https://www.verwaltungsvorschriften-im-internet.de/BMVBW-S32-0001-KF10-BS-A008.htm"
+    ],
+    "artwork": "Zeichen 273-70 - Verbot des Unterschreitens des angegebenen Mindestabstandes, StVO 2017.svg"
+  },
+  {
+    "id": "277",
+    "name": "Überholverbot über 3,5 t",
+    "officialName": "Überholverbot für Kraftfahrzeuge über 3,5 t",
+    "meaning": "Betroffene Kraftfahrzeuge über 3,5 t samt Anhängern und Zugmaschinen dürfen mehrspurige Kfz nicht überholen.",
+    "behavior": "Bleibe auch hinter Motorrädern mit Beiwagen. Einspurige Fahrzeuge fallen nicht unter dieses Verbot.",
+    "detail": "Pkw und Kraftomnibusse sind ausgenommen. Zusatzzeichen können den Kreis der betroffenen Fahrzeuge erweitern.",
+    "annex": 2,
+    "references": [
+      "anlage_2.html",
+      "__5.html",
+      "https://www.verwaltungsvorschriften-im-internet.de/BMVBW-S32-0001-KF10-BS-A008.htm"
+    ],
+    "artwork": "Zeichen 277 - Überholverbot für Kraftfahrzeuge mit einem zulässigen Gesamtgewicht über 2,8 t, einschließlich ihrer Anhänger, StVO 1992.svg"
+  },
+  {
+    "id": "279-30",
+    "name": "Mindesttempo endet",
+    "officialName": "Ende der vorgeschriebenen Mindestgeschwindigkeit",
+    "meaning": "Die angeordnete Mindestgeschwindigkeit von 30 km/h endet hier.",
+    "behavior": "Passe dein Tempo weiterhin an Verkehr, Straße, Sicht und Wetter an.",
+    "detail": "Du darfst andere auch jetzt nicht ohne triftigen Grund durch langsames Fahren behindern.",
+    "annex": 2,
+    "references": [
+      "anlage_2.html",
+      "__3.html",
+      "https://www.verwaltungsvorschriften-im-internet.de/BMVBW-S32-0001-KF10-BS-A008.htm"
+    ],
+    "artwork": "Zeichen 279-30 - Ende der vorgeschriebenen Mindestgeschwindigkeit, StVO 2017.svg"
+  },
+  {
+    "id": "281",
+    "name": "Lkw-Überholverbot endet",
+    "officialName": "Ende des Überholverbots für Kraftfahrzeuge über 3,5 t",
+    "meaning": "Das durch Zeichen 277 angeordnete Überholverbot endet hier.",
+    "behavior": "Prüfe vor jedem Überholen Sicht, Abstand und Verkehrslage.",
+    "detail": "Das Schild hebt keine anderen Überholverbote oder Tempolimits auf. Die allgemeinen Überholregeln gelten weiter.",
+    "annex": 2,
+    "references": [
+      "anlage_2.html",
+      "__5.html",
+      "https://www.verwaltungsvorschriften-im-internet.de/BMVBW-S32-0001-KF10-BS-A008.htm"
+    ],
+    "artwork": "Zeichen 281 - Ende des Überholverbots für Kraftfahrzeuge mit einem zulässigen Gesamtgewicht über 3,5 t, StVO 1992.svg"
+  },
+  {
+    "id": "290.2",
+    "name": "Haltverbotszone endet",
+    "officialName": "Ende eines eingeschränkten Haltverbots für eine Zone",
+    "meaning": "Die durch Zeichen 290.1 angeordnete Haltverbotszone endet hier.",
+    "behavior": "Prüfe vor dem Halten oder Parken die örtlichen Schilder und allgemeinen Regeln.",
+    "detail": "Das Zonenende ist keine allgemeine Parkerlaubnis, etwa an Einmündungen oder vor Grundstückszufahrten.",
+    "annex": 2,
+    "references": [
+      "anlage_2.html",
+      "__12.html",
+      "https://www.verwaltungsvorschriften-im-internet.de/BMVBW-S32-0001-KF10-BS-A008.htm"
+    ],
+    "artwork": "Zeichen 290.2 - Ende eines eingeschränkten Haltverbotes für eine Zone, StVO 2009.svg"
+  },
+  {
+    "id": "283-10",
+    "name": "Haltverbot beginnt",
+    "officialName": "Absolutes Haltverbot, Anfang, Aufstellung rechts",
+    "meaning": "Ab diesem Schild beginnt auf dieser Straßenseite das absolute Haltverbot auf der Fahrbahn.",
+    "behavior": "Halte dort nicht freiwillig, auch nicht kurz zum Einsteigenlassen.",
+    "detail": "Der weiße Pfeil weist zur Fahrbahn. Er markiert den Beginn der Verbotsstrecke, keine Fahrtrichtung.",
+    "annex": 2,
+    "references": [
+      "anlage_2.html",
+      "https://www.verwaltungsvorschriften-im-internet.de/BMVBW-S32-0001-KF10-BS-A008.htm"
+    ],
+    "artwork": "Zeichen 283-10 - Absolutes Haltverbot (Anfang), Aufstellung rechts, StVO 2013.svg"
+  },
+  {
+    "id": "283-20",
+    "name": "Haltverbot endet",
+    "officialName": "Absolutes Haltverbot, Ende, Aufstellung rechts",
+    "meaning": "Hier endet die durch dieses Zeichen bezeichnete Haltverbotsstrecke.",
+    "behavior": "Prüfe danach andere Halt- und Parkregeln, bevor du dein Fahrzeug abstellst.",
+    "detail": "Der weiße Pfeil weist von der Fahrbahn weg. Andere Verbote, etwa an engen Stellen, gelten weiter.",
+    "annex": 2,
+    "references": [
+      "anlage_2.html",
+      "__12.html",
+      "https://www.verwaltungsvorschriften-im-internet.de/BMVBW-S32-0001-KF10-BS-A008.htm"
+    ],
+    "artwork": "Zeichen 283-20 - Absolutes Haltverbot (Ende), Aufstellung rechts, StVO 2013.svg"
+  },
+  {
+    "id": "283-30",
+    "name": "Haltverbot gilt weiter",
+    "officialName": "Absolutes Haltverbot, Mitte, Aufstellung rechts",
+    "meaning": "Du befindest dich innerhalb einer Strecke mit absolutem Haltverbot auf der Fahrbahn.",
+    "behavior": "Halte auf dieser Straßenseite nicht freiwillig an.",
+    "detail": "Die beiden Pfeilspitzen kennzeichnen eine Wiederholung innerhalb der Verbotsstrecke. Sie erlauben kein Halten dazwischen.",
+    "annex": 2,
+    "references": [
+      "anlage_2.html",
+      "https://www.verwaltungsvorschriften-im-internet.de/BMVBW-S32-0001-KF10-BS-A008.htm"
+    ],
+    "artwork": "Zeichen 283-30 - Absolutes Haltverbot (Mitte), Aufstellung rechts, StVO 2013.svg"
+  },
+  {
+    "id": "274.1-20",
+    "name": "Tempo-20-Zone",
+    "officialName": "Beginn einer Tempo 20-Zone",
+    "meaning": "Innerhalb dieser Zone darfst du höchstens 20 km/h fahren.",
+    "behavior": "Halte das Tempo auch nach Kreuzungen ein, bis die Zone durch das Endzeichen aufgehoben wird.",
+    "detail": "Solche Zonen gibt es etwa in Geschäftsbereichen. Sie sind kein verkehrsberuhigter Bereich mit Schrittgeschwindigkeit.",
+    "annex": 2,
+    "references": [
+      "anlage_2.html",
+      "https://www.verwaltungsvorschriften-im-internet.de/BMVBW-S32-0001-KF10-BS-A008.htm"
+    ],
+    "artwork": "Zeichen 274.1-20 - Beginn einer Tempo 20-Zone in verkehrsberuhigten Geschäftsbereichen (einseitig), StVO 2013.svg"
+  },
+  {
+    "id": "257-50",
+    "name": "Mofas verboten",
+    "officialName": "Verbot für Mofas",
+    "meaning": "Mofas dürfen diesen Verkehrsbereich nicht befahren.",
+    "behavior": "Nimm mit einem Mofa eine andere erlaubte Strecke und beachte mögliche Zusatzzeichen.",
+    "detail": "Das Symbol verbietet nicht automatisch normalen Fahrradverkehr. Entscheidend ist die Fahrzeugart.",
+    "annex": 2,
+    "references": [
+      "anlage_2.html",
+      "__39.html",
+      "https://www.verwaltungsvorschriften-im-internet.de/BMVBW-S32-0001-KF10-BS-A008.htm"
+    ],
+    "artwork": "Zeichen 257-50 - Verbot für Mofas, StVO 2017.svg"
+  },
+  {
+    "id": "257-58",
+    "name": "Langsame Kraftfahrzeuge verboten",
+    "officialName": "Verbot für Kraftfahrzeuge und Züge, die nicht schneller als 25 km/h fahren können oder dürfen",
+    "meaning": "Kraftfahrzeuge und Züge, die höchstens 25 km/h fahren können oder dürfen, sind hier verboten.",
+    "behavior": "Prüfe die Bauart und die für dein Fahrzeug geltenden Geschwindigkeitsbeschränkungen.",
+    "detail": "Das Schild ist keine Pflicht, jederzeit schneller als 25 zu fahren. Bei Gefahr oder Stau musst du langsamer fahren.",
+    "annex": 2,
+    "references": [
+      "anlage_2.html",
+      "__3.html",
+      "__39.html",
+      "https://www.verwaltungsvorschriften-im-internet.de/BMVBW-S32-0001-KF10-BS-A008.htm"
+    ],
+    "artwork": "Zeichen 257-58 - Verbot für Kraftfahrzeuge und Züge, die nicht schneller als 25 km-h fahren können oder dürfen, StVO 2017.svg"
+  },
+  {
+    "id": "316",
+    "name": "Park and Ride",
+    "officialName": "Parken und Reisen",
+    "meaning": "Hier kannst du parken und auf öffentliche Verkehrsmittel umsteigen.",
+    "behavior": "Beachte die örtlichen Parkbedingungen, Gebühren und die Beschilderung der Haltestellen.",
+    "detail": "Das P+R-Schild allein verspricht weder kostenloses Parken noch einen kostenlosen Fahrschein.",
+    "annex": 3,
+    "references": [
+      "anlage_3.html",
+      "https://www.verwaltungsvorschriften-im-internet.de/BMVBW-S32-0001-KF10-BS-A008.htm"
+    ],
+    "artwork": "Zeichen 316 - Parken und Reisen, StVO 1992.svg"
+  },
+  {
+    "id": "317",
+    "name": "Wandererparkplatz",
+    "officialName": "Wandererparkplatz",
+    "meaning": "Das Schild weist auf einen Parkplatz als Ausgangspunkt für Wanderungen hin.",
+    "behavior": "Beachte die Parkflächen, örtliche Beschränkungen und Zufahrtsregeln.",
+    "detail": "Die Kennzeichnung erlaubt nicht automatisch Camping oder das Parken außerhalb der vorgesehenen Flächen.",
+    "annex": 3,
+    "references": [
+      "anlage_3.html",
+      "__12.html",
+      "https://www.verwaltungsvorschriften-im-internet.de/BMVBW-S32-0001-KF10-BS-A008.htm"
+    ],
+    "artwork": "Zeichen 317 - Wandererparkplatz, StVO 1992.svg"
+  },
+  {
+    "id": "318",
+    "name": "Parkscheibe",
+    "officialName": "Parkscheibe",
+    "meaning": "Wo Parken mit Parkscheibe vorgeschrieben ist, musst du die Ankunftszeit sichtbar nachweisen.",
+    "behavior": "Stelle den Zeiger auf den Strich der halben Stunde, die auf deine Ankunft folgt, und lege die Scheibe gut lesbar aus.",
+    "detail": "Beachte die erlaubte Höchstparkdauer. Beispiel: Bei Ankunft um 10:10 stellst du die Scheibe auf 10:30.",
+    "annex": 3,
+    "references": [
+      "anlage_3.html",
+      "__13.html",
+      "https://www.verwaltungsvorschriften-im-internet.de/BMVBW-S32-0001-KF10-BS-A008.htm"
+    ],
+    "artwork": "Zeichen 318 - Parkscheibe, StVO 2013.svg"
+  },
+  {
+    "id": "333",
+    "name": "Autobahnausfahrt",
+    "officialName": "Ausfahrt von der Autobahn",
+    "meaning": "Dieses Pfeilschild kennzeichnet die Ausfahrt von der Autobahn.",
+    "behavior": "Ordne dich rechtzeitig rechts ein und blinke vor dem Verlassen der durchgehenden Fahrbahn.",
+    "detail": "Wenn du die Ausfahrt verpasst, fahre weiter. Wenden und Rückwärtsfahren sind auf der Autobahn verboten.",
+    "annex": 3,
+    "references": [
+      "anlage_3.html",
+      "__7.html",
+      "__18.html",
+      "https://www.verwaltungsvorschriften-im-internet.de/BMVBW-S32-0001-KF10-BS-A008.htm"
+    ],
+    "artwork": "Zeichen 333 - Pfeilschild - Ausfahrt von der Autobahn, StVO 1980.svg"
+  },
+  {
+    "id": "350.1",
+    "name": "Radschnellweg",
+    "officialName": "Radschnellweg",
+    "meaning": "Das Schild informiert über den Beginn oder Verlauf eines Radschnellwegs.",
+    "behavior": "Beachte zusätzlich die Zeichen zur Benutzung des Wegs und zur Vorfahrt an Kreuzungen.",
+    "detail": "Dieses grüne Hinweisschild allein schafft weder eine Radwegbenutzungspflicht noch Vorfahrt.",
+    "annex": 3,
+    "references": [
+      "anlage_3.html",
+      "__2.html",
+      "__8.html",
+      "https://www.verwaltungsvorschriften-im-internet.de/BMVBW-S32-0001-KF10-BS-A008.htm"
+    ],
+    "artwork": "Zeichen 350.1 - Radschnellweg; StVO 2020.svg"
+  },
+  {
+    "id": "350.2",
+    "name": "Radschnellweg endet",
+    "officialName": "Ende des Radschnellwegs",
+    "meaning": "Hier endet die Kennzeichnung als Radschnellweg.",
+    "behavior": "Achte auf die anschließende Radverkehrsführung und weitere Verkehrszeichen.",
+    "detail": "Das Ende bedeutet nicht automatisch, dass auch ein beschilderter Radweg endet oder Radfahren verboten ist.",
+    "annex": 3,
+    "references": [
+      "anlage_3.html",
+      "__2.html",
+      "https://www.verwaltungsvorschriften-im-internet.de/BMVBW-S32-0001-KF10-BS-A008.htm"
+    ],
+    "artwork": "Zeichen 350.2 - Ende des Radschnellwegs; StVO 2020.svg"
+  },
+  {
+    "id": "356",
+    "name": "Verkehrshelfer",
+    "officialName": "Verkehrshelfer",
+    "meaning": "Hier können Verkehrshelfer, etwa Schülerlotsen, Menschen beim Überqueren der Straße unterstützen.",
+    "behavior": "Fahre aufmerksam und langsam heran und rechne besonders mit Kindern.",
+    "detail": "Das Schild selbst ist keine Ampel und kein Vorfahrtzeichen. Achte auf die tatsächliche Querungssituation.",
+    "annex": 3,
+    "references": [
+      "anlage_3.html",
+      "__1.html",
+      "__3.html",
+      "https://www.verwaltungsvorschriften-im-internet.de/BMVBW-S32-0001-KF10-BS-A008.htm"
+    ],
+    "artwork": "Zeichen 356 - Verkehrshelfer, StVO 1992.svg"
+  },
+  {
+    "id": "357-50",
+    "name": "Durchlässige Sackgasse",
+    "officialName": "Für Fußgänger und Radverkehr durchlässige Sackgasse",
+    "meaning": "Für Autos endet diese Straße. Für Fuß- und Radverkehr besteht am Ende eine Verbindung.",
+    "behavior": "Plane mit dem Auto ein, wieder umzukehren, und halte die Verbindung für Fuß- und Radverkehr frei.",
+    "detail": "Die kleinen Symbole über dem roten Balken zeigen, welche Verkehrsarten am Ende weiterkommen können.",
+    "annex": 3,
+    "references": [
+      "anlage_3.html",
+      "https://www.verwaltungsvorschriften-im-internet.de/BMVBW-S32-0001-KF10-BS-A008.htm"
+    ],
+    "artwork": "Zeichen 357-50 - Durchlässige Sackgasse für Fußgänger und Radverkehr, StVO 2009.svg"
+  },
+  {
+    "id": "363",
+    "name": "Polizei",
+    "officialName": "Polizei",
+    "meaning": "Das Schild weist auf eine Polizeidienststelle hin.",
+    "behavior": "Folge gegebenenfalls der angegebenen Richtung oder Entfernung, wenn du die Dienststelle suchst.",
+    "detail": "Das Hinweisschild allein ordnet keinen Halt an und gewährt keine Parkerlaubnis.",
+    "annex": 3,
+    "references": [
+      "anlage_3.html",
+      "https://www.verwaltungsvorschriften-im-internet.de/BMVBW-S32-0001-KF10-BS-A008.htm"
+    ],
+    "artwork": "Zeichen 363 - Polizei, StVO 1992.svg"
+  },
+  {
+    "id": "365-51",
+    "name": "Notrufsäule",
+    "officialName": "Notrufsäule",
+    "meaning": "Hier befindet sich eine Notrufsäule, über die Hilfe gerufen werden kann.",
+    "behavior": "Nutze sie bei einem Notfall, wenn du sie sicher erreichen kannst.",
+    "detail": "Bringe dich auf dem Weg dorthin nicht in Gefahr. Das Schild allein erlaubt kein Halten auf der Fahrbahn.",
+    "annex": 3,
+    "references": [
+      "anlage_3.html",
+      "__1.html",
+      "__18.html",
+      "https://www.verwaltungsvorschriften-im-internet.de/BMVBW-S32-0001-KF10-BS-A008.htm"
+    ],
+    "artwork": "Zeichen 365-51 - Notrufsäule, StVO 2006.svg"
+  },
+  {
+    "id": "365-65",
+    "name": "Ladestation",
+    "officialName": "Ladestation für Elektrofahrzeuge",
+    "meaning": "Das Schild weist auf eine Ladestation für Elektrofahrzeuge hin.",
+    "behavior": "Beachte dort die zusätzlichen Regeln zu Parkberechtigung, Ladepflicht und Parkdauer.",
+    "detail": "Der Hinweis allein reserviert keinen Parkplatz und macht das Laden nicht automatisch kostenlos.",
+    "annex": 3,
+    "references": [
+      "anlage_3.html",
+      "https://www.verwaltungsvorschriften-im-internet.de/BMVBW-S32-0001-KF10-BS-A008.htm"
+    ],
+    "artwork": "Zeichen 365-65 - Ladestation für Elektrofahrzeuge, StVO 2014.svg"
+  },
+  {
+    "id": "385",
+    "name": "Ortshinweis",
+    "officialName": "Ortshinweistafel",
+    "meaning": "Die grüne Tafel informiert über einen Ort oder Ortsteil außerhalb einer geschlossenen Ortschaft.",
+    "behavior": "Beachte weiterhin die geltenden Geschwindigkeitsgrenzen und passe das Tempo an die Umgebung an.",
+    "detail": "Anders als die gelbe Ortstafel setzt dieses Schild die innerörtlichen Verkehrsregeln nicht in Kraft.",
+    "annex": 3,
+    "references": [
+      "anlage_3.html",
+      "__3.html",
+      "https://www.verwaltungsvorschriften-im-internet.de/BMVBW-S32-0001-KF10-BS-A008.htm"
+    ],
+    "artwork": "Zeichen 385 - Ortshinweistafel, StVO 1988.svg"
+  },
+  {
+    "id": "1004-30",
+    "name": "In 100 Metern",
+    "officialName": "Entfernungsangabe",
+    "meaning": "Dieses Zusatzzeichen nennt die Entfernung bis zur angekündigten Gefahr oder Regelung: hier 100 Meter.",
+    "behavior": "Lies es zusammen mit dem zugehörigen Hauptschild und bereite dich rechtzeitig auf die Stelle vor.",
+    "detail": "Die Zahl beschreibt den Abstand bis zum Beginn, nicht die Länge der anschließenden Strecke.",
+    "annex": null,
+    "references": [
+      "__39.html",
+      "__40.html",
+      "https://www.verwaltungsvorschriften-im-internet.de/BMVBW-S32-0001-KF10-BS-A008.htm"
+    ],
+    "artwork": "Zusatzzeichen 1004-30 - nach 100 m, StVO 1992.svg",
+    "sourceLabel": "StVO · § 39",
+    "category": "additional"
+  },
+  {
+    "id": "1001-30",
+    "name": "Auf 800 Metern",
+    "officialName": "Länge einer Strecke",
+    "meaning": "Dieses Zusatzzeichen gibt die Länge der Gefahr- oder Verbotsstrecke an: hier 800 Meter.",
+    "behavior": "Beachte das zugehörige Hauptschild über die angegebene Strecke.",
+    "detail": "Die Pfeile unterscheiden die Streckenlänge von einer Entfernungsangabe bis zum Beginn einer Gefahr.",
+    "annex": null,
+    "references": [
+      "__39.html",
+      "__40.html",
+      "https://www.verwaltungsvorschriften-im-internet.de/BMVBW-S32-0001-KF10-BS-A008.htm",
+      "anlage_2.html"
+    ],
+    "artwork": "Zusatzzeichen 1001-30 - auf ... m, StVO 1992.svg",
+    "sourceLabel": "StVO · § 39",
+    "category": "additional"
+  },
+  {
+    "id": "1020-30",
+    "name": "Anlieger frei",
+    "officialName": "Anlieger frei",
+    "meaning": "Anlieger sind von dem zugehörigen Verkehrsverbot ausgenommen, etwa für eine Fahrt zu einem Grundstück dort.",
+    "behavior": "Fahre nur hinein, wenn dein Ziel im gesperrten Bereich liegt, etwa für einen Besuch oder eine Lieferung.",
+    "detail": "Nur als Abkürzung durchzufahren ist nicht erlaubt. Die Freigabe hebt keine anderen Verkehrsregeln auf.",
+    "annex": null,
+    "references": [
+      "__39.html",
+      "https://www.verwaltungsvorschriften-im-internet.de/BMVBW-S32-0001-KF10-BS-A008.htm",
+      "https://www.berlin.de/ba-friedrichshain-kreuzberg/politik-und-verwaltung/aemter/strassen-und-gruenflaechenamt/strassen/artikel.1496371.php"
+    ],
+    "artwork": "Zusatzzeichen 1020-30 - Anlieger frei (600x330), StVO 1992.svg",
+    "sourceLabel": "StVO · § 39",
+    "category": "additional"
+  },
+  {
+    "id": "1022-10",
+    "name": "Radverkehr frei",
+    "officialName": "Radverkehr frei",
+    "meaning": "Das Zusatzzeichen erlaubt Radverkehr trotz der zugehörigen Beschränkung.",
+    "behavior": "Lies es mit dem Hauptschild: Auf einem freigegebenen Gehweg gilt für Radverkehr Schrittgeschwindigkeit.",
+    "detail": "Fußverkehr hat dort Vorrang; nötigenfalls warten. Die Freigabe macht den Gehweg nicht zum benutzungspflichtigen Radweg.",
+    "annex": null,
+    "references": [
+      "__2.html",
+      "__39.html",
+      "https://www.verwaltungsvorschriften-im-internet.de/BMVBW-S32-0001-KF10-BS-A008.htm",
+      "anlage_2.html"
+    ],
+    "artwork": "Zusatzzeichen 1022-10 - Radfahrer frei, StVO 1992.svg",
+    "sourceLabel": "StVO · § 39",
+    "category": "additional"
+  },
+  {
+    "id": "1040-30",
+    "name": "Nur von 16 bis 18 Uhr",
+    "officialName": "Zeitliche Beschränkung",
+    "meaning": "Die zugehörige Anordnung gilt in dem auf dem Zusatzzeichen angegebenen Zeitraum, hier von 16 bis 18 Uhr.",
+    "behavior": "Prüfe die Uhrzeit und weitere Zusatzzeichen, bevor du fährst, hältst oder parkst.",
+    "detail": "Ohne zusätzliche Wochentagsangabe gilt der Zeitraum täglich. Außerhalb davon bleiben andere Regeln bestehen.",
+    "annex": null,
+    "references": [
+      "__39.html",
+      "https://www.verwaltungsvorschriften-im-internet.de/BMVBW-S32-0001-KF10-BS-A008.htm"
+    ],
+    "artwork": "Zusatzzeichen 1040-30 - Zeitliche Beschränkung (16 - 18 h), 330x600, StVO 1992.svg",
+    "sourceLabel": "StVO · § 39",
+    "category": "additional"
+  }
+]

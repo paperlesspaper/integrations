@@ -1,0 +1,114 @@
+{
+  "name": "TeslaMate Vehicle",
+  "version": "0.1.0",
+  "status": "alpha",
+  "description": "Read your TeslaMate vehicle snapshot through its supported MQTT integration.",
+  "renderPage": "./render.html",
+  "icon": "./assets/icon.png",
+  "timezone": "Europe/Berlin",
+  "language": ["de", "en"],
+  "nativeSettings": {
+    "color": "blue-light",
+    "title": "",
+    "sampleData": false,
+    "timeZone": "Europe/Berlin",
+    "brokerUrl": "mqtt://mosquitto:1883",
+    "username": "",
+    "password": "",
+    "carId": 1
+  },
+  "formSchema": {
+    "type": "object",
+    "properties": {
+      "title": {
+        "type": "string",
+        "title": "Custom display title",
+        "default": ""
+      },
+      "sampleData": {
+        "type": "boolean",
+        "title": "Use labelled demo data",
+        "default": false
+      },
+      "timeZone": {
+        "type": "string",
+        "format": "timezone",
+        "title": "Display time zone",
+        "default": "Europe/Berlin"
+      },
+      "brokerUrl": {
+        "type": "string",
+        "title": "MQTT broker",
+        "default": "mqtt://mosquitto:1883"
+      },
+      "username": {
+        "type": "string",
+        "title": "MQTT username",
+        "default": ""
+      },
+      "password": {
+        "type": "string",
+        "title": "MQTT password",
+        "default": "",
+        "format": "password"
+      },
+      "carId": {
+        "type": "number",
+        "title": "TeslaMate car ID",
+        "default": 1,
+        "minimum": 1,
+        "maximum": 9999
+      }
+    }
+  },
+  "configVariants": [
+    {
+      "color": "blue-light",
+      "title": "",
+      "sampleData": true,
+      "timeZone": "Europe/Berlin",
+      "brokerUrl": "mqtt://mosquitto:1883",
+      "username": "",
+      "password": "",
+      "carId": 1,
+      "screenshots": {
+        "800x480": "./screenshots/teslamate-light-800x480.png",
+        "480x800": "./screenshots/teslamate-light-480x800.png",
+        "1600x1200": "./screenshots/teslamate-light-1600x1200.png",
+        "1200x1600": "./screenshots/teslamate-light-1200x1600.png"
+      }
+    },
+    {
+      "color": "blue-dark",
+      "title": "",
+      "sampleData": true,
+      "timeZone": "Europe/Berlin",
+      "brokerUrl": "mqtt://mosquitto:1883",
+      "username": "",
+      "password": "",
+      "carId": 1,
+      "screenshots": {
+        "800x480": "./screenshots/teslamate-dark-800x480.png",
+        "480x800": "./screenshots/teslamate-dark-480x800.png",
+        "1600x1200": "./screenshots/teslamate-dark-1600x1200.png",
+        "1200x1600": "./screenshots/teslamate-dark-1200x1600.png"
+      }
+    },
+    {
+      "color": "dark",
+      "title": "",
+      "sampleData": true,
+      "timeZone": "Europe/Berlin",
+      "brokerUrl": "mqtt://mosquitto:1883",
+      "username": "",
+      "password": "",
+      "carId": 1,
+      "screenshots": {
+        "800x480": "./screenshots/teslamate-black-800x480.png",
+        "480x800": "./screenshots/teslamate-black-480x800.png",
+        "1600x1200": "./screenshots/teslamate-black-1600x1200.png",
+        "1200x1600": "./screenshots/teslamate-black-1200x1600.png"
+      }
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="paperless:epd-optimize" content='{"intent":"faithful","palette":"spectra6OriginalPalette","canvasDitherOptions":{"ditheringType":"errorDiffusion"}}'>
+<title>Readwise</title><link rel="stylesheet" href="/assets/paperless.css"><script src="/assets/paperless.iife.js"></script>
+<style>
+* { box-sizing: border-box; }
+#app { width:100vw;height:100vh;padding:clamp(18px,3vmin,42px);display:flex;flex-direction:column;gap:clamp(14px,2.5vmin,30px); }
+header { display:flex;align-items:center;justify-content:space-between;gap:20px;border-bottom:5px solid var(--pp-accent);padding-bottom:12px;flex:none; }
+h1 { margin:0;font-size:clamp(26px,4.6vmin,54px);line-height:1.12;overflow-wrap:anywhere; }
+.eyebrow { margin:0 0 6px;font-size:clamp(12px,1.8vmin,22px);font-weight:800;letter-spacing:.08em;text-transform:uppercase; }
+#content { flex:1;min-height:0;min-width:0; }
+footer { display:flex;justify-content:space-between;gap:16px;flex:none;font-size:clamp(11px,1.65vmin,19px);border-top:1px solid var(--pp-border);padding-top:9px; }
+footer span { min-width:0;overflow-wrap:anywhere; }
+.sample { color:var(--pp-accent);font-weight:800; }
+.empty,.error { display:flex;flex-direction:column;justify-content:center;height:100%;gap:20px; }
+.empty { font-size:clamp(25px,4.8vmin,55px); }
+.error p { font-size:clamp(18px,3vmin,32px); }
+.clamp { display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden;overflow-wrap:anywhere; }
+@media(orientation:portrait) { #app { padding:clamp(22px,4.6vw,48px); } }
+#content { display:flex;flex-direction:column;justify-content:center;gap:clamp(18px,4vmin,46px); }
+.quotation { position:relative;min-height:0;flex:1;display:flex;align-items:center;border-left:7px solid var(--pp-accent);padding-left:clamp(20px,4vmin,48px); }
+blockquote { margin:0;font-family:Georgia,serif;font-size:clamp(30px,6vmin,78px);line-height:1.28;overflow-wrap:anywhere;white-space:pre-line; }
+.credit {flex:none;} .credit h2 {font-size:clamp(22px,3.6vmin,44px);margin:0;line-height:1.15;} .credit p {font-size:clamp(16px,2.6vmin,31px);margin:7px 0 0;}
+.note {border-top:1px solid var(--pp-border);padding-top:12px;font-size:clamp(15px,2.5vmin,28px);line-height:1.35;margin:0;flex:none;}
+</style></head><body><div id="website-has-loading-element"></div><main id="app" aria-live="polite"></main><script type="module" src="./assets/render.js"></script></body></html>

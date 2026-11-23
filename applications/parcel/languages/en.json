@@ -1,0 +1,21 @@
+{
+  "title": "Your deliveries",
+  "sample": "DEMO DATA",
+  "updated": "Updated",
+  "error": "Could not load data",
+  "setup": "Check your Parcel API key and Premium access.",
+  "empty": "No deliveries to show.",
+  "shown": "{shown} of {total}",
+  "expected": "Expected",
+  "unknownTitle": "Delivery",
+  "status0": "Delivered",
+  "status1": "No recent updates",
+  "status2": "In transit",
+  "status3": "Ready for pickup",
+  "status4": "Out for delivery",
+  "status5": "Not found",
+  "status6": "Delivery attempt failed",
+  "status7": "Delivery exception",
+  "status8": "Label created",
+  "statusUnknown": "Unknown status"
+}

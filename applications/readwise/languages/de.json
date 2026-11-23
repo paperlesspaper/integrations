@@ -1,0 +1,13 @@
+{
+  "title": "Ein Gedanke für heute",
+  "sample": "DEMODATEN",
+  "updated": "Stand",
+  "error": "Daten konnten nicht geladen werden",
+  "setup": "Readwise-Zugang und API-Token prüfen.",
+  "empty": "Noch kein Daily Review vorhanden. Öffne Readwise und erstelle deine tägliche Auswahl.",
+  "shown": "{shown} von {total}",
+  "note": "Meine Notiz",
+  "excerpt": "Auszug",
+  "highlight": "Highlight {shown} / {total}",
+  "dailyReview": "Readwise · Daily Review"
+}

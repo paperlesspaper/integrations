@@ -1,0 +1,167 @@
+{
+  "mode": "Built-in image_gen",
+  "createdAt": "2026-09-22",
+  "references": {
+    "classic": "/Users/utzel/htdocs/paperlesspaper-apps/src/components/BirthCalendar/assets/week38.png",
+    "illustrated": "/Users/utzel/htdocs/paperlesspaper-integrations/applications/baby/assets/month-06.png"
+  },
+  "assets": [
+    {
+      "id": "illustrated-week-06",
+      "path": "assets/illustrated-week-06.png",
+      "prompt": "Use case: illustration-story. Asset type: square illustration for a baby calendar on a small e-ink screen. One centered complete subject, all anatomy within frame with generous white margin. Pure white background, no vignette, no black rectangle, no panel border. No text, labels, numbers, watermark or decorative objects. This is a simplified illustrative orientation, not diagnostic imaging. Non-graphic, warm and calm. Style reference: use the supplied image ONLY for its clean black outlines, flat blue/orange accents, warm skin tones and friendly hand-drawn children's-book treatment. Do not copy its scene. Minimal shading, strong silhouette. Subject: A simplified prenatal embryo around six completed gestational weeks, gently C-shaped, large head region, tiny limb buds, simple early eye spot. No developed fingers, no newborn face, no mature infant body. Optional short softly curved umbilical cord; no uterus, placenta, blood or exposed internal structures.",
+      "reference": "/Users/utzel/htdocs/paperlesspaper-integrations/applications/baby/assets/month-06.png"
+    },
+    {
+      "id": "illustrated-week-08",
+      "path": "assets/illustrated-week-08.png",
+      "prompt": "Use case: scientific-educational. A simplified educational illustration of a human embryo at EIGHT completed gestational weeks. Crucial early anatomy: curved C-shaped body, very large rounded head bent forward, small dark eye area, elongated short arms ending in PADDLE SHAPED HANDS WITHOUT SEPARATE FINGERS, short developing legs without developed feet or toes. No mature baby face, no hair, no newborn body. Clean black contour lines and warm peach/orange flat fills, minimal shadows, gentle non-graphic educational style. Full subject centered on white square background. No text, labels, border or other objects. A small curved cord may extend from abdomen.",
+      "reference": null
+    },
+    {
+      "id": "illustrated-week-12",
+      "path": "assets/illustrated-week-12.png",
+      "prompt": "Use case: scientific-educational. Create a NEW square, simplified prenatal developmental illustration. Subject: A small prenatal fetus around twelve completed gestational weeks, large head relative to body, delicate slender arms and bent legs, tiny distinct fingers, closed eyelids, relaxed curved profile. Optional short softly curved umbilical cord; no uterus, placenta, blood or exposed internal structures. Preserve early developmental proportions: this is NOT a newborn. For week 6/8 use early embryonic anatomy with a curved C-shaped body, tiny immature limb buds or paddles, NO fully formed baby face, NO fingers or toes, NO chubby mature baby. For week 12 use a large head approximately half the crown-rump length, very SLENDER delicate limbs and torso, tiny hands and feet, NO subcutaneous baby fat, NO head hair. For week 20 use a slender fetal torso and thin limbs, NO chubby cheeks or baby fat. Pure clean white background, full body centered, no frame, no text, no labels, no watermark, no scale bars. Non-graphic and gentle. Style: Clean strong black outlines, limited flat warm peach and orange fills, contemporary friendly drawn illustration, no gradients.",
+      "reference": null
+    },
+    {
+      "id": "illustrated-week-20",
+      "path": "assets/illustrated-week-20.png",
+      "prompt": "Use case: scientific-educational. A simplified educational illustration of a human fetus at TWENTY completed gestational weeks, in relaxed curled side profile. Large head, thin delicate arms and legs, slender body, closed eyes, little hands near chest, bent legs, small feet, short umbilical cord. Proportions must be slender and fetal: NO plump newborn cheeks, NO thick baby fat, NO hairstyle, NO adult-like posture. Clean black contour lines and warm peach/orange flat fills, minimal shadows, gentle non-graphic educational illustration. Full subject centered on a pure white square background. No text, labels, border or other objects.",
+      "reference": null
+    },
+    {
+      "id": "illustrated-week-28",
+      "path": "assets/illustrated-week-28.png",
+      "prompt": "Use case: scientific-educational. Create a friendly simplified line illustration for a prenatal calendar, showing fetal development at around 28 gestational weeks. Side profile of a gently curled fetus with closed eyes, hands near its face, rounded cheeks, and flexed legs. Non-graphic educational depiction, simplified anatomy, no exposed organs or genital detail. Clean black contour lines, flat warm peach and orange colors, minimal shading. Full subject centered on a pure white square background, with clear margin all around. No text, no labels, no frame. This is a symbolic educational illustration, not a medical scan.",
+      "reference": null
+    },
+    {
+      "id": "illustrated-week-36",
+      "path": "assets/illustrated-week-36.png",
+      "prompt": "Use case: illustration-story. Asset type: square illustration for a baby calendar on a small e-ink screen. One centered complete subject, all anatomy within frame with generous white margin. Pure white background, no vignette, no black rectangle, no panel border. No text, labels, numbers, watermark or decorative objects. This is a simplified illustrative orientation, not diagnostic imaging. Non-graphic, warm and calm. Style reference: use the supplied image ONLY for its clean black outlines, flat blue/orange accents, warm skin tones and friendly hand-drawn children's-book treatment. Do not copy its scene. Minimal shading, strong silhouette. Subject: A prenatal fetus near full term, rounded cheeks and fuller arms and legs, closed eyes, compact curled body, relaxed hands near chest, side profile. Optional short softly curved umbilical cord; no uterus, placenta, blood or exposed internal structures.",
+      "reference": "/Users/utzel/htdocs/paperlesspaper-integrations/applications/baby/assets/month-06.png"
+    },
+    {
+      "id": "classic-week-06",
+      "path": "assets/classic-week-06.png",
+      "prompt": "Use case: scientific-educational. Create a NEW square, simplified prenatal developmental illustration. Subject: A simplified prenatal embryo around six completed gestational weeks, gently C-shaped, large head region, tiny limb buds, simple early eye spot. No developed fingers, no newborn face, no mature infant body. Optional short softly curved umbilical cord; no uterus, placenta, blood or exposed internal structures. Preserve early developmental proportions: this is NOT a newborn. For week 6/8 use early embryonic anatomy with a curved C-shaped body, tiny immature limb buds or paddles, NO fully formed baby face, NO fingers or toes, NO chubby mature baby. For week 12 use a large head approximately half the crown-rump length, very SLENDER delicate limbs and torso, tiny hands and feet, NO subcutaneous baby fat, NO head hair. For week 20 use a slender fetal torso and thin limbs, NO chubby cheeks or baby fat. Pure clean white background, full body centered, no frame, no text, no labels, no watermark, no scale bars. Non-graphic and gentle. Style: Warm peach and amber softly sculpted 3D model, soft diffuse studio lighting, smooth matte surface, gentle realistic modeling, like a prenatal educational clay sculpture; no outlines.",
+      "reference": null
+    },
+    {
+      "id": "classic-week-08",
+      "path": "assets/classic-week-08.png",
+      "prompt": "Use case: scientific-educational. Create a NEW square, simplified prenatal developmental illustration. Subject: A simplified prenatal embryo around eight completed gestational weeks, curved body, large head, small developing arms and legs with paddle-like hands. No mature newborn proportions. Optional short softly curved umbilical cord; no uterus, placenta, blood or exposed internal structures. Preserve early developmental proportions: this is NOT a newborn. For week 6/8 use early embryonic anatomy with a curved C-shaped body, tiny immature limb buds or paddles, NO fully formed baby face, NO fingers or toes, NO chubby mature baby. For week 12 use a large head approximately half the crown-rump length, very SLENDER delicate limbs and torso, tiny hands and feet, NO subcutaneous baby fat, NO head hair. For week 20 use a slender fetal torso and thin limbs, NO chubby cheeks or baby fat. Pure clean white background, full body centered, no frame, no text, no labels, no watermark, no scale bars. Non-graphic and gentle. Style: Warm peach and amber softly sculpted 3D model, soft diffuse studio lighting, smooth matte surface, gentle realistic modeling, like a prenatal educational clay sculpture; no outlines.",
+      "reference": null
+    },
+    {
+      "id": "classic-week-12",
+      "path": "assets/classic-week-12.png",
+      "prompt": "Use case: scientific-educational. Create a NEW square, simplified prenatal developmental illustration. Subject: A small prenatal fetus around twelve completed gestational weeks, large head relative to body, delicate slender arms and bent legs, tiny distinct fingers, closed eyelids, relaxed curved profile. Optional short softly curved umbilical cord; no uterus, placenta, blood or exposed internal structures. Preserve early developmental proportions: this is NOT a newborn. For week 6/8 use early embryonic anatomy with a curved C-shaped body, tiny immature limb buds or paddles, NO fully formed baby face, NO fingers or toes, NO chubby mature baby. For week 12 use a large head approximately half the crown-rump length, very SLENDER delicate limbs and torso, tiny hands and feet, NO subcutaneous baby fat, NO head hair. For week 20 use a slender fetal torso and thin limbs, NO chubby cheeks or baby fat. Pure clean white background, full body centered, no frame, no text, no labels, no watermark, no scale bars. Non-graphic and gentle. Style: Warm peach and amber softly sculpted 3D model, soft diffuse studio lighting, smooth matte surface, gentle realistic modeling, like a prenatal educational clay sculpture; no outlines.",
+      "reference": null
+    },
+    {
+      "id": "classic-week-20",
+      "path": "assets/classic-week-20.png",
+      "prompt": "Use case: scientific-educational. Create a NEW square, simplified prenatal developmental illustration. Subject: A prenatal fetus around twenty completed gestational weeks, slender limbs and torso, proportionally large head, closed eyelids, gently flexed arms and legs in side profile. Optional short softly curved umbilical cord; no uterus, placenta, blood or exposed internal structures. Preserve early developmental proportions: this is NOT a newborn. For week 6/8 use early embryonic anatomy with a curved C-shaped body, tiny immature limb buds or paddles, NO fully formed baby face, NO fingers or toes, NO chubby mature baby. For week 12 use a large head approximately half the crown-rump length, very SLENDER delicate limbs and torso, tiny hands and feet, NO subcutaneous baby fat, NO head hair. For week 20 use a slender fetal torso and thin limbs, NO chubby cheeks or baby fat. Pure clean white background, full body centered, no frame, no text, no labels, no watermark, no scale bars. Non-graphic and gentle. Style: Warm peach and amber softly sculpted 3D model, soft diffuse studio lighting, smooth matte surface, gentle realistic modeling, like a prenatal educational clay sculpture; no outlines.",
+      "reference": null
+    },
+    {
+      "id": "classic-week-28",
+      "path": "assets/classic-week-28.png",
+      "prompt": "Use case: illustration-story. Asset type: square illustration for a baby calendar on a small e-ink screen. One centered complete subject, all anatomy within frame with generous white margin. Pure white background, no vignette, no black rectangle, no panel border. No text, labels, numbers, watermark or decorative objects. This is a simplified illustrative orientation, not diagnostic imaging. Non-graphic, warm and calm. Style reference: use the supplied old Baby integration image ONLY for its warm peach/amber skin, softly sculpted rounded 3D forms, gentle realistic modeling and diffuse light. Do not copy its dark background or composition. No black contour lines, no photoreal photograph. White isolated background with clear silhouette. Subject: A prenatal fetus around twenty-eight completed gestational weeks, more rounded cheeks and limbs than mid-pregnancy, gently curled body with hands near face, side profile. Optional short softly curved umbilical cord; no uterus, placenta, blood or exposed internal structures.",
+      "reference": "/Users/utzel/htdocs/paperlesspaper-apps/src/components/BirthCalendar/assets/week38.png"
+    },
+    {
+      "id": "classic-week-36",
+      "path": "assets/classic-week-36.png",
+      "prompt": "Use case: illustration-story. Asset type: square illustration for a baby calendar on a small e-ink screen. One centered complete subject, all anatomy within frame with generous white margin. Pure white background, no vignette, no black rectangle, no panel border. No text, labels, numbers, watermark or decorative objects. This is a simplified illustrative orientation, not diagnostic imaging. Non-graphic, warm and calm. Style reference: use the supplied old Baby integration image ONLY for its warm peach/amber skin, softly sculpted rounded 3D forms, gentle realistic modeling and diffuse light. Do not copy its dark background or composition. No black contour lines, no photoreal photograph. White isolated background with clear silhouette. Subject: A prenatal fetus near full term, rounded cheeks and fuller arms and legs, closed eyes, compact curled body, relaxed hands near chest, side profile. Optional short softly curved umbilical cord; no uterus, placenta, blood or exposed internal structures.",
+      "reference": "/Users/utzel/htdocs/paperlesspaper-apps/src/components/BirthCalendar/assets/week38.png"
+    },
+    {
+      "id": "classic-pregnancy-early",
+      "path": "assets/classic-pregnancy-early.png",
+      "prompt": "Use case: illustration-story. Asset type: square illustration for a baby calendar on a small e-ink screen. One centered complete subject, all anatomy within frame with generous white margin. Pure white background, no vignette, no black rectangle, no panel border. No text, labels, numbers, watermark or decorative objects. This is a simplified illustrative orientation, not diagnostic imaging. Non-graphic, warm and calm. Style reference: use the supplied old Baby integration image ONLY for its warm peach/amber skin, softly sculpted rounded 3D forms, gentle realistic modeling and diffuse light. Do not copy its dark background or composition. No black contour lines, no photoreal photograph. White isolated background with clear silhouette. For born children and adults use modest simple cobalt blue or white clothes. Subject: An adult woman in early pregnancy sits peacefully reading a small book, small belly, one hand resting on abdomen.",
+      "reference": "/Users/utzel/htdocs/paperlesspaper-apps/src/components/BirthCalendar/assets/week38.png"
+    },
+    {
+      "id": "classic-newborn",
+      "path": "assets/classic-newborn.png",
+      "prompt": "Use case: illustration-story. Asset type: square illustration for a baby calendar on a small e-ink screen. One centered complete subject, all anatomy within frame with generous white margin. Pure white background, no vignette, no black rectangle, no panel border. No text, labels, numbers, watermark or decorative objects. This is a simplified illustrative orientation, not diagnostic imaging. Non-graphic, warm and calm. Style reference: use the supplied old Baby integration image ONLY for its warm peach/amber skin, softly sculpted rounded 3D forms, gentle realistic modeling and diffuse light. Do not copy its dark background or composition. No black contour lines, no photoreal photograph. White isolated background with clear silhouette. For born children and adults use modest simple cobalt blue or white clothes. Subject: An awake adult parent seated and lovingly cradling a fully clothed newborn, safely supporting its head and neck, looking at each other.",
+      "reference": "/Users/utzel/htdocs/paperlesspaper-apps/src/components/BirthCalendar/assets/week38.png"
+    },
+    {
+      "id": "classic-month-02",
+      "path": "assets/classic-month-02.png",
+      "prompt": "Use case: illustration-story. Asset type: square illustration for a baby calendar on a small e-ink screen. One centered complete subject, all anatomy within frame with generous white margin. Pure white background, no vignette, no black rectangle, no panel border. No text, labels, numbers, watermark or decorative objects. This is a simplified illustrative orientation, not diagnostic imaging. Non-graphic, warm and calm. Style reference: use the supplied old Baby integration image ONLY for its warm peach/amber skin, softly sculpted rounded 3D forms, gentle realistic modeling and diffuse light. Do not copy its dark background or composition. No black contour lines, no photoreal photograph. White isolated background with clear silhouette. For born children and adults use modest simple cobalt blue or white clothes. Subject: A smiling two-month-old infant lying on its back on a simple firm floor play mat, wearing blue onesie, looking up toward an adult parent's face entering scene, adult kneeling alongside.",
+      "reference": "/Users/utzel/htdocs/paperlesspaper-apps/src/components/BirthCalendar/assets/week38.png"
+    },
+    {
+      "id": "classic-month-04",
+      "path": "assets/classic-month-04.png",
+      "prompt": "Use case: illustration-story. Asset type: square illustration for a baby calendar on a small e-ink screen. One centered complete subject, all anatomy within frame with generous white margin. Pure white background, no vignette, no black rectangle, no panel border. No text, labels, numbers, watermark or decorative objects. This is a simplified illustrative orientation, not diagnostic imaging. Non-graphic, warm and calm. Style reference: use the supplied old Baby integration image ONLY for its warm peach/amber skin, softly sculpted rounded 3D forms, gentle realistic modeling and diffuse light. Do not copy its dark background or composition. No black contour lines, no photoreal photograph. White isolated background with clear silhouette. For born children and adults use modest simple cobalt blue or white clothes. Subject: An awake four-month-old baby doing supervised tummy time on a simple floor mat, supporting chest on forearms, head raised, an adult's attentive face and hand alongside.",
+      "reference": "/Users/utzel/htdocs/paperlesspaper-apps/src/components/BirthCalendar/assets/week38.png"
+    },
+    {
+      "id": "classic-month-06",
+      "path": "assets/classic-month-06.png",
+      "prompt": "Use case: illustration-story. Asset type: square illustration for a baby calendar on a small e-ink screen. One centered complete subject, all anatomy within frame with generous white margin. Pure white background, no vignette, no black rectangle, no panel border. No text, labels, numbers, watermark or decorative objects. This is a simplified illustrative orientation, not diagnostic imaging. Non-graphic, warm and calm. Style reference: use the supplied old Baby integration image ONLY for its warm peach/amber skin, softly sculpted rounded 3D forms, gentle realistic modeling and diffuse light. Do not copy its dark background or composition. No black contour lines, no photoreal photograph. White isolated background with clear silhouette. For born children and adults use modest simple cobalt blue or white clothes. Subject: A six-month-old baby lying on its back on a firm play mat, reaching both hands toward one large orange baby-safe ring held by a nearby adult.",
+      "reference": "/Users/utzel/htdocs/paperlesspaper-apps/src/components/BirthCalendar/assets/week38.png"
+    },
+    {
+      "id": "classic-month-09",
+      "path": "assets/classic-month-09.png",
+      "prompt": "Use case: illustration-story. Asset type: square illustration for a baby calendar on a small e-ink screen. One centered complete subject, all anatomy within frame with generous white margin. Pure white background, no vignette, no black rectangle, no panel border. No text, labels, numbers, watermark or decorative objects. This is a simplified illustrative orientation, not diagnostic imaging. Non-graphic, warm and calm. Style reference: use the supplied old Baby integration image ONLY for its warm peach/amber skin, softly sculpted rounded 3D forms, gentle realistic modeling and diffuse light. Do not copy its dark background or composition. No black contour lines, no photoreal photograph. White isolated background with clear silhouette. For born children and adults use modest simple cobalt blue or white clothes. Subject: A nine-month-old baby sitting on floor independently, holding one large blue block and one large orange block, smiling. No tiny parts.",
+      "reference": "/Users/utzel/htdocs/paperlesspaper-apps/src/components/BirthCalendar/assets/week38.png"
+    },
+    {
+      "id": "classic-month-12",
+      "path": "assets/classic-month-12.png",
+      "prompt": "Use case: illustration-story. Asset type: square illustration for a baby calendar on a small e-ink screen. One centered complete subject, all anatomy within frame with generous white margin. Pure white background, no vignette, no black rectangle, no panel border. No text, labels, numbers, watermark or decorative objects. This is a simplified illustrative orientation, not diagnostic imaging. Non-graphic, warm and calm. Style reference: use the supplied old Baby integration image ONLY for its warm peach/amber skin, softly sculpted rounded 3D forms, gentle realistic modeling and diffuse light. Do not copy its dark background or composition. No black contour lines, no photoreal photograph. White isolated background with clear silhouette. For born children and adults use modest simple cobalt blue or white clothes. Subject: A one-year-old child in blue clothes standing holding a stable low blue sofa with both hands, barefoot, an attentive adult kneeling close.",
+      "reference": "/Users/utzel/htdocs/paperlesspaper-apps/src/components/BirthCalendar/assets/week38.png"
+    },
+    {
+      "id": "classic-month-15",
+      "path": "assets/classic-month-15.png",
+      "prompt": "Use case: illustration-story. Asset type: square illustration for a baby calendar on a small e-ink screen. One centered complete subject, all anatomy within frame with generous white margin. Pure white background, no vignette, no black rectangle, no panel border. No text, labels, numbers, watermark or decorative objects. This is a simplified illustrative orientation, not diagnostic imaging. Non-graphic, warm and calm. Style reference: use the supplied old Baby integration image ONLY for its warm peach/amber skin, softly sculpted rounded 3D forms, gentle realistic modeling and diffuse light. Do not copy its dark background or composition. No black contour lines, no photoreal photograph. White isolated background with clear silhouette. For born children and adults use modest simple cobalt blue or white clothes. Subject: A fifteen-month-old toddler taking a few steps toward a crouching adult with open arms, joyful, barefoot, plain uncluttered floor.",
+      "reference": "/Users/utzel/htdocs/paperlesspaper-apps/src/components/BirthCalendar/assets/week38.png"
+    },
+    {
+      "id": "classic-month-18",
+      "path": "assets/classic-month-18.png",
+      "prompt": "Use case: illustration-story. Asset type: square illustration for a baby calendar on a small e-ink screen. One centered complete subject, all anatomy within frame with generous white margin. Pure white background, no vignette, no black rectangle, no panel border. No text, labels, numbers, watermark or decorative objects. This is a simplified illustrative orientation, not diagnostic imaging. Non-graphic, warm and calm. Style reference: use the supplied old Baby integration image ONLY for its warm peach/amber skin, softly sculpted rounded 3D forms, gentle realistic modeling and diffuse light. Do not copy its dark background or composition. No black contour lines, no photoreal photograph. White isolated background with clear silhouette. For born children and adults use modest simple cobalt blue or white clothes. Subject: An eighteen-month-old toddler seated at a low table making large scribbles with a thick orange crayon on plain white paper, adult seated beside watching.",
+      "reference": "/Users/utzel/htdocs/paperlesspaper-apps/src/components/BirthCalendar/assets/week38.png"
+    },
+    {
+      "id": "classic-month-24",
+      "path": "assets/classic-month-24.png",
+      "prompt": "Use case: illustration-story. Asset type: square illustration for a baby calendar on a small e-ink screen. One centered complete subject, all anatomy within frame with generous white margin. Pure white background, no vignette, no black rectangle, no panel border. No text, labels, numbers, watermark or decorative objects. This is a simplified illustrative orientation, not diagnostic imaging. Non-graphic, warm and calm. Style reference: use the supplied old Baby integration image ONLY for its warm peach/amber skin, softly sculpted rounded 3D forms, gentle realistic modeling and diffuse light. Do not copy its dark background or composition. No black contour lines, no photoreal photograph. White isolated background with clear silhouette. For born children and adults use modest simple cobalt blue or white clothes. Subject: A two-year-old toddler in blue overalls gently kicking a large orange ball on a plain floor, full body, balanced pose.",
+      "reference": "/Users/utzel/htdocs/paperlesspaper-apps/src/components/BirthCalendar/assets/week38.png"
+    },
+    {
+      "id": "classic-month-30",
+      "path": "assets/classic-month-30.png",
+      "prompt": "Use case: illustration-story. Asset type: square illustration for a baby calendar on a small e-ink screen. One centered complete subject, all anatomy within frame with generous white margin. Pure white background, no vignette, no black rectangle, no panel border. No text, labels, numbers, watermark or decorative objects. This is a simplified illustrative orientation, not diagnostic imaging. Non-graphic, warm and calm. Style reference: use the supplied old Baby integration image ONLY for its warm peach/amber skin, softly sculpted rounded 3D forms, gentle realistic modeling and diffuse light. Do not copy its dark background or composition. No black contour lines, no photoreal photograph. White isolated background with clear silhouette. For born children and adults use modest simple cobalt blue or white clothes. Subject: A two-and-a-half-year-old toddler doing pretend play, giving a toy teddy bear a drink from a large toy cup, sitting on the floor.",
+      "reference": "/Users/utzel/htdocs/paperlesspaper-apps/src/components/BirthCalendar/assets/week38.png"
+    },
+    {
+      "id": "classic-month-36",
+      "path": "assets/classic-month-36.png",
+      "prompt": "Use case: illustration-story. Asset type: square illustration for a baby calendar on a small e-ink screen. One centered complete subject, all anatomy within frame with generous white margin. Pure white background, no vignette, no black rectangle, no panel border. No text, labels, numbers, watermark or decorative objects. This is a simplified illustrative orientation, not diagnostic imaging. Non-graphic, warm and calm. Style reference: use the supplied old Baby integration image ONLY for its warm peach/amber skin, softly sculpted rounded 3D forms, gentle realistic modeling and diffuse light. Do not copy its dark background or composition. No black contour lines, no photoreal photograph. White isolated background with clear silhouette. For born children and adults use modest simple cobalt blue or white clothes. Subject: A three-year-old child sitting beside a parent, together looking at an open picture book with simple animal pictures, no written text.",
+      "reference": "/Users/utzel/htdocs/paperlesspaper-apps/src/components/BirthCalendar/assets/week38.png"
+    },
+    {
+      "id": "classic-month-48",
+      "path": "assets/classic-month-48.png",
+      "prompt": "Use case: illustration-story. Asset type: square illustration for a baby calendar on a small e-ink screen. One centered complete subject, all anatomy within frame with generous white margin. Pure white background, no vignette, no black rectangle, no panel border. No text, labels, numbers, watermark or decorative objects. This is a simplified illustrative orientation, not diagnostic imaging. Non-graphic, warm and calm. Style reference: use the supplied old Baby integration image ONLY for its warm peach/amber skin, softly sculpted rounded 3D forms, gentle realistic modeling and diffuse light. Do not copy its dark background or composition. No black contour lines, no photoreal photograph. White isolated background with clear silhouette. For born children and adults use modest simple cobalt blue or white clothes. Subject: Two four-year-old children building a simple tower with large orange and blue blocks on the floor, friendly collaborative play.",
+      "reference": "/Users/utzel/htdocs/paperlesspaper-apps/src/components/BirthCalendar/assets/week38.png"
+    },
+    {
+      "id": "classic-month-60",
+      "path": "assets/classic-month-60.png",
+      "prompt": "Use case: illustration-story. Asset type: square illustration for a baby calendar on a small e-ink screen. One centered complete subject, all anatomy within frame with generous white margin. Pure white background, no vignette, no black rectangle, no panel border. No text, labels, numbers, watermark or decorative objects. This is a simplified illustrative orientation, not diagnostic imaging. Non-graphic, warm and calm. Style reference: use the supplied old Baby integration image ONLY for its warm peach/amber skin, softly sculpted rounded 3D forms, gentle realistic modeling and diffuse light. Do not copy its dark background or composition. No black contour lines, no photoreal photograph. White isolated background with clear silhouette. For born children and adults use modest simple cobalt blue or white clothes. Subject: Two five-year-old children taking turns in a simple ball game, one gently tossing a large orange ball toward the other, cheerful scene.",
+      "reference": "/Users/utzel/htdocs/paperlesspaper-apps/src/components/BirthCalendar/assets/week38.png"
+    }
+  ],
+  "note": "Final selected prompts. Earlier drafts were refined after visual inspection; references are visual style inputs only, not medical sources."
+}

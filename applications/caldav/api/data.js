@@ -88,7 +88,7 @@ export default async function handler({ query = {} }) {
     throw new Error("Calendar URL, username, and password are all required for CalDAV.");
   }
 
-  const objects = await fetchCalDavCalendar({
+  const { calendars: objects, calendarColor } = await fetchCalDavCalendar({
     calendarUrl,
     username,
     appPassword: password,
@@ -100,6 +100,7 @@ export default async function handler({ query = {} }) {
   return {
     sample: false,
     source: "CalDAV calendar",
+    calendarColor,
     calendarName: configuredCalendarName || parsed.calendarName || "",
     events: parsed.events
   };

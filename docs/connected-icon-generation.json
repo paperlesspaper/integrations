@@ -1,0 +1,152 @@
+{
+  "tool": "built-in image_gen",
+  "generatedOn": "2026-10-03",
+  "transparentBackground": true,
+  "postprocessing": "None: generated PNGs are copied unchanged, preserving alpha.",
+  "icons": [
+    {
+      "slug": "bring-shopping",
+      "name": "Bring!",
+      "prompt": "Use case: stylized-concept. Asset type: one paperlesspaper integration app icon, a high-resolution raster illustration. Style: polished minimal 2D digital painting with subtle realistic 3D bevels, soft highlights, smooth solid ceramic-like materials and crisp edges, not flat vector line art. View: near-front/top three-quarter view, a simple compact silhouette readable at 48px. Composition: a single centered cohesive subject filling about 76% of a square 1024x1024 canvas, equal generous clear margin on all sides, fully visible. Background: genuinely transparent alpha, including cutouts; keep the subject's white surfaces opaque. No floor, no pedestal, no surrounding cast shadow, no enclosing app tile unless the subject itself is a board. No lettering, numbers, wordmarks, watermark, frame, painted checkerboard or surrounding decorative particles. Use just the few deliberate saturated colors specified, with white and charcoal where needed. Subject: a friendly saturated green reusable grocery shopping bag with rounded handles, containing a small warm-orange carrot with green leaves and the top of one pale bread loaf. The groceries and bag form one compact silhouette; clear white checkmark embossed on the front of the bag. Recognizable shopping-list icon.",
+      "savedPath": "applications/bring-shopping/assets/icon.png",
+      "sourceImage": "exec-0458690b-24d9-4c57-949b-7d2d9a467392.png",
+      "sha256": "07c3b13edd34217ba6083d18cb54c5821e8863f077b7f7d83846c32701496280"
+    },
+    {
+      "slug": "plant-care",
+      "name": "Pflanzenpflege",
+      "prompt": "Use case: stylized-concept. Asset type: one paperlesspaper integration app icon, a high-resolution raster illustration. Style: polished minimal 2D digital painting with subtle realistic 3D bevels, soft highlights, smooth solid ceramic-like materials and crisp edges, not flat vector line art. View: near-front/top three-quarter view, a simple compact silhouette readable at 48px. Composition: a single centered cohesive subject filling about 76% of a square 1024x1024 canvas, equal generous clear margin on all sides, fully visible. Background: genuinely transparent alpha, including cutouts; keep the subject's white surfaces opaque. No floor, no pedestal, no surrounding cast shadow, no enclosing app tile unless the subject itself is a board. No lettering, numbers, wordmarks, watermark, frame, painted checkerboard or surrounding decorative particles. Use just the few deliberate saturated colors specified, with white and charcoal where needed. Subject: a small warm terracotta-orange ceramic plant pot with three broad lush green leaves, and one small bright blue water droplet nestled beside a leaf. Healthy indoor houseplant care, simple sculpted leaves without fine veins, no soil texture clutter.",
+      "savedPath": "applications/plant-care/assets/icon.png",
+      "sourceImage": "exec-31013fd5-1770-4244-92b8-b5d6e4fa69b9.png",
+      "sha256": "b91baf856e7e8e510c43cbd9cfd03f05f626b90a3cea668869568e74c5a75556"
+    },
+    {
+      "slug": "evcc",
+      "name": "EVCC",
+      "prompt": "Use case: stylized-concept. Asset type: one paperlesspaper integration app icon, a high-resolution raster illustration. Style: polished minimal 2D digital painting with subtle realistic 3D bevels, soft highlights, smooth solid ceramic-like materials and crisp edges, not flat vector line art. View: near-front/top three-quarter view, a simple compact silhouette readable at 48px. Composition: a single centered cohesive subject filling about 76% of a square 1024x1024 canvas, equal generous clear margin on all sides, fully visible. Background: genuinely transparent alpha, including cutouts; keep the subject's white surfaces opaque. No floor, no pedestal, no surrounding cast shadow, no enclosing app tile unless the subject itself is a board. No lettering, numbers, wordmarks, watermark, frame, painted checkerboard or surrounding decorative particles. Use just the few deliberate saturated colors specified, with white and charcoal where needed. Subject: one compact white and cobalt-blue electric vehicle charging station with an emerald-green inset panel bearing a plain white lightning symbol, and a short thick blue charging cable curving down its side ending in a simple plug. Clear charging-pillar silhouette, no vehicle.",
+      "savedPath": "applications/evcc/assets/icon.png",
+      "sourceImage": "exec-413570b3-1e31-4386-a60a-f5fe1dca0fe1.png",
+      "sha256": "5bbcf1ee6feedd4daf27b9c693dddd7d83b72489fb92b9a02052d6e9a9a9ba72"
+    },
+    {
+      "slug": "teslamate",
+      "name": "TeslaMate",
+      "prompt": "Use case: stylized-concept. Asset type: one paperlesspaper integration app icon, a high-resolution raster illustration. Style: polished minimal 2D digital painting with subtle realistic 3D bevels, soft highlights, smooth solid ceramic-like materials and crisp edges, not flat vector line art. View: near-front/top three-quarter view, a simple compact silhouette readable at 48px. Composition: a single centered cohesive subject filling about 76% of a square 1024x1024 canvas, equal generous clear margin on all sides, fully visible. Background: genuinely transparent alpha, including cutouts; keep the subject's white surfaces opaque. No floor, no pedestal, no surrounding cast shadow, no enclosing app tile unless the subject itself is a board. No lettering, numbers, wordmarks, watermark, frame, painted checkerboard or surrounding decorative particles. Use just the few deliberate saturated colors specified, with white and charcoal where needed. Subject: a compact clean white electric car seen slightly from above and front, black panoramic windshield, blue accents, paired with a small cobalt-blue telemetry bar chart of three rising bars integrated immediately beside its front fender. No car-brand badges. Car silhouette must dominate.",
+      "savedPath": "applications/teslamate/assets/icon.png",
+      "sourceImage": "exec-24897cc7-5bf8-4e42-8c9d-e5c6fb676654.png",
+      "sha256": "3dfdc6c318bd4e1395adbf029014dff9aaeed33b337eda88bbd35738f5622a38"
+    },
+    {
+      "slug": "notion",
+      "name": "Notion",
+      "prompt": "Use case: stylized-concept. Asset type: one paperlesspaper integration app icon, a high-resolution raster illustration. Style: polished minimal 2D digital painting with subtle realistic 3D bevels, soft highlights, smooth solid ceramic-like materials and crisp edges, not flat vector line art. View: near-front/top three-quarter view, a simple compact silhouette readable at 48px. Composition: a single centered cohesive subject filling about 76% of a square 1024x1024 canvas, equal generous clear margin on all sides, fully visible. Background: genuinely transparent alpha, including cutouts; keep the subject's white surfaces opaque. No floor, no pedestal, no surrounding cast shadow, no enclosing app tile unless the subject itself is a board. No lettering, numbers, wordmarks, watermark, frame, painted checkerboard or surrounding decorative particles. Use just the few deliberate saturated colors specified, with white and charcoal where needed. Subject: a compact charcoal-framed white database board, three broad horizontal rows with chunky pale gray content bars, one small emerald-green square checkbox and a small charcoal stack of database disks tucked against the lower edge. Monochrome productivity workspace with one green accent, no letters.",
+      "savedPath": "applications/notion/assets/icon.png",
+      "sourceImage": "exec-8a9f7d15-7de5-42ba-aa3e-fbdd219b85e0.png",
+      "sha256": "7a96f50159460364d1e46a4ea19318b1364233434274e70274cb77862b66f3a7"
+    },
+    {
+      "slug": "microsoft-to-do",
+      "name": "Microsoft To Do",
+      "prompt": "Use case: stylized-concept. Asset type: one paperlesspaper integration app icon, a high-resolution raster illustration. Style: polished minimal 2D digital painting with subtle realistic 3D bevels, soft highlights, smooth solid ceramic-like materials and crisp edges, not flat vector line art. View: near-front/top three-quarter view, a simple compact silhouette readable at 48px. Composition: a single centered cohesive subject filling about 76% of a square 1024x1024 canvas, equal generous clear margin on all sides, fully visible. Background: genuinely transparent alpha, including cutouts; keep the subject's white surfaces opaque. No floor, no pedestal, no surrounding cast shadow, no enclosing app tile unless the subject itself is a board. No lettering, numbers, wordmarks, watermark, frame, painted checkerboard or surrounding decorative particles. Use just the few deliberate saturated colors specified, with white and charcoal where needed. Subject: a compact cobalt-blue clipboard holding an opaque white sheet with two large emerald-green tick marks and two short thick blue horizontal task lines. Smooth silver clip at top. Very clear checklist silhouette, no written words.",
+      "savedPath": "applications/microsoft-to-do/assets/icon.png",
+      "sourceImage": "exec-ea93415f-2233-46ca-814b-b4de265eaa31.png",
+      "sha256": "7d766948566c06da6b872ff2580144a372167ae1f71f276c91c6fdc57079c0e6"
+    },
+    {
+      "slug": "trello",
+      "name": "Trello",
+      "prompt": "Use case: stylized-concept. Asset type: one paperlesspaper integration app icon, a high-resolution raster illustration. Style: polished minimal 2D digital painting with subtle realistic 3D bevels, soft highlights, smooth solid ceramic-like materials and crisp edges, not flat vector line art. View: near-front/top three-quarter view, a simple compact silhouette readable at 48px. Composition: a single centered cohesive subject filling about 76% of a square 1024x1024 canvas, equal generous clear margin on all sides, fully visible. Background: genuinely transparent alpha, including cutouts; keep the subject's white surfaces opaque. No floor, no pedestal, no surrounding cast shadow, no enclosing app tile unless the subject itself is a board. No lettering, numbers, wordmarks, watermark, frame, painted checkerboard or surrounding decorative particles. Use just the few deliberate saturated colors specified, with white and charcoal where needed. Subject: a cobalt-blue rounded rectangular kanban board, with three clearly separated vertical columns holding four chunky opaque-white rounded cards total; one card has a narrow emerald-green top stripe. Compact front-facing board seen only slightly from above, no lettering or miniature content.",
+      "savedPath": "applications/trello/assets/icon.png",
+      "sourceImage": "exec-c975b677-ace5-400e-a664-3ca9337434dc.png",
+      "sha256": "de8341a183012fedb64db73936277d79501f3ba354cd0031b33191566dd6365b"
+    },
+    {
+      "slug": "github-pull-requests",
+      "name": "GitHub Reviews & CI",
+      "prompt": "Use case: stylized-concept. Asset type: one paperlesspaper integration app icon, a high-resolution raster illustration. Style: polished minimal 2D digital painting with subtle realistic 3D bevels, soft highlights, smooth solid ceramic-like materials and crisp edges, not flat vector line art. View: near-front/top three-quarter view, a simple compact silhouette readable at 48px. Composition: a single centered cohesive subject filling about 76% of a square 1024x1024 canvas, equal generous clear margin on all sides, fully visible. Background: genuinely transparent alpha, including cutouts; keep the subject's white surfaces opaque. No floor, no pedestal, no surrounding cast shadow, no enclosing app tile unless the subject itself is a board. No lettering, numbers, wordmarks, watermark, frame, painted checkerboard or surrounding decorative particles. Use just the few deliberate saturated colors specified, with white and charcoal where needed. Subject: a thick sculpted cobalt-blue pull-request branch diagram with exactly two vertical stems and three round terminal nodes; one curved path joins the stems. A small emerald-green approval checkmark is attached at the lower right. Transparent gaps between branches, no surrounding board, chunky recognizable code-review symbol.",
+      "savedPath": "applications/github-pull-requests/assets/icon.png",
+      "sourceImage": "exec-a55fe32e-7fc2-4edd-aded-1fa230e4d37c.png",
+      "sha256": "820a6286f315501a3ae352386f69a2f720b5cd83a8b7c76d0c57b4ad17114e3e"
+    },
+    {
+      "slug": "github-activity",
+      "name": "GitHub-Aktivität",
+      "prompt": "Use case: stylized-concept. Asset type: one paperlesspaper integration app icon, a high-resolution raster illustration. Style: polished minimal 2D digital painting with subtle realistic 3D bevels, soft highlights, smooth solid ceramic-like materials and crisp edges, not flat vector line art. View: near-front/top three-quarter view, a simple compact silhouette readable at 48px. Composition: a single centered cohesive subject filling about 76% of a square 1024x1024 canvas, equal generous clear margin on all sides, fully visible. Background: genuinely transparent alpha, including cutouts; keep the subject's white surfaces opaque. No floor, no pedestal, no surrounding cast shadow, no enclosing app tile unless the subject itself is a board. No lettering, numbers, wordmarks, watermark, frame, painted checkerboard or surrounding decorative particles. Use just the few deliberate saturated colors specified, with white and charcoal where needed. Subject: a compact opaque-white slightly beveled activity-calendar board containing a crisp 5-by-5 grid of rounded-square cells with varied saturated emerald-green shades and a few very pale green empty cells. Two small charcoal binder tabs at the top, no title or date numbers. The contribution heatmap is the main feature.",
+      "savedPath": "applications/github-activity/assets/icon.png",
+      "sourceImage": "exec-bd542ad8-024f-4137-9948-50ca4e985441.png",
+      "sha256": "e4498d02363473cda64df984e44d54d148a4bd2e3f2b85939cf11f1e9bf2e942"
+    },
+    {
+      "slug": "unifi",
+      "name": "UniFi",
+      "prompt": "Use case: stylized-concept. Asset type: one paperlesspaper integration app icon, a high-resolution raster illustration. Style: polished minimal 2D digital painting with subtle realistic 3D bevels, soft highlights, smooth solid ceramic-like materials and crisp edges, not flat vector line art. View: near-front/top three-quarter view, a simple compact silhouette readable at 48px. Composition: a single centered cohesive subject filling about 76% of a square 1024x1024 canvas, equal generous clear margin on all sides, fully visible. Background: genuinely transparent alpha, including cutouts; keep the subject's white surfaces opaque. No floor, no pedestal, no surrounding cast shadow, no enclosing app tile unless the subject itself is a board. No lettering, numbers, wordmarks, watermark, frame, painted checkerboard or surrounding decorative particles. Use just the few deliberate saturated colors specified, with white and charcoal where needed. Subject: one compact matte-white circular wireless access point with a cobalt-blue ring inset into its top, and three tiny blue network nodes connected beneath it by thick short blue branches. Top-oblique view emphasizing the white disk and blue ring, no text or brand logo.",
+      "savedPath": "applications/unifi/assets/icon.png",
+      "sourceImage": "exec-bafb0917-6a14-4cb9-ae55-7534ffa37738.png",
+      "sha256": "cae897384578461a64124b82c62bf7a195ae7d763615b1fe0ee499107a2cc4bb"
+    },
+    {
+      "slug": "tides",
+      "name": "Gezeiten",
+      "prompt": "Use case: stylized-concept. Asset type: one paperlesspaper integration app icon, a high-resolution raster illustration. Style: polished minimal 2D digital painting with subtle realistic 3D bevels, soft highlights, smooth solid ceramic-like materials and crisp edges, not flat vector line art. View: near-front/top three-quarter view, a simple compact silhouette readable at 48px. Composition: a single centered cohesive subject filling about 76% of a square 1024x1024 canvas, equal generous clear margin on all sides, fully visible. Background: genuinely transparent alpha, including cutouts; keep the subject's white surfaces opaque. No floor, no pedestal, no surrounding cast shadow, no enclosing app tile unless the subject itself is a board. No lettering, numbers, wordmarks, watermark, frame, painted checkerboard or surrounding decorative particles. Use just the few deliberate saturated colors specified, with white and charcoal where needed. Subject: two sculpted cobalt-blue rolling ocean waves curling around a small opaque-white vertical tide gauge with three broad orange tick marks, no numbers. Strong simple wave silhouette, clean highlights, no droplets or surrounding ocean background.",
+      "savedPath": "applications/tides/assets/icon.png",
+      "sourceImage": "exec-afb120e9-5fb5-40e3-9276-e2c234bb8508.png",
+      "sha256": "cf677edf3e0d4611aecd722d94f3d629dd1f5632530fac6fbdad6bc0ed0d03e1"
+    },
+    {
+      "slug": "snow-report",
+      "name": "Schneebericht",
+      "prompt": "Use case: stylized-concept. Asset type: one paperlesspaper integration app icon, a high-resolution raster illustration. Style: polished minimal 2D digital painting with subtle realistic 3D bevels, soft highlights, smooth solid ceramic-like materials and crisp edges, not flat vector line art. View: near-front/top three-quarter view, a simple compact silhouette readable at 48px. Composition: a single centered cohesive subject filling about 76% of a square 1024x1024 canvas, equal generous clear margin on all sides, fully visible. Background: genuinely transparent alpha, including cutouts; keep the subject's white surfaces opaque. No floor, no pedestal, no surrounding cast shadow, no enclosing app tile unless the subject itself is a board. No lettering, numbers, wordmarks, watermark, frame, painted checkerboard or surrounding decorative particles. Use just the few deliberate saturated colors specified, with white and charcoal where needed. Subject: a compact pair of cobalt-blue mountain peaks with thick opaque-white snow caps; one large pale-blue six-arm snowflake is attached near the upper shoulder of the taller peak. One coherent snow-report icon, clean broad shapes, no landscape background.",
+      "savedPath": "applications/snow-report/assets/icon.png",
+      "sourceImage": "exec-f49b241a-8c8e-4fdc-999a-99be43562b4c.png",
+      "sha256": "9fab114ef6a2e73d2d3ed3bcb6a920d2d445c79d64c9608236e26cf98fcecc8e"
+    },
+    {
+      "slug": "aurora-forecast",
+      "name": "Polarlicht",
+      "prompt": "Use case: stylized-concept. Asset type: one paperlesspaper integration app icon, a high-resolution raster illustration. Style: polished minimal 2D digital painting with subtle realistic 3D bevels, soft highlights, smooth solid ceramic-like materials and crisp edges, not flat vector line art. View: near-front/top three-quarter view, a simple compact silhouette readable at 48px. Composition: a single centered cohesive subject filling about 76% of a square 1024x1024 canvas, equal generous clear margin on all sides, fully visible. Background: genuinely transparent alpha, including cutouts; keep the subject's white surfaces opaque. No floor, no pedestal, no surrounding cast shadow, no enclosing app tile unless the subject itself is a board. No lettering, numbers, wordmarks, watermark, frame, painted checkerboard or surrounding decorative particles. Use just the few deliberate saturated colors specified, with white and charcoal where needed. Subject: one graceful thick emerald-green aurora ribbon with a turquoise inner fold arching above two small deep-blue mountain peaks. A cohesive compact arctic-sky emblem; the green ribbon carries soft luminous internal shading but no outer glow. No stars, no sky panel, transparent gaps.",
+      "savedPath": "applications/aurora-forecast/assets/icon.png",
+      "sourceImage": "exec-115f3a22-ad74-4cd7-abb8-3550c000b15a.png",
+      "sha256": "c1f3c3957453ca4e41ca347bfaa793ffc9a882185fdcf2e593d3e4da6039a935"
+    },
+    {
+      "slug": "ebird-sightings",
+      "name": "eBird",
+      "prompt": "Use case: stylized-concept. Asset type: one paperlesspaper integration app icon, a high-resolution raster illustration. Style: polished minimal 2D digital painting with subtle realistic 3D bevels, soft highlights, smooth solid ceramic-like materials and crisp edges, not flat vector line art. View: near-front/top three-quarter view, a simple compact silhouette readable at 48px. Composition: a single centered cohesive subject filling about 76% of a square 1024x1024 canvas, equal generous clear margin on all sides, fully visible. Background: genuinely transparent alpha, including cutouts; keep the subject's white surfaces opaque. No floor, no pedestal, no surrounding cast shadow, no enclosing app tile unless the subject itself is a board. No lettering, numbers, wordmarks, watermark, frame, painted checkerboard or surrounding decorative particles. Use just the few deliberate saturated colors specified, with white and charcoal where needed. Subject: a friendly compact robin-like songbird in profile, warm orange breast, charcoal-blue back and wing, pale belly, small black eye and short beak, perched on one tiny brown branch with a single green leaf. Rounded realistic-but-minimal bird, no fine feather pattern, no background.",
+      "savedPath": "applications/ebird-sightings/assets/icon.png",
+      "sourceImage": "exec-1f240877-ed66-420a-ad60-0c61e530ab4c.png",
+      "sha256": "94af5f68706960803e61946e12cd96fffac22202648ad11523a78ad83752c3cf"
+    },
+    {
+      "slug": "station-accessibility",
+      "name": "Bahnhof-Barrierefreiheit",
+      "prompt": "Use case: stylized-concept. Asset type: one paperlesspaper integration app icon, a high-resolution raster illustration. Style: polished minimal 2D digital painting with subtle realistic 3D bevels, soft highlights, smooth solid ceramic-like materials and crisp edges, not flat vector line art. View: near-front/top three-quarter view, a simple compact silhouette readable at 48px. Composition: a single centered cohesive subject filling about 76% of a square 1024x1024 canvas, equal generous clear margin on all sides, fully visible. Background: genuinely transparent alpha, including cutouts; keep the subject's white surfaces opaque. No floor, no pedestal, no surrounding cast shadow, no enclosing app tile unless the subject itself is a board. No lettering, numbers, wordmarks, watermark, frame, painted checkerboard or surrounding decorative particles. Use just the few deliberate saturated colors specified, with white and charcoal where needed. Subject: a compact cobalt-blue elevator portal with opaque-white closed double doors and a simple upward and downward blue arrow above the doors. A small round blue accessibility badge with a clear opaque-white wheelchair pictogram overlaps the lower corner. Keep symbols bold and simple, no words or numbers.",
+      "savedPath": "applications/station-accessibility/assets/icon.png",
+      "sourceImage": "exec-da76e45f-fa28-4e5e-b43d-1c74ce1b1ef4.png",
+      "sha256": "185839d023b06de24ca0990b55808a801e13ca5b5556897ad8b93639ab1603cb"
+    },
+    {
+      "slug": "woocommerce",
+      "name": "WooCommerce",
+      "prompt": "Use case: stylized-concept. Asset type: one paperlesspaper integration app icon, a high-resolution raster illustration. Style: polished minimal 2D digital painting with subtle realistic 3D bevels, soft highlights, smooth solid ceramic-like materials and crisp edges, not flat vector line art. View: near-front/top three-quarter view, a simple compact silhouette readable at 48px. Composition: a single centered cohesive subject filling about 76% of a square 1024x1024 canvas, equal generous clear margin on all sides, fully visible. Background: genuinely transparent alpha, including cutouts; keep the subject's white surfaces opaque. No floor, no pedestal, no surrounding cast shadow, no enclosing app tile unless the subject itself is a board. No lettering, numbers, wordmarks, watermark, frame, painted checkerboard or surrounding decorative particles. Use just the few deliberate saturated colors specified, with white and charcoal where needed. Subject: one rich purple shipping parcel with a slightly open upper flap, an opaque-white plain shipping label without lettering, and a small emerald-green three-bar sales chart integrated against its lower edge. Chunky ecommerce order-and-sales symbol, clear parcel silhouette, no brand lettering.",
+      "savedPath": "applications/woocommerce/assets/icon.png",
+      "sourceImage": "exec-82ddd31c-7d41-4454-9939-bfb028aba75b.png",
+      "sha256": "4b8f3f98434e7603b22d5cb2cf18ac1fa4df766a1bd31f53f593bda8cb2791a6"
+    },
+    {
+      "slug": "shopify",
+      "name": "Shopify",
+      "prompt": "Use case: stylized-concept. Asset type: one paperlesspaper integration app icon, a high-resolution raster illustration. Style: polished minimal 2D digital painting with subtle realistic 3D bevels, soft highlights, smooth solid ceramic-like materials and crisp edges, not flat vector line art. View: near-front/top three-quarter view, a simple compact silhouette readable at 48px. Composition: a single centered cohesive subject filling about 76% of a square 1024x1024 canvas, equal generous clear margin on all sides, fully visible. Background: genuinely transparent alpha, including cutouts; keep the subject's white surfaces opaque. No floor, no pedestal, no surrounding cast shadow, no enclosing app tile unless the subject itself is a board. No lettering, numbers, wordmarks, watermark, frame, painted checkerboard or surrounding decorative particles. Use just the few deliberate saturated colors specified, with white and charcoal where needed. Subject: a saturated emerald-green ecommerce shopping bag with two thick rounded handles, a plain opaque-white hanging price tag with no lettering, and one small warm-orange coin shape tucked beside its bottom edge. Smooth beveled bag surfaces, no letters or currency symbols, no groceries.",
+      "savedPath": "applications/shopify/assets/icon.png",
+      "sourceImage": "exec-7d3ac891-52c7-4e81-847b-7e568e80d215.png",
+      "sha256": "1381f8b6260fd235ecfb985f81031cf7e3cca37eb74b48dba21ed19284a4342b"
+    },
+    {
+      "slug": "youtube-analytics",
+      "name": "YouTube Analytics",
+      "prompt": "Use case: stylized-concept. Asset type: one paperlesspaper integration app icon, a high-resolution raster illustration. Style: polished minimal 2D digital painting with subtle realistic 3D bevels, soft highlights, smooth solid ceramic-like materials and crisp edges, not flat vector line art. View: near-front/top three-quarter view, a simple compact silhouette readable at 48px. Composition: a single centered cohesive subject filling about 76% of a square 1024x1024 canvas, equal generous clear margin on all sides, fully visible. Background: genuinely transparent alpha, including cutouts; keep the subject's white surfaces opaque. No floor, no pedestal, no surrounding cast shadow, no enclosing app tile unless the subject itself is a board. No lettering, numbers, wordmarks, watermark, frame, painted checkerboard or surrounding decorative particles. Use just the few deliberate saturated colors specified, with white and charcoal where needed. Subject: a bright red rounded video-play plaque with a crisp opaque-white right-pointing triangle, paired with three chunky cobalt-blue rising analytics bars immediately beneath and partly overlapping its lower edge. A single compact video-analytics icon, red play plaque dominant, no lettering.",
+      "savedPath": "applications/youtube-analytics/assets/icon.png",
+      "sourceImage": "exec-c19f4119-044b-4e4d-b25d-70d451e6e157.png",
+      "sha256": "dd00072b885e1abe85faf57f852e627deceea0fb13b016b4972d9a324fb8ea68"
+    }
+  ]
+}

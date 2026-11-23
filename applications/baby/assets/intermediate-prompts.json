@@ -1,0 +1,116 @@
+{
+  "mode": "Built-in image_gen",
+  "createdAt": "2026-09-23",
+  "assets": [
+    {
+      "id": "illustrated-week-10",
+      "path": "assets/illustrated-week-10.png",
+      "prompt": "Use case: illustration-story. Create a new square illustration for a small e-ink baby calendar. Subject: Prenatal fetus at about 10 completed gestational weeks. Curled profile with very large head compared with tiny slender body, delicate developing arms and legs, small hands near chest. No mature baby fat, no hairstyle. Simplified non-graphic prenatal educational illustration, short curved umbilical cord, no uterus or exposed organs, no genital detail. Not a medical scan or precise day-specific anatomy. Style: Friendly drawn children's book illustration, confident clean black contours, flat warm peach skin and blue/orange accents, minimal shading. Pure white background, no dark vignette, complete subject within frame with 8 percent margin. No text, labels, numbers, watermark, border, or extra floating objects."
+    },
+    {
+      "id": "classic-week-10",
+      "path": "assets/classic-week-10.png",
+      "prompt": "Use case: illustration-story. Create a new square illustration for a small e-ink baby calendar. Subject: Prenatal fetus at about 10 completed gestational weeks. Curled profile with very large head compared with tiny slender body, delicate developing arms and legs, small hands near chest. No mature baby fat, no hairstyle. Simplified non-graphic prenatal educational illustration, short curved umbilical cord, no uterus or exposed organs, no genital detail. Not a medical scan or precise day-specific anatomy. Style: Warm peach and amber skin, softly modeled matte 3D sculpture, gentle studio light, smooth rounded forms without black outlines, like the old baby-calendar illustrations. Pure white background, no dark vignette, complete subject within frame with 8 percent margin. No text, labels, numbers, watermark, border, or extra floating objects."
+    },
+    {
+      "id": "illustrated-week-16",
+      "path": "assets/illustrated-week-16.png",
+      "prompt": "Use case: illustration-story. Create a new square illustration for a small e-ink baby calendar. Subject: Prenatal fetus at about 16 completed gestational weeks. Slender curved torso, large head, thin arms with small hands close to face, bent slender legs, closed eyelids, no hair or plump baby cheeks. Simplified non-graphic prenatal educational illustration, short curved umbilical cord, no uterus or exposed organs, no genital detail. Not a medical scan or precise day-specific anatomy. Style: Friendly drawn children's book illustration, confident clean black contours, flat warm peach skin and blue/orange accents, minimal shading. Pure white background, no dark vignette, complete subject within frame with 8 percent margin. No text, labels, numbers, watermark, border, or extra floating objects."
+    },
+    {
+      "id": "classic-week-16",
+      "path": "assets/classic-week-16.png",
+      "prompt": "Use case: illustration-story. Create a new square illustration for a small e-ink baby calendar. Subject: Prenatal fetus at about 16 completed gestational weeks. Slender curved torso, large head, thin arms with small hands close to face, bent slender legs, closed eyelids, no hair or plump baby cheeks. Simplified non-graphic prenatal educational illustration, short curved umbilical cord, no uterus or exposed organs, no genital detail. Not a medical scan or precise day-specific anatomy. Style: Warm peach and amber skin, softly modeled matte 3D sculpture, gentle studio light, smooth rounded forms without black outlines, like the old baby-calendar illustrations. Pure white background, no dark vignette, complete subject within frame with 8 percent margin. No text, labels, numbers, watermark, border, or extra floating objects."
+    },
+    {
+      "id": "illustrated-week-24",
+      "path": "assets/illustrated-week-24.png",
+      "prompt": "Use case: illustration-story. Create a new square illustration for a small e-ink baby calendar. Subject: Prenatal fetus at about 24 completed gestational weeks. Slim torso and limbs, gently curled profile, hands near mouth and knees bent, closed eyes, head still proportionally large. No full-term baby fat. Simplified non-graphic prenatal educational illustration, short curved umbilical cord, no uterus or exposed organs, no genital detail. Not a medical scan or precise day-specific anatomy. Style: Friendly drawn children's book illustration, confident clean black contours, flat warm peach skin and blue/orange accents, minimal shading. Pure white background, no dark vignette, complete subject within frame with 8 percent margin. No text, labels, numbers, watermark, border, or extra floating objects."
+    },
+    {
+      "id": "classic-week-24",
+      "path": "assets/classic-week-24.png",
+      "prompt": "Use case: illustration-story. Create a new square illustration for a small e-ink baby calendar. Subject: Prenatal fetus at about 24 completed gestational weeks. Slim torso and limbs, gently curled profile, hands near mouth and knees bent, closed eyes, head still proportionally large. No full-term baby fat. Simplified non-graphic prenatal educational illustration, short curved umbilical cord, no uterus or exposed organs, no genital detail. Not a medical scan or precise day-specific anatomy. Style: Warm peach and amber skin, softly modeled matte 3D sculpture, gentle studio light, smooth rounded forms without black outlines, like the old baby-calendar illustrations. Pure white background, no dark vignette, complete subject within frame with 8 percent margin. No text, labels, numbers, watermark, border, or extra floating objects."
+    },
+    {
+      "id": "illustrated-week-32",
+      "path": "assets/illustrated-week-32.png",
+      "prompt": "Use case: illustration-story. Create a new square illustration for a small e-ink baby calendar. Subject: Prenatal fetus at about 32 completed gestational weeks. Fuller cheeks and limbs, peacefully curled side profile, one hand resting near cheek and other on chest, legs tucked, closed eyes. Simplified non-graphic prenatal educational illustration, short curved umbilical cord, no uterus or exposed organs, no genital detail. Not a medical scan or precise day-specific anatomy. Style: Friendly drawn children's book illustration, confident clean black contours, flat warm peach skin and blue/orange accents, minimal shading. Pure white background, no dark vignette, complete subject within frame with 8 percent margin. No text, labels, numbers, watermark, border, or extra floating objects."
+    },
+    {
+      "id": "classic-week-32",
+      "path": "assets/classic-week-32.png",
+      "prompt": "Educational pregnancy calendar illustration, 32-week fetus shown as a simple peaceful curled silhouette in side profile, rounded head and tucked limbs. Soft matte 3D clay sculpture in warm peach. White background, square composition, no text. Non-graphic, simplified educational art."
+    },
+    {
+      "id": "illustrated-week-40",
+      "path": "assets/illustrated-week-40.png",
+      "prompt": "Educational pregnancy calendar illustration, full-term fetus shown as a simple peaceful curled silhouette in side profile, rounded head and tucked limbs. Clean black outlines and flat peach colors, children’s book drawing. White background, square composition, no text. Non-graphic, simplified educational art."
+    },
+    {
+      "id": "classic-week-40",
+      "path": "assets/classic-week-40.png",
+      "prompt": "Educational pregnancy calendar illustration, full-term fetus shown as a simple peaceful curled silhouette in side profile, rounded head and tucked limbs. Soft matte 3D clay sculpture in warm peach. White background, square composition, no text. Non-graphic, simplified educational art."
+    },
+    {
+      "id": "illustrated-month-01",
+      "path": "assets/illustrated-month-01.png",
+      "prompt": "Use case: illustration-story. Create a new square illustration for a small e-ink baby calendar. Subject: One-month-old awake baby in blue onesie held safely in a seated parent's arms, parent supporting head and neck, close warm eye contact. All people dressed in simple blue and white clothes. Natural age-appropriate proportions; no text on book pages. Style: Friendly drawn children's book illustration, confident clean black contours, flat warm peach skin and blue/orange accents, minimal shading. Pure white background, no dark vignette, complete subject within frame with 8 percent margin. No text, labels, numbers, watermark, border, or extra floating objects."
+    },
+    {
+      "id": "classic-month-01",
+      "path": "assets/classic-month-01.png",
+      "prompt": "Use case: illustration-story. Create a new square illustration for a small e-ink baby calendar. Subject: One-month-old awake baby in blue onesie held safely in a seated parent's arms, parent supporting head and neck, close warm eye contact. All people dressed in simple blue and white clothes. Natural age-appropriate proportions; no text on book pages. Style: Warm peach and amber skin, softly modeled matte 3D sculpture, gentle studio light, smooth rounded forms without black outlines, like the old baby-calendar illustrations. Pure white background, no dark vignette, complete subject within frame with 8 percent margin. No text, labels, numbers, watermark, border, or extra floating objects."
+    },
+    {
+      "id": "illustrated-month-03",
+      "path": "assets/illustrated-month-03.png",
+      "prompt": "Use case: illustration-story. Create a new square illustration for a small e-ink baby calendar. Subject: Three-month-old awake baby lying on back on a firm floor play mat, looking at a large blue ring held close by a seated parent. No unsupported sitting. All people dressed in simple blue and white clothes. Natural age-appropriate proportions; no text on book pages. Style: Friendly drawn children's book illustration, confident clean black contours, flat warm peach skin and blue/orange accents, minimal shading. Pure white background, no dark vignette, complete subject within frame with 8 percent margin. No text, labels, numbers, watermark, border, or extra floating objects."
+    },
+    {
+      "id": "classic-month-03",
+      "path": "assets/classic-month-03.png",
+      "prompt": "Use case: illustration-story. Create a new square illustration for a small e-ink baby calendar. Subject: Three-month-old awake baby lying on back on a firm floor play mat, looking at a large blue ring held close by a seated parent. No unsupported sitting. All people dressed in simple blue and white clothes. Natural age-appropriate proportions; no text on book pages. Style: Warm peach and amber skin, softly modeled matte 3D sculpture, gentle studio light, smooth rounded forms without black outlines, like the old baby-calendar illustrations. Pure white background, no dark vignette, complete subject within frame with 8 percent margin. No text, labels, numbers, watermark, border, or extra floating objects."
+    },
+    {
+      "id": "illustrated-month-05",
+      "path": "assets/illustrated-month-05.png",
+      "prompt": "Use case: illustration-story. Create a new square illustration for a small e-ink baby calendar. Subject: Five-month-old awake infant in blue onesie lying on back on a firm floor mat, holding one large orange ring with both hands while parent watches. All people dressed in simple blue and white clothes. Natural age-appropriate proportions; no text on book pages. Style: Friendly drawn children's book illustration, confident clean black contours, flat warm peach skin and blue/orange accents, minimal shading. Pure white background, no dark vignette, complete subject within frame with 8 percent margin. No text, labels, numbers, watermark, border, or extra floating objects."
+    },
+    {
+      "id": "classic-month-05",
+      "path": "assets/classic-month-05.png",
+      "prompt": "Use case: illustration-story. Create a new square illustration for a small e-ink baby calendar. Subject: Five-month-old awake infant in blue onesie lying on back on a firm floor mat, holding one large orange ring with both hands while parent watches. All people dressed in simple blue and white clothes. Natural age-appropriate proportions; no text on book pages. Style: Warm peach and amber skin, softly modeled matte 3D sculpture, gentle studio light, smooth rounded forms without black outlines, like the old baby-calendar illustrations. Pure white background, no dark vignette, complete subject within frame with 8 percent margin. No text, labels, numbers, watermark, border, or extra floating objects."
+    },
+    {
+      "id": "illustrated-month-08",
+      "path": "assets/illustrated-month-08.png",
+      "prompt": "Use case: illustration-story. Create a new square illustration for a small e-ink baby calendar. Subject: Eight-month-old baby sitting with a parent's hands gently supporting the torso, looking together at a colorful simple picture book. Clearly supported posture. All people dressed in simple blue and white clothes. Natural age-appropriate proportions; no text on book pages. Style: Friendly drawn children's book illustration, confident clean black contours, flat warm peach skin and blue/orange accents, minimal shading. Pure white background, no dark vignette, complete subject within frame with 8 percent margin. No text, labels, numbers, watermark, border, or extra floating objects."
+    },
+    {
+      "id": "classic-month-08",
+      "path": "assets/classic-month-08.png",
+      "prompt": "Use case: illustration-story. Create a new square illustration for a small e-ink baby calendar. Subject: Eight-month-old baby sitting with a parent's hands gently supporting the torso, looking together at a colorful simple picture book. Clearly supported posture. All people dressed in simple blue and white clothes. Natural age-appropriate proportions; no text on book pages. Style: Warm peach and amber skin, softly modeled matte 3D sculpture, gentle studio light, smooth rounded forms without black outlines, like the old baby-calendar illustrations. Pure white background, no dark vignette, complete subject within frame with 8 percent margin. No text, labels, numbers, watermark, border, or extra floating objects."
+    },
+    {
+      "id": "illustrated-month-10",
+      "path": "assets/illustrated-month-10.png",
+      "prompt": "Use case: illustration-story. Create a new square illustration for a small e-ink baby calendar. Subject: Ten-month-old baby sitting safely on the floor with parent, playing peekaboo: parent covers their own face with their hands while baby smiles. No cloth over baby's face. All people dressed in simple blue and white clothes. Natural age-appropriate proportions; no text on book pages. Style: Friendly drawn children's book illustration, confident clean black contours, flat warm peach skin and blue/orange accents, minimal shading. Pure white background, no dark vignette, complete subject within frame with 8 percent margin. No text, labels, numbers, watermark, border, or extra floating objects."
+    },
+    {
+      "id": "classic-month-10",
+      "path": "assets/classic-month-10.png",
+      "prompt": "Use case: illustration-story. Create a new square illustration for a small e-ink baby calendar. Subject: Ten-month-old baby sitting safely on the floor with parent, playing peekaboo: parent covers their own face with their hands while baby smiles. No cloth over baby's face. All people dressed in simple blue and white clothes. Natural age-appropriate proportions; no text on book pages. Style: Warm peach and amber skin, softly modeled matte 3D sculpture, gentle studio light, smooth rounded forms without black outlines, like the old baby-calendar illustrations. Pure white background, no dark vignette, complete subject within frame with 8 percent margin. No text, labels, numbers, watermark, border, or extra floating objects."
+    },
+    {
+      "id": "illustrated-month-21",
+      "path": "assets/illustrated-month-21.png",
+      "prompt": "Use case: illustration-story. Create a new square illustration for a small e-ink baby calendar. Subject: Twenty-one-month-old toddler in blue overalls, standing beside a seated parent, pointing together at a simple animal picture in a large book. Safe calm everyday scene. All people dressed in simple blue and white clothes. Natural age-appropriate proportions; no text on book pages. Style: Friendly drawn children's book illustration, confident clean black contours, flat warm peach skin and blue/orange accents, minimal shading. Pure white background, no dark vignette, complete subject within frame with 8 percent margin. No text, labels, numbers, watermark, border, or extra floating objects."
+    },
+    {
+      "id": "classic-month-21",
+      "path": "assets/classic-month-21.png",
+      "prompt": "Use case: illustration-story. Create a new square illustration for a small e-ink baby calendar. Subject: Twenty-one-month-old toddler in blue overalls, standing beside a seated parent, pointing together at a simple animal picture in a large book. Safe calm everyday scene. All people dressed in simple blue and white clothes. Natural age-appropriate proportions; no text on book pages. Style: Warm peach and amber skin, softly modeled matte 3D sculpture, gentle studio light, smooth rounded forms without black outlines, like the old baby-calendar illustrations. Pure white background, no dark vignette, complete subject within frame with 8 percent margin. No text, labels, numbers, watermark, border, or extra floating objects."
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "featured": "Artikel van de dag",
+  "onthisday": "Op deze dag",
+  "top": "Top Wikipedia",
+  "views": "Weergaven",
+  "change": "t.o.v. gisteren",
+  "history": "7 dagen",
+  "new": "Nieuw",
+  "missing": "Geen gegevens",
+  "partial": "Sommige vergelijkingsgegevens zijn niet beschikbaar",
+  "emptyArticle": "Vandaag is er geen artikel van de dag beschikbaar voor deze editie.",
+  "emptyEvents": "Vandaag zijn er geen historische gebeurtenissen beschikbaar voor deze editie.",
+  "error": "Wikipedia kon niet worden geladen. Probeer het later opnieuw.",
+  "demo": "VOORBEELDGEGEVENS",
+  "rank": "Rang",
+  "photoMissing": "Geen afbeelding beschikbaar"
+}

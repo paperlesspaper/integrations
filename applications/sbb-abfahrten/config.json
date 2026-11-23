@@ -1,0 +1,121 @@
+{
+  "name": "SBB Abfahrten",
+  "version": "0.1.0",
+  "status": "alpha",
+  "description": "Swiss public transport departures with platform changes and available delay forecasts. No API key required.",
+  "renderPage": "./render.html",
+  "icon": "./assets/icon.png",
+  "timezone": "Europe/Zurich",
+  "language": [
+    "de",
+    "en",
+    "fr",
+    "it"
+  ],
+  "nativeSettings": {
+    "color": "red-light",
+    "stationName": "Zürich HB",
+    "stationId": "",
+    "duration": 90,
+    "limit": 7,
+    "transport": "all",
+    "destination": "",
+    "lines": "",
+    "showPlatformChanges": true,
+    "sampleData": false
+  },
+  "configVariants": [
+    {
+      "color": "red-light",
+      "sampleData": true,
+      "screenshots": {
+        "800x480": "./screenshots/sbb-abfahrten-red-light-800x480-landscape.png",
+        "480x800": "./screenshots/sbb-abfahrten-red-light-480x800-portrait.png",
+        "1600x1200": "./screenshots/sbb-abfahrten-red-light-1600x1200-landscape.png",
+        "1200x1600": "./screenshots/sbb-abfahrten-red-light-1200x1600-portrait.png"
+      }
+    },
+    {
+      "color": "blue-dark",
+      "sampleData": true,
+      "screenshots": {
+        "800x480": "./screenshots/sbb-abfahrten-blue-dark-800x480-landscape.png",
+        "480x800": "./screenshots/sbb-abfahrten-blue-dark-480x800-portrait.png",
+        "1600x1200": "./screenshots/sbb-abfahrten-blue-dark-1600x1200-landscape.png",
+        "1200x1600": "./screenshots/sbb-abfahrten-blue-dark-1200x1600-portrait.png"
+      }
+    }
+  ],
+  "formSchema": {
+    "type": "object",
+    "properties": {
+      "stationName": {
+        "type": "string",
+        "title": "Station name",
+        "description": "Swiss station or stop, e.g. Zürich HB, Bern or Basel SBB.",
+        "maxLength": 160,
+        "default": "Zürich HB"
+      },
+      "stationId": {
+        "type": "string",
+        "title": "Station ID (optional)",
+        "description": "Takes precedence over the name. Zürich HB: 8503000, Bern: 8507000, Basel SBB: 8500010.",
+        "maxLength": 12,
+        "default": ""
+      },
+      "duration": {
+        "type": "integer",
+        "title": "Lookahead (minutes)",
+        "minimum": 10,
+        "maximum": 360,
+        "description": "Filters the next 100 departures returned by the provider; the full window is not guaranteed.",
+        "default": 90
+      },
+      "limit": {
+        "type": "integer",
+        "title": "Departures",
+        "minimum": 1,
+        "maximum": 12,
+        "default": 7
+      },
+      "transport": {
+        "type": "string",
+        "title": "Transport",
+        "enum": [
+          "all",
+          "train",
+          "tram",
+          "bus",
+          "ship",
+          "cableway"
+        ],
+        "default": "all"
+      },
+      "destination": {
+        "type": "string",
+        "title": "Destination / via",
+        "description": "Optional partial station name matched against final destination and later stops. Direct services only.",
+        "maxLength": 160,
+        "default": ""
+      },
+      "lines": {
+        "type": "string",
+        "title": "Lines",
+        "description": "Optional comma-separated exact line names, e.g. IC 1, S12. Spaces are ignored.",
+        "maxLength": 160,
+        "default": ""
+      },
+      "showPlatformChanges": {
+        "type": "boolean",
+        "title": "Highlight platform changes",
+        "default": true
+      },
+      "sampleData": {
+        "type": "boolean",
+        "title": "Show example data",
+        "description": "Fictional Zürich HB board for previewing. Turn off for live departures.",
+        "default": false
+      }
+    }
+  }
+}

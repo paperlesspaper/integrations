@@ -1,0 +1,130 @@
+{
+  "name": "Bambu Lab · Now Printing",
+  "version": "0.1.0",
+  "status": "alpha",
+  "description": "Bambu Lab cloud prints with model image, estimated finish time, filament and recent print history.",
+  "renderPage": "./render.html",
+  "icon": "./assets/icon.png",
+  "timezone": "Europe/Berlin",
+  "language": [
+    "de",
+    "en"
+  ],
+  "nativeSettings": {
+    "color": "blue-light",
+    "title": "",
+    "sampleData": true,
+    "demoState": "printing",
+    "token": "",
+    "region": "global",
+    "deviceId": "",
+    "historyLimit": 3,
+    "showMaterial": true,
+    "showHeader": true
+  },
+  "configVariants": [
+    {
+      "color": "blue-light",
+      "title": "",
+      "sampleData": true,
+      "demoState": "printing",
+      "token": "",
+      "region": "global",
+      "deviceId": "",
+      "historyLimit": 3,
+      "showMaterial": true,
+      "showHeader": true,
+      "screenshots": {
+        "800x480": "./screenshots/bambu-lab-default-800x480-landscape.png",
+        "480x800": "./screenshots/bambu-lab-default-480x800-portrait.png",
+        "1600x1200": "./screenshots/bambu-lab-default-1600x1200-landscape.png",
+        "1200x1600": "./screenshots/bambu-lab-default-1200x1600-portrait.png"
+      }
+    },
+    {
+      "color": "dark",
+      "title": "",
+      "sampleData": true,
+      "demoState": "finished",
+      "token": "",
+      "region": "global",
+      "deviceId": "",
+      "historyLimit": 3,
+      "showMaterial": true,
+      "showHeader": true,
+      "screenshots": {
+        "800x480": "./screenshots/bambu-lab-dark-800x480-landscape.png",
+        "480x800": "./screenshots/bambu-lab-dark-480x800-portrait.png",
+        "1600x1200": "./screenshots/bambu-lab-dark-1600x1200-landscape.png",
+        "1200x1600": "./screenshots/bambu-lab-dark-1200x1600-portrait.png"
+      }
+    }
+  ],
+  "formSchema": {
+    "type": "object",
+    "properties": {
+      "title": {
+        "type": "string",
+        "title": "Display title",
+        "maxLength": 80,
+        "default": ""
+      },
+      "sampleData": {
+        "type": "boolean",
+        "title": "Use labelled demo data",
+        "default": true
+      },
+      "demoState": {
+        "type": "string",
+        "title": "Demo print state",
+        "enum": [
+          "printing",
+          "finished",
+          "failed",
+          "empty"
+        ],
+        "default": "printing"
+      },
+      "token": {
+        "type": "string",
+        "title": "Bambu Lab access token",
+        "format": "password",
+        "description": "MakerWorld → Developer tools → Application / Storage → Cookies → token. Disable demo data to connect.",
+        "default": ""
+      },
+      "region": {
+        "type": "string",
+        "title": "Bambu account region",
+        "enum": [
+          "global",
+          "china"
+        ],
+        "default": "global"
+      },
+      "deviceId": {
+        "type": "string",
+        "title": "Printer serial number (optional)",
+        "maxLength": 100,
+        "description": "Leave empty to show the account’s recent prints. Find the serial number in Bambu Handy / printer device information.",
+        "default": ""
+      },
+      "historyLimit": {
+        "type": "integer",
+        "title": "Previous prints",
+        "minimum": 0,
+        "maximum": 4,
+        "default": 3
+      },
+      "showMaterial": {
+        "type": "boolean",
+        "title": "Show filament material",
+        "default": true
+      },
+      "showHeader": {
+        "type": "boolean",
+        "title": "Show title bar",
+        "default": true
+      }
+    }
+  }
+}

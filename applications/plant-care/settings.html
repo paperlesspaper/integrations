@@ -1,0 +1,216 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Plant care settings</title>
+    <link rel="stylesheet" href="/assets/paperless.css" />
+    <script src="/assets/paperless.iife.js"></script>
+    <style>
+      html,
+      body {
+        height: auto;
+        overflow: auto;
+      }
+      main {
+        padding: 16px;
+        max-width: 900px;
+      }
+      h1 {
+        font-size: 24px;
+      }
+      article {
+        border: 1px solid var(--pp-border);
+        padding: 14px;
+        margin: 14px 0;
+        border-radius: 8px;
+      }
+      .fields {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+      }
+      label {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        font-size: 14px;
+      }
+      input {
+        width: 100%;
+        box-sizing: border-box;
+        padding: 9px;
+        border: 1px solid var(--pp-border);
+        border-radius: 4px;
+      }
+      button {
+        padding: 9px 14px;
+        margin-top: 12px;
+        cursor: pointer;
+      }
+      .remove {
+        float: right;
+      }
+      #status {
+        min-height: 1.5em;
+      }
+      @media (max-width: 450px) {
+        .fields {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1 id="title"></h1>
+      <p id="intro"></p>
+      <div id="plants"></div>
+      <button id="add"></button>
+      <p id="status" role="status"></p>
+    </main>
+    <script type="module">
+      const {
+        setupSettingsPage,
+        getSettings,
+        postSettingsUpdate,
+        applyColorTheme,
+        escapeHtml,
+      } = window.PaperlessOpenIntegration;
+      let plants = [],
+        language = "de",
+        settings = {},
+        initialized = false;
+      const labels = {
+        de: {
+          title: "Pflanzenpflege",
+          intro:
+            "Pflegeintervalle selbst festlegen. Nach dem Gießen oder Düngen das Datum aktualisieren.",
+          name: "Pflanze",
+          location: "Standort",
+          lastWatered: "Zuletzt gegossen",
+          waterEveryDays: "Gießen alle … Tage",
+          lastFed: "Zuletzt gedüngt",
+          feedEveryDays: "Düngen alle … Tage (0 = aus)",
+          add: "Pflanze hinzufügen",
+          remove: "Entfernen",
+          saved: "Gespeichert",
+          invalid: "Bitte Name und gültige Intervalle eingeben.",
+        },
+        en: {
+          title: "Plant care",
+          intro:
+            "Choose care intervals. Update the date after watering or feeding.",
+          name: "Plant",
+          location: "Location",
+          lastWatered: "Last watered",
+          waterEveryDays: "Water every … days",
+          lastFed: "Last fed",
+          feedEveryDays: "Feed every … days (0 = off)",
+          add: "Add plant",
+          remove: "Remove",
+          saved: "Saved",
+          invalid: "Enter a name and valid intervals.",
+        },
+      };
+      const keys = [
+        "name",
+        "location",
+        "lastWatered",
+        "waterEveryDays",
+        "lastFed",
+        "feedEveryDays",
+      ];
+      function render() {
+        const l = labels[language];
+        document.getElementById("title").textContent = l.title;
+        document.getElementById("intro").textContent = l.intro;
+        document.getElementById("add").textContent = l.add;
+        document.getElementById("plants").innerHTML = plants
+          .map(
+            (p, i) =>
+              `<article data-index="${i}"><div class="fields">${keys.map((k) => `<label>${l[k]}<input data-key="${k}" type="${k.startsWith("last") ? "date" : k.endsWith("Days") ? "number" : "text"}" value="${escapeHtml(String(p[k] ?? ""))}" ${k.endsWith("Days") ? `min="${k === "feedEveryDays" ? 0 : 1}" max="365" step="1"` : ""} ${k === "name" ? 'required maxlength="80"' : ""}></label>`).join("")}</div><button class="remove" data-remove="${i}">${l.remove}</button><div style="clear:both"></div></article>`,
+          )
+          .join("");
+      }
+      function save() {
+        const l = labels[language];
+        const valid = plants.every(
+          (p) =>
+            p.name.trim() &&
+            Number.isInteger(p.waterEveryDays) &&
+            p.waterEveryDays >= 1 &&
+            p.waterEveryDays <= 365 &&
+            Number.isInteger(p.feedEveryDays) &&
+            p.feedEveryDays >= 0 &&
+            p.feedEveryDays <= 365,
+        );
+        document.getElementById("status").textContent = valid
+          ? l.saved
+          : l.invalid;
+        if (valid) postSettingsUpdate({ plants: JSON.stringify(plants) });
+      }
+      document.getElementById("plants").addEventListener("change", (e) => {
+        const input = e.target.closest("[data-key]");
+        if (!input) return;
+        const i = Number(input.closest("article").dataset.index),
+          k = input.dataset.key;
+        plants[i][k] = k.endsWith("Days") ? Number(input.value) : input.value;
+        save();
+      });
+      document.getElementById("plants").addEventListener("click", (e) => {
+        const b = e.target.closest("[data-remove]");
+        if (b) {
+          plants.splice(Number(b.dataset.remove), 1);
+          render();
+          save();
+        }
+      });
+      document.getElementById("add").addEventListener("click", () => {
+        if (plants.length >= 100) return;
+        plants.push({
+          name: "",
+          location: "",
+          lastWatered: "",
+          waterEveryDays: 7,
+          lastFed: "",
+          feedEveryDays: 0,
+        });
+        render();
+      });
+      setupSettingsPage({
+        onPayload(payload) {
+          if (!payload.meta?.pluginSettings) return;
+          settings = getSettings(payload);
+          language = String(payload.meta?.language || "de").startsWith("de")
+            ? "de"
+            : "en";
+          applyColorTheme(settings.color || "green-light");
+          let next;
+          try {
+            next = JSON.parse(settings.plants || "[]");
+            if (!Array.isArray(next)) throw Error();
+          } catch {
+            document.getElementById("status").textContent =
+              "Invalid plants JSON";
+            return;
+          }
+          if (!initialized || JSON.stringify(next) !== JSON.stringify(plants)) {
+            plants = next.map((p) => ({
+              name: "",
+              location: "",
+              lastWatered: "",
+              waterEveryDays: 7,
+              lastFed: "",
+              feedEveryDays: 0,
+              ...p,
+            }));
+            initialized = true;
+          }
+          render();
+        },
+      });
+      render();
+    </script>
+  </body>
+</html>

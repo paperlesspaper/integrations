@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="paperless:epd-optimize" content='{"intent":"readable","palette":"spectra6OriginalPalette","canvasDitherOptions":{"ditheringType":"quantizationOnly"}}' />
+    <title>Verkehrsschild des Tages</title>
+    <link rel="stylesheet" href="/assets/paperless.css" />
+    <script src="/assets/paperless.iife.js"></script>
+    <style>
+      .traffic-sign-image { padding: calc(24 * var(--pp-otd-unit)); }
+    </style>
+  </head>
+  <body>
+    <div id="website-has-loading-element"></div>
+    <main id="app"></main>
+    <script type="module">
+      import { selectSign } from './data/selection.js';
+      const {
+        waitForPayload, getSettings, getQuerySettings, mergeSettings,
+        loadLanguageJson, applyColorTheme, renderOfTheDayLayout,
+        waitForOfTheDayImage, fitOfTheDayLayout, markLoading, markReady, markError,
+      } = window.PaperlessOpenIntegration;
+      const defaults = {
+        color: 'blue-light', signId: '', textSize: 'middle', showHeader: true,
+        showMeaning: true, showBehavior: true, showDetail: true,
+        showFactCount: false, showRotationCount: false,
+      };
+      let catalog;
+      let revision = 0;
+
+      async function renderPayload(payload) {
+        const current = ++revision;
+        try {
+          markLoading();
+          const { messages } = await loadLanguageJson(payload);
+          if (!catalog) {
+            const response = await fetch('./data/signs.json');
+            if (!response.ok) throw new Error('Der Schilderkatalog konnte nicht geladen werden.');
+            catalog = await response.json();
+          }
+          if (current !== revision) return;
+          const settings = mergeSettings(defaults, getSettings(payload), getQuerySettings());
+          applyColorTheme(settings.color, { defaultTheme: defaults.color });
+          const { sign, day, count } = selectSign(catalog, settings.signId);
+          // Orange hazardous-goods panels need red/yellow dithering on Spectra 6.
+          document.querySelector('meta[name="paperless:epd-optimize"]').content = JSON.stringify({
+            intent: 'readable', palette: 'spectra6OriginalPalette',
+            canvasDitherOptions: { ditheringType: ['261', '269'].includes(sign.id) ? 'errorDiffusion' : 'quantizationOnly' },
+          });
+          const layout = renderOfTheDayLayout({
+            target: '#app', layout: 'auto', textSize: settings.textSize,
+            showHeader: settings.showHeader !== false,
+            showFactCount: settings.showFactCount === true,
+            factsShown: messages.factsShown,
+            kicker: messages.kicker,
+            title: sign.name,
+            subtitle: `${messages.country} · ${messages.sign} ${sign.id}`,
+            image: { src: `./assets/${sign.id}.svg`, alt: sign.officialName, className: 'traffic-sign-image' },
+            facts: [
+              { label: messages.meaning, value: sign.meaning, visible: settings.showMeaning !== false },
+              { label: messages.behavior, value: sign.behavior, visible: settings.showBehavior !== false },
+              { label: messages.detail, value: sign.detail, visible: settings.showDetail !== false },
+            ],
+            meta: [
+              { key: 'date', value: new Intl.DateTimeFormat('de-DE', { day: 'numeric', month: 'long', timeZone: 'Europe/Berlin' }).format(new Date(`${day}T12:00:00Z`)) },
+              { key: 'source', label: messages.source, value: sign.sourceLabel || `StVO · Anlage ${sign.annex}` },
+              { key: 'rotation', value: messages.rotation.replace('{count}', count), visible: settings.showRotationCount === true },
+            ],
+          });
+          await Promise.all([document.fonts?.ready, waitForOfTheDayImage(layout)]);
+          if (current !== revision) return;
+          const report = fitOfTheDayLayout(layout, { textSize: settings.textSize });
+          if (report.hasOverflow) throw new Error('Der Inhalt passt nicht auf diese Displaygröße.');
+          markReady({ sign: sign.id, day });
+        } catch (error) {
+          if (current !== revision) return;
+          document.querySelector('#app').textContent = `Schild konnte nicht geladen werden: ${error.message}`;
+          markError(error);
+        }
+      }
+
+      const payload = await waitForPayload({ timeoutMs: 500, onUpdate: renderPayload });
+      await renderPayload(payload);
+    </script>
+  </body>
+</html>

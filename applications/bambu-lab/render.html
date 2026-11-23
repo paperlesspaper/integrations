@@ -1,0 +1,94 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="paperless:epd-optimize" content='{"intent":"faithful","palette":"spectra6OriginalPalette","canvasDitherOptions":{"ditheringType":"errorDiffusion"}}' />
+  <title>Bambu Lab · Now Printing</title>
+  <link rel="stylesheet" href="/assets/paperless.css" />
+  <script src="/assets/paperless.iife.js"></script>
+  <style>
+    * { box-sizing: border-box; }
+    #app { height: 100vh; width: 100vw; padding: 22px 26px 16px; display: flex; flex-direction: column; gap: 14px; }
+    h1,h2,h3,p { margin: 0; }
+    header { display: flex; align-items: center; gap: 12px; border-bottom: 4px solid var(--pp-accent); padding-bottom: 10px; flex: none; min-width: 0; }
+    .brand { width: 28px; height: 28px; color: var(--pp-accent); flex: none; }
+    h1 { font-size: 27px; line-height: 1.15; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+    .sample { font-size: 11px; font-weight: 800; letter-spacing: .07em; border: 2px solid var(--pp-fg); padding: 4px 6px; flex: none; margin-left: auto; }
+    .hero { display: grid; grid-template-columns: minmax(0, .86fr) minmax(0, 1.3fr); gap: 25px; flex: 1; min-height: 0; }
+    .model { min-width: 0; min-height: 0; position: relative; border: 1px solid var(--pp-border); background: var(--pp-white); color: var(--pp-black); }
+    .model img { position: absolute; width: 100%; height: 100%; object-fit: contain; }
+    .placeholder { height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; font-size: 14px; text-align: center; }
+    .placeholder svg { width: 75px; height: 75px; }
+    .details { min-width: 0; min-height: 0; display: flex; flex-direction: column; justify-content: safe center; gap: 9px; }
+    .details > * { flex-shrink: 0; }
+    .status { align-self: flex-start; font-size: 12px; font-weight: 800; padding: 4px 8px; border-left: 5px solid var(--pp-accent); background: var(--pp-bg); color: var(--pp-fg); }
+    body.light .status, body.dark .status { background: var(--pp-fg); color: var(--pp-bg); }
+    .status[data-state="failed"] { background: var(--pp-red); color: var(--pp-white); }
+    .status[data-state="unconfirmed"], .status[data-state="paused"], .status[data-state="unknown"] { background: var(--pp-yellow); color: var(--pp-black); }
+    h2 { font-size: 29px; font-weight: 800; line-height: 1.1; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; overflow-wrap: anywhere; }
+    .printer { font-size: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .metrics { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .metric { min-width: 0; }
+    .label { font-size: 11px; font-weight: 600; display: block; margin-bottom: 2px; }
+    .value { font-size: 25px; line-height: 1.35; font-weight: 800; white-space: nowrap; }
+    .material { font-size: 12px; line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .timing { border-top: 1px solid var(--pp-border); padding-top: 7px; display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
+    .timing .value { font-size: 28px; }
+    .timing .label { margin: 0; }
+    .progress-head { display: flex; justify-content: space-between; font-size: 11px; gap: 8px; margin-bottom: 4px; }
+    .track { height: 8px; border: 1px solid var(--pp-fg); background: var(--pp-bg); }
+    .track span { height: 100%; display: block; background: var(--pp-accent); }
+    .note { font-size: 12px; line-height: 1.3; }
+    .history { flex: none; min-height: 0; }
+    h3 { font-size: 11px; text-transform: uppercase; letter-spacing: .12em; margin-bottom: 4px; }
+    .history-row { display: grid; grid-template-columns: minmax(0, 1fr) 76px 64px 89px; gap: 12px; align-items: center; border-top: 1px solid var(--pp-border); padding: 7px 0; font-size: 12px; }
+    .history-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 700; }
+    .history-row time, .history-row .amount { text-align: right; white-space: nowrap; }
+    .history-row .state { font-size: 11px; text-align: right; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .history-row[data-state="failed"] .state { color: var(--pp-red); font-weight: 800; }
+    footer { border-top: 2px solid var(--pp-fg); padding-top: 8px; display: flex; gap: 8px; justify-content: space-between; font-size: 10px; flex: none; }
+    footer span:last-child { white-space: nowrap; }
+    .empty { flex: 1; display: flex; flex-direction: column; justify-content: center; gap: 18px; }
+    .empty h2 { font-size: 34px; }
+    .empty p { font-size: 18px; line-height: 1.5; }
+    @media (orientation: portrait) {
+      #app { padding: 24px; gap: 16px; }
+      h1 { font-size: 27px; }
+      .hero { grid-template-columns: 1fr; grid-template-rows: minmax(130px, 1fr) auto; gap: 15px; }
+      .details { gap: 9px; }
+      h2 { font-size: 30px; -webkit-line-clamp: 1; }
+      .metrics { gap: 20px; }
+      .value { font-size: 28px; }
+      .history-row { padding: 8px 0; grid-template-columns: minmax(0,1fr) 66px 56px 79px; gap: 7px; }
+      footer { font-size: 9px; }
+    }
+    @media (min-width: 1000px) and (min-height: 1000px) {
+      #app { padding: 48px; gap: 28px; }
+      header { padding-bottom: 20px; border-bottom-width: 8px; gap: 22px; }
+      .brand { width: 50px; height: 50px; }
+      h1 { font-size: 52px; }
+      .sample { font-size: 20px; padding: 8px 12px; }
+      .hero { gap: 42px; }
+      .details { gap: 24px; }
+      h2 { font-size: 58px; }
+      .status { font-size: 22px; padding: 8px 14px; }
+      .printer, .material, .note { font-size: 23px; }
+      .label { font-size: 21px; }
+      .value, .timing .value { font-size: 50px; }
+      .timing { padding-top: 20px; }
+      .progress-head { font-size: 21px; margin-bottom: 8px; }
+      .track { height: 15px; }
+      h3 { font-size: 21px; margin-bottom: 12px; }
+      .history-row { font-size: 24px; padding: 16px 0; grid-template-columns: minmax(0,1fr) 142px 120px 170px; gap: 20px; }
+      .history-row .state { font-size: 20px; }
+      footer { font-size: 18px; padding-top: 16px; }
+    }
+  </style>
+</head>
+<body>
+  <div id="website-has-loading-element"></div>
+  <main id="app" aria-live="polite"></main>
+  <script type="module" src="./assets/render.js"></script>
+</body>
+</html>

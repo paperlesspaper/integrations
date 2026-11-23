@@ -1,0 +1,220 @@
+{
+  "name": "Baby",
+  "version": "1.3.0",
+  "status": "beta",
+  "description": "Illustrated pregnancy weeks and child development from birth to age five, with sourced German and English content.",
+  "renderPage": "./render.html",
+  "icon": "./assets/icon.png",
+  "timezone": "Europe/Berlin",
+  "language": [
+    "de",
+    "en"
+  ],
+  "nativeSettings": {
+    "color": "blue-light",
+    "childName": "",
+    "dueDate": "",
+    "birthDate": "",
+    "prematureWeeks": 0,
+    "showTip": true,
+    "textSize": "middle",
+    "demo": false,
+    "demoStage": "baby",
+    "referenceDate": "",
+    "imageStyle": "illustrated",
+    "demoPregnancyWeek": 24,
+    "showIllustration": true,
+    "showAgeDetails": false,
+    "showMeasurements": true,
+    "showProgress": false,
+    "showDate": false,
+    "showSources": false,
+    "showNotes": false,
+    "dailyContent": true
+  },
+  "formSchema": {
+    "type": "object",
+    "properties": {
+      "childName": {
+        "type": "string",
+        "title": "Name / Name",
+        "maxLength": 40,
+        "default": ""
+      },
+      "dueDate": {
+        "type": "string",
+        "format": "date",
+        "title": "Errechneter Termin / Due date",
+        "description": "Für die Schwangerschaft; nach der Geburt das tatsächliche Geburtsdatum ergänzen.",
+        "default": ""
+      },
+      "birthDate": {
+        "type": "string",
+        "format": "date",
+        "title": "Tatsächliches Geburtsdatum / Actual birth date",
+        "description": "Nur nach der Geburt ausfüllen. Hat Vorrang vor dem errechneten Termin.",
+        "default": ""
+      },
+      "prematureWeeks": {
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 20,
+        "title": "Wochen zu früh / Weeks premature",
+        "description": "Optional: mit dem Behandlungsteam abgestimmte volle Wochen vor 40+0. Korrigiert die Entwicklungszuordnung bis zum 2. Geburtstag.",
+        "default": 0
+      },
+      "imageStyle": {
+        "type": "string",
+        "enum": [
+          "illustrated",
+          "classic"
+        ],
+        "enumNames": [
+          "Gezeichnet / Illustrated",
+          "Klassisch 3D / Classic 3D"
+        ],
+        "title": "Bildstil / Image style",
+        "description": "Gilt für die Schwangerschaft und die Zeit nach der Geburt. Klassisch 3D ist an die alte Baby-Integration angelehnt.",
+        "default": "illustrated"
+      },
+      "dailyContent": {
+        "type": "boolean",
+        "title": "Täglich wechselnde Inhalte / Daily content",
+        "description": "Täglicher Themenwechsel innerhalb der passenden Woche oder Altersphase. Inhalte wiederholen sich nach einem Durchlauf. Ausschalten für die Wochen- und Monatsübersicht.",
+        "default": true
+      },
+      "showIllustration": {
+        "type": "boolean",
+        "title": "Bild zeigen / Show illustration",
+        "default": true
+      },
+      "showAgeDetails": {
+        "type": "boolean",
+        "title": "Alter und Trimester erläutern / Show age details",
+        "default": false
+      },
+      "showMeasurements": {
+        "type": "boolean",
+        "title": "Größenangabe zeigen / Show size estimate",
+        "default": true
+      },
+      "showProgress": {
+        "type": "boolean",
+        "title": "Fortschrittsbalken zeigen / Show progress bar",
+        "default": false
+      },
+      "showDate": {
+        "type": "boolean",
+        "title": "Datum zeigen / Show date",
+        "default": false
+      },
+      "showSources": {
+        "type": "boolean",
+        "title": "Quellen zeigen / Show sources",
+        "default": false
+      },
+      "showNotes": {
+        "type": "boolean",
+        "title": "Zusätzliche Hinweise zeigen / Show additional notes",
+        "default": false,
+        "description": "Optionale allgemeine Hinweise zur Schwangerschaft oder kindlichen Entwicklung."
+      },
+      "showTip": {
+        "type": "boolean",
+        "title": "Alltagsidee zeigen / Show everyday idea",
+        "default": true,
+        "description": "Zeigt Alltagsideen als Tagesbeitrag oder Zusatzzeile. Ausgeschaltet bleiben nur Wissens- und Entwicklungsbeiträge."
+      },
+      "textSize": {
+        "type": "string",
+        "enum": [
+          "small",
+          "middle",
+          "big"
+        ],
+        "title": "Textgröße / Text size",
+        "default": "middle"
+      },
+      "demo": {
+        "type": "boolean",
+        "title": "Beispielansicht / Demo",
+        "description": "Zeigt deutlich gekennzeichnete Beispieldaten statt persönlicher Datumsangaben.",
+        "default": false
+      },
+      "demoStage": {
+        "type": "string",
+        "enum": [
+          "pregnancy",
+          "baby",
+          "toddler"
+        ],
+        "title": "Beispielphase / Demo stage",
+        "default": "baby",
+        "enumNames": [
+          "Vor der Geburt / Pregnancy",
+          "Baby / Baby",
+          "Kleinkind / Toddler"
+        ]
+      },
+      "demoPregnancyWeek": {
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 41,
+        "title": "SSW im Schwangerschaftsbeispiel / Demo pregnancy week",
+        "description": "Nur bei aktiver Beispielansicht mit Phase Schwangerschaft: vollendete Wochen (0–41).",
+        "default": 24
+      },
+      "referenceDate": {
+        "type": "string",
+        "format": "date",
+        "title": "Vorschaudatum / Preview date",
+        "description": "Leer lassen für heute (Europe/Berlin). Ein gesetztes Datum wird als Vorschau gekennzeichnet.",
+        "default": ""
+      }
+    }
+  },
+  "configVariants": [
+    {
+      "color": "blue-light",
+      "demo": true,
+      "demoStage": "pregnancy",
+      "screenshots": {
+        "800x480": "./screenshots/pregnancy-blue-light-800x480.png",
+        "480x800": "./screenshots/pregnancy-blue-light-480x800.png"
+      },
+      "imageStyle": "illustrated",
+      "demoPregnancyWeek": 24
+    },
+    {
+      "color": "green-light",
+      "demo": true,
+      "demoStage": "baby",
+      "screenshots": {
+        "800x480": "./screenshots/baby-green-light-800x480.png",
+        "480x800": "./screenshots/baby-green-light-480x800.png"
+      },
+      "imageStyle": "illustrated"
+    },
+    {
+      "color": "blue-dark",
+      "demo": true,
+      "demoStage": "toddler",
+      "screenshots": {
+        "800x480": "./screenshots/toddler-blue-dark-800x480.png",
+        "480x800": "./screenshots/toddler-blue-dark-480x800.png"
+      },
+      "imageStyle": "illustrated"
+    },
+    {
+      "color": "blue-light",
+      "demo": true,
+      "demoStage": "pregnancy",
+      "demoPregnancyWeek": 32,
+      "imageStyle": "classic",
+      "screenshots": {
+        "800x480": "./screenshots/pregnancy-classic-800x480.png",
+        "480x800": "./screenshots/pregnancy-classic-480x800.png"
+      }
+    }
+  ]
+}

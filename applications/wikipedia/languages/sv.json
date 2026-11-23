@@ -1,0 +1,17 @@
+{
+  "featured": "Dagens artikel",
+  "onthisday": "Denna dag",
+  "top": "Top Wikipedia",
+  "views": "Visningar",
+  "change": "mot i går",
+  "history": "7 dagar",
+  "new": "Ny",
+  "missing": "Uppgifter saknas",
+  "partial": "Vissa jämförelseuppgifter saknas",
+  "emptyArticle": "Ingen dagens artikel finns tillgänglig för denna språkversion i dag.",
+  "emptyEvents": "Inga historiska händelser finns tillgängliga för denna språkversion i dag.",
+  "error": "Wikipedia kunde inte läsas in. Försök igen senare.",
+  "demo": "EXEMPELDATA",
+  "rank": "Placering",
+  "photoMissing": "Ingen bild tillgänglig"
+}

@@ -1,0 +1,114 @@
+{
+  "name": "UniFi Network",
+  "version": "0.1.0",
+  "status": "alpha",
+  "description": "UniFi device availability and connected client count.",
+  "renderPage": "./render.html",
+  "icon": "./assets/icon.png",
+  "timezone": "Europe/Berlin",
+  "language": ["de", "en"],
+  "nativeSettings": {
+    "color": "blue-light",
+    "title": "",
+    "sampleData": false,
+    "timeZone": "Europe/Berlin",
+    "baseUrl": "https://unifi.local",
+    "apiKey": "",
+    "siteId": "",
+    "consoleType": "unifi-os"
+  },
+  "formSchema": {
+    "type": "object",
+    "properties": {
+      "title": {
+        "type": "string",
+        "title": "Custom display title",
+        "default": ""
+      },
+      "sampleData": {
+        "type": "boolean",
+        "title": "Use labelled demo data",
+        "default": false
+      },
+      "timeZone": {
+        "type": "string",
+        "format": "timezone",
+        "title": "Display time zone",
+        "default": "Europe/Berlin"
+      },
+      "baseUrl": {
+        "type": "string",
+        "title": "UniFi console base URL",
+        "default": "https://unifi.local",
+        "format": "uri"
+      },
+      "apiKey": {
+        "type": "string",
+        "title": "UniFi Network API key",
+        "default": "",
+        "format": "password"
+      },
+      "siteId": {
+        "type": "string",
+        "title": "Site UUID (optional for a single site)",
+        "default": ""
+      },
+      "consoleType": {
+        "type": "string",
+        "title": "Console type",
+        "default": "unifi-os",
+        "enum": ["unifi-os", "standalone"]
+      }
+    }
+  },
+  "configVariants": [
+    {
+      "color": "blue-light",
+      "title": "",
+      "sampleData": true,
+      "timeZone": "Europe/Berlin",
+      "baseUrl": "https://unifi.local",
+      "apiKey": "",
+      "siteId": "",
+      "consoleType": "unifi-os",
+      "screenshots": {
+        "800x480": "./screenshots/unifi-light-800x480.png",
+        "480x800": "./screenshots/unifi-light-480x800.png",
+        "1600x1200": "./screenshots/unifi-light-1600x1200.png",
+        "1200x1600": "./screenshots/unifi-light-1200x1600.png"
+      }
+    },
+    {
+      "color": "blue-dark",
+      "title": "",
+      "sampleData": true,
+      "timeZone": "Europe/Berlin",
+      "baseUrl": "https://unifi.local",
+      "apiKey": "",
+      "siteId": "",
+      "consoleType": "unifi-os",
+      "screenshots": {
+        "800x480": "./screenshots/unifi-dark-800x480.png",
+        "480x800": "./screenshots/unifi-dark-480x800.png",
+        "1600x1200": "./screenshots/unifi-dark-1600x1200.png",
+        "1200x1600": "./screenshots/unifi-dark-1200x1600.png"
+      }
+    },
+    {
+      "color": "dark",
+      "title": "",
+      "sampleData": true,
+      "timeZone": "Europe/Berlin",
+      "baseUrl": "https://unifi.local",
+      "apiKey": "",
+      "siteId": "",
+      "consoleType": "unifi-os",
+      "screenshots": {
+        "800x480": "./screenshots/unifi-black-800x480.png",
+        "480x800": "./screenshots/unifi-black-480x800.png",
+        "1600x1200": "./screenshots/unifi-black-1600x1200.png",
+        "1200x1600": "./screenshots/unifi-black-1200x1600.png"
+      }
+    }
+  ]
+}
