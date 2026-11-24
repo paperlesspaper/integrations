@@ -275,6 +275,28 @@ test(
       assert.equal(requests.at(-1).kind, "current");
       assert.ok(await page.$(".current-view"));
       assert.ok(await page.$(".updated-at"));
+      for (const [width, height, color] of [[480, 264, "blue-light"], [264, 480, "red-dark"], [396, 480, "light"], [480, 396, "dark"], [800, 480, "light"]]) {
+        await page.setViewport({ width, height });
+        await page.goto(`${childOrigin}/weather/render.html?kind=forecast-summary&location=Dresden&language=de&displayLastUpdated=true&color=${color}`);
+        await page.waitForFunction(() => document.documentElement.dataset.paperlessRenderStatus === "ready");
+        if (process.env.WEATHER_REVIEW_DIR) {
+          await mkdir(process.env.WEATHER_REVIEW_DIR, { recursive: true });
+          await page.screenshot({ path: path.join(process.env.WEATHER_REVIEW_DIR, `summary-${width}x${height}.png`) });
+        }
+        const clipped = await page.evaluate(() => {
+          const walker = document.createTreeWalker(document.querySelector("#weather-root"), NodeFilter.SHOW_TEXT);
+          const result = [];
+          while (walker.nextNode()) {
+            if (!walker.currentNode.textContent.trim()) continue;
+            const range = document.createRange();
+            range.selectNodeContents(walker.currentNode);
+            const r = range.getBoundingClientRect();
+            if (r.width && (r.left < -1 || r.top < -1 || r.right > innerWidth + 1 || r.bottom > innerHeight + 1)) result.push(walker.currentNode.textContent);
+          }
+          return result;
+        });
+        assert.deepEqual(clipped, [], `summary text must fit ${width}x${height}`);
+      }
       for (const [width, height, color] of [
         [800, 480, "blue-light"],
         [480, 800, "dark"],
