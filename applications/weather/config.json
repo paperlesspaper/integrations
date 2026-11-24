@@ -1,6 +1,6 @@
 {
   "name": "Weather",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "status": "alpha",
   "description": "Shows current weather, hourly forecast, or a compact forecast summary from OpenWeatherMap or Open-Meteo.",
   "renderPage": "./render.html",
@@ -147,6 +147,7 @@
   "language": [
     "en",
     "de",
+    "nl",
     "fr",
     "es",
     "it"

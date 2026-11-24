@@ -1,7 +1,7 @@
 ---
 slug: weather
 name: Weather
-version: 0.1.0
+version: 0.1.1
 description: Shows current weather, hourly forecast, or a compact forecast summary from OpenWeatherMap or Open-Meteo.
 renderPage: ./render.html
 configUrl: /weather/config.json
@@ -64,6 +64,21 @@ The API adapter supports OpenWeatherMap and Open-Meteo. OpenWeatherMap is the de
 - `forecast`: seven forecast rows with time, weekday, temperature, description, icon, and humidity
 - `today-forecast`: current temperature, description, humidity, and wind speed
 
+Saved papers from the original weather app can continue using `kind=simple` or
+`kind=default` for the current-weather view. Existing `iconstyle`, location,
+theme, language and update-time query parameters are preserved. The render page
+uses the shared OpenIntegration INIT/readiness protocol, including when embedded
+next to Google Calendar in a Layout; no server-side legacy bridge is required.
+
 ## Language Support
 
-This integration declares `language: ["en", "de", "fr", "es", "it"]` in `config.json` and loads fixed UI copy from `languages/<code>.json` using the host-selected `payload.meta.language`.
+This integration declares `language: ["en", "de", "nl", "fr", "es", "it"]` in `config.json` and loads fixed UI copy from `languages/<code>.json` using the host-selected `payload.meta.language`.
+
+## Regression check
+
+Run `WEATHER_BROWSER_TESTS=1 node --test tests/weather-layout.test.mjs` from the
+repository root (set `CHROME_BIN` outside macOS). The test uses local synthetic
+weather data and the real render pages. It checks legacy views and language,
+cross-origin Calendar + Weather layouts in both orientations, and child failure
+propagation without Puppeteer-injected compatibility code. Set
+`WEATHER_REVIEW_DIR=/tmp/weather-review` to save the composed screenshots.
