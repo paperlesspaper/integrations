@@ -227,7 +227,7 @@ async function fetchOpenWeather(path, params, apiKey) {
   );
 }
 
-async function fetchOpenWeatherData({ apiKey, language, location }) {
+async function fetchOpenWeatherData({ apiKey, language, location, kind }) {
   if (!apiKey) {
     throw new Error("OPENWEATHERMAP_API_KEY is not configured.");
   }
@@ -238,8 +238,8 @@ async function fetchOpenWeatherData({ apiKey, language, location }) {
   };
 
   const [currentWeather, forecast] = await Promise.all([
-    fetchOpenWeather("weather", params, apiKey),
-    fetchOpenWeather("forecast", params, apiKey),
+    kind === "forecast" ? null : fetchOpenWeather("weather", params, apiKey),
+    kind === "current" ? null : fetchOpenWeather("forecast", params, apiKey),
   ]);
 
   return {
@@ -516,5 +516,6 @@ export default async function handler({ query = {} }) {
     apiKey: getApiKey(query),
     language,
     location,
+    kind: query.kind,
   });
 }

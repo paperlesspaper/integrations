@@ -1515,10 +1515,13 @@
 
           applyColorTheme(settings.color, { defaultTheme: defaults.color });
 
+          const kind = String(settings.kind || defaults.kind);
+          const currentOnly = ["today-forecast", "simple", "default"].includes(kind);
           const apiParams = new URLSearchParams({
             dataSource: settings.dataSource || defaults.dataSource,
             location: settings.location,
             language: currentLanguage,
+            kind: currentOnly ? "current" : kind === "forecast" && !settings.displayLastUpdated ? "forecast" : "all",
           });
 
           if (settings.apiKey) {
@@ -1556,7 +1559,6 @@
               ? `<div class="updated-at">${escapeHtml(updatedAt)} - ${escapeHtml(renderedAt)}</div>`
               : "";
 
-          const kind = String(settings.kind || defaults.kind);
           const viewMarkup =
             kind === "forecast"
               ? forecastMarkup(weatherData, settings)
