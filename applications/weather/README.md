@@ -82,5 +82,7 @@ Run `WEATHER_BROWSER_TESTS=1 node --test tests/weather-layout.test.mjs` from the
 repository root (set `CHROME_BIN` outside macOS). The test uses local synthetic
 weather data and the real render pages. It checks legacy views and language,
 cross-origin Calendar + Weather layouts in both orientations, and child failure
-propagation without Puppeteer-injected compatibility code. Set
-`WEATHER_REVIEW_DIR=/tmp/weather-review` to save the composed screenshots.
+propagation without Puppeteer-injected compatibility code.
+It also checks that summary text fits small Layout slots in both orientations,
+including colored light and dark themes.
+Set `WEATHER_REVIEW_DIR=/tmp/weather-review` to save the composed screenshots.
