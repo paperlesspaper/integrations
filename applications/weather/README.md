@@ -1,7 +1,7 @@
 ---
 slug: weather
 name: Weather
-version: 0.1.1
+version: 0.1.2
 description: Shows current weather, hourly forecast, or a compact forecast summary from OpenWeatherMap or Open-Meteo.
 renderPage: ./render.html
 configUrl: /weather/config.json
@@ -22,6 +22,8 @@ screenshots:
 Plain OpenIntegration version of the old paperlesspaper weather app. It keeps the old settings and views while using the new no-React structure: `config.json`, `render.html`, localized JSON files, and `api/data.js`.
 
 The API adapter supports OpenWeatherMap and Open-Meteo. OpenWeatherMap is the default and requires `OPENWEATHERMAP_API_KEY` in the server environment; for local one-off tests, `apiKey` can also be passed as a query setting. Open-Meteo can be selected with `dataSource=open-meteo` and does not require an API key for the public endpoint.
+
+OpenWeatherMap requests retain the old view dependencies: current-only views fetch only current weather, and forecast-only views fetch only the forecast unless the update timestamp is enabled. The API's optional `kind=current|forecast` selector returns `null` for the unused section; omitted or other values retain the existing combined response.
 
 ## Links
 

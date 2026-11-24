@@ -79,7 +79,19 @@ test(
         res.statusCode = failWeather ? 502 : 200;
         res.end(
           JSON.stringify(
-            failWeather ? { error: "Weather fixture unavailable" } : weather
+            failWeather
+              ? { error: "Weather fixture unavailable" }
+              : {
+                  ...weather,
+                  currentWeather:
+                    url.searchParams.get("kind") === "forecast"
+                      ? null
+                      : weather.currentWeather,
+                  forecast:
+                    url.searchParams.get("kind") === "current"
+                      ? null
+                      : weather.forecast,
+                }
           )
         );
         return;
@@ -180,8 +192,89 @@ test(
         );
         assert.equal(requests.at(-1).location, "Dresden");
         assert.equal(requests.at(-1).language, "nl");
+        assert.equal(
+          requests.at(-1).kind,
+          ["simple", "default", "today-forecast"].includes(kind)
+            ? "current"
+            : "all"
+        );
         assert.ok(await page.$(".updated-at"));
       }
+      await page.goto(
+        `${childOrigin}/weather/render.html?kind=forecast&location=Dresden&displayLastUpdated=false`
+      );
+      await page.waitForFunction(
+        () => document.documentElement.dataset.paperlessRenderStatus === "ready"
+      );
+      assert.equal(requests.at(-1).kind, "forecast");
+      assert.ok(await page.$(".forecast-view"));
+      assert.equal(await page.$(".updated-at"), null);
+      const iconSelectors = {
+        normal: "svg.weather-icon:not(.icon-monochrome)",
+        light: "svg.icon-monochrome",
+        qweather: 'img[src*="100-fill.svg"]',
+        "qweather-line": 'img[src*="100.svg"]',
+        "glyphs-poly": 'img[src*="glyphs-poly/sun.svg"]',
+        "noto-emoji": 'img[src*="noto/sun.svg"]',
+        openmoji: 'img[src*="openmoji/sun.svg"]',
+        openweather: 'img[src*="01d@4x.png"]',
+      };
+      const languages = ["en", "de", "nl", "fr", "es", "it"];
+      const colors = ["light", "dark", "red-light", "red-dark"];
+      for (const [index, [icon, selector]] of Object.entries(
+        iconSelectors
+      ).entries()) {
+        const language = languages[index % languages.length];
+        const color = colors[index % colors.length];
+        await page.goto(
+          `${childOrigin}/weather/render.html?kind=forecast&iconstyle=${icon}&language=${language}&color=${color}`
+        );
+        await page.waitForFunction(
+          () =>
+            document.documentElement.dataset.paperlessRenderStatus === "ready"
+        );
+        assert.ok(await page.$(selector), `legacy iconstyle=${icon}`);
+        assert.equal(
+          await page.evaluate(() => document.documentElement.lang),
+          language
+        );
+        assert.equal(requests.at(-1).language, language);
+        assert.equal(requests.at(-1).location, "Berlin");
+        const background = await page.evaluate(() =>
+          getComputedStyle(document.documentElement)
+            .getPropertyValue("--pp-bg")
+            .trim()
+        );
+        assert.ok(background, `${color} must resolve to a shared theme`);
+      }
+      await page.goto(`${childOrigin}/weather/render.html`);
+      await page.evaluate(() =>
+        window.postMessage(
+          {
+            type: "INIT",
+            data: {
+              meta: {
+                language: "fr",
+                pluginSettings: {
+                  kind: "today-forecast",
+                  location: "Dresden",
+                  displayLastUpdated: true,
+                },
+              },
+            },
+          },
+          location.origin
+        )
+      );
+      await page.waitForFunction(
+        () =>
+          document.documentElement.dataset.paperlessRenderStatus === "ready" &&
+          document.documentElement.lang === "fr"
+      );
+      assert.equal(requests.at(-1).location, "Dresden");
+      assert.equal(requests.at(-1).kind, "current");
+      assert.ok(await page.$(".current-view"));
+      assert.ok(await page.$(".updated-at"));
       for (const [width, height, color] of [
         [800, 480, "blue-light"],
         [480, 800, "dark"],
