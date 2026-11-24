@@ -721,7 +721,13 @@
         }
 
         async function loadMessages(payload) {
-          const result = await loadLanguageJson(payload);
+          // Legacy weather papers have no plugin manifest and may supply the
+          // language in their URL. Keep both legacy and OpenIntegration inputs.
+          const result = await loadLanguageJson(payload, {
+            supported: ["en", "de", "nl", "fr", "es", "it"],
+            requested: payload?.meta?.language || getQuerySettings().language,
+            defaultLanguage: "en",
+          });
           messages = { ...defaultMessages, ...result.messages };
           currentLanguage = result.language || "en";
           document.documentElement.lang = currentLanguage;
@@ -1554,7 +1560,7 @@
           const viewMarkup =
             kind === "forecast"
               ? forecastMarkup(weatherData, settings)
-              : kind === "today-forecast"
+              : ["today-forecast", "simple", "default"].includes(kind)
                 ? currentWeatherMarkup(weatherData.currentWeather, settings)
                 : summaryMarkup(weatherData, settings);
 
