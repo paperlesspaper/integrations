@@ -1,0 +1,248 @@
+{
+  "name": "Planday Dienstplan",
+  "version": "0.1.0",
+  "status": "alpha",
+  "description": "Wer arbeitet wann? Der aktuelle Planday-Dienstplan von Montag bis Sonntag.",
+  "renderPage": "./render.html",
+  "icon": "./assets/icon.png",
+  "timezone": "Europe/Berlin",
+  "language": [
+    "de",
+    "en"
+  ],
+  "nativeSettings": {
+    "color": "blue-light",
+    "clientId": "",
+    "refreshToken": "",
+    "departmentId": "",
+    "sampleData": false,
+    "view": "week",
+    "fontSize": 100,
+    "noPadding": false,
+    "fullWeekdayNames": false,
+    "locale": "de-DE",
+    "timeZone": "Europe/Berlin",
+    "dayRange": 14,
+    "maxEvents": 30,
+    "highlightToday": true,
+    "highlightScale": 1.2,
+    "showDaySummary": false,
+    "showHeader": true,
+    "personalTitle": "",
+    "personalSubtitle": "",
+    "informationDensity": "comfortable",
+    "timelineShowSidebar": true,
+    "timelineShowNow": true,
+    "timelineShowGaps": true,
+    "timelineGapMinutes": 30
+  },
+  "formSchema": {
+    "type": "object",
+    "properties": {
+      "clientId": {
+        "type": "string",
+        "title": "Planday App-ID",
+        "default": ""
+      },
+      "refreshToken": {
+        "type": "string",
+        "title": "Planday Refresh-Token",
+        "format": "password",
+        "default": ""
+      },
+      "departmentId": {
+        "type": "string",
+        "title": "Abteilungs-ID (leer für alle Abteilungen)",
+        "pattern": "^[0-9]*$",
+        "default": ""
+      },
+      "sampleData": {
+        "type": "boolean",
+        "title": "Beispieldaten anzeigen",
+        "default": false
+      },
+      "view": {
+        "type": "string",
+        "title": "Kalenderansicht",
+        "description": "Darstellung des Dienstplans auf dem Display.",
+        "enum": [
+          "agenda",
+          "day",
+          "three-days",
+          "week",
+          "year",
+          "agenda-modern",
+          "today-next",
+          "rolling-week-list",
+          "rolling-week",
+          "day-timeline"
+        ],
+        "enumNames": [
+          "Agenda (klassisch)",
+          "Tag",
+          "3 Tage",
+          "Kalenderwoche",
+          "Jahr",
+          "Agenda (modern)",
+          "Heute und als Nächstes",
+          "Nächste 7 Tage (Liste)",
+          "Nächste 7 Tage (Zeitraster)",
+          "Tageszeitleiste"
+        ],
+        "default": "week"
+      },
+      "fontSize": {
+        "type": "number",
+        "title": "Font size (%)",
+        "description": "Scale calendar text from 75% to 150%. Dense views may reduce text to fit.",
+        "minimum": 75,
+        "maximum": 150,
+        "step": 5,
+        "default": 100
+      },
+      "noPadding": {
+        "type": "boolean",
+        "title": "Remove outer padding",
+        "description": "Use the full display area without an outer margin around the calendar.",
+        "default": false
+      },
+      "fullWeekdayNames": {
+        "type": "boolean",
+        "title": "Full weekday names",
+        "description": "Spell out weekdays in day, 3-day and week views.",
+        "default": false
+      },
+      "locale": {
+        "type": "string",
+        "title": "Date locale",
+        "description": "BCP 47 locale, for example en-GB or de-DE.",
+        "default": "de-DE"
+      },
+      "timeZone": {
+        "type": "string",
+        "format": "timezone",
+        "title": "Time zone",
+        "description": "IANA time zone used for visible ranges and floating event times.",
+        "default": "Europe/Berlin"
+      },
+      "dayRange": {
+        "type": "integer",
+        "title": "Agenda day range",
+        "minimum": 1,
+        "maximum": 366,
+        "default": 14
+      },
+      "maxEvents": {
+        "type": "integer",
+        "title": "Maximum visible events",
+        "minimum": 1,
+        "maximum": 200,
+        "default": 30
+      },
+      "highlightToday": {
+        "type": "boolean",
+        "title": "Highlight today",
+        "default": true
+      },
+      "highlightScale": {
+        "type": "number",
+        "title": "Today highlight scale",
+        "minimum": 1,
+        "maximum": 3,
+        "step": 0.05,
+        "default": 1.2
+      },
+      "showDaySummary": {
+        "type": "boolean",
+        "title": "Day at a glance",
+        "description": "Show remaining timed events, all-day events, the next appointment and the last known end time today. Based on loaded calendar data at the displayed update time.",
+        "default": false
+      },
+      "showHeader": {
+        "type": "boolean",
+        "title": "Show calendar header",
+        "description": "Show the provider heading or your personal heading. The day summary is controlled separately.",
+        "default": true
+      },
+      "personalTitle": {
+        "type": "string",
+        "title": "Personal heading",
+        "description": "For example: Our week. Leave blank to keep the existing heading.",
+        "maxLength": 100,
+        "default": ""
+      },
+      "personalSubtitle": {
+        "type": "string",
+        "title": "Personal subtitle",
+        "description": "For example: Family Müller · Home & away. Leave blank to keep the existing subtitle.",
+        "maxLength": 160,
+        "default": ""
+      },
+      "informationDensity": {
+        "type": "string",
+        "title": "Information density",
+        "description": "Automatic fits text to the available space. Standard preserves the existing layout; compact shows more, spacious emphasizes readability. Font size remains independently adjustable. Extra appointments in modern and rolling lists are counted as + more.",
+        "enum": [
+          "automatic",
+          "comfortable",
+          "compact",
+          "spacious"
+        ],
+        "enumNames": [
+          "Automatic",
+          "Standard",
+          "Compact",
+          "Spacious"
+        ],
+        "default": "comfortable"
+      },
+      "timelineShowSidebar": {
+        "type": "boolean",
+        "title": "Timeline: next event and due list",
+        "description": "Show the next appointment and today’s [todo] deadlines/all-day events next to the timeline. In portrait they move below it.",
+        "default": true
+      },
+      "timelineShowNow": {
+        "type": "boolean",
+        "title": "Timeline: current time marker",
+        "description": "Show a red Now marker at the last calendar refresh, without a numeric clock label.",
+        "default": true
+      },
+      "timelineShowGaps": {
+        "type": "boolean",
+        "title": "Timeline: free time gaps",
+        "description": "Label gaps between known timed commitments. All-day events or missing end times suppress gap labels. Based only on loaded events.",
+        "default": true
+      },
+      "timelineGapMinutes": {
+        "type": "integer",
+        "title": "Timeline: minimum gap (minutes)",
+        "minimum": 15,
+        "maximum": 240,
+        "default": 30
+      }
+    }
+  },
+  "configVariants": [
+    {
+      "sampleData": true,
+      "color": "blue-light",
+      "screenshots": {
+        "800x480": "./screenshots/planday-light-800x480.png",
+        "480x800": "./screenshots/planday-light-480x800.png"
+      },
+      "view": "week",
+      "now": "2026-11-26T09:00:00Z"
+    },
+    {
+      "sampleData": true,
+      "color": "blue-dark",
+      "screenshots": {
+        "800x480": "./screenshots/planday-dark-800x480.png",
+        "480x800": "./screenshots/planday-dark-480x800.png"
+      },
+      "view": "week",
+      "now": "2026-11-26T09:00:00Z"
+    }
+  ]
+}
