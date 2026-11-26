@@ -1,6 +1,6 @@
 {
   "name": "Planday Dienstplan",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "status": "alpha",
   "description": "Wer arbeitet wann? Der aktuelle Planday-Dienstplan von Montag bis Sonntag.",
   "renderPage": "./render.html",
@@ -17,6 +17,7 @@
     "clientId": "",
     "refreshToken": "",
     "departmentId": "",
+    "nameFormat": "Vollständiger Name",
     "sampleData": false,
     "view": "week",
     "fontSize": 100,
@@ -114,6 +115,12 @@
           "Tageszeitleiste"
         ],
         "default": "week"
+      },
+      "nameFormat": {
+        "type": "string",
+        "title": "Namen anzeigen",
+        "enum": ["Vollständiger Name", "Nur Vorname", "Nur Nachname"],
+        "default": "Vollständiger Name"
       },
       "fontSize": {
         "type": "number",

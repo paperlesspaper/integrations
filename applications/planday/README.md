@@ -25,6 +25,8 @@ Unter **Kalenderansicht** stehen alle zehn gemeinsamen Layouts zur Wahl. Neben K
 
 Jede zugeordnete Schicht wird zum Kalendereintrag mit dem Namen der eingeteilten Person und den Zeiten aus Planday. Die Mitarbeiterliste bestimmt anhand der sortierten Planday-IDs die Farbe jeder Person. Bei größeren Teams verwendet der Kalender freie Farben, wenn eingeteilte Personen dieselbe Grundfarbe haben. Erst bei mehr als sechs eingeteilten Personen im angezeigten Zeitraum wiederholen sich Farben. Nachtschichten bleiben über Mitternacht zusammenhängend. Offene Schichten und Entwürfe entfallen. Fehlt der Name, erscheint die Planday-Mitarbeiter-ID. Für Schichten ohne hinterlegte Startzeit zeigt der Kalender „Zeit offen“ an.
 
+Unter **Namen anzeigen** stehen der vollständige Name, nur der Vorname und nur der Nachname zur Wahl. Mehrteilige Namen bleiben zusammen. Fehlt das gewählte Namensfeld in Planday, erscheint die Mitarbeiter-ID.
+
 Schriftgröße, Informationsdichte, Kopfzeile, Tageszusammenfassung und Hervorhebung des aktuellen Tages lassen sich wie bei den anderen Kalendern einstellen. **Beispieldaten anzeigen** lädt einen fiktiven Dienstplan zum Ausprobieren der Ansichten.
 
 Die Zugangsdaten gelangen per JSON-POST zum Integrationsserver. Dieser tauscht das Refresh-Token gegen ein Zugriffstoken und führt [Schichten](https://developer.planday.com/api/schedule/) und [Mitarbeiternamen](https://developer.planday.com/api/hr/) zusammen.
