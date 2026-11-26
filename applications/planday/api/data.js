@@ -5,6 +5,51 @@ import { bool, getJson, required, text } from "../../_shared/dashboard-api.js";
 const studioZone = "Europe/Berlin";
 const dayMs = 86_400_000;
 
+async function webSchedule(query, params, collect, fetchJson) {
+  const en = query.language === "en";
+  const department = text(query.departmentId);
+  const token = text(query.browserToken).replace(/^Bearer\s+/i, "");
+  if (!/^\d+$/.test(department) || !token || /\s/.test(token)) {
+    throw new Error(en ? "Enter the department ID and a valid web schedule token."
+      : "Trage die Abteilungs-ID und ein gültiges Zugriffstoken für den Web-Dienstplan ein.");
+  }
+  const headers = {
+    Authorization: "Bearer " + token,
+    ...(text(query.clientId) && { "X-ClientId": text(query.clientId) }),
+    "Planday-Client-Version": "Web-0.0.1",
+  };
+  const basePath = "/scheduling/departments/" + department + "/day_based/";
+  async function rows(service, resource) {
+    const url = new URL(basePath + resource, "https://scheduling-" + service + "-api.prod-westeurope.planday.cloud");
+    url.search = new URLSearchParams(params);
+    let payload;
+    try {
+      payload = await fetchJson(url.href, { headers });
+    } catch (error) {
+      if (/HTTP 401\b/.test(error.message)) throw new Error(en
+        ? "Planday rejected the web schedule token. Replace it in the settings."
+        : "Planday hat das Zugriffstoken abgelehnt. Ersetze es in den Einstellungen.");
+      throw error;
+    }
+    if (!Array.isArray(payload?.[resource])) throw new Error("Invalid Planday web schedule response");
+    return payload[resource];
+  }
+  const shifts = await rows("shift", "shifts");
+  const ids = collect(shifts.map(shift => ({
+    id: shift.id, employeeId: shift.employee_id, status: shift.status,
+    date: shift.date, timeZone: shift.time_zone,
+    startDateTime: shift.start_date_time, endDateTime: shift.end_date_time,
+  })));
+  const names = new Map();
+  if (ids.size) {
+    for (const employee of await rows("people", "employees")) {
+      if (ids.has(employee.id)) names.set(employee.id, text(employee.display_name) ||
+        [text(employee.name?.first_name), text(employee.name?.last_name)].filter(Boolean).join(" "));
+    }
+  }
+  return names;
+}
+
 function timestamp(value, zone) {
   if (!value) return null;
   // Planday also returns wall-clock values without a numeric offset.
@@ -89,6 +134,7 @@ export async function loadCalendar(query = {}, fetchJson = getJson, now = new Da
         missing.add(shift.employeeId);
       }
     }
+    return missing;
   }
 
   const sample = bool(query.sampleData);
@@ -96,6 +142,8 @@ export async function loadCalendar(query = {}, fetchJson = getJson, now = new Da
   if (sample) {
     names = sampleNames;
     collect(sampleShifts(params.from, params.to));
+  } else if (query.connection === "webSchedule") {
+    names = await webSchedule(query, params, collect, fetchJson);
   } else {
     const clientId = text(query.clientId);
     const refreshToken = text(query.refreshToken);
@@ -130,6 +178,9 @@ export async function loadCalendar(query = {}, fetchJson = getJson, now = new Da
   })) };
 }
 
-export default async function handler({ query }) {
+export default async function handler({ query, request }) {
+  if (query.browserToken && (request?.method !== "POST" || request.query?.browserToken)) {
+    throw new Error("Submit the web schedule token in the POST body.");
+  }
   return loadCalendar(query);
 }

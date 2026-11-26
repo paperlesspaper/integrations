@@ -4,6 +4,14 @@ Verwendet denselben Kalender-Renderer wie Google Kalender, Outlook und Webcal. S
 
 ## Planday verbinden
 
+### Web-Dienstplan
+
+Wähle **Planday Web-Dienstplan** als Datenquelle und trage die Abteilungs-ID aus der Dienstplan-Adresse, die Client-ID aus dem Header `X-ClientId` sowie das aktuelle Zugriffstoken deiner Planday-Websitzung ein. Die Integration liest die Schichten und Anzeigenamen für diese Abteilung über dieselben beiden Dienste wie die Mitarbeiteransicht in Planday. Dafür muss dein Konto diese Daten im Portal sehen können.
+
+Der Integrationsserver erhält das Token per JSON-POST und übermittelt es an die beiden Planday-Dienste in Westeuropa. Verwende diese Einstellung nur auf einem vertrauenswürdigen Host. Wenn Planday das Token ablehnt, muss es in den Rahmeneinstellungen ersetzt werden. Die internen Schnittstellen können sich mit der Webanwendung ändern.
+
+### Open API
+
 1. Öffne dein Planday-Portal als Administrator und gehe zu **Einstellungen → Integrationen → API-Zugriff**.
 2. Erstelle eine App mit den Leserechten `shift:read` und `employee:read` und autorisiere sie für dieses Portal.
 3. Übernimm die **App-ID** und das **Refresh-Token** aus Planday in die Einstellungen der paperlesspaper-Integration. Lass **Beispieldaten anzeigen** für den Live-Betrieb ausgeschaltet.

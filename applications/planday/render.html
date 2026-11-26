@@ -17,12 +17,15 @@
       defaults: {
         color: "blue-light", view: "week", locale: "de-DE", timeZone: "Europe/Berlin",
         dayRange: 14, maxEvents: 30, highlightScale: 1.2, showLocation: false,
-        showEventIcons: false, sampleData: false, clientId: "", refreshToken: "", departmentId: "",
+        showEventIcons: false, sampleData: false, connection: "openApi", browserToken: "", clientId: "", refreshToken: "", departmentId: "",
       },
       fallbackTitle: "Planday",
       buildRequest({ mergedSettings, range, settings }) {
         return {
-          clientId: mergedSettings.clientId, refreshToken: mergedSettings.refreshToken,
+          connection: mergedSettings.connection, clientId: mergedSettings.clientId,
+          ...(mergedSettings.connection === "webSchedule"
+            ? { browserToken: mergedSettings.browserToken }
+            : { refreshToken: mergedSettings.refreshToken }),
           departmentId: mergedSettings.departmentId, sampleData: mergedSettings.sampleData,
           timeZone: settings.timeZone, language: document.documentElement.lang,
           rangeStart: range.startKey, rangeEndExclusive: range.endKey,
