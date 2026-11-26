@@ -1,6 +1,6 @@
 {
   "name": "Planday Dienstplan",
-  "version": "0.4.1",
+  "version": "0.5.0",
   "status": "alpha",
   "description": "Wer arbeitet wann? Der aktuelle Planday-Dienstplan von Montag bis Sonntag.",
   "renderPage": "./render.html",
@@ -14,6 +14,7 @@
     "color": "blue-light",
     "connection": "openApi",
     "browserToken": "",
+    "helperKey": "",
     "clientId": "",
     "refreshToken": "",
     "departmentId": "",
@@ -47,13 +48,22 @@
         "title": "Datenquelle",
         "enum": [
           "openApi",
-          "webSchedule"
+          "webSchedule",
+          "weekHelper"
         ],
         "enumNames": [
           "Planday Open API",
-          "Planday Web-Dienstplan"
+          "Planday Web-Dienstplan",
+          "Wochenplan-Helper"
         ],
         "default": "openApi"
+      },
+      "helperKey": {
+        "type": "string",
+        "title": "Leseschlüssel für den Wochenplan-Helper",
+        "description": "Für die Datenquelle weekHelper. Der Schlüssel erlaubt das Lesen der synchronisierten Woche.",
+        "format": "password",
+        "default": ""
       },
       "browserToken": {
         "type": "string",

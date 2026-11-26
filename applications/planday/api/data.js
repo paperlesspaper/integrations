@@ -145,7 +145,17 @@ function calendarEvent(shift, range) {
   return { id: shift.id, start: { date: shift.date }, ...(end && { end: { dateTime: end.toISOString() } }) };
 }
 
-export async function loadCalendar(query = {}, fetchJson = getJson, now = new Date()) {
+async function fetchHelper(key) {
+  // Fixed private Docker service. A frame cannot choose the destination.
+  const res = await fetch("http://planday-week-helper:3100/week", {
+    headers: { Authorization: "Bearer " + key }, redirect: "error", signal: AbortSignal.timeout(5000),
+  });
+  if (res.status === 401) throw Error("Der Leseschlüssel für den Helper ist ungültig.");
+  if (!res.ok) throw Error("Der Helper hat noch keinen aktuellen Wochenplan. Bitte die Planday-Anmeldung in Dokploy prüfen.");
+  return res.json();
+}
+
+export async function loadCalendar(query = {}, fetchJson = getJson, now = new Date(), readHelper = fetchHelper) {
   const timeZone = normalizeTimeZone(query.timeZone, studioZone);
   const week = buildCalendarRange({ view: "week", timeZone }, now);
   const range = normalizeCalendarRange({
@@ -176,6 +186,19 @@ export async function loadCalendar(query = {}, fetchJson = getJson, now = new Da
   if (sample) {
     names = new Map(sampleEmployees.map(([id, first, last]) => [id, employeeName(query.nameFormat, first, last)]));
     collect(sampleShifts(params.from, params.to));
+  } else if (query.connection === "weekHelper") {
+    const key = text(query.helperKey);
+    if (!/^[A-Za-z0-9_-]{43}$/.test(key)) throw Error("Bitte den Leseschlüssel aus dem Wochenplan-Helper eintragen.");
+    const data = await readHelper(key);
+    if (query.departmentId && departmentIdText(query.departmentId) !== data.department) {
+      throw Error("Der Helper ist für eine andere Abteilung eingerichtet.");
+    }
+    const lastDay = dateKey(new Date(range.to.getTime() - 1), timeZone);
+    if (range.rangeStart < data.from || lastDay > data.to) {
+      throw Error("Der Helper liefert die laufende Kalenderwoche. Bitte die Kalenderansicht week wählen.");
+    }
+    collect(data.shifts);
+    names = new Map(data.employees.map(e => [e.id, employeeName(query.nameFormat, e.first, e.last, e.display)]));
   } else if (query.connection === "webSchedule") {
     names = await webSchedule(query, params, collect, fetchJson);
   } else {
@@ -212,6 +235,9 @@ export async function loadCalendar(query = {}, fetchJson = getJson, now = new Da
 }
 
 export default async function handler({ query, request }) {
+  if (query.helperKey && (request?.method !== "POST" || request.query?.helperKey)) {
+    throw new Error("Submit the helper key in the POST body.");
+  }
   if (query.browserToken && (request?.method !== "POST" || request.query?.browserToken)) {
     throw new Error("Submit the web schedule token in the POST body.");
   }

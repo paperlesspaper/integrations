@@ -150,3 +150,17 @@ test("name selection preserves compound names, default display names and employe
     url.includes("/shifts?") ? { shifts: [shift] } : { employees: [{ id: 9, display_name: "Anni" }] }, now);
   assert.equal(events[0].title, "#9");
 });
+
+test("private helper week preserves names and rejects a wider range", async () => {
+  const query = { connection: "weekHelper", helperKey: "a".repeat(43), rangeStart: "2024-01-01", rangeEndExclusive: "2024-01-08", nameFormat: "Nur Vorname" };
+  const weekly = async () => ({
+    department:"17", from:"2024-01-01", to:"2024-01-07",
+    employees:[{id:9,first:"Anne Marie",last:"van den Berg"}],
+    shifts:[{id:24,employeeId:9,date:"2024-01-01"}]
+  });
+  const {events} = await loadCalendar(query, undefined, now, weekly);
+  assert.equal(events[0].title,"Anne Marie");
+  assert.ok(events[0].color);
+  await assert.rejects(loadCalendar({...query,rangeEndExclusive:"2024-01-09"},undefined,now,weekly), /Kalenderwoche/);
+  await assert.rejects(loadCalendar({...query,departmentId:"18"},undefined,now,weekly), /Abteilung/);
+});
