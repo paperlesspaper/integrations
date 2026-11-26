@@ -4,6 +4,28 @@ import { bool, getJson, required, text } from "../../_shared/dashboard-api.js";
 
 const studioZone = "Europe/Berlin";
 const dayMs = 86_400_000;
+const employeePalette = ["#0000ff", "#00ff00", "#ff0000", "#000000", "#ffffff", "#ffff00"];
+
+function employeeColors(names, scheduledIds) {
+  const roster = [...new Set([...names.keys(), ...scheduledIds])].sort((a, b) => a - b);
+  const colors = new Map();
+  const unused = new Set(employeePalette);
+  const shared = [];
+  for (const [index, id] of roster.entries()) {
+    if (!scheduledIds.has(id)) continue;
+    const preferred = employeePalette[index % employeePalette.length];
+    colors.set(id, preferred);
+    if (!unused.delete(preferred)) shared.push(id);
+  }
+  // In larger teams, give scheduled staff distinct colors while spare pigments are available.
+  for (const id of shared) {
+    const next = unused.values().next();
+    if (next.done) break;
+    colors.set(id, next.value);
+    unused.delete(next.value);
+  }
+  return colors;
+}
 
 function departmentIdText(value) {
   return Number.isSafeInteger(value) ? String(value) : text(value);
@@ -47,7 +69,7 @@ async function webSchedule(query, params, collect, fetchJson) {
   const names = new Map();
   if (ids.size) {
     for (const employee of await rows("people", "employees")) {
-      if (ids.has(employee.id)) names.set(employee.id, text(employee.display_name) ||
+      names.set(employee.id, text(employee.display_name) ||
         [text(employee.name?.first_name), text(employee.name?.last_name)].filter(Boolean).join(" "));
     }
   }
@@ -129,16 +151,16 @@ export async function loadCalendar(query = {}, fetchJson = getJson, now = new Da
     to: dateKey(new Date(range.to.getTime() - 1), studioZone),
   };
   const events = [];
-  const missing = new Set();
+  const scheduledIds = new Set();
   function collect(shifts) {
     for (const shift of shifts) {
       const event = calendarEvent(shift, range);
       if (event) {
         events.push({ ...event, employeeId: shift.employeeId });
-        missing.add(shift.employeeId);
+        scheduledIds.add(shift.employeeId);
       }
     }
-    return missing;
+    return scheduledIds;
   }
 
   const sample = bool(query.sampleData);
@@ -167,18 +189,17 @@ export async function loadCalendar(query = {}, fetchJson = getJson, now = new Da
     };
     for await (const shifts of pages("/scheduling/v1.0/shifts", params, headers, 500, fetchJson)) collect(shifts);
     names = new Map();
-    if (missing.size) {
+    if (scheduledIds.size) {
       for await (const employees of pages("/hr/v1.0/employees", {}, headers, 50, fetchJson)) {
         for (const employee of employees) {
-          if (!missing.delete(employee.id)) continue;
           names.set(employee.id, [text(employee.firstName), text(employee.lastName)].filter(Boolean).join(" "));
         }
-        if (!missing.size) break;
       }
     }
   }
+  const colors = employeeColors(names, scheduledIds);
   return { sample, events: events.map(({ employeeId, ...event }) => ({
-    ...event, title: names.get(employeeId) || "#" + employeeId,
+    ...event, color: colors.get(employeeId), title: names.get(employeeId) || "#" + employeeId,
   })) };
 }
 

@@ -23,7 +23,7 @@ Das Manifest liegt beim laufenden Integrationsserver unter `/planday/config.json
 
 Unter **Kalenderansicht** stehen alle zehn gemeinsamen Layouts zur Wahl. Neben Kalenderwoche, Tag, drei Tagen und Jahr gibt es die klassische und moderne Agenda, „Heute und als Nächstes“, die nächsten sieben Tage als Liste oder Zeitraster sowie die Tageszeitleiste. Der Datenabruf richtet sich nach dem sichtbaren Zeitraum. In der Jahresansicht markieren die Kalendertage die Schichtbelegung.
 
-Jede zugeordnete Schicht wird zum Kalendereintrag mit dem Namen der eingeteilten Person und den Zeiten aus Planday. Nachtschichten bleiben über Mitternacht zusammenhängend. Offene Schichten und Entwürfe entfallen. Fehlt der Name, erscheint die Planday-Mitarbeiter-ID. Für Schichten ohne hinterlegte Startzeit zeigt der Kalender „Zeit offen“ an.
+Jede zugeordnete Schicht wird zum Kalendereintrag mit dem Namen der eingeteilten Person und den Zeiten aus Planday. Die Mitarbeiterliste bestimmt anhand der sortierten Planday-IDs die Farbe jeder Person. Bei größeren Teams verwendet der Kalender freie Farben, wenn eingeteilte Personen dieselbe Grundfarbe haben. Erst bei mehr als sechs eingeteilten Personen im angezeigten Zeitraum wiederholen sich Farben. Nachtschichten bleiben über Mitternacht zusammenhängend. Offene Schichten und Entwürfe entfallen. Fehlt der Name, erscheint die Planday-Mitarbeiter-ID. Für Schichten ohne hinterlegte Startzeit zeigt der Kalender „Zeit offen“ an.
 
 Schriftgröße, Informationsdichte, Kopfzeile, Tageszusammenfassung und Hervorhebung des aktuellen Tages lassen sich wie bei den anderen Kalendern einstellen. **Beispieldaten anzeigen** lädt einen fiktiven Dienstplan zum Ausprobieren der Ansichten.
 

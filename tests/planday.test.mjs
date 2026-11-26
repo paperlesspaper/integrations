@@ -24,7 +24,7 @@ test("web schedule joins department shifts to display names and returns only cal
   assert.deepEqual(calls, ["shift", "people"].map((service, i) =>
     "https://scheduling-" + service + "-api.prod-westeurope.planday.cloud/scheduling/departments/17/day_based/" +
     ["shifts", "employees"][i] + "?from=2023-12-31&to=2024-01-07"));
-  assert.deepEqual(result, { sample: false, events: [{ id: 1, title: "Test Person",
+  assert.deepEqual(result, { sample: false, events: [{ id: 1, title: "Test Person", color: "#0000ff",
     start: { dateTime: "2024-01-01T20:00:00.000Z" }, end: { dateTime: "2024-01-02T04:00:00.000Z" } }] });
 });
 
@@ -109,4 +109,22 @@ test("honours one-day and full leap-year ranges and keeps summer shift times in 
   assert.ok(year.events.some(e => e.start.dateTime.startsWith("2024-02-29")));
   assert.ok(year.events.some(e => e.start.dateTime.startsWith("2024-12-31")));
   await assert.rejects(getSample("2024-01-01", "2025-01-02"), /366/);
+});
+
+test("employee colors follow the roster across views, including staff without shifts", async () => {
+  const week = await loadCalendar({ sampleData: true }, noNetwork, now);
+  const day = await loadCalendar({ sampleData: true, rangeStart: "2024-01-02", rangeEndExclusive: "2024-01-03" }, noNetwork, now);
+  const colors = new Map(week.events.map(event => [event.title, event.color]));
+  assert.equal(new Set(colors.values()).size, 4);
+  assert.equal(day.events.length, 1);
+  for (const event of [...week.events, ...day.events]) assert.equal(event.color, colors.get(event.title));
+});
+
+test("resolves roster color collisions when the selected week contains fewer than six people", async () => {
+  const employees = Array.from({ length: 9 }, (_, index) => ({ id: index + 1, display_name: "Person " + (index + 1) }));
+  const shifts = [7, 2, 1, 7].map((id, i) => ({ id: i + 1, employee_id: id, date: "2024-01-01" }));
+  const result = await loadCalendar(webSettings, async url => url.includes("/shifts?") ? { shifts } : { employees }, now);
+  const colors = result.events.map(event => event.color);
+  assert.equal(new Set(colors).size, 3);
+  assert.equal(colors[0], colors[3]);
 });
