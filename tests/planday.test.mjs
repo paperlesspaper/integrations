@@ -20,7 +20,7 @@ test("web schedule joins department shifts to display names and returns only cal
     return url.includes("/shifts?") ? { shifts: [shift, { ...shift, status: "Draft" }, { ...shift, employee_id: null }] }
       : { employees: [{ id: 9, display_name: "Test Person", permissions: ["private"] }] };
   };
-  const result = await loadCalendar(webSettings, fetchJson, now);
+  const result = await loadCalendar({ ...webSettings, departmentId: 17 }, fetchJson, now);
   assert.deepEqual(calls, ["shift", "people"].map((service, i) =>
     "https://scheduling-" + service + "-api.prod-westeurope.planday.cloud/scheduling/departments/17/day_based/" +
     ["shifts", "employees"][i] + "?from=2023-12-31&to=2024-01-07"));

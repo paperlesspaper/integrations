@@ -5,9 +5,13 @@ import { bool, getJson, required, text } from "../../_shared/dashboard-api.js";
 const studioZone = "Europe/Berlin";
 const dayMs = 86_400_000;
 
+function departmentIdText(value) {
+  return Number.isSafeInteger(value) ? String(value) : text(value);
+}
+
 async function webSchedule(query, params, collect, fetchJson) {
   const en = query.language === "en";
-  const department = text(query.departmentId);
+  const department = departmentIdText(query.departmentId);
   const token = text(query.browserToken).replace(/^Bearer\s+/i, "");
   if (!/^\d+$/.test(department) || !token || /\s/.test(token)) {
     throw new Error(en ? "Enter the department ID and a valid web schedule token."
@@ -150,7 +154,7 @@ export async function loadCalendar(query = {}, fetchJson = getJson, now = new Da
     if (!clientId || !refreshToken) throw new Error(query.language === "en"
       ? "Enter your Planday app ID and refresh token in the integration settings."
       : "Trage die Planday-App-ID und das Refresh-Token in den Einstellungen ein.");
-    const departmentId = text(query.departmentId);
+    const departmentId = departmentIdText(query.departmentId);
     if (departmentId && !/^\d+$/.test(departmentId)) throw new Error("Invalid Planday department ID");
     if (departmentId) params.departmentId = departmentId;
     const token = await fetchJson("https://id.planday.com/connect/token", {
