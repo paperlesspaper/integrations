@@ -1,11 +1,44 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { loadCalendar } from "../applications/planday/api/data.js";
+import handler, { loadCalendar } from "../applications/planday/api/data.js";
 
 const credentials = { clientId: "studio", refreshToken: "fixture&value", departmentId: "17" };
 // Berlin is already on Monday, but the UTC date still belongs to the preceding week and year.
 const now = new Date("2023-12-31T23:30:00Z");
 const noNetwork = () => { throw Error("Unexpected network request"); };
+
+const webSettings = { connection: "webSchedule", departmentId: "17", browserToken: "Bearer fixture", clientId: "web-client" };
+
+test("web schedule joins department shifts to display names and returns only calendar fields", async () => {
+  const calls = [];
+  const fetchJson = async (url, { headers }) => {
+    calls.push(url);
+    assert.equal(headers.Authorization, "Bearer fixture");
+    assert.equal(headers["X-ClientId"], "web-client");
+    const shift = { id: 1, employee_id: 9, date: "2024-01-01", time_zone: "Europe/Berlin",
+      start_date_time: "2024-01-01T21:00", end_date_time: "2024-01-02T05:00", status: "Approved", comment: "private" };
+    return url.includes("/shifts?") ? { shifts: [shift, { ...shift, status: "Draft" }, { ...shift, employee_id: null }] }
+      : { employees: [{ id: 9, display_name: "Test Person", permissions: ["private"] }] };
+  };
+  const result = await loadCalendar(webSettings, fetchJson, now);
+  assert.deepEqual(calls, ["shift", "people"].map((service, i) =>
+    "https://scheduling-" + service + "-api.prod-westeurope.planday.cloud/scheduling/departments/17/day_based/" +
+    ["shifts", "employees"][i] + "?from=2023-12-31&to=2024-01-07"));
+  assert.deepEqual(result, { sample: false, events: [{ id: 1, title: "Test Person",
+    start: { dateTime: "2024-01-01T20:00:00.000Z" }, end: { dateTime: "2024-01-02T04:00:00.000Z" } }] });
+});
+
+test("web schedule distinguishes an empty week, rejected token and invalid payload", async () => {
+  const empty = await loadCalendar(webSettings, async url => {
+    assert.match(url, /\/shifts\?/);
+    return { shifts: [] };
+  }, now);
+  assert.deepEqual(empty, { sample: false, events: [] });
+  await assert.rejects(loadCalendar(webSettings, async () => ({}), now), /Invalid/);
+  await assert.rejects(loadCalendar(webSettings, async () => { throw Error("HTTP 401"); }, now), /Zugriffstoken/);
+  await assert.rejects(loadCalendar({ ...webSettings, departmentId: "" }, noNetwork, now), /Abteilungs-ID/);
+  await assert.rejects(handler({ query: webSettings, request: { method: "GET" } }), /POST/);
+});
 
 test("demo and incomplete setup never contact the provider", async () => {
   const demo = await loadCalendar({ sampleData: true }, noNetwork, now);
