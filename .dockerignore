@@ -4,3 +4,4 @@ npm-debug.log
 .git
 .env
 output
+tools/planday-helper

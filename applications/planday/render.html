@@ -22,10 +22,11 @@
       fallbackTitle: "Planday",
       buildRequest({ mergedSettings, range, settings }) {
         return {
-          connection: mergedSettings.connection, clientId: mergedSettings.clientId,
+          connection: mergedSettings.connection,
           ...(mergedSettings.connection === "webSchedule"
-            ? { browserToken: mergedSettings.browserToken }
-            : { refreshToken: mergedSettings.refreshToken }),
+            ? { browserToken: mergedSettings.browserToken, clientId: mergedSettings.clientId }
+            : mergedSettings.connection === "weekHelper" ? { helperKey: mergedSettings.helperKey }
+            : { refreshToken: mergedSettings.refreshToken, clientId: mergedSettings.clientId }),
           nameFormat: mergedSettings.nameFormat, departmentId: mergedSettings.departmentId, sampleData: mergedSettings.sampleData,
           timeZone: settings.timeZone, language: document.documentElement.lang,
           rangeStart: range.startKey, rangeEndExclusive: range.endKey,

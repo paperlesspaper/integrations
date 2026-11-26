@@ -19,6 +19,10 @@ Der Integrationsserver erhält das Token per JSON-POST und übermittelt es an di
 
 Das Manifest liegt beim laufenden Integrationsserver unter `/planday/config.json`. Die Einrichtung des API-Zugangs beschreibt [Planday in der Autorisierungsanleitung](https://developer.planday.com/gettingstarted/authorization/).
 
+## Automatischer Wochenplan über den Browser
+
+Mit der Datenquelle `weekHelper` liest die Integration die aktuelle Woche einer Abteilung aus einem eigenen Docker-Container. Der Container verwendet die reguläre Planday-Webanmeldung und synchronisiert den Plan alle zehn Minuten. [Helper in Dokploy einrichten](../../tools/planday-helper/README.md)
+
 ## Anzeige
 
 Unter **Kalenderansicht** stehen alle zehn gemeinsamen Layouts zur Wahl. Neben Kalenderwoche, Tag, drei Tagen und Jahr gibt es die klassische und moderne Agenda, „Heute und als Nächstes“, die nächsten sieben Tage als Liste oder Zeitraster sowie die Tageszeitleiste. Der Datenabruf richtet sich nach dem sichtbaren Zeitraum. In der Jahresansicht markieren die Kalendertage die Schichtbelegung.
