@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="paperless:epd-optimize" content='{"intent":"readable"}'>
+  <title>Planday Dienstplan</title>
+  <link rel="stylesheet" href="/assets/paperless.css">
+  <script src="/assets/paperless.iife.js"></script>
+</head>
+<body>
+  <div id="website-has-loading-element"></div>
+  <main id="app" aria-live="polite"></main>
+  <script>
+    const { bootCalendarApiIntegration } = window.PaperlessOpenIntegration;
+    window.__paperlessRenderDone = bootCalendarApiIntegration({
+      defaults: {
+        color: "blue-light", view: "week", locale: "de-DE", timeZone: "Europe/Berlin",
+        dayRange: 14, maxEvents: 30, highlightScale: 1.2, showLocation: false,
+        showEventIcons: false, sampleData: false, clientId: "", refreshToken: "", departmentId: "",
+      },
+      fallbackTitle: "Planday",
+      buildRequest({ mergedSettings, range, settings }) {
+        return {
+          clientId: mergedSettings.clientId, refreshToken: mergedSettings.refreshToken,
+          departmentId: mergedSettings.departmentId, sampleData: mergedSettings.sampleData,
+          timeZone: settings.timeZone, language: document.documentElement.lang,
+          rangeStart: range.startKey, rangeEndExclusive: range.endKey,
+        };
+      },
+      resolveHeader({ data, messages }) {
+        return { title: messages.title, source: data.sample ? "Planday · " + messages.sampleSource : "Planday" };
+      },
+    });
+  </script>
+</body>
+</html>
