@@ -58,7 +58,7 @@ and eInk styling remain shared. Individual providers may offer fewer views when 
 is limited.
 
 Common settings include `view`, `locale`, `timeZone`, `dayRange`, `maxEvents`, `highlightToday`,
-`highlightScale`, `showLocation`, `fontSize` (75–150%, default 100%), `noPadding`, and `fullWeekdayNames`. Each integration adds only the connection and presentation
+`highlightScale`, `showLocation`, `fontSize` (75–400%, default 100%), `noPadding`, and `fullWeekdayNames`. Each integration adds only the connection and presentation
 options required by its datasource.
 
 #### Calendar designs, images and icons

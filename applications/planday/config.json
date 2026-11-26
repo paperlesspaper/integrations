@@ -1,6 +1,6 @@
 {
   "name": "Planday Dienstplan",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "status": "alpha",
   "description": "Wer arbeitet wann? Der aktuelle Planday-Dienstplan von Montag bis Sonntag.",
   "renderPage": "./render.html",
@@ -125,9 +125,9 @@
       "fontSize": {
         "type": "number",
         "title": "Font size (%)",
-        "description": "Scale calendar text from 75% to 150%. Dense views may reduce text to fit.",
+        "description": "Scale calendar text from 75% to 400%. Dense views may reduce text to fit.",
         "minimum": 75,
-        "maximum": 150,
+        "maximum": 400,
         "step": 5,
         "default": 100
       },
