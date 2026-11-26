@@ -128,3 +128,25 @@ test("resolves roster color collisions when the selected week contains fewer tha
   assert.equal(new Set(colors).size, 3);
   assert.equal(colors[0], colors[3]);
 });
+
+test("name selection preserves compound names, default display names and employee colors", async () => {
+  const shift = { id: 1, employee_id: 9, date: "2024-01-01" };
+  const web = async url => url.includes("/shifts?")
+    ? { shifts: [shift] }
+    : { employees: [{ id: 9, display_name: "Anni", name: { first_name: "Anne Marie", last_name: "van den Berg" } }] };
+  const open = async url => {
+    if (url.includes("/connect/token")) return { access_token: "fixture" };
+    if (url.includes("/shifts?")) return { data: [{ id: 1, employeeId: 9, date: shift.date }] };
+    return { data: [{ id: 9, firstName: "Anne Marie", lastName: "van den Berg" }] };
+  };
+  for (const [setup, fetchJson, full] of [[webSettings, web, "Anni"], [credentials, open, "Anne Marie van den Berg"]]) {
+    for (const [nameFormat, expected] of [[undefined, full], ["Nur Vorname", "Anne Marie"], ["Nur Nachname", "van den Berg"]]) {
+      const { events } = await loadCalendar({ ...setup, nameFormat }, fetchJson, now);
+      assert.equal(events[0].title, expected);
+      assert.equal(events[0].color, "#0000ff");
+    }
+  }
+  const { events } = await loadCalendar({ ...webSettings, nameFormat: "Nur Nachname" }, async url =>
+    url.includes("/shifts?") ? { shifts: [shift] } : { employees: [{ id: 9, display_name: "Anni" }] }, now);
+  assert.equal(events[0].title, "#9");
+});

@@ -26,7 +26,7 @@
           ...(mergedSettings.connection === "webSchedule"
             ? { browserToken: mergedSettings.browserToken }
             : { refreshToken: mergedSettings.refreshToken }),
-          departmentId: mergedSettings.departmentId, sampleData: mergedSettings.sampleData,
+          nameFormat: mergedSettings.nameFormat, departmentId: mergedSettings.departmentId, sampleData: mergedSettings.sampleData,
           timeZone: settings.timeZone, language: document.documentElement.lang,
           rangeStart: range.startKey, rangeEndExclusive: range.endKey,
         };

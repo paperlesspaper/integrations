@@ -27,6 +27,12 @@ function employeeColors(names, scheduledIds) {
   return colors;
 }
 
+function employeeName(format, firstName, lastName, displayName) {
+  if (format === "Nur Vorname") return text(firstName);
+  if (format === "Nur Nachname") return text(lastName);
+  return text(displayName) || [text(firstName), text(lastName)].filter(Boolean).join(" ");
+}
+
 function departmentIdText(value) {
   return Number.isSafeInteger(value) ? String(value) : text(value);
 }
@@ -69,8 +75,10 @@ async function webSchedule(query, params, collect, fetchJson) {
   const names = new Map();
   if (ids.size) {
     for (const employee of await rows("people", "employees")) {
-      names.set(employee.id, text(employee.display_name) ||
-        [text(employee.name?.first_name), text(employee.name?.last_name)].filter(Boolean).join(" "));
+      names.set(employee.id, employeeName(query.nameFormat,
+        employee.name?.first_name ?? employee.first_name,
+        employee.name?.last_name ?? employee.last_name,
+        employee.display_name));
     }
   }
   return names;
@@ -103,7 +111,7 @@ async function* pages(path, params, headers, limit, fetchJson) {
   }
 }
 
-const sampleNames = new Map([[1, "Mila Weber"], [2, "Noah Beck"], [3, "Leni Fischer"], [4, "Sam Keller"]]);
+const sampleEmployees = [[1, "Mila", "Weber"], [2, "Noah", "Beck"], [3, "Leni", "Fischer"], [4, "Sam", "Keller"]];
 const sampleWeek = [
   [], [[1, "08:00", "12:00"], [2, "12:00", "18:00"]], [[4, "08:00", "16:00"]],
   [[3, "08:30", "13:00"], [2, "12:00", "19:00"]], [[1, "08:00", "14:00"], [4, "14:00", "20:00"]],
@@ -166,7 +174,7 @@ export async function loadCalendar(query = {}, fetchJson = getJson, now = new Da
   const sample = bool(query.sampleData);
   let names;
   if (sample) {
-    names = sampleNames;
+    names = new Map(sampleEmployees.map(([id, first, last]) => [id, employeeName(query.nameFormat, first, last)]));
     collect(sampleShifts(params.from, params.to));
   } else if (query.connection === "webSchedule") {
     names = await webSchedule(query, params, collect, fetchJson);
@@ -192,7 +200,7 @@ export async function loadCalendar(query = {}, fetchJson = getJson, now = new Da
     if (scheduledIds.size) {
       for await (const employees of pages("/hr/v1.0/employees", {}, headers, 50, fetchJson)) {
         for (const employee of employees) {
-          names.set(employee.id, [text(employee.firstName), text(employee.lastName)].filter(Boolean).join(" "));
+          names.set(employee.id, employeeName(query.nameFormat, employee.firstName, employee.lastName));
         }
       }
     }
